@@ -1,310 +1,168 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>My Daily Home</title>
-  <style>
-    /* ── Reset & base ── */
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-    :root {
-      --bg:         #f5f4f0;
-      --surface:    #ffffff;
-      --border:     #e2e0db;
-      --text:       #1c1917;
-      --text-muted: #78716c;
-      --accent:     #5b6af5;
-      --accent-dim: #eef0ff;
-      --work:       #378ADD;
-      --errand:     #1D9E75;
-      --family:     #D4537E;
-      --task:       #BA7517;
-      --radius:     12px;
-      --shadow:     0 1px 3px rgba(0,0,0,.07), 0 4px 16px rgba(0,0,0,.04);
-    }
-
-    @media (prefers-color-scheme: dark) {
-      :root {
-        --bg:         #141210;
-        --surface:    #1e1c19;
-        --border:     #2e2c28;
-        --text:       #f5f4f0;
-        --text-muted: #a8a29e;
-        --accent-dim: #1e2040;
-      }
-    }
-
-    body {
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-      background: var(--bg);
-      color: var(--text);
-      min-height: 100vh;
-    }
-
-    /* ── Top nav bar ── */
-    header {
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      background: var(--surface);
-      border-bottom: 1px solid var(--border);
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 0 24px;
-      height: 56px;
-    }
-
-    .logo {
-      font-size: 1.1rem;
-      font-weight: 700;
-      letter-spacing: -.02em;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-    .logo span { font-size: 1.3rem; }
-
-    .date-badge {
-      font-size: .82rem;
-      color: var(--text-muted);
-      background: var(--bg);
-      padding: 4px 12px;
-      border-radius: 99px;
-      border: 1px solid var(--border);
-    }
-
-    /* ── Tab strip ── */
-    .tabs {
-      display: flex;
-      gap: 4px;
-      padding: 16px 24px 0;
-      border-bottom: 1px solid var(--border);
-      background: var(--surface);
-    }
-
-    .tab-btn {
-      padding: 10px 20px;
-      border: none;
-      background: transparent;
-      color: var(--text-muted);
-      font-size: .9rem;
-      font-weight: 500;
-      cursor: pointer;
-      border-radius: var(--radius) var(--radius) 0 0;
-      border-bottom: 2px solid transparent;
-      transition: color .15s, border-color .15s, background .15s;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-    .tab-btn:hover { color: var(--text); background: var(--bg); }
-    .tab-btn.active { color: var(--accent); border-bottom-color: var(--accent); background: var(--bg); }
-
-    /* ── Content panels ── */
-    .panels { padding: 28px 24px 60px; max-width: 1200px; margin: 0 auto; }
-
-    .panel { display: none; }
-    .panel.active { display: block; }
-
-    /* ── Iframe wrapper ── */
-    .frame-shell {
-      background: var(--surface);
-      border-radius: var(--radius);
-      border: 1px solid var(--border);
-      overflow: hidden;
-      box-shadow: var(--shadow);
-    }
-
-    .frame-toolbar {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 10px 16px;
-      border-bottom: 1px solid var(--border);
-      background: var(--bg);
-    }
-
-    .frame-toolbar .dots { display: flex; gap: 6px; }
-    .frame-toolbar .dots i {
-      width: 10px; height: 10px; border-radius: 50%;
-      background: var(--border);
-      display: inline-block;
-    }
-    .frame-toolbar .dots i:nth-child(1) { background: #ff5f57; }
-    .frame-toolbar .dots i:nth-child(2) { background: #febc2e; }
-    .frame-toolbar .dots i:nth-child(3) { background: #28c840; }
-
-    .frame-label { font-size: .78rem; color: var(--text-muted); font-family: monospace; }
-
-    iframe {
-      width: 100%;
-      border: none;
-      display: block;
-      min-height: 80vh;
-    }
-
-    /* ── Loading overlay ── */
-    .frame-loader {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 12px;
-      padding: 80px 0;
-      color: var(--text-muted);
-      font-size: .9rem;
-    }
-
-    .spinner {
-      width: 32px; height: 32px;
-      border: 3px solid var(--border);
-      border-top-color: var(--accent);
-      border-radius: 50%;
-      animation: spin .7s linear infinite;
-    }
-    @keyframes spin { to { transform: rotate(360deg); } }
-
-    /* ── Empty / placeholder state ── */
-    .placeholder {
-      text-align: center;
-      padding: 80px 24px;
-      color: var(--text-muted);
-    }
-    .placeholder .icon { font-size: 3rem; margin-bottom: 12px; }
-    .placeholder p { max-width: 360px; margin: 0 auto; line-height: 1.6; }
-    .placeholder .hint {
-      margin-top: 16px;
-      font-size: .82rem;
-      background: var(--accent-dim);
-      color: var(--accent);
-      padding: 8px 16px;
-      border-radius: 8px;
-      display: inline-block;
-    }
-  </style>
-</head>
-<body>
-
-  <!-- ── Header ── -->
-  <header>
-    <div class="logo"><span>☀️</span> My Daily Home</div>
-    <div class="date-badge" id="headerDate"></div>
-  </header>
-
-  <!-- ── Tabs ── -->
-  <nav class="tabs" role="tablist">
-    <button class="tab-btn active" data-tab="dashboard" role="tab" aria-selected="true">
-      📊 Daily Dashboard
-    </button>
-    <button class="tab-btn" data-tab="quotes" role="tab" aria-selected="false">
-      📖 Daily Quotes
-    </button>
-  </nav>
-
-  <!-- ── Panels ── -->
-  <main class="panels">
-
-    <!-- Dashboard panel -->
-    <section class="panel active" id="panel-dashboard">
-      <div class="frame-shell">
-        <div class="frame-toolbar">
-          <div class="dots"><i></i><i></i><i></i></div>
-          <span class="frame-label">Daily Update</span>
-          <span></span>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Snowflake</title>
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside class="sidebar" aria-label="Snowflake sections">
+        <div class="brand">
+          <div class="brand-mark" aria-hidden="true">S</div>
+          <div>
+            <h1>Snowflake</h1>
+            <p>Daily family rhythm</p>
+          </div>
         </div>
-        <!-- Replace the src below with the path to your dailyupdate.html -->
-        <iframe
-          id="iframe-dashboard"
-          src="dailyupdate.html"
-          title="Daily Dashboard"
-          onload="iframeLoaded('dashboard')"
-          onerror="iframeError('dashboard')"
-        ></iframe>
-      </div>
-    </section>
+        <nav class="nav-list" aria-label="Primary">
+          <a href="#dashboard" class="active">Daily Dashboard</a>
+          <a href="#quotes">Daily Quotes</a>
+          <a href="#oliver">Oliver's Work</a>
+          <a href="#logan">Logan's Work</a>
+          <a href="#photos">Photo Book</a>
+        </nav>
+      </aside>
 
-    <!-- Quotes panel -->
-    <section class="panel" id="panel-quotes">
-      <div class="frame-shell">
-        <div class="frame-toolbar">
-          <div class="dots"><i></i><i></i><i></i></div>
-          <span class="frame-label">Quotes</span>
-          <span></span>
-        </div>
-        <!-- Replace the src below with the path to your dailyquotes.html -->
-        <iframe
-          id="iframe-quotes"
-          src="quotes.html"
-          title="Daily Quotes"
-          onload="iframeLoaded('quotes')"
-          onerror="iframeError('quotes')"
-        ></iframe>
-      </div>
-    </section>
+      <main>
+        <section id="dashboard" class="section dashboard-section" aria-labelledby="dashboard-title">
+          <div class="section-heading">
+            <div>
+              <p class="eyebrow" id="today-label">Today</p>
+              <h2 id="dashboard-title">Daily Dashboard</h2>
+            </div>
+            <button class="secondary-button" id="reset-day" type="button">Reset Day</button>
+          </div>
 
-  </main>
+          <div class="dashboard-grid">
+            <article class="panel focus-panel">
+              <div class="panel-title-row">
+                <h3>Today&apos;s Focus</h3>
+                <span class="status-pill" id="focus-status">Ready</span>
+              </div>
+              <textarea id="focus-note" rows="5" placeholder="Write the one thing that would make today feel good."></textarea>
+            </article>
 
-  <script>
-    // ── Date in header ──
-    const now = new Date();
-    const opts = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-    document.getElementById('headerDate').textContent =
-      now.toLocaleDateString('en-CA', opts);
+            <article class="panel weather-panel">
+              <h3>Daily Snapshot</h3>
+              <div class="snapshot-grid">
+                <div>
+                  <span class="metric-label">Mood</span>
+                  <select id="mood-select">
+                    <option>Calm</option>
+                    <option>Bright</option>
+                    <option>Focused</option>
+                    <option>Sleepy</option>
+                    <option>Wild</option>
+                  </select>
+                </div>
+                <div>
+                  <span class="metric-label">Water</span>
+                  <div class="stepper" aria-label="Water cups">
+                    <button type="button" data-step="water" data-delta="-1">-</button>
+                    <strong id="water-count">0</strong>
+                    <button type="button" data-step="water" data-delta="1">+</button>
+                  </div>
+                </div>
+                <div>
+                  <span class="metric-label">Outside</span>
+                  <input id="outside-plan" type="text" placeholder="Walk, park, yard...">
+                </div>
+                <div>
+                  <span class="metric-label">Dinner</span>
+                  <input id="dinner-plan" type="text" placeholder="Plan for tonight">
+                </div>
+              </div>
+            </article>
 
-    // ── Tab switching ──
-    const tabBtns = document.querySelectorAll('.tab-btn');
-    const panels  = document.querySelectorAll('.panel');
+            <article class="panel checklist-panel">
+              <div class="panel-title-row">
+                <h3>Daily Checklist</h3>
+                <span id="checklist-count">0/5</span>
+              </div>
+              <div class="checklist" id="daily-checklist"></div>
+            </article>
 
-    tabBtns.forEach(btn => {
-      btn.addEventListener('click', () => {
-        const target = btn.dataset.tab;
+            <article class="panel rhythm-panel">
+              <h3>Day Rhythm</h3>
+              <ol class="rhythm-list">
+                <li><span>Morning</span><input id="morning-plan" type="text" placeholder="Breakfast, bags, start"></li>
+                <li><span>Afternoon</span><input id="afternoon-plan" type="text" placeholder="School, work, errands"></li>
+                <li><span>Evening</span><input id="evening-plan" type="text" placeholder="Dinner, homework, reset"></li>
+              </ol>
+            </article>
+          </div>
+        </section>
 
-        tabBtns.forEach(b => { b.classList.remove('active'); b.setAttribute('aria-selected', 'false'); });
-        panels.forEach(p  => p.classList.remove('active'));
+        <section id="quotes" class="section" aria-labelledby="quotes-title">
+          <div class="section-heading">
+            <div>
+              <p class="eyebrow">Daily Quotes</p>
+              <h2 id="quotes-title">A Small Spark</h2>
+            </div>
+            <button class="secondary-button" id="new-quote" type="button">New Quote</button>
+          </div>
+          <article class="quote-card">
+            <p id="quote-text"></p>
+            <span id="quote-author"></span>
+          </article>
+        </section>
 
-        btn.classList.add('active');
-        btn.setAttribute('aria-selected', 'true');
-        document.getElementById('panel-' + target).classList.add('active');
-      });
-    });
+        <section id="oliver" class="section work-section" aria-labelledby="oliver-title">
+          <div class="section-heading">
+            <div>
+              <p class="eyebrow">Oliver&apos;s Work</p>
+              <h2 id="oliver-title">Assignments & Wins</h2>
+            </div>
+            <button class="primary-button" data-add-work="oliver" type="button">Add Work</button>
+          </div>
+          <div class="work-layout">
+            <form class="work-form" data-work-form="oliver">
+              <input name="title" type="text" placeholder="Assignment or project" required>
+              <input name="subject" type="text" placeholder="Subject">
+              <input name="due" type="date">
+              <button type="submit">Save</button>
+            </form>
+            <div class="work-list" id="oliver-work"></div>
+          </div>
+        </section>
 
-    // ── Auto-resize iframes to fit their content ──
-    function resizeIframe(id) {
-      const iframe = document.getElementById('iframe-' + id);
-      if (!iframe) return;
-      try {
-        const h = iframe.contentDocument?.documentElement?.scrollHeight;
-        if (h && h > 200) iframe.style.height = h + 'px';
-      } catch(e) {
-        // cross-origin: leave at min-height set via CSS
-      }
-    }
+        <section id="logan" class="section work-section" aria-labelledby="logan-title">
+          <div class="section-heading">
+            <div>
+              <p class="eyebrow">Logan&apos;s Work</p>
+              <h2 id="logan-title">Assignments & Wins</h2>
+            </div>
+            <button class="primary-button" data-add-work="logan" type="button">Add Work</button>
+          </div>
+          <div class="work-layout">
+            <form class="work-form" data-work-form="logan">
+              <input name="title" type="text" placeholder="Assignment or project" required>
+              <input name="subject" type="text" placeholder="Subject">
+              <input name="due" type="date">
+              <button type="submit">Save</button>
+            </form>
+            <div class="work-list" id="logan-work"></div>
+          </div>
+        </section>
 
-    function iframeLoaded(id) { resizeIframe(id); }
-    function iframeError(id)  {
-      // If the file isn't found, show a friendly placeholder inside the shell
-      const iframe = document.getElementById('iframe-' + id);
-      const shell  = iframe?.closest('.frame-shell');
-      if (!shell) return;
-      iframe.style.display = 'none';
-      const ph = document.createElement('div');
-      ph.className = 'placeholder';
-      const labels = { dashboard: ['dailyupdate.html', '📊'], quotes: ['dailyquotes.html', '📖'] };
-      const [file, icon] = labels[id] || ['file', '📄'];
-      ph.innerHTML = `
-        <div class="icon">${icon}</div>
-        <p><strong>${file}</strong> wasn't found in the same folder as this page.</p>
-        <span class="hint">Place ${file} next to daily_home.html and reload.</span>
-      `;
-      shell.appendChild(ph);
-    }
+        <section id="photos" class="section" aria-labelledby="photos-title">
+          <div class="section-heading">
+            <div>
+              <p class="eyebrow">Photo Book</p>
+              <h2 id="photos-title">Family Moments</h2>
+            </div>
+            <label class="primary-button file-button">
+              Add Photos
+              <input id="photo-input" type="file" accept="image/*" multiple>
+            </label>
+          </div>
+          <div class="photo-book" id="photo-book"></div>
+        </section>
+      </main>
+    </div>
 
-    // Re-check heights after a short delay (fonts / images may finish loading)
-    window.addEventListener('load', () => {
-      setTimeout(() => { resizeIframe('dashboard'); resizeIframe('quotes'); }, 600);
-    });
-  </script>
-</body>
+    <script src="app.js"></script>
+  </body>
 </html>

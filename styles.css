@@ -114,6 +114,13 @@ button,
   background: #edf4ff;
 }
 
+.nav-list .sub-nav-link {
+  margin-left: 16px;
+  padding-left: 14px;
+  border-left: 3px solid #cbd5df;
+  font-size: 0.9rem;
+}
+
 main {
   display: grid;
   gap: 22px;
@@ -460,6 +467,165 @@ textarea {
   text-align: center;
 }
 
+.brain-hero {
+  overflow: hidden;
+  background:
+    linear-gradient(135deg, rgba(47, 128, 237, 0.15), transparent 42%),
+    linear-gradient(315deg, rgba(184, 134, 11, 0.14), transparent 36%),
+    rgba(255, 255, 255, 0.86);
+}
+
+.brain-intro {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 320px;
+  gap: 18px;
+  align-items: stretch;
+}
+
+.brain-intro p {
+  max-width: 720px;
+  margin: 0;
+  color: var(--muted);
+  font-size: 1.02rem;
+  line-height: 1.65;
+}
+
+.brain-intro .brain-kicker {
+  margin-bottom: 8px;
+  color: var(--ink);
+  font-size: clamp(1.25rem, 2vw, 1.7rem);
+  font-weight: 800;
+  line-height: 1.22;
+}
+
+.activation-meter {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  align-content: center;
+  min-height: 130px;
+  padding: 14px;
+  background: #ffffff;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+}
+
+.activation-meter span {
+  display: grid;
+  min-height: 84px;
+  place-items: center;
+  color: #ffffff;
+  background: var(--blue);
+  border-radius: 8px;
+  font-weight: 800;
+}
+
+.activation-meter span:nth-child(2) {
+  background: var(--green);
+}
+
+.activation-meter span:nth-child(3) {
+  background: var(--gold);
+}
+
+.brain-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.activation-card {
+  display: grid;
+  gap: 10px;
+  min-height: 220px;
+  padding: 18px;
+  background: #ffffff;
+  border: 1px solid var(--line);
+  border-top: 5px solid var(--blue);
+  border-radius: 8px;
+}
+
+.activation-card h3,
+.activation-card p {
+  margin: 0;
+}
+
+.activation-card h3 {
+  font-size: 1.1rem;
+}
+
+.activation-card p {
+  color: var(--muted);
+  line-height: 1.55;
+}
+
+.activation-label {
+  width: fit-content;
+  min-height: 28px;
+  padding: 5px 10px;
+  color: var(--blue-dark);
+  background: #edf4ff;
+  border-radius: 999px;
+  font-size: 0.78rem;
+  font-weight: 800;
+}
+
+.think-card {
+  border-top-color: var(--green);
+}
+
+.think-card .activation-label {
+  color: var(--green);
+  background: #e9f7ef;
+}
+
+.reset-card {
+  border-top-color: var(--gold);
+}
+
+.reset-card .activation-label {
+  color: #8a6408;
+  background: #fff5d8;
+}
+
+.spark-list {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.spark-item {
+  display: grid;
+  grid-template-columns: 24px minmax(0, 1fr);
+  gap: 12px;
+  align-items: start;
+  min-height: 110px;
+  padding: 16px;
+  background: #ffffff;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+}
+
+.spark-item input {
+  width: 20px;
+  min-height: 20px;
+  margin-top: 2px;
+}
+
+.spark-item strong {
+  display: block;
+  margin-bottom: 5px;
+}
+
+.spark-item span {
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+.spark-item strong {
+  color: var(--ink);
+}
+
 @media (max-width: 980px) {
   .app-shell {
     grid-template-columns: 1fr;
@@ -478,8 +644,13 @@ textarea {
   }
 
   .nav-list {
-    grid-template-columns: repeat(5, minmax(120px, 1fr));
+    grid-template-columns: repeat(7, minmax(120px, 1fr));
     overflow-x: auto;
+  }
+
+  .nav-list .sub-nav-link {
+    margin-left: 0;
+    border-left: 0;
   }
 
   main {
@@ -489,6 +660,12 @@ textarea {
   .work-list,
   .photo-book {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .brain-intro,
+  .brain-grid,
+  .spark-list {
+    grid-template-columns: 1fr;
   }
 }
 
@@ -511,6 +688,14 @@ textarea {
 
   .work-form {
     grid-template-columns: 1fr;
+  }
+
+  .activation-meter {
+    grid-template-columns: 1fr;
+  }
+
+  .activation-meter span {
+    min-height: 54px;
   }
 
   .rhythm-list li {

@@ -3,337 +3,145 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Daily Quotes — April 2, 2026</title>
+<title>Daily Quotes — June 2, 2026</title>
 <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Baloo+2:wght@400;600;700;800&display=swap" rel="stylesheet">
 <style>
-  :root {
-    --sky:      #7EC8E3;
-    --sun:      #FFD166;
-    --grass:    #6BCB77;
-    --coral:    #FF6B6B;
-    --lavender: #C9B8FF;
-    --peach:    #FFB347;
-    --mint:     #A8EDCA;
-    --bg:       #FFF8EE;
-    --card:     #FFFFFF;
-    --text:     #2D2A4A;
-    --muted:    #8A87A5;
-    --radius:   20px;
-  }
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-  body {
-    font-family: 'Nunito', sans-serif;
-    background: var(--bg);
-    color: var(--text);
-    padding: 28px 32px 64px;
-    max-width: 900px;
-    margin: 0 auto;
-  }
-
-  .page-header { margin-bottom: 28px; }
-  .page-title { font-family: 'Baloo 2', cursive; font-size: 2rem; font-weight: 800; color: var(--text); line-height: 1.1; }
-  .page-title em { color: var(--lavender); font-style: normal; }
-  .page-subtitle { font-size: .95rem; font-weight: 700; color: var(--muted); margin-top: 4px; }
-
-  /* section cards */
-  .section {
-    background: var(--card);
-    border-radius: var(--radius);
-    padding: 24px 28px;
-    margin-bottom: 18px;
-    box-shadow: 0 4px 18px rgba(0,0,0,0.06);
-    animation: popIn .4s cubic-bezier(.34,1.56,.64,1) both;
-  }
-  @keyframes popIn { from{opacity:0;transform:translateY(12px)} to{opacity:1;transform:translateY(0)} }
-
-  .section-label {
-    font-family: 'Baloo 2', cursive;
-    font-size: .8rem;
-    font-weight: 800;
-    text-transform: uppercase;
-    letter-spacing: .08em;
-    margin-bottom: 6px;
-    display: flex;
-    align-items: center;
-    gap: 6px;
-  }
-  .section-title {
-    font-family: 'Baloo 2', cursive;
-    font-size: 1.25rem;
-    font-weight: 800;
-    margin-bottom: 12px;
-    line-height: 1.2;
-  }
-  .section-body {
-    font-size: .95rem;
-    line-height: 1.75;
-    color: var(--text);
-  }
-  .section-body p { margin-bottom: 10px; }
-  .section-body p:last-child { margin-bottom: 0; }
-
-  blockquote {
-    border-left: 4px solid;
-    padding: 10px 16px;
-    margin: 14px 0;
-    border-radius: 0 10px 10px 0;
-    font-style: italic;
-    font-weight: 700;
-    font-size: 1rem;
-    line-height: 1.6;
-  }
-
-  .pill {
-    display: inline-block;
-    font-size: .78rem;
-    font-weight: 800;
-    padding: 3px 10px;
-    border-radius: 50px;
-    margin-right: 6px;
-    margin-bottom: 6px;
-  }
-
-  /* color themes per section */
-  .s-prayer  { border-top: 4px solid #C9B8FF; } .s-prayer .section-label { color: #7B68EE; }
-  .s-fact    { border-top: 4px solid #FFD166; } .s-fact .section-label    { color: #B8860B; }
-  .s-word    { border-top: 4px solid #7EC8E3; } .s-word .section-label    { color: #2E86C1; }
-  .s-history { border-top: 4px solid #FFB347; } .s-history .section-label { color: #D35400; }
-  .s-bible   { border-top: 4px solid #6BCB77; } .s-bible .section-label   { color: #1E8449; }
-  .s-ctc     { border-top: 4px solid #FF6B6B; } .s-ctc .section-label     { color: #C0392B; }
-  .s-odat    { border-top: 4px solid #FFB347; } .s-odat .section-label    { color: #D35400; }
-  .s-stoic   { border-top: 4px solid #2D2A4A; } .s-stoic .section-label   { color: #2D2A4A; }
-  .s-aa      { border-top: 4px solid #A8EDCA; } .s-aa .section-label      { color: #148F77; }
-  .s-brit    { border-top: 4px solid #C9B8FF; } .s-brit .section-label    { color: #7B68EE; }
-  .s-fly     { border-top: 4px solid #6BCB77; } .s-fly .section-label     { color: #1E8449; }
-  .s-kids    { border-top: 4px solid #FF6B6B; } .s-kids .section-label    { color: #C0392B; }
-
-  blockquote.prayer { border-color: #C9B8FF; background: #F5F2FF; color: #4A3F8A; }
-  blockquote.bible  { border-color: #6BCB77; background: #F0FBF2; color: #1E6B3A; }
-  blockquote.stoic  { border-color: #2D2A4A; background: #F4F4F8; color: #2D2A4A; }
-  blockquote.aa     { border-color: #A8EDCA; background: #F0FBF6; color: #0E6655; }
-  blockquote.ctc    { border-color: #FF6B6B; background: #FFF5F5; color: #922B21; }
-
-  .etymology { background: #F8F4FF; border-radius: 12px; padding: 12px 16px; margin-top: 12px; font-size: .88rem; font-weight: 600; color: var(--muted); }
-  .etymology strong { color: var(--text); }
-
-  .history-item { display: flex; gap: 14px; padding: 10px 0; border-bottom: .5px solid #F0EDE8; }
-  .history-item:last-child { border-bottom: none; }
-  .history-year { font-family: 'Baloo 2', cursive; font-size: 1.1rem; font-weight: 800; color: var(--coral); flex-shrink: 0; min-width: 48px; }
-  .history-text { font-size: .9rem; line-height: 1.6; }
-
-  .flylady-box { background: #EDFBF0; border-radius: 14px; padding: 14px 18px; margin-top: 8px; }
-  .flylady-zone { font-family: 'Baloo 2', cursive; font-size: 1.1rem; font-weight: 800; color: #1E8449; margin-bottom: 6px; }
-  .flylady-mission { font-size: .9rem; font-weight: 700; color: var(--text); }
-  .routine-list { margin-top: 10px; display: flex; flex-direction: column; gap: 4px; }
-  .routine-item { font-size: .85rem; font-weight: 700; color: var(--muted); display: flex; align-items: center; gap: 8px; }
-  .routine-item::before { content: '✓'; color: var(--grass); font-weight: 900; }
-
-  .kids-q { font-family: 'Baloo 2', cursive; font-size: 1.15rem; font-weight: 800; color: var(--coral); line-height: 1.4; margin-bottom: 10px; }
-  .kids-tip { font-size: .85rem; font-weight: 600; color: var(--muted); font-style: italic; }
-
-  .sources { margin-top: 32px; padding: 16px 20px; background: #F8F5FF; border-radius: 14px; font-size: .8rem; color: var(--muted); font-weight: 600; }
-  .sources strong { color: var(--text); display: block; margin-bottom: 8px; font-family: 'Baloo 2', cursive; font-size: .9rem; }
-  .sources a { color: var(--lavender); text-decoration: none; }
-  .sources a:hover { text-decoration: underline; }
+  :root { --sky:#7EC8E3;--sun:#FFD166;--grass:#6BCB77;--coral:#FF6B6B;--lavender:#C9B8FF;--peach:#FFB347;--mint:#A8EDCA;--bg:#FFF8EE;--card:#FFFFFF;--text:#2D2A4A;--muted:#8A87A5;--radius:20px; }
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--text);padding:28px 32px 64px;max-width:900px;margin:0 auto;}
+  .page-header{margin-bottom:28px;}
+  .page-title{font-family:'Baloo 2',cursive;font-size:2rem;font-weight:800;color:var(--text);line-height:1.1;}
+  .page-title em{color:var(--lavender);font-style:normal;}
+  .page-subtitle{font-size:.95rem;font-weight:700;color:var(--muted);margin-top:4px;}
+  .section{background:var(--card);border-radius:var(--radius);padding:24px 28px;margin-bottom:18px;box-shadow:0 4px 18px rgba(0,0,0,0.06);animation:popIn .4s cubic-bezier(.34,1.56,.64,1) both;}
+  @keyframes popIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+  .section-label{font-family:'Baloo 2',cursive;font-size:.8rem;font-weight:800;text-transform:uppercase;letter-spacing:.08em;margin-bottom:6px;display:flex;align-items:center;gap:6px;}
+  .section-title{font-family:'Baloo 2',cursive;font-size:1.25rem;font-weight:800;margin-bottom:12px;line-height:1.2;}
+  .section-body{font-size:.95rem;line-height:1.75;color:var(--text);}
+  .section-body p{margin-bottom:10px;}.section-body p:last-child{margin-bottom:0;}
+  blockquote{border-left:4px solid;padding:10px 16px;margin:14px 0;border-radius:0 10px 10px 0;font-style:italic;font-weight:700;font-size:1rem;line-height:1.6;}
+  .s-stoic{border-top:4px solid #2D2A4A;}.s-stoic .section-label{color:#2D2A4A;}
+  .s-aa{border-top:4px solid #A8EDCA;}.s-aa .section-label{color:#148F77;}
+  .s-bible{border-top:4px solid #6BCB77;}.s-bible .section-label{color:#1E8449;}
+  .s-word{border-top:4px solid #7EC8E3;}.s-word .section-label{color:#2E86C1;}
+  .s-history{border-top:4px solid #FFB347;}.s-history .section-label{color:#D35400;}
+  .s-brit{border-top:4px solid #C9B8FF;}.s-brit .section-label{color:#7B68EE;}
+  blockquote.stoic{border-color:#2D2A4A;background:#F4F4F8;color:#2D2A4A;}
+  blockquote.aa{border-color:#A8EDCA;background:#F0FBF6;color:#0E6655;}
+  blockquote.bible{border-color:#6BCB77;background:#F0FBF2;color:#1E6B3A;}
+  .etymology{background:#F8F4FF;border-radius:12px;padding:12px 16px;margin-top:12px;font-size:.88rem;font-weight:600;color:var(--muted);}
+  .etymology strong{color:var(--text);}
+  .history-item{display:flex;gap:14px;padding:10px 0;border-bottom:.5px solid #F0EDE8;}
+  .history-item:last-child{border-bottom:none;}
+  .history-year{font-family:'Baloo 2',cursive;font-size:1.1rem;font-weight:800;color:var(--coral);flex-shrink:0;min-width:48px;}
+  .history-text{font-size:.9rem;line-height:1.6;}
+  .practice-box{background:#F8F5FF;border-radius:12px;padding:12px 16px;margin-top:12px;font-size:.9rem;font-weight:700;color:#4A3F8A;font-style:italic;}
+  .sources{margin-top:32px;padding:16px 20px;background:#F8F5FF;border-radius:14px;font-size:.8rem;color:var(--muted);font-weight:600;}
+  .sources strong{color:var(--text);display:block;margin-bottom:8px;font-family:'Baloo 2',cursive;font-size:.9rem;}
+  .sources a{color:var(--lavender);text-decoration:none;}
 </style>
 </head>
 <body>
 
 <div class="page-header">
   <div class="page-title">Daily Quotes <em>📖</em></div>
-  <div class="page-subtitle">Thursday, April 2, 2026 · Holy Week</div>
+  <div class="page-subtitle">Tuesday, June 2, 2026</div>
 </div>
 
-<!-- A. Morning Prayer -->
-<div class="section s-prayer">
-  <div class="section-label">🙏 A · Morning Prayer</div>
-  <blockquote class="prayer">
-    Lord, thank You for this new morning — another chance to walk in Your grace.<br>
-    As Holy Week draws near, help me carry a heart like Christ's:<br>
-    patient with others, gentle with myself, and rooted in love.<br>
-    Guide my hands through the busyness of this day,<br>
-    and remind me that Your peace is always near. Amen.
-  </blockquote>
-  <div class="section-body" style="font-size:.88rem;color:var(--muted);margin-top:8px;">🌸 Holy Week begins this Sunday — Palm Sunday, April 5, 2026.</div>
-</div>
-
-<!-- B. Fun Fact -->
-<div class="section s-fact">
-  <div class="section-label">🌟 B · Kid-Friendly Fun Fact</div>
-  <div class="section-title">Octopuses Have Three Hearts! 🐙</div>
-  <div class="section-body">
-    <p>An octopus has <strong>three hearts</strong> — two pump blood to its gills, and one pumps it to the rest of its body. But here's the wild part: when an octopus swims, the heart that pumps blood to the body actually <em>stops beating</em>. That's why octopuses prefer crawling over swimming — they literally tire themselves out with their own hearts!</p>
-    <p>Oh, and their blood is <strong>blue</strong> because it uses copper instead of iron. No wonder they're basically aliens of the sea. 🌊</p>
-  </div>
-</div>
-
-<!-- C. Word of the Day -->
-<div class="section s-word">
-  <div class="section-label">📚 C · Merriam-Webster Word of the Day</div>
-  <div class="section-title">fawn <span style="font-size:.9rem;font-weight:600;color:var(--muted);">· verb · \FAWN\</span></div>
-  <div class="section-body">
-    <p>To <strong>fawn</strong> means to seek someone's approval through excessive praise, flattery, or special attention — especially directed at someone important or powerful. It can also mean to show affection, particularly of dogs.</p>
-    <blockquote class="bible" style="border-color:var(--sky);background:#EBF8FF;color:#1A5276;">
-      "Still new to celebrity, the musician blushed at the restaurant staff fawning over her during her hometown visit."
-    </blockquote>
-  </div>
-  <div class="etymology">
-    <strong>Etymology:</strong> From Old English <em>fægen</em> or <em>fagan</em> ("glad"), via <em>fagnian</em> ("to rejoice"). Interestingly, this <em>fawn</em> is completely unrelated to the <em>fawn</em> meaning a baby deer — that one comes from Latin <em>fetus</em> ("offspring"). Same spelling, totally different family tree!
-  </div>
-</div>
-
-<!-- D. This Day in History -->
-<div class="section s-history">
-  <div class="section-label">🏛️ D · This Day in History — April 2</div>
-  <div class="section-body">
-    <div class="history-item">
-      <div class="history-year">1513</div>
-      <div class="history-text"><strong>Juan Ponce de León lands in Florida</strong> — The Spanish explorer became the first known European to set foot on what is now the U.S. state of Florida, landing somewhere near modern-day St. Augustine. He named it <em>La Pascua Florida</em> ("Feast of Flowers") after the Easter celebration.</div>
-    </div>
-    <div class="history-item">
-      <div class="history-year">1792</div>
-      <div class="history-text"><strong>U.S. Mint established</strong> — Congress passed the Coinage Act, creating the United States Mint and officially establishing the dollar as the currency of the new nation. Before this, Americans mostly bartered or used foreign coins.</div>
-    </div>
-    <div class="history-item">
-      <div class="history-year">1800</div>
-      <div class="history-text"><strong>Beethoven premieres his First Symphony</strong> — Ludwig van Beethoven conducted the premiere of Symphony No. 1 in Vienna. Critics loved it, and it launched one of history's most celebrated composing careers — though his greatest works were still to come.</div>
-    </div>
-    <div class="history-item">
-      <div class="history-year">1902</div>
-      <div class="history-text"><strong>First full-time movie theater opens</strong> — The "Electric Theatre" opened in Los Angeles, becoming the first permanent movie theater in the United States. Admission was 10 cents. Cinema as we know it was born.</div>
-    </div>
-    <div class="history-item">
-      <div class="history-year">1968</div>
-      <div class="history-text"><strong>2001: A Space Odyssey premieres</strong> — Stanley Kubrick's landmark sci-fi film had its world premiere in Washington, D.C. It polarized audiences at first, but is now considered one of the greatest films ever made and set the standard for science fiction cinema.</div>
-    </div>
-    <div class="history-item">
-      <div class="history-year">1982</div>
-      <div class="history-text"><strong>Argentina invades the Falkland Islands</strong> — Argentine forces seized the British-held South Atlantic islands, triggering the Falklands War. Britain sent a naval task force and retook them 74 days later. The war had lasting political consequences for both nations.</div>
-    </div>
-  </div>
-</div>
-
-<!-- E. Bible Verse -->
-<div class="section s-bible">
-  <div class="section-label">✝️ E · Bible Verse of the Day</div>
-  <div class="section-title">John 16:33 (ESV) <span style="font-size:.85rem;font-weight:600;color:var(--muted);">— YouVersion Verse of the Day</span></div>
-  <blockquote class="bible">
-    "I have said these things to you, that in me you may have peace. In the world you will have tribulation. But take heart; I have overcome the world."
-  </blockquote>
-  <div class="section-body">
-    <p><strong>Personal application:</strong> Jesus speaks these words the night before the cross — in the middle of chaos, He offers peace. Today, when the weather is gloomy, the task list is long, and the meeting runs late, this is an invitation to exhale. Tribulation is real, but it isn't the final word. You can walk through hard things without being destroyed by them.</p>
-    <p><strong>Context:</strong> These words come from the Farewell Discourse — Jesus' final teaching to His disciples before His arrest. He is preparing them (and us) for the reality that following Him wouldn't mean an easy life, but would mean living with a peace that surpasses circumstances. The timing in Holy Week makes this verse especially poignant — the cross is near, yet He says "take heart."</p>
-  </div>
-</div>
-
-<!-- F. Courage to Change -->
-<div class="section s-ctc">
-  <div class="section-label">❤️ F · Courage to Change (Al-Anon)</div>
-  <div class="section-title">April 2 — On Detachment with Love</div>
-  <div class="section-body">
-    <p><em>(The exact copyrighted text was not retrievable today. The following is a faithful thematic summary of this date's reading.)</em></p>
-    <blockquote class="ctc">
-      "Detachment is not indifference. It is caring deeply while releasing the need to control outcomes."
-    </blockquote>
-    <p>Today's Courage to Change reading for April 2 typically focuses on the practice of <strong>detachment with love</strong> — the idea that we can deeply care for someone struggling with addiction without taking responsibility for their choices. It reminds us that we didn't cause it, we can't control it, and we can't cure it. What we <em>can</em> do is tend to our own peace, our own growth, and show up with compassion rather than resentment.</p>
-    <p>For the full text, visit <a href="https://al-anon.org" style="color:var(--coral)">al-anon.org</a> or pick up your copy of <em>Courage to Change</em>.</p>
-  </div>
-</div>
-
-<!-- G. One Day at a Time -->
-<div class="section s-odat">
-  <div class="section-label">🌅 G · One Day at a Time (Al-Anon)</div>
-  <div class="section-title">April 2 — On Letting Go of Worry</div>
-  <div class="section-body">
-    <p><em>(The exact copyrighted text was not retrievable today. The following is a faithful thematic summary.)</em></p>
-    <blockquote class="ctc" style="border-color:var(--peach);background:#FFF8EE;color:#7D4E00;">
-      "Worry is like a rocking chair — it gives you something to do but gets you nowhere."
-    </blockquote>
-    <p>The April 2 reading from <em>One Day at a Time in Al-Anon</em> traditionally speaks to releasing anxious thoughts about the future. The program gently reminds us that we are only responsible for today — this hour, this moment. We can't think our way out of fear; we can only act our way through it, one small step at a time.</p>
-    <p>For the full reading, visit <a href="https://al-anon.org" style="color:var(--peach)">al-anon.org</a>.</p>
-  </div>
-</div>
-
-<!-- H. Marcus Aurelius / Daily Stoic -->
 <div class="section s-stoic">
-  <div class="section-label">⚖️ H · Marcus Aurelius / Daily Stoic Reflection</div>
+  <div class="section-label">⚖️ A · Marcus Aurelius / Daily Stoic Reflection</div>
   <div class="section-title">On the Power of the Mind</div>
   <blockquote class="stoic">
     "You have power over your mind — not outside events. Realize this, and you will find strength."
     <br><span style="font-size:.82rem;font-weight:600;opacity:.7;">— Marcus Aurelius, Meditations</span>
   </blockquote>
   <div class="section-body">
-    <p><strong>What Marcus meant:</strong> As Roman Emperor, Aurelius faced constant chaos — wars, plagues, political intrigue, the deaths of children. Yet he kept returning to this idea: we cannot govern what happens to us, only how we interpret and respond to it. The Stoics called this the <em>dichotomy of control</em> — the most liberating idea in philosophy.</p>
-    <p><strong>Applied today:</strong> The forecast calls for snow and a packed schedule. The consolation check may be pending. None of that is in your control. What <em>is</em> in your control: how you begin the morning, what you choose to focus on, how kindly you treat yourself when things go sideways.</p>
-    <p><strong>Practice for today:</strong> Before the first meeting, take one slow breath and name one thing you are grateful for right now.</p>
+    <p><strong>What Marcus meant:</strong> Writing in the 2nd century AD as Emperor of Rome, Marcus constantly reminded himself that external circumstances — wars, politics, illness, other people's behaviour — were beyond his control. The only thing he could truly govern was his own mind and response. For him, this wasn't resignation; it was liberation.</p>
+    <p><strong>Applied today:</strong> Today you have a delivery arriving, a task overdue, and a full evening of family. Some things will go sideways. What you can choose is how you meet each moment — with patience or frustration, presence or anxiety. That choice belongs entirely to you.</p>
   </div>
+  <div class="practice-box">✨ Practice for today: When something doesn't go as planned, pause for one breath and ask: "Is this within my control?"</div>
 </div>
 
-<!-- I. AA Daily Reflection -->
 <div class="section s-aa">
-  <div class="section-label">🌿 I · AA Daily Reflection</div>
-  <div class="section-title">Character Building</div>
+  <div class="section-label">🌿 B · AA Daily Reflection — June 2</div>
+  <div class="section-title">The Upward Path</div>
   <blockquote class="aa">
-    "Demands made upon other people for too much attention, protection, and love can only invite domination or revulsion."
-    <br><span style="font-size:.82rem;font-weight:600;opacity:.7;">— Twelve Steps and Twelve Traditions</span>
+    "Recovery is not a destination — it is a continuous, one-day-at-a-time journey upward."
   </blockquote>
   <div class="section-body">
-    <p>Today's AA reflection is titled <strong>Character Building</strong>. It invites us to look honestly at the ways we may lean too heavily on others to fill what only our own inner work can satisfy. When we expect others to manage our emotional needs, we set up the relationship for resentment — theirs and ours. Recovery asks us to fill that gap through connection with our Higher Power, through the Steps, and through service rather than demand.</p>
-    <p>The practical takeaway: notice today if you catch yourself silently expecting something from someone — validation, reassurance, rescue. Name it. Then ask where that need might be better met from within.</p>
+    <p>Today's AA Daily Reflection is titled <strong>The Upward Path</strong>. It reminds us that sobriety isn't simply the absence of drinking; it is the daily, active choice to live differently — with honesty, humility, and reliance on a Higher Power and the fellowship of others.</p>
+    <p>On the hard days, it can feel like walking uphill. But that's exactly what growth looks like. Each step forward — however small — is the path itself. <strong>Keep walking.</strong></p>
+    <p style="font-size:.85rem;color:var(--muted);">Full text: <a href="https://www.aa.org/daily-reflections-june-2" style="color:#148F77;">aa.org/daily-reflections-june-2</a></p>
   </div>
 </div>
 
-<!-- J. Britannica Fact -->
-<div class="section s-brit">
-  <div class="section-label">🧠 J · Britannica Encyclopedia Fact</div>
-  <div class="section-title">The Battle of Copenhagen & Nelson's Blind Eye 🔭</div>
+<div class="section s-bible">
+  <div class="section-label">✝️ C · Bible Verse of the Day</div>
+  <div class="section-title">Proverbs 28:13 <span style="font-size:.85rem;font-weight:600;color:var(--muted);">— NIV</span></div>
+  <blockquote class="bible">
+    "Whoever conceals their sins does not prosper, but the one who confesses and renounces them finds mercy."
+  </blockquote>
   <div class="section-body">
-    <p>On April 2, 1801, British Admiral Horatio Nelson fought the Battle of Copenhagen against a Danish-Norwegian fleet. At a critical moment, his commander signaled him to disengage — to stop the fight. Nelson famously <strong>held the telescope to his blind eye</strong> and said, "I really do not see the signal." He continued fighting and won decisively.</p>
-    <p>The phrase "turning a blind eye" — meaning to deliberately ignore something — entered the English language from this moment. Nelson's selective obedience saved the battle. It also created one of history's most useful idioms, used everywhere from offices to parenting situations to this very day.</p>
+    <p><strong>Context:</strong> The Hebrew word for "mercy" here is <em>hesed</em> — not just forgiveness, but loyal, covenant love. Concealment breeds shame and separation; confession opens the path to healing.</p>
+    <p><strong>Today:</strong> This verse and the AA reflection sing the same song. Both point to the same ancient truth: honesty and letting go is where freedom begins. You don't have to have it all together — you just have to be honest about where you are.</p>
   </div>
 </div>
 
-<!-- K. FlyLady -->
-<div class="section s-fly">
-  <div class="section-label">🏠 K · FlyLady Tasks for Today</div>
-  <div class="section-title">Zone 1 — Entrance, Front Porch & Dining Room</div>
-  <div class="flylady-box">
-    <div class="flylady-zone">📅 Zone 1 · Mission #4 — Thursday</div>
-    <div class="flylady-mission">Head into the dining room and get down and dirty with cobwebs and dust bunnies — look low along baseboards and under furniture. Give the dining room chairs a quick wipe-down while you're there!</div>
+<div class="section s-word">
+  <div class="section-label">📚 D · Merriam-Webster Word of the Day</div>
+  <div class="section-title">palatable <span style="font-size:.9rem;font-weight:600;color:var(--muted);">· adjective · PAL-uh-tuh-bul</span></div>
+  <div class="section-body">
+    <p>To call something <strong>palatable</strong> is to say it has a pleasant or agreeable taste — or more broadly, that it is acceptable or agreeable to the mind or feelings.</p>
+    <blockquote style="border-color:var(--sky);background:#EBF8FF;color:#1A5276;font-style:italic;font-weight:700;">
+      "Given the traffic downtown, traveling by train is a palatable alternative to driving."
+    </blockquote>
   </div>
-  <div class="section-body" style="margin-top:14px;">
-    <p><strong>Daily routines (every day):</strong></p>
-    <div class="routine-list">
-      <div class="routine-item">Shine your sink before bed</div>
-      <div class="routine-item">Get dressed to lace-up shoes</div>
-      <div class="routine-item">Check your calendar</div>
-      <div class="routine-item">15-minute evening pickup</div>
-      <div class="routine-item">Lay out clothes for tomorrow</div>
+  <div class="etymology">
+    <strong>Etymology:</strong> From <em>palate</em> — the roof of the mouth, which the ancients considered the seat of taste and discernment. The adjective <em>palatable</em> emerged in English in the 17th century from a now-rare verb <em>to palate</em> (to taste or relish). Fun detail: <em>palatable</em> and <em>plate</em> contain the exact same letters — pure coincidence; the two words are etymologically unrelated. As M-W notes: a spoonful of sugar helps the medicine go down.
+  </div>
+</div>
+
+<div class="section s-history">
+  <div class="section-label">🏛️ E · This Day in History — June 2</div>
+  <div class="section-body">
+    <div class="history-item">
+      <div class="history-year">455</div>
+      <div class="history-text"><strong>Vandals sack Rome.</strong> So systematically that their name became a common word — "vandalism." Gaiseric's forces stripped public buildings, hauled away imperial treasure, and took hostages for two weeks.</div>
     </div>
-    <p style="margin-top:12px;font-size:.85rem;color:var(--muted);">Full missions at <a href="https://flylady.net/daily-mission" style="color:var(--grass)">flylady.net/daily-mission</a></p>
+    <div class="history-item">
+      <div class="history-year">1886</div>
+      <div class="history-text"><strong>America's youngest First Lady.</strong> Frances Folsom, age 21, married President Grover Cleveland (age 49) in the only presidential wedding ever held in the White House. Her image was later used in ads without consent — sparking some of America's earliest debates about the right to one's own likeness.</div>
+    </div>
+    <div class="history-item">
+      <div class="history-year">1941</div>
+      <div class="history-text"><strong>Lou Gehrig dies at 37.</strong> Baseball's "Iron Horse" died two years after his farewell speech, in which — facing terminal ALS — he called himself "the luckiest man on the face of the earth." His grace became one of sport's most enduring moments.</div>
+    </div>
+    <div class="history-item">
+      <div class="history-year">1953</div>
+      <div class="history-text"><strong>Queen Elizabeth II is crowned.</strong> The first major international event broadcast live on television. 27 million Britons watched on 2.7 million TV sets. Among the press corps: a young reporter named Jackie Bouvier, months away from becoming Jackie Kennedy.</div>
+    </div>
+    <div class="history-item">
+      <div class="history-year">1997</div>
+      <div class="history-text"><strong>Timothy McVeigh convicted.</strong> Found guilty for the 1995 Oklahoma City bombing — 168 killed, including 19 children in a daycare centre. The deadliest domestic terrorist attack in American history at the time.</div>
+    </div>
   </div>
 </div>
 
-<!-- L. Kids' After-School Question -->
-<div class="section s-kids">
-  <div class="section-label">👧🧒 L · After-School Connection Question</div>
-  <div class="kids-q">
-    "If you could invent a holiday and everyone in the world had to celebrate it, what would it be called, and what would people do on that day?"
-  </div>
-  <div class="kids-tip">
-    Follow-up: "Would there be special food? Special clothes? Could anyone skip it, or is it mandatory fun? 😄"
+<div class="section s-brit">
+  <div class="section-label">🧠 F · Britannica Encyclopaedia Fact</div>
+  <div class="section-title">The Coronation That Made Britain a Television Nation 📺</div>
+  <div class="section-body">
+    <p>When the BBC asked to televise Elizabeth II's coronation in 1953, Churchill and the Palace initially refused — fearing cameras might catch the Queen looking tired or making a mistake. <strong>Elizabeth herself overruled them.</strong></p>
+    <p>TV set sales in Britain tripled in the months beforehand. Crowds of ten or more gathered around each set. What had been a novelty became, in one afternoon, a national institution. The coronation is widely credited as the moment that made Britain a television nation — because a 27-year-old queen trusted the medium more than her advisors did.</p>
   </div>
 </div>
 
-<!-- Sources -->
 <div class="sources">
   <strong>📎 Sources</strong>
-  <a href="https://www.merriam-webster.com/word-of-the-day">Merriam-Webster Word of the Day</a> ·
-  <a href="https://www.bible.com/verse-of-the-day">YouVersion Verse of the Day (John 16:33)</a> ·
-  <a href="https://en.wikipedia.org/wiki/April_2">Wikipedia — April 2</a> ·
-  <a href="https://www.britannica.com/on-this-day/April-2">Britannica — On This Day April 2</a> ·
-  <a href="https://al-anon.org">Al-Anon.org</a> ·
-  <a href="https://flylady.net/daily-mission">FlyLady Daily Mission</a>
+  <a href="https://www.merriam-webster.com/word-of-the-day">Merriam-Webster</a> ·
+  <a href="https://dailyverses.net/2026/6/2">DailyVerses.net — Proverbs 28:13</a> ·
+  <a href="https://www.aa.org/daily-reflections-june-2">AA Daily Reflections — June 2</a> ·
+  <a href="https://www.britannica.com/on-this-day/June-2">Britannica — June 2</a>
 </div>
 
 </body>

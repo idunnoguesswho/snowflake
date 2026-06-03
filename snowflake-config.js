@@ -1,5 +1,5 @@
 window.SNOWFLAKE_CONFIG = {
-  sheetId: "1Zd0Fl3ciRRB_gRqQIwbFFKXxISNQtyoG7ExskQLVm8k",
-  sheetName: "Snowflake – Family To Do",
+  sheetId: "11A5NsScePEbtN9dujN3tILb_Q2TU5tsf6I0MbT11kDY",
+  sheetName: "Tasks",
   appsScriptUrl: ""
 };

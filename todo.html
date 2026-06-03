@@ -1,0 +1,457 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>To Do | Snowflake</title>
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside class="sidebar" aria-label="Snowflake sections">
+        <div class="brand">
+          <div class="brand-mark" aria-hidden="true">S</div>
+          <div>
+            <h1>Snowflake</h1>
+            <p>Daily family rhythm</p>
+          </div>
+        </div>
+        <nav class="nav-list" aria-label="Primary">
+          <a href="index.html#dashboard">Daily Dashboard</a>
+          <a href="index.html#mom">Mom&apos;s Section</a>
+          <a href="index.html#quotes">Daily Quotes</a>
+          <a href="index.html#oliver">Oliver&apos;s Work</a>
+          <a href="brainactivation.html" class="sub-nav-link">Brain Activation</a>
+          <a href="angermanagement.html" class="sub-nav-link">Anger Management</a>
+          <a href="index.html#logan">Logan&apos;s Work</a>
+          <a href="brainactivation.html" class="sub-nav-link">Brain Activation</a>
+          <a href="angermanagement.html" class="sub-nav-link">Anger Management</a>
+          <a href="index.html#photos">Photo Book</a>
+          <a href="todo.html" class="active">Family To Do</a>
+        </nav>
+      </aside>
+
+      <main>
+        <section class="section todo-section" aria-labelledby="todo-title">
+          <div class="section-heading">
+            <div>
+              <p class="eyebrow">Google Sheets</p>
+              <h2 id="todo-title">Family To Do</h2>
+            </div>
+            <div class="todo-actions">
+              <span class="data-source-label" id="data-source"></span>
+              <button class="secondary-button" id="refresh-btn" type="button">Refresh</button>
+              <button class="secondary-button" id="setup-toggle" type="button">Sheet Settings</button>
+            </div>
+          </div>
+
+          <!-- Google Sheet setup panel -->
+          <div class="setup-panel" id="setup-panel" aria-label="Google Sheet connection settings">
+            <div>
+              <h4>Connect your Google Sheet</h4>
+              <p>
+                Your tasks live in a Google Sheet. To connect it, open the sheet, go to
+                <strong>File › Share › Publish to the web</strong>, choose
+                <strong>Entire Document</strong> and <strong>Comma-separated values (.csv)</strong>,
+                then click <strong>Publish</strong> and paste the URL below.
+              </p>
+            </div>
+            <div>
+              <p>
+                Your sheet should have these columns in order:<br>
+                <code>Date Added, Responsible, Topic, Task Name, Description, Date Completed</code>
+              </p>
+            </div>
+            <div class="setup-row">
+              <input
+                id="sheet-url-input"
+                type="url"
+                placeholder="https://docs.google.com/spreadsheets/d/…/pub?output=csv"
+              >
+              <button class="primary-button" id="save-sheet-url" type="button">Connect</button>
+            </div>
+            <div id="sheet-status" class="sheet-status" aria-live="polite"></div>
+            <div>
+              <p>
+                <strong>To write completions back to your sheet</strong>, add a Google Apps Script
+                web app. In your sheet choose <strong>Extensions › Apps Script</strong>, paste the
+                code below, deploy as a web app (Execute as: Me, Who has access: Anyone), then
+                paste the deployment URL into the field above instead.
+              </p>
+              <pre class="apps-script-block">function doGet(e) {
+  const sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
+  const data  = sheet.getDataRange().getValues();
+  const keys  = data[0];
+  const rows  = data.slice(1).map((r, i) =>
+    Object.fromEntries(keys.map((k, j) => [k, { value: r[j], row: i + 2 }]))
+  );
+  return ContentService
+    .createTextOutput(JSON.stringify(rows))
+    .setMimeType(ContentService.MimeType.JSON);
+}
+
+function doPost(e) {
+  const { row, date } = JSON.parse(e.postData.contents);
+  const sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
+  sheet.getRange(row, 6).setValue(date); // column F = Date Completed
+  return ContentService
+    .createTextOutput(JSON.stringify({ ok: true }))
+    .setMimeType(ContentService.MimeType.JSON);
+}</pre>
+            </div>
+          </div>
+
+          <!-- Active tasks -->
+          <div class="todo-section-meta">
+            <span class="eyebrow" style="margin:0" id="active-label">Open tasks</span>
+          </div>
+          <div class="todo-grid" id="active-list" aria-label="Open tasks"></div>
+
+          <!-- Completed tasks (collapsed) -->
+          <details class="completed-toggle" id="completed-toggle">
+            <summary>Completed tasks <span class="done-count" id="done-count">0</span></summary>
+            <div class="todo-grid" id="done-list" aria-label="Completed tasks"></div>
+          </details>
+        </section>
+      </main>
+    </div>
+
+    <script>
+      /* -------- config & persistence -------- */
+      const CONFIG_KEY      = 'snowflake-todo-config';
+      const COMPLETIONS_KEY = 'snowflake-todo-completions';
+      const MAX_ACTIVE      = 5;
+
+      const SAMPLE_TASKS = [
+        {
+          dateAdded: '2026-05-28', responsible: 'Mom', topic: 'Household',
+          name: 'Renew library cards',
+          description: 'Check expiration on all library cards and renew online at the library website.',
+          dateCompleted: ''
+        },
+        {
+          dateAdded: '2026-05-30', responsible: 'Oliver', topic: 'School',
+          name: 'Book report draft',
+          description: "Write first draft of your book report on Charlotte’s Web — at least 3 paragraphs.",
+          dateCompleted: ''
+        },
+        {
+          dateAdded: '2026-06-01', responsible: 'Logan', topic: 'School',
+          name: 'Spelling practice',
+          description: 'Practice all 10 spelling words out loud and in writing — test is Friday.',
+          dateCompleted: ''
+        },
+        {
+          dateAdded: '2026-06-02', responsible: 'Mom', topic: 'Admin',
+          name: 'Dentist appointments',
+          description: 'Book annual checkup appointments for Oliver and Logan before school ends June 27.',
+          dateCompleted: ''
+        },
+        {
+          dateAdded: '2026-06-03', responsible: 'Family', topic: 'Home',
+          name: 'Weekend clean-up',
+          description: 'Everyone picks one room to tidy before Sunday dinner — 20 minutes each.',
+          dateCompleted: ''
+        }
+      ];
+
+      let allTasks = [];
+      let appsScriptUrl = '';
+
+      function getConfig() {
+        try { return JSON.parse(localStorage.getItem(CONFIG_KEY) || '{}'); }
+        catch { return {}; }
+      }
+
+      function saveConfig(cfg) {
+        localStorage.setItem(CONFIG_KEY, JSON.stringify(cfg));
+      }
+
+      function getCompletions() {
+        try { return JSON.parse(localStorage.getItem(COMPLETIONS_KEY) || '{}'); }
+        catch { return {}; }
+      }
+
+      function saveCompletions(c) {
+        localStorage.setItem(COMPLETIONS_KEY, JSON.stringify(c));
+      }
+
+      function taskKey(task) {
+        return `${task.dateAdded}||${task.name}`;
+      }
+
+      function resolvedCompletion(task) {
+        if (task.dateCompleted) return task.dateCompleted;
+        return getCompletions()[taskKey(task)] || '';
+      }
+
+      /* -------- CSV fetching -------- */
+      async function fetchTasksCSV(url) {
+        const res = await fetch(url, { cache: 'no-store' });
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        return parseCSV(await res.text());
+      }
+
+      function parseCSV(text) {
+        const lines = text.replace(/\r\n/g, '\n').replace(/\r/g, '\n').trim().split('\n');
+        if (lines.length < 2) return [];
+        return lines.slice(1)
+          .map(splitCSVRow)
+          .map(cols => ({
+            dateAdded:     (cols[0] || '').trim(),
+            responsible:   (cols[1] || '').trim(),
+            topic:         (cols[2] || '').trim(),
+            name:          (cols[3] || '').trim(),
+            description:   (cols[4] || '').trim(),
+            dateCompleted: (cols[5] || '').trim()
+          }))
+          .filter(t => t.name);
+      }
+
+      function splitCSVRow(line) {
+        const result = [];
+        let cell = '', inQ = false;
+        for (let i = 0; i < line.length; i++) {
+          const c = line[i];
+          if (c === '"') {
+            if (inQ && line[i + 1] === '"') { cell += '"'; i++; }
+            else { inQ = !inQ; }
+          } else if (c === ',' && !inQ) {
+            result.push(cell); cell = '';
+          } else {
+            cell += c;
+          }
+        }
+        result.push(cell);
+        return result;
+      }
+
+      /* -------- Apps Script JSON fetch -------- */
+      async function fetchTasksAppsScript(url) {
+        const res = await fetch(url, { cache: 'no-store' });
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        const rows = await res.json();
+        return rows.map(r => ({
+          dateAdded:     String(r['Date Added']?.value   || '').trim(),
+          responsible:   String(r['Responsible']?.value  || '').trim(),
+          topic:         String(r['Topic']?.value        || '').trim(),
+          name:          String(r['Task Name']?.value    || '').trim(),
+          description:   String(r['Description']?.value  || '').trim(),
+          dateCompleted: String(r['Date Completed']?.value || '').trim(),
+          _row:          r['Task Name']?.row
+        })).filter(t => t.name);
+      }
+
+      async function writeCompletionToSheet(url, row, date) {
+        await fetch(url, {
+          method: 'POST',
+          body: JSON.stringify({ row, date }),
+          headers: { 'Content-Type': 'application/json' }
+        });
+      }
+
+      /* -------- rendering -------- */
+      function formatDate(str) {
+        if (!str) return '';
+        const d = new Date(str + 'T12:00:00');
+        if (isNaN(d)) return str;
+        return d.toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' });
+      }
+
+      function render() {
+        const open = allTasks.filter(t => !resolvedCompletion(t));
+        const done = allTasks.filter(t => !!resolvedCompletion(t));
+        const active = open.slice(0, MAX_ACTIVE);
+
+        const activeList = document.getElementById('active-list');
+        const doneList   = document.getElementById('done-list');
+        const doneCount  = document.getElementById('done-count');
+        const activeLabel = document.getElementById('active-label');
+
+        activeList.innerHTML = '';
+        doneList.innerHTML   = '';
+
+        activeLabel.textContent = `Open tasks (${active.length}${open.length > MAX_ACTIVE ? ` of ${open.length}` : ''})`;
+        doneCount.textContent   = done.length;
+
+        if (!active.length) {
+          activeList.append(emptyEl('All caught up — no open tasks right now.'));
+        } else {
+          active.forEach(t => activeList.append(buildCard(t)));
+        }
+
+        done.forEach(t => doneList.append(buildCard(t)));
+
+        if (!done.length) {
+          document.getElementById('completed-toggle').style.display = 'none';
+        } else {
+          document.getElementById('completed-toggle').style.display = '';
+        }
+      }
+
+      function buildCard(task) {
+        const completion = resolvedCompletion(task);
+        const isDone = !!completion;
+
+        const card = document.createElement('article');
+        card.className = `todo-card${isDone ? ' completed' : ''}`;
+
+        const checkbox = document.createElement('input');
+        checkbox.type = 'checkbox';
+        checkbox.className = 'todo-checkbox';
+        checkbox.checked = isDone;
+        checkbox.setAttribute('aria-label', `Mark "${task.name}" ${isDone ? 'open' : 'complete'}`);
+        checkbox.addEventListener('change', () => toggleTask(task, checkbox.checked));
+
+        const body = document.createElement('div');
+        body.className = 'todo-body';
+
+        /* title row */
+        const titleRow = document.createElement('div');
+        titleRow.className = 'todo-title-row';
+
+        const title = document.createElement('h3');
+        title.className = `todo-title${isDone ? ' done' : ''}`;
+        title.textContent = task.name;
+
+        const badges = document.createElement('div');
+        badges.className = 'todo-meta';
+
+        if (task.topic) {
+          const b = document.createElement('span');
+          b.className = 'todo-badge topic';
+          b.textContent = task.topic;
+          badges.append(b);
+        }
+        if (task.responsible) {
+          const b = document.createElement('span');
+          b.className = 'todo-badge person';
+          b.textContent = task.responsible;
+          badges.append(b);
+        }
+
+        titleRow.append(title, badges);
+
+        /* description */
+        const desc = document.createElement('p');
+        desc.className = 'todo-desc';
+        desc.textContent = task.description;
+
+        /* dates */
+        const dates = document.createElement('div');
+        dates.className = 'todo-dates';
+
+        const added = document.createElement('span');
+        added.textContent = task.dateAdded ? `Added ${formatDate(task.dateAdded)}` : '';
+        dates.append(added);
+
+        if (completion) {
+          const comp = document.createElement('span');
+          comp.className = 'todo-complete-date';
+          comp.textContent = `✓ Completed ${formatDate(completion)}`;
+          dates.append(comp);
+        }
+
+        body.append(titleRow, desc, dates);
+        card.append(checkbox, body);
+        return card;
+      }
+
+      async function toggleTask(task, checked) {
+        const today = new Date().toISOString().split('T')[0];
+        const completions = getCompletions();
+
+        if (checked) {
+          completions[taskKey(task)] = today;
+          /* attempt write-back if using Apps Script */
+          if (appsScriptUrl && task._row) {
+            try { await writeCompletionToSheet(appsScriptUrl, task._row, today); }
+            catch { /* silent — completion saved locally */ }
+          }
+        } else {
+          delete completions[taskKey(task)];
+        }
+
+        saveCompletions(completions);
+        render();
+      }
+
+      function emptyEl(msg) {
+        const el = document.createElement('div');
+        el.className = 'empty-state';
+        el.textContent = msg;
+        return el;
+      }
+
+      /* -------- init -------- */
+      async function loadTasks(url, statusEl) {
+        statusEl.textContent = 'Loading…';
+        statusEl.className = 'sheet-status';
+        try {
+          const isAppsScript = url.includes('script.google.com');
+          if (isAppsScript) {
+            appsScriptUrl = url;
+            allTasks = await fetchTasksAppsScript(url);
+          } else {
+            allTasks = await fetchTasksCSV(url);
+          }
+          const src = document.getElementById('data-source');
+          src.textContent = `${allTasks.length} tasks from Google Sheet`;
+          statusEl.textContent = 'Connected ✓';
+          statusEl.className = 'sheet-status ok';
+          render();
+        } catch (err) {
+          statusEl.textContent = `Could not load sheet: ${err.message}. Showing sample data.`;
+          statusEl.className = 'sheet-status error';
+          allTasks = [...SAMPLE_TASKS];
+          document.getElementById('data-source').textContent = 'Sample data';
+          render();
+        }
+      }
+
+      async function init() {
+        const config = getConfig();
+        const urlInput  = document.getElementById('sheet-url-input');
+        const statusEl  = document.getElementById('sheet-status');
+        const setupPanel = document.getElementById('setup-panel');
+        const setupToggle = document.getElementById('setup-toggle');
+
+        if (config.sheetUrl) urlInput.value = config.sheetUrl;
+
+        setupToggle.addEventListener('click', () => {
+          const open = setupPanel.classList.toggle('open');
+          setupToggle.textContent = open ? 'Hide Settings' : 'Sheet Settings';
+        });
+
+        document.getElementById('save-sheet-url').addEventListener('click', async () => {
+          const url = urlInput.value.trim();
+          if (!url) return;
+          config.sheetUrl = url;
+          saveConfig(config);
+          await loadTasks(url, statusEl);
+        });
+
+        document.getElementById('refresh-btn').addEventListener('click', async () => {
+          if (config.sheetUrl) {
+            await loadTasks(config.sheetUrl, statusEl);
+          } else {
+            render();
+          }
+        });
+
+        if (config.sheetUrl) {
+          await loadTasks(config.sheetUrl, statusEl);
+        } else {
+          allTasks = [...SAMPLE_TASKS];
+          document.getElementById('data-source').textContent = 'Sample data — connect a sheet to go live';
+          render();
+          /* auto-open setup so the user knows what to do */
+          setupPanel.classList.add('open');
+          setupToggle.textContent = 'Hide Settings';
+        }
+      }
+
+      document.addEventListener('DOMContentLoaded', init);
+    </script>
+  </body>
+</html>

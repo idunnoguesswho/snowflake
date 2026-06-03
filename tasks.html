@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Task | Snowflake</title>
+    <title>Daily Tasks | Snowflake</title>
     <link rel="stylesheet" href="styles.css">
   </head>
   <body>
@@ -18,7 +18,7 @@
         </div>
         <nav class="nav-list" aria-label="Primary">
           <a href="index.html#dashboard">Daily Dashboard</a>
-          <a href="tasks.html">Daily Tasks</a>
+          <a href="tasks.html" class="active">Daily Tasks</a>
           <a href="index.html#mom">Mom&apos;s Section</a>
           <a href="index.html#quotes">Daily Quotes</a>
           <a href="index.html#oliver">Oliver&apos;s Work</a>
@@ -32,15 +32,17 @@
       </aside>
 
       <main>
-        <section class="section task-hero" aria-labelledby="task-title">
+        <section class="section task-board-section" aria-labelledby="daily-tasks-title">
           <div class="section-heading">
             <div>
-              <p class="eyebrow" id="task-owner">Task</p>
-              <h2 id="task-title">Loading Task</h2>
+              <p class="eyebrow">Google Sheet Tasks</p>
+              <h2 id="daily-tasks-title">First Task in Each Category</h2>
             </div>
-            <a class="secondary-button" id="back-to-work" href="index.html#oliver">Back to Work</a>
+            <a class="secondary-button" href="index.html#dashboard">Back to Dashboard</a>
           </div>
-          <div id="task-detail" class="task-detail"></div>
+
+          <div class="sheet-status" id="sheet-status">Loading tasks...</div>
+          <div class="task-board" id="sheet-task-board"></div>
         </section>
       </main>
     </div>

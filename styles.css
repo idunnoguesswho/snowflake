@@ -409,6 +409,64 @@ textarea {
   font-weight: 800;
 }
 
+.task-jump-panel {
+  align-content: start;
+  display: grid;
+  gap: 12px;
+}
+
+.task-jump-panel p {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.55;
+}
+
+.task-jump-panel .primary-button {
+  width: fit-content;
+}
+
+.house-points-panel {
+  align-content: start;
+  display: grid;
+  gap: 12px;
+}
+
+.house-points {
+  display: grid;
+  gap: 12px;
+}
+
+.house-point-row {
+  display: grid;
+  grid-template-columns: 82px minmax(0, 1fr) 34px;
+  gap: 10px;
+  align-items: center;
+}
+
+.house-point-name {
+  color: var(--muted);
+  font-size: 0.85rem;
+  font-weight: 800;
+}
+
+.house-point-track {
+  height: 12px;
+  overflow: hidden;
+  background: #eef2f6;
+  border-radius: 999px;
+}
+
+.house-point-fill {
+  width: 8%;
+  height: 100%;
+  background: linear-gradient(90deg, var(--blue), var(--green));
+  border-radius: inherit;
+}
+
+.house-point-row strong {
+  text-align: right;
+}
+
 .primary-button,
 .secondary-button,
 .work-form button {
@@ -640,6 +698,84 @@ textarea {
 
 .task-explanation {
   max-width: 620px;
+}
+
+.task-board-section {
+  min-height: calc(100vh - 56px);
+}
+
+.sheet-status {
+  margin-bottom: 16px;
+  padding: 12px 14px;
+  color: var(--blue-dark);
+  background: #edf4ff;
+  border: 1px solid #cfe1fb;
+  border-radius: 8px;
+  font-weight: 800;
+}
+
+.task-board {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.sheet-task-card {
+  display: grid;
+  gap: 12px;
+  min-height: 230px;
+  padding: 18px;
+  background: #ffffff;
+  border: 1px solid var(--line);
+  border-left: 5px solid var(--blue);
+  border-radius: 8px;
+  transition: opacity 160ms ease, transform 160ms ease;
+}
+
+.sheet-task-card.saving {
+  opacity: 0.62;
+  transform: scale(0.99);
+}
+
+.sheet-task-meta {
+  width: fit-content;
+  min-height: 28px;
+  padding: 5px 10px;
+  color: var(--blue-dark);
+  background: #edf4ff;
+  border-radius: 999px;
+  font-size: 0.78rem;
+  font-weight: 800;
+}
+
+.sheet-task-card h3,
+.sheet-task-card p {
+  margin: 0;
+}
+
+.sheet-task-card h3 {
+  font-size: 1.1rem;
+}
+
+.sheet-task-card p {
+  color: var(--muted);
+  line-height: 1.55;
+}
+
+.task-complete-toggle {
+  display: grid;
+  grid-template-columns: 22px minmax(0, 1fr);
+  gap: 10px;
+  align-items: center;
+  margin-top: auto;
+  padding-top: 8px;
+  color: var(--green);
+  font-weight: 800;
+}
+
+.task-complete-toggle input {
+  width: 20px;
+  min-height: 20px;
 }
 
 .brain-hero {
@@ -948,7 +1084,8 @@ textarea {
   }
 
   .work-list,
-  .photo-book {
+  .photo-book,
+  .task-board {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
@@ -979,7 +1116,8 @@ textarea {
   .dashboard-grid,
   .snapshot-grid,
   .work-list,
-  .photo-book {
+  .photo-book,
+  .task-board {
     grid-template-columns: 1fr;
   }
 

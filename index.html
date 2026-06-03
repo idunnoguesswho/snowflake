@@ -18,6 +18,7 @@
         </div>
         <nav class="nav-list" aria-label="Primary">
           <a href="#dashboard" class="active">Daily Dashboard</a>
+          <a href="tasks.html">Daily Tasks</a>
           <a href="#mom">Mom&apos;s Section</a>
           <a href="#quotes">Daily Quotes</a>
           <a href="#oliver">Oliver's Work</a>
@@ -87,6 +88,23 @@
                 <span id="checklist-count">0/5</span>
               </div>
               <div class="checklist" id="daily-checklist"></div>
+            </article>
+
+            <article class="panel task-jump-panel">
+              <div class="panel-title-row">
+                <h3>First Tasks</h3>
+                <span class="status-pill" id="sheet-task-count">Sheet</span>
+              </div>
+              <p>See the first open task in each category for each person.</p>
+              <a class="primary-button" href="tasks.html">Open Daily Tasks</a>
+            </article>
+
+            <article class="panel house-points-panel">
+              <div class="panel-title-row">
+                <h3>House Points</h3>
+                <span class="status-pill" id="house-points-status">Loading</span>
+              </div>
+              <div class="house-points" id="house-points"></div>
             </article>
 
             <article class="panel rhythm-panel">
@@ -227,6 +245,7 @@
       </main>
     </div>
 
+    <script src="snowflake-config.js"></script>
     <script src="app.js"></script>
   </body>
 </html>

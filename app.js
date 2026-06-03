@@ -1,4 +1,13 @@
 const storageKey = "snowflake-family-dashboard";
+const sheetConfig = window.SNOWFLAKE_CONFIG || {};
+const POINTS_PER_TASK = 1;
+const fallbackSheetTasks = [
+  { rowNumber: 2, dateAdded: "2026-05-28", responsible: "Mom", topic: "Household", title: "Renew library cards", description: "Check expiration on all library cards and renew online at the library website", completedDate: "" },
+  { rowNumber: 3, dateAdded: "2026-05-30", responsible: "Oliver", topic: "School", title: "Book report draft", description: "Write first draft of your book report on Charlotte's Web - at least 3 paragraphs", completedDate: "" },
+  { rowNumber: 4, dateAdded: "2026-06-01", responsible: "Logan", topic: "School", title: "Spelling practice", description: "Practice all 10 spelling words out loud and in writing - test is Friday", completedDate: "" },
+  { rowNumber: 5, dateAdded: "2026-06-02", responsible: "Mom", topic: "Admin", title: "Dentist appointments", description: "Book annual checkup appointments for Oliver and Logan before school ends June 27", completedDate: "" },
+  { rowNumber: 6, dateAdded: "2026-06-03", responsible: "Family", topic: "Home", title: "Weekend clean-up", description: "Everyone picks one room to tidy before Sunday dinner - 20 minutes each", completedDate: "" }
+];
 
 const defaultState = {
   focus: "",
@@ -26,12 +35,43 @@ const defaultState = {
   ],
   oliver: [
     { id: "oliver-reading-log", title: "Reading log", subject: "Language Arts", due: "2026-06-05", done: false },
-    { id: "oliver-math-practice", title: "Math practice", subject: "Math", due: "2026-06-06", done: false }
+    { id: "oliver-math-practice", title: "Math practice", subject: "Math", due: "2026-06-06", done: false },
+    { id: "oliver-movement-cross-body", title: "Movement & Cross-Body", subject: "Brain Activation", due: "", done: false },
+    { id: "oliver-breathing-calm", title: "Breathing & Calm", subject: "Brain Activation", due: "", done: false },
+    { id: "oliver-music-rhythm", title: "Music & Rhythm", subject: "Brain Activation", due: "", done: false },
+    { id: "oliver-creative-expression", title: "Creative Expression", subject: "Brain Activation", due: "", done: false },
+    { id: "oliver-logic-problem-solving", title: "Logic & Problem Solving", subject: "Brain Activation", due: "", done: false },
+    { id: "oliver-mindfulness-grounding", title: "Mindfulness & Grounding", subject: "Brain Activation", due: "", done: false },
+    { id: "oliver-connection-play", title: "Connection & Play", subject: "Brain Activation", due: "", done: false },
+    { id: "oliver-addiction-workbook-start-here", title: "Start Here: What You Might Be Feeling Right Now", subject: "Addiction Workbook", due: "", done: false },
+    { id: "oliver-addiction-workbook-what-is-addiction", title: "Session 1: What Is Addiction?", subject: "Addiction Workbook", due: "", done: false },
+    { id: "oliver-addiction-workbook-three-cs", title: "Session 2: The Three Cs", subject: "Addiction Workbook", due: "", done: false },
+    { id: "oliver-addiction-workbook-how-it-affects-you", title: "Session 3: How It Affects You", subject: "Addiction Workbook", due: "", done: false },
+    { id: "oliver-addiction-workbook-keeping-safe", title: "Session 4: Keeping Yourself Safe", subject: "Addiction Workbook", due: "", done: false },
+    { id: "oliver-addiction-workbook-talking-about-it", title: "Session 5: Talking About It", subject: "Addiction Workbook", due: "", done: false },
+    { id: "oliver-addiction-workbook-your-future", title: "Session 6: Your Future Belongs to You", subject: "Addiction Workbook", due: "", done: false },
+    { id: "oliver-addiction-workbook-resource-guide", title: "Full Resource Guide", subject: "Addiction Workbook", due: "", done: false }
   ],
   logan: [
     { id: "logan-spelling-words", title: "Spelling words", subject: "Language Arts", due: "2026-06-05", done: false },
-    { id: "logan-science-drawing", title: "Science drawing", subject: "Science", due: "2026-06-07", done: false }
+    { id: "logan-science-drawing", title: "Science drawing", subject: "Science", due: "2026-06-07", done: false },
+    { id: "logan-movement-cross-body", title: "Movement & Cross-Body", subject: "Brain Activation", due: "", done: false },
+    { id: "logan-breathing-calm", title: "Breathing & Calm", subject: "Brain Activation", due: "", done: false },
+    { id: "logan-music-rhythm", title: "Music & Rhythm", subject: "Brain Activation", due: "", done: false },
+    { id: "logan-creative-expression", title: "Creative Expression", subject: "Brain Activation", due: "", done: false },
+    { id: "logan-logic-problem-solving", title: "Logic & Problem Solving", subject: "Brain Activation", due: "", done: false },
+    { id: "logan-mindfulness-grounding", title: "Mindfulness & Grounding", subject: "Brain Activation", due: "", done: false },
+    { id: "logan-connection-play", title: "Connection & Play", subject: "Brain Activation", due: "", done: false },
+    { id: "logan-addiction-workbook-start-here", title: "Start Here: What You Might Be Feeling Right Now", subject: "Addiction Workbook", due: "", done: false },
+    { id: "logan-addiction-workbook-what-is-addiction", title: "Session 1: What Is Addiction?", subject: "Addiction Workbook", due: "", done: false },
+    { id: "logan-addiction-workbook-three-cs", title: "Session 2: The Three Cs", subject: "Addiction Workbook", due: "", done: false },
+    { id: "logan-addiction-workbook-how-it-affects-you", title: "Session 3: How It Affects You", subject: "Addiction Workbook", due: "", done: false },
+    { id: "logan-addiction-workbook-keeping-safe", title: "Session 4: Keeping Yourself Safe", subject: "Addiction Workbook", due: "", done: false },
+    { id: "logan-addiction-workbook-talking-about-it", title: "Session 5: Talking About It", subject: "Addiction Workbook", due: "", done: false },
+    { id: "logan-addiction-workbook-your-future", title: "Session 6: Your Future Belongs to You", subject: "Addiction Workbook", due: "", done: false },
+    { id: "logan-addiction-workbook-resource-guide", title: "Full Resource Guide", subject: "Addiction Workbook", due: "", done: false }
   ],
+  sheetCompletions: {},
   photos: []
 };
 
@@ -70,7 +110,19 @@ function normalizeState(nextState) {
     changed = true;
   }
 
+  if (!nextState.sheetCompletions || typeof nextState.sheetCompletions !== "object") {
+    nextState.sheetCompletions = {};
+    changed = true;
+  }
+
   ["oliver", "logan"].forEach((name) => {
+    const seededIds = new Set(nextState[name].map((item) => item.id).filter(Boolean));
+    defaultState[name].forEach((item) => {
+      if (seededIds.has(item.id)) return;
+      nextState[name].push(structuredClone(item));
+      changed = true;
+    });
+
     nextState[name] = nextState[name].map((item) => {
       if (item.id) return item;
       changed = true;
@@ -470,6 +522,224 @@ function getTaskExplanation(item) {
   return `This ${subject} task is ready to work on${dueText}. Read what needs to be done, gather any supplies, finish the assignment, then mark it completed here.`;
 }
 
+function getSheetEndpoint() {
+  return String(sheetConfig.appsScriptUrl || "").trim();
+}
+
+function todayIsoDate() {
+  return new Date().toISOString().slice(0, 10);
+}
+
+async function loadSheetPayload() {
+  const endpoint = getSheetEndpoint();
+
+  if (!endpoint) {
+    return getFallbackSheetPayload();
+  }
+
+  const response = await fetch(`${endpoint}?t=${Date.now()}`);
+  if (!response.ok) {
+    throw new Error(`Sheet endpoint returned ${response.status}.`);
+  }
+
+  const payload = await response.json();
+  if (!payload.ok) {
+    throw new Error(payload.error || "Sheet endpoint returned an error.");
+  }
+
+  return payload;
+}
+
+function getFallbackSheetPayload() {
+  const tasks = fallbackSheetTasks.map((task) => {
+    const completedDate = state.sheetCompletions[task.rowNumber] || task.completedDate || "";
+    return { ...task, completedDate };
+  });
+
+  return {
+    ok: true,
+    offline: true,
+    tasks,
+    points: buildPoints(tasks),
+    pointValue: POINTS_PER_TASK,
+    updatedAt: new Date().toISOString()
+  };
+}
+
+function buildPoints(tasks) {
+  return tasks.reduce((points, task) => {
+    if (!task.completedDate) return points;
+    points[task.responsible] = (points[task.responsible] || 0) + POINTS_PER_TASK;
+    return points;
+  }, {});
+}
+
+function firstOpenTaskByPersonAndTopic(tasks) {
+  const grouped = new Map();
+
+  tasks
+    .filter((task) => !task.completedDate)
+    .forEach((task) => {
+      const person = task.responsible || "Unassigned";
+      const topic = task.topic || "General";
+      const key = `${person}\u0000${topic}`;
+
+      if (!grouped.has(key)) {
+        grouped.set(key, { person, topic, task });
+      }
+    });
+
+  return [...grouped.values()];
+}
+
+async function bindSheetTaskBoard() {
+  const board = document.getElementById("sheet-task-board");
+  const status = document.getElementById("sheet-status");
+  if (!board) return;
+
+  try {
+    const payload = await loadSheetPayload();
+    renderSheetTaskBoard(board, status, payload);
+  } catch (error) {
+    status.textContent = `Could not load the Google Sheet yet: ${error.message}`;
+    board.innerHTML = "";
+    board.append(emptyState("Check the Apps Script deployment URL in snowflake-config.js."));
+  }
+}
+
+function renderSheetTaskBoard(board, status, payload) {
+  const firstTasks = firstOpenTaskByPersonAndTopic(payload.tasks || []);
+  board.innerHTML = "";
+
+  status.textContent = payload.offline
+    ? "Using sample sheet rows until the Apps Script URL is added."
+    : `Live from Google Sheet. ${payload.tasks.length} total tasks.`;
+
+  if (!firstTasks.length) {
+    board.append(emptyState("All sheet tasks are complete."));
+    return;
+  }
+
+  firstTasks.forEach(({ person, topic, task }) => {
+    const card = document.createElement("article");
+    card.className = "sheet-task-card";
+
+    const meta = document.createElement("span");
+    meta.className = "sheet-task-meta";
+    meta.textContent = `${person} / ${topic}`;
+
+    const title = document.createElement("h3");
+    title.textContent = task.title;
+
+    const description = document.createElement("p");
+    description.textContent = task.description || "No description added.";
+
+    const label = document.createElement("label");
+    label.className = "task-complete-toggle";
+
+    const checkbox = document.createElement("input");
+    checkbox.type = "checkbox";
+    checkbox.addEventListener("change", () => completeSheetTask(task, card, status));
+
+    const text = document.createElement("span");
+    text.textContent = `Complete for ${POINTS_PER_TASK} point`;
+
+    label.append(checkbox, text);
+    card.append(meta, title, description, label);
+    board.append(card);
+  });
+}
+
+async function completeSheetTask(task, card, status) {
+  const completedDate = todayIsoDate();
+  card.classList.add("saving");
+  status.textContent = `Marking "${task.title}" complete...`;
+
+  try {
+    const endpoint = getSheetEndpoint();
+
+    if (endpoint) {
+      const response = await fetch(endpoint, {
+        method: "POST",
+        body: JSON.stringify({ rowNumber: task.rowNumber, completedDate })
+      });
+      const payload = await response.json();
+      if (!response.ok || !payload.ok) {
+        throw new Error(payload.error || `Sheet endpoint returned ${response.status}.`);
+      }
+    } else {
+      state.sheetCompletions[task.rowNumber] = completedDate;
+      saveState();
+    }
+
+    await bindSheetTaskBoard();
+    await bindHousePoints();
+  } catch (error) {
+    card.classList.remove("saving");
+    const checkbox = card.querySelector("input[type='checkbox']");
+    if (checkbox) checkbox.checked = false;
+    status.textContent = `Could not mark complete: ${error.message}`;
+  }
+}
+
+async function bindHousePoints() {
+  const target = document.getElementById("house-points");
+  const status = document.getElementById("house-points-status");
+  const count = document.getElementById("sheet-task-count");
+  if (!target) return;
+
+  try {
+    const payload = await loadSheetPayload();
+    renderHousePoints(target, status, payload);
+    if (count) {
+      const openCount = (payload.tasks || []).filter((task) => !task.completedDate).length;
+      count.textContent = `${openCount} Open`;
+    }
+  } catch (error) {
+    status.textContent = "Offline";
+    target.innerHTML = "";
+    target.append(emptyState("House points will load after the sheet endpoint is configured."));
+  }
+}
+
+function renderHousePoints(target, status, payload) {
+  const points = payload.points || buildPoints(payload.tasks || []);
+  const people = [...new Set((payload.tasks || []).map((task) => task.responsible || "Unassigned"))];
+  const maxPoints = Math.max(1, ...people.map((person) => points[person] || 0));
+
+  target.innerHTML = "";
+  status.textContent = payload.offline ? "Preview" : "Live";
+
+  if (!people.length) {
+    target.append(emptyState("No people found in the sheet."));
+    return;
+  }
+
+  people.forEach((person) => {
+    const total = points[person] || 0;
+    const row = document.createElement("div");
+    row.className = "house-point-row";
+
+    const label = document.createElement("span");
+    label.className = "house-point-name";
+    label.textContent = person;
+
+    const track = document.createElement("div");
+    track.className = "house-point-track";
+
+    const fill = document.createElement("div");
+    fill.className = "house-point-fill";
+    fill.style.width = `${Math.max(8, (total / maxPoints) * 100)}%`;
+
+    const value = document.createElement("strong");
+    value.textContent = total;
+
+    track.append(fill);
+    row.append(label, track, value);
+    target.append(row);
+  });
+}
+
 function formatDate(value) {
   const date = new Date(`${value}T12:00:00`);
   return new Intl.DateTimeFormat(undefined, { month: "short", day: "numeric" }).format(date);
@@ -571,5 +841,7 @@ if (document.getElementById("new-quote")) bindQuotes();
 if (document.querySelector("[data-work-form='oliver']")) bindWork("oliver");
 if (document.querySelector("[data-work-form='logan']")) bindWork("logan");
 if (document.getElementById("photo-input")) bindPhotos();
+if (document.getElementById("sheet-task-board")) bindSheetTaskBoard();
+if (document.getElementById("house-points")) bindHousePoints();
 bindTaskDetail();
 bindNavigation();

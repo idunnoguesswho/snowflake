@@ -9,6 +9,14 @@ const defaultState = {
   morning: "",
   afternoon: "",
   evening: "",
+  momRecovery: "",
+  momLearning: "",
+  momChecklist: [
+    { label: "Do the 9-minute routine", done: false },
+    { label: "Review kid tasks", done: false },
+    { label: "Write one recovery anchor", done: false },
+    { label: "Pick one tiny learning adventure", done: false }
+  ],
   checklist: [
     { label: "Make beds", done: false },
     { label: "Pack bags", done: false },
@@ -17,12 +25,12 @@ const defaultState = {
     { label: "Clear one surface", done: false }
   ],
   oliver: [
-    { title: "Reading log", subject: "Language Arts", due: "2026-06-05", done: false },
-    { title: "Math practice", subject: "Math", due: "2026-06-06", done: false }
+    { id: "oliver-reading-log", title: "Reading log", subject: "Language Arts", due: "2026-06-05", done: false },
+    { id: "oliver-math-practice", title: "Math practice", subject: "Math", due: "2026-06-06", done: false }
   ],
   logan: [
-    { title: "Spelling words", subject: "Language Arts", due: "2026-06-05", done: false },
-    { title: "Science drawing", subject: "Science", due: "2026-06-07", done: false }
+    { id: "logan-spelling-words", title: "Spelling words", subject: "Language Arts", due: "2026-06-05", done: false },
+    { id: "logan-science-drawing", title: "Science drawing", subject: "Science", due: "2026-06-07", done: false }
   ],
   photos: []
 };
@@ -40,17 +48,51 @@ let state = loadState();
 
 function loadState() {
   const saved = localStorage.getItem(storageKey);
-  if (!saved) return structuredClone(defaultState);
+  if (!saved) return normalizeState(structuredClone(defaultState));
 
   try {
-    return { ...structuredClone(defaultState), ...JSON.parse(saved) };
+    const restored = { ...structuredClone(defaultState), ...JSON.parse(saved) };
+    return normalizeState(restored);
   } catch {
-    return structuredClone(defaultState);
+    return normalizeState(structuredClone(defaultState));
   }
 }
 
 function saveState() {
   localStorage.setItem(storageKey, JSON.stringify(state));
+}
+
+function normalizeState(nextState) {
+  let changed = false;
+
+  if (!Array.isArray(nextState.momChecklist)) {
+    nextState.momChecklist = structuredClone(defaultState.momChecklist);
+    changed = true;
+  }
+
+  ["oliver", "logan"].forEach((name) => {
+    nextState[name] = nextState[name].map((item) => {
+      if (item.id) return item;
+      changed = true;
+      return { ...item, id: createTaskId(name, item.title) };
+    });
+  });
+
+  if (changed) {
+    localStorage.setItem(storageKey, JSON.stringify(nextState));
+  }
+
+  return nextState;
+}
+
+function createTaskId(name, title) {
+  const slug = String(title || "task")
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-|-$/g, "")
+    .slice(0, 40) || "task";
+
+  return `${name}-${slug}-${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 7)}`;
 }
 
 function setDateLabel() {
@@ -167,6 +209,7 @@ function bindWork(name) {
     event.preventDefault();
     const data = new FormData(form);
     state[name].push({
+      id: createTaskId(name, data.get("title")),
       title: data.get("title").trim(),
       subject: data.get("subject").trim() || "General",
       due: data.get("due"),
@@ -187,12 +230,25 @@ function renderWork(name) {
 
   if (!state[name].length) {
     target.append(emptyState("No work added yet."));
+    if (document.getElementById("outstanding-tasks")) renderOutstandingTasks();
     return;
   }
 
   state[name].forEach((item, index) => {
     const card = document.createElement("article");
     card.className = `work-card${item.done ? " done" : ""}`;
+    card.tabIndex = 0;
+    card.role = "link";
+    card.ariaLabel = `Open ${item.title} details`;
+    card.addEventListener("click", (event) => {
+      if (event.target.closest("button, a, input")) return;
+      window.location.href = getTaskUrl(name, item.id);
+    });
+    card.addEventListener("keydown", (event) => {
+      if (event.key !== "Enter" && event.key !== " ") return;
+      event.preventDefault();
+      window.location.href = getTaskUrl(name, item.id);
+    });
 
     const badge = document.createElement("span");
     badge.className = "work-badge";
@@ -203,6 +259,10 @@ function renderWork(name) {
 
     const details = document.createElement("p");
     details.textContent = `${item.subject || "General"}${item.due ? ` - due ${formatDate(item.due)}` : ""}`;
+
+    const openHint = document.createElement("span");
+    openHint.className = "open-hint";
+    openHint.textContent = "Open details";
 
     const actions = document.createElement("div");
     actions.className = "work-actions";
@@ -228,14 +288,200 @@ function renderWork(name) {
     });
 
     actions.append(doneButton, deleteButton);
-    card.append(badge, title, details, actions);
+    card.append(badge, title, details, openHint, actions);
     target.append(card);
   });
+
+  if (document.getElementById("outstanding-tasks")) renderOutstandingTasks();
+}
+
+function bindMomSection() {
+  const recoveryNote = document.getElementById("recovery-note");
+  const learningNote = document.getElementById("learning-note");
+
+  recoveryNote.value = state.momRecovery || "";
+  learningNote.value = state.momLearning || "";
+
+  recoveryNote.addEventListener("input", () => {
+    state.momRecovery = recoveryNote.value;
+    saveState();
+  });
+
+  learningNote.addEventListener("input", () => {
+    state.momLearning = learningNote.value;
+    saveState();
+  });
+
+  renderMomChecklist();
+  renderOutstandingTasks();
+}
+
+function renderMomChecklist() {
+  const checklist = document.getElementById("mom-checklist");
+  checklist.innerHTML = "";
+
+  state.momChecklist.forEach((item, index) => {
+    const label = document.createElement("label");
+    label.className = "check-item";
+
+    const checkbox = document.createElement("input");
+    checkbox.type = "checkbox";
+    checkbox.checked = item.done;
+    checkbox.addEventListener("change", () => {
+      state.momChecklist[index].done = checkbox.checked;
+      saveState();
+      renderMomChecklist();
+    });
+
+    const text = document.createElement("span");
+    text.textContent = item.label;
+    text.className = item.done ? "done" : "";
+
+    label.append(checkbox, text);
+    checklist.append(label);
+  });
+
+  const done = state.momChecklist.filter((item) => item.done).length;
+  document.getElementById("mom-count").textContent = `${done}/${state.momChecklist.length}`;
+}
+
+function renderOutstandingTasks() {
+  const target = document.getElementById("outstanding-tasks");
+  target.innerHTML = "";
+
+  const tasks = ["oliver", "logan"].flatMap((name) =>
+    state[name]
+      .filter((item) => !item.done)
+      .map((item) => ({ ...item, name, displayName: name === "oliver" ? "Oliver" : "Logan" }))
+  );
+
+  if (!tasks.length) {
+    target.append(emptyState("No outstanding kid tasks right now."));
+    return;
+  }
+
+  tasks.forEach((item) => {
+    const link = document.createElement("a");
+    link.className = "outstanding-task";
+    link.href = getTaskUrl(item.name, item.id);
+
+    const owner = document.createElement("span");
+    owner.textContent = item.displayName;
+
+    const title = document.createElement("strong");
+    title.textContent = item.title;
+
+    const details = document.createElement("small");
+    details.textContent = `${item.subject || "General"}${item.due ? ` - due ${formatDate(item.due)}` : ""}`;
+
+    link.append(owner, title, details);
+    target.append(link);
+  });
+}
+
+function getTaskUrl(name, id) {
+  return `task.html?person=${encodeURIComponent(name)}&id=${encodeURIComponent(id)}`;
+}
+
+function bindTaskDetail() {
+  const target = document.getElementById("task-detail");
+  if (!target) return;
+
+  const params = new URLSearchParams(window.location.search);
+  const name = params.get("person");
+  const id = params.get("id");
+  const people = {
+    oliver: "Oliver",
+    logan: "Logan"
+  };
+
+  if (!people[name]) {
+    renderMissingTask(target);
+    return;
+  }
+
+  const item = state[name].find((task) => task.id === id);
+
+  if (!item) {
+    renderMissingTask(target, name);
+    return;
+  }
+
+  renderTaskDetail(target, name, people[name], item);
+}
+
+function renderTaskDetail(target, name, displayName, item) {
+  document.title = `${item.title} | Snowflake`;
+  document.getElementById("task-owner").textContent = `${displayName}'s Work`;
+  document.getElementById("task-title").textContent = item.title;
+  document.getElementById("back-to-work").href = `index.html#${name}`;
+
+  target.innerHTML = "";
+
+  const summary = document.createElement("article");
+  summary.className = "task-summary";
+
+  const status = document.createElement("span");
+  status.className = "work-badge";
+  status.textContent = item.done ? "Done" : "Open";
+
+  const subject = document.createElement("p");
+  subject.append(createStrongLabel("Subject:"), ` ${item.subject || "General"}`);
+
+  const due = document.createElement("p");
+  due.append(createStrongLabel("Due:"), ` ${item.due ? formatLongDate(item.due) : "No due date set"}`);
+
+  const explanation = document.createElement("p");
+  explanation.className = "task-explanation";
+  explanation.textContent = getTaskExplanation(item);
+
+  const completeButton = document.createElement("button");
+  completeButton.className = item.done ? "secondary-button" : "primary-button";
+  completeButton.type = "button";
+  completeButton.textContent = item.done ? "Mark Open" : "Mark Completed";
+  completeButton.addEventListener("click", () => {
+    item.done = !item.done;
+    saveState();
+    renderTaskDetail(target, name, displayName, item);
+  });
+
+  summary.append(status, subject, due, explanation, completeButton);
+  target.append(summary);
+}
+
+function renderMissingTask(target, name) {
+  const backTarget = name === "logan" ? "logan" : "oliver";
+  document.getElementById("task-owner").textContent = "Task";
+  document.getElementById("task-title").textContent = "Task Not Found";
+  document.getElementById("back-to-work").href = `index.html#${backTarget}`;
+  target.innerHTML = "";
+  target.append(emptyState("This task is no longer available. It may have been deleted."));
+}
+
+function createStrongLabel(text) {
+  const label = document.createElement("strong");
+  label.textContent = text;
+  return label;
+}
+
+function getTaskExplanation(item) {
+  const subject = item.subject || "General";
+  const dueText = item.due ? ` before ${formatLongDate(item.due)}` : "";
+  return `This ${subject} task is ready to work on${dueText}. Read what needs to be done, gather any supplies, finish the assignment, then mark it completed here.`;
 }
 
 function formatDate(value) {
   const date = new Date(`${value}T12:00:00`);
   return new Intl.DateTimeFormat(undefined, { month: "short", day: "numeric" }).format(date);
+}
+
+function formatLongDate(value) {
+  const date = new Date(`${value}T12:00:00`);
+  return new Intl.DateTimeFormat(undefined, {
+    weekday: "long",
+    month: "long",
+    day: "numeric"
+  }).format(date);
 }
 
 function bindPhotos() {
@@ -301,8 +547,10 @@ function emptyState(message) {
 }
 
 function bindNavigation() {
-  const links = [...document.querySelectorAll(".nav-list a")];
-  const sections = links.map((link) => document.querySelector(link.getAttribute("href")));
+  const links = [...document.querySelectorAll(".nav-list a[href^='#']")];
+  const sections = links
+    .map((link) => document.querySelector(link.getAttribute("href")))
+    .filter(Boolean);
 
   const observer = new IntersectionObserver((entries) => {
     entries.forEach((entry) => {
@@ -316,10 +564,12 @@ function bindNavigation() {
   sections.forEach((section) => observer.observe(section));
 }
 
-setDateLabel();
-bindDashboard();
-bindQuotes();
-bindWork("oliver");
-bindWork("logan");
-bindPhotos();
+if (document.getElementById("today-label")) setDateLabel();
+if (document.getElementById("focus-note")) bindDashboard();
+if (document.getElementById("mom-checklist")) bindMomSection();
+if (document.getElementById("new-quote")) bindQuotes();
+if (document.querySelector("[data-work-form='oliver']")) bindWork("oliver");
+if (document.querySelector("[data-work-form='logan']")) bindWork("logan");
+if (document.getElementById("photo-input")) bindPhotos();
+bindTaskDetail();
 bindNavigation();

@@ -164,6 +164,122 @@ main {
   gap: 16px;
 }
 
+.mom-section {
+  background:
+    linear-gradient(135deg, rgba(184, 134, 11, 0.10), transparent 38%),
+    linear-gradient(315deg, rgba(47, 128, 237, 0.10), transparent 36%),
+    rgba(255, 255, 255, 0.82);
+}
+
+.mom-layout {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.routine-panel {
+  grid-column: span 2;
+}
+
+.question-panel {
+  grid-column: span 2;
+}
+
+.routine-time {
+  color: #8a6408;
+  background: #fff5d8;
+  border-radius: 999px;
+  font-size: 0.78rem;
+  font-weight: 800;
+  padding: 5px 10px;
+}
+
+.routine-list,
+.question-list {
+  display: grid;
+  gap: 10px;
+  padding-left: 20px;
+  margin: 0;
+}
+
+.routine-list li {
+  display: grid;
+  grid-template-columns: 58px minmax(0, 1fr);
+  gap: 4px 12px;
+  padding: 10px 0;
+  border-bottom: 1px solid #eef2f6;
+}
+
+.routine-list li:last-child {
+  border-bottom: 0;
+}
+
+.routine-list span {
+  grid-row: span 2;
+  color: var(--blue-dark);
+  font-size: 0.8rem;
+  font-weight: 800;
+}
+
+.routine-list strong,
+.question-list li {
+  line-height: 1.45;
+}
+
+.routine-list p,
+.recovery-panel p,
+.learning-panel p {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.55;
+}
+
+.mom-dashboard-panel,
+.outstanding-panel,
+.recovery-panel,
+.learning-panel,
+.question-panel {
+  align-content: start;
+  display: grid;
+  gap: 12px;
+}
+
+.outstanding-list {
+  display: grid;
+  gap: 10px;
+}
+
+.outstanding-task {
+  display: grid;
+  gap: 4px;
+  padding: 12px;
+  color: var(--ink);
+  background: #ffffff;
+  border: 1px solid var(--line);
+  border-left: 5px solid var(--gold);
+  border-radius: 8px;
+  text-decoration: none;
+  transition: border-color 160ms ease, box-shadow 160ms ease, transform 160ms ease;
+}
+
+.outstanding-task:hover,
+.outstanding-task:focus-visible {
+  border-color: #d3b052;
+  box-shadow: 0 10px 24px rgba(31, 41, 51, 0.10);
+  outline: 0;
+  transform: translateY(-1px);
+}
+
+.outstanding-task span {
+  color: var(--blue-dark);
+  font-size: 0.78rem;
+  font-weight: 800;
+}
+
+.outstanding-task small {
+  color: var(--muted);
+}
+
 .panel {
   min-width: 0;
   padding: 18px;
@@ -373,6 +489,16 @@ textarea {
   border: 1px solid var(--line);
   border-left: 5px solid var(--blue);
   border-radius: 8px;
+  cursor: pointer;
+  transition: border-color 160ms ease, box-shadow 160ms ease, transform 160ms ease;
+}
+
+.work-card:hover,
+.work-card:focus-visible {
+  border-color: #9bbce8;
+  box-shadow: 0 12px 30px rgba(31, 41, 51, 0.12);
+  outline: 0;
+  transform: translateY(-1px);
 }
 
 .work-card.done {
@@ -387,6 +513,12 @@ textarea {
 
 .work-card p {
   color: var(--muted);
+}
+
+.open-hint {
+  color: var(--blue-dark);
+  font-size: 0.84rem;
+  font-weight: 800;
 }
 
 .work-actions {
@@ -467,11 +599,62 @@ textarea {
   text-align: center;
 }
 
+.task-hero {
+  overflow: hidden;
+  background:
+    linear-gradient(135deg, rgba(47, 128, 237, 0.12), transparent 42%),
+    linear-gradient(315deg, rgba(47, 143, 100, 0.12), transparent 36%),
+    rgba(255, 255, 255, 0.86);
+}
+
+.task-detail {
+  display: grid;
+  max-width: 760px;
+}
+
+.task-summary {
+  display: grid;
+  gap: 14px;
+  padding: 20px;
+  background: #ffffff;
+  border: 1px solid var(--line);
+  border-left: 5px solid var(--blue);
+  border-radius: 8px;
+}
+
+.task-summary p {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+.task-summary strong {
+  color: var(--ink);
+}
+
+.task-summary .primary-button,
+.task-summary .secondary-button {
+  width: fit-content;
+  margin-top: 4px;
+}
+
+.task-explanation {
+  max-width: 620px;
+}
+
 .brain-hero {
   overflow: hidden;
   background:
     linear-gradient(135deg, rgba(47, 128, 237, 0.15), transparent 42%),
     linear-gradient(315deg, rgba(184, 134, 11, 0.14), transparent 36%),
+    rgba(255, 255, 255, 0.86);
+}
+
+.anger-hero {
+  overflow: hidden;
+  background:
+    linear-gradient(135deg, rgba(195, 84, 101, 0.14), transparent 42%),
+    linear-gradient(315deg, rgba(47, 143, 100, 0.14), transparent 36%),
     rgba(255, 255, 255, 0.86);
 }
 
@@ -526,6 +709,36 @@ textarea {
 
 .activation-meter span:nth-child(3) {
   background: var(--gold);
+}
+
+.calm-meter {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 8px;
+  align-content: center;
+  min-height: 150px;
+  padding: 14px;
+  background: #ffffff;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+}
+
+.calm-meter span {
+  display: grid;
+  min-height: 38px;
+  place-items: center;
+  color: #ffffff;
+  background: var(--rose);
+  border-radius: 8px;
+  font-weight: 800;
+}
+
+.calm-meter span:nth-child(2) {
+  background: var(--blue);
+}
+
+.calm-meter span:nth-child(3) {
+  background: var(--green);
 }
 
 .brain-grid {
@@ -586,6 +799,83 @@ textarea {
 .reset-card .activation-label {
   color: #8a6408;
   background: #fff5d8;
+}
+
+.anger-scale {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.scale-card {
+  display: grid;
+  gap: 8px;
+  min-height: 160px;
+  padding: 18px;
+  background: #ffffff;
+  border: 1px solid var(--line);
+  border-top: 5px solid var(--green);
+  border-radius: 8px;
+}
+
+.scale-card span {
+  width: fit-content;
+  min-height: 30px;
+  padding: 5px 11px;
+  color: var(--green);
+  background: #e9f7ef;
+  border-radius: 999px;
+  font-weight: 800;
+}
+
+.scale-card h3,
+.scale-card p {
+  margin: 0;
+}
+
+.scale-card p {
+  color: var(--muted);
+  line-height: 1.55;
+}
+
+.scale-card.rising {
+  border-top-color: var(--gold);
+}
+
+.scale-card.rising span {
+  color: #8a6408;
+  background: #fff5d8;
+}
+
+.scale-card.high {
+  border-top-color: var(--rose);
+}
+
+.scale-card.high span {
+  color: var(--rose);
+  background: #fdecef;
+}
+
+.stop-card {
+  border-top-color: var(--rose);
+}
+
+.stop-card .activation-label {
+  color: var(--rose);
+  background: #fdecef;
+}
+
+.breathe-card {
+  border-top-color: var(--blue);
+}
+
+.repair-card {
+  border-top-color: var(--green);
+}
+
+.repair-card .activation-label {
+  color: var(--green);
+  background: #e9f7ef;
 }
 
 .spark-list {
@@ -664,8 +954,15 @@ textarea {
 
   .brain-intro,
   .brain-grid,
-  .spark-list {
+  .anger-scale,
+  .spark-list,
+  .mom-layout {
     grid-template-columns: 1fr;
+  }
+
+  .routine-panel,
+  .question-panel {
+    grid-column: auto;
   }
 }
 
@@ -700,5 +997,13 @@ textarea {
 
   .rhythm-list li {
     grid-template-columns: 1fr;
+  }
+
+  .routine-list li {
+    grid-template-columns: 1fr;
+  }
+
+  .routine-list span {
+    grid-row: auto;
   }
 }

@@ -1082,6 +1082,7 @@ textarea {
 
 .todo-badge.topic  { color: var(--blue-dark); background: #edf4ff; }
 .todo-badge.person { color: #8a6408;          background: #fff5d8; }
+.todo-badge.time   { color: var(--green);     background: #e9f7ef; }
 
 .todo-desc {
   margin: 0;

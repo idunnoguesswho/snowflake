@@ -48,38 +48,45 @@
           <!-- Google Sheet setup panel -->
           <div class="setup-panel" id="setup-panel" aria-label="Google Sheet connection settings">
             <div>
-              <h4>Connect your Google Sheet</h4>
+              <h4>Connected sheet</h4>
               <p>
-                Your tasks live in a Google Sheet. To connect it, open the sheet, go to
-                <strong>File › Share › Publish to the web</strong>, choose
-                <strong>Entire Document</strong> and <strong>Comma-separated values (.csv)</strong>,
-                then click <strong>Publish</strong> and paste the URL below.
+                This page reads from the <strong>To Do</strong> tab in your existing Google Sheet.
+                To activate the live connection, open the sheet, go to
+                <strong>File › Share › Publish to the web</strong>, select
+                <strong>To Do</strong> (the specific tab) and <strong>Comma-separated values (.csv)</strong>,
+                click <strong>Publish</strong>, then click <strong>Connect</strong> below.
               </p>
             </div>
             <div>
               <p>
-                Your sheet should have these columns in order:<br>
-                <code>Date Added, Responsible, Topic, Task Name, Description, Date Completed</code>
+                The <strong>To Do</strong> tab needs these columns in row 1 (A–F):<br>
+                <code>Date Added</code> &nbsp;·&nbsp;
+                <code>Responsible</code> &nbsp;·&nbsp;
+                <code>Topic</code> &nbsp;·&nbsp;
+                <code>Task Name</code> &nbsp;·&nbsp;
+                <code>Description</code> &nbsp;·&nbsp;
+                <code>Date Completed</code>
               </p>
             </div>
             <div class="setup-row">
               <input
                 id="sheet-url-input"
                 type="url"
-                placeholder="https://docs.google.com/spreadsheets/d/…/pub?output=csv"
+                placeholder="Paste the published CSV URL here, then click Connect"
               >
               <button class="primary-button" id="save-sheet-url" type="button">Connect</button>
             </div>
             <div id="sheet-status" class="sheet-status" aria-live="polite"></div>
             <div>
               <p>
-                <strong>To write completions back to your sheet</strong>, add a Google Apps Script
-                web app. In your sheet choose <strong>Extensions › Apps Script</strong>, paste the
-                code below, deploy as a web app (Execute as: Me, Who has access: Anyone), then
-                paste the deployment URL into the field above instead.
+                <strong>To write completions back to the sheet automatically</strong>, open
+                <strong>Extensions › Apps Script</strong> in your sheet, paste the code below,
+                and deploy it as a web app (Execute as: Me · Who has access: Anyone).
+                Paste that deployment URL into the field above instead of the CSV URL.
               </p>
               <pre class="apps-script-block">function doGet(e) {
-  const sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
+  const ss    = SpreadsheetApp.getActiveSpreadsheet();
+  const sheet = ss.getSheetByName('To Do') || ss.getActiveSheet();
   const data  = sheet.getDataRange().getValues();
   const keys  = data[0];
   const rows  = data.slice(1).map((r, i) =>
@@ -92,7 +99,8 @@
 
 function doPost(e) {
   const { row, date } = JSON.parse(e.postData.contents);
-  const sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
+  const ss    = SpreadsheetApp.getActiveSpreadsheet();
+  const sheet = ss.getSheetByName('To Do') || ss.getActiveSheet();
   sheet.getRange(row, 6).setValue(date); // column F = Date Completed
   return ContentService
     .createTextOutput(JSON.stringify({ ok: true }))
@@ -121,6 +129,12 @@ function doPost(e) {
       const CONFIG_KEY      = 'snowflake-todo-config';
       const COMPLETIONS_KEY = 'snowflake-todo-completions';
       const MAX_ACTIVE      = 5;
+
+      /* Pre-configured sheet — the "To Do" tab (gid 553696854) in the family sheet.
+         Once that tab is published to the web as CSV this URL will work without
+         any manual setup. The user can override it in Sheet Settings. */
+      const DEFAULT_SHEET_URL =
+        'https://docs.google.com/spreadsheets/d/11A5NsScePEbtN9dujN3tILb_Q2TU5tsf6I0MbT11kDY/pub?gid=553696854&single=true&output=csv';
 
       const SAMPLE_TASKS = [
         {
@@ -401,22 +415,26 @@ function doPost(e) {
           statusEl.className = 'sheet-status ok';
           render();
         } catch (err) {
-          statusEl.textContent = `Could not load sheet: ${err.message}. Showing sample data.`;
+          statusEl.textContent = `Sheet not yet published (${err.message}). Showing sample data — see Sheet Settings to activate the live connection.`;
           statusEl.className = 'sheet-status error';
           allTasks = [...SAMPLE_TASKS];
           document.getElementById('data-source').textContent = 'Sample data';
+          document.getElementById('setup-panel').classList.add('open');
+          document.getElementById('setup-toggle').textContent = 'Hide Settings';
           render();
         }
       }
 
       async function init() {
         const config = getConfig();
-        const urlInput  = document.getElementById('sheet-url-input');
-        const statusEl  = document.getElementById('sheet-status');
+        const urlInput   = document.getElementById('sheet-url-input');
+        const statusEl   = document.getElementById('sheet-status');
         const setupPanel = document.getElementById('setup-panel');
         const setupToggle = document.getElementById('setup-toggle');
 
-        if (config.sheetUrl) urlInput.value = config.sheetUrl;
+        /* Use saved URL, else fall back to the pre-configured default */
+        const activeUrl = config.sheetUrl || DEFAULT_SHEET_URL;
+        urlInput.value = activeUrl;
 
         setupToggle.addEventListener('click', () => {
           const open = setupPanel.classList.toggle('open');
@@ -432,23 +450,13 @@ function doPost(e) {
         });
 
         document.getElementById('refresh-btn').addEventListener('click', async () => {
-          if (config.sheetUrl) {
-            await loadTasks(config.sheetUrl, statusEl);
-          } else {
-            render();
-          }
+          const url = config.sheetUrl || DEFAULT_SHEET_URL;
+          await loadTasks(url, statusEl);
         });
 
-        if (config.sheetUrl) {
-          await loadTasks(config.sheetUrl, statusEl);
-        } else {
-          allTasks = [...SAMPLE_TASKS];
-          document.getElementById('data-source').textContent = 'Sample data — connect a sheet to go live';
-          render();
-          /* auto-open setup so the user knows what to do */
-          setupPanel.classList.add('open');
-          setupToggle.textContent = 'Hide Settings';
-        }
+        /* Always attempt to load from the sheet (default or saved).
+           Falls back to sample data if the sheet isn't published yet. */
+        await loadTasks(activeUrl, statusEl);
       }
 
       document.addEventListener('DOMContentLoaded', init);

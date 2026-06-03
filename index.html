@@ -1,252 +1,226 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Snowflake</title>
-    <link rel="stylesheet" href="styles.css">
-  </head>
-  <body>
-    <div class="app-shell">
-      <aside class="sidebar" aria-label="Snowflake sections">
-        <div class="brand">
-          <div class="brand-mark" aria-hidden="true">S</div>
-          <div>
-            <h1>Snowflake</h1>
-            <p>Daily family rhythm</p>
-          </div>
-        </div>
-        <nav class="nav-list" aria-label="Primary">
-          <a href="#dashboard" class="active">Daily Dashboard</a>
-          <a href="tasks.html">Daily Tasks</a>
-          <a href="#mom">Mom&apos;s Section</a>
-          <a href="#quotes">Daily Quotes</a>
-          <a href="#oliver">Oliver's Work</a>
-          <a href="brainactivation.html" class="sub-nav-link">Brain Activation</a>
-          <a href="angermanagement.html" class="sub-nav-link">Anger Management</a>
-          <a href="#logan">Logan's Work</a>
-          <a href="brainactivation.html" class="sub-nav-link">Brain Activation</a>
-          <a href="angermanagement.html" class="sub-nav-link">Anger Management</a>
-          <a href="#photos">Photo Book</a>
-          <a href="todo.html">Family To Do</a>
-        </nav>
-      </aside>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Snowflake - Daily Family Hub</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Baloo+2:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --sky: #7ec8e3;
+    --sun: #ffd166;
+    --grass: #6bcb77;
+    --coral: #ff6b6b;
+    --lavender: #c9b8ff;
+    --bg: #fff8ee;
+    --card: #ffffff;
+    --text: #2d2a4a;
+    --muted: #8a87a5;
+    --radius: 20px;
+  }
 
-      <main>
-        <section id="dashboard" class="section dashboard-section" aria-labelledby="dashboard-title">
-          <div class="section-heading">
-            <div>
-              <p class="eyebrow" id="today-label">Today</p>
-              <h2 id="dashboard-title">Daily Dashboard</h2>
-            </div>
-            <button class="secondary-button" id="reset-day" type="button">Reset Day</button>
-          </div>
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
 
-          <div class="dashboard-grid">
-            <article class="panel focus-panel">
-              <div class="panel-title-row">
-                <h3>Today&apos;s Focus</h3>
-                <span class="status-pill" id="focus-status">Ready</span>
-              </div>
-              <textarea id="focus-note" rows="5" placeholder="Write the one thing that would make today feel good."></textarea>
-            </article>
+  html,
+  body {
+    height: 100%;
+    overflow: hidden;
+  }
 
-            <article class="panel weather-panel">
-              <h3>Daily Snapshot</h3>
-              <div class="snapshot-grid">
-                <div>
-                  <span class="metric-label">Mood</span>
-                  <select id="mood-select">
-                    <option>Calm</option>
-                    <option>Bright</option>
-                    <option>Focused</option>
-                    <option>Sleepy</option>
-                    <option>Wild</option>
-                  </select>
-                </div>
-                <div>
-                  <span class="metric-label">Water</span>
-                  <div class="stepper" aria-label="Water cups">
-                    <button type="button" data-step="water" data-delta="-1">-</button>
-                    <strong id="water-count">0</strong>
-                    <button type="button" data-step="water" data-delta="1">+</button>
-                  </div>
-                </div>
-                <div>
-                  <span class="metric-label">Outside</span>
-                  <input id="outside-plan" type="text" placeholder="Walk, park, yard...">
-                </div>
-                <div>
-                  <span class="metric-label">Dinner</span>
-                  <input id="dinner-plan" type="text" placeholder="Plan for tonight">
-                </div>
-              </div>
-            </article>
+  body {
+    display: flex;
+    flex-direction: column;
+    color: var(--text);
+    background: var(--bg);
+    font-family: "Nunito", sans-serif;
+  }
 
-            <article class="panel checklist-panel">
-              <div class="panel-title-row">
-                <h3>Daily Checklist</h3>
-                <span id="checklist-count">0/5</span>
-              </div>
-              <div class="checklist" id="daily-checklist"></div>
-            </article>
+  .site-header {
+    flex-shrink: 0;
+    padding: 18px 32px 0;
+  }
 
-            <article class="panel task-jump-panel">
-              <div class="panel-title-row">
-                <h3>First Tasks</h3>
-                <span class="status-pill" id="sheet-task-count">Sheet</span>
-              </div>
-              <p>See the first open task in each category for each person.</p>
-              <a class="primary-button" href="tasks.html">Open Daily Tasks</a>
-            </article>
+  .site-title {
+    color: var(--text);
+    font-family: "Baloo 2", cursive;
+    font-size: 1.8rem;
+    font-weight: 800;
+    line-height: 1;
+  }
 
-            <article class="panel house-points-panel">
-              <div class="panel-title-row">
-                <h3>House Points</h3>
-                <span class="status-pill" id="house-points-status">Loading</span>
-              </div>
-              <div class="house-points" id="house-points"></div>
-            </article>
+  .site-title em {
+    color: var(--coral);
+    font-style: normal;
+  }
 
-            <article class="panel rhythm-panel">
-              <h3>Day Rhythm</h3>
-              <ol class="rhythm-list">
-                <li><span>Morning</span><input id="morning-plan" type="text" placeholder="Breakfast, bags, start"></li>
-                <li><span>Afternoon</span><input id="afternoon-plan" type="text" placeholder="School, work, errands"></li>
-                <li><span>Evening</span><input id="evening-plan" type="text" placeholder="Dinner, homework, reset"></li>
-              </ol>
-            </article>
-          </div>
-        </section>
+  .site-date {
+    margin-top: 2px;
+    color: var(--muted);
+    font-size: 0.85rem;
+    font-weight: 700;
+  }
 
-        <section id="mom" class="section mom-section" aria-labelledby="mom-title">
-          <div class="section-heading">
-            <div>
-              <p class="eyebrow">Mom&apos;s Section</p>
-              <h2 id="mom-title">Nine Minutes, One Steady Day</h2>
-            </div>
-            <span class="status-pill" id="mom-count">0/4</span>
-          </div>
+  .tab-bar {
+    display: flex;
+    flex-shrink: 0;
+    gap: 6px;
+    padding: 14px 32px 0;
+    overflow-x: auto;
+  }
 
-          <div class="mom-layout">
-            <article class="panel routine-panel">
-              <div class="panel-title-row">
-                <h3>9-Minute Asian Pilates Style Routine</h3>
-                <span class="routine-time">Daily</span>
-              </div>
-              <ol class="routine-list">
-                <li><span>1 min</span><strong>Standing breath and spine roll</strong><p>Feet grounded, slow inhale, soften knees, roll down and stack back up.</p></li>
-                <li><span>2 min</span><strong>Slow squat to reach</strong><p>Sink, lengthen through the crown, reach arms forward, then open the chest.</p></li>
-                <li><span>2 min</span><strong>Tabletop core taps</strong><p>Hands under shoulders, knees under hips, tap opposite hand and knee with quiet control.</p></li>
-                <li><span>2 min</span><strong>Side-lying leg sweep</strong><p>Long waist, top leg sweeps forward and back without rocking the hips.</p></li>
-                <li><span>2 min</span><strong>Seated twist and tea breath</strong><p>Gentle twist each side, then three slow breaths before standing up.</p></li>
-              </ol>
-            </article>
+  .tab-btn {
+    padding: 8px 22px;
+    color: var(--muted);
+    background: var(--card);
+    border: 0;
+    border-radius: 50px 50px 0 0;
+    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.06);
+    cursor: pointer;
+    font-family: "Baloo 2", cursive;
+    font-size: 0.92rem;
+    font-weight: 800;
+    letter-spacing: 0;
+    transition: background 0.15s, color 0.15s, transform 0.15s;
+    white-space: nowrap;
+  }
 
-            <article class="panel mom-dashboard-panel">
-              <h3>Daily Dashboard Routine</h3>
-              <div class="checklist mom-checklist" id="mom-checklist"></div>
-            </article>
+  .tab-btn:hover {
+    color: var(--text);
+  }
 
-            <article class="panel outstanding-panel">
-              <h3>Outstanding Kid Tasks</h3>
-              <div class="outstanding-list" id="outstanding-tasks"></div>
-            </article>
+  .tab-btn.active {
+    color: var(--card);
+    box-shadow: 0 -4px 16px rgba(0, 0, 0, 0.10);
+    transform: translateY(-2px);
+  }
 
-            <article class="panel recovery-panel">
-              <h3>Recovery Anchor</h3>
-              <p>Pause before fixing. Al-Anon language often calls this detaching with love: caring without taking over. For couples recovery, the matching move is one honest sentence, one request, and one repair step.</p>
-              <textarea id="recovery-note" rows="4" placeholder="Today I can care without controlling by..."></textarea>
-            </article>
+  .tab-btn[data-tab="dailyupdate"].active {
+    background: var(--coral);
+  }
 
-            <article class="panel learning-panel">
-              <h3>Cool Learning Experience</h3>
-              <p>Micro field study: choose one ordinary thing today, like a receipt, a leaf, a song, a map, or a recipe. Ask what it can teach about math, science, language, history, or emotional intelligence.</p>
-              <input id="learning-note" type="text" placeholder="Today&apos;s tiny learning adventure">
-            </article>
+  .tab-btn[data-tab="quotes"].active {
+    color: var(--text);
+    background: var(--lavender);
+  }
 
-            <article class="panel question-panel">
-              <h3>5 Questions for Each Kid</h3>
-              <ol class="question-list">
-                <li>What part of this task feels clear, and what part feels fuzzy?</li>
-                <li>What do you think your teacher wants you to practice here?</li>
-                <li>What would make this easier to start?</li>
-                <li>Where did you feel proud, stuck, rushed, or bored?</li>
-                <li>What is one small next step you can do without help?</li>
-              </ol>
-            </article>
-          </div>
-        </section>
+  .tab-btn[data-tab="tasks"].active {
+    background: var(--grass);
+  }
 
-        <section id="quotes" class="section" aria-labelledby="quotes-title">
-          <div class="section-heading">
-            <div>
-              <p class="eyebrow">Daily Quotes</p>
-              <h2 id="quotes-title">A Small Spark</h2>
-            </div>
-            <button class="secondary-button" id="new-quote" type="button">New Quote</button>
-          </div>
-          <article class="quote-card">
-            <p id="quote-text"></p>
-            <span id="quote-author"></span>
-          </article>
-        </section>
+  .tab-btn[data-tab="todo"].active {
+    color: var(--text);
+    background: var(--sun);
+  }
 
-        <section id="oliver" class="section work-section" aria-labelledby="oliver-title">
-          <div class="section-heading">
-            <div>
-              <p class="eyebrow">Oliver&apos;s Work</p>
-              <h2 id="oliver-title">Assignments & Wins</h2>
-            </div>
-            <button class="primary-button" data-add-work="oliver" type="button">Add Work</button>
-          </div>
-          <div class="work-layout">
-            <form class="work-form" data-work-form="oliver">
-              <input name="title" type="text" placeholder="Assignment or project" required>
-              <input name="subject" type="text" placeholder="Subject">
-              <input name="due" type="date">
-              <button type="submit">Save</button>
-            </form>
-            <div class="work-list" id="oliver-work"></div>
-          </div>
-        </section>
+  .tab-rule {
+    flex-shrink: 0;
+    height: 4px;
+    margin: 0 32px;
+    background: var(--card);
+    border-radius: 2px 2px 0 0;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+  }
 
-        <section id="logan" class="section work-section" aria-labelledby="logan-title">
-          <div class="section-heading">
-            <div>
-              <p class="eyebrow">Logan&apos;s Work</p>
-              <h2 id="logan-title">Assignments & Wins</h2>
-            </div>
-            <button class="primary-button" data-add-work="logan" type="button">Add Work</button>
-          </div>
-          <div class="work-layout">
-            <form class="work-form" data-work-form="logan">
-              <input name="title" type="text" placeholder="Assignment or project" required>
-              <input name="subject" type="text" placeholder="Subject">
-              <input name="due" type="date">
-              <button type="submit">Save</button>
-            </form>
-            <div class="work-list" id="logan-work"></div>
-          </div>
-        </section>
+  .frame-wrap {
+    flex: 1;
+    min-height: 0;
+    margin: 0 32px 24px;
+    overflow: hidden;
+    background: var(--card);
+    border-radius: 0 var(--radius) var(--radius) var(--radius);
+    box-shadow: 0 6px 28px rgba(0, 0, 0, 0.08);
+  }
 
-        <section id="photos" class="section" aria-labelledby="photos-title">
-          <div class="section-heading">
-            <div>
-              <p class="eyebrow">Photo Book</p>
-              <h2 id="photos-title">Family Moments</h2>
-            </div>
-            <label class="primary-button file-button">
-              Add Photos
-              <input id="photo-input" type="file" accept="image/*" multiple>
-            </label>
-          </div>
-          <div class="photo-book" id="photo-book"></div>
-        </section>
-      </main>
-    </div>
+  .tab-frame {
+    display: none;
+    width: 100%;
+    height: 100%;
+    border: 0;
+  }
 
-    <script src="snowflake-config.js"></script>
-    <script src="app.js"></script>
-  </body>
+  .tab-frame.active {
+    display: block;
+    animation: fadeSlide 0.22s ease both;
+  }
+
+  @keyframes fadeSlide {
+    from {
+      opacity: 0;
+      transform: translateY(8px);
+    }
+
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @media (max-width: 600px) {
+    .site-header,
+    .tab-bar {
+      padding-right: 12px;
+      padding-left: 12px;
+    }
+
+    .tab-rule,
+    .frame-wrap {
+      margin-right: 12px;
+      margin-left: 12px;
+    }
+
+    .tab-btn {
+      padding: 7px 14px;
+      font-size: 0.82rem;
+    }
+  }
+</style>
+</head>
+<body>
+<div class="site-header">
+  <div class="site-title">Snowflake <em>*</em></div>
+  <div class="site-date" id="header-date">Daily family hub</div>
+</div>
+
+<div class="tab-bar" role="tablist" aria-label="Snowflake pages">
+  <button class="tab-btn active" type="button" data-tab="dailyupdate">Daily Update</button>
+  <button class="tab-btn" type="button" data-tab="quotes">Quotes</button>
+  <button class="tab-btn" type="button" data-tab="tasks">Tasks</button>
+  <button class="tab-btn" type="button" data-tab="todo">Family To Do</button>
+</div>
+
+<div class="tab-rule"></div>
+
+<div class="frame-wrap">
+  <iframe class="tab-frame active" id="frame-dailyupdate" src="dailyupdate.html" title="Daily Update"></iframe>
+  <iframe class="tab-frame" id="frame-quotes" src="quotes.html" title="Daily Quotes"></iframe>
+  <iframe class="tab-frame" id="frame-tasks" src="tasks.html" title="Tasks"></iframe>
+  <iframe class="tab-frame" id="frame-todo" src="todo.html" title="Family To Do"></iframe>
+</div>
+
+<script>
+  const currentDate = new Date();
+  const dateOptions = { weekday: "long", month: "long", day: "numeric", year: "numeric" };
+  document.getElementById("header-date").textContent = currentDate.toLocaleDateString("en-CA", dateOptions);
+
+  const buttons = document.querySelectorAll(".tab-btn");
+  const frames = document.querySelectorAll(".tab-frame");
+
+  buttons.forEach((button) => {
+    button.addEventListener("click", () => {
+      const target = button.dataset.tab;
+
+      buttons.forEach((item) => item.classList.toggle("active", item === button));
+      frames.forEach((frame) => {
+        frame.classList.toggle("active", frame.id === `frame-${target}`);
+      });
+    });
+  });
+</script>
+</body>
 </html>

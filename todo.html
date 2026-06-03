@@ -1,0 +1,491 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>To Do | Snowflake</title>
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside class="sidebar" aria-label="Snowflake sections">
+        <div class="brand">
+          <div class="brand-mark" aria-hidden="true">S</div>
+          <div>
+            <h1>Snowflake</h1>
+            <p>Daily family rhythm</p>
+          </div>
+        </div>
+        <nav class="nav-list" aria-label="Primary">
+          <a href="index.html#dashboard">Daily Dashboard</a>
+          <a href="index.html#mom">Mom&apos;s Section</a>
+          <a href="index.html#quotes">Daily Quotes</a>
+          <a href="index.html#oliver">Oliver&apos;s Work</a>
+          <a href="brainactivation.html" class="sub-nav-link">Brain Activation</a>
+          <a href="angermanagement.html" class="sub-nav-link">Anger Management</a>
+          <a href="index.html#logan">Logan&apos;s Work</a>
+          <a href="brainactivation.html" class="sub-nav-link">Brain Activation</a>
+          <a href="angermanagement.html" class="sub-nav-link">Anger Management</a>
+          <a href="index.html#photos">Photo Book</a>
+          <a href="todo.html" class="active">Family To Do</a>
+        </nav>
+      </aside>
+
+      <main>
+        <section class="section todo-section" aria-labelledby="todo-title">
+          <div class="section-heading">
+            <div>
+              <p class="eyebrow">Google Sheets</p>
+              <h2 id="todo-title">Family To Do</h2>
+            </div>
+            <div class="todo-actions">
+              <span class="data-source-label" id="data-source"></span>
+              <button class="secondary-button" id="refresh-btn" type="button">Refresh</button>
+              <button class="secondary-button" id="setup-toggle" type="button">Sheet Settings</button>
+            </div>
+          </div>
+
+          <!-- Google Sheet setup panel -->
+          <div class="setup-panel" id="setup-panel" aria-label="Google Sheet connection settings">
+            <div>
+              <h4>Connected sheet — Tasks tab</h4>
+              <p>
+                This page reads from the <strong>Tasks</strong> tab in your family Google Sheet.
+                To activate the live connection, open the sheet, go to
+                <strong>File › Share › Publish to the web</strong>, select
+                <strong>Tasks</strong> (the specific tab) and <strong>Comma-separated values (.csv)</strong>,
+                click <strong>Publish</strong>, copy the URL, paste it below, then click <strong>Connect</strong>.
+              </p>
+            </div>
+            <div>
+              <p>
+                The <strong>Tasks</strong> tab columns (already set up in your sheet):<br>
+                <code>ID</code> &nbsp;·&nbsp;
+                <code>Date Added</code> &nbsp;·&nbsp;
+                <code>Responsible</code> &nbsp;·&nbsp;
+                <code>Category</code> &nbsp;·&nbsp;
+                <code>Est Time</code> &nbsp;·&nbsp;
+                <code>Task Name EN</code> &nbsp;·&nbsp;
+                <code>Task Name FR</code> &nbsp;·&nbsp;
+                <code>Description EN</code> &nbsp;·&nbsp;
+                <code>Description FR</code> &nbsp;·&nbsp;
+                <code>Date Completed</code>
+              </p>
+            </div>
+            <div class="setup-row">
+              <input
+                id="sheet-url-input"
+                type="url"
+                placeholder="Paste the published CSV URL here, then click Connect"
+              >
+              <button class="primary-button" id="save-sheet-url" type="button">Connect</button>
+            </div>
+            <div id="sheet-status" class="sheet-status" aria-live="polite"></div>
+            <div>
+              <p>
+                <strong>To write completions back to the sheet automatically</strong>, open
+                <strong>Extensions › Apps Script</strong> in your sheet, paste the code below,
+                and deploy it as a web app (Execute as: Me · Who has access: Anyone).
+                Paste that deployment URL into the field above instead of the CSV URL.
+              </p>
+              <pre class="apps-script-block">function doGet(e) {
+  const ss    = SpreadsheetApp.getActiveSpreadsheet();
+  const sheet = ss.getSheetByName('Tasks');
+  const data  = sheet.getDataRange().getValues();
+  const keys  = data[0];
+  const rows  = data.slice(1).map((r, i) =>
+    Object.fromEntries(keys.map((k, j) => [k, { value: r[j], row: i + 2 }]))
+  );
+  return ContentService
+    .createTextOutput(JSON.stringify(rows))
+    .setMimeType(ContentService.MimeType.JSON);
+}
+
+function doPost(e) {
+  const { row, date } = JSON.parse(e.postData.contents);
+  const ss    = SpreadsheetApp.getActiveSpreadsheet();
+  const sheet = ss.getSheetByName('Tasks');
+  sheet.getRange(row, 10).setValue(date); // column J = Date Completed
+  return ContentService
+    .createTextOutput(JSON.stringify({ ok: true }))
+    .setMimeType(ContentService.MimeType.JSON);
+}</pre>
+            </div>
+          </div>
+
+          <!-- Active tasks -->
+          <div class="todo-section-meta">
+            <span class="eyebrow" style="margin:0" id="active-label">Open tasks</span>
+          </div>
+          <div class="todo-grid" id="active-list" aria-label="Open tasks"></div>
+
+          <!-- Completed tasks (collapsed) -->
+          <details class="completed-toggle" id="completed-toggle">
+            <summary>Completed tasks <span class="done-count" id="done-count">0</span></summary>
+            <div class="todo-grid" id="done-list" aria-label="Completed tasks"></div>
+          </details>
+        </section>
+      </main>
+    </div>
+
+    <script>
+      /* -------- config & persistence -------- */
+      const CONFIG_KEY      = 'snowflake-todo-config';
+      const COMPLETIONS_KEY = 'snowflake-todo-completions';
+      const MAX_ACTIVE      = 5;
+
+      /* Pre-configured sheet — the "To Do" tab (gid 553696854) in the family sheet.
+         Once that tab is published to the web as CSV this URL will work without
+         any manual setup. The user can override it in Sheet Settings. */
+      const DEFAULT_SHEET_URL =
+        'https://docs.google.com/spreadsheets/d/11A5NsScePEbtN9dujN3tILb_Q2TU5tsf6I0MbT11kDY/pub?gid=553696854&single=true&output=csv';
+
+      /* Sample tasks match the real Tasks sheet schema */
+      const SAMPLE_TASKS = [
+        {
+          dateAdded: ‘2026-06-03’, responsible: ‘Oliver’, topic: ‘Housework’,
+          estTime: ‘10’, name: ‘Dishwasher’, nameFR: ‘’,
+          description: ‘Empty the dishwasher.’, descFR: ‘’, dateCompleted: ‘’
+        },
+        {
+          dateAdded: ‘2026-06-03’, responsible: ‘Oliver’, topic: ‘Housework’,
+          estTime: ‘10’, name: ‘Sweep Bedroom’, nameFR: ‘’,
+          description: ‘Clean off bedroom floor. Put away dirty laundry. Sweep under bedside table.’,
+          descFR: ‘’, dateCompleted: ‘’
+        },
+        {
+          dateAdded: ‘2026-06-03’, responsible: ‘Mom’, topic: ‘Admin’,
+          estTime: ‘15’, name: ‘Dentist appointments’, nameFR: ‘’,
+          description: ‘Book annual checkup appointments for Oliver and Logan before school ends.’,
+          descFR: ‘’, dateCompleted: ‘’
+        }
+      ];
+
+      let allTasks = [];
+      let appsScriptUrl = '';
+
+      function getConfig() {
+        try { return JSON.parse(localStorage.getItem(CONFIG_KEY) || '{}'); }
+        catch { return {}; }
+      }
+
+      function saveConfig(cfg) {
+        localStorage.setItem(CONFIG_KEY, JSON.stringify(cfg));
+      }
+
+      function getCompletions() {
+        try { return JSON.parse(localStorage.getItem(COMPLETIONS_KEY) || '{}'); }
+        catch { return {}; }
+      }
+
+      function saveCompletions(c) {
+        localStorage.setItem(COMPLETIONS_KEY, JSON.stringify(c));
+      }
+
+      function taskKey(task) {
+        return `${task.dateAdded}||${task.name}`;
+      }
+
+      function resolvedCompletion(task) {
+        if (task.dateCompleted) return task.dateCompleted;
+        return getCompletions()[taskKey(task)] || '';
+      }
+
+      /* -------- CSV fetching -------- */
+      async function fetchTasksCSV(url) {
+        const res = await fetch(url, { cache: 'no-store' });
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        return parseCSV(await res.text());
+      }
+
+      function parseCSV(text) {
+        const lines = text.replace(/\r\n/g, '\n').replace(/\r/g, '\n').trim().split('\n');
+        if (lines.length < 2) return [];
+
+        /* Map by header name so column order changes don't break anything */
+        const headers = splitCSVRow(lines[0]).map(h => h.trim());
+        function col(row, ...names) {
+          for (const n of names) {
+            const i = headers.findIndex(h => h.toLowerCase() === n.toLowerCase());
+            if (i >= 0) return (row[i] || '').trim();
+          }
+          return '';
+        }
+
+        return lines.slice(1)
+          .map(splitCSVRow)
+          .map(cols => ({
+            dateAdded:     excelOrIsoDate(col(cols, 'Date Added')),
+            responsible:   col(cols, 'Responsible'),
+            topic:         col(cols, 'Category', 'Topic'),
+            estTime:       col(cols, 'Est Time'),
+            name:          col(cols, 'Task Name EN', 'Task Name', 'Name'),
+            nameFR:        col(cols, 'Task Name FR'),
+            description:   col(cols, 'Description EN', 'Description'),
+            descFR:        col(cols, 'Description FR'),
+            dateCompleted: excelOrIsoDate(col(cols, 'Date Completed'))
+          }))
+          .filter(t => t.name);
+      }
+
+      /* Handles both ISO strings (2026-06-03) and Excel serial numbers (46176) */
+      function excelOrIsoDate(val) {
+        if (!val) return '';
+        const num = parseFloat(val);
+        if (!isNaN(num) && num > 1000 && /^[\d.]+$/.test(val.trim())) {
+          const d = new Date(Date.UTC(1899, 11, 30) + Math.round(num) * 86400000);
+          return d.toISOString().slice(0, 10);
+        }
+        return val;
+      }
+
+      function splitCSVRow(line) {
+        const result = [];
+        let cell = '', inQ = false;
+        for (let i = 0; i < line.length; i++) {
+          const c = line[i];
+          if (c === '"') {
+            if (inQ && line[i + 1] === '"') { cell += '"'; i++; }
+            else { inQ = !inQ; }
+          } else if (c === ',' && !inQ) {
+            result.push(cell); cell = '';
+          } else {
+            cell += c;
+          }
+        }
+        result.push(cell);
+        return result;
+      }
+
+      /* -------- Apps Script JSON fetch -------- */
+      async function fetchTasksAppsScript(url) {
+        const res = await fetch(url, { cache: 'no-store' });
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        const rows = await res.json();
+        return rows.map(r => ({
+          dateAdded:     excelOrIsoDate(String(r['Date Added']?.value    || '').trim()),
+          responsible:   String(r['Responsible']?.value   || '').trim(),
+          topic:         String(r['Category']?.value || r['Topic']?.value || '').trim(),
+          estTime:       String(r['Est Time']?.value       || '').trim(),
+          name:          String(r['Task Name EN']?.value || r['Task Name']?.value || '').trim(),
+          nameFR:        String(r['Task Name FR']?.value   || '').trim(),
+          description:   String(r['Description EN']?.value || r['Description']?.value || '').trim(),
+          descFR:        String(r['Description FR']?.value || '').trim(),
+          dateCompleted: excelOrIsoDate(String(r['Date Completed']?.value || '').trim()),
+          _row:          r['Task Name EN']?.row || r['Task Name']?.row
+        })).filter(t => t.name);
+      }
+
+      async function writeCompletionToSheet(url, row, date) {
+        await fetch(url, {
+          method: 'POST',
+          body: JSON.stringify({ row, date }),
+          headers: { 'Content-Type': 'application/json' }
+        });
+      }
+
+      /* -------- rendering -------- */
+      function formatDate(str) {
+        if (!str) return '';
+        const d = new Date(str + 'T12:00:00');
+        if (isNaN(d)) return str;
+        return d.toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' });
+      }
+
+      function render() {
+        const open = allTasks.filter(t => !resolvedCompletion(t));
+        const done = allTasks.filter(t => !!resolvedCompletion(t));
+        const active = open.slice(0, MAX_ACTIVE);
+
+        const activeList = document.getElementById('active-list');
+        const doneList   = document.getElementById('done-list');
+        const doneCount  = document.getElementById('done-count');
+        const activeLabel = document.getElementById('active-label');
+
+        activeList.innerHTML = '';
+        doneList.innerHTML   = '';
+
+        activeLabel.textContent = `Open tasks (${active.length}${open.length > MAX_ACTIVE ? ` of ${open.length}` : ''})`;
+        doneCount.textContent   = done.length;
+
+        if (!active.length) {
+          activeList.append(emptyEl('All caught up — no open tasks right now.'));
+        } else {
+          active.forEach(t => activeList.append(buildCard(t)));
+        }
+
+        done.forEach(t => doneList.append(buildCard(t)));
+
+        if (!done.length) {
+          document.getElementById('completed-toggle').style.display = 'none';
+        } else {
+          document.getElementById('completed-toggle').style.display = '';
+        }
+      }
+
+      function buildCard(task) {
+        const completion = resolvedCompletion(task);
+        const isDone = !!completion;
+
+        const card = document.createElement('article');
+        card.className = `todo-card${isDone ? ' completed' : ''}`;
+
+        const checkbox = document.createElement('input');
+        checkbox.type = 'checkbox';
+        checkbox.className = 'todo-checkbox';
+        checkbox.checked = isDone;
+        checkbox.setAttribute('aria-label', `Mark "${task.name}" ${isDone ? 'open' : 'complete'}`);
+        checkbox.addEventListener('change', () => toggleTask(task, checkbox.checked));
+
+        const body = document.createElement('div');
+        body.className = 'todo-body';
+
+        /* title row */
+        const titleRow = document.createElement('div');
+        titleRow.className = 'todo-title-row';
+
+        const title = document.createElement('h3');
+        title.className = `todo-title${isDone ? ' done' : ''}`;
+        title.textContent = task.name;
+
+        const badges = document.createElement('div');
+        badges.className = 'todo-meta';
+
+        if (task.topic) {
+          const b = document.createElement('span');
+          b.className = 'todo-badge topic';
+          b.textContent = task.topic;
+          badges.append(b);
+        }
+        if (task.responsible) {
+          const b = document.createElement('span');
+          b.className = 'todo-badge person';
+          b.textContent = task.responsible;
+          badges.append(b);
+        }
+        if (task.estTime) {
+          const b = document.createElement('span');
+          b.className = 'todo-badge time';
+          b.textContent = `~${task.estTime} min`;
+          badges.append(b);
+        }
+
+        titleRow.append(title, badges);
+
+        /* description */
+        const desc = document.createElement('p');
+        desc.className = 'todo-desc';
+        desc.textContent = task.description;
+
+        /* dates */
+        const dates = document.createElement('div');
+        dates.className = 'todo-dates';
+
+        const added = document.createElement('span');
+        added.textContent = task.dateAdded ? `Added ${formatDate(task.dateAdded)}` : '';
+        dates.append(added);
+
+        if (completion) {
+          const comp = document.createElement('span');
+          comp.className = 'todo-complete-date';
+          comp.textContent = `✓ Completed ${formatDate(completion)}`;
+          dates.append(comp);
+        }
+
+        body.append(titleRow, desc, dates);
+        card.append(checkbox, body);
+        return card;
+      }
+
+      async function toggleTask(task, checked) {
+        const today = new Date().toISOString().split('T')[0];
+        const completions = getCompletions();
+
+        if (checked) {
+          completions[taskKey(task)] = today;
+          /* attempt write-back if using Apps Script */
+          if (appsScriptUrl && task._row) {
+            try { await writeCompletionToSheet(appsScriptUrl, task._row, today); }
+            catch { /* silent — completion saved locally */ }
+          }
+        } else {
+          delete completions[taskKey(task)];
+        }
+
+        saveCompletions(completions);
+        render();
+      }
+
+      function emptyEl(msg) {
+        const el = document.createElement('div');
+        el.className = 'empty-state';
+        el.textContent = msg;
+        return el;
+      }
+
+      /* -------- init -------- */
+      async function loadTasks(url, statusEl) {
+        statusEl.textContent = 'Loading…';
+        statusEl.className = 'sheet-status';
+        try {
+          const isAppsScript = url.includes('script.google.com');
+          if (isAppsScript) {
+            appsScriptUrl = url;
+            allTasks = await fetchTasksAppsScript(url);
+          } else {
+            allTasks = await fetchTasksCSV(url);
+          }
+          const src = document.getElementById('data-source');
+          src.textContent = `${allTasks.length} tasks from Google Sheet`;
+          statusEl.textContent = 'Connected ✓';
+          statusEl.className = 'sheet-status ok';
+          render();
+        } catch (err) {
+          statusEl.textContent = `Sheet not yet published (${err.message}). Showing sample data — see Sheet Settings to activate the live connection.`;
+          statusEl.className = 'sheet-status error';
+          allTasks = [...SAMPLE_TASKS];
+          document.getElementById('data-source').textContent = 'Sample data';
+          document.getElementById('setup-panel').classList.add('open');
+          document.getElementById('setup-toggle').textContent = 'Hide Settings';
+          render();
+        }
+      }
+
+      async function init() {
+        const config = getConfig();
+        const urlInput   = document.getElementById('sheet-url-input');
+        const statusEl   = document.getElementById('sheet-status');
+        const setupPanel = document.getElementById('setup-panel');
+        const setupToggle = document.getElementById('setup-toggle');
+
+        /* Use saved URL, else fall back to the pre-configured default */
+        const activeUrl = config.sheetUrl || DEFAULT_SHEET_URL;
+        urlInput.value = activeUrl;
+
+        setupToggle.addEventListener('click', () => {
+          const open = setupPanel.classList.toggle('open');
+          setupToggle.textContent = open ? 'Hide Settings' : 'Sheet Settings';
+        });
+
+        document.getElementById('save-sheet-url').addEventListener('click', async () => {
+          const url = urlInput.value.trim();
+          if (!url) return;
+          config.sheetUrl = url;
+          saveConfig(config);
+          await loadTasks(url, statusEl);
+        });
+
+        document.getElementById('refresh-btn').addEventListener('click', async () => {
+          const url = config.sheetUrl || DEFAULT_SHEET_URL;
+          await loadTasks(url, statusEl);
+        });
+
+        /* Always attempt to load from the sheet (default or saved).
+           Falls back to sample data if the sheet isn't published yet. */
+        await loadTasks(activeUrl, statusEl);
+      }
+
+      document.addEventListener('DOMContentLoaded', init);
+    </script>
+  </body>
+</html>

@@ -12,12 +12,13 @@
     --grass: #6bcb77;
     --coral: #ff6b6b;
     --lavender: #c9b8ff;
+    --mint: #a8e6cf;
+    --blue: #2f80ed;
     --bg: #fff8ee;
     --card: #ffffff;
     --text: #2d2a4a;
     --muted: #8a87a5;
     --radius: 20px;
-    --mint: #a8e6cf;
   }
 
   *,
@@ -124,8 +125,8 @@
   }
 
   .tab-btn[data-tab="oliver"].active {
-    background: var(--sky);
     color: var(--text);
+    background: var(--sky);
   }
 
   .tab-btn[data-tab="logan"].active {
@@ -135,6 +136,19 @@
   .tab-btn[data-tab="hustle"].active {
     color: var(--text);
     background: var(--mint);
+  }
+
+  .tab-btn[data-tab="sheet"].active {
+    background: var(--sky);
+  }
+
+  .tab-btn[data-tab="jobs"].active {
+    background: var(--blue);
+  }
+
+  .tab-btn[data-tab="money"].active {
+    color: var(--text);
+    background: var(--sun);
   }
 
   .tab-rule {
@@ -215,6 +229,9 @@
   <button class="tab-btn" type="button" data-tab="oliver">🧒 Oliver</button>
   <button class="tab-btn" type="button" data-tab="logan">👦 Logan</button>
   <button class="tab-btn" type="button" data-tab="hustle">💼 Hustle</button>
+  <button class="tab-btn" type="button" data-tab="jobs">Jobs</button>
+  <button class="tab-btn" type="button" data-tab="money">Money</button>
+  <button class="tab-btn" type="button" data-tab="sheet">Sheet Viewer</button>
 </div>
 
 <div class="tab-rule"></div>
@@ -228,6 +245,9 @@
   <iframe class="tab-frame" id="frame-oliver" src="oliver.html" title="Oliver's Tasks"></iframe>
   <iframe class="tab-frame" id="frame-logan" src="logan.html" title="Logan's Tasks"></iframe>
   <iframe class="tab-frame" id="frame-hustle" src="hustle.html" title="Hustle"></iframe>
+  <iframe class="tab-frame" id="frame-jobs" src="jobs.html" title="Jobs"></iframe>
+  <iframe class="tab-frame" id="frame-money" src="money.html" title="Money"></iframe>
+  <iframe class="tab-frame" id="frame-sheet" src="sheet-viewer.html" title="Google Sheet Viewer"></iframe>
 </div>
 
 <script>

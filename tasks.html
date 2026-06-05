@@ -5,319 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Tasks | Snowflake</title>
 <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Baloo+2:wght@400;600;700;800&display=swap" rel="stylesheet">
-<style>
-  :root {
-    --sky:      #7ec8e3;
-    --sun:      #ffd166;
-    --grass:    #6bcb77;
-    --coral:    #ff6b6b;
-    --lavender: #c9b8ff;
-    --bg:       #fff8ee;
-    --card:     #ffffff;
-    --text:     #2d2a4a;
-    --muted:    #8a87a5;
-    --border:   #ede8f5;
-    --shadow:   0 4px 20px rgba(45,42,74,.09);
-  }
-
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-  html, body { height: 100%; }
-
-  body {
-    font-family: "Nunito", sans-serif;
-    background: var(--bg);
-    color: var(--text);
-    overflow-y: auto;
-  }
-
-  /* ── Header ── */
-  .page-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 16px 20px 12px;
-    gap: 10px;
-    flex-wrap: wrap;
-  }
-  .page-title {
-    font-family: "Baloo 2", cursive;
-    font-size: 1.35rem;
-    font-weight: 800;
-    color: var(--text);
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-  .sync-btn {
-    padding: 7px 16px;
-    border-radius: 50px;
-    background: var(--grass);
-    color: #fff;
-    font-family: "Nunito", sans-serif;
-    font-size: .8rem;
-    font-weight: 800;
-    border: none;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    transition: opacity .2s, transform .1s;
-  }
-  .sync-btn:hover { opacity: .88; transform: scale(1.03); }
-  .sync-icon { display: inline-block; }
-  .sync-btn.spinning .sync-icon { animation: spin 1s linear infinite; }
-  @keyframes spin { to { transform: rotate(360deg); } }
-
-  /* ── Leaderboard ── */
-  .leaderboard-section { padding: 0 16px 16px; }
-  .section-label {
-    font-size: .7rem;
-    font-weight: 800;
-    text-transform: uppercase;
-    letter-spacing: 1.2px;
-    color: var(--muted);
-    margin-bottom: 10px;
-    padding-left: 2px;
-  }
-
-  .leaderboard {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-    gap: 10px;
-  }
-
-  .player-card {
-    background: var(--card);
-    border-radius: 18px;
-    padding: 16px 14px 14px;
-    box-shadow: var(--shadow);
-    text-align: center;
-    position: relative;
-    border: 2px solid transparent;
-    transition: transform .2s, box-shadow .2s;
-    overflow: hidden;
-  }
-  .player-card::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 0; right: 0;
-    height: 5px;
-    border-radius: 16px 16px 0 0;
-  }
-  .player-card.rank-1::before { background: linear-gradient(90deg, #ffd166, #ffb347); }
-  .player-card.rank-2::before { background: linear-gradient(90deg, #c0c0c0, #a8a8a8); }
-  .player-card.rank-3::before { background: linear-gradient(90deg, #cd7f32, #b8860b); }
-  .player-card:hover { transform: translateY(-3px); box-shadow: 0 8px 28px rgba(45,42,74,.15); }
-
-  .rank-emoji { position: absolute; top: 11px; right: 12px; font-size: 1.1rem; }
-
-  .player-avatar {
-    width: 52px; height: 52px;
-    border-radius: 50%;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 1.5rem;
-    margin: 0 auto 8px;
-    border: 3px solid var(--border);
-  }
-  .player-name {
-    font-family: "Baloo 2", cursive;
-    font-size: .95rem;
-    font-weight: 800;
-    margin-bottom: 1px;
-  }
-  .player-level {
-    font-size: .65rem;
-    color: var(--muted);
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: .8px;
-    margin-bottom: 10px;
-  }
-  .pts-big {
-    font-family: "Baloo 2", cursive;
-    font-size: 1.9rem;
-    font-weight: 800;
-    line-height: 1;
-    margin-bottom: 2px;
-  }
-  .pts-label { font-size: .65rem; color: var(--muted); font-weight: 700; text-transform: uppercase; letter-spacing: .8px; margin-bottom: 10px; }
-
-  .xp-track { height: 7px; background: var(--border); border-radius: 99px; overflow: hidden; margin-bottom: 3px; }
-  .xp-fill  { height: 100%; border-radius: 99px; transition: width .6s ease; }
-  .xp-hint  { font-size: .62rem; color: var(--muted); text-align: right; font-weight: 700; }
-
-  .mini-stats { display: flex; justify-content: space-around; margin-top: 10px; padding-top: 10px; border-top: 1.5px solid var(--border); }
-  .mini-stat  { text-align: center; }
-  .mini-val   { font-size: .9rem; font-weight: 900; }
-  .mini-lbl   { font-size: .58rem; color: var(--muted); text-transform: uppercase; letter-spacing: .5px; font-weight: 700; }
-
-  /* ── Filter bar ── */
-  .filter-bar {
-    display: flex;
-    gap: 7px;
-    padding: 0 16px 14px;
-    flex-wrap: wrap;
-    align-items: center;
-  }
-  .filter-chip {
-    padding: 5px 14px;
-    border-radius: 50px;
-    border: 1.5px solid var(--border);
-    background: var(--card);
-    color: var(--muted);
-    font-family: "Nunito", sans-serif;
-    font-size: .75rem;
-    font-weight: 800;
-    cursor: pointer;
-    transition: all .18s;
-  }
-  .filter-chip:hover, .filter-chip.active {
-    background: var(--grass);
-    border-color: var(--grass);
-    color: #fff;
-  }
-  .search-box {
-    margin-left: auto;
-    padding: 6px 12px;
-    border-radius: 50px;
-    border: 1.5px solid var(--border);
-    background: var(--card);
-    color: var(--text);
-    font-family: "Nunito", sans-serif;
-    font-size: .8rem;
-    font-weight: 600;
-    outline: none;
-    width: 180px;
-    transition: border-color .2s;
-  }
-  .search-box:focus { border-color: var(--grass); }
-  .search-box::placeholder { color: var(--muted); }
-
-  /* ── Task grid ── */
-  .task-section { padding: 0 16px 24px; }
-  .task-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 12px; }
-
-  .task-card {
-    background: var(--card);
-    border-radius: 16px;
-    padding: 15px;
-    box-shadow: var(--shadow);
-    border-left: 5px solid var(--grass);
-    cursor: pointer;
-    transition: transform .18s, box-shadow .18s;
-    animation: pop .25s ease;
-  }
-  .task-card:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(45,42,74,.13); }
-  .task-card.done { opacity: .5; border-left-color: var(--muted); }
-  .task-card.done .task-title { text-decoration: line-through; color: var(--muted); }
-
-  @keyframes pop { from { opacity: 0; transform: scale(.97); } to { opacity: 1; transform: scale(1); } }
-
-  .task-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px; }
-  .task-title { font-weight: 800; font-size: .9rem; line-height: 1.3; flex: 1; padding-right: 8px; }
-
-  .pts-pill {
-    background: var(--sun);
-    color: #6b4e00;
-    font-size: .7rem;
-    font-weight: 900;
-    padding: 2px 8px;
-    border-radius: 99px;
-    white-space: nowrap;
-    flex-shrink: 0;
-  }
-
-  .task-tags { display: flex; gap: 5px; flex-wrap: wrap; margin-bottom: 8px; }
-  .tag {
-    font-size: .65rem;
-    padding: 2px 7px;
-    border-radius: 99px;
-    font-weight: 800;
-  }
-  .tag-person { background: #c9b8ff55; color: #4a3880; border: 1px solid #c9b8ff; }
-  .tag-topic  { background: #7ec8e344; color: #1a607a; border: 1px solid #7ec8e3; }
-  .tag-done   { background: #6bcb7733; color: #2a6b35; border: 1px solid #6bcb77; }
-  .tag-open   { background: #ffd16633; color: #7a5500; border: 1px solid #ffd166; }
-
-  .task-desc { font-size: .78rem; color: var(--muted); line-height: 1.45; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; margin-bottom: 10px; }
-
-  .task-foot { display: flex; justify-content: space-between; align-items: center; padding-top: 9px; border-top: 1.5px solid var(--border); }
-  .date-hint { font-size: .68rem; color: var(--muted); font-weight: 600; }
-
-  .complete-btn {
-    padding: 5px 12px;
-    border-radius: 50px;
-    border: 1.5px solid var(--grass);
-    background: transparent;
-    color: #2a6b35;
-    font-family: "Nunito", sans-serif;
-    font-size: .72rem;
-    font-weight: 800;
-    cursor: pointer;
-    transition: all .18s;
-  }
-  .complete-btn:hover { background: var(--grass); color: #fff; }
-  .done-btn { border-color: var(--muted) !important; color: var(--muted) !important; cursor: default !important; }
-  .done-btn:hover { background: transparent !important; }
-
-  /* ── Empty / loading ── */
-  .status-bar {
-    font-size: .78rem;
-    color: var(--muted);
-    font-weight: 600;
-    padding: 0 18px 10px;
-    display: flex;
-    align-items: center;
-    gap: 6px;
-  }
-  .empty { text-align: center; padding: 48px 20px; color: var(--muted); grid-column: 1/-1; }
-  .empty .e-icon { font-size: 2.4rem; margin-bottom: 8px; }
-  .empty h3 { font-size: .95rem; font-weight: 800; color: var(--text); margin-bottom: 4px; }
-
-  /* ── Activity ── */
-  .activity-section { padding: 0 16px 24px; }
-  .activity-list { background: var(--card); border-radius: 14px; box-shadow: var(--shadow); overflow: hidden; }
-  .activity-row {
-    display: flex; align-items: center; gap: 10px;
-    padding: 10px 14px;
-    border-bottom: 1.5px solid var(--border);
-    font-size: .82rem;
-    animation: pop .25s ease;
-  }
-  .activity-row:last-child { border-bottom: none; }
-  .a-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--grass); flex-shrink: 0; }
-  .a-text { flex: 1; color: var(--muted); }
-  .a-text strong { color: var(--text); }
-  .a-pts { color: #7a5500; font-weight: 900; font-size: .8rem; background: var(--sun); padding: 1px 8px; border-radius: 99px; }
-
-  /* ── Toast ── */
-  .toast-wrap { position: fixed; bottom: 16px; right: 16px; z-index: 99; display: flex; flex-direction: column; gap: 8px; }
-  .toast {
-    background: var(--text);
-    color: #fff;
-    padding: 11px 16px;
-    border-radius: 12px;
-    font-size: .84rem;
-    font-weight: 700;
-    box-shadow: 0 4px 18px rgba(0,0,0,.25);
-    animation: slideUp .25s ease, fadeOff .3s ease 2.7s forwards;
-  }
-  @keyframes slideUp { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
-  @keyframes fadeOff { to { opacity: 0; transform: translateY(10px); } }
-
-  /* ── Confetti ── */
-  .cf { position: fixed; border-radius: 2px; pointer-events: none; z-index: 999; animation: cffall 1.1s ease forwards; }
-  @keyframes cffall { 0%{opacity:1;transform:translateY(0) rotate(0)} 100%{opacity:0;transform:translateY(220px) rotate(630deg)} }
-
-  /* ── Error ── */
-  .err-box { background: #fff0f0; border: 1.5px solid var(--coral); border-radius: 12px; padding: 13px 16px; margin: 0 16px 14px; font-size: .82rem; color: #8b2222; line-height: 1.6; display: none; }
-  .err-box.on { display: block; }
-
-  ::-webkit-scrollbar { width: 5px; }
-  ::-webkit-scrollbar-track { background: var(--bg); }
-  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
-</style>
+<link rel="stylesheet" href="tasks.css">
 </head>
 <body>
 
@@ -335,13 +23,15 @@
 <div class="leaderboard-section">
   <div class="section-label">🏆 Points Leaderboard</div>
   <div class="leaderboard" id="leaderboard"></div>
+  <div class="section-label category-label">Category Breakdown</div>
+  <div class="category-breakdown" id="categoryBreakdown"></div>
 </div>
 
 <!-- Filters -->
 <div class="filter-bar" id="filterBar">
-  <button class="filter-chip active" data-f="all"  onclick="setFilter('all',this)">All</button>
-  <button class="filter-chip"        data-f="open" onclick="setFilter('open',this)">Open</button>
-  <button class="filter-chip"        data-f="done" onclick="setFilter('done',this)">Done</button>
+  <button class="filter-chip active" data-status="all"  onclick="setStatusFilter('all')">All</button>
+  <button class="filter-chip"        data-status="open" onclick="setStatusFilter('open')">Open</button>
+  <button class="filter-chip"        data-status="done" onclick="setStatusFilter('done')">Done</button>
   <input class="search-box" id="searchBox" placeholder="🔍 Search…" oninput="renderTasks()" />
 </div>
 
@@ -358,6 +48,17 @@
 
 <div class="toast-wrap" id="toasts"></div>
 
+<div class="worksheet-modal" id="worksheetModal" hidden>
+  <div class="worksheet-backdrop" onclick="closeWorksheet()"></div>
+  <section class="worksheet-sheet" id="worksheetSheet" aria-labelledby="worksheetTitle" role="dialog" aria-modal="true">
+    <div class="worksheet-actions">
+      <button class="sheet-action" type="button" onclick="printWorksheet()">Print PDF</button>
+      <button class="sheet-action secondary" type="button" onclick="closeWorksheet()">Close</button>
+    </div>
+    <div class="worksheet-content" id="worksheetContent"></div>
+  </section>
+</div>
+
 <script src="snowflake-config.js"></script>
 <script>
 /* ── Config ── */
@@ -367,14 +68,16 @@ const SHEET_GID = CFG.sheetGid || '553696854';
 const LV_PTS    = 50;   // pts per level up
 
 const AVATARS = { mom:'🧑‍💼', oliver:'🧒', logan:'👦', family:'👨‍👩‍👦', default:'🌟' };
-const COLORS  = { mom:'#ff6b6b', oliver:'#7ec8e3', logan:'#6bcb77', family:'#c9b8ff', default:'#ffd166' };
+const COLORS  = { mom:'#336699', oliver:'#d94b4b', logan:'#7b4bd9', family:'#c9b8ff', default:'#ffd166' };
+const CATEGORY_COLORS = ['#ffd166','#6bcb77','#7ec8e3','#c9b8ff','#ff6b6b','#f4a261','#2a9d8f','#b56576','#4d96ff','#8ac926'];
 const RANKS   = ['🥇','🥈','🥉','🎖️'];
 const CONFETTI_CLR = ['#ffd166','#6bcb77','#7ec8e3','#c9b8ff','#ff6b6b','#ffb347'];
 
 /* ── State ── */
 let G = {
   tasks: [], players: {}, activity: [], completions: {},
-  filter: 'all'
+  filters: { status: 'all', person: '', category: '' },
+  pendingCompleteKey: new URLSearchParams(location.search).get('complete') || ''
 };
 
 try {
@@ -385,6 +88,66 @@ try {
 
 function save() {
   localStorage.setItem('sf_quest', JSON.stringify({ completions: G.completions, activity: G.activity }));
+}
+
+function personColor(name) {
+  return COLORS[(name||'').toLowerCase()] || COLORS.default;
+}
+
+function categoryColor(name) {
+  const key = (name || 'Uncategorized').toLowerCase();
+  let hash = 0;
+  for (let i = 0; i < key.length; i++) hash = ((hash << 5) - hash + key.charCodeAt(i)) | 0;
+  return CATEGORY_COLORS[Math.abs(hash) % CATEGORY_COLORS.length];
+}
+
+function jsString(value) {
+  return JSON.stringify(String(value || ''));
+}
+
+function sheetEndpoint() {
+  return String(CFG.appsScriptUrl || '').trim();
+}
+
+function todayIsoDate() {
+  return new Date().toISOString().slice(0, 10);
+}
+
+function extractUrls(text) {
+  const matches = String(text || '').match(/https?:\/\/[^\s<>"')]+/g) || [];
+  return matches.map(url => ({ label: url.replace(/^https?:\/\//, ''), url }));
+}
+
+function normalizeUrl(value) {
+  const text = String(value || '').trim();
+  if(!text) return '';
+  if(/^https?:\/\//i.test(text)) return text;
+  if(/^(?:\.{0,2}\/)?[\w.-]+\/[\w./%-]+$/i.test(text)) return text;
+  if(/^[\w.-]+\.[a-z]{2,}(\/.*)?$/i.test(text)) return `https://${text}`;
+  return '';
+}
+
+function taskLinks(row, map, desc) {
+  const links = [];
+  const addLink = (label, value) => {
+    const url = normalizeUrl(value);
+    if(url) links.push({ label, url });
+  };
+  addLink('Video', map.youtubeLink >= 0 ? row[map.youtubeLink] : '');
+  addLink('Worksheet', map.worksheet >= 0 ? row[map.worksheet] : '');
+  if(map.links >= 0 && map.links < row.length) {
+    String(row[map.links] || '').split(/[\n,;]/).forEach(item => {
+      const url = normalizeUrl(item);
+      if(url) links.push({ label: item.trim().replace(/^https?:\/\//i, ''), url });
+    });
+  }
+  extractUrls(desc).forEach(link => links.push(link));
+  const seen = new Set();
+  return links.filter(link => {
+    if(seen.has(link.url)) return false;
+    seen.add(link.url);
+    return true;
+  });
 }
 
 /* ── CSV ── */
@@ -407,6 +170,67 @@ function parseCSV(raw) {
     if(row.some(c=>c))rows.push(row);
   }
   return rows;
+}
+
+function loadRowsWithGviz() {
+  if (!SHEET_ID) return Promise.reject(new Error('Missing Google Sheet ID'));
+
+  return new Promise((resolve, reject) => {
+    const callbackName = `tasksSheetCallback_${Date.now()}_${Math.random().toString(36).slice(2)}`;
+    const script = document.createElement('script');
+    const timeout = window.setTimeout(() => {
+      cleanup();
+      reject(new Error('Google Sheet did not respond'));
+    }, 12000);
+
+    function cleanup() {
+      window.clearTimeout(timeout);
+      delete window[callbackName];
+      script.remove();
+    }
+
+    window[callbackName] = payload => {
+      cleanup();
+      if (!payload || payload.status === 'error') {
+        const message = payload?.errors?.[0]?.detailed_message || 'Google Sheet returned an error';
+        reject(new Error(message));
+        return;
+      }
+
+      const table = payload.table || {};
+      const headers = (table.cols || []).map((col, index) => col.label || col.id || `Column ${index + 1}`);
+      const rows = (table.rows || []).map(row => (row.c || []).map(cell => {
+        if (!cell) return '';
+        return cell.f != null ? String(cell.f) : String(cell.v == null ? '' : cell.v);
+      }));
+      resolve([headers, ...rows]);
+    };
+
+    script.onerror = () => {
+      cleanup();
+      reject(new Error('Could not load Google Sheet'));
+    };
+
+    script.src = `https://docs.google.com/spreadsheets/d/${encodeURIComponent(SHEET_ID)}/gviz/tq?gid=${encodeURIComponent(SHEET_GID)}&tqx=responseHandler:${callbackName}`;
+    document.head.append(script);
+  });
+}
+
+async function loadRowsFromSheet() {
+  const url = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/export?format=csv${SHEET_GID?'&gid='+SHEET_GID:''}`;
+  try {
+    const r = await fetch(url, { cache:'no-store', redirect:'follow' });
+    if(!r.ok) throw new Error(`HTTP ${r.status}`);
+    const txt = await r.text();
+    if(!txt.trim()) throw new Error('Empty response');
+    return parseCSV(txt);
+  } catch(fetchError) {
+    try {
+      return await loadRowsWithGviz();
+    } catch(gvizError) {
+      throw new Error(`${fetchError.message}; fallback: ${gvizError.message}`);
+    }
+  }
 }
 
 /* ── Map sheet columns ── */
@@ -456,7 +280,10 @@ function autoMap(headers) {
     isDone:        isDoneIdx,
     dateAdded:     dateAddedIdx !== -1 ? dateAddedIdx : first(['date added','date','added','created']),
     points:        first(['points','point','pts','xp','score','value','reward']),
-    estTime:       first(['est time','est.','time','duration','minutes'])
+    estTime:       first(['est time','est.','time','duration','minutes']),
+    youtubeLink:   exact(['youtube link']) !== -1 ? exact(['youtube link']) : first(['youtube']),
+    worksheet:     exact(['worksheet']) !== -1 ? exact(['worksheet']) : first(['worksheet','work sheet']),
+    links:         first(['website','web site','url','resource'])
   };
 }
 
@@ -484,6 +311,7 @@ function buildFromRows(rows) {
     const estTime       = get(map.estTime);
     const rawPts        = get(map.points);
     const pts           = Math.max(0, parseInt(rawPts) || 0);  // honour 0-pt tasks
+    const links         = taskLinks(row, map, desc);
 
     // Determine done: check IsDone (boolean) first, then Date Completed (date string)
     const rawIsDone     = get(map.isDone);
@@ -496,7 +324,7 @@ function buildFromRows(rows) {
     const localDone = !!G.completions[key];
 
     return {
-      key, title, titleFR, person, topic, desc, pts, dateAdd, estTime,
+      key, rowNumber: i + 2, title, titleFR, person, topic, desc, pts, dateAdd, estTime, links,
       completedDate: rawCompleted || (boolDone ? rawIsDone : ''),
       sheetDone,
       isDone: sheetDone || localDone
@@ -533,13 +361,14 @@ function renderLB() {
 
   if(!players.length) {
     el.innerHTML = `<div class="empty" style="grid-column:1/-1"><div class="e-icon">👥</div><h3>No players yet</h3><p>Sync your sheet to load data</p></div>`;
+    renderCategoryBreakdown();
     return;
   }
 
   el.innerHTML = players.map((p,i) => {
     const key  = p.name.toLowerCase();
     const av   = AVATARS[key] || AVATARS.default;
-    const col  = COLORS[key]  || COLORS.default;
+    const col  = personColor(p.name);
     const lv   = Math.floor(p.pts / LV_PTS) + 1;
     const pct  = (p.pts % LV_PTS) / LV_PTS * 100;
     const left = Math.max(0, p.total - p.done);
@@ -559,42 +388,98 @@ function renderLB() {
       </div>
     </div>`;
   }).join('');
+  renderCategoryBreakdown();
+}
+
+function renderCategoryBreakdown() {
+  const el = document.getElementById('categoryBreakdown');
+  if(!el) return;
+
+  const categories = {};
+  G.tasks.forEach(t => {
+    const name = t.topic || 'Uncategorized';
+    if(!categories[name]) categories[name] = { name, total: 0, done: 0, points: 0 };
+    categories[name].total++;
+    if(t.isDone) {
+      categories[name].done++;
+      categories[name].points += t.pts;
+    }
+  });
+
+  const items = Object.values(categories).sort((a,b)=>b.points-a.points || b.done-a.done || a.name.localeCompare(b.name));
+  if(!items.length) {
+    el.innerHTML = '';
+    return;
+  }
+
+  el.innerHTML = items.map(cat => {
+    const color = categoryColor(cat.name);
+    const open = Math.max(0, cat.total - cat.done);
+    const active = G.filters.category === cat.name;
+    return `<button class="category-chip${active?' active':''}" type="button" style="border-bottom-color:${color};color:${color}" onclick="toggleCategoryFilter(${jsString(cat.name)})">
+      <span class="category-name">${x(cat.name)}</span>
+      <span class="category-meta">
+        <span>${cat.done}/${cat.total} done</span>
+        <span>${open} open</span>
+        <span>${cat.points} pts</span>
+      </span>
+    </button>`;
+  }).join('');
 }
 
 /* ── Render tasks ── */
-function setFilter(f, btn) {
-  G.filter = f;
-  document.querySelectorAll('#filterBar .filter-chip[data-f]').forEach(b=>b.classList.remove('active'));
+function renderPersonFilters() {
   document.querySelectorAll('#filterBar .pf').forEach(b=>b.remove());
-  if(btn) btn.classList.add('active');
-
-  // Add per-person chips
   const srch = document.getElementById('searchBox');
-  const people = [...new Set(G.tasks.map(t=>t.person).filter(Boolean))];
+  const people = [...new Set(G.tasks.map(t=>t.person).filter(Boolean))].sort((a,b)=>a.localeCompare(b));
   people.forEach(p => {
     const btn2 = document.createElement('button');
     btn2.className = 'filter-chip pf';
-    btn2.dataset.f = 'p_'+p;
+    btn2.dataset.person = p;
     btn2.textContent = p;
-    btn2.onclick = function(){ setFilter('p_'+p, this); };
+    btn2.onclick = function(){ togglePersonFilter(p); };
     document.getElementById('filterBar').insertBefore(btn2, srch);
   });
+  updateFilterButtons();
+}
 
-  document.querySelectorAll('#filterBar .filter-chip').forEach(b=>{
-    b.classList.toggle('active', (b.dataset.f||'')===(G.filter||'all'));
+function updateFilterButtons() {
+  document.querySelectorAll('#filterBar .filter-chip[data-status]').forEach(b=>{
+    b.classList.toggle('active', b.dataset.status === G.filters.status);
   });
+  document.querySelectorAll('#filterBar .filter-chip[data-person]').forEach(b=>{
+    b.classList.toggle('active', b.dataset.person === G.filters.person);
+  });
+}
+
+function setStatusFilter(status) {
+  G.filters.status = status;
+  updateFilterButtons();
+  renderTasks();
+}
+
+function togglePersonFilter(person) {
+  G.filters.person = G.filters.person === person ? '' : person;
+  updateFilterButtons();
+  renderTasks();
+}
+
+function toggleCategoryFilter(category) {
+  G.filters.category = G.filters.category === category ? '' : category;
+  renderCategoryBreakdown();
   renderTasks();
 }
 
 function renderTasks() {
   const grid = document.getElementById('taskGrid');
   const q = (document.getElementById('searchBox')?.value||'').toLowerCase();
-  const f = G.filter;
+  const f = G.filters;
 
   let tasks = G.tasks.filter(t => {
-    if(f==='open' && t.isDone)  return false;
-    if(f==='done' && !t.isDone) return false;
-    if(f.startsWith('p_') && t.person !== f.slice(2)) return false;
+    if(f.status==='open' && t.isDone)  return false;
+    if(f.status==='done' && !t.isDone) return false;
+    if(f.person && t.person !== f.person) return false;
+    if(f.category && (t.topic || 'Uncategorized') !== f.category) return false;
     if(q && !t.title.toLowerCase().includes(q) && !t.person.toLowerCase().includes(q) && !(t.topic||'').toLowerCase().includes(q)) return false;
     return true;
   });
@@ -605,9 +490,13 @@ function renderTasks() {
   }
 
   grid.innerHTML = tasks.map(t => {
-    const col = COLORS[(t.person||'').toLowerCase()] || COLORS.default;
+    const personCol = personColor(t.person);
+    const topicCol = categoryColor(t.topic);
     const ptsLabel = t.pts > 0 ? `⭐ ${t.pts}pt` : '—';
-    return `<div class="task-card ${t.isDone?'done':''}" style="border-left-color:${col}" onclick="openCard('${x(t.key)}')">
+    const resourceLinks = (t.links || []).filter(link => link.url).map(link =>
+      `<a class="resource-link" href="${x(link.url)}" target="_blank" rel="noopener" onclick="event.stopPropagation()">${x(link.label || 'Resource')}</a>`
+    ).join('');
+    return `<div class="task-card ${t.isDone?'done':''}" style="border-left-color:${personCol};border-bottom-color:${topicCol}" onclick="openCard('${x(t.key)}')">
       <div class="task-top">
         <div class="task-title">${x(t.title)}</div>
         <div class="pts-pill">${ptsLabel}</div>
@@ -620,6 +509,7 @@ function renderTasks() {
         <span class="tag ${t.isDone?'tag-done':'tag-open'}">${t.isDone?'✓ Done':'○ Open'}</span>
       </div>
       ${t.desc ? `<div class="task-desc">${x(t.desc)}</div>` : ''}
+      ${resourceLinks ? `<div class="task-resource-links">${resourceLinks}</div>` : ''}
       <div class="task-foot">
         <span class="date-hint">${t.dateAdd ? '📅 '+x(t.dateAdd) : ''}</span>
         <button class="complete-btn${t.isDone?' done-btn':''}" onclick="event.stopPropagation();${t.isDone?'':` doComplete('${x(t.key)}')`}">
@@ -631,9 +521,23 @@ function renderTasks() {
 }
 
 /* ── Complete ── */
-function doComplete(key) {
+async function doComplete(key) {
   const t = G.tasks.find(t=>t.key===key);
   if(!t||t.isDone) return;
+  try {
+    const endpoint = sheetEndpoint();
+    if(endpoint) {
+      const response = await fetch(endpoint, {
+        method: 'POST',
+        body: JSON.stringify({ rowNumber: t.rowNumber, completedDate: todayIsoDate() })
+      });
+      const payload = await response.json();
+      if(!response.ok || !payload.ok) throw new Error(payload.error || `Sheet endpoint returned ${response.status}`);
+    }
+  } catch(error) {
+    toast(`Could not mark complete: ${error.message}`);
+    return;
+  }
   t.isDone = true;
   G.completions[key] = { person: t.person||'Family', pts: t.pts };
   G.activity.push({ person: t.person||'Family', title: t.title, pts: t.pts });
@@ -645,7 +549,84 @@ function doComplete(key) {
 function openCard(key) {
   const t = G.tasks.find(t=>t.key===key);
   if(!t) return;
-  if(!t.isDone) doComplete(key);
+  openWorksheet(t);
+}
+
+function worksheetSteps(t) {
+  const pieces = String(t.desc || '').split(/\n+/).map(line => line.trim()).filter(Boolean);
+  if(pieces.length > 1) return pieces;
+  if(t.desc) return [t.desc];
+  return [
+    'Read the task carefully.',
+    'Gather any materials you need.',
+    'Complete the work neatly.',
+    'Mark it complete from the task card when you are done.'
+  ];
+}
+
+function openWorksheet(t) {
+  const modal = document.getElementById('worksheetModal');
+  const content = document.getElementById('worksheetContent');
+  const personCol = personColor(t.person);
+  const topicCol = categoryColor(t.topic);
+  const links = t.links || [];
+  const steps = worksheetSteps(t);
+
+  content.innerHTML = `
+    <article class="worksheet-printable" style="--person-color:${personCol};--topic-color:${topicCol}">
+      <header class="worksheet-head">
+        <div>
+          <div class="worksheet-kicker">${x(t.topic || 'Task Worksheet')}</div>
+          <h1 id="worksheetTitle">${x(t.title)}</h1>
+          ${t.titleFR ? `<p class="worksheet-fr">${x(t.titleFR)}</p>` : ''}
+        </div>
+        <div class="worksheet-points">${t.pts} pt${t.pts===1?'':'s'}</div>
+      </header>
+
+      <div class="worksheet-meta">
+        <span>${x(t.person || 'Family')}</span>
+        ${t.estTime ? `<span>${x(t.estTime)}</span>` : ''}
+        ${t.dateAdd ? `<span>Added ${x(t.dateAdd)}</span>` : ''}
+      </div>
+
+      <section class="worksheet-block">
+        <h2>Work Plan</h2>
+        <ol class="worksheet-steps">
+          ${steps.map(step => `<li>${x(step)}</li>`).join('')}
+        </ol>
+      </section>
+
+      ${links.length ? `<section class="worksheet-block">
+        <h2>Website Links</h2>
+        <ul class="worksheet-links">
+          ${links.map(link => `<li><a href="${x(link.url)}" target="_blank" rel="noopener">${x(link.label || link.url)}</a></li>`).join('')}
+        </ul>
+      </section>` : ''}
+
+      <section class="worksheet-workspace" aria-label="Writing space">
+        <div></div><div></div><div></div><div></div><div></div>
+      </section>
+    </article>`;
+
+  modal.hidden = false;
+}
+
+function closeWorksheet() {
+  document.getElementById('worksheetModal').hidden = true;
+}
+
+function printWorksheet() {
+  window.print();
+}
+
+function completePendingTask() {
+  if(!G.pendingCompleteKey) return;
+  const key = G.pendingCompleteKey;
+  G.pendingCompleteKey = '';
+  const url = new URL(location.href);
+  url.searchParams.delete('complete');
+  history.replaceState(null, '', url);
+  doComplete(key);
 }
 
 /* ── Activity feed ── */
@@ -666,19 +647,17 @@ async function sync() {
   setErr('');
   setStatus('Syncing with Google Sheet…');
 
-  const url = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/export?format=csv${SHEET_GID?'&gid='+SHEET_GID:''}`;
   try {
-    const r = await fetch(url, { redirect:'follow' });
-    if(!r.ok) throw new Error(`HTTP ${r.status}`);
-    const txt = await r.text();
-    if(!txt.trim()) throw new Error('Empty response');
-    const rows = parseCSV(txt);
+    const rows = await loadRowsFromSheet();
     if(rows.length < 2) throw new Error('No data rows found in sheet');
 
     buildFromRows(rows);
     renderLB();
-    setFilter(G.filter, null);
+    renderPersonFilters();
+    renderCategoryBreakdown();
+    renderTasks();
     renderActivity();
+    completePendingTask();
     const done = G.tasks.filter(t=>t.sheetDone).length;
     const totalPts = Object.values(G.players).reduce((s,p)=>s+p.pts,0);
     setStatus(`${G.tasks.length} tasks · ${done} completed · ${totalPts} total points earned`);
@@ -722,3 +701,4 @@ sync();
 </script>
 </body>
 </html>
+

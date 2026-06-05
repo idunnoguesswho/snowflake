@@ -1,0 +1,253 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Hustle — Today's Opportunities</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Baloo+2:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --sky: #7ec8e3;
+    --sun: #ffd166;
+    --grass: #6bcb77;
+    --coral: #ff6b6b;
+    --lavender: #c9b8ff;
+    --mint: #a8e6cf;
+    --bg: #fff8ee;
+    --card: #ffffff;
+    --text: #2d2a4a;
+    --muted: #8a87a5;
+    --radius: 16px;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: "Nunito", sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    padding: 24px 20px 40px;
+    min-height: 100vh;
+  }
+
+  h1 {
+    font-family: "Baloo 2", cursive;
+    font-size: 1.5rem;
+    font-weight: 800;
+    margin-bottom: 4px;
+  }
+
+  h1 em { color: var(--coral); font-style: normal; }
+
+  .subtitle {
+    color: var(--muted);
+    font-size: 0.85rem;
+    font-weight: 700;
+    margin-bottom: 20px;
+  }
+
+  #card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 16px;
+  }
+
+  .job-card {
+    background: var(--card);
+    border-radius: var(--radius);
+    padding: 18px 20px;
+    box-shadow: 0 4px 18px rgba(0,0,0,0.07);
+    cursor: pointer;
+    text-decoration: none;
+    color: inherit;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    border: 2px solid transparent;
+    transition: border-color 0.15s, transform 0.15s, box-shadow 0.15s;
+  }
+
+  .job-card:hover {
+    border-color: var(--coral);
+    transform: translateY(-3px);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.11);
+  }
+
+  .job-title {
+    font-family: "Baloo 2", cursive;
+    font-size: 1rem;
+    font-weight: 800;
+    line-height: 1.3;
+  }
+
+  .job-company {
+    font-weight: 700;
+    font-size: 0.9rem;
+    color: var(--coral);
+  }
+
+  .job-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 4px;
+  }
+
+  .badge {
+    background: var(--bg);
+    border-radius: 50px;
+    padding: 3px 10px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--text);
+  }
+
+  .badge.pay { background: #e8f8ed; color: #2a7a4b; }
+  .badge.type { background: #e8f0fc; color: #3a5db0; }
+  .badge.remote { background: #fff3e0; color: #8a5a00; }
+  .badge.source { background: #f3e8ff; color: #6a3faa; }
+
+  .job-location {
+    font-size: 0.82rem;
+    color: var(--muted);
+    font-weight: 600;
+  }
+
+  .open-link {
+    margin-top: 8px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: var(--coral);
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  #status {
+    text-align: center;
+    color: var(--muted);
+    font-weight: 700;
+    padding: 40px 20px;
+    font-size: 0.95rem;
+  }
+
+  #count-label {
+    font-weight: 700;
+    color: var(--muted);
+    font-size: 0.82rem;
+    margin-bottom: 16px;
+  }
+</style>
+</head>
+<body>
+<h1>Hustle <em>*</em></h1>
+<div class="subtitle" id="date-label">Today's opportunities</div>
+<div id="count-label"></div>
+<div id="status">Loading...</div>
+<div id="card-grid"></div>
+
+<script>
+  const SHEET_ID = '11A5NsScePEbtN9dujN3tILb_Q2TU5tsf6I0MbT11kDY';
+  const SHEET_NAME = 'hustle';
+
+  function todayStr() {
+    const d = new Date();
+    return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+  }
+
+  function formatDate(d) {
+    return d.toLocaleDateString('en-US', { weekday:'long', month:'long', day:'numeric', year:'numeric' });
+  }
+
+  const today = todayStr();
+  document.getElementById('date-label').textContent = formatDate(new Date());
+
+  function normalizeRow(cols, vals) {
+    const obj = {};
+    cols.forEach((c, i) => { obj[c.replace(/\s+/g,'_').toLowerCase()] = vals[i] ?? ''; });
+    return obj;
+  }
+
+  function getField(row, ...keys) {
+    for (const k of keys) {
+      const val = row[k.replace(/\s+/g,'_').toLowerCase()];
+      if (val !== undefined && val !== '') return val;
+    }
+    return '';
+  }
+
+  async function load() {
+    const url = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json&sheet=${encodeURIComponent(SHEET_NAME)}`;
+    try {
+      const res = await fetch(url);
+      const text = await res.text();
+      const json = JSON.parse(text.match(/google\.visualization\.Query\.setResponse\(([\s\S]*)\)/)[1]);
+
+      const cols = json.table.cols.map(c => c.label || c.id);
+      const rows = json.table.rows.map(r => {
+        const vals = r.c.map(cell => cell ? (cell.f ?? cell.v ?? '') : '');
+        return normalizeRow(cols, vals);
+      });
+
+      const todayRows = rows.filter(r => {
+        const d = getField(r, 'date');
+        if (!d) return false;
+        const dateStr = typeof d === 'string' ? d : String(d);
+        return dateStr.startsWith(today) || dateStr === today;
+      });
+
+      const grid = document.getElementById('card-grid');
+      const status = document.getElementById('status');
+      const countLabel = document.getElementById('count-label');
+
+      if (todayRows.length === 0) {
+        status.textContent = 'No entries found for today.';
+        return;
+      }
+
+      status.style.display = 'none';
+      countLabel.textContent = `${todayRows.length} listing${todayRows.length !== 1 ? 's' : ''} for today`;
+
+      todayRows.forEach(row => {
+        const title = getField(row, 'job_title', 'job title', 'title');
+        const company = getField(row, 'company');
+        const location = getField(row, 'location');
+        const pay = getField(row, 'pay');
+        const type = getField(row, 'type', 'employment_type', 'employment type');
+        const remote = getField(row, 'remote');
+        const source = getField(row, 'source');
+        const link = getField(row, 'link', 'url');
+
+        const card = document.createElement('a');
+        card.className = 'job-card';
+        card.href = link || '#';
+        card.target = '_blank';
+        card.rel = 'noopener noreferrer';
+        if (!link) card.style.cursor = 'default';
+
+        card.innerHTML = `
+          <div class="job-title">${title || 'Untitled'}</div>
+          <div class="job-company">${company || ''}</div>
+          ${location ? `<div class="job-location">📍 ${location}</div>` : ''}
+          <div class="job-meta">
+            ${pay ? `<span class="badge pay">💵 ${pay}</span>` : ''}
+            ${type ? `<span class="badge type">${type}</span>` : ''}
+            ${remote === 'Yes' ? `<span class="badge remote">🏠 Remote</span>` : ''}
+            ${source ? `<span class="badge source">${source}</span>` : ''}
+          </div>
+          ${link ? `<div class="open-link">View listing ↗</div>` : ''}
+        `;
+
+        grid.appendChild(card);
+      });
+
+    } catch (err) {
+      document.getElementById('status').textContent = 'Failed to load data. Check sheet permissions.';
+      console.error(err);
+    }
+  }
+
+  load();
+</script>
+</body>
+</html>

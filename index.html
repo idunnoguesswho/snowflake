@@ -17,6 +17,7 @@
     --text: #2d2a4a;
     --muted: #8a87a5;
     --radius: 20px;
+    --mint: #a8e6cf;
   }
 
   *,
@@ -118,6 +119,24 @@
     background: var(--sun);
   }
 
+  .tab-btn[data-tab="mom"].active {
+    background: var(--coral);
+  }
+
+  .tab-btn[data-tab="oliver"].active {
+    background: var(--sky);
+    color: var(--text);
+  }
+
+  .tab-btn[data-tab="logan"].active {
+    background: var(--grass);
+  }
+
+  .tab-btn[data-tab="hustle"].active {
+    color: var(--text);
+    background: var(--mint);
+  }
+
   .tab-rule {
     flex-shrink: 0;
     height: 4px;
@@ -192,6 +211,10 @@
   <button class="tab-btn" type="button" data-tab="quotes">Quotes</button>
   <button class="tab-btn" type="button" data-tab="tasks">Tasks</button>
   <button class="tab-btn" type="button" data-tab="todo">Family To Do</button>
+  <button class="tab-btn" type="button" data-tab="mom">🧑‍💼 Mom</button>
+  <button class="tab-btn" type="button" data-tab="oliver">🧒 Oliver</button>
+  <button class="tab-btn" type="button" data-tab="logan">👦 Logan</button>
+  <button class="tab-btn" type="button" data-tab="hustle">💼 Hustle</button>
 </div>
 
 <div class="tab-rule"></div>
@@ -201,6 +224,10 @@
   <iframe class="tab-frame" id="frame-quotes" src="quotes.html" title="Daily Quotes"></iframe>
   <iframe class="tab-frame" id="frame-tasks" src="tasks.html" title="Tasks"></iframe>
   <iframe class="tab-frame" id="frame-todo" src="todo.html" title="Family To Do"></iframe>
+  <iframe class="tab-frame" id="frame-mom" src="mom.html" title="Mom's Tasks"></iframe>
+  <iframe class="tab-frame" id="frame-oliver" src="oliver.html" title="Oliver's Tasks"></iframe>
+  <iframe class="tab-frame" id="frame-logan" src="logan.html" title="Logan's Tasks"></iframe>
+  <iframe class="tab-frame" id="frame-hustle" src="hustle.html" title="Hustle"></iframe>
 </div>
 
 <script>

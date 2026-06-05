@@ -1,0 +1,253 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Oliver's Tasks | Snowflake</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Baloo+2:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --accent:   #7ec8e3;
+    --accent2:  #4aa8cc;
+    --bg:       #fff8ee;
+    --card:     #ffffff;
+    --text:     #2d2a4a;
+    --muted:    #8a87a5;
+    --border:   #ede8f5;
+    --shadow:   0 4px 20px rgba(45,42,74,.09);
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { height: 100%; }
+  body { font-family: "Nunito", sans-serif; background: var(--bg); color: var(--text); overflow-y: auto; }
+
+  .hero {
+    background: linear-gradient(135deg, #7ec8e3 0%, #4aa8cc 100%);
+    padding: 24px 20px 20px;
+    color: #fff;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::after {
+    content: '🧒';
+    position: absolute;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 4rem;
+    opacity: .25;
+  }
+  .hero-name {
+    font-family: "Baloo 2", cursive;
+    font-size: 1.9rem;
+    font-weight: 800;
+    line-height: 1;
+    margin-bottom: 4px;
+    color: var(--text);
+  }
+  .hero-sub {
+    font-size: .82rem;
+    font-weight: 700;
+    color: var(--text);
+    opacity: .75;
+  }
+  .hero-badge {
+    display: inline-block;
+    margin-top: 10px;
+    background: rgba(255,255,255,.35);
+    border: 1.5px solid rgba(255,255,255,.55);
+    border-radius: 50px;
+    padding: 4px 14px;
+    font-size: .75rem;
+    font-weight: 800;
+    letter-spacing: .4px;
+    color: var(--text);
+  }
+
+  .section-label {
+    font-size: .7rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 1.2px;
+    color: var(--muted);
+    padding: 18px 18px 10px;
+  }
+
+  .task-list { padding: 0 16px 32px; display: flex; flex-direction: column; gap: 12px; }
+
+  .task-card {
+    background: var(--card);
+    border-radius: 16px;
+    padding: 16px;
+    box-shadow: var(--shadow);
+    border-left: 5px solid var(--accent);
+    transition: transform .18s, box-shadow .18s;
+    animation: pop .28s ease both;
+  }
+  .task-card:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(45,42,74,.13); }
+  .task-card.done { opacity: .55; border-left-color: var(--muted); }
+  .task-card.done .task-title { text-decoration: line-through; color: var(--muted); }
+
+  @keyframes pop { from { opacity: 0; transform: scale(.97); } to { opacity: 1; transform: scale(1); } }
+
+  .task-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 8px; margin-bottom: 6px; }
+  .task-title { font-weight: 800; font-size: .95rem; line-height: 1.3; flex: 1; }
+
+  .task-tags { display: flex; gap: 5px; flex-wrap: wrap; margin-bottom: 8px; }
+  .tag { font-size: .65rem; padding: 2px 8px; border-radius: 99px; font-weight: 800; }
+  .tag-cat   { background: #7ec8e344; color: #1a607a; border: 1px solid #7ec8e3; }
+  .tag-time  { background: #ffd16633; color: #7a5500; border: 1px solid #ffd166; }
+  .tag-open  { background: #ffd16633; color: #7a5500; border: 1px solid #ffd166; }
+  .tag-done  { background: #6bcb7733; color: #2a6b35; border: 1px solid #6bcb77; }
+
+  .task-desc { font-size: .8rem; color: var(--muted); line-height: 1.5; margin-bottom: 12px; }
+  .task-foot { display: flex; justify-content: space-between; align-items: center; padding-top: 10px; border-top: 1.5px solid var(--border); }
+  .date-hint { font-size: .68rem; color: var(--muted); font-weight: 600; }
+
+  .complete-btn {
+    padding: 5px 14px; border-radius: 50px;
+    border: 1.5px solid var(--accent2);
+    background: transparent; color: var(--accent2);
+    font-family: "Nunito", sans-serif; font-size: .75rem; font-weight: 800;
+    cursor: pointer; transition: all .18s;
+  }
+  .complete-btn:hover { background: var(--accent2); color: #fff; }
+  .done-btn { border-color: var(--muted) !important; color: var(--muted) !important; cursor: default !important; }
+  .done-btn:hover { background: transparent !important; }
+
+  .progress-bar-wrap { padding: 0 16px 6px; }
+  .progress-label { font-size: .72rem; font-weight: 700; color: var(--muted); margin-bottom: 5px; display: flex; justify-content: space-between; }
+  .progress-track { height: 8px; background: var(--border); border-radius: 99px; overflow: hidden; }
+  .progress-fill  { height: 100%; background: linear-gradient(90deg, #7ec8e3, #4aa8cc); border-radius: 99px; transition: width .5s ease; }
+
+  .toast-wrap { position: fixed; bottom: 16px; right: 16px; z-index: 99; display: flex; flex-direction: column; gap: 8px; }
+  .toast { background: var(--text); color: #fff; padding: 10px 16px; border-radius: 12px; font-size: .84rem; font-weight: 700; box-shadow: 0 4px 18px rgba(0,0,0,.25); animation: slideUp .25s ease; }
+  @keyframes slideUp { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+
+  ::-webkit-scrollbar { width: 5px; }
+  ::-webkit-scrollbar-track { background: var(--bg); }
+  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="hero-name">Oliver</div>
+  <div class="hero-sub">Today's Tasks · June 4, 2026</div>
+  <div class="hero-badge">🧒 5 tasks assigned</div>
+</div>
+
+<div class="progress-bar-wrap">
+  <div class="section-label" style="padding-bottom:6px">Progress</div>
+  <div class="progress-label">
+    <span id="prog-text">0 of 5 done</span>
+    <span id="prog-pct">0%</span>
+  </div>
+  <div class="progress-track"><div class="progress-fill" id="prog-fill" style="width:0%"></div></div>
+</div>
+
+<div class="section-label">📋 Today's Quest List</div>
+
+<div class="task-list" id="taskList"></div>
+
+<div class="toast-wrap" id="toasts"></div>
+
+<script>
+const TASKS = [
+  {
+    id: 8,
+    title: "Reading Log",
+    category: "School",
+    estTime: "",
+    desc: "Language Arts task due June 5. Read for 20 minutes and update the reading log.",
+    dateAssigned: "2026-06-04"
+  },
+  {
+    id: 48,
+    title: "Box Breathing",
+    category: "Brain Activation",
+    estTime: "5 min",
+    desc: "Breathing & Calm: Breathe in for 4, hold for 4, out for 4, hold for 4. Repeat 4 rounds.",
+    dateAssigned: "2026-06-04"
+  },
+  {
+    id: 108,
+    title: "Alateen 02 — Feelings Weather",
+    category: "Family Recovery",
+    estTime: "15 min",
+    desc: "Draw today's feelings as weather: sunny, cloudy, stormy, windy, mixed. Add one sentence: Feelings are messages, not trouble. Share only what feels okay.",
+    dateAssigned: "2026-06-04"
+  },
+  {
+    id: 137,
+    title: "French Mini Summary",
+    category: "French Review",
+    estTime: "10 min",
+    desc: "Mini résumé en français: Read one page of a French book. Say who, where, what happens, and the important idea.",
+    dateAssigned: "2026-06-04"
+  },
+  {
+    id: 145,
+    title: "Fact Sprint",
+    category: "Math Review",
+    estTime: "5 min",
+    desc: "Course de faits mathématiques: Answer as many multiplication or division facts as possible in 2 minutes, then build arrays for 3 tricky ones.",
+    dateAssigned: "2026-06-04"
+  }
+];
+
+const KEY = 'sf_oliver_tasks_2026-06-04';
+let done = {};
+try { done = JSON.parse(localStorage.getItem(KEY) || '{}'); } catch(e){}
+
+function save() { localStorage.setItem(KEY, JSON.stringify(done)); }
+
+function updateProgress() {
+  const n = Object.keys(done).length;
+  const pct = Math.round(n / TASKS.length * 100);
+  document.getElementById('prog-text').textContent = `${n} of ${TASKS.length} done`;
+  document.getElementById('prog-pct').textContent  = pct + '%';
+  document.getElementById('prog-fill').style.width  = pct + '%';
+}
+
+function render() {
+  document.getElementById('taskList').innerHTML = TASKS.map((t, i) => {
+    const isDone = !!done[t.id];
+    return `<div class="task-card${isDone ? ' done' : ''}" style="animation-delay:${i * .06}s">
+      <div class="task-top">
+        <div class="task-title">${t.title}</div>
+      </div>
+      <div class="task-tags">
+        <span class="tag tag-cat">📌 ${t.category}</span>
+        ${t.estTime ? `<span class="tag tag-time">⏱ ${t.estTime}</span>` : ''}
+        <span class="tag ${isDone ? 'tag-done' : 'tag-open'}">${isDone ? '✓ Done' : '○ Open'}</span>
+      </div>
+      <div class="task-desc">${t.desc}</div>
+      <div class="task-foot">
+        <span class="date-hint">📅 Assigned ${t.dateAssigned}</span>
+        <button class="complete-btn${isDone ? ' done-btn' : ''}"
+          onclick="${isDone ? '' : `complete(${t.id})`}">
+          ${isDone ? '✓ Done' : '+ Complete'}
+        </button>
+      </div>
+    </div>`;
+  }).join('');
+  updateProgress();
+}
+
+function complete(id) {
+  done[id] = true;
+  save(); render();
+  toast('⭐ Awesome work, Oliver!');
+}
+
+function toast(msg) {
+  const c = document.getElementById('toasts');
+  const el = document.createElement('div');
+  el.className = 'toast'; el.textContent = msg;
+  c.appendChild(el); setTimeout(() => el.remove(), 3000);
+}
+
+render();
+</script>
+</body>
+</html>

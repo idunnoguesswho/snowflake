@@ -5,41 +5,308 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Snowflake Menu</title>
   <style>
-    :root{--bg:#f6fbff;--card:#fff;--ink:#1f2937;--muted:#64748b;--accent:#7dd3fc;--accent-dark:#0369a1;--border:#dbeafe;--shadow:0 8px 24px rgba(15,23,42,.10)}
-    *{box-sizing:border-box} body{margin:0;font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:radial-gradient(circle at top left,#e0f2fe,var(--bg) 45%);color:var(--ink);min-height:100vh;padding:1rem} main{max-width:900px;margin:0 auto} header{text-align:center;margin:1rem 0 1.25rem} h1{margin:0;font-size:clamp(2rem,7vw,3.2rem);color:var(--accent-dark)} .subtitle{color:var(--muted);margin-top:.4rem}.cards{display:grid;gap:1rem}.recipe-card{border:1px solid var(--border);background:var(--card);border-radius:1.25rem;overflow:hidden;box-shadow:var(--shadow)}.card-button{width:100%;border:0;background:transparent;padding:1.1rem;text-align:left;display:grid;grid-template-columns:1fr auto;gap:.75rem;align-items:center;cursor:pointer;color:inherit}.date{display:block;font-weight:700;color:var(--accent-dark);font-size:.92rem;margin-bottom:.25rem}.recipe-name{display:block;font-size:1.35rem;font-weight:800;line-height:1.15}.chevron{font-size:1.5rem;color:var(--accent-dark);transition:transform .2s ease}.recipe-card.open .chevron{transform:rotate(90deg)}.details{display:none;border-top:1px solid var(--border);padding:0 1.1rem 1.1rem;color:#334155;line-height:1.5}.recipe-card.open .details{display:block}.details h2{font-size:1rem;margin:1rem 0 .35rem;color:var(--accent-dark)}ul,ol{margin-top:.25rem;padding-left:1.35rem}.empty{display:none;background:#fff;border:1px dashed var(--border);color:var(--muted);text-align:center;padding:2rem;border-radius:1.25rem}.home-link{display:inline-block;margin-top:1.25rem;color:var(--accent-dark);font-weight:700;text-decoration:none}.debug{font-size:.85rem;color:var(--muted);text-align:center;margin:.5rem 0 1rem}
+    :root {
+      --bg: #f7fbff;
+      --card: #ffffff;
+      --ink: #1d2733;
+      --muted: #667085;
+      --line: #dbeafe;
+      --accent: #4f8cff;
+      --accent2: #e0f2fe;
+      --shadow: 0 10px 25px rgba(30, 64, 175, 0.10);
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: radial-gradient(circle at top left, #e0f2fe, var(--bg) 45%);
+      color: var(--ink);
+    }
+    header {
+      padding: 1.25rem 1rem .75rem;
+      max-width: 980px;
+      margin: 0 auto;
+    }
+    h1 {
+      margin: 0;
+      font-size: clamp(1.8rem, 6vw, 3rem);
+      line-height: 1;
+    }
+    .sub {
+      color: var(--muted);
+      margin-top: .5rem;
+      font-size: .98rem;
+    }
+    .toolbar {
+      display: flex;
+      gap: .5rem;
+      flex-wrap: wrap;
+      margin-top: 1rem;
+    }
+    .chip {
+      border: 1px solid var(--line);
+      background: #fff;
+      border-radius: 999px;
+      padding: .55rem .8rem;
+      font-size: .9rem;
+      box-shadow: 0 3px 12px rgba(0,0,0,.04);
+    }
+    main {
+      max-width: 980px;
+      margin: 0 auto;
+      padding: .5rem 1rem 3rem;
+    }
+    .date-section { margin: 1rem 0 1.25rem; }
+    .date-title {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 1rem;
+      margin: .75rem .2rem;
+    }
+    .date-title h2 {
+      font-size: 1.1rem;
+      margin: 0;
+    }
+    .date-title span {
+      color: var(--muted);
+      font-size: .85rem;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+      gap: .85rem;
+    }
+    details.card {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 1.1rem;
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+    details.card[open] { border-color: #93c5fd; }
+    summary {
+      list-style: none;
+      cursor: pointer;
+      padding: 1rem;
+      min-height: 116px;
+    }
+    summary::-webkit-details-marker { display: none; }
+    .meal-type {
+      display: inline-flex;
+      align-items: center;
+      border-radius: 999px;
+      background: var(--accent2);
+      color: #075985;
+      padding: .28rem .55rem;
+      font-size: .78rem;
+      font-weight: 700;
+      margin-bottom: .6rem;
+    }
+    .recipe {
+      font-size: 1.12rem;
+      font-weight: 800;
+      margin: 0 0 .3rem;
+    }
+    .tap {
+      color: var(--muted);
+      font-size: .85rem;
+    }
+    .body {
+      border-top: 1px solid var(--line);
+      padding: 0 1rem 1rem;
+    }
+    .block { margin-top: .85rem; }
+    .block h3 {
+      margin: 0 0 .25rem;
+      font-size: .9rem;
+      color: #344054;
+    }
+    .block p {
+      margin: 0;
+      line-height: 1.45;
+      color: #334155;
+    }
+    .empty, .error {
+      background: #fff;
+      border: 1px dashed var(--line);
+      border-radius: 1rem;
+      padding: 1rem;
+      color: var(--muted);
+      margin-top: 1rem;
+    }
+    .error {
+      border-color: #fecaca;
+      color: #991b1b;
+      background: #fff7f7;
+    }
+    footer {
+      max-width: 980px;
+      margin: 0 auto;
+      padding: 0 1rem 2rem;
+      color: var(--muted);
+      font-size: .82rem;
+    }
+    a { color: var(--accent); }
   </style>
 </head>
 <body>
-<main>
-<header><h1>Menu</h1><div class="subtitle">Tap a card to see ingredients and instructions.</div><div id="debug" class="debug"></div></header>
-<section id="cards" class="cards" aria-live="polite"></section>
-<div id="empty" class="empty">No upcoming meals are listed. Add <strong>?showPast=1</strong> to the page URL to view archived meals.</div>
-<a class="home-link" href="./">← Back to Snowflake</a>
-</main>
+  <header>
+    <h1>Menu</h1>
+    <div class="sub" id="status">Loading from Google Sheet…</div>
+    <div class="toolbar">
+      <span class="chip">Tap a card for ingredients + instructions</span>
+      <span class="chip">Past dates hidden automatically</span>
+      <span class="chip"><a id="togglePast" href="?showPast=1">Show past for testing</a></span>
+    </div>
+  </header>
+
+  <main id="app"></main>
+
+  <footer>
+    Source: Google Sheet tab named <strong>Menu</strong>. Columns expected:
+    Date, Meal Type, Recipe Name, Ingredients, Instructions, Notes.
+  </footer>
+
 <script>
-const menuItems=[
-{date:"2026-06-07",displayDate:"Sunday, June 7, 2026",name:"Chicken Caesar Wraps",ingredients:["Rotisserie chicken","Tortillas","Salad kit","Cheese","Fruit for serving"],instructions:["Pull chicken apart.","Toss salad.","Fill wraps with chicken, salad, and cheese.","Serve with fruit."]},
-{date:"2026-06-08",displayDate:"Monday, June 8, 2026",name:"Taco Rice Bowls",ingredients:["Ground beef","Rice","Taco seasoning","Tomatoes","Cheese","Avocado"],instructions:["Cook rice.","Brown beef.","Add taco seasoning.","Build bowls with toppings."]},
-{date:"2026-06-09",displayDate:"Tuesday, June 9, 2026",name:"Creamy Chicken Pasta",ingredients:["Chicken thighs","Pasta","Pasta sauce","Sour cream","Frozen vegetables"],instructions:["Cook pasta.","Cook chicken.","Stir sauce with sour cream.","Add frozen vegetables and heat through."]},
-{date:"2026-06-10",displayDate:"Wednesday, June 10, 2026",name:"Snack Plate Dinner",ingredients:["Cheese","Crackers","Fruit","Nuts","Veggies","Yogurt","Bear Paws"],instructions:["Set out snack plate foods.","Use up open fruit, vegetables, cheese, yogurt, and snacks.","Keep it easy for a low-prep dinner night."]},
-{date:"2026-06-11",displayDate:"Thursday, June 11, 2026",name:"Leftovers & Salad Night",ingredients:["Remaining salad","Fruit","Wraps","Pasta","Snacks"],instructions:["Pull out remaining food from the week.","Finish salad, wraps, pasta, fruit, and snacks.","Clear space before the next grocery trip."]}
-];
-function todayLocalDateString(){const now=new Date();return new Intl.DateTimeFormat('en-CA',{timeZone:'America/Edmonton',year:'numeric',month:'2-digit',day:'2-digit'}).format(now);}
-function esc(s){return String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));}
-function listMarkup(items,ordered=false){const tag=ordered?'ol':'ul';return `<${tag}>${items.map(i=>`<li>${esc(i)}</li>`).join('')}</${tag}>`;}
-function renderMenu(){
- const cards=document.getElementById('cards'), empty=document.getElementById('empty'), debug=document.getElementById('debug');
- const today=todayLocalDateString();
- const showPast=new URLSearchParams(location.search).get('showPast')==='1';
- const sorted=[...menuItems].sort((a,b)=>a.date.localeCompare(b.date));
- const visible=showPast?sorted:sorted.filter(item=>item.date>=today);
- debug.textContent=`Today: ${today} • Showing ${visible.length} meal${visible.length===1?'':'s'}`;
- if(!visible.length){empty.style.display='block';cards.innerHTML='';return;}
- empty.style.display='none';
- cards.innerHTML=visible.map((item,index)=>`<article class="recipe-card"><button class="card-button" type="button" aria-expanded="false" aria-controls="recipe-${index}"><span><span class="date">${esc(item.displayDate)}</span><span class="recipe-name">${esc(item.name)}</span></span><span class="chevron" aria-hidden="true">›</span></button><div id="recipe-${index}" class="details"><h2>Ingredients</h2>${listMarkup(item.ingredients)}<h2>Instructions</h2>${listMarkup(item.instructions,true)}</div></article>`).join('');
- document.querySelectorAll('.recipe-card').forEach(card=>{const button=card.querySelector('button');button.addEventListener('click',()=>{const isOpen=card.classList.toggle('open');button.setAttribute('aria-expanded',String(isOpen));});});
+const SPREADSHEET_ID = "11A5NsScePEbtN9dujN3tILb_Q2TU5tsf6I0MbT11kDY";
+const SHEET_NAME = "Menu";
+const GVIZ_URL = `https://docs.google.com/spreadsheets/d/${SPREADSHEET_ID}/gviz/tq?tqx=out:json&sheet=${encodeURIComponent(SHEET_NAME)}`;
+
+const app = document.getElementById("app");
+const statusEl = document.getElementById("status");
+const params = new URLSearchParams(window.location.search);
+const showPast = params.get("showPast") === "1";
+
+if (showPast) {
+  document.getElementById("togglePast").textContent = "Hide past dates";
+  document.getElementById("togglePast").href = window.location.pathname;
 }
-if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',renderMenu);}else{renderMenu();}
+
+function startOfToday() {
+  const d = new Date();
+  d.setHours(0,0,0,0);
+  return d;
+}
+
+function parseDate(value) {
+  if (!value) return null;
+  const clean = String(value).trim().slice(0, 10);
+  const parts = clean.split("-");
+  if (parts.length === 3) return new Date(Number(parts[0]), Number(parts[1]) - 1, Number(parts[2]));
+  const d = new Date(value);
+  return isNaN(d) ? null : d;
+}
+
+function fmtDate(date) {
+  return date.toLocaleDateString(undefined, { weekday: "long", month: "short", day: "numeric" });
+}
+
+function esc(text) {
+  return String(text ?? "").replace(/[&<>"']/g, ch => ({
+    "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#039;"
+  }[ch]));
+}
+
+function cellValue(cell) {
+  if (!cell) return "";
+  if (cell.f) return cell.f;
+  if (cell.v == null) return "";
+  return cell.v;
+}
+
+function parseGviz(text) {
+  const json = JSON.parse(text.substring(text.indexOf("{"), text.lastIndexOf("}") + 1));
+  const cols = json.table.cols.map(c => (c.label || "").trim());
+  return json.table.rows.map(row => {
+    const obj = {};
+    cols.forEach((label, i) => obj[label || `Column ${i+1}`] = cellValue(row.c[i]));
+    return obj;
+  });
+}
+
+function normalize(row) {
+  const dateRaw = row["Date"] || row["Date "] || "";
+  const date = parseDate(dateRaw);
+  return {
+    date,
+    dateKey: date ? `${date.getFullYear()}-${String(date.getMonth()+1).padStart(2,"0")}-${String(date.getDate()).padStart(2,"0")}` : "",
+    mealType: row["Meal Type"] || row["Meal"] || "",
+    name: row["Recipe Name"] || row["Plan"] || "",
+    ingredients: row["Ingredients"] || "",
+    instructions: row["Instructions"] || row["Recipe Card"] || "",
+    notes: row["Notes"] || ""
+  };
+}
+
+function render(rows) {
+  const today = startOfToday();
+  const meals = rows
+    .map(normalize)
+    .filter(m => m.date && m.name)
+    .filter(m => showPast || m.date >= today)
+    .sort((a, b) => a.date - b.date || a.mealType.localeCompare(b.mealType) || a.name.localeCompare(b.name));
+
+  statusEl.textContent = `Today is ${fmtDate(today)}. Showing ${meals.length} upcoming menu card${meals.length === 1 ? "" : "s"}.`;
+
+  if (!meals.length) {
+    app.innerHTML = `<div class="empty">No upcoming menu cards found. Add future dates to the Menu tab, or use <a href="?showPast=1">show past</a> to test.</div>`;
+    return;
+  }
+
+  const grouped = new Map();
+  for (const meal of meals) {
+    if (!grouped.has(meal.dateKey)) grouped.set(meal.dateKey, []);
+    grouped.get(meal.dateKey).push(meal);
+  }
+
+  app.innerHTML = [...grouped.entries()].map(([dateKey, items]) => {
+    const date = items[0].date;
+    const cards = items.map(m => `
+      <details class="card">
+        <summary>
+          <div class="meal-type">${esc(m.mealType || "Meal")}</div>
+          <div class="recipe">${esc(m.name)}</div>
+          <div class="tap">Tap for ingredients and instructions</div>
+        </summary>
+        <div class="body">
+          ${m.ingredients ? `<div class="block"><h3>Ingredients</h3><p>${esc(m.ingredients)}</p></div>` : ""}
+          ${m.instructions ? `<div class="block"><h3>Instructions</h3><p>${esc(m.instructions)}</p></div>` : ""}
+          ${m.notes ? `<div class="block"><h3>Notes</h3><p>${esc(m.notes)}</p></div>` : ""}
+        </div>
+      </details>
+    `).join("");
+
+    return `
+      <section class="date-section">
+        <div class="date-title">
+          <h2>${esc(fmtDate(date))}</h2>
+          <span>${esc(dateKey)}</span>
+        </div>
+        <div class="grid">${cards}</div>
+      </section>
+    `;
+  }).join("");
+}
+
+fetch(GVIZ_URL)
+  .then(r => {
+    if (!r.ok) throw new Error(`Google Sheet returned ${r.status}`);
+    return r.text();
+  })
+  .then(text => render(parseGviz(text)))
+  .catch(err => {
+    console.error(err);
+    statusEl.textContent = "Could not load the Google Sheet.";
+    app.innerHTML = `
+      <div class="error">
+        <strong>Menu could not load from the spreadsheet.</strong><br><br>
+        The GitHub Pages site can only read the sheet if the spreadsheet is public or published to the web.
+        In Google Sheets, use <strong>File → Share → Publish to web</strong> or set sharing to anyone with the link can view.
+        Then refresh this page.
+      </div>
+    `;
+  });
 </script>
 </body>
 </html>

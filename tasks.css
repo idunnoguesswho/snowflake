@@ -258,6 +258,7 @@
   }
   .tag-person { background: #c9b8ff55; color: #4a3880; border: 1px solid #c9b8ff; }
   .tag-topic  { background: #7ec8e344; color: #1a607a; border: 1px solid #7ec8e3; cursor: pointer; }
+  .tag-assigned { background: #edf4ff; color: #1f5fb5; border: 1px solid #9cc4ff; }
   .tag-done   { background: #6bcb7733; color: #2a6b35; border: 1px solid #6bcb77; }
   .tag-open   { background: #ffd16633; color: #7a5500; border: 1px solid #ffd166; }
 
@@ -518,5 +519,4 @@
       page-break-inside: avoid;
     }
   }
-
 

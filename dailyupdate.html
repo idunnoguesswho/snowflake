@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Daily Update — June 2, 2026</title>
+<title>Daily Update - June 6, 2026</title>
 <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Baloo+2:wght@400;600;700;800&display=swap" rel="stylesheet">
 <style>
   :root{--sky:#7EC8E3;--sun:#FFD166;--grass:#6BCB77;--coral:#FF6B6B;--lavender:#C9B8FF;--peach:#FFB347;--bg:#FFF8EE;--card:#FFFFFF;--text:#2D2A4A;--muted:#8A87A5;--work:#378ADD;--errand:#1D9E75;--family:#D4537E;--task:#BA7517;--radius:20px;}
@@ -12,7 +12,7 @@
   .page-header{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:20px;flex-wrap:wrap;gap:12px;}
   .page-title{font-family:'Baloo 2',cursive;font-size:2rem;font-weight:800;color:var(--text);line-height:1.1;}
   .page-title em{color:var(--coral);font-style:normal;}
-  .alert-banner{display:flex;align-items:center;gap:12px;background:#FFF3CD;border-radius:14px;padding:12px 18px;margin-bottom:20px;font-size:.88rem;font-weight:800;color:#856404;}
+  .alert-banner{display:flex;align-items:center;gap:12px;background:#E6F7F2;border-radius:14px;padding:12px 18px;margin-bottom:20px;font-size:.88rem;font-weight:800;color:#0F6E56;}
   .metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:24px;}
   .metric{background:var(--card);border-radius:var(--radius);padding:18px 20px;box-shadow:0 4px 18px rgba(0,0,0,0.06);display:flex;flex-direction:column;gap:4px;animation:popIn .4s cubic-bezier(.34,1.56,.64,1) both;}
   .metric:nth-child(1){animation-delay:.05s}.metric:nth-child(2){animation-delay:.10s}.metric:nth-child(3){animation-delay:.15s}.metric:nth-child(4){animation-delay:.20s}
@@ -24,112 +24,87 @@
   .card{background:var(--card);border-radius:var(--radius);padding:22px 24px;box-shadow:0 4px 18px rgba(0,0,0,0.06);animation:popIn .45s cubic-bezier(.34,1.56,.64,1) both;animation-delay:.25s;}
   .card-title{font-family:'Baloo 2',cursive;font-size:1.05rem;font-weight:800;text-transform:uppercase;letter-spacing:.06em;margin-bottom:16px;display:flex;align-items:center;gap:8px;}
   .timeline{display:flex;flex-direction:column;}
-  .tl-row{display:flex;align-items:flex-start;gap:12px;padding:9px 0;border-bottom:.5px solid #F0EDE8;}
+  .tl-row{display:flex;align-items:flex-start;gap:12px;padding:10px 0;border-bottom:.5px solid #F0EDE8;}
   .tl-row:last-child{border-bottom:none;}
-  .tl-time{width:68px;flex-shrink:0;font-size:.78rem;font-weight:800;color:var(--muted);padding-top:2px;text-align:right;}
+  .tl-time{width:74px;flex-shrink:0;font-size:.78rem;font-weight:800;color:var(--muted);padding-top:2px;text-align:right;}
   .tl-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0;margin-top:5px;}
   .tl-info{flex:1;}
   .tl-name{font-size:.92rem;font-weight:800;color:var(--text);}
   .tl-sub{font-size:.76rem;color:var(--muted);font-weight:600;margin-top:2px;}
   .badge{display:inline-block;font-size:.68rem;font-weight:800;padding:2px 8px;border-radius:50px;margin-left:6px;vertical-align:middle;text-transform:uppercase;letter-spacing:.04em;}
-  .b-family{background:#FDE9EF;color:var(--family)}.b-task{background:#FDF3E3;color:var(--task)}.b-errand{background:#E6F7F2;color:var(--errand)}
-  .d-family{background:var(--family)}.d-task{background:var(--task)}.d-errand{background:var(--errand)}
+  .b-family{background:#FDE9EF;color:var(--family)}.b-task{background:#FDF3E3;color:var(--task)}.b-errand{background:#E6F7F2;color:var(--errand)}.b-work{background:#EAF3FF;color:var(--work)}
+  .d-family{background:var(--family)}.d-task{background:var(--task)}.d-errand{background:var(--errand)}.d-work{background:var(--work)}
   .right-col{display:flex;flex-direction:column;gap:18px;}
   .bar-chart{display:flex;flex-direction:column;gap:10px;}
   .bar-row{display:flex;align-items:center;gap:10px;}
-  .bar-label{width:64px;font-size:.78rem;font-weight:800;color:var(--muted);text-align:right;}
+  .bar-label{width:74px;font-size:.78rem;font-weight:800;color:var(--muted);text-align:right;}
   .bar-track{flex:1;height:10px;background:#F0EDE8;border-radius:50px;overflow:hidden;}
   .bar-fill{height:100%;border-radius:50px;}
-  .bar-val{width:36px;font-size:.78rem;font-weight:800;color:var(--muted);}
-  .inbox-list{display:flex;flex-direction:column;gap:5px;}
-  .inbox-item{display:flex;align-items:flex-start;gap:9px;padding:8px 10px;border-radius:12px;}
-  .inbox-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;margin-top:5px;}
-  .inbox-from{font-size:.82rem;font-weight:800;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:110px;}
-  .inbox-subj{font-size:.8rem;font-weight:600;color:var(--muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
-  .inbox-meta{display:flex;gap:6px;align-items:center;flex-wrap:wrap;}
-  .overdue-box{display:flex;align-items:center;gap:10px;padding:10px 14px;background:#FFF3CD;border-radius:12px;font-size:.88rem;font-weight:800;color:#856404;}
-  .allday-banner{display:flex;align-items:center;gap:10px;background:#E6F7F2;border-radius:12px;padding:8px 14px;margin-bottom:10px;font-size:.85rem;font-weight:800;color:#0F6E56;}
-  @media(max-width:700px){.metrics{grid-template-columns:1fr 1fr;}.body-grid{grid-template-columns:1fr;}}
+  .bar-val{width:48px;font-size:.78rem;font-weight:800;color:var(--muted);}
+  .inbox-list,.todo-list{display:flex;flex-direction:column;gap:5px;}
+  .inbox-item,.todo-item{display:flex;align-items:flex-start;gap:9px;padding:8px 10px;border-radius:12px;}
+  .inbox-dot,.todo-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;margin-top:5px;}
+  .inbox-from,.todo-title{font-size:.82rem;font-weight:800;color:var(--text);}
+  .inbox-subj,.todo-sub{font-size:.8rem;font-weight:600;color:var(--muted);line-height:1.35;}
+  .empty-box{display:flex;align-items:center;gap:10px;padding:10px 14px;background:#F8F5FF;border-radius:12px;font-size:.88rem;font-weight:800;color:#4A3F8A;}
+  .note{font-size:.78rem;font-weight:700;color:var(--muted);margin-top:10px;line-height:1.45;}
+  @media(max-width:700px){body{padding:20px 16px 36px}.metrics{grid-template-columns:1fr 1fr;}.body-grid{grid-template-columns:1fr;}.tl-time{width:62px}}
 </style>
 </head>
 <body>
 
 <div class="page-header">
-  <div class="page-title">Daily Update <em>🗓️</em><br>
-    <span style="font-size:1rem;font-weight:700;color:var(--muted);">Tuesday, June 2, 2026</span>
+  <div class="page-title">Daily Update <em>*</em><br>
+    <span style="font-size:1rem;font-weight:700;color:var(--muted);">Saturday, June 6, 2026</span>
   </div>
 </div>
 
 <div class="alert-banner">
-  ⚠️ Scotiabank balance below $100 &nbsp;·&nbsp; ClickUp "Cards" overdue since Jun 1 &nbsp;·&nbsp; 2 Edge Imaging downloads expiring today
+  Today is unscheduled on the primary calendar. Use the open space for school prep, Sunday School review, and one side-hustle pass.
 </div>
 
 <div class="metrics">
-  <div class="metric"><div class="m-num" style="color:var(--family);">7</div><div class="m-label">Events Today</div></div>
-  <div class="metric"><div class="m-num m-warn">1</div><div class="m-label">Task Overdue</div></div>
-  <div class="metric"><div class="m-num" style="color:var(--lavender);">8</div><div class="m-label">Unread Emails</div></div>
-  <div class="metric"><div class="m-num" style="color:var(--errand);">1</div><div class="m-label">Delivery Today</div></div>
+  <div class="metric"><div class="m-num" style="color:var(--family);">0</div><div class="m-label">Calendar Events</div></div>
+  <div class="metric"><div class="m-num" style="color:var(--task);">4</div><div class="m-label">Priority Items</div></div>
+  <div class="metric"><div class="m-num" style="color:var(--lavender);">6</div><div class="m-label">Inbox Highlights</div></div>
+  <div class="metric"><div class="m-num" style="color:var(--errand);">3</div><div class="m-label">Upcoming Dates</div></div>
 </div>
 
 <div class="body-grid">
   <div class="card">
-    <div class="card-title" style="color:var(--coral);">🗓️ Today's Timeline</div>
-    <div class="allday-banner">🗑️ All Day — Kick it to the Curb</div>
-    <div class="timeline">
+    <div class="card-title" style="color:var(--coral);">Today's Timeline</div>
+    <div class="empty-box">No primary-calendar events found for today.</div>
+    <div class="timeline" style="margin-top:10px;">
       <div class="tl-row">
-        <div class="tl-time">1:00 PM</div>
+        <div class="tl-time">Morning</div>
         <div class="tl-dot d-family"></div>
         <div class="tl-info">
-          <div class="tl-name">Field Trip Support — Harbour Pool <span class="badge b-family">Family</span></div>
-          <div class="tl-sub">2 hrs · with Sandy Senger · Google Meet</div>
+          <div class="tl-name">School support block <span class="badge b-family">Family</span></div>
+          <div class="tl-sub">Government levels, science catch-up, measurement/time, and Greek deity research prep.</div>
         </div>
       </div>
       <div class="tl-row">
-        <div class="tl-time">3:00 PM</div>
+        <div class="tl-time">Midday</div>
         <div class="tl-dot d-task"></div>
         <div class="tl-info">
-          <div class="tl-name">😎 Decompress <span class="badge b-task">Break</span></div>
-          <div class="tl-sub">15 min · Reclaim buffer</div>
+          <div class="tl-name">Sunday School review <span class="badge b-task">Church</span></div>
+          <div class="tl-sub">June 7 theme: "We are Family"; Abraham lesson; two-part handout activity and three videos.</div>
         </div>
       </div>
       <div class="tl-row">
-        <div class="tl-time">4:30 PM</div>
-        <div class="tl-dot d-family"></div>
+        <div class="tl-time">Afternoon</div>
+        <div class="tl-dot d-work"></div>
         <div class="tl-info">
-          <div class="tl-name">Cooking / Dinner <span class="badge b-family">Family</span></div>
-          <div class="tl-sub">1.5 hrs</div>
+          <div class="tl-name">Side-hustle scan <span class="badge b-work">Work</span></div>
+          <div class="tl-sub">8 remote part-time leads arrived June 5: tutoring, video editing, and admin options.</div>
         </div>
       </div>
       <div class="tl-row">
-        <div class="tl-time">6:00 PM</div>
-        <div class="tl-dot d-family"></div>
+        <div class="tl-time">Evening</div>
+        <div class="tl-dot d-errand"></div>
         <div class="tl-info">
-          <div class="tl-name">1:1 — Logan <span class="badge b-family">Family</span></div>
-          <div class="tl-sub">30 min · Google Meet</div>
-        </div>
-      </div>
-      <div class="tl-row">
-        <div class="tl-time">6:30 PM</div>
-        <div class="tl-dot d-task"></div>
-        <div class="tl-info">
-          <div class="tl-name">Moms Reset <span class="badge b-task">Self-care</span></div>
-          <div class="tl-sub">30 min</div>
-        </div>
-      </div>
-      <div class="tl-row">
-        <div class="tl-time">7:00 PM</div>
-        <div class="tl-dot d-family"></div>
-        <div class="tl-info">
-          <div class="tl-name">1:1 Time — Oliver <span class="badge b-family">Family</span></div>
-          <div class="tl-sub">30 min · Google Meet</div>
-        </div>
-      </div>
-      <div class="tl-row">
-        <div class="tl-time">7:30 PM</div>
-        <div class="tl-dot d-task"></div>
-        <div class="tl-info">
-          <div class="tl-name">😎 Decompress <span class="badge b-task">Break</span></div>
-          <div class="tl-sub">15 min</div>
+          <div class="tl-name">Reset and plan <span class="badge b-errand">Admin</span></div>
+          <div class="tl-sub">Confirm Monday field-trip prep and make sure school library books are ready for Tuesday.</div>
         </div>
       </div>
     </div>
@@ -137,34 +112,36 @@
 
   <div class="right-col">
     <div class="card">
-      <div class="card-title" style="color:var(--work);">📊 Time Breakdown</div>
+      <div class="card-title" style="color:var(--work);">Focus Breakdown</div>
       <div class="bar-chart">
-        <div class="bar-row"><div class="bar-label" style="color:var(--family);">Family</div><div class="bar-track"><div class="bar-fill" style="width:90%;background:var(--family)"></div></div><div class="bar-val">4.5h</div></div>
-        <div class="bar-row"><div class="bar-label" style="color:var(--task);">Self-care</div><div class="bar-track"><div class="bar-fill" style="width:20%;background:var(--task)"></div></div><div class="bar-val">1h</div></div>
-        <div class="bar-row"><div class="bar-label" style="color:var(--errand);">Errand</div><div class="bar-track"><div class="bar-fill" style="width:4%;background:var(--errand)"></div></div><div class="bar-val">—</div></div>
+        <div class="bar-row"><div class="bar-label" style="color:var(--family);">School</div><div class="bar-track"><div class="bar-fill" style="width:85%;background:var(--family)"></div></div><div class="bar-val">High</div></div>
+        <div class="bar-row"><div class="bar-label" style="color:var(--task);">Church</div><div class="bar-track"><div class="bar-fill" style="width:65%;background:var(--task)"></div></div><div class="bar-val">Prep</div></div>
+        <div class="bar-row"><div class="bar-label" style="color:var(--work);">Hustle</div><div class="bar-track"><div class="bar-fill" style="width:45%;background:var(--work)"></div></div><div class="bar-val">Scan</div></div>
+        <div class="bar-row"><div class="bar-label" style="color:var(--errand);">Errands</div><div class="bar-track"><div class="bar-fill" style="width:35%;background:var(--errand)"></div></div><div class="bar-val">Light</div></div>
       </div>
     </div>
+
     <div class="card">
-      <div class="card-title" style="color:#C0392B;">⚠️ Overdue Task</div>
-      <div class="overdue-box">
-        <span style="font-size:1.4rem;">📋</span>
-        <div>
-          <div style="font-size:.92rem;">Cards — overdue since Jun 1</div>
-          <div style="font-size:.78rem;font-weight:600;color:#A04000;margin-top:2px;">ClickUp · Small Business / FSCBC / Church</div>
-        </div>
+      <div class="card-title" style="color:#C0392B;">Priority Items</div>
+      <div class="todo-list">
+        <div class="todo-item"><div class="todo-dot" style="background:var(--family)"></div><div><div class="todo-title">Logan school prep</div><div class="todo-sub">Government, science, measurement/time, and Greek deity research are the active supports from Erin's update.</div></div></div>
+        <div class="todo-item"><div class="todo-dot" style="background:var(--task)"></div><div><div class="todo-title">Sunday School</div><div class="todo-sub">Review attached June 7 lessons before teaching the handout and video activity.</div></div></div>
+        <div class="todo-item"><div class="todo-dot" style="background:var(--errand)"></div><div><div class="todo-title">Library books</div><div class="todo-sub">French and English library books are due Tuesday, June 9.</div></div></div>
+        <div class="todo-item"><div class="todo-dot" style="background:var(--work)"></div><div><div class="todo-title">TestingTime and hustle leads</div><div class="todo-sub">Check available studies and shortlist the best-paid tutoring or admin leads.</div></div></div>
       </div>
     </div>
+
     <div class="card">
-      <div class="card-title" style="color:var(--lavender);">📬 Inbox Highlights</div>
+      <div class="card-title" style="color:var(--lavender);">Inbox Highlights</div>
       <div class="inbox-list">
-        <div class="inbox-item"><div class="inbox-dot" style="background:var(--coral)"></div><div><div class="inbox-meta"><div class="inbox-from">Scotiabank</div><div class="inbox-subj">⚠️ Account balance below $100</div></div></div></div>
-        <div class="inbox-item"><div class="inbox-dot" style="background:var(--errand)"></div><div><div class="inbox-meta"><div class="inbox-from">Ballista</div><div class="inbox-subj">Order B-12434 out for delivery today</div></div></div></div>
-        <div class="inbox-item"><div class="inbox-dot" style="background:var(--lavender)"></div><div><div class="inbox-meta"><div class="inbox-from">Edge Imaging</div><div class="inbox-subj">Digital download expiring soon (×2)</div></div></div></div>
-        <div class="inbox-item"><div class="inbox-dot" style="background:var(--task)"></div><div><div class="inbox-meta"><div class="inbox-from">ClickUp</div><div class="inbox-subj">[Overdue] Cards — FSCBC / Church</div></div></div></div>
-        <div class="inbox-item"><div class="inbox-dot" style="background:var(--sun)"></div><div><div class="inbox-meta"><div class="inbox-from">LEGO</div><div class="inbox-subj">Early access — Minas Tirith set</div></div></div></div>
-        <div class="inbox-item"><div class="inbox-dot" style="background:var(--muted)"></div><div><div class="inbox-meta"><div class="inbox-from">Edmonton Family</div><div class="inbox-subj">67+ free things to do in June with kids</div></div></div></div>
-        <div class="inbox-item"><div class="inbox-dot" style="background:var(--muted)"></div><div><div class="inbox-meta"><div class="inbox-from">Duolingo</div><div class="inbox-subj">Protect your Friend Streak now</div></div></div></div>
+        <div class="inbox-item"><div class="inbox-dot" style="background:var(--family)"></div><div><div class="inbox-from">Erin Belcourt</div><div class="inbox-subj">Report-card/class update: home prep can reduce school friction.</div></div></div>
+        <div class="inbox-item"><div class="inbox-dot" style="background:var(--family)"></div><div><div class="inbox-from">Erin Belcourt</div><div class="inbox-subj">June newsletter: field trip June 8, library books June 9, French readers June 15-19.</div></div></div>
+        <div class="inbox-item"><div class="inbox-dot" style="background:var(--task)"></div><div><div class="inbox-from">Angel Seney</div><div class="inbox-subj">June 7 Sunday School lesson details and attachments.</div></div></div>
+        <div class="inbox-item"><div class="inbox-dot" style="background:var(--work)"></div><div><div class="inbox-from">Daily Hustle</div><div class="inbox-subj">8 remote opportunities from June 4 batch, delivered June 5.</div></div></div>
+        <div class="inbox-item"><div class="inbox-dot" style="background:var(--work)"></div><div><div class="inbox-from">TestingTime</div><div class="inbox-subj">New paid research studies available in the dashboard.</div></div></div>
+        <div class="inbox-item"><div class="inbox-dot" style="background:var(--errand)"></div><div><div class="inbox-from">Erin Belcourt</div><div class="inbox-subj">Father's Day kickball RSVP requested by Friday, June 19.</div></div></div>
       </div>
+      <div class="note">Data refreshed from primary Google Calendar and recent Gmail inbox messages on June 6, 2026.</div>
     </div>
   </div>
 </div>

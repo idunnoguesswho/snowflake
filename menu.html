@@ -1,0 +1,314 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Menu | Snowflake</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Baloo+2:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --sun:      #ffd166;
+    --grass:    #6bcb77;
+    --sky:      #7ec8e3;
+    --coral:    #ff6b6b;
+    --lavender: #c9b8ff;
+    --peach:    #ffb347;
+    --bg:       #fff8ee;
+    --card:     #ffffff;
+    --text:     #2d2a4a;
+    --muted:    #8a87a5;
+    --border:   #ede8f5;
+    --shadow:   0 4px 20px rgba(45,42,74,.08);
+    --radius:   18px;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: "Nunito", sans-serif; background: var(--bg); color: var(--text); padding: 20px 20px 48px; }
+
+  .page-header { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px; margin-bottom: 16px; }
+  .page-title  { font-family: "Baloo 2", cursive; font-size: 1.7rem; font-weight: 800; line-height: 1.1; }
+  .page-title em { color: var(--coral); font-style: normal; }
+
+  /* Filter bar */
+  .filter-bar { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 20px; align-items: center; }
+  .filter-label { font-size: .72rem; font-weight: 800; color: var(--muted); text-transform: uppercase; letter-spacing: .8px; margin-right: 4px; }
+  .chip {
+    padding: 5px 14px; border-radius: 50px; border: 1.5px solid var(--border);
+    background: var(--card); color: var(--muted); font-family: "Nunito", sans-serif;
+    font-size: .78rem; font-weight: 800; cursor: pointer; transition: all .15s;
+  }
+  .chip:hover { border-color: var(--text); color: var(--text); }
+  .chip.active { background: var(--text); color: #fff; border-color: var(--text); }
+
+  /* Status */
+  .status { font-size: .8rem; color: var(--muted); font-weight: 700; margin-bottom: 18px; min-height: 20px; }
+
+  /* Date group */
+  .date-group { margin-bottom: 28px; }
+  .date-heading {
+    font-family: "Baloo 2", cursive; font-size: 1.05rem; font-weight: 800;
+    padding: 6px 0 10px; display: flex; align-items: center; gap: 8px;
+    border-bottom: 2px solid var(--border); margin-bottom: 14px;
+  }
+  .date-badge {
+    font-size: .68rem; font-weight: 800; padding: 2px 10px; border-radius: 50px;
+    background: var(--sun); color: #7a5500;
+  }
+  .date-badge.today { background: var(--grass); color: #1a5c25; }
+
+  /* Meal grid */
+  .meal-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 14px; }
+
+  /* Meal card */
+  .meal-card {
+    background: var(--card); border-radius: var(--radius); padding: 16px;
+    box-shadow: var(--shadow); border-left: 5px solid var(--border);
+    transition: transform .15s, box-shadow .15s;
+    animation: pop .28s ease both;
+  }
+  .meal-card:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(45,42,74,.12); }
+  @keyframes pop { from { opacity: 0; transform: scale(.97); } to { opacity: 1; transform: scale(1); } }
+
+  .meal-type-tag {
+    display: inline-block; font-size: .65rem; font-weight: 800; padding: 2px 9px;
+    border-radius: 50px; margin-bottom: 8px; text-transform: uppercase; letter-spacing: .5px;
+  }
+  .meal-name { font-weight: 800; font-size: .95rem; line-height: 1.3; margin-bottom: 8px; }
+  .meal-section { font-size: .72rem; font-weight: 800; color: var(--muted); text-transform: uppercase; letter-spacing: .5px; margin: 10px 0 4px; }
+  .meal-text { font-size: .8rem; color: var(--muted); line-height: 1.5; }
+  .meal-notes {
+    margin-top: 10px; padding: 7px 10px; border-radius: 10px;
+    background: #fffbe8; border: 1px solid #ffd166; font-size: .75rem; color: #7a5500; font-weight: 700;
+  }
+
+  /* Meal type colours */
+  .mt-breakfast  { background: #fff0dc; color: #c97000; border-color: var(--peach); }
+  .mt-lunch      { background: #e8f7ed; color: #1a6e35; border-color: var(--grass); }
+  .mt-supper,
+  .mt-dinner     { background: #ffe8e8; color: #a32020; border-color: var(--coral); }
+  .mt-snack      { background: #f0eeff; color: #5e3db3; border-color: var(--lavender); }
+  .mt-other      { background: #e8f4ff; color: #1a5a8a; border-color: var(--sky); }
+
+  /* card accent by meal type */
+  .card-breakfast  { border-left-color: var(--peach); }
+  .card-lunch      { border-left-color: var(--grass); }
+  .card-supper,
+  .card-dinner     { border-left-color: var(--coral); }
+  .card-snack      { border-left-color: var(--lavender); }
+  .card-other      { border-left-color: var(--sky); }
+
+  .empty { text-align: center; padding: 40px 20px; color: var(--muted); font-weight: 700; font-size: .95rem; }
+
+  ::-webkit-scrollbar { width: 5px; }
+  ::-webkit-scrollbar-track { background: var(--bg); }
+  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+
+  @media (max-width: 500px) {
+    body { padding: 14px 12px 48px; }
+    .meal-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<div class="page-header">
+  <div class="page-title">🍽️ Weekly Menu <em>*</em></div>
+</div>
+
+<div class="filter-bar">
+  <span class="filter-label">Type:</span>
+  <button class="chip active" data-type="all"       onclick="setType('all')">All</button>
+  <button class="chip"        data-type="breakfast" onclick="setType('breakfast')">🌅 Breakfast</button>
+  <button class="chip"        data-type="lunch"     onclick="setType('lunch')">🥗 Lunch</button>
+  <button class="chip"        data-type="supper"    onclick="setType('supper')">🍽️ Supper</button>
+  <button class="chip"        data-type="snack"     onclick="setType('snack')">🍎 Snack</button>
+</div>
+
+<div class="status" id="status">Loading menu from sheet…</div>
+
+<div id="menuContainer"></div>
+
+<script>
+const SHEET_ID   = '11A5NsScePEbtN9dujN3tILb_Q2TU5tsf6I0MbT11kDY';
+const SHEET_NAME = 'Menu';
+
+let ALL_ROWS  = [];  // parsed meal objects
+let typeFilter = 'all';
+
+const TODAY = (() => {
+  const d = new Date();
+  return d.toISOString().slice(0, 10);
+})();
+
+/* ── CSV ── */
+function parseCSV(raw) {
+  const rows = []; let i = 0, n = raw.length;
+  while (i < n) {
+    const row = [];
+    while (i < n && raw[i] !== '\n' && raw[i] !== '\r') {
+      if (raw[i] === '"') {
+        let c = ''; i++;
+        while (i < n) {
+          if (raw[i] === '"' && raw[i+1] === '"') { c += '"'; i += 2; }
+          else if (raw[i] === '"') { i++; break; }
+          else c += raw[i++];
+        }
+        row.push(c.trim()); if (raw[i] === ',') i++;
+      } else {
+        let c = '';
+        while (i < n && raw[i] !== ',' && raw[i] !== '\n' && raw[i] !== '\r') c += raw[i++];
+        row.push(c.trim()); if (raw[i] === ',') i++;
+      }
+    }
+    while (raw[i] === '\n' || raw[i] === '\r') i++;
+    if (row.some(c => c)) rows.push(row);
+  }
+  return rows;
+}
+
+/* ── Fetch ── */
+async function loadMenu() {
+  const url = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:csv&sheet=${encodeURIComponent(SHEET_NAME)}`;
+  try {
+    const r = await fetch(url, { cache: 'no-store' });
+    if (!r.ok) throw new Error(`HTTP ${r.status}`);
+    const txt = await r.text();
+    if (!txt.trim()) throw new Error('Empty');
+    return parseCSV(txt);
+  } catch(e) {
+    throw e;
+  }
+}
+
+/* ── Parse rows → meal objects ── */
+function buildMeals(rows) {
+  if (rows.length < 2) return [];
+  const h = rows[0].map(x => x.toLowerCase().trim());
+  const col = kw => h.findIndex(c => c.includes(kw));
+
+  const iDate  = col('date');
+  const iType  = col('meal type') !== -1 ? col('meal type') : col('type');
+  const iName  = col('recipe')    !== -1 ? col('recipe')    : (col('name') !== -1 ? col('name') : 2);
+  const iIngr  = col('ingredient') !== -1 ? col('ingredient') : 3;
+  const iInstr = col('instruction') !== -1 ? col('instruction') : 4;
+  const iNotes = col('note') !== -1 ? col('note') : 5;
+
+  const get = (r, i) => (i >= 0 && i < r.length ? r[i] : '').trim();
+
+  return rows.slice(1)
+    .map(r => ({
+      date:         get(r, iDate),
+      mealType:     get(r, iType),
+      recipeName:   get(r, iName),
+      ingredients:  get(r, iIngr),
+      instructions: get(r, iInstr),
+      notes:        get(r, iNotes),
+    }))
+    .filter(m => m.date && m.recipeName)
+    .filter(m => m.date >= TODAY)                    // hide past dates
+    .sort((a, b) => {
+      if (a.date !== b.date) return a.date.localeCompare(b.date);
+      return mealOrder(a.mealType) - mealOrder(b.mealType);
+    });
+}
+
+const MEAL_ORDER = { breakfast: 0, lunch: 1, 'kids lunch': 1, 'man lunch': 1, 'wife lunch': 1, supper: 2, dinner: 2, snack: 3 };
+function mealOrder(t) {
+  return MEAL_ORDER[(t || '').toLowerCase()] ?? 4;
+}
+
+function mealTypeKey(t) {
+  const s = (t || '').toLowerCase();
+  if (s.includes('breakfast')) return 'breakfast';
+  if (s.includes('lunch'))     return 'lunch';
+  if (s.includes('supper') || s.includes('dinner')) return 'supper';
+  if (s.includes('snack'))     return 'snack';
+  return 'other';
+}
+
+const MEAL_EMOJI = { breakfast: '🌅', lunch: '🥗', supper: '🍽️', dinner: '🍽️', snack: '🍎', other: '🍴' };
+
+/* ── Render ── */
+function formatDate(iso) {
+  if (!iso) return '';
+  const d = new Date(iso + 'T12:00:00');
+  return d.toLocaleDateString('en-CA', { weekday: 'long', month: 'long', day: 'numeric' });
+}
+
+function render() {
+  const container = document.getElementById('menuContainer');
+  const filtered  = typeFilter === 'all'
+    ? ALL_ROWS
+    : ALL_ROWS.filter(m => mealTypeKey(m.mealType) === typeFilter);
+
+  if (!filtered.length) {
+    container.innerHTML = '<div class="empty">🍽️ No menu items for this view.</div>';
+    return;
+  }
+
+  // Group by date
+  const byDate = {};
+  filtered.forEach(m => {
+    if (!byDate[m.date]) byDate[m.date] = [];
+    byDate[m.date].push(m);
+  });
+
+  container.innerHTML = Object.entries(byDate).map(([date, meals], gi) => {
+    const isToday = date === TODAY;
+    const label   = isToday ? 'Today' : (date === nextDay(TODAY) ? 'Tomorrow' : '');
+    const heading = formatDate(date);
+    const cards   = meals.map((m, i) => {
+      const key = mealTypeKey(m.mealType);
+      const em  = MEAL_EMOJI[key] || MEAL_EMOJI.other;
+      return `<div class="meal-card card-${key}" style="animation-delay:${(gi * .1) + (i * .06)}s">
+        <div class="meal-type-tag mt-${key}">${em} ${esc(m.mealType)}</div>
+        <div class="meal-name">${esc(m.recipeName)}</div>
+        ${m.ingredients  ? `<div class="meal-section">Ingredients</div><div class="meal-text">${esc(m.ingredients).replace(/;/g,'·')}</div>` : ''}
+        ${m.instructions ? `<div class="meal-section">Instructions</div><div class="meal-text">${esc(m.instructions)}</div>` : ''}
+        ${m.notes        ? `<div class="meal-notes">💡 ${esc(m.notes)}</div>` : ''}
+      </div>`;
+    }).join('');
+
+    return `<div class="date-group">
+      <div class="date-heading">
+        📅 ${heading}
+        ${label ? `<span class="date-badge ${isToday ? 'today' : ''}">${label}</span>` : ''}
+      </div>
+      <div class="meal-grid">${cards}</div>
+    </div>`;
+  }).join('');
+}
+
+function nextDay(iso) {
+  const d = new Date(iso + 'T12:00:00');
+  d.setDate(d.getDate() + 1);
+  return d.toISOString().slice(0, 10);
+}
+
+/* ── Filters ── */
+function setType(t) {
+  typeFilter = t;
+  document.querySelectorAll('.chip[data-type]').forEach(b => b.classList.toggle('active', b.dataset.type === t));
+  render();
+}
+
+function esc(s) {
+  return String(s || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+/* ── Init ── */
+(async () => {
+  try {
+    const rows = await loadMenu();
+    ALL_ROWS = buildMeals(rows);
+    const dateCount = new Set(ALL_ROWS.map(m => m.date)).size;
+    document.getElementById('status').textContent =
+      `${ALL_ROWS.length} meals across ${dateCount} day${dateCount !== 1 ? 's' : ''} · past dates hidden`;
+    render();
+  } catch(e) {
+    document.getElementById('status').textContent = 'Could not load menu — check sheet connection.';
+    document.getElementById('menuContainer').innerHTML = '<div class="empty">⚠️ Error loading menu data.</div>';
+  }
+})();
+</script>
+</body>
+</html>

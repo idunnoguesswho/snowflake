@@ -125,105 +125,187 @@
 
 <div class="hero">
   <div class="hero-name">Logan</div>
-  <div class="hero-sub">Today's Tasks · June 4, 2026</div>
-  <div class="hero-badge">👦 5 tasks assigned</div>
+  <div class="hero-sub">Today's Tasks · June 6, 2026</div>
+  <div class="hero-badge" id="hero-badge">👦 Loading…</div>
 </div>
 
 <div class="progress-bar-wrap">
   <div class="section-label" style="padding-bottom:6px">Progress</div>
   <div class="progress-label">
-    <span id="prog-text">0 of 5 done</span>
-    <span id="prog-pct">0%</span>
+    <span id="prog-text">— of — done</span>
+    <span id="prog-pct">—%</span>
   </div>
   <div class="progress-track"><div class="progress-fill" id="prog-fill" style="width:0%"></div></div>
 </div>
 
-<div class="section-label">📋 Today's Quest List</div>
+<div class="section-label">🧹 Today's Chores</div>
+<div class="task-list" id="choreList"></div>
 
-<div class="task-list" id="taskList"></div>
+<div class="section-label">📋 Open Tasks</div>
+<div class="task-list" id="taskList"><div style="padding:20px;text-align:center;color:var(--muted);font-weight:700;">Loading from sheet…</div></div>
 
 <div class="toast-wrap" id="toasts"></div>
 
 <script>
-const TASKS = [
-  {
-    id: 10,
-    title: "Spelling Words",
-    category: "School",
-    estTime: "",
-    desc: "Language Arts task due June 5. Practice the spelling words out loud and in writing.",
-    dateAssigned: "2026-06-04"
-  },
-  {
-    id: 11,
-    title: "Science Drawing",
-    category: "School",
-    estTime: "",
-    desc: "Science task due June 7. Finish the science drawing.",
-    dateAssigned: "2026-06-04"
-  },
-  {
-    id: 14,
-    title: "Memory Tray Detective",
-    category: "Brain",
-    estTime: "",
-    desc: "Study 10 objects on a tray, then cover it up and recall as many as possible from memory.",
-    dateAssigned: "2026-06-04"
-  },
-  {
-    id: 80,
-    title: "Box Breathing",
-    category: "Brain Activation",
-    estTime: "5 min",
-    desc: "Breathing & Calm: Breathe in for 4, hold for 4, out for 4, hold for 4. Repeat 4 rounds.",
-    dateAssigned: "2026-06-04"
-  },
-  {
-    id: 109,
-    title: "Alateen 02 — Feelings Weather",
-    category: "Family Recovery",
-    estTime: "15 min",
-    desc: "Draw today's feelings as weather: sunny, cloudy, stormy, windy, mixed. Add one sentence: Feelings are messages, not trouble. Share only what feels okay.",
-    dateAssigned: "2026-06-04"
-  }
+const SHEET_ID  = '11A5NsScePEbtN9dujN3tILb_Q2TU5tsf6I0MbT11kDY';
+const SHEET_GID = '553696854';
+const PERSON    = 'Logan';
+const TODAY_KEY = new Date().toISOString().slice(0, 10);
+const STORE_KEY = `sf_logan_done_${TODAY_KEY}`;
+
+// New chores added June 6, 2026
+const NEW_CHORES = [
+  { id: 'chore_sweep',  title: 'Sweep Bedroom',             category: 'Chores', estTime: '5 min',  desc: 'Sweep the bedroom floor clean.',                     dateAssigned: '2026-06-06' },
+  { id: 'chore_wipe',   title: 'Wipe Beside Table',          category: 'Chores', estTime: '5 min',  desc: 'Wipe down your bedside table.',                      dateAssigned: '2026-06-06' },
+  { id: 'chore_lunch',  title: 'Take Lunch Dishes Out of Bag',category: 'Chores', estTime: '2 min',  desc: 'Empty your lunch bag and put dishes in the kitchen.', dateAssigned: '2026-06-06' },
+  { id: 'chore_dish',   title: 'Empty Dishwasher',           category: 'Chores', estTime: '10 min', desc: 'Unload the dishwasher and put everything away.',       dateAssigned: '2026-06-06' },
 ];
 
-const KEY = 'sf_logan_tasks_2026-06-04';
-let done = {};
-try { done = JSON.parse(localStorage.getItem(KEY) || '{}'); } catch(e){}
+let TASKS = [];
+let done  = {};
+try { done = JSON.parse(localStorage.getItem(STORE_KEY) || '{}'); } catch(e) {}
 
-function save() { localStorage.setItem(KEY, JSON.stringify(done)); }
+function save() { localStorage.setItem(STORE_KEY, JSON.stringify(done)); }
 
-function updateProgress() {
-  const n = Object.keys(done).length;
-  const pct = Math.round(n / TASKS.length * 100);
-  document.getElementById('prog-text').textContent = `${n} of ${TASKS.length} done`;
-  document.getElementById('prog-pct').textContent  = pct + '%';
-  document.getElementById('prog-fill').style.width  = pct + '%';
+/* ── CSV parser ── */
+function parseCSV(raw) {
+  const rows = []; let i = 0, n = raw.length;
+  while (i < n) {
+    const row = [];
+    while (i < n && raw[i] !== '\n' && raw[i] !== '\r') {
+      if (raw[i] === '"') {
+        let c = ''; i++;
+        while (i < n) {
+          if (raw[i] === '"' && raw[i+1] === '"') { c += '"'; i += 2; }
+          else if (raw[i] === '"') { i++; break; }
+          else c += raw[i++];
+        }
+        row.push(c.trim()); if (raw[i] === ',') i++;
+      } else {
+        let c = '';
+        while (i < n && raw[i] !== ',' && raw[i] !== '\n' && raw[i] !== '\r') c += raw[i++];
+        row.push(c.trim()); if (raw[i] === ',') i++;
+      }
+    }
+    while (raw[i] === '\n' || raw[i] === '\r') i++;
+    if (row.some(c => c)) rows.push(row);
+  }
+  return rows;
 }
 
-function render() {
-  document.getElementById('taskList').innerHTML = TASKS.map((t, i) => {
+async function loadSheet() {
+  const csvUrl = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/export?format=csv&gid=${SHEET_GID}`;
+  try {
+    const r = await fetch(csvUrl, { cache: 'no-store' });
+    if (!r.ok) throw new Error(`HTTP ${r.status}`);
+    const txt = await r.text();
+    if (!txt.trim()) throw new Error('Empty');
+    return parseCSV(txt);
+  } catch {
+    return await loadGviz();
+  }
+}
+
+function loadGviz() {
+  return new Promise((resolve, reject) => {
+    const cb = `_sf_cb_${Date.now()}`;
+    const s = document.createElement('script');
+    const t = setTimeout(() => { s.remove(); delete window[cb]; reject(new Error('timeout')); }, 12000);
+    window[cb] = p => {
+      clearTimeout(t); s.remove(); delete window[cb];
+      if (!p || p.status === 'error') { reject(new Error('gviz error')); return; }
+      const hdrs = (p.table.cols||[]).map((c,i) => c.label || `Col${i}`);
+      const rows = (p.table.rows||[]).map(r => (r.c||[]).map(cell => cell ? (cell.f != null ? String(cell.f) : String(cell.v ?? '')) : ''));
+      resolve([hdrs, ...rows]);
+    };
+    s.onerror = () => { clearTimeout(t); s.remove(); reject(new Error('script error')); };
+    s.src = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?gid=${SHEET_GID}&tqx=responseHandler:${cb}`;
+    document.head.append(s);
+  });
+}
+
+const YES = new Set(['yes','true','1','✓','✅']);
+function isOpen(row, iDone, iCompleted) {
+  const d = (row[iDone]      || '').toLowerCase().trim();
+  const c = (row[iCompleted] || '').trim();
+  if (YES.has(d)) return false;
+  if (c && /\d{4}/.test(c)) return false;
+  return true;
+}
+
+function buildTasks(rows) {
+  if (rows.length < 2) return [];
+  const h = rows[0].map(x => x.toLowerCase().trim());
+  const col = kw => h.findIndex(c => c.includes(kw));
+  const iResp  = col('responsible') !== -1 ? col('responsible') : 2;
+  const iCat   = col('side quest')  !== -1 ? col('side quest')  : (col('category') !== -1 ? col('category') : 3);
+  const iEst   = col('est')         !== -1 ? col('est')         : 4;
+  const iTitle = col('task name')   !== -1 ? col('task name')   : 5;
+  const iDesc  = col('description') !== -1 ? col('description') : 6;
+  const iDate  = col('date assigned')      !== -1 ? col('date assigned')  : 9;
+  const iComp  = col('date completed')     !== -1 ? col('date completed') : 10;
+  const iDone  = col('isdone')             !== -1 ? col('isdone')         : 11;
+  const get    = (r, i) => (i >= 0 && i < r.length ? r[i] : '').trim();
+  const today  = new Date().toISOString().slice(0, 10);
+
+  return rows.slice(1)
+    .filter(r => get(r, iResp) === PERSON && isOpen(r, iDone, iComp))
+    .map((r, idx) => ({
+      id:           get(r, 0) || String(idx),
+      title:        get(r, iTitle),
+      category:     get(r, iCat),
+      estTime:      get(r, iEst),
+      desc:         get(r, iDesc),
+      dateAssigned: get(r, iDate),
+      priority:     get(r, iDate) ? (get(r, iDate) <= today ? 1 : 2) : 3
+    }))
+    .filter(t => t.title)
+    .sort((a, b) => a.priority - b.priority || (a.dateAssigned || '').localeCompare(b.dateAssigned || ''));
+}
+
+/* ── Progress ── */
+function updateProgress() {
+  const total = NEW_CHORES.length + TASKS.length;
+  const n     = Object.keys(done).length;
+  const pct   = total ? Math.round(n / total * 100) : 0;
+  document.getElementById('prog-text').textContent = `${n} of ${total} done`;
+  document.getElementById('prog-pct').textContent  = pct + '%';
+  document.getElementById('prog-fill').style.width = pct + '%';
+  document.getElementById('hero-badge').textContent = `👦 ${total} tasks assigned`;
+}
+
+/* ── Render ── */
+function renderList(container, tasks, emoji) {
+  if (!tasks.length) { container.innerHTML = ''; return; }
+  container.innerHTML = tasks.map((t, i) => {
     const isDone = !!done[t.id];
-    return `<div class="task-card${isDone ? ' done' : ''}" style="animation-delay:${i * .06}s">
-      <div class="task-top">
-        <div class="task-title">${t.title}</div>
-      </div>
+    return `<div class="task-card${isDone ? ' done' : ''}" style="animation-delay:${i * .04}s">
+      <div class="task-top"><div class="task-title">${esc(t.title)}</div></div>
       <div class="task-tags">
-        <span class="tag tag-cat">📌 ${t.category}</span>
-        ${t.estTime ? `<span class="tag tag-time">⏱ ${t.estTime}</span>` : ''}
+        ${t.category ? `<span class="tag tag-cat">📌 ${esc(t.category)}</span>` : ''}
+        ${t.estTime  ? `<span class="tag tag-time">⏱ ${esc(t.estTime)}</span>` : ''}
         <span class="tag ${isDone ? 'tag-done' : 'tag-open'}">${isDone ? '✓ Done' : '○ Open'}</span>
       </div>
-      <div class="task-desc">${t.desc}</div>
+      ${t.desc ? `<div class="task-desc">${esc(t.desc)}</div>` : ''}
       <div class="task-foot">
-        <span class="date-hint">📅 Assigned ${t.dateAssigned}</span>
+        <span class="date-hint">${t.dateAssigned ? '📅 ' + t.dateAssigned : ''}</span>
         <button class="complete-btn${isDone ? ' done-btn' : ''}"
-          onclick="${isDone ? '' : `complete(${t.id})`}">
+          onclick="${isDone ? '' : `complete(${JSON.stringify(t.id)})`}">
           ${isDone ? '✓ Done' : '+ Complete'}
         </button>
       </div>
     </div>`;
   }).join('');
+}
+
+function render() {
+  renderList(document.getElementById('choreList'), NEW_CHORES);
+  if (!TASKS.length) {
+    document.getElementById('taskList').innerHTML =
+      '<div style="padding:20px;text-align:center;color:var(--muted);font-weight:700;">🎉 No open sheet tasks!</div>';
+  } else {
+    renderList(document.getElementById('taskList'), TASKS);
+  }
   updateProgress();
 }
 
@@ -240,7 +322,23 @@ function toast(msg) {
   c.appendChild(el); setTimeout(() => el.remove(), 3000);
 }
 
-render();
+function esc(s) {
+  return String(s || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+/* ── Init ── */
+renderList(document.getElementById('choreList'), NEW_CHORES); // show chores immediately
+(async () => {
+  try {
+    const rows = await loadSheet();
+    TASKS = buildTasks(rows);
+    render();
+  } catch(e) {
+    document.getElementById('taskList').innerHTML =
+      '<div style="padding:20px;text-align:center;color:var(--muted);font-weight:700;">Could not load sheet.</div>';
+    updateProgress();
+  }
+})();
 </script>
 </body>
 </html>

@@ -146,6 +146,10 @@
     background: var(--blue);
   }
 
+  .tab-btn[data-tab="hustles"].active {
+    background: var(--green, #2f8f64);
+  }
+
   .tab-btn[data-tab="money"].active {
     color: var(--text);
     background: var(--sun);
@@ -235,6 +239,7 @@
   <button class="tab-btn" type="button" data-tab="logan">👦 Logan</button>
   <button class="tab-btn" type="button" data-tab="hustle">💼 Hustle</button>
   <button class="tab-btn" type="button" data-tab="jobs">Jobs</button>
+  <button class="tab-btn" type="button" data-tab="hustles">Hustles</button>
   <button class="tab-btn" type="button" data-tab="money">Money</button>
   <button class="tab-btn" type="button" data-tab="menu">🍽️ Menu</button>
   <button class="tab-btn" type="button" data-tab="sheet">Sheet Viewer</button>
@@ -252,6 +257,7 @@
   <iframe class="tab-frame" id="frame-logan" src="logan.html" title="Logan's Tasks"></iframe>
   <iframe class="tab-frame" id="frame-hustle" src="hustle.html" title="Hustle"></iframe>
   <iframe class="tab-frame" id="frame-jobs" src="jobs.html" title="Jobs"></iframe>
+  <iframe class="tab-frame" id="frame-hustles" src="hustles.html" title="Hustles"></iframe>
   <iframe class="tab-frame" id="frame-money" src="money.html" title="Money"></iframe>
   <iframe class="tab-frame" id="frame-menu" src="menu.html" title="Weekly Menu"></iframe>
   <iframe class="tab-frame" id="frame-sheet" src="sheet-viewer.html" title="Google Sheet Viewer"></iframe>

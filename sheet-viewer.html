@@ -1,0 +1,701 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sheet Viewer | Snowflake</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Baloo+2:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --sky: #7ec8e3;
+    --sun: #ffd166;
+    --grass: #6bcb77;
+    --coral: #ff6b6b;
+    --lavender: #c9b8ff;
+    --bg: #fff8ee;
+    --card: #ffffff;
+    --text: #2d2a4a;
+    --muted: #8a87a5;
+    --border: #ede8f5;
+    --shadow: 0 4px 20px rgba(45, 42, 74, 0.09);
+  }
+
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+  }
+
+  html,
+  body {
+    min-height: 100%;
+  }
+
+  body {
+    margin: 0;
+    color: var(--text);
+    background: var(--bg);
+    font-family: "Nunito", sans-serif;
+  }
+
+  button,
+  input,
+  select {
+    font: inherit;
+  }
+
+  button {
+    border: 0;
+    cursor: pointer;
+  }
+
+  .sheet-app {
+    display: grid;
+    gap: 16px;
+    width: min(1240px, 100%);
+    margin: 0 auto;
+    padding: 18px;
+  }
+
+  .page-header,
+  .control-panel,
+  .data-panel {
+    background: var(--card);
+    border: 1.5px solid var(--border);
+    border-radius: 18px;
+    box-shadow: var(--shadow);
+  }
+
+  .page-header {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+    justify-content: space-between;
+    padding: 18px 20px;
+  }
+
+  .page-title {
+    margin: 0;
+    font-family: "Baloo 2", cursive;
+    font-size: clamp(1.45rem, 3vw, 2.2rem);
+    line-height: 1;
+  }
+
+  .status {
+    color: var(--muted);
+    font-size: 0.88rem;
+    font-weight: 800;
+    text-align: right;
+  }
+
+  .status.ok {
+    color: #2f8f64;
+  }
+
+  .status.error {
+    color: #b83f52;
+  }
+
+  .control-panel {
+    display: grid;
+    gap: 14px;
+    padding: 16px;
+  }
+
+  .source-row,
+  .tool-row,
+  .filter-grid {
+    display: grid;
+    gap: 10px;
+  }
+
+  .source-row {
+    grid-template-columns: minmax(220px, 1fr) 120px 130px;
+  }
+
+  .tool-row {
+    grid-template-columns: minmax(220px, 1fr) 150px 130px 130px;
+    align-items: center;
+  }
+
+  .field {
+    display: grid;
+    gap: 5px;
+  }
+
+  label,
+  .tiny-label {
+    color: var(--muted);
+    font-size: 0.72rem;
+    font-weight: 900;
+    letter-spacing: 0;
+    text-transform: uppercase;
+  }
+
+  input,
+  select {
+    width: 100%;
+    min-height: 40px;
+    padding: 9px 12px;
+    color: var(--text);
+    background: #ffffff;
+    border: 1.5px solid var(--border);
+    border-radius: 12px;
+    outline: none;
+  }
+
+  input:focus,
+  select:focus {
+    border-color: var(--sky);
+    box-shadow: 0 0 0 3px rgba(126, 200, 227, 0.22);
+  }
+
+  .primary-button,
+  .secondary-button {
+    min-height: 40px;
+    padding: 9px 14px;
+    border-radius: 999px;
+    font-weight: 900;
+  }
+
+  .primary-button {
+    color: #ffffff;
+    background: var(--grass);
+  }
+
+  .secondary-button {
+    color: var(--text);
+    background: #f5f2ff;
+    border: 1.5px solid var(--border);
+  }
+
+  .filter-grid {
+    grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+  }
+
+  .data-panel {
+    overflow: hidden;
+  }
+
+  .summary-bar {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    justify-content: space-between;
+    padding: 13px 16px;
+    border-bottom: 1.5px solid var(--border);
+  }
+
+  .summary-text {
+    color: var(--muted);
+    font-weight: 800;
+  }
+
+  .table-wrap {
+    overflow: auto;
+    max-height: calc(100vh - 310px);
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9rem;
+  }
+
+  th,
+  td {
+    max-width: 320px;
+    padding: 11px 12px;
+    border-bottom: 1px solid #f1edf8;
+    text-align: left;
+    vertical-align: top;
+  }
+
+  th {
+    position: sticky;
+    top: 0;
+    z-index: 1;
+    color: var(--text);
+    background: #fff9ef;
+    font-size: 0.76rem;
+    font-weight: 900;
+    text-transform: uppercase;
+  }
+
+  tr:hover td {
+    background: #fbfffb;
+  }
+
+  .card-grid {
+    display: none;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 12px;
+    max-height: calc(100vh - 310px);
+    overflow: auto;
+    padding: 14px;
+  }
+
+  .row-card {
+    display: grid;
+    gap: 10px;
+    padding: 14px;
+    background: #ffffff;
+    border: 1.5px solid var(--border);
+    border-left: 5px solid var(--sky);
+    border-radius: 16px;
+  }
+
+  .row-card h2 {
+    margin: 0;
+    font-family: "Baloo 2", cursive;
+    font-size: 1.1rem;
+    line-height: 1.1;
+  }
+
+  .card-field {
+    display: grid;
+    gap: 2px;
+  }
+
+  .card-field strong {
+    color: var(--muted);
+    font-size: 0.7rem;
+    text-transform: uppercase;
+  }
+
+  .card-field span {
+    line-height: 1.35;
+    overflow-wrap: anywhere;
+  }
+
+  .empty {
+    padding: 36px 20px;
+    color: var(--muted);
+    font-weight: 800;
+    text-align: center;
+  }
+
+  body.card-mode .table-wrap {
+    display: none;
+  }
+
+  body.card-mode .card-grid {
+    display: grid;
+  }
+
+  @media (max-width: 760px) {
+    .sheet-app {
+      padding: 12px;
+    }
+
+    .page-header,
+    .summary-bar {
+      align-items: flex-start;
+      flex-direction: column;
+    }
+
+    .status {
+      text-align: left;
+    }
+
+    .source-row,
+    .tool-row {
+      grid-template-columns: 1fr;
+    }
+
+    .table-wrap,
+    .card-grid {
+      max-height: none;
+    }
+  }
+</style>
+</head>
+<body>
+<main class="sheet-app">
+  <header class="page-header">
+    <div>
+      <h1 class="page-title">Google Sheet Viewer</h1>
+      <div class="tiny-label">Filter, search, and display rows</div>
+    </div>
+    <div class="status" id="status" aria-live="polite">Ready</div>
+  </header>
+
+  <section class="control-panel" aria-label="Sheet controls">
+    <div class="source-row">
+      <label class="field">
+        Sheet ID or published CSV URL
+        <input id="source-input" type="text" spellcheck="false" autocomplete="off" placeholder="Paste a Google Sheet ID or published CSV URL">
+      </label>
+      <label class="field">
+        GID
+        <input id="gid-input" type="text" inputmode="numeric" placeholder="0">
+      </label>
+      <label class="field">
+        &nbsp;
+        <button class="primary-button" id="load-button" type="button">Load Sheet</button>
+      </label>
+    </div>
+
+    <div class="tool-row">
+      <label class="field">
+        Search all columns
+        <input id="search-input" type="search" placeholder="Type to filter rows">
+      </label>
+      <label class="field">
+        Sort by
+        <select id="sort-select"></select>
+      </label>
+      <label class="field">
+        View
+        <select id="view-select">
+          <option value="table">Table</option>
+          <option value="cards">Cards</option>
+        </select>
+      </label>
+      <label class="field">
+        &nbsp;
+        <button class="secondary-button" id="reset-button" type="button">Reset Filters</button>
+      </label>
+    </div>
+
+    <div class="filter-grid" id="filter-grid" aria-label="Column filters"></div>
+  </section>
+
+  <section class="data-panel" aria-label="Sheet rows">
+    <div class="summary-bar">
+      <div class="summary-text" id="summary">No sheet loaded yet.</div>
+      <button class="secondary-button" id="copy-button" type="button">Copy Filtered CSV</button>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead id="table-head"></thead>
+        <tbody id="table-body"></tbody>
+      </table>
+      <div class="empty" id="table-empty">Load a published sheet to begin.</div>
+    </div>
+    <div class="card-grid" id="card-grid"></div>
+  </section>
+</main>
+
+<script src="snowflake-config.js"></script>
+<script>
+  const CONFIG = window.SNOWFLAKE_CONFIG || {};
+  const STORAGE_KEY = "snowflake-sheet-viewer";
+  const SAMPLE_ROWS = [
+    ["Responsible", "Category", "Task Name EN", "Description EN", "Date Completed", "Points"],
+    ["Oliver", "Housework", "Clear breakfast dishes", "Put dishes in the dishwasher and wipe the table", "", "1"],
+    ["Logan", "School", "Read for 20 minutes", "Pick any book and write down the page number", "", "1"],
+    ["Mom", "Admin", "Book appointments", "Check the calendar first", "2026-06-04", "1"]
+  ];
+
+  const sourceInput = document.getElementById("source-input");
+  const gidInput = document.getElementById("gid-input");
+  const loadButton = document.getElementById("load-button");
+  const searchInput = document.getElementById("search-input");
+  const sortSelect = document.getElementById("sort-select");
+  const viewSelect = document.getElementById("view-select");
+  const resetButton = document.getElementById("reset-button");
+  const copyButton = document.getElementById("copy-button");
+  const filterGrid = document.getElementById("filter-grid");
+  const statusEl = document.getElementById("status");
+  const summaryEl = document.getElementById("summary");
+  const tableHead = document.getElementById("table-head");
+  const tableBody = document.getElementById("table-body");
+  const tableEmpty = document.getElementById("table-empty");
+  const cardGrid = document.getElementById("card-grid");
+
+  let headers = [];
+  let rows = [];
+  let filters = {};
+  let filteredRows = [];
+
+  function savedSettings() {
+    try {
+      return JSON.parse(localStorage.getItem(STORAGE_KEY)) || {};
+    } catch {
+      return {};
+    }
+  }
+
+  function saveSettings() {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify({
+      source: sourceInput.value.trim(),
+      gid: gidInput.value.trim(),
+      view: viewSelect.value
+    }));
+  }
+
+  function defaultSource() {
+    return CONFIG.sheetId || "";
+  }
+
+  function defaultGid() {
+    return CONFIG.sheetGid || "";
+  }
+
+  function csvUrlFromInput(source, gid) {
+    if (/^https?:\/\//i.test(source)) {
+      if (source.includes("/edit")) {
+        const id = source.match(/\/spreadsheets\/d\/([^/]+)/)?.[1];
+        if (id) return `https://docs.google.com/spreadsheets/d/${id}/export?format=csv${gid ? `&gid=${encodeURIComponent(gid)}` : ""}`;
+      }
+      return source;
+    }
+
+    return `https://docs.google.com/spreadsheets/d/${encodeURIComponent(source)}/export?format=csv${gid ? `&gid=${encodeURIComponent(gid)}` : ""}`;
+  }
+
+  function parseCSV(text) {
+    const parsed = [];
+    let row = [];
+    let cell = "";
+    let quoted = false;
+
+    for (let index = 0; index < text.length; index += 1) {
+      const char = text[index];
+      const next = text[index + 1];
+
+      if (char === '"' && quoted && next === '"') {
+        cell += '"';
+        index += 1;
+      } else if (char === '"') {
+        quoted = !quoted;
+      } else if (char === "," && !quoted) {
+        row.push(cell);
+        cell = "";
+      } else if ((char === "\n" || char === "\r") && !quoted) {
+        if (char === "\r" && next === "\n") index += 1;
+        row.push(cell);
+        if (row.some((value) => value.trim())) parsed.push(row);
+        row = [];
+        cell = "";
+      } else {
+        cell += char;
+      }
+    }
+
+    row.push(cell);
+    if (row.some((value) => value.trim())) parsed.push(row);
+    return parsed;
+  }
+
+  function normalizeRows(rawRows) {
+    const [head = [], ...body] = rawRows;
+    headers = head.map((header, index) => header.trim() || `Column ${index + 1}`);
+    rows = body.map((row) => {
+      const record = {};
+      headers.forEach((header, index) => {
+        record[header] = (row[index] || "").trim();
+      });
+      return record;
+    });
+  }
+
+  async function loadSheet() {
+    const source = sourceInput.value.trim();
+    const gid = gidInput.value.trim();
+    if (!source) {
+      normalizeRows(SAMPLE_ROWS);
+      statusEl.textContent = "Showing sample data";
+      statusEl.className = "status";
+      buildControls();
+      render();
+      return;
+    }
+
+    loadButton.disabled = true;
+    statusEl.textContent = "Loading...";
+    statusEl.className = "status";
+
+    try {
+      const response = await fetch(csvUrlFromInput(source, gid), { cache: "no-store", redirect: "follow" });
+      if (!response.ok) throw new Error(`HTTP ${response.status}`);
+      const rawRows = parseCSV(await response.text());
+      if (rawRows.length < 2) throw new Error("No data rows found");
+
+      normalizeRows(rawRows);
+      saveSettings();
+      statusEl.textContent = "Connected";
+      statusEl.className = "status ok";
+      buildControls();
+      render();
+    } catch (error) {
+      normalizeRows(SAMPLE_ROWS);
+      statusEl.textContent = `Sheet unavailable: ${error.message}. Showing sample data.`;
+      statusEl.className = "status error";
+      buildControls();
+      render();
+    } finally {
+      loadButton.disabled = false;
+    }
+  }
+
+  function buildControls() {
+    filters = {};
+    filterGrid.innerHTML = "";
+    sortSelect.innerHTML = '<option value="">Original order</option>';
+
+    headers.forEach((header) => {
+      const option = document.createElement("option");
+      option.value = header;
+      option.textContent = header;
+      sortSelect.append(option);
+
+      const uniqueValues = [...new Set(rows.map((row) => row[header]).filter(Boolean))].sort((a, b) => a.localeCompare(b));
+      if (!uniqueValues.length || uniqueValues.length > 80) return;
+
+      const label = document.createElement("label");
+      label.className = "field";
+      label.textContent = header;
+
+      const select = document.createElement("select");
+      select.dataset.header = header;
+      select.innerHTML = '<option value="">All</option>';
+      uniqueValues.forEach((value) => {
+        const item = document.createElement("option");
+        item.value = value;
+        item.textContent = value;
+        select.append(item);
+      });
+      select.addEventListener("change", () => {
+        filters[header] = select.value;
+        render();
+      });
+
+      label.append(select);
+      filterGrid.append(label);
+    });
+  }
+
+  function applyFilters() {
+    const query = searchInput.value.trim().toLowerCase();
+    filteredRows = rows.filter((row) => {
+      const matchesSearch = !query || headers.some((header) => row[header].toLowerCase().includes(query));
+      const matchesFilters = Object.entries(filters).every(([header, value]) => !value || row[header] === value);
+      return matchesSearch && matchesFilters;
+    });
+
+    const sortHeader = sortSelect.value;
+    if (sortHeader) {
+      filteredRows.sort((a, b) => a[sortHeader].localeCompare(b[sortHeader], undefined, { numeric: true, sensitivity: "base" }));
+    }
+  }
+
+  function render() {
+    applyFilters();
+    document.body.classList.toggle("card-mode", viewSelect.value === "cards");
+    renderTable();
+    renderCards();
+    summaryEl.textContent = `${filteredRows.length} of ${rows.length} rows shown`;
+  }
+
+  function renderTable() {
+    tableHead.innerHTML = "";
+    tableBody.innerHTML = "";
+    tableEmpty.style.display = filteredRows.length ? "none" : "block";
+
+    const headRow = document.createElement("tr");
+    headers.forEach((header) => {
+      const th = document.createElement("th");
+      th.textContent = header;
+      headRow.append(th);
+    });
+    tableHead.append(headRow);
+
+    filteredRows.forEach((row) => {
+      const tr = document.createElement("tr");
+      headers.forEach((header) => {
+        const td = document.createElement("td");
+        td.textContent = row[header];
+        tr.append(td);
+      });
+      tableBody.append(tr);
+    });
+  }
+
+  function renderCards() {
+    cardGrid.innerHTML = "";
+    if (!filteredRows.length) {
+      const empty = document.createElement("div");
+      empty.className = "empty";
+      empty.textContent = "No matching rows.";
+      cardGrid.append(empty);
+      return;
+    }
+
+    filteredRows.forEach((row, index) => {
+      const card = document.createElement("article");
+      card.className = "row-card";
+
+      const title = document.createElement("h2");
+      title.textContent = row[headers[0]] || `Row ${index + 1}`;
+      card.append(title);
+
+      headers.slice(1).forEach((header) => {
+        if (!row[header]) return;
+        const field = document.createElement("div");
+        field.className = "card-field";
+        const strong = document.createElement("strong");
+        strong.textContent = header;
+        const span = document.createElement("span");
+        span.textContent = row[header];
+        field.append(strong, span);
+        card.append(field);
+      });
+
+      cardGrid.append(card);
+    });
+  }
+
+  function toCSV(valueRows) {
+    const escapeCell = (value) => {
+      const text = String(value || "");
+      return /[",\n\r]/.test(text) ? `"${text.replace(/"/g, '""')}"` : text;
+    };
+
+    return [
+      headers.map(escapeCell).join(","),
+      ...valueRows.map((row) => headers.map((header) => escapeCell(row[header])).join(","))
+    ].join("\n");
+  }
+
+  async function copyFilteredCSV() {
+    if (!filteredRows.length) return;
+    await navigator.clipboard.writeText(toCSV(filteredRows));
+    statusEl.textContent = "Filtered CSV copied";
+    statusEl.className = "status ok";
+  }
+
+  function resetFilters() {
+    searchInput.value = "";
+    sortSelect.value = "";
+    filters = {};
+    filterGrid.querySelectorAll("select").forEach((select) => {
+      select.value = "";
+    });
+    render();
+  }
+
+  function init() {
+    const saved = savedSettings();
+    sourceInput.value = saved.source || defaultSource();
+    gidInput.value = saved.gid || defaultGid();
+    viewSelect.value = saved.view || "table";
+
+    loadButton.addEventListener("click", loadSheet);
+    searchInput.addEventListener("input", render);
+    sortSelect.addEventListener("change", render);
+    viewSelect.addEventListener("change", () => {
+      saveSettings();
+      render();
+    });
+    resetButton.addEventListener("click", resetFilters);
+    copyButton.addEventListener("click", copyFilteredCSV);
+
+    loadSheet();
+  }
+
+  init();
+</script>
+</body>
+</html>

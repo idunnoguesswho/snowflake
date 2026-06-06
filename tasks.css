@@ -97,10 +97,8 @@
     top: 0; left: 0; right: 0;
     height: 5px;
     border-radius: 16px 16px 0 0;
+    background: var(--player-color, var(--grass));
   }
-  .player-card.rank-1::before { background: linear-gradient(90deg, #ffd166, #ffb347); }
-  .player-card.rank-2::before { background: linear-gradient(90deg, #c0c0c0, #a8a8a8); }
-  .player-card.rank-3::before { background: linear-gradient(90deg, #cd7f32, #b8860b); }
   .player-card:hover { transform: translateY(-3px); box-shadow: 0 8px 28px rgba(45,42,74,.15); }
 
   .rank-emoji { position: absolute; top: 11px; right: 12px; font-size: 1.1rem; }

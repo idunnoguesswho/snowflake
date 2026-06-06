@@ -380,7 +380,7 @@ function renderLB() {
     const lv   = Math.floor(p.pts / LV_PTS) + 1;
     const pct  = (p.pts % LV_PTS) / LV_PTS * 100;
     const left = Math.max(0, p.total - p.done);
-    return `<div class="player-card rank-${Math.min(i+1,3)}" style="animation:pop .3s ${i*.07}s both">
+    return `<div class="player-card rank-${Math.min(i+1,3)}" style="--player-color:${col};animation:pop .3s ${i*.07}s both">
       <div class="rank-emoji">${RANKS[i]||'🎖️'}</div>
       <div class="player-avatar" style="background:${col}22;border-color:${col}66">${av}</div>
       <div class="player-name">${x(p.name)}</div>

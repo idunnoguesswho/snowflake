@@ -49,7 +49,13 @@
   .inbox-meta{display:flex;gap:6px;align-items:center;flex-wrap:wrap;}
   .overdue-box{display:flex;align-items:center;gap:10px;padding:10px 14px;background:#FFF3CD;border-radius:12px;font-size:.88rem;font-weight:800;color:#856404;}
   .allday-banner{display:flex;align-items:center;gap:10px;background:#E6F7F2;border-radius:12px;padding:8px 14px;margin-bottom:10px;font-size:.85rem;font-weight:800;color:#0F6E56;}
-  @media(max-width:700px){.metrics{grid-template-columns:1fr 1fr;}.body-grid{grid-template-columns:1fr;}}
+  .menu-card{background:var(--card);border-radius:var(--radius);padding:22px 24px;box-shadow:0 4px 18px rgba(0,0,0,0.06);animation:popIn .45s cubic-bezier(.34,1.56,.64,1) both;animation-delay:.3s;}
+  .menu-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;}
+  .meal-block{background:#fffdf8;border-radius:14px;padding:14px 16px;border:1.5px solid var(--border);}
+  .meal-title{font-size:.68rem;font-weight:900;text-transform:uppercase;letter-spacing:.7px;color:var(--muted);margin-bottom:6px;display:flex;align-items:center;gap:5px;}
+  .meal-content{font-size:.9rem;font-weight:700;color:var(--text);line-height:1.4;}
+  .meal-empty{font-size:.8rem;color:var(--muted);font-style:italic;}
+  @media(max-width:700px){.metrics{grid-template-columns:1fr 1fr;}.body-grid{grid-template-columns:1fr;}.menu-grid{grid-template-columns:1fr;}}
 </style>
 </head>
 <body>
@@ -69,6 +75,25 @@
   <div class="metric"><div class="m-num m-warn">1</div><div class="m-label">Task Overdue</div></div>
   <div class="metric"><div class="m-num" style="color:var(--lavender);">8</div><div class="m-label">Unread Emails</div></div>
   <div class="metric"><div class="m-num" style="color:var(--errand);">1</div><div class="m-label">Delivery Today</div></div>
+</div>
+
+<!-- Menu for the day -->
+<div class="menu-card" style="margin-bottom:18px;">
+  <div class="card-title" style="color:var(--sun);">🍽️ Today's Menu</div>
+  <div class="menu-grid" id="menuGrid">
+    <div class="meal-block">
+      <div class="meal-title">🌅 Breakfast</div>
+      <div class="meal-content" id="meal-breakfast"><span class="meal-empty">Not planned</span></div>
+    </div>
+    <div class="meal-block">
+      <div class="meal-title">🥙 Kid Lunch</div>
+      <div class="meal-content" id="meal-lunch"><span class="meal-empty">Not planned</span></div>
+    </div>
+    <div class="meal-block">
+      <div class="meal-title">🍽️ Supper</div>
+      <div class="meal-content" id="meal-supper"><span class="meal-empty">Not planned</span></div>
+    </div>
+  </div>
 </div>
 
 <div class="body-grid">
@@ -169,5 +194,52 @@
   </div>
 </div>
 
+<script src="snowflake-config.js"></script>
+<script>
+(async function loadMenu() {
+  const CFG      = window.SNOWFLAKE_CONFIG || {};
+  const SHEET_ID = CFG.sheetId || '11A5NsScePEbtN9dujN3tILb_Q2TU5tsf6I0MbT11kDY';
+  const menuGid  = CFG.menuSheetGid;
+  if(!menuGid) return;
+
+  function parseCSV(raw) {
+    const rows=[]; let i=0, n=raw.length;
+    while(i<n){
+      const row=[];
+      while(i<n&&raw[i]!=='\n'&&raw[i]!=='\r'){
+        if(raw[i]==='"'){let c='';i++;while(i<n){if(raw[i]==='"'&&raw[i+1]==='"'){c+='"';i+=2;}else if(raw[i]==='"'){i++;break;}else c+=raw[i++];}row.push(c.trim());if(raw[i]===',')i++;}
+        else{let c='';while(i<n&&raw[i]!==','&&raw[i]!=='\n'&&raw[i]!=='\r')c+=raw[i++];row.push(c.trim());if(raw[i]===',')i++;}
+      }
+      while(raw[i]==='\n'||raw[i]==='\r')i++;
+      if(row.some(c=>c))rows.push(row);
+    }
+    return rows;
+  }
+
+  try {
+    const today = new Date().toISOString().slice(0,10);
+    const url = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/export?format=csv&gid=${menuGid}`;
+    const r = await fetch(url, { cache:'no-store' });
+    if(!r.ok) return;
+    const rows = parseCSV(await r.text());
+    if(rows.length < 2) return;
+    const h     = rows[0].map(s => s.toLowerCase().trim());
+    const dateI = h.findIndex(c => c.includes('date'));
+    const bI    = h.findIndex(c => c.includes('breakfast'));
+    const lI    = h.findIndex(c => c.includes('lunch') || c.includes('kid'));
+    const sI    = h.findIndex(c => c.includes('supper') || c.includes('dinner'));
+    rows.slice(1).forEach(row => {
+      if(dateI < 0) return;
+      const d = row[dateI] || '';
+      const match = d.includes(today) || (() => { try { return new Date(d).toISOString().slice(0,10)===today; } catch(e){return false;} })();
+      if(!match) return;
+      const set = (id, val) => { if(val) document.getElementById(id).textContent = val; };
+      if(bI>=0) set('meal-breakfast', row[bI]);
+      if(lI>=0) set('meal-lunch',     row[lI]);
+      if(sI>=0) set('meal-supper',    row[sI]);
+    });
+  } catch(e) { /* silently fail */ }
+})();
+</script>
 </body>
 </html>

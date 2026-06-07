@@ -68,7 +68,7 @@ const SHEET_GID = CFG.sheetGid || '553696854';
 const LV_PTS    = 50;   // pts per level up
 
 const AVATARS = { mom:'🧑‍💼', oliver:'🧒', logan:'👦', family:'👨‍👩‍👦', default:'🌟' };
-const COLORS  = { mom:'#336699', oliver:'#d94b4b', logan:'#7b4bd9', family:'#c9b8ff', default:'#ffd166' };
+const COLORS  = { mom:'#2a9d8f', oliver:'#d94b4b', logan:'#7b4bd9', family:'#c9b8ff', default:'#ffd166' };
 const CATEGORY_COLORS = ['#ffd166','#6bcb77','#7ec8e3','#c9b8ff','#ff6b6b','#f4a261','#2a9d8f','#b56576','#4d96ff','#8ac926'];
 const RANKS   = ['🥇','🥈','🥉','🎖️'];
 const CONFETTI_CLR = ['#ffd166','#6bcb77','#7ec8e3','#c9b8ff','#ff6b6b','#ffb347'];
@@ -111,6 +111,13 @@ function sheetEndpoint() {
 
 function todayIsoDate() {
   return new Date().toISOString().slice(0, 10);
+}
+
+function isToday(dateStr) {
+  if(!dateStr) return false;
+  const today = todayIsoDate();
+  if(String(dateStr).includes(today)) return true;
+  try { return new Date(dateStr).toISOString().slice(0,10) === today; } catch(e) { return false; }
 }
 
 function extractUrls(text) {
@@ -336,19 +343,27 @@ function buildFromRows(rows) {
 
 function buildPlayers() {
   const P = {};
-  const en = n => { if(!P[n]) P[n]={name:n, pts:0, done:0, total:0}; };
+  const en = n => { if(!P[n]) P[n]={name:n, pts:0, done:0, total:0, todayPts:0}; };
 
   G.tasks.forEach(t => {
     if(!t.person) return;
     en(t.person); P[t.person].total++;
-    if(t.sheetDone) { P[t.person].pts += t.pts; P[t.person].done++; }
+    if(t.sheetDone) {
+      P[t.person].pts += t.pts;
+      P[t.person].done++;
+      if(isToday(t.completedDate)) P[t.person].todayPts += t.pts;
+    }
   });
 
   // local completions
   Object.entries(G.completions).forEach(([key, info]) => {
     en(info.person);
     const task = G.tasks.find(t=>t.key===key);
-    if(!task||!task.sheetDone) { P[info.person].pts += info.pts; P[info.person].done++; }
+    if(!task||!task.sheetDone) {
+      P[info.person].pts += info.pts;
+      P[info.person].done++;
+      if(info.date === todayIsoDate()) P[info.person].todayPts += info.pts;
+    }
   });
 
   G.players = P;
@@ -372,13 +387,15 @@ function renderLB() {
     const lv   = Math.floor(p.pts / LV_PTS) + 1;
     const pct  = (p.pts % LV_PTS) / LV_PTS * 100;
     const left = Math.max(0, p.total - p.done);
-    return `<div class="player-card rank-${Math.min(i+1,3)}" style="animation:pop .3s ${i*.07}s both">
+    const isActive = G.filters.person === p.name;
+    return `<div class="player-card rank-${Math.min(i+1,3)}" data-person="${x(p.name)}" style="animation:pop .3s ${i*.07}s both;cursor:pointer${isActive?`;outline:3px solid ${col};outline-offset:2px`:''}" onclick="togglePersonFilter('${x(p.name)}')">
       <div class="rank-emoji">${RANKS[i]||'🎖️'}</div>
       <div class="player-avatar" style="background:${col}22;border-color:${col}66">${av}</div>
       <div class="player-name">${x(p.name)}</div>
       <div class="player-level">Level ${lv}</div>
       <div class="pts-big" style="color:${col}">${p.pts}</div>
       <div class="pts-label">Quest Points</div>
+      ${p.todayPts > 0 ? `<div style="font-size:.72rem;font-weight:800;color:${col};opacity:.8;margin:-4px 0 4px">+${p.todayPts} today</div>` : ''}
       <div class="xp-track"><div class="xp-fill" style="width:${pct}%;background:${col}"></div></div>
       <div class="xp-hint">${p.pts % LV_PTS}/${LV_PTS} → Lv ${lv+1}</div>
       <div class="mini-stats">
@@ -389,6 +406,16 @@ function renderLB() {
     </div>`;
   }).join('');
   renderCategoryBreakdown();
+}
+
+function updateLBCards() {
+  document.querySelectorAll('#leaderboard .player-card').forEach(card => {
+    const name = card.dataset.person;
+    const col = personColor(name);
+    const isActive = G.filters.person === name;
+    card.style.outline = isActive ? `3px solid ${col}` : '';
+    card.style.outlineOffset = isActive ? '2px' : '';
+  });
 }
 
 function renderCategoryBreakdown() {
@@ -461,6 +488,7 @@ function setStatusFilter(status) {
 function togglePersonFilter(person) {
   G.filters.person = G.filters.person === person ? '' : person;
   updateFilterButtons();
+  updateLBCards();
   renderTasks();
 }
 
@@ -539,7 +567,7 @@ async function doComplete(key) {
     return;
   }
   t.isDone = true;
-  G.completions[key] = { person: t.person||'Family', pts: t.pts };
+  G.completions[key] = { person: t.person||'Family', pts: t.pts, date: todayIsoDate() };
   G.activity.push({ person: t.person||'Family', title: t.title, pts: t.pts });
   save(); buildPlayers(); renderLB(); renderTasks(); renderActivity();
   toast(`🎉 ${t.pts} pt${t.pts!==1?'s':''} for ${t.person||'the family'}!`);

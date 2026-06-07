@@ -3,114 +3,103 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Logan's Tasks | Snowflake</title>
+<title>Logan | Snowflake</title>
 <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Baloo+2:wght@400;600;700;800&display=swap" rel="stylesheet">
 <style>
   :root {
-    --accent:   #6bcb77;
-    --accent2:  #4aaa55;
-    --bg:       #fff8ee;
-    --card:     #ffffff;
-    --text:     #2d2a4a;
-    --muted:    #8a87a5;
-    --border:   #ede8f5;
-    --shadow:   0 4px 20px rgba(45,42,74,.09);
+    --accent:  #7b4bd9;
+    --accent2: #5e31b8;
+    --bg:      #fff8ee;
+    --card:    #ffffff;
+    --text:    #2d2a4a;
+    --muted:   #8a87a5;
+    --border:  #ede8f5;
+    --shadow:  0 4px 20px rgba(45,42,74,.09);
   }
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-  html, body { height: 100%; }
   body { font-family: "Nunito", sans-serif; background: var(--bg); color: var(--text); overflow-y: auto; }
 
   .hero {
-    background: linear-gradient(135deg, #6bcb77 0%, #4aaa55 100%);
+    background: linear-gradient(135deg, #7b4bd9 0%, #5e31b8 100%);
     padding: 24px 20px 20px;
     color: #fff;
     position: relative;
     overflow: hidden;
   }
-  .hero::after {
-    content: '👦';
-    position: absolute;
-    right: 20px;
-    top: 50%;
-    transform: translateY(-50%);
-    font-size: 4rem;
-    opacity: .25;
-  }
-  .hero-name {
-    font-family: "Baloo 2", cursive;
-    font-size: 1.9rem;
-    font-weight: 800;
-    line-height: 1;
-    margin-bottom: 4px;
-  }
-  .hero-sub { font-size: .82rem; font-weight: 700; opacity: .88; }
-  .hero-badge {
-    display: inline-block;
-    margin-top: 10px;
-    background: rgba(255,255,255,.25);
-    border: 1.5px solid rgba(255,255,255,.45);
-    border-radius: 50px;
-    padding: 4px 14px;
-    font-size: .75rem;
-    font-weight: 800;
-    letter-spacing: .4px;
-  }
+  .hero::after { content: '👦'; position: absolute; right: 20px; top: 50%; transform: translateY(-50%); font-size: 4rem; opacity: .22; }
+  .hero-name { font-family: "Baloo 2", cursive; font-size: 1.9rem; font-weight: 800; line-height: 1; margin-bottom: 4px; }
+  .hero-sub  { font-size: .82rem; font-weight: 700; opacity: .88; }
+  .hero-badge { display: inline-block; margin-top: 10px; background: rgba(255,255,255,.25); border: 1.5px solid rgba(255,255,255,.45); border-radius: 50px; padding: 4px 14px; font-size: .75rem; font-weight: 800; letter-spacing: .4px; }
 
-  .section-label {
-    font-size: .7rem;
-    font-weight: 800;
-    text-transform: uppercase;
-    letter-spacing: 1.2px;
-    color: var(--muted);
-    padding: 18px 18px 10px;
-  }
+  .status-bar { font-size: .72rem; color: var(--muted); padding: 6px 18px; font-weight: 600; }
 
+  .section-label { font-size: .7rem; font-weight: 800; text-transform: uppercase; letter-spacing: 1.2px; color: var(--muted); padding: 18px 18px 10px; }
+
+  /* Score card */
+  .score-wrap { padding: 0 16px 4px; }
+  .score-card { background: var(--card); border-radius: 20px; padding: 20px; box-shadow: var(--shadow); border-top: 4px solid var(--accent); text-align: center; }
+  .score-rank { font-size: .8rem; font-weight: 800; color: var(--muted); margin-bottom: 8px; }
+  .score-avatar { font-size: 2.4rem; margin-bottom: 4px; }
+  .score-level { font-size: .78rem; color: var(--muted); font-weight: 700; margin-bottom: 6px; }
+  .pts-row { display: flex; justify-content: center; align-items: baseline; gap: 8px; margin-bottom: 2px; }
+  .pts-big { font-size: 2.2rem; font-weight: 900; color: var(--accent); }
+  .pts-today { font-size: .8rem; font-weight: 800; color: var(--accent); opacity: .75; align-self: center; }
+  .pts-label { font-size: .65rem; color: var(--muted); font-weight: 700; text-transform: uppercase; letter-spacing: .5px; margin-bottom: 12px; }
+  .xp-track { height: 6px; background: var(--border); border-radius: 99px; overflow: hidden; margin-bottom: 4px; }
+  .xp-fill  { height: 100%; background: var(--accent); border-radius: 99px; transition: width .5s; }
+  .xp-hint  { font-size: .65rem; color: var(--muted); font-weight: 700; margin-bottom: 14px; }
+  .score-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+  .score-stat { background: var(--bg); border-radius: 10px; padding: 8px 4px; }
+  .score-stat .sv { font-size: 1.2rem; font-weight: 900; color: var(--text); }
+  .score-stat .sl { font-size: .6rem; color: var(--muted); font-weight: 700; text-transform: uppercase; }
+
+  /* Progress */
+  .progress-wrap { padding: 4px 16px 8px; }
+  .progress-label { font-size: .72rem; font-weight: 700; color: var(--muted); margin-bottom: 5px; display: flex; justify-content: space-between; }
+  .progress-track { height: 8px; background: var(--border); border-radius: 99px; overflow: hidden; }
+  .progress-fill  { height: 100%; background: linear-gradient(90deg, #7b4bd9, #5e31b8); border-radius: 99px; transition: width .5s ease; }
+
+  /* Tasks */
   .task-list { padding: 0 16px 32px; display: flex; flex-direction: column; gap: 12px; }
-
-  .task-card {
-    background: var(--card);
-    border-radius: 16px;
-    padding: 16px;
-    box-shadow: var(--shadow);
-    border-left: 5px solid var(--accent);
-    transition: transform .18s, box-shadow .18s;
-    animation: pop .28s ease both;
-  }
+  .task-card { background: var(--card); border-radius: 16px; padding: 16px; box-shadow: var(--shadow); border-left: 5px solid var(--accent); animation: pop .28s ease both; transition: transform .18s, box-shadow .18s; }
   .task-card:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(45,42,74,.13); }
-  .task-card.done { opacity: .55; border-left-color: var(--muted); }
-  .task-card.done .task-title { text-decoration: line-through; color: var(--muted); }
-
   @keyframes pop { from { opacity: 0; transform: scale(.97); } to { opacity: 1; transform: scale(1); } }
 
-  .task-top { display: flex; align-items: flex-start; gap: 8px; margin-bottom: 6px; }
+  .task-top   { display: flex; justify-content: space-between; align-items: flex-start; gap: 8px; margin-bottom: 6px; }
   .task-title { font-weight: 800; font-size: .95rem; line-height: 1.3; flex: 1; }
+  .pts-pill   { background: #7b4bd922; color: var(--accent); font-size: .7rem; font-weight: 800; padding: 2px 8px; border-radius: 99px; white-space: nowrap; border: 1px solid #7b4bd944; }
 
   .task-tags { display: flex; gap: 5px; flex-wrap: wrap; margin-bottom: 8px; }
-  .tag { font-size: .65rem; padding: 2px 8px; border-radius: 99px; font-weight: 800; }
-  .tag-cat   { background: #6bcb7733; color: #2a6b35; border: 1px solid #6bcb77; }
+  .tag       { font-size: .65rem; padding: 2px 8px; border-radius: 99px; font-weight: 800; }
+  .tag-cat   { background: #7b4bd918; color: var(--accent2); border: 1px solid #7b4bd944; }
   .tag-time  { background: #ffd16633; color: #7a5500; border: 1px solid #ffd166; }
-  .tag-open  { background: #ffd16633; color: #7a5500; border: 1px solid #ffd166; }
-  .tag-done  { background: #6bcb7733; color: #2a6b35; border: 1px solid #6bcb77; }
 
   .task-desc { font-size: .8rem; color: var(--muted); line-height: 1.5; margin-bottom: 12px; }
   .task-foot { display: flex; justify-content: space-between; align-items: center; padding-top: 10px; border-top: 1.5px solid var(--border); }
   .date-hint { font-size: .68rem; color: var(--muted); font-weight: 600; }
 
-  .complete-btn {
-    padding: 5px 14px; border-radius: 50px;
-    border: 1.5px solid var(--accent2);
-    background: transparent; color: var(--accent2);
-    font-family: "Nunito", sans-serif; font-size: .75rem; font-weight: 800;
-    cursor: pointer; transition: all .18s;
-  }
+  .complete-btn { padding: 5px 14px; border-radius: 50px; border: 1.5px solid var(--accent2); background: transparent; color: var(--accent2); font-family: "Nunito", sans-serif; font-size: .75rem; font-weight: 800; cursor: pointer; transition: all .18s; }
   .complete-btn:hover { background: var(--accent2); color: #fff; }
-  .done-btn { border-color: var(--muted) !important; color: var(--muted) !important; cursor: default !important; }
-  .done-btn:hover { background: transparent !important; }
 
-  .progress-bar-wrap { padding: 0 16px 6px; }
-  .progress-label { font-size: .72rem; font-weight: 700; color: var(--muted); margin-bottom: 5px; display: flex; justify-content: space-between; }
-  .progress-track { height: 8px; background: var(--border); border-radius: 99px; overflow: hidden; }
-  .progress-fill  { height: 100%; background: linear-gradient(90deg, #6bcb77, #4aaa55); border-radius: 99px; transition: width .5s ease; }
+  /* Menu */
+  .menu-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; padding: 0 16px 4px; }
+  .menu-card { background: var(--card); border-radius: 14px; padding: 14px 12px; box-shadow: var(--shadow); text-align: center; }
+  .menu-card-title { font-size: .65rem; font-weight: 900; text-transform: uppercase; letter-spacing: .7px; color: var(--accent); margin-bottom: 6px; }
+  .menu-item { font-size: .84rem; font-weight: 700; color: var(--text); line-height: 1.3; }
+  .menu-empty { font-size: .74rem; color: var(--muted); font-style: italic; }
+
+  /* Calendar events */
+  .events-wrap { margin: 0 16px 4px; background: var(--card); border-radius: 14px; box-shadow: var(--shadow); overflow: hidden; }
+  .event-row { display: flex; gap: 10px; align-items: flex-start; padding: 9px 14px; border-bottom: 1px solid var(--border); }
+  .event-row:last-child { border-bottom: none; }
+  .event-time { font-size: .7rem; font-weight: 800; color: var(--muted); width: 54px; flex-shrink: 0; padding-top: 2px; text-align: right; }
+  .event-dot  { width: 8px; height: 8px; border-radius: 50%; background: var(--accent); flex-shrink: 0; margin-top: 5px; }
+  .event-name { font-size: .84rem; font-weight: 700; color: var(--text); flex: 1; }
+  .events-empty { padding: 12px 16px; font-size: .8rem; color: var(--muted); }
+
+  .empty { text-align: center; padding: 40px 20px; color: var(--muted); }
+  .empty .e-icon { font-size: 2.5rem; margin-bottom: 8px; }
+  .empty h3 { font-size: 1rem; margin-bottom: 4px; color: var(--text); }
 
   .toast-wrap { position: fixed; bottom: 16px; right: 16px; z-index: 99; display: flex; flex-direction: column; gap: 8px; }
   .toast { background: var(--text); color: #fff; padding: 10px 16px; border-radius: 12px; font-size: .84rem; font-weight: 700; box-shadow: 0 4px 18px rgba(0,0,0,.25); animation: slideUp .25s ease; }
@@ -125,122 +114,396 @@
 
 <div class="hero">
   <div class="hero-name">Logan</div>
-  <div class="hero-sub">Today's Tasks · June 4, 2026</div>
-  <div class="hero-badge">👦 5 tasks assigned</div>
+  <div class="hero-sub" id="heroSub">Loading…</div>
+  <div class="hero-badge" id="heroBadge">👦 Quest Board</div>
 </div>
 
-<div class="progress-bar-wrap">
-  <div class="section-label" style="padding-bottom:6px">Progress</div>
+<div class="status-bar" id="statusBar">Syncing with sheet…</div>
+
+<div class="section-label">🏆 My Score</div>
+<div class="score-wrap">
+  <div class="score-card" id="scoreCard">
+    <div class="score-rank">Loading…</div>
+  </div>
+</div>
+
+<div class="section-label">🍽️ Today's Menu</div>
+<div class="menu-grid" id="menuGrid">
+  <div class="menu-card"><div class="menu-card-title">🌅 Breakfast</div><div class="menu-empty">Loading…</div></div>
+  <div class="menu-card"><div class="menu-card-title">🥙 Kid Lunch</div><div class="menu-empty">Loading…</div></div>
+  <div class="menu-card"><div class="menu-card-title">🍽️ Supper</div><div class="menu-empty">Loading…</div></div>
+</div>
+
+<div class="section-label">📅 Today's Events</div>
+<div class="events-wrap" id="eventsList">
+  <div class="events-empty">Loading calendar…</div>
+</div>
+
+<div class="section-label">📋 My Open Quests</div>
+
+<div class="progress-wrap">
   <div class="progress-label">
-    <span id="prog-text">0 of 5 done</span>
-    <span id="prog-pct">0%</span>
+    <span id="prog-text">Loading…</span>
+    <span id="prog-pct"></span>
   </div>
   <div class="progress-track"><div class="progress-fill" id="prog-fill" style="width:0%"></div></div>
 </div>
 
-<div class="section-label">📋 Today's Quest List</div>
-
-<div class="task-list" id="taskList"></div>
+<div class="task-list" id="taskList">
+  <div class="empty"><div class="e-icon">⏳</div><h3>Loading tasks…</h3></div>
+</div>
 
 <div class="toast-wrap" id="toasts"></div>
 
+<script src="snowflake-config.js"></script>
 <script>
-const TASKS = [
-  {
-    id: 10,
-    title: "Spelling Words",
-    category: "School",
-    estTime: "",
-    desc: "Language Arts task due June 5. Practice the spelling words out loud and in writing.",
-    dateAssigned: "2026-06-04"
-  },
-  {
-    id: 11,
-    title: "Science Drawing",
-    category: "School",
-    estTime: "",
-    desc: "Science task due June 7. Finish the science drawing.",
-    dateAssigned: "2026-06-04"
-  },
-  {
-    id: 14,
-    title: "Memory Tray Detective",
-    category: "Brain",
-    estTime: "",
-    desc: "Study 10 objects on a tray, then cover it up and recall as many as possible from memory.",
-    dateAssigned: "2026-06-04"
-  },
-  {
-    id: 80,
-    title: "Box Breathing",
-    category: "Brain Activation",
-    estTime: "5 min",
-    desc: "Breathing & Calm: Breathe in for 4, hold for 4, out for 4, hold for 4. Repeat 4 rounds.",
-    dateAssigned: "2026-06-04"
-  },
-  {
-    id: 109,
-    title: "Alateen 02 — Feelings Weather",
-    category: "Family Recovery",
-    estTime: "15 min",
-    desc: "Draw today's feelings as weather: sunny, cloudy, stormy, windy, mixed. Add one sentence: Feelings are messages, not trouble. Share only what feels okay.",
-    dateAssigned: "2026-06-04"
-  }
-];
+const CFG       = window.SNOWFLAKE_CONFIG || {};
+const SHEET_ID  = CFG.sheetId  || '11A5NsScePEbtN9dujN3tILb_Q2TU5tsf6I0MbT11kDY';
+const SHEET_GID = CFG.sheetGid || '553696854';
+const LV_PTS    = 50;
+const PERSON    = 'Logan';
+const ACCENT    = '#7b4bd9';
+const AVATAR    = '👦';
+const RANKS     = ['🥇','🥈','🥉','🎖️'];
 
-const KEY = 'sf_logan_tasks_2026-06-04';
-let done = {};
-try { done = JSON.parse(localStorage.getItem(KEY) || '{}'); } catch(e){}
+let tasks = [], players = {}, completions = {}, rawRows = null;
+try { completions = JSON.parse(localStorage.getItem('sf_quest') || '{}').completions || {}; } catch(e){}
 
-function save() { localStorage.setItem(KEY, JSON.stringify(done)); }
-
-function updateProgress() {
-  const n = Object.keys(done).length;
-  const pct = Math.round(n / TASKS.length * 100);
-  document.getElementById('prog-text').textContent = `${n} of ${TASKS.length} done`;
-  document.getElementById('prog-pct').textContent  = pct + '%';
-  document.getElementById('prog-fill').style.width  = pct + '%';
+function todayIsoDate() { return new Date().toISOString().slice(0,10); }
+function isToday(d) {
+  if(!d) return false;
+  const t = todayIsoDate();
+  if(String(d).includes(t)) return true;
+  try { return new Date(d).toISOString().slice(0,10) === t; } catch(e) { return false; }
 }
-
-function render() {
-  document.getElementById('taskList').innerHTML = TASKS.map((t, i) => {
-    const isDone = !!done[t.id];
-    return `<div class="task-card${isDone ? ' done' : ''}" style="animation-delay:${i * .06}s">
-      <div class="task-top">
-        <div class="task-title">${t.title}</div>
-      </div>
-      <div class="task-tags">
-        <span class="tag tag-cat">📌 ${t.category}</span>
-        ${t.estTime ? `<span class="tag tag-time">⏱ ${t.estTime}</span>` : ''}
-        <span class="tag ${isDone ? 'tag-done' : 'tag-open'}">${isDone ? '✓ Done' : '○ Open'}</span>
-      </div>
-      <div class="task-desc">${t.desc}</div>
-      <div class="task-foot">
-        <span class="date-hint">📅 Assigned ${t.dateAssigned}</span>
-        <button class="complete-btn${isDone ? ' done-btn' : ''}"
-          onclick="${isDone ? '' : `complete(${t.id})`}">
-          ${isDone ? '✓ Done' : '+ Complete'}
-        </button>
-      </div>
-    </div>`;
-  }).join('');
-  updateProgress();
-}
-
-function complete(id) {
-  done[id] = true;
-  save(); render();
-  toast('🌟 Great job, Logan!');
-}
-
+function x(s) { return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;'); }
 function toast(msg) {
-  const c = document.getElementById('toasts');
-  const el = document.createElement('div');
+  const c = document.getElementById('toasts'), el = document.createElement('div');
   el.className = 'toast'; el.textContent = msg;
   c.appendChild(el); setTimeout(() => el.remove(), 3000);
 }
 
-render();
+/* ── Sheet loading ── */
+function parseCSV(raw) {
+  const rows=[]; let i=0, n=raw.length;
+  while(i<n) {
+    const row=[];
+    while(i<n && raw[i]!=='\n' && raw[i]!=='\r') {
+      if(raw[i]==='"') {
+        let c=''; i++;
+        while(i<n){ if(raw[i]==='"'&&raw[i+1]==='"'){c+='"';i+=2;} else if(raw[i]==='"'){i++;break;} else c+=raw[i++]; }
+        row.push(c.trim()); if(raw[i]===',')i++;
+      } else {
+        let c='';
+        while(i<n&&raw[i]!==','&&raw[i]!=='\n'&&raw[i]!=='\r')c+=raw[i++];
+        row.push(c.trim()); if(raw[i]===',')i++;
+      }
+    }
+    while(raw[i]==='\n'||raw[i]==='\r')i++;
+    if(row.some(c=>c))rows.push(row);
+  }
+  return rows;
+}
+
+function loadRowsWithGviz() {
+  if(!SHEET_ID) return Promise.reject(new Error('Missing Sheet ID'));
+  return new Promise((resolve, reject) => {
+    const cb = `_cb_${Date.now()}_${Math.random().toString(36).slice(2)}`;
+    const script = document.createElement('script');
+    const timer = setTimeout(() => { cleanup(); reject(new Error('Timeout')); }, 12000);
+    function cleanup() { clearTimeout(timer); delete window[cb]; script.remove(); }
+    window[cb] = payload => {
+      cleanup();
+      if(!payload || payload.status === 'error') { reject(new Error('Sheet error')); return; }
+      const table = payload.table || {};
+      const headers = (table.cols || []).map((c,i) => c.label || c.id || `Col${i+1}`);
+      const rows = (table.rows || []).map(row => (row.c || []).map(cell => {
+        if(!cell) return '';
+        return cell.f != null ? String(cell.f) : String(cell.v == null ? '' : cell.v);
+      }));
+      resolve([headers, ...rows]);
+    };
+    script.onerror = () => { cleanup(); reject(new Error('Script load error')); };
+    script.src = `https://docs.google.com/spreadsheets/d/${encodeURIComponent(SHEET_ID)}/gviz/tq?gid=${encodeURIComponent(SHEET_GID)}&tqx=responseHandler:${cb}`;
+    document.head.append(script);
+  });
+}
+
+async function loadRows() {
+  const url = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/export?format=csv${SHEET_GID?'&gid='+SHEET_GID:''}`;
+  try {
+    const r = await fetch(url, { cache:'no-store' });
+    if(!r.ok) throw new Error(`HTTP ${r.status}`);
+    const txt = await r.text();
+    if(!txt.trim()) throw new Error('Empty');
+    return parseCSV(txt);
+  } catch(e) { return loadRowsWithGviz(); }
+}
+
+function autoMap(headers) {
+  const h = headers.map(s => s.toLowerCase().trim());
+  const first = kws => { for(const k of kws){ const i=h.findIndex(c=>c.includes(k)); if(i>=0)return i; } return -1; };
+  const exact = kws => { for(const k of kws){ const i=h.findIndex(c=>c===k); if(i>=0)return i; } return -1; };
+  const titleIdx = exact(['task name en'])!==-1?exact(['task name en']):exact(['task name'])!==-1?exact(['task name']):first(['task name','task','title']);
+  const isDoneIdx = exact(['isdone'])!==-1?exact(['isdone']):h.findIndex(c=>c==='done'||c==='is done'||c==='isdone');
+  const completedIdx = exact(['date completed'])!==-1?exact(['date completed']):h.findIndex(c=>c.includes('complet')&&c.includes('date'));
+  const dateAddedIdx = exact(['date added'])!==-1?exact(['date added']):h.findIndex(c=>c.includes('date')&&c.includes('add'));
+  return {
+    title:         titleIdx,
+    titleFR:       exact(['task name fr'])!==-1?exact(['task name fr']):h.findIndex(c=>c.includes('task')&&c.includes('fr')),
+    responsible:   first(['responsible','assign','owner','player','person','who','user','member']),
+    topic:         first(['category','topic','cat','type','tag','area','group','label']),
+    description:   exact(['description en'])!==-1?exact(['description en']):first(['desc','detail','note','body','info']),
+    completedDate: completedIdx!==-1?completedIdx:first(['complet','finished','closed']),
+    isDone:        isDoneIdx,
+    dateAdded:     dateAddedIdx!==-1?dateAddedIdx:first(['date added','date','added','created']),
+    points:        first(['points','point','pts','xp','score','value','reward']),
+    estTime:       first(['est time','est.','time','duration','minutes']),
+  };
+}
+
+function buildData(rows) {
+  if(!rows || rows.length < 2) return;
+  const map = autoMap(rows[0]);
+  const YES_KW = ['yes','true','1','done','complete','completed','finished','closed','✓','✅'];
+  const today = todayIsoDate();
+
+  tasks = rows.slice(1).map((row, i) => {
+    const get = idx => (idx >= 0 && idx < row.length ? (row[idx]||'') : '').trim();
+    const title = get(map.title >= 0 ? map.title : 5);
+    if(!title) return null;
+    const person        = get(map.responsible >= 0 ? map.responsible : 2);
+    const topic         = get(map.topic >= 0 ? map.topic : 3);
+    const desc          = get(map.description >= 0 ? map.description : 7);
+    const rawPts        = get(map.points);
+    const pts           = Math.max(0, parseInt(rawPts) || 0);
+    const estTime       = get(map.estTime);
+    const dateAdd       = get(map.dateAdded >= 0 ? map.dateAdded : 1);
+    const rawIsDone     = get(map.isDone);
+    const rawCompleted  = get(map.completedDate);
+    const boolDone      = !!rawIsDone && YES_KW.some(k => rawIsDone.toLowerCase() === k);
+    const dateDone      = !!rawCompleted && /\d{4}/.test(rawCompleted);
+    const sheetDone     = boolDone || dateDone;
+    const key           = `r${i}_${title.slice(0,14).replace(/\W/g,'_')}`;
+    return { key, rowNumber: i+2, title, person, topic, desc, pts, dateAdd, estTime,
+             completedDate: rawCompleted || (boolDone ? rawIsDone : ''), sheetDone,
+             isDone: sheetDone || !!completions[key] };
+  }).filter(Boolean);
+
+  // Build all players for rank
+  const P = {};
+  const en = n => { if(!P[n]) P[n]={name:n, pts:0, done:0, total:0, todayPts:0}; };
+  tasks.forEach(t => {
+    if(!t.person) return;
+    en(t.person); P[t.person].total++;
+    if(t.sheetDone) {
+      P[t.person].pts += t.pts; P[t.person].done++;
+      if(isToday(t.completedDate)) P[t.person].todayPts += t.pts;
+    }
+  });
+  Object.entries(completions).forEach(([key, info]) => {
+    en(info.person);
+    const task = tasks.find(t=>t.key===key);
+    if(!task||!task.sheetDone) {
+      P[info.person].pts += info.pts; P[info.person].done++;
+      if(info.date === today) P[info.person].todayPts += info.pts;
+    }
+  });
+  players = P;
+}
+
+function renderScoreCard() {
+  const el = document.getElementById('scoreCard');
+  const p = players[PERSON];
+  if(!p) { el.innerHTML = `<div class="score-rank">No score data yet</div>`; return; }
+  const sorted = Object.values(players).sort((a,b)=>b.pts-a.pts);
+  const rank = sorted.findIndex(pl => pl.name === PERSON);
+  const lv   = Math.floor(p.pts / LV_PTS) + 1;
+  const pct  = (p.pts % LV_PTS) / LV_PTS * 100;
+  const left = Math.max(0, p.total - p.done);
+  el.innerHTML = `
+    <div class="score-rank">${RANKS[rank]||'🎖️'} Rank #${rank+1} of ${sorted.length}</div>
+    <div class="score-avatar">${AVATAR}</div>
+    <div class="score-level">Level ${lv}</div>
+    <div class="pts-row">
+      <div class="pts-big">${p.pts}</div>
+      ${p.todayPts > 0 ? `<div class="pts-today">+${p.todayPts} today</div>` : ''}
+    </div>
+    <div class="pts-label">Quest Points</div>
+    <div class="xp-track"><div class="xp-fill" style="width:${pct}%"></div></div>
+    <div class="xp-hint">${p.pts % LV_PTS}/${LV_PTS} → Lv ${lv+1}</div>
+    <div class="score-stats">
+      <div class="score-stat"><div class="sv">${p.done}</div><div class="sl">Done</div></div>
+      <div class="score-stat"><div class="sv">${p.total}</div><div class="sl">Total</div></div>
+      <div class="score-stat"><div class="sv">${left}</div><div class="sl">Left</div></div>
+    </div>`;
+}
+
+function renderTasks() {
+  const myOpen  = tasks.filter(t => t.person === PERSON && !t.isDone);
+  const myAll   = tasks.filter(t => t.person === PERSON);
+  const myDone  = myAll.filter(t => t.isDone).length;
+  const pct     = myAll.length > 0 ? Math.round(myDone / myAll.length * 100) : 0;
+
+  document.getElementById('prog-text').textContent = `${myDone} of ${myAll.length} done`;
+  document.getElementById('prog-pct').textContent  = pct + '%';
+  document.getElementById('prog-fill').style.width = pct + '%';
+  document.getElementById('heroBadge').textContent = `👦 ${myOpen.length} open quest${myOpen.length!==1?'s':''}`;
+
+  const el = document.getElementById('taskList');
+  if(!myOpen.length) {
+    el.innerHTML = `<div class="empty"><div class="e-icon">🎉</div><h3>All done!</h3><p>Incredible work, Logan!</p></div>`;
+    return;
+  }
+  el.innerHTML = myOpen.map((t, i) => `
+    <div class="task-card" style="animation-delay:${i*.06}s">
+      <div class="task-top">
+        <div class="task-title">${x(t.title)}</div>
+        ${t.pts > 0 ? `<div class="pts-pill">⭐ ${t.pts}pt</div>` : ''}
+      </div>
+      <div class="task-tags">
+        ${t.topic   ? `<span class="tag tag-cat">📌 ${x(t.topic)}</span>` : ''}
+        ${t.estTime ? `<span class="tag tag-time">⏱ ${x(t.estTime)}</span>` : ''}
+      </div>
+      ${t.desc ? `<div class="task-desc">${x(t.desc)}</div>` : ''}
+      <div class="task-foot">
+        <span class="date-hint">${t.dateAdd ? '📅 '+x(t.dateAdd) : ''}</span>
+        <button class="complete-btn" onclick="markDone('${x(t.key)}')">+ Complete</button>
+      </div>
+    </div>`).join('');
+}
+
+async function markDone(key) {
+  const t = tasks.find(t=>t.key===key);
+  if(!t||t.isDone) return;
+  const endpoint = String(CFG.appsScriptUrl || '').trim();
+  if(endpoint) {
+    try {
+      const r = await fetch(endpoint, { method:'POST', body: JSON.stringify({ rowNumber: t.rowNumber, completedDate: todayIsoDate() }) });
+      const payload = await r.json();
+      if(!r.ok || !payload.ok) throw new Error(payload.error || `Error ${r.status}`);
+    } catch(e) {
+      toast(`Could not save: ${e.message}`);
+      return;
+    }
+  }
+  const stored = JSON.parse(localStorage.getItem('sf_quest') || '{}');
+  stored.completions = stored.completions || {};
+  stored.completions[key] = { person: PERSON, pts: t.pts, date: todayIsoDate() };
+  stored.activity = stored.activity || [];
+  stored.activity.push({ person: PERSON, title: t.title, pts: t.pts });
+  localStorage.setItem('sf_quest', JSON.stringify(stored));
+  completions = stored.completions;
+  if(rawRows) buildData(rawRows);
+  renderScoreCard();
+  renderTasks();
+  toast(`⭐ ${t.pts}pt earned, Logan! Great work!`);
+}
+
+/* ── Menu ── */
+async function loadMenu() {
+  const el = document.getElementById('menuGrid');
+  const menuGid = CFG.menuSheetGid;
+  const meals = { breakfast: null, lunch: null, supper: null };
+
+  if(menuGid && SHEET_ID) {
+    try {
+      const url = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/export?format=csv&gid=${menuGid}`;
+      const r = await fetch(url, { cache:'no-store' });
+      if(r.ok) {
+        const csv = await r.text();
+        const csvRows = parseCSV(csv);
+        if(csvRows.length > 1) {
+          const h = csvRows[0].map(s => s.toLowerCase().trim());
+          const dateIdx = h.findIndex(c => c.includes('date'));
+          const bIdx    = h.findIndex(c => c.includes('breakfast'));
+          const lIdx    = h.findIndex(c => c.includes('lunch') || c.includes('kid'));
+          const sIdx    = h.findIndex(c => c.includes('supper') || c.includes('dinner'));
+          const today   = todayIsoDate();
+          csvRows.slice(1).forEach(row => {
+            if(dateIdx < 0) return;
+            const d = row[dateIdx] || '';
+            const match = d.includes(today) || (() => { try { return new Date(d).toISOString().slice(0,10)===today; } catch(e){return false;} })();
+            if(match) {
+              if(bIdx>=0) meals.breakfast = row[bIdx]||null;
+              if(lIdx>=0) meals.lunch     = row[lIdx]||null;
+              if(sIdx>=0) meals.supper    = row[sIdx]||null;
+            }
+          });
+        }
+      }
+    } catch(e) { /* silently fall through */ }
+  }
+
+  el.innerHTML = [
+    { emoji:'🌅', label:'Breakfast', key:'breakfast' },
+    { emoji:'🥙', label:'Kid Lunch', key:'lunch' },
+    { emoji:'🍽️', label:'Supper',    key:'supper' },
+  ].map(m => `<div class="menu-card">
+    <div class="menu-card-title">${m.emoji} ${m.label}</div>
+    ${meals[m.key] ? `<div class="menu-item">${x(meals[m.key])}</div>` : `<div class="menu-empty">Not planned yet</div>`}
+  </div>`).join('');
+}
+
+/* ── Calendar ── */
+async function loadCalendar() {
+  const el     = document.getElementById('eventsList');
+  const calId  = CFG.calendarIds && CFG.calendarIds.logan;
+  const apiKey = CFG.googleApiKey;
+
+  if(!calId || !apiKey) {
+    el.innerHTML = `<div class="events-empty">📅 Calendar not configured — add calendarIds.logan &amp; googleApiKey to snowflake-config.js</div>`;
+    return;
+  }
+
+  try {
+    const now   = new Date();
+    const start = new Date(now.getFullYear(), now.getMonth(), now.getDate()).toISOString();
+    const end   = new Date(now.getFullYear(), now.getMonth(), now.getDate()+1).toISOString();
+    const url   = `https://www.googleapis.com/calendar/v3/calendars/${encodeURIComponent(calId)}/events?key=${encodeURIComponent(apiKey)}&timeMin=${encodeURIComponent(start)}&timeMax=${encodeURIComponent(end)}&singleEvents=true&orderBy=startTime`;
+    const r = await fetch(url);
+    if(!r.ok) throw new Error(`HTTP ${r.status}`);
+    const data   = await r.json();
+    const events = (data.items || []).filter(ev => ev.status !== 'cancelled');
+
+    if(!events.length) {
+      el.innerHTML = `<div class="events-empty">🎉 Nothing on the calendar today!</div>`;
+      return;
+    }
+
+    el.innerHTML = events.map(ev => {
+      const isAllDay = !!ev.start.date;
+      const timeStr  = isAllDay ? 'All day' : new Date(ev.start.dateTime).toLocaleTimeString('en-CA', { hour:'numeric', minute:'2-digit' });
+      return `<div class="event-row">
+        <div class="event-time">${timeStr}</div>
+        <div class="event-dot"></div>
+        <div class="event-name">${x(ev.summary||'Event')}</div>
+      </div>`;
+    }).join('');
+  } catch(e) {
+    el.innerHTML = `<div class="events-empty">Could not load calendar: ${x(e.message)}</div>`;
+  }
+}
+
+async function init() {
+  const dateStr = new Date().toLocaleDateString('en-CA', { weekday:'long', month:'long', day:'numeric' });
+  document.getElementById('heroSub').textContent = dateStr;
+  try {
+    rawRows = await loadRows();
+    buildData(rawRows);
+    renderScoreCard();
+    renderTasks();
+    const open = tasks.filter(t=>t.person===PERSON&&!t.isDone).length;
+    document.getElementById('statusBar').textContent = `${open} open quest${open!==1?'s':''} · synced just now`;
+  } catch(e) {
+    document.getElementById('statusBar').textContent = `Could not load sheet: ${e.message}`;
+    document.getElementById('taskList').innerHTML = `<div class="empty"><div class="e-icon">⚠️</div><h3>Could not load tasks</h3><p>${x(e.message)}</p></div>`;
+  }
+  loadMenu();
+  loadCalendar();
+}
+
+init();
 </script>
 </body>
 </html>

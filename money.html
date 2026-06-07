@@ -17,37 +17,14 @@
     --text: #2d2a4a;
     --muted: #8a87a5;
     --border: #ede8f5;
-    --shadow: 0 4px 20px rgba(45, 42, 74, 0.09);
+    --shadow: 0 4px 20px rgba(45,42,74,0.09);
   }
 
-  *,
-  *::before,
-  *::after {
-    box-sizing: border-box;
-  }
-
-  html,
-  body {
-    min-height: 100%;
-  }
-
-  body {
-    margin: 0;
-    color: var(--text);
-    background: var(--bg);
-    font-family: "Nunito", sans-serif;
-  }
-
-  button,
-  input,
-  select {
-    font: inherit;
-  }
-
-  button {
-    border: 0;
-    cursor: pointer;
-  }
+  *, *::before, *::after { box-sizing: border-box; }
+  html, body { min-height: 100%; }
+  body { margin: 0; color: var(--text); background: var(--bg); font-family: "Nunito", sans-serif; }
+  button, input, select { font: inherit; }
+  button { border: 0; cursor: pointer; }
 
   .sheet-app {
     display: grid;
@@ -57,9 +34,7 @@
     padding: 18px;
   }
 
-  .page-header,
-  .control-panel,
-  .data-panel {
+  .page-header, .control-panel, .data-panel {
     background: var(--card);
     border: 1.5px solid var(--border);
     border-radius: 18px;
@@ -81,20 +56,9 @@
     line-height: 1;
   }
 
-  .status {
-    color: var(--muted);
-    font-size: 0.88rem;
-    font-weight: 800;
-    text-align: right;
-  }
-
-  .status.ok {
-    color: #2f8f64;
-  }
-
-  .status.error {
-    color: #b83f52;
-  }
+  .status { color: var(--muted); font-size: .88rem; font-weight: 800; text-align: right; }
+  .status.ok    { color: #2f8f64; }
+  .status.error { color: #b83f52; }
 
   .header-actions {
     display: flex;
@@ -103,90 +67,50 @@
     justify-content: flex-end;
   }
 
-  .control-panel {
-    display: grid;
-    gap: 14px;
-    padding: 16px;
-  }
+  .control-panel { display: grid; gap: 14px; padding: 16px; }
+  .control-panel[hidden] { display: none; }
 
-  .control-panel[hidden] {
-    display: none;
-  }
+  .source-row, .tool-row, .filter-grid { display: grid; gap: 10px; }
+  .source-row { grid-template-columns: minmax(220px, 1fr) 120px 130px; }
+  .tool-row   { grid-template-columns: minmax(220px, 1fr) 150px 130px 130px; align-items: center; }
 
-  .source-row,
-  .tool-row,
-  .filter-grid {
-    display: grid;
-    gap: 10px;
-  }
+  .field { display: grid; gap: 5px; }
 
-  .source-row {
-    grid-template-columns: minmax(220px, 1fr) 120px 130px;
-  }
-
-  .tool-row {
-    grid-template-columns: minmax(220px, 1fr) 150px 130px 130px;
-    align-items: center;
-  }
-
-  .field {
-    display: grid;
-    gap: 5px;
-  }
-
-  label,
-  .tiny-label {
+  label, .tiny-label {
     color: var(--muted);
-    font-size: 0.72rem;
+    font-size: .72rem;
     font-weight: 900;
     letter-spacing: 0;
     text-transform: uppercase;
   }
 
-  input,
-  select {
+  input, select {
     width: 100%;
     min-height: 40px;
     padding: 9px 12px;
     color: var(--text);
-    background: #ffffff;
+    background: #fff;
     border: 1.5px solid var(--border);
     border-radius: 12px;
     outline: none;
   }
-
-  input:focus,
-  select:focus {
+  input:focus, select:focus {
     border-color: var(--sky);
-    box-shadow: 0 0 0 3px rgba(126, 200, 227, 0.22);
+    box-shadow: 0 0 0 3px rgba(126,200,227,.22);
   }
 
-  .primary-button,
-  .secondary-button {
+  .primary-button, .secondary-button {
     min-height: 40px;
     padding: 9px 14px;
     border-radius: 999px;
     font-weight: 900;
   }
+  .primary-button   { color: #fff; background: var(--grass); }
+  .secondary-button { color: var(--text); background: #f5f2ff; border: 1.5px solid var(--border); }
 
-  .primary-button {
-    color: #ffffff;
-    background: var(--grass);
-  }
+  .filter-grid { grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); }
 
-  .secondary-button {
-    color: var(--text);
-    background: #f5f2ff;
-    border: 1.5px solid var(--border);
-  }
-
-  .filter-grid {
-    grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
-  }
-
-  .data-panel {
-    overflow: hidden;
-  }
+  .data-panel { overflow: hidden; }
 
   .summary-bar {
     display: flex;
@@ -196,111 +120,133 @@
     padding: 13px 16px;
     border-bottom: 1.5px solid var(--border);
   }
+  .summary-text { color: var(--muted); font-weight: 800; }
 
-  .summary-text {
-    color: var(--muted);
-    font-weight: 800;
-  }
-
+  /* ── Category summary ── */
   .category-summary {
     display: grid;
-    gap: 14px;
+    gap: 10px;
     padding: 16px;
     border-bottom: 1.5px solid var(--border);
     background: #fffdf8;
   }
 
-  .category-total {
+  .category-header-row {
     display: flex;
     gap: 12px;
     align-items: baseline;
     justify-content: space-between;
+    flex-wrap: wrap;
   }
 
-  .category-total strong {
+  .category-header-row strong {
     font-family: "Baloo 2", cursive;
-    font-size: clamp(1.6rem, 3vw, 2.25rem);
+    font-size: clamp(1.5rem, 3vw, 2.1rem);
     line-height: 1;
   }
 
-  .category-bars {
+  /* Column header labels above the category rows */
+  .cat-col-header {
     display: grid;
-    gap: 9px;
+    grid-template-columns: minmax(90px,130px) 1fr repeat(3, minmax(64px,82px));
+    gap: 8px;
+    padding: 0 6px 6px;
+    border-bottom: 1.5px solid var(--border);
   }
 
+  .cat-col-h {
+    font-size: .6rem;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: .8px;
+    color: var(--muted);
+    text-align: right;
+  }
+  .cat-col-h:first-child, .cat-col-h:nth-child(2) { text-align: left; }
+
+  /* Each category row */
   .category-row {
     display: grid;
-    grid-template-columns: minmax(100px, 170px) minmax(120px, 1fr) minmax(78px, auto);
-    gap: 10px;
+    grid-template-columns: minmax(90px,130px) 1fr repeat(3, minmax(64px,82px));
+    gap: 8px;
     align-items: center;
+    cursor: pointer;
+    border-radius: 8px;
+    padding: 5px 6px;
+    transition: background .15s;
   }
-
-  .category-name,
-  .category-amount {
-    font-size: 0.84rem;
-    font-weight: 900;
-  }
+  .category-row:hover { background: rgba(0,0,0,.035); }
+  .category-row.cat-active { background: rgba(0,0,0,.055); }
 
   .category-name {
+    font-size: .84rem;
+    font-weight: 800;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
   }
 
   .category-amount {
+    font-size: .78rem;
+    font-weight: 700;
     text-align: right;
   }
 
+  .category-footer {
+    display: grid;
+    grid-template-columns: minmax(90px,130px) 1fr repeat(3, minmax(64px,82px));
+    gap: 8px;
+    padding: 8px 6px 2px;
+    border-top: 1.5px solid var(--border);
+    margin-top: 2px;
+  }
+
+  /* Stacked bar */
   .bar-track {
-    height: 16px;
-    overflow: hidden;
+    height: 12px;
+    position: relative;
     background: #f1edf8;
     border-radius: 999px;
+    overflow: hidden;
   }
 
-  .bar-fill {
+  .stacked-bar {
+    position: absolute;
+    left: 0; top: 0;
     height: 100%;
-    min-width: 4px;
-    background: var(--sky);
-    border-radius: inherit;
+    display: flex;
+    border-radius: 999px;
+    overflow: hidden;
   }
 
+  .bar-paid, .bar-due { height: 100%; }
+
+  /* ── Table ── */
   .table-wrap {
     display: none;
     overflow: auto;
     max-height: calc(100vh - 310px);
   }
 
-  table {
-    width: 100%;
-    border-collapse: collapse;
-    font-size: 0.9rem;
-  }
-
-  th,
-  td {
+  table { width: 100%; border-collapse: collapse; font-size: .9rem; }
+  th, td {
     max-width: 320px;
     padding: 11px 12px;
     border-bottom: 1px solid #f1edf8;
     text-align: left;
     vertical-align: top;
   }
-
   th {
-    position: sticky;
-    top: 0;
-    z-index: 1;
+    position: sticky; top: 0; z-index: 1;
     color: var(--text);
     background: #fff9ef;
-    font-size: 0.76rem;
+    font-size: .76rem;
     font-weight: 900;
     text-transform: uppercase;
   }
+  tr:hover td { background: #fbfffb; }
 
-  tr:hover td {
-    background: #fbfffb;
-  }
-
+  /* ── Card grid ── */
   .card-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
@@ -315,24 +261,17 @@
     gap: 12px;
     align-content: start;
     padding: 16px;
-    background: #ffffff;
+    background: #fff;
     border: 1.5px solid var(--border);
     border-left: 5px solid var(--sky);
     border-bottom: 5px solid var(--border);
     border-radius: 16px;
+    transition: transform .15s;
   }
-
-  .row-card.due-overdue {
-    border-left-color: var(--coral);
-  }
-
-  .row-card.due-soon {
-    border-left-color: var(--sun);
-  }
-
-  .row-card.due-later {
-    border-left-color: var(--grass);
-  }
+  .row-card:hover { transform: translateY(-2px); }
+  .row-card.due-overdue { border-left-color: var(--coral); }
+  .row-card.due-soon    { border-left-color: var(--sun); }
+  .row-card.due-later   { border-left-color: var(--grass); }
 
   .row-card h2 {
     margin: 0;
@@ -347,72 +286,22 @@
     gap: 8px;
   }
 
-  .card-field {
-    display: grid;
-    gap: 2px;
-    min-width: 0;
-  }
+  .card-field { display: grid; gap: 2px; min-width: 0; }
+  .card-field strong { color: var(--muted); font-size: .7rem; text-transform: uppercase; }
+  .card-field span   { line-height: 1.35; overflow-wrap: anywhere; }
 
-  .card-field strong {
-    color: var(--muted);
-    font-size: 0.7rem;
-    text-transform: uppercase;
-  }
-
-  .card-field span {
-    line-height: 1.35;
-    overflow-wrap: anywhere;
-  }
-
-  .empty {
-    padding: 36px 20px;
-    color: var(--muted);
-    font-weight: 800;
-    text-align: center;
-  }
+  .empty { padding: 36px 20px; color: var(--muted); font-weight: 800; text-align: center; }
 
   @media (max-width: 760px) {
-    .sheet-app {
-      padding: 12px;
-    }
-
-    .page-header,
-    .summary-bar {
-      align-items: flex-start;
-      flex-direction: column;
-    }
-
-    .header-actions {
-      width: 100%;
-      align-items: flex-start;
-      justify-content: space-between;
-    }
-
-    .status {
-      text-align: left;
-    }
-
-    .source-row,
-    .tool-row {
-      grid-template-columns: 1fr;
-    }
-
-    .table-wrap,
-    .card-grid {
-      max-height: none;
-    }
-
-    .bill-card-meta {
-      grid-template-columns: 1fr;
-    }
-
-    .category-row {
-      grid-template-columns: minmax(0, 1fr) minmax(78px, auto);
-    }
-
-    .bar-track {
-      grid-column: 1 / -1;
-      grid-row: 2;
+    .sheet-app { padding: 12px; }
+    .page-header, .summary-bar { align-items: flex-start; flex-direction: column; }
+    .header-actions { width: 100%; align-items: flex-start; justify-content: space-between; }
+    .status { text-align: left; }
+    .source-row, .tool-row { grid-template-columns: 1fr; }
+    .table-wrap, .card-grid { max-height: none; }
+    .bill-card-meta { grid-template-columns: 1fr; }
+    .cat-col-header, .category-row, .category-footer {
+      grid-template-columns: minmax(70px,90px) 1fr repeat(3, minmax(52px,66px));
     }
   }
 </style>
@@ -469,16 +358,26 @@
       <div class="summary-text" id="summary">BillLog is loading.</div>
       <button class="secondary-button" id="copy-button" type="button">Copy Filtered CSV</button>
     </div>
-    <div class="category-summary" aria-label="Money due by category">
-      <div class="category-total">
+
+    <div class="category-summary" aria-label="Category breakdown">
+      <div class="category-header-row">
         <div>
-          <div class="tiny-label">Money due by category</div>
+          <div class="tiny-label">Total due</div>
           <strong id="category-total">$0.00</strong>
         </div>
         <div class="summary-text" id="category-count">No categories yet</div>
       </div>
-      <div class="category-bars" id="category-bars"></div>
+      <!-- Column headers -->
+      <div class="cat-col-header">
+        <div class="cat-col-h">Category</div>
+        <div class="cat-col-h"></div>
+        <div class="cat-col-h">Due</div>
+        <div class="cat-col-h">Paid</div>
+        <div class="cat-col-h">Total</div>
+      </div>
+      <div id="category-bars"></div>
     </div>
+
     <div class="table-wrap">
       <table>
         <thead id="table-head"></thead>
@@ -496,30 +395,38 @@
   const STORAGE_KEY = "snowflake-money-viewer";
   const SAMPLE_ROWS = [
     ["Date", "Bill", "Category", "Amount", "Due Date", "Status"],
-    ["2026-06-01", "Telus", "Utilities", "100.00", "2026-06-16", "Planned"],
-    ["2026-06-02", "Gas", "Transportation", "100.00", "2026-06-16", "Planned"],
-    ["2026-06-03", "No Frills", "Food", "100.00", "2026-06-16", "Planned"]
+    ["2026-06-01", "Telus",     "Utilities",      "100.00", "2026-06-16", "Planned"],
+    ["2026-06-02", "Gas",       "Transportation", "100.00", "2026-06-16", "Planned"],
+    ["2026-06-03", "No Frills", "Food",           "100.00", "2026-06-16", "Planned"],
+    ["2026-05-01", "Rogers",    "Utilities",       "85.00", "2026-05-16", "Paid"],
+    ["2026-05-02", "Bus Pass",  "Transportation",  "55.00", "2026-05-15", "Paid"],
   ];
 
-  const sourceInput = document.getElementById("source-input");
-  const gidInput = document.getElementById("gid-input");
-  const loadButton = document.getElementById("load-button");
-  const searchInput = document.getElementById("search-input");
-  const sortSelect = document.getElementById("sort-select");
+  /* ── Distinct category palette (hex, not CSS vars) ── */
+  const CAT_PALETTE = [
+    "#4d96ff","#ff6b6b","#6bcb77","#ffd166","#c9b8ff",
+    "#f4a261","#2a9d8f","#e76f51","#7ec8e3","#b56576"
+  ];
+
+  const sourceInput  = document.getElementById("source-input");
+  const gidInput     = document.getElementById("gid-input");
+  const loadButton   = document.getElementById("load-button");
+  const searchInput  = document.getElementById("search-input");
+  const sortSelect   = document.getElementById("sort-select");
   const filterToggle = document.getElementById("filter-toggle");
   const controlPanel = document.getElementById("control-panel");
-  const resetButton = document.getElementById("reset-button");
-  const copyButton = document.getElementById("copy-button");
-  const filterGrid = document.getElementById("filter-grid");
-  const statusEl = document.getElementById("status");
-  const summaryEl = document.getElementById("summary");
-  const tableHead = document.getElementById("table-head");
-  const tableBody = document.getElementById("table-body");
-  const tableEmpty = document.getElementById("table-empty");
-  const cardGrid = document.getElementById("card-grid");
+  const resetButton  = document.getElementById("reset-button");
+  const copyButton   = document.getElementById("copy-button");
+  const filterGrid   = document.getElementById("filter-grid");
+  const statusEl     = document.getElementById("status");
+  const summaryEl    = document.getElementById("summary");
+  const tableHead    = document.getElementById("table-head");
+  const tableBody    = document.getElementById("table-body");
+  const tableEmpty   = document.getElementById("table-empty");
+  const cardGrid     = document.getElementById("card-grid");
   const categoryTotal = document.getElementById("category-total");
   const categoryCount = document.getElementById("category-count");
-  const categoryBars = document.getElementById("category-bars");
+  const categoryBarsEl = document.getElementById("category-bars");
 
   let headers = [];
   let rows = [];
@@ -527,14 +434,28 @@
   let filteredRows = [];
   let displayHeaders = [];
   let categoryColorMap = new Map();
-  const CATEGORY_COLORS = ["var(--sky)", "var(--grass)", "var(--sun)", "var(--coral)", "var(--lavender)"];
+  let activeCategoryFilter = "";
 
+  /* ── Helpers ── */
+  function hexLight(hex) {
+    const r = parseInt(hex.slice(1,3), 16);
+    const g = parseInt(hex.slice(3,5), 16);
+    const b = parseInt(hex.slice(5,7), 16);
+    return `rgb(${Math.round(r+(255-r)*.62)},${Math.round(g+(255-g)*.62)},${Math.round(b+(255-b)*.62)})`;
+  }
+
+  function esc(s) {
+    return String(s||"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+  }
+
+  function toggleCategoryFilter(cat) {
+    activeCategoryFilter = activeCategoryFilter === cat ? "" : cat;
+    render();
+  }
+
+  /* ── Settings ── */
   function savedSettings() {
-    try {
-      return JSON.parse(localStorage.getItem(STORAGE_KEY)) || {};
-    } catch {
-      return {};
-    }
+    try { return JSON.parse(localStorage.getItem(STORAGE_KEY)) || {}; } catch { return {}; }
   }
 
   function saveSettings() {
@@ -552,14 +473,10 @@
     saveSettings();
   }
 
-  function defaultSource() {
-    return DEFAULT_SHEET_URL;
-  }
+  function defaultSource() { return DEFAULT_SHEET_URL; }
+  function defaultGid()    { return DEFAULT_SHEET_GID; }
 
-  function defaultGid() {
-    return DEFAULT_SHEET_GID;
-  }
-
+  /* ── Sheet loading ── */
   function csvUrlFromInput(source, gid) {
     if (/^https?:\/\//i.test(source)) {
       if (source.includes("/edit")) {
@@ -568,18 +485,14 @@
       }
       return source;
     }
-
     return `https://docs.google.com/spreadsheets/d/${encodeURIComponent(source)}/export?format=csv${gid ? `&gid=${encodeURIComponent(gid)}` : ""}`;
   }
 
   function googleSheetParts(source, gid) {
     const match = source.match(/\/spreadsheets\/d\/([^/]+)/);
-    const id = match ? match[1] : (/^https?:\/\//i.test(source) ? "" : source);
+    const id = match ? match[1] : (!/^https?:\/\//i.test(source) ? source : "");
     const gidMatch = source.match(/[?&#]gid=([^&#]+)/);
-    return {
-      id: id.trim(),
-      gid: (gid || (gidMatch && gidMatch[1]) || DEFAULT_SHEET_GID).trim()
-    };
+    return { id: id.trim(), gid: (gid || (gidMatch && gidMatch[1]) || DEFAULT_SHEET_GID).trim() };
   }
 
   function isGoogleSheetSource(source) {
@@ -589,104 +502,72 @@
   function loadGoogleSheetRows(source, gid) {
     const parts = googleSheetParts(source, gid);
     if (!parts.id) return Promise.reject(new Error("Missing Google Sheet ID"));
-
     return new Promise((resolve, reject) => {
       const callbackName = `moneySheetCallback_${Date.now()}_${Math.random().toString(36).slice(2)}`;
       const script = document.createElement("script");
-      const timeout = window.setTimeout(() => {
-        cleanup();
-        reject(new Error("Google Sheet did not respond"));
-      }, 12000);
-
-      function cleanup() {
-        window.clearTimeout(timeout);
-        delete window[callbackName];
-        script.remove();
-      }
-
+      const timeout = window.setTimeout(() => { cleanup(); reject(new Error("Google Sheet did not respond")); }, 12000);
+      function cleanup() { window.clearTimeout(timeout); delete window[callbackName]; script.remove(); }
       window[callbackName] = (payload) => {
         cleanup();
         if (!payload || payload.status === "error") {
-          reject(new Error((payload && payload.errors && payload.errors[0] && payload.errors[0].detailed_message) || "Google Sheet returned an error"));
+          reject(new Error((payload?.errors?.[0]?.detailed_message) || "Google Sheet returned an error"));
           return;
         }
-
         const table = payload.table || {};
-        const head = (table.cols || []).map((col, index) => col.label || col.id || `Column ${index + 1}`);
+        const head = (table.cols || []).map((col, i) => col.label || col.id || `Column ${i+1}`);
         const body = (table.rows || []).map((row) => (row.c || []).map((cell) => {
           if (!cell) return "";
           return cell.f != null ? String(cell.f) : String(cell.v == null ? "" : cell.v);
         }));
         resolve([head, ...body]);
       };
-
-      script.onerror = () => {
-        cleanup();
-        reject(new Error("Could not load Google Sheet"));
-      };
+      script.onerror = () => { cleanup(); reject(new Error("Could not load Google Sheet")); };
       script.src = `https://docs.google.com/spreadsheets/d/${encodeURIComponent(parts.id)}/gviz/tq?gid=${encodeURIComponent(parts.gid)}&tqx=responseHandler:${callbackName}`;
       document.head.append(script);
     });
   }
 
   function parseCSV(text) {
-    const parsed = [];
-    let row = [];
-    let cell = "";
-    let quoted = false;
-
-    for (let index = 0; index < text.length; index += 1) {
-      const char = text[index];
-      const next = text[index + 1];
-
-      if (char === '"' && quoted && next === '"') {
-        cell += '"';
-        index += 1;
-      } else if (char === '"') {
-        quoted = !quoted;
-      } else if (char === "," && !quoted) {
+    const parsed = []; let row = [], cell = "", quoted = false;
+    for (let i = 0; i < text.length; i++) {
+      const char = text[i], next = text[i+1];
+      if (char === '"' && quoted && next === '"') { cell += '"'; i++; }
+      else if (char === '"') { quoted = !quoted; }
+      else if (char === "," && !quoted) { row.push(cell); cell = ""; }
+      else if ((char === "\n" || char === "\r") && !quoted) {
+        if (char === "\r" && next === "\n") i++;
         row.push(cell);
-        cell = "";
-      } else if ((char === "\n" || char === "\r") && !quoted) {
-        if (char === "\r" && next === "\n") index += 1;
-        row.push(cell);
-        if (row.some((value) => value.trim())) parsed.push(row);
-        row = [];
-        cell = "";
-      } else {
-        cell += char;
-      }
+        if (row.some((v) => v.trim())) parsed.push(row);
+        row = []; cell = "";
+      } else { cell += char; }
     }
-
     row.push(cell);
-    if (row.some((value) => value.trim())) parsed.push(row);
+    if (row.some((v) => v.trim())) parsed.push(row);
     return parsed;
   }
 
   function normalizeRows(rawRows) {
     const [head = [], ...body] = rawRows;
-    headers = head.map((header, index) => header.trim() || `Column ${index + 1}`);
+    headers = head.map((h, i) => h.trim() || `Column ${i+1}`);
     rows = body.map((row) => {
       const record = {};
-      headers.forEach((header, index) => {
-        record[header] = (row[index] || "").trim();
-      });
+      headers.forEach((h, i) => { record[h] = (row[i] || "").trim(); });
       return record;
     });
     displayHeaders = visibleHeaders();
   }
 
   function findHeader(...candidates) {
-    const normalized = headers.map((header) => header.toLowerCase().replace(/[^a-z0-9]/g, ""));
-    for (const candidate of candidates) {
-      const target = candidate.toLowerCase().replace(/[^a-z0-9]/g, "");
-      const index = normalized.findIndex((header) => header === target);
-      if (index >= 0) return headers[index];
+    const norm = headers.map((h) => h.toLowerCase().replace(/[^a-z0-9]/g, ""));
+    for (const c of candidates) {
+      const t = c.toLowerCase().replace(/[^a-z0-9]/g, "");
+      const i = norm.findIndex((h) => h === t);
+      if (i >= 0) return headers[i];
     }
-    for (const candidate of candidates) {
-      const target = candidate.toLowerCase().replace(/[^a-z0-9]/g, "");
-      const index = normalized.findIndex((header) => header.includes(target));
-      if (index >= 0) return headers[index];
+    for (const c of candidates) {
+      const t = c.toLowerCase().replace(/[^a-z0-9]/g, "");
+      const i = norm.findIndex((h) => h.includes(t));
+      if (i >= 0) return headers[i];
     }
     return "";
   }
@@ -694,95 +575,74 @@
   function visibleHeaders() {
     const due = dueHeader();
     const dueIndex = due ? headers.indexOf(due) : -1;
-    return dueIndex >= 0 ? headers.slice(0, dueIndex + 1) : [...headers];
+    return dueIndex >= 0 ? headers.slice(0, dueIndex+1) : [...headers];
   }
 
-  function dueHeader() {
-    return findHeader("Due", "Amount Due", "Due Amount", "Due Date");
-  }
+  function dueHeader() { return findHeader("Due Date", "Date Due", "Due On"); }
 
   function moneyValue(value) {
-    const numeric = String(value || "").replace(/[^0-9.-]/g, "");
-    const amount = Number(numeric);
-    return Number.isFinite(amount) ? amount : 0;
+    const n = Number(String(value || "").replace(/[^0-9.-]/g, ""));
+    return Number.isFinite(n) ? n : 0;
   }
 
   function moneyFormat(value) {
-    return new Intl.NumberFormat("en-CA", {
-      style: "currency",
-      currency: "CAD"
-    }).format(value);
+    return new Intl.NumberFormat("en-CA", { style: "currency", currency: "CAD" }).format(value);
   }
 
   function parseDueDate(value) {
     const text = String(value || "").trim();
     if (!text) return null;
-
-    const isoMatch = text.match(/^(\d{4})-(\d{1,2})-(\d{1,2})/);
-    if (isoMatch) {
-      return new Date(Number(isoMatch[1]), Number(isoMatch[2]) - 1, Number(isoMatch[3]));
+    const iso = text.match(/^(\d{4})-(\d{1,2})-(\d{1,2})/);
+    if (iso) return new Date(+iso[1], +iso[2]-1, +iso[3]);
+    const slash = text.match(/^(\d{1,2})[/-](\d{1,2})[/-](\d{2,4})$/);
+    if (slash) {
+      const [, a, b, rawY] = slash.map(Number);
+      const y = rawY < 100 ? 2000+rawY : rawY;
+      return new Date(y, a>12?b-1:a-1, a>12?a:b);
     }
-
-    const slashMatch = text.match(/^(\d{1,2})[/-](\d{1,2})[/-](\d{2,4})$/);
-    if (slashMatch) {
-      const first = Number(slashMatch[1]);
-      const second = Number(slashMatch[2]);
-      const rawYear = Number(slashMatch[3]);
-      const year = rawYear < 100 ? 2000 + rawYear : rawYear;
-      return new Date(year, first > 12 ? second - 1 : first - 1, first > 12 ? first : second);
-    }
-
-    const parsed = new Date(text);
-    return Number.isNaN(parsed.getTime()) ? null : new Date(parsed.getFullYear(), parsed.getMonth(), parsed.getDate());
+    const p = new Date(text);
+    return isNaN(p.getTime()) ? null : new Date(p.getFullYear(), p.getMonth(), p.getDate());
   }
 
   function dueClass(value) {
-    const dueDate = parseDueDate(value);
-    if (!dueDate) return "";
-
+    const d = parseDueDate(value);
+    if (!d) return "";
     const today = new Date();
-    const startOfToday = new Date(today.getFullYear(), today.getMonth(), today.getDate());
-    const daysUntilDue = Math.floor((dueDate - startOfToday) / 86400000);
-
-    if (daysUntilDue < 0) return "due-overdue";
-    if (daysUntilDue <= 14) return "due-soon";
+    const start = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+    const days = Math.floor((d - start) / 86400000);
+    if (days < 0)   return "due-overdue";
+    if (days <= 14) return "due-soon";
     return "due-later";
   }
 
+  /* ── Load ── */
   async function loadSheet() {
     const source = sourceInput.value.trim();
-    const gid = gidInput.value.trim();
+    const gid    = gidInput.value.trim();
     if (!source) {
       normalizeRows(SAMPLE_ROWS);
       statusEl.textContent = "Showing sample data";
       statusEl.className = "status";
-      buildControls();
-      render();
-      return;
+      buildControls(); render(); return;
     }
-
     loadButton.disabled = true;
     statusEl.textContent = "Loading...";
     statusEl.className = "status";
-
     try {
       const rawRows = isGoogleSheetSource(source)
         ? await loadGoogleSheetRows(source, gid)
         : await loadCsvRows(source, gid);
       if (rawRows.length < 2) throw new Error("No data rows found");
-
       normalizeRows(rawRows);
       saveSettings();
       statusEl.textContent = "Connected";
       statusEl.className = "status ok";
-      buildControls();
-      render();
+      buildControls(); render();
     } catch (error) {
       normalizeRows(SAMPLE_ROWS);
       statusEl.textContent = `Sheet unavailable: ${error.message}. Showing sample data.`;
       statusEl.className = "status error";
-      buildControls();
-      render();
+      buildControls(); render();
     } finally {
       loadButton.disabled = false;
     }
@@ -794,19 +654,18 @@
     return parseCSV(await response.text());
   }
 
+  /* ── Controls ── */
   function buildControls() {
-    filters = {};
+    filters = {}; activeCategoryFilter = "";
     filterGrid.innerHTML = "";
     sortSelect.innerHTML = '<option value="">Original order</option>';
-
     displayHeaders = visibleHeaders();
     displayHeaders.forEach((header) => {
       const option = document.createElement("option");
-      option.value = header;
-      option.textContent = header;
+      option.value = header; option.textContent = header;
       sortSelect.append(option);
 
-      const uniqueValues = [...new Set(rows.map((row) => row[header]).filter(Boolean))].sort((a, b) => a.localeCompare(b));
+      const uniqueValues = [...new Set(rows.map((r) => r[header]).filter(Boolean))].sort((a,b)=>a.localeCompare(b));
       if (!uniqueValues.length || uniqueValues.length > 80) return;
 
       const label = document.createElement("label");
@@ -818,28 +677,28 @@
       select.innerHTML = '<option value="">All</option>';
       uniqueValues.forEach((value) => {
         const item = document.createElement("option");
-        item.value = value;
-        item.textContent = value;
+        item.value = value; item.textContent = value;
         select.append(item);
       });
-      select.addEventListener("change", () => {
-        filters[header] = select.value;
-        render();
-      });
+      select.addEventListener("change", () => { filters[header] = select.value; render(); });
 
       label.append(select);
       filterGrid.append(label);
     });
   }
 
+  /* ── Filters ── */
   function applyFilters() {
-    const query = searchInput.value.trim().toLowerCase();
-    const due = dueHeader();
+    const query  = searchInput.value.trim().toLowerCase();
+    const due    = dueHeader();
+    const catHdr = findHeader("Category", "Type");
+
     filteredRows = rows.filter((row) => {
-      const hasDueValue = !due || Boolean(String(row[due] || "").trim());
-      const matchesSearch = !query || displayHeaders.some((header) => row[header].toLowerCase().includes(query));
-      const matchesFilters = Object.entries(filters).every(([header, value]) => !value || row[header] === value);
-      return hasDueValue && matchesSearch && matchesFilters;
+      const hasDueValue     = !due || Boolean(String(row[due] || "").trim());
+      const matchesSearch   = !query || displayHeaders.some((h) => row[h].toLowerCase().includes(query));
+      const matchesFilters  = Object.entries(filters).every(([h, v]) => !v || row[h] === v);
+      const matchesCategory = !activeCategoryFilter || !catHdr || row[catHdr] === activeCategoryFilter;
+      return hasDueValue && matchesSearch && matchesFilters && matchesCategory;
     });
 
     const sortHeader = sortSelect.value;
@@ -853,129 +712,151 @@
     renderCategorySummary();
     renderTable();
     renderCards();
-    summaryEl.textContent = `${filteredRows.length} of ${rows.length} rows with due values shown`;
+    summaryEl.textContent = `${filteredRows.length} of ${rows.length} rows shown`;
   }
 
+  /* ── Category summary (Task 7) ── */
   function renderCategorySummary() {
-    const categoryHeader = findHeader("Category", "Type");
-    const amountHeader = findHeader("Amount", "Due", "Total", "Cost", "Payment");
-    const totals = new Map();
+    const catHdr    = findHeader("Category", "Type");
+    const amtHdr    = findHeader("Amount");
+    const statusHdr = findHeader("Status", "Payment Status");
+    const PAID_KW   = ["paid", "spent", "complete", "completed"];
 
-    filteredRows.forEach((row) => {
-      const category = (categoryHeader && row[categoryHeader]) || "Uncategorized";
-      const amount = moneyValue(amountHeader && row[amountHeader]);
-      if (!amount) return;
-      totals.set(category, (totals.get(category) || 0) + amount);
+    // Use ALL rows so the chart always shows the full picture
+    const stats = new Map();
+    rows.forEach((row) => {
+      const cat    = (catHdr && row[catHdr]) || "Uncategorized";
+      const amt    = moneyValue(amtHdr && row[amtHdr]);
+      if (!amt) return;
+      const status = String(row[statusHdr] || "").toLowerCase().trim();
+      const isPaid = PAID_KW.some((k) => status === k || status.startsWith(k));
+      if (!stats.has(cat)) stats.set(cat, { paid:0, due:0, total:0 });
+      const s = stats.get(cat);
+      s.total += amt;
+      if (isPaid) s.paid += amt;
+      else        s.due  += amt;
     });
 
-    const entries = [...totals.entries()].sort((a, b) => b[1] - a[1]);
-    const grandTotal = entries.reduce((sum, entry) => sum + entry[1], 0);
-    const max = entries[0] ? entries[0][1] : 0;
-    categoryColorMap = new Map(entries.map(([category], index) => [category, CATEGORY_COLORS[index % CATEGORY_COLORS.length]]));
+    const entries  = [...stats.entries()].sort((a,b) => b[1].total - a[1].total);
+    const maxTotal = entries[0] ? entries[0][1].total : 0;
+    const grandDue   = entries.reduce((sum, [, s]) => sum + s.due,   0);
+    const grandPaid  = entries.reduce((sum, [, s]) => sum + s.paid,  0);
+    const grandTotal = entries.reduce((sum, [, s]) => sum + s.total, 0);
 
-    categoryTotal.textContent = moneyFormat(grandTotal);
+    // Assign distinct colours
+    categoryColorMap = new Map(entries.map(([cat], i) => [cat, CAT_PALETTE[i % CAT_PALETTE.length]]));
+
+    categoryTotal.textContent = moneyFormat(grandDue);
     categoryCount.textContent = entries.length
-      ? `${entries.length} categor${entries.length === 1 ? "y" : "ies"}`
+      ? `${entries.length} categor${entries.length===1?"y":"ies"} · ${moneyFormat(grandPaid)} paid`
       : "No categories yet";
-    categoryBars.innerHTML = "";
 
+    categoryBarsEl.innerHTML = "";
     if (!entries.length) {
-      const empty = document.createElement("div");
-      empty.className = "empty";
-      empty.textContent = amountHeader ? "No due amounts in the current rows." : "No amount column found.";
-      categoryBars.append(empty);
+      categoryBarsEl.innerHTML = `<div class="empty">${amtHdr ? "No amounts in the current data." : "No amount column found."}</div>`;
       return;
     }
 
-    entries.forEach(([category, amount], index) => {
+    entries.forEach(([cat, s]) => {
+      const col      = categoryColorMap.get(cat);
+      const lightCol = hexLight(col);
+      const barPct   = maxTotal > 0 ? (s.total / maxTotal) * 100 : 0;
+      const paidPct  = s.total  > 0 ? (s.paid  / s.total)  * 100 : 0;
+      const isActive = activeCategoryFilter === cat;
+
       const row = document.createElement("div");
-      row.className = "category-row";
+      row.className = `category-row${isActive ? " cat-active" : ""}`;
+      row.style.outline      = isActive ? `2px solid ${col}` : "";
+      row.style.outlineOffset = isActive ? "2px" : "";
+      row.title = `${isActive ? "Clear" : "Filter"}: ${cat}`;
+      row.addEventListener("click", () => toggleCategoryFilter(cat));
 
       const name = document.createElement("div");
-      name.className = "category-name";
-      name.title = category;
-      name.textContent = category;
+      name.className   = "category-name";
+      name.style.color = col;
+      name.textContent = cat;
 
-      const track = document.createElement("div");
-      track.className = "bar-track";
-      const fill = document.createElement("div");
-      fill.className = "bar-fill";
-      fill.style.width = `${Math.max(4, (amount / max) * 100)}%`;
-      fill.style.background = categoryColorMap.get(category);
-      track.append(fill);
+      const barCell = document.createElement("div");
+      barCell.className = "bar-track";
+      barCell.innerHTML = `<div class="stacked-bar" style="width:${barPct}%">
+        <div class="bar-paid" style="width:${paidPct}%;background:${col}"></div>
+        <div class="bar-due"  style="flex:1;background:${lightCol}"></div>
+      </div>`;
 
-      const total = document.createElement("div");
-      total.className = "category-amount";
-      total.textContent = moneyFormat(amount);
+      const dueCell   = document.createElement("div"); dueCell.className   = "category-amount"; dueCell.textContent   = moneyFormat(s.due);
+      const paidCell  = document.createElement("div"); paidCell.className  = "category-amount"; paidCell.textContent  = moneyFormat(s.paid);
+      const totalCell = document.createElement("div"); totalCell.className = "category-amount"; totalCell.style.fontWeight = "900"; totalCell.textContent = moneyFormat(s.total);
 
-      row.append(name, track, total);
-      categoryBars.append(row);
+      row.append(name, barCell, dueCell, paidCell, totalCell);
+      categoryBarsEl.append(row);
     });
+
+    // Totals footer
+    const footer = document.createElement("div");
+    footer.className = "category-footer";
+    footer.innerHTML = `
+      <div style="font-size:.82rem;font-weight:900;color:var(--text)">Total</div>
+      <div></div>
+      <div class="category-amount" style="font-weight:900">${moneyFormat(grandDue)}</div>
+      <div class="category-amount" style="font-weight:900">${moneyFormat(grandPaid)}</div>
+      <div class="category-amount" style="font-weight:900">${moneyFormat(grandTotal)}</div>`;
+    categoryBarsEl.append(footer);
   }
 
+  /* ── Table ── */
   function renderTable() {
-    tableHead.innerHTML = "";
-    tableBody.innerHTML = "";
+    tableHead.innerHTML = ""; tableBody.innerHTML = "";
     tableEmpty.style.display = filteredRows.length ? "none" : "block";
-
     const headRow = document.createElement("tr");
-    displayHeaders.forEach((header) => {
-      const th = document.createElement("th");
-      th.textContent = header;
-      headRow.append(th);
-    });
+    displayHeaders.forEach((h) => { const th = document.createElement("th"); th.textContent = h; headRow.append(th); });
     tableHead.append(headRow);
-
     filteredRows.forEach((row) => {
       const tr = document.createElement("tr");
-      displayHeaders.forEach((header) => {
-        const td = document.createElement("td");
-        td.textContent = row[header];
-        tr.append(td);
-      });
+      displayHeaders.forEach((h) => { const td = document.createElement("td"); td.textContent = row[h]; tr.append(td); });
       tableBody.append(tr);
     });
   }
 
+  /* ── Cards ── */
   function renderCards() {
     cardGrid.innerHTML = "";
     if (!filteredRows.length) {
-      const empty = document.createElement("div");
-      empty.className = "empty";
-      empty.textContent = "No matching rows.";
-      cardGrid.append(empty);
+      cardGrid.innerHTML = `<div class="empty">No matching rows.</div>`;
       return;
     }
 
+    const billHdr    = findHeader("Bill");
+    const catHdr     = findHeader("Category", "Type");
+    const amtHdr     = findHeader("Amount");
+    const dueDateHdr = findHeader("Due Date", "Date Due", "Due On", "Payment Date");
+
     filteredRows.forEach((row, index) => {
-      const billHeader = findHeader("Bill");
-      const categoryHeader = findHeader("Category", "Type");
-      const amountHeader = findHeader("Due", "Amount Due", "Due Amount", "Amount", "Total", "Cost", "Payment");
-      const dueDateHeader = findHeader("Due Date", "Date Due", "Due On", "Payment Date");
+      const category = (catHdr && row[catHdr]) || "Uncategorized";
+      const catColor = categoryColorMap.get(category) || "var(--border)";
+
       const card = document.createElement("article");
-      card.className = `row-card ${dueClass(dueDateHeader && row[dueDateHeader])}`.trim();
-      const category = (categoryHeader && row[categoryHeader]) || "Uncategorized";
-      card.style.borderBottomColor = categoryColorMap.get(category) || "var(--border)";
+      card.className = `row-card ${dueClass(dueDateHdr && row[dueDateHdr])}`.trim();
+      card.style.borderBottomColor = catColor;
+      card.style.borderBottomWidth = "5px";
 
       const title = document.createElement("h2");
-      title.textContent = (billHeader && row[billHeader]) || `Bill ${index + 1}`;
+      title.textContent = (billHdr && row[billHdr]) || `Bill ${index+1}`;
       card.append(title);
 
       const meta = document.createElement("div");
       meta.className = "bill-card-meta";
 
       [
-        ["Category", categoryHeader, categoryHeader && row[categoryHeader]],
-        ["Amount", amountHeader, amountHeader && moneyFormat(moneyValue(row[amountHeader]))],
-        ["Due Date", dueDateHeader, dueDateHeader && row[dueDateHeader]]
+        ["Category", catHdr,     catHdr     && row[catHdr]],
+        ["Amount",   amtHdr,     amtHdr     && moneyFormat(moneyValue(row[amtHdr]))],
+        ["Due Date", dueDateHdr, dueDateHdr && row[dueDateHdr]],
       ].forEach(([labelText, header, value]) => {
         if (!header || !value) return;
-        const field = document.createElement("div");
+        const field  = document.createElement("div");
         field.className = "card-field";
-        const strong = document.createElement("strong");
-        strong.textContent = labelText;
-        const span = document.createElement("span");
-        span.textContent = value;
+        const strong = document.createElement("strong"); strong.textContent = labelText;
+        const span   = document.createElement("span");   span.textContent   = value;
+        if (labelText === "Category") span.style.color = catColor;
         field.append(strong, span);
         meta.append(field);
       });
@@ -985,16 +866,10 @@
     });
   }
 
+  /* ── CSV copy ── */
   function toCSV(valueRows) {
-    const escapeCell = (value) => {
-      const text = String(value || "");
-      return /[",\n\r]/.test(text) ? `"${text.replace(/"/g, '""')}"` : text;
-    };
-
-    return [
-      displayHeaders.map(escapeCell).join(","),
-      ...valueRows.map((row) => displayHeaders.map((header) => escapeCell(row[header])).join(","))
-    ].join("\n");
+    const esc = (v) => { const t=String(v||""); return /[",\n\r]/.test(t)?`"${t.replace(/"/g,'""')}"`:`${t}`; };
+    return [displayHeaders.map(esc).join(","), ...valueRows.map((r) => displayHeaders.map((h) => esc(r[h])).join(","))].join("\n");
   }
 
   async function copyFilteredCSV() {
@@ -1005,19 +880,16 @@
   }
 
   function resetFilters() {
-    searchInput.value = "";
-    sortSelect.value = "";
-    filters = {};
-    filterGrid.querySelectorAll("select").forEach((select) => {
-      select.value = "";
-    });
+    searchInput.value = ""; sortSelect.value = "";
+    filters = {}; activeCategoryFilter = "";
+    filterGrid.querySelectorAll("select").forEach((s) => { s.value = ""; });
     render();
   }
 
   function init() {
     const saved = savedSettings();
     sourceInput.value = saved.source || defaultSource();
-    gidInput.value = saved.gid || defaultGid();
+    gidInput.value    = saved.gid    || defaultGid();
     setFiltersOpen(Boolean(saved.filtersOpen));
 
     filterToggle.addEventListener("click", () => setFiltersOpen(controlPanel.hidden));

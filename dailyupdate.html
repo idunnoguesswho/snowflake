@@ -1,36 +1,38 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Daily Dashboard — June 10, 2026</title>
+<title>Daily Update — June 8, 2026</title>
 <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Baloo+2:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<div class="header">
-  <span class="header-date">June 10, 2026</span>
-  <span class="header-day">Wednesday</span>
-  <span class="header-time">6:22 AM MDT</span>
+<div class="page-header">
+  <div>
+    <div class="page-title">Monday, <em>June 8</em></div>
+    <div class="page-date">Mountain Time — Edmonton</div>
+  </div>
 </div>
 
 <!-- Metric Cards -->
 <div class="metrics">
-  <div class="metric-card work">
-    <div class="metric-num">3</div>
-    <div class="metric-label">Meetings</div>
+  <div class="metric">
+    <span class="m-num m-family">2</span>
+    <span class="m-label">1:1 Meetings</span>
   </div>
-  <div class="metric-card task">
-    <div class="metric-num">7</div>
-    <div class="metric-label">Tasks Due</div>
+  <div class="metric">
+    <span class="m-num m-task">2</span>
+    <span class="m-label">Tasks Due</span>
   </div>
-  <div class="metric-card errand">
-    <div class="metric-num">0</div>
-    <div class="metric-label">Unread Email</div>
+  <div class="metric">
+    <span class="m-num m-work">1</span>
+    <span class="m-label">Unread Email</span>
   </div>
-  <div class="metric-card family">
-    <div class="metric-num">3</div>
-    <div class="metric-label">Family Blocks</div>
+  <div class="metric">
+    <span class="m-num m-errand">1</span>
+    <span class="m-label">Errand</span>
   </div>
 </div>
 
@@ -38,268 +40,149 @@
 <div class="body-grid">
 
   <!-- Left: Timeline -->
-  <div class="panel">
-    <div class="panel-header">
-      <span class="panel-title">Timeline</span>
-    </div>
-    <div class="panel-body" style="padding-top:6px;">
+  <div class="card">
+    <div class="card-title">📅 Timeline</div>
+    <div class="timeline">
 
-      <div class="timeline-row">
+      <div class="tl-row">
         <div class="tl-time">8:00 AM</div>
-        <div class="tl-dot" style="background:var(--work)"></div>
-        <div class="tl-content">
-          <div class="tl-title">US Manpower Weekly Meeting</div>
-          <div class="tl-sub">Microsoft Teams · 30 min</div>
-          <span class="badge work">Work</span>
+        <div class="tl-dot d-task"></div>
+        <div class="tl-info">
+          <div class="tl-name">Financial Logging <span class="badge b-task">Task</span></div>
+          <div class="tl-sub">8:00 – 8:30 AM · 30 min</div>
         </div>
       </div>
 
-      <div class="timeline-row">
-        <div class="tl-time">8:30 AM</div>
-        <div class="tl-dot" style="background:var(--work)"></div>
-        <div class="tl-content">
-          <div class="tl-title">CA Manpower</div>
-          <div class="tl-sub">Teams link · 30 min</div>
-          <span class="badge work">Work</span>
+      <div class="tl-row">
+        <div class="tl-time">9:06 AM</div>
+        <div class="tl-dot d-errand"></div>
+        <div class="tl-info">
+          <div class="tl-name">Log <span class="badge b-errand">Errand</span></div>
+          <div class="tl-sub">9:06 – 9:21 AM · Bruderheim AB</div>
         </div>
       </div>
 
-      <div class="timeline-row">
-        <div class="tl-time">9:30 AM</div>
-        <div class="tl-dot" style="background:var(--work)"></div>
-        <div class="tl-content">
-          <div class="tl-title">Adobe Signature Chasing</div>
-          <div class="tl-sub">30 min block</div>
-          <span class="badge work">Work</span>
+      <div class="tl-row">
+        <div class="tl-time">2:30 PM</div>
+        <div class="tl-dot d-task"></div>
+        <div class="tl-info">
+          <div class="tl-name">WOW Followup Booking <span class="badge b-task">Task</span></div>
+          <div class="tl-sub">2:30 – 3:00 PM · 30 min</div>
         </div>
       </div>
 
-      <div class="timeline-row">
-        <div class="tl-time">11:00 AM</div>
-        <div class="tl-dot" style="background:var(--work)"></div>
-        <div class="tl-content">
-          <div class="tl-title">US Construction Project Support</div>
-          <div class="tl-sub">Microsoft Teams · 30 min</div>
-          <span class="badge work">Work</span>
-        </div>
-      </div>
-
-      <div class="timeline-row">
-        <div class="tl-time">11:00 AM</div>
-        <div class="tl-dot" style="background:var(--task)"></div>
-        <div class="tl-content">
-          <div class="tl-title">Connect with Jonathan — Florence job # closures</div>
-          <span class="badge task">Task Due</span>
-        </div>
-      </div>
-
-      <div class="timeline-row">
-        <div class="tl-time">11:00 AM</div>
-        <div class="tl-dot" style="background:var(--task)"></div>
-        <div class="tl-content">
-          <div class="tl-title">[House] Bathrooms + Yard work</div>
-          <span class="badge task">Task Due</span>
-        </div>
-      </div>
-
-      <div class="timeline-row">
-        <div class="tl-time">11:00 AM</div>
-        <div class="tl-dot" style="background:var(--task)"></div>
-        <div class="tl-content">
-          <div class="tl-title">Find 110 retirement withdrawal paperwork</div>
-          <span class="badge task">Task Due</span>
-        </div>
-      </div>
-
-      <div class="timeline-row">
-        <div class="tl-time">11:30 AM</div>
-        <div class="tl-dot" style="background:var(--task)"></div>
-        <div class="tl-content">
-          <div class="tl-title">Clean the vacuum</div>
-          <span class="badge task">Task Due</span>
-        </div>
-      </div>
-
-      <div class="timeline-row">
-        <div class="tl-time">1:00 PM</div>
-        <div class="tl-dot" style="background:var(--work)"></div>
-        <div class="tl-content">
-          <div class="tl-title">TCE/Versys Entity Load Sheet Backlog</div>
-          <div class="tl-sub">Microsoft Teams · 30 min</div>
-          <span class="badge work">Work</span>
-        </div>
-      </div>
-
-      <div class="timeline-row">
-        <div class="tl-time">2:00 PM</div>
-        <div class="tl-dot" style="background:var(--task)"></div>
-        <div class="tl-content">
-          <div class="tl-title">NCSO Study Block</div>
-          <div class="tl-sub">1 hr · NCSO 02 — Health &amp; Safety Program Basics</div>
-          <span class="badge task">Task Due</span>
-        </div>
-      </div>
-
-      <div class="timeline-row">
+      <div class="tl-row">
         <div class="tl-time">4:30 PM</div>
-        <div class="tl-dot" style="background:var(--family)"></div>
-        <div class="tl-content">
-          <div class="tl-title">Cooking / Dinner</div>
-          <div class="tl-sub">1.5 hrs</div>
-          <span class="badge family">Family</span>
+        <div class="tl-dot d-family"></div>
+        <div class="tl-info">
+          <div class="tl-name">Cooking / Dinner <span class="badge b-family">Family</span></div>
+          <div class="tl-sub">4:30 – 6:00 PM · 90 min</div>
         </div>
       </div>
 
-      <div class="timeline-row">
+      <div class="tl-row">
         <div class="tl-time">6:00 PM</div>
-        <div class="tl-dot" style="background:var(--family)"></div>
-        <div class="tl-content">
-          <div class="tl-title">1:1 with Logan</div>
-          <div class="tl-sub">30 min · Google Meet</div>
-          <span class="badge family">Family</span>
+        <div class="tl-dot d-family"></div>
+        <div class="tl-info">
+          <div class="tl-name">1:1 with Logan <span class="badge b-family">Family</span></div>
+          <div class="tl-sub">6:00 – 6:30 PM · Google Meet</div>
         </div>
       </div>
 
-      <div class="timeline-row">
+      <div class="tl-row">
         <div class="tl-time">6:30 PM</div>
-        <div class="tl-dot" style="background:var(--family)"></div>
-        <div class="tl-content">
-          <div class="tl-title">Mom's Reset</div>
-          <div class="tl-sub">30 min</div>
-          <span class="badge family">Family</span>
+        <div class="tl-dot d-family"></div>
+        <div class="tl-info">
+          <div class="tl-name">Moms Reset <span class="badge b-family">Family</span></div>
+          <div class="tl-sub">6:30 – 7:00 PM · 30 min</div>
         </div>
       </div>
 
-      <div class="timeline-row">
+      <div class="tl-row">
         <div class="tl-time">7:00 PM</div>
-        <div class="tl-dot" style="background:var(--family)"></div>
-        <div class="tl-content">
-          <div class="tl-title">1:1 Time with Oliver</div>
-          <div class="tl-sub">30 min · Google Meet</div>
-          <span class="badge family">Family</span>
+        <div class="tl-dot d-family"></div>
+        <div class="tl-info">
+          <div class="tl-name">1:1 Time with Oliver <span class="badge b-family">Family</span></div>
+          <div class="tl-sub">7:00 – 7:30 PM · Google Meet</div>
         </div>
       </div>
 
-      <div class="timeline-row">
-        <div class="tl-time">7:00 PM</div>
-        <div class="tl-dot" style="background:var(--task)"></div>
-        <div class="tl-content">
-          <div class="tl-title">[House] Garbages</div>
-          <span class="badge task">Task Due</span>
-        </div>
-      </div>
-
-      <div class="timeline-row">
+      <div class="tl-row">
         <div class="tl-time">7:30 PM</div>
-        <div class="tl-dot" style="background:var(--errand)"></div>
-        <div class="tl-content">
-          <div class="tl-title">😎 Decompress</div>
-          <div class="tl-sub">15 min · Reclaim</div>
-          <span class="badge errand">You Time</span>
+        <div class="tl-dot d-family"></div>
+        <div class="tl-info">
+          <div class="tl-name">😎 Decompress <span class="badge b-family">Family</span></div>
+          <div class="tl-sub">7:30 – 7:45 PM · 15 min</div>
         </div>
       </div>
 
     </div>
   </div>
 
-  <!-- Right column -->
+  <!-- Right: Charts + Tasks + Inbox -->
   <div class="right-col">
 
-    <!-- Time breakdown -->
-    <div class="panel">
-      <div class="panel-header">
-        <span class="panel-title">Time Breakdown</span>
-      </div>
-      <div class="bar-section">
-        <div class="bar-row">
-          <div class="bar-label">Work</div>
-          <div class="bar-track"><div class="bar-fill work" style="width:55%"></div></div>
-          <div class="bar-val">2.5h</div>
-        </div>
-        <div class="bar-row">
-          <div class="bar-label">Tasks</div>
-          <div class="bar-track"><div class="bar-fill task" style="width:22%"></div></div>
-          <div class="bar-val">1h</div>
-        </div>
+    <!-- Time Breakdown -->
+    <div class="card">
+      <div class="card-title">⏱ Time Breakdown</div>
+      <div class="bar-chart">
         <div class="bar-row">
           <div class="bar-label">Family</div>
-          <div class="bar-track"><div class="bar-fill family" style="width:50%"></div></div>
-          <div class="bar-val">2.5h</div>
+          <div class="bar-track"><div class="bar-fill d-family" style="width:72%"></div></div>
+          <div class="bar-val">3.25h</div>
         </div>
         <div class="bar-row">
-          <div class="bar-label">You</div>
-          <div class="bar-track"><div class="bar-fill errand" style="width:5%"></div></div>
+          <div class="bar-label">Task</div>
+          <div class="bar-track"><div class="bar-fill d-task" style="width:22%"></div></div>
+          <div class="bar-val">1.0h</div>
+        </div>
+        <div class="bar-row">
+          <div class="bar-label">Errand</div>
+          <div class="bar-track"><div class="bar-fill d-errand" style="width:6%"></div></div>
           <div class="bar-val">0.25h</div>
+        </div>
+        <div class="bar-row">
+          <div class="bar-label">Work</div>
+          <div class="bar-track"><div class="bar-fill d-work" style="width:0%"></div></div>
+          <div class="bar-val">0h</div>
         </div>
       </div>
     </div>
 
     <!-- Tasks -->
-    <div class="panel">
-      <div class="panel-header">
-        <span class="panel-title">Tasks Due Today</span>
-      </div>
-      <div class="panel-body" style="padding-top:6px;">
+    <div class="card">
+      <div class="card-title">✅ Tasks Today</div>
+      <div class="task-list">
         <div class="task-item">
-          <div class="task-check"></div>
-          <div><div class="task-text">Connect with Jonathan — Florence job # closures</div><div class="task-due">Due 11:00 AM</div></div>
+          <div class="task-dot"></div>
+          <div class="task-name">Financial Logging</div>
+          <div class="task-time">8:00 AM</div>
         </div>
         <div class="task-item">
-          <div class="task-check"></div>
-          <div><div class="task-text">[House] Bathrooms</div><div class="task-due">Due 11:00 AM</div></div>
-        </div>
-        <div class="task-item">
-          <div class="task-check"></div>
-          <div><div class="task-text">[House] Yard work</div><div class="task-due">Due 11:00 AM</div></div>
-        </div>
-        <div class="task-item">
-          <div class="task-check"></div>
-          <div><div class="task-text">Find 110 retirement withdrawal paperwork</div><div class="task-due">Due 11:00 AM</div></div>
-        </div>
-        <div class="task-item">
-          <div class="task-check"></div>
-          <div><div class="task-text">Clean the vacuum</div><div class="task-due">Due 11:30 AM</div></div>
-        </div>
-        <div class="task-item">
-          <div class="task-check"></div>
-          <div><div class="task-text">📚 NCSO 02 — Health &amp; Safety Program Basics</div><div class="task-due">Due 3:00 PM</div></div>
-        </div>
-        <div class="task-item">
-          <div class="task-check"></div>
-          <div><div class="task-text">[House] Garbages</div><div class="task-due">Due 7:00 PM</div></div>
+          <div class="task-dot"></div>
+          <div class="task-name">WOW Followup Booking</div>
+          <div class="task-time">2:30 PM</div>
         </div>
       </div>
     </div>
 
     <!-- Inbox -->
-    <div class="panel">
-      <div class="panel-header">
-        <span class="panel-title">Inbox</span>
-      </div>
-      <div class="panel-body" style="padding-top:6px;">
+    <div class="card">
+      <div class="card-title">📬 Inbox</div>
+      <div class="inbox-list">
         <div class="inbox-item">
-          <div class="read-dot"></div>
+          <div class="inbox-dot unread"></div>
           <div>
-            <div class="inbox-sender">You → You</div>
-            <div class="inbox-subj">Tomorrow Summary — full day timeline + kanban tasks</div>
-          </div>
-        </div>
-        <div class="inbox-item">
-          <div class="read-dot"></div>
-          <div>
-            <div class="inbox-sender">Sandy Senger (via Google Drive)</div>
-            <div class="inbox-subj">Folder shared: 'From_BrotherDevice' — filing request</div>
+            <div class="inbox-meta">
+              <span class="inbox-from">otto.vet</span>
+            </div>
+            <div class="inbox-subj">Appointment Scheduled — Stella &amp; Ghost @ Heartland Fort Vet (June 9)</div>
           </div>
         </div>
       </div>
     </div>
 
   </div>
-</div>
-
-<!-- Callout -->
-<div class="callout">
-  <strong>Heads up:</strong> You have back-to-back work meetings 8:00–9:00 AM and again at 11:00–11:30 AM, with 4 tasks hitting at 11 AM simultaneously. The Load Sheet Backlog meeting at 1 PM lands right after the busy morning stretch — keep that transition clear. Sandy Senger is waiting on you to file the <em>From_BrotherDevice</em> folder — worth a quick action before the morning meetings start.
 </div>
 
 </body>

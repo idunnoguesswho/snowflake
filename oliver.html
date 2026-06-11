@@ -3,181 +3,498 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Oliver's Tasks | Snowflake</title>
+<title>Oliver | Snowflake</title>
 <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Baloo+2:wght@400;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
+<style>
+  :root { --accent: #7ec8e3; --accent2: #4aa8cc; }
+  .hero { background: linear-gradient(135deg, #7ec8e3 0%, #4aa8cc 100%); }
+  .hero::after { content: '🧒'; }
+  .hero-name { color: var(--text); }
+  .hero-sub  { color: var(--text); opacity: .75; }
+  .hero-badge { background: rgba(255,255,255,.35); border-color: rgba(255,255,255,.55); }
+  .tag-cat  { background: #7ec8e344; color: #1a607a; border: 1px solid #7ec8e3; }
+  .progress-fill { background: linear-gradient(90deg, #7ec8e3, #4aa8cc); }
+
+  .hub-nav { background: white; border-bottom: 2px solid #eee; display: flex; overflow-x: auto; padding: 0 12px; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 8px rgba(0,0,0,.06); }
+  .hub-tab { flex-shrink: 0; padding: 14px 14px; border: none; background: transparent; font-family: 'Nunito', sans-serif; font-size: 13px; font-weight: 700; color: #888; cursor: pointer; border-bottom: 3px solid transparent; transition: all 0.2s; white-space: nowrap; }
+  .hub-tab:hover { color: #4aa8cc; }
+  .hub-tab.active { color: #4aa8cc; border-bottom-color: #4aa8cc; }
+  .hub-panel { display: none; }
+  .hub-panel.active { display: block; animation: panelIn .18s ease; }
+  @keyframes panelIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: none; } }
+
+  .embed-frame { width: 100%; border: none; height: 82vh; display: block; }
+
+  /* Routine */
+  .routine-wrap { max-width: 640px; margin: 0 auto; padding: 16px 16px 40px; }
+  .routine-slot { display: flex; gap: 14px; padding: 12px 0; border-bottom: 1px solid #f0f0f0; align-items: flex-start; }
+  .r-time { min-width: 64px; font-size: 12px; font-weight: 700; color: #999; padding-top: 2px; }
+  .r-icon { font-size: 18px; flex-shrink: 0; width: 28px; text-align: center; }
+  .r-label { font-family: 'Nunito', sans-serif; font-size: 14px; font-weight: 800; color: #1f2933; }
+  .r-detail { font-size: 12px; color: #6b7280; margin-top: 2px; line-height: 1.45; }
+
+  /* FI Study */
+  .fi-wrap { max-width: 820px; margin: 0 auto; padding: 16px 16px 40px; }
+  .fi-toggle-bar { display: flex; align-items: center; gap: 12px; background: white; border-radius: 12px; padding: 12px 16px; margin-bottom: 16px; box-shadow: 0 2px 8px rgba(0,0,0,.06); }
+  .fi-toggle-bar label { font-family: 'Nunito', sans-serif; font-size: 13px; font-weight: 700; color: #374151; cursor: pointer; display: flex; align-items: center; gap: 8px; }
+  .fi-toggle { width: 40px; height: 22px; background: #ccc; border-radius: 11px; position: relative; transition: background .2s; cursor: pointer; border: none; flex-shrink: 0; }
+  .fi-toggle.on { background: #4aa8cc; }
+  .fi-toggle::after { content:''; position: absolute; top: 3px; left: 3px; width: 16px; height: 16px; background: white; border-radius: 50%; transition: left .2s; }
+  .fi-toggle.on::after { left: 21px; }
+  .en-hint { display: none; background: #e8f4fb; border-left: 3px solid #4aa8cc; border-radius: 0 8px 8px 0; padding: 8px 12px; font-size: 12px; color: #1a607a; line-height: 1.5; margin-top: 6px; font-style: italic; }
+  body.show-en .en-hint { display: block; }
+
+  .subject-card { background: white; border-radius: 14px; padding: 20px; margin-bottom: 14px; box-shadow: 0 2px 8px rgba(0,0,0,.06); }
+  .subj-tag { font-size: 10px; font-weight: 800; letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 4px; }
+  .subj-title { font-family: 'Nunito', sans-serif; font-size: 17px; font-weight: 900; color: #1f2933; margin-bottom: 10px; }
+  .subj-body { font-size: 13px; line-height: 1.75; color: #374151; }
+  .subj-body strong { color: #1f2933; }
+  .vocab-row { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+  .vocab-chip { font-size: 11px; font-weight: 700; padding: 3px 10px; border-radius: 20px; }
+  .q-label { font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; color: #888; margin: 12px 0 6px; }
+  .q-item { font-size: 13px; color: #1f2933; padding: 7px 0; border-bottom: 1px solid #f5f5f5; }
+  .q-item:last-child { border-bottom: none; }
+  .ref-link { display: inline-block; font-size: 12px; font-weight: 700; color: #4aa8cc; margin-top: 10px; text-decoration: none; }
+
+  /* Subjects colour coding */
+  .s-fr   { --sc: #9b7fd4; --sl: #ede8f9; }
+  .s-en   { --sc: #5b9bd5; --sl: #e3effa; }
+  .s-math { --sc: #f07060; --sl: #fdecea; }
+  .s-sci  { --sc: #52c4a0; --sl: #e1f5ee; }
+  .s-ss   { --sc: #c9a800; --sl: #fef7d5; }
+  .s-hlth { --sc: #e8650a; --sl: #fdeede; }
+
+  /* Skills / Brain Brave */
+  .skills-wrap { max-width: 760px; margin: 0 auto; padding: 16px 16px 40px; }
+  .skills-h2 { font-family: 'Nunito', sans-serif; font-size: 18px; font-weight: 900; color: #1f2933; margin: 28px 0 12px; display: flex; align-items: center; gap: 8px; }
+  .skills-h2:first-child { margin-top: 0; }
+  .bb-card { background: white; border-radius: 14px; margin-bottom: 10px; box-shadow: 0 2px 8px rgba(0,0,0,.06); overflow: hidden; border: 2px solid transparent; cursor: pointer; transition: border-color .2s; }
+  .bb-card.open { border-color: var(--cat-c, #4aa8cc); }
+  .bb-header { display: flex; align-items: center; gap: 12px; padding: 14px 16px; }
+  .bb-icon { width: 40px; height: 40px; border-radius: 10px; background: var(--cat-l, #e8f4fb); display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; }
+  .bb-meta { flex: 1; }
+  .bb-cat-label { font-size: 10px; font-weight: 800; letter-spacing: 1.2px; text-transform: uppercase; color: var(--cat-c, #4aa8cc); }
+  .bb-title { font-family: 'Nunito', sans-serif; font-size: 14px; font-weight: 800; color: #1f2933; }
+  .bb-sub { font-size: 11px; color: #888; }
+  .bb-body { display: none; padding: 0 16px 16px; border-top: 1px solid #f0f0f0; }
+  .bb-card.open .bb-body { display: block; }
+  .bb-intro { font-size: 13px; color: #6b7280; line-height: 1.6; padding-top: 12px; margin-bottom: 12px; }
+  .bb-step { display: flex; gap: 10px; font-size: 13px; line-height: 1.5; margin-bottom: 8px; color: #1f2933; }
+  .bb-num { width: 20px; height: 20px; border-radius: 50%; background: var(--cat-l, #e8f4fb); color: var(--cat-c, #4aa8cc); font-size: 10px; font-weight: 800; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 1px; font-family: 'Nunito', sans-serif; }
+  .bb-script { background: #f0f8fc; border-left: 3px solid var(--cat-c, #4aa8cc); border-radius: 0 8px 8px 0; padding: 10px 12px; font-size: 12px; font-style: italic; line-height: 1.6; margin-top: 10px; }
+  [data-cat="bpd"]     { --cat-c: #9b7fd4; --cat-l: #ede8f9; }
+  [data-cat="adhd"]    { --cat-c: #5b9bd5; --cat-l: #e3effa; }
+  [data-cat="anxiety"] { --cat-c: #52c4a0; --cat-l: #e1f5ee; }
+  [data-cat="anger"]   { --cat-c: #f07060; --cat-l: #fdecea; }
+  [data-cat="doing"]   { --cat-c: #c9a800; --cat-l: #fef7d5; }
+  [data-cat="alateen"] { --cat-c: #2abfbf; --cat-l: #dff7f7; }
+  [data-cat="brain"]   { --cat-c: #e8650a; --cat-l: #fdeede; }
+  [data-cat="superflex"]{ --cat-c: #7b2fbe; --cat-l: #f0e8ff; }
+
+  .sf-card { background: white; border-radius: 14px; padding: 18px; margin-bottom: 12px; box-shadow: 0 2px 8px rgba(0,0,0,.06); border-left: 4px solid var(--sc, #7b2fbe); }
+  .sf-name { font-family: 'Nunito', sans-serif; font-size: 16px; font-weight: 900; color: #1f2933; margin-bottom: 4px; }
+  .sf-think { font-size: 13px; color: #6b7280; line-height: 1.5; margin-bottom: 8px; }
+  .sf-strategy { font-size: 12.5px; color: #374151; line-height: 1.6; }
+</style>
 </head>
 <body>
 
 <div class="hero">
   <div class="hero-name">Oliver</div>
-  <div class="hero-sub" id="hero-sub">Today's Tasks · June 6, 2026</div>
+  <div class="hero-sub">Today's Hub · <span id="hero-date"></span></div>
   <div class="hero-badge" id="hero-badge">🧒 Loading…</div>
 </div>
 
-<div class="progress-bar-wrap">
-  <div class="section-label" style="padding-bottom:6px">Progress</div>
-  <div class="progress-label">
-    <span id="prog-text">— of — done</span>
-    <span id="prog-pct">—%</span>
+<nav class="hub-nav">
+  <button class="hub-tab active" data-tab="tasks"   onclick="showTab('tasks')">📋 Tasks</button>
+  <button class="hub-tab"        data-tab="routine" onclick="showTab('routine')">🌅 Routine</button>
+  <button class="hub-tab"        data-tab="menu"    onclick="showTab('menu')">🍽️ Menu</button>
+  <button class="hub-tab"        data-tab="fi"      onclick="showTab('fi')">📚 FI Study</button>
+  <button class="hub-tab"        data-tab="skills"  onclick="showTab('skills')">💡 Skills</button>
+</nav>
+
+<!-- ══ TASKS ══ -->
+<div class="hub-panel active" id="tab-tasks">
+  <div class="progress-bar-wrap">
+    <div class="section-label" style="padding-bottom:6px">Progress</div>
+    <div class="progress-label">
+      <span id="prog-text">— of — done</span>
+      <span id="prog-pct">—%</span>
+    </div>
+    <div class="progress-track"><div class="progress-fill" id="prog-fill" style="width:0%"></div></div>
   </div>
-  <div class="progress-track"><div class="progress-fill" id="prog-fill" style="width:0%"></div></div>
+  <div class="section-label">📋 Open Tasks</div>
+  <div class="task-list" id="taskList"><div style="padding:20px;text-align:center;color:var(--muted);font-weight:700;">Loading from sheet…</div></div>
 </div>
 
-<div class="section-label">📋 Open Tasks</div>
+<!-- ══ ROUTINE ══ -->
+<div class="hub-panel" id="tab-routine">
+  <div class="routine-wrap">
+    <div style="padding:4px 0 18px">
+      <div style="font-family:'Nunito',sans-serif;font-size:20px;font-weight:900;color:#1f2933">Daily Routine ☀️</div>
+      <div style="font-size:13px;color:#888;margin-top:2px">Oliver's school-day rhythm</div>
+    </div>
+    <div class="routine-slot"><div class="r-time">7:30</div><div class="r-icon">⏰</div><div><div class="r-label">Wake Up + Get Ready</div><div class="r-detail">Get dressed, brush teeth, make bed. Ready by 8:00.</div></div></div>
+    <div class="routine-slot"><div class="r-time">8:00</div><div class="r-icon">🥣</div><div><div class="r-label">Breakfast</div><div class="r-detail">Eat, put dishes in the kitchen.</div></div></div>
+    <div class="routine-slot"><div class="r-time">8:30</div><div class="r-icon">⚡</div><div><div class="r-label">Brain Activation Circuit (5 min)</div><div class="r-detail">Cross-body march → Pattern sprint → Box breathing. See Skills tab for full routine.</div></div></div>
+    <div class="routine-slot"><div class="r-time">9:00</div><div class="r-icon">📚</div><div><div class="r-label">Morning Block 1 — Français / Math</div><div class="r-detail">50 min focused work. Timer on. 2-min movement break every 15 min.</div></div></div>
+    <div class="routine-slot"><div class="r-time">10:00</div><div class="r-icon">🌿</div><div><div class="r-label">Break (15 min)</div><div class="r-detail">Outside or move your body. Screen-free. Drink water.</div></div></div>
+    <div class="routine-slot"><div class="r-time">10:15</div><div class="r-icon">🔬</div><div><div class="r-label">Morning Block 2 — Science / Social Studies</div><div class="r-detail">50 min. Ask for help if stuck more than 3 min.</div></div></div>
+    <div class="routine-slot"><div class="r-time">12:00</div><div class="r-icon">🥗</div><div><div class="r-label">Lunch</div><div class="r-detail">Eat, put dishes away.</div></div></div>
+    <div class="routine-slot"><div class="r-time">12:30</div><div class="r-icon">🏃</div><div><div class="r-label">Outdoor / Free Time</div><div class="r-detail">30–60 min movement. Screens off this block.</div></div></div>
+    <div class="routine-slot"><div class="r-time">1:30</div><div class="r-icon">📝</div><div><div class="r-label">Afternoon Work Block</div><div class="r-detail">English LA, Health, projects, open tasks from task list.</div></div></div>
+    <div class="routine-slot"><div class="r-time">3:30</div><div class="r-icon">🎮</div><div><div class="r-label">Screen / Free Time</div><div class="r-detail">After all tasks are done and checked.</div></div></div>
+    <div class="routine-slot"><div class="r-time">5:30</div><div class="r-icon">🍽️</div><div><div class="r-label">Dinner</div><div class="r-detail">Table together, screens off.</div></div></div>
+    <div class="routine-slot"><div class="r-time">7:00</div><div class="r-icon">🛁</div><div><div class="r-label">Evening Routine</div><div class="r-detail">Shower, pack bag, lay out clothes, brush teeth.</div></div></div>
+    <div class="routine-slot"><div class="r-time">8:00</div><div class="r-icon">📖</div><div><div class="r-label">Reading (20 min)</div><div class="r-detail">French or English. In bed, lights on.</div></div></div>
+    <div class="routine-slot" style="border:none"><div class="r-time">8:30</div><div class="r-icon">🌙</div><div><div class="r-label">Lights Out</div><div class="r-detail">Screens off. Good night! 🌙</div></div></div>
+  </div>
+</div>
 
-<div class="task-list" id="taskList"><div style="padding:20px;text-align:center;color:var(--muted);font-weight:700;">Loading from sheet…</div></div>
+<!-- ══ MENU ══ -->
+<div class="hub-panel" id="tab-menu">
+  <iframe class="embed-frame" src="menu.html" title="Weekly Menu"></iframe>
+</div>
+
+<!-- ══ FI STUDY GUIDE ══ -->
+<div class="hub-panel" id="tab-fi">
+  <div class="fi-wrap">
+    <div class="fi-toggle-bar">
+      <div style="flex:1">
+        <div style="font-family:'Nunito',sans-serif;font-size:16px;font-weight:900;color:#1f2933">Guide d'étude — Année 6 · FI</div>
+        <div style="font-size:12px;color:#888;margin-top:2px">Alberta French Immersion · Grade 6 All Subjects</div>
+      </div>
+      <label>
+        <button class="fi-toggle" id="en-toggle" onclick="toggleEnglish()" aria-label="Show English hints"></button>
+        🇬🇧 English hints
+      </label>
+    </div>
+
+    <!-- FRANÇAIS -->
+    <div class="subject-card s-fr">
+      <div class="subj-tag" style="color:var(--sc)">#1 · Français — Arts du langage</div>
+      <div class="subj-title">Lecture, écriture et communication orale</div>
+      <div class="subj-body">
+        En 6e année, tu approfondis ta capacité à <strong>lire des textes variés</strong> (informatifs, narratifs, poétiques), à <strong>écrire avec clarté</strong> et à t'exprimer à l'oral avec confiance. Tu travailles les stratégies de lecture, l'orthographe, la grammaire (accord du verbe, des adjectifs), et la ponctuation.
+      </div>
+      <div class="en-hint">Reading strategies: predict, connect, question, visualize, infer. Writing process: brainstorm → draft → revise → edit → publish. Key grammar: verb agreement with subject, adjective agreement with noun (gender + number).</div>
+      <div class="vocab-row">
+        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">inférence</span>
+        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">stratégie de lecture</span>
+        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">accord sujet-verbe</span>
+        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">brouillon</span>
+        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">révision</span>
+        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">point de vue</span>
+      </div>
+      <div class="q-label">Questions de compréhension</div>
+      <div class="q-item">1. Quelle est la différence entre une <em>inférence</em> et une <em>prédiction</em> ?</div>
+      <div class="q-item">2. Donne un exemple d'accord sujet-verbe avec un sujet pluriel.</div>
+      <div class="q-item">3. Quelles sont les étapes du processus d'écriture ?</div>
+      <div class="q-item">4. Qu'est-ce qu'un texte informatif ? Donne un exemple de texte que tu as lu.</div>
+      <div class="en-hint">Answer 1: An inference is a conclusion drawn from clues in the text + your own knowledge. A prediction is a guess about what will happen before reading. Answer 2: "Les enfants jouent." (Les enfants = plural, so jouent not joue). Answer 3: brainstorm, draft, revise, edit, publish. Answer 4: An informational text gives facts about a real topic (e.g. a science article, a biography).</div>
+    </div>
+
+    <!-- ENGLISH LA -->
+    <div class="subject-card s-en">
+      <div class="subj-tag" style="color:var(--sc)">#2 · English Language Arts</div>
+      <div class="subj-title">Reading, Writing & Representing</div>
+      <div class="subj-body">
+        Grade 6 ELA focuses on <strong>reading for meaning</strong>, <strong>writing in multiple forms</strong> (narrative, expository, persuasive), and representing ideas through multimedia. You work on paragraph structure, literary devices (simile, metaphor, personification), and supporting arguments with evidence.
+      </div>
+      <div class="en-hint">Literary devices: simile (like/as), metaphor (is), personification (non-human acts human). Paragraph structure: topic sentence → 2–3 supporting details → concluding sentence. Persuasive writing: claim + reasons + evidence + counter-argument + rebuttal.</div>
+      <div class="vocab-row">
+        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">simile</span>
+        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">metaphor</span>
+        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">personification</span>
+        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">thesis statement</span>
+        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">evidence</span>
+        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">inference</span>
+      </div>
+      <div class="q-label">Understanding Questions</div>
+      <div class="q-item">1. What is the difference between a simile and a metaphor? Give an example of each.</div>
+      <div class="q-item">2. What are the three main parts of a paragraph?</div>
+      <div class="q-item">3. In a persuasive essay, what is a counter-argument and why include one?</div>
+      <div class="q-item">4. What makes a strong thesis statement? Write one about a topic you know.</div>
+    </div>
+
+    <!-- MATH -->
+    <div class="subject-card s-math">
+      <div class="subj-tag" style="color:var(--sc)">#3 · Mathématiques 6</div>
+      <div class="subj-title">Nombres, opérations, géométrie et statistiques</div>
+      <div class="subj-body">
+        Les grands thèmes de math 6 : <strong>les fractions, les décimaux et les pourcentages</strong> ; <strong>les entiers</strong> (nombres négatifs) ; <strong>les ratios</strong> ; les <strong>expressions algébriques</strong> ; la <strong>géométrie</strong> (angles, transformations, périmètre, aire) ; et les <strong>probabilités et statistiques</strong>.
+      </div>
+      <div class="en-hint">Key topics: Converting fractions ↔ decimals ↔ percentages. Integers: numbers below zero on the number line (-3, -1, 0, 1, 3). Algebra: solving for n in equations like 3n + 2 = 14. Geometry: area of triangles = ½ × base × height. Probability: theoretical (what should happen) vs. experimental (what actually happened).</div>
+      <div class="vocab-row">
+        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">fraction</span>
+        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">pourcentage</span>
+        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">entier</span>
+        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">ratio</span>
+        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">expression algébrique</span>
+        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">périmètre</span>
+        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">aire</span>
+        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">probabilité</span>
+      </div>
+      <div class="q-label">Questions pratiques</div>
+      <div class="q-item">1. Convertis ¾ en décimal et en pourcentage.</div>
+      <div class="q-item">2. Résous pour n : 4n − 6 = 18</div>
+      <div class="q-item">3. Calcule l'aire d'un triangle avec une base de 10 cm et une hauteur de 6 cm.</div>
+      <div class="q-item">4. Un sac contient 3 rouges, 2 bleus, 5 verts. Quelle est la probabilité de tirer un bleu ?</div>
+      <div class="en-hint">Answers: 1) ¾ = 0.75 = 75%. 2) 4n = 24, n = 6. 3) Area = ½ × 10 × 6 = 30 cm². 4) 2/10 = 1/5 = 20%.</div>
+    </div>
+
+    <!-- SCIENCE -->
+    <div class="subject-card s-sci">
+      <div class="subj-tag" style="color:var(--sc)">#4 · Sciences 6</div>
+      <div class="subj-title">Électricité · Systèmes solaires · Air et aérodynamique · Arbres</div>
+      <div class="subj-body">
+        <strong>Unité 1 — L'électricité :</strong> circuits électriques (série et parallèle), conducteurs et isolants, sécurité électrique, sources d'énergie.<br><br>
+        <strong>Unité 2 — La science du ciel :</strong> le système solaire (planètes, lunes, astéroïdes), les constellations, les phases de la Lune, les éclipses solaires et lunaires.<br><br>
+        <strong>Unité 3 — L'air et l'aérodynamique :</strong> propriétés de l'air (masse, pression, température), portance, traînée, conceptions aérodynamiques, vol des oiseaux et des avions.<br><br>
+        <strong>Unité 4 — Les arbres et les forêts :</strong> parties d'un arbre, photosynthèse, rôle des forêts dans l'écosystème, impact humain.
+      </div>
+      <div class="en-hint">Electricity: a series circuit has one path; a parallel circuit has multiple paths (if one bulb burns out, others stay on). Conductors let electricity flow (metal); insulators stop it (rubber, wood). Solar system order: Mercury, Venus, Earth, Mars, Jupiter, Saturn, Uranus, Neptune. Air has mass and takes up space — proved by a balloon! Lift (upward force) vs. drag (resistance). Photosynthesis: water + CO₂ + sunlight → glucose + oxygen.</div>
+      <div class="vocab-row">
+        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">circuit en série</span>
+        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">circuit en parallèle</span>
+        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">conducteur</span>
+        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">isolant</span>
+        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">système solaire</span>
+        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">photosynthèse</span>
+        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">portance</span>
+        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">traînée</span>
+      </div>
+      <div class="q-label">Questions de compréhension</div>
+      <div class="q-item">1. Quelle est la différence entre un circuit en série et un circuit en parallèle ?</div>
+      <div class="q-item">2. Nomme les 8 planètes du système solaire dans l'ordre.</div>
+      <div class="q-item">3. Explique la photosynthèse avec les mots : eau, CO₂, soleil, glucose, oxygène.</div>
+      <div class="q-item">4. Comment la forme aérodynamique d'un avion réduit-elle la traînée ?</div>
+    </div>
+
+    <!-- SOCIAL STUDIES -->
+    <div class="subject-card s-ss">
+      <div class="subj-tag" style="color:var(--sc)">#5 · Sciences humaines 6</div>
+      <div class="subj-title">Le Canada : construire notre identité</div>
+      <div class="subj-body">
+        <strong>Thème A — Géographie du Canada :</strong> les six grandes régions physiques (Cordillère, Intérieur, Bouclier canadien, Plaines à l'intérieur, Appalaches, Arctique), les ressources naturelles, les fuseaux horaires, la densité de population.<br><br>
+        <strong>Thème B — L'identité canadienne :</strong> les Premières Nations, les Métis, les Inuits (peuples autochtones), la Confédération (1867), la Charte canadienne des droits et libertés, les symboles nationaux (drapeau, hymne, unifolié).<br><br>
+        <strong>Thème C — La démocratie canadienne :</strong> les trois paliers de gouvernement (fédéral, provincial, municipal), le rôle du Parlement, les élections, les droits et responsabilités des citoyens.<br><br>
+        <strong>Thème D — L'économie canadienne :</strong> les secteurs (primaire, secondaire, tertiaire), le commerce international, les exportations et importations du Canada.
+      </div>
+      <div class="en-hint">Confederation (1867): 4 original provinces joined — Ontario, Quebec, Nova Scotia, New Brunswick. Charter of Rights: freedom of expression, religion, mobility, equality rights. Three levels of gov't: Federal (Ottawa) → laws for all Canada; Provincial (Edmonton) → education, health; Municipal (your city) → roads, parks, libraries. Economic sectors: primary = raw resources (farming, mining); secondary = manufacturing; tertiary = services (teachers, doctors, retail).</div>
+      <div class="vocab-row">
+        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">Confédération</span>
+        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">Charte des droits</span>
+        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">palier de gouvernement</span>
+        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">démocratie</span>
+        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">région physique</span>
+        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">Autochtones</span>
+        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">secteur économique</span>
+      </div>
+      <div class="q-label">Questions de compréhension</div>
+      <div class="q-item">1. Quelles étaient les quatre premières provinces de la Confédération (1867) ?</div>
+      <div class="q-item">2. Nomme les trois paliers de gouvernement et donne une responsabilité de chacun.</div>
+      <div class="q-item">3. Quelle est la différence entre un secteur primaire et un secteur tertiaire ? Donne un exemple de chacun.</div>
+      <div class="q-item">4. Pourquoi la Charte canadienne des droits et libertés est-elle importante ?</div>
+    </div>
+
+    <!-- HEALTH -->
+    <div class="subject-card s-hlth">
+      <div class="subj-tag" style="color:var(--sc)">#6 · Santé 6</div>
+      <div class="subj-title">Choix sains, relations et sécurité</div>
+      <div class="subj-body">
+        En santé 6, tu explores : le <strong>développement corporel</strong> (puberté — comprendre les changements physiques et émotionnels), les <strong>relations saines</strong> (communication, limites, résolution de conflits), la <strong>prise de décisions</strong> saines, la sécurité sur Internet et les <strong>médias</strong>.
+      </div>
+      <div class="en-hint">Puberty: physical changes driven by hormones. Healthy relationships have: mutual respect, clear communication, safe boundaries, support for each other's goals. Decision-making model: 1) Identify the problem, 2) list options, 3) think about consequences, 4) choose, 5) evaluate. Online safety: never share personal information; if something feels wrong, tell a trusted adult.</div>
+      <div class="vocab-row">
+        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">puberté</span>
+        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">relation saine</span>
+        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">limite</span>
+        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">prise de décision</span>
+        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">sécurité en ligne</span>
+        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">résolution de conflits</span>
+      </div>
+      <div class="q-label">Questions de compréhension</div>
+      <div class="q-item">1. Nomme deux changements physiques de la puberté (pour n'importe quel genre).</div>
+      <div class="q-item">2. Quelles sont les caractéristiques d'une relation saine ?</div>
+      <div class="q-item">3. Décris le modèle de prise de décision en 5 étapes.</div>
+      <div class="q-item">4. Comment rester en sécurité en ligne ? Donne deux règles importantes.</div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ══ SKILLS ══ -->
+<div class="hub-panel" id="tab-skills">
+  <div class="skills-wrap">
+
+    <!-- Brain Activation -->
+    <div class="skills-h2">⚡ Brain Activation Circuit</div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:12px;margin-bottom:16px">
+      <div style="background:white;border-radius:12px;padding:16px;box-shadow:0 2px 8px rgba(0,0,0,.06)"><div style="font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:1.5px;color:#e8650a;margin-bottom:6px">1 min · Move</div><div style="font-family:'Nunito',sans-serif;font-weight:800;font-size:15px;margin-bottom:6px">Cross-Body Wakeup</div><div style="font-size:13px;color:#6b7280;line-height:1.5">Right elbow → left knee, then left → right. Both brain hemispheres activate at once.</div></div>
+      <div style="background:white;border-radius:12px;padding:16px;box-shadow:0 2px 8px rgba(0,0,0,.06)"><div style="font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:1.5px;color:#5b9bd5;margin-bottom:6px">2 min · Think</div><div style="font-family:'Nunito',sans-serif;font-weight:800;font-size:15px;margin-bottom:6px">Pattern Sprint</div><div style="font-size:13px;color:#6b7280;line-height:1.5">Name 3 things that go together + 1 that doesn't. Say the rule out loud.</div></div>
+      <div style="background:white;border-radius:12px;padding:16px;box-shadow:0 2px 8px rgba(0,0,0,.06)"><div style="font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:1.5px;color:#52c4a0;margin-bottom:6px">2 min · Reset</div><div style="font-family:'Nunito',sans-serif;font-weight:800;font-size:15px;margin-bottom:6px">Box Breathing</div><div style="font-size:13px;color:#6b7280;line-height:1.5">In 4, hold 4, out 4, hold 4. Repeat until shoulders drop.</div></div>
+    </div>
+
+    <!-- Superflex -->
+    <div class="skills-h2">🦸 Superflex Social Thinking</div>
+    <div style="font-size:13px;color:#6b7280;margin:-8px 0 14px;line-height:1.5">Superflex is your flexible thinking superpower. Unthinkables are the brain patterns that make thinking inflexible. You can spot them and choose Superflex instead.</div>
+    <div class="sf-card" style="--sc:#7b2fbe"><div class="sf-name">Rock Brain</div><div class="sf-think">Brain locks onto one idea and won't change, even when it makes sense to.</div><div class="sf-strategy"><strong>Superflex move:</strong> "There might be another way. Let me think of 2 other options before I decide."</div></div>
+    <div class="sf-card" style="--sc:#e8650a"><div class="sf-name">Mean Jean / Destroyer</div><div class="sf-think">Wants to say mean things or wreck things when frustrated.</div><div class="sf-strategy"><strong>Superflex move:</strong> Notice the urge. Use STOP skill. Ask: "What will this cost me later?"</div></div>
+    <div class="sf-card" style="--sc:#5b9bd5"><div class="sf-name">Space Invader</div><div class="sf-think">Gets too close to people or takes up too much of a group's space/time.</div><div class="sf-strategy"><strong>Superflex move:</strong> Check the room — am I taking more than my share? Give others space to share.</div></div>
+    <div class="sf-card" style="--sc:#f07060"><div class="sf-name">Body Snatcher</div><div class="sf-think">Body wanders away from the group even when mind wants to stay.</div><div class="sf-strategy"><strong>Superflex move:</strong> Anchor — two feet on floor, eyes on speaker, hands doing something quiet.</div></div>
+    <div class="sf-card" style="--sc:#52c4a0"><div class="sf-name">Worry Wall</div><div class="sf-think">Worries stack up until they block everything else.</div><div class="sf-strategy"><strong>Superflex move:</strong> "Is this a small problem, medium problem, or big problem?" Scale the reaction to the size.</div></div>
+    <div class="sf-card" style="--sc:#c9a800"><div class="sf-name">Un-Wonderer</div><div class="sf-think">Doesn't think about how actions affect others — not because you don't care, but because your brain wasn't looking.</div><div class="sf-strategy"><strong>Superflex move:</strong> Before acting, quick scan: "How might this land for the other person?"</div></div>
+
+    <!-- Brain Brave -->
+    <div class="skills-h2">🧠 Brain Brave Lessons</div>
+    <div id="bb-lessons-oliver"></div>
+
+  </div>
+</div>
 
 <div class="toast-wrap" id="toasts"></div>
 
 <script>
+document.getElementById('hero-date').textContent = new Date().toLocaleDateString('en-CA', { month: 'long', day: 'numeric', year: 'numeric' });
+const TODAY_KEY = new Date().toISOString().slice(0, 10);
+
+function showTab(name) {
+  document.querySelectorAll('.hub-tab').forEach(t => t.classList.toggle('active', t.dataset.tab === name));
+  document.querySelectorAll('.hub-panel').forEach(p => p.classList.toggle('active', p.id === 'tab-' + name));
+}
+
+function toggleEnglish() {
+  const btn = document.getElementById('en-toggle');
+  btn.classList.toggle('on');
+  document.body.classList.toggle('show-en', btn.classList.contains('on'));
+}
+
+/* Brain Brave */
+const BB_LESSONS = [
+  { cat:"brain",   icon:"✖️",  title:"Move to Think",           subtitle:"Cross-body movement wakes both brain hemispheres",    intro:"Cross-body movements activate both brain hemispheres simultaneously — proven to improve focus, coordination, and readiness to learn.", agenda:[{label:"Body Check",desc:"Rate your brain switch-on level 1–10. Wiggly? Sluggish? Buzzing?"},{label:"Brain Science",desc:"Left hemisphere handles words/logic; right handles spatial thinking/creativity. Cross-body = both sides fire at once (bilateral integration)."},{label:"Cross-Body Moves",desc:"30 sec each: right elbow→left knee, left elbow→right knee, figure-8 in air, alternate shoulder pats. Rate your focus after."},{label:"Try a Task",desc:"Start a piece of schoolwork immediately after. Does it feel easier to begin?"},{label:"Your Circuit",desc:"Pick your top cross-body move + one thinking spark + box breathing. Run this circuit every morning before school."}], script:"'Bilateral integration — when you touch your right elbow to your left knee — forces both sides of your brain to coordinate simultaneously. Scientists confirmed this improves working memory and focus. It's the fastest, cheapest brain upgrade available.'" },
+  { cat:"brain",   icon:"🔄",  title:"Brain Breaks That Work",  subtitle:"Strategic resets that restore focus mid-task",        intro:"The prefrontal cortex — the part that handles sustained focus — needs micro-resets. Not all breaks are equal.", agenda:[{label:"Why Brains Blur",desc:"Focused attention degrades after 15–20 min. Scrolling your phone doesn't restore it — it just redirects it to easier stimulation."},{label:"Break Science",desc:"Physical movement, nature exposure, and free creative doodling actually allow the default mode network to consolidate and recover."},{label:"Break Testing",desc:"Test 4 types: Physical (10 jumping jacks), Nature (look outside 2 min), Creative (doodle), Phone. Which makes returning to work easiest?"},{label:"Your Break Menu",desc:"Design 3 approved 2-min breaks. Work 15 min → break 2 min → return. Phone = off-limits mid-task."}], script:"'When you scroll a screen during a break, your attentional resources are still being consumed — just by something easier. Physical or nature breaks let your brain's focus systems actually recover. That's not a feeling — that's neuroscience.'" },
+  { cat:"adhd",    icon:"🚀",  title:"Your Brain is a Rocket",  subtitle:"Understanding ADHD as a different wiring, not a flaw", intro:"Before any strategy works, you need an accurate model of how your brain actually works — free from shame or misunderstanding.", agenda:[{label:"The Facts",desc:"ADHD brains have differences in dopamine regulation and prefrontal cortex development. This affects initiation, sustained attention, and time perception — not intelligence or character."},{label:"Rocket Model",desc:"Enormous processing power + engines that don't always accept input commands. The 'steering' (executive function) develops later — not less."},{label:"Strengths",desc:"Hyperfocus, pattern recognition, creativity, crisis competence, high energy. Many successful people identify with ADHD traits."},{label:"Honest Challenges",desc:"Initiation, transitions, time blindness, emotional regulation under frustration. These are real — and they are workable."}], script:"'ADHD is not a deficit of attention — it's inconsistent regulation of attention. You can focus for hours on things that interest you. The challenge is that your brain doesn't accept external commands about what to focus on as easily as neurotypical brains. That's a wiring difference, not a willpower problem.'" },
+  { cat:"adhd",    icon:"⏱️",  title:"Time Blindness",          subtitle:"Why time feels invisible and how to make it visible",  intro:"ADHD brains experience time differently — there's NOW and there's NOT NOW. Without external time cues, the future doesn't feel real.", agenda:[{label:"The Experience",desc:"You start something interesting, look up, and 90 min has passed. Or: a deadline is 'tomorrow' and it doesn't feel urgent until it becomes today."},{label:"Why It Happens",desc:"Time perception requires the prefrontal cortex to simulate the future. When executive function is dysregulated, this simulation is less reliable."},{label:"Make Time Visible",desc:"Visual timers (Time Timer app), time-stamped sticky note plans, alarm chains with labeled reminders, time anchors tied to routines."},{label:"One System",desc:"Pick ONE hard transition. Build a visual timer + 2-alarm chain just for that. Master one before adding another."}], script:"'Time blindness is not about caring or not caring. Your brain's internal clock runs differently. External cues aren't a crutch — they're a prosthetic for a genuine neurological difference. Using them is smart, not weak.'" },
+  { cat:"anger",   icon:"🧯",  title:"STOP Before You Pop",     subtitle:"A 4-step DBT skill to interrupt the anger-action pipeline", intro:"When anger peaks, the prefrontal cortex goes partially offline. STOP is designed to buy enough time for it to come back online.", agenda:[{label:"STOP Steps",desc:"S = Stop — freeze completely, nothing moves. T = Take one breath — full inhale, full exhale. O = Observe — what am I thinking? Feeling? Wanting to do? P = Proceed — choose, not react."},{label:"Why It Works",desc:"The amygdala triggers within 100ms. The prefrontal cortex takes 300–500ms to respond. STOP creates that gap."},{label:"Role Play",desc:"Act out a genuinely frustrating scenario. Practice STOP — narrate each step out loud as you do it."},{label:"Code Word",desc:"Agree on a private signal a trusted adult can use to cue STOP when you're escalating. Practice it in calm so it fires in storm."}], script:"'When you're at a 9 out of 10, the executive part of your brain is partially offline. STOP isn't asking you to control your emotion — it's asking you to pause long enough for your thinking brain to come back. You can't think your way out of a flood. You can interrupt the pipeline long enough to move to safer ground.'" },
+  { cat:"anxiety", icon:"🔬",  title:"The What-If Detective",   subtitle:"Testing anxious thoughts like a scientist",            intro:"Anxious brains generate 'what-if' scenarios that feel like facts. This lesson teaches you to look AT thoughts rather than FROM them.", agenda:[{label:"Thoughts ≠ Facts",desc:"Your brain generates thousands of thoughts daily. Anxious brains specialize in threat-prediction — useful in genuine danger, exhausting when misfiring."},{label:"Detective Questions",desc:"1. What is the evidence FOR this thought? 2. What is the evidence AGAINST it? 3. What would I tell a friend thinking this? 4. What's the most realistic outcome?"},{label:"Case Study",desc:"Take one real worry. Work through all four detective questions. Write the original thought and the realistic verdict."},{label:"Cognitive Defusion",desc:"Practice 'I am having the thought that ___' instead of just 'I think ___.' Creates distance from the thought."}], script:"'Your brain is a prediction machine — and anxious brains overproduce threat predictions. The detective's job is not to dismiss worry but to test it. A thought is a hypothesis, not a fact, until it has evidence. Let's apply the scientific method to your brain's worst-case scenarios.'" },
+  { cat:"doing",   icon:"🏔️",  title:"Opposite Action",         subtitle:"DBT's most powerful skill for avoidance",             intro:"Opposite Action is a core DBT technique: when a feeling urges avoidance or withdrawal — doing the opposite deliberately breaks the emotional-behaviour loop.", agenda:[{label:"The Loop",desc:"Anxiety → avoid → anxiety reinforced. Doing → avoid → task grows larger in your mind. Opposite Action interrupts the loop."},{label:"Action Urges",desc:"Every emotion has an urge. Anxiety = hide/escape. Shame = disappear/lash out. Sadness = withdraw. Identify your urge FIRST."},{label:"Practice",desc:"Anxious about a test → urge to avoid → Opposite: study 5 min, then reassess. Feel stupid at reading → urge to quit → Opposite: read one paragraph."},{label:"Your Target",desc:"What have you been avoiding this week? Design the smallest possible opposite action step you can do TODAY."}], script:"'Every time you avoid something, your amygdala logs it as dangerous. The avoidance provides relief, which reinforces the avoidance, which makes the thing scarier. Opposite Action reverses this: each small act of facing something teaches your brain: that is manageable. The relief comes AFTER, not before.'" },
+  { cat:"alateen", icon:"🏠",  title:"It's Not Your Fault",     subtitle:"The 3 C's — foundational Alateen truth",              intro:"Children in families affected by addiction often carry unconscious guilt or responsibility. The 3 C's directly address this.", agenda:[{label:"The 3 C's",desc:"You didn't CAUSE it. You can't CONTROL it. You can't CURE it. Say each one slowly. Let them land."},{label:"Why Kids Believe They Caused It",desc:"Believing you caused something gives a feeling of control — if it's my fault, maybe I can fix it. The belief is protective but false."},{label:"Letter Exercise",desc:"Write a short letter to yourself beginning: 'Dear [name], this is not your fault because…' Private — for you only."},{label:"Return to the 3 C's",desc:"These sentences become a reset tool. The guilty feelings will return. So will the 3 C's."}], script:"'I want to be direct with you: no child's behaviour causes addiction. Not being difficult, not being easy, not being perfect. Addiction is a disease of the adult brain's reward and regulation systems. No child has the power to cause it — or the power to cure it. That is not an opinion. That is a medical fact.'" },
+  { cat:"alateen", icon:"🔦",  title:"My Circle of Control",    subtitle:"Redirecting energy to what is actually yours",        intro:"Spending emotional energy trying to control the uncontrollable creates chronic stress and helplessness. Refocusing on what IS within your control builds agency.", agenda:[{label:"Three Circles",desc:"Inner = things I control: my words, my choices, my reactions, my effort. Middle = I can influence: my communication, asking for help. Outer = I cannot control: other people's choices, addiction, adult decisions."},{label:"Sort Your Worries",desc:"Take things you've been anxious about. Place each in a circle. Some feel uncomfortable to let go of — that's okay, do it anyway."},{label:"Energy Audit",desc:"How much energy do you spend in each circle? What would it feel like to redirect outer-circle energy inward?"},{label:"Reclaim Your Inner Circle",desc:"Name one thing in your inner circle you can act on today."}], script:"'The things you spend the most energy trying to control — are they in your inner circle? When we try to control what we can't, we exhaust ourselves and feel helpless when it doesn't work. Redirecting that energy inward doesn't mean giving up. It means choosing where your power actually lives.'" },
+  { cat:"alateen", icon:"🌱",  title:"Detachment with Love",    subtitle:"Loving someone without being controlled by their choices", intro:"Detachment is Alateen's most misunderstood and most important concept. It is not coldness — it is a boundary that protects both people.", agenda:[{label:"What Detachment Is NOT",desc:"Not: giving up, not caring, abandoning someone, pretending things are fine. Those are all forms of emotional shutdown."},{label:"What Detachment IS",desc:"I love you AND your storm is yours. I can care about what happens to you AND choose not to live inside your chaos."},{label:"The Bubble",desc:"Your emotional space is like a bubble. Love, connection, and kindness travel through it. Chaos, blame, and adult-sized problems stay outside."},{label:"Practice",desc:"When you notice yourself absorbed in someone else's emotional weather: name it, breathe, return to your inner circle."}], script:"'When someone in your family is in crisis, it's natural to feel it as if it were yours. That's empathy. But there's a difference between feeling compassion for someone and letting their storm become your storm. Detachment with love says: I see you. I care about you. And I am still here, in my own life, on solid ground.'" },
+];
+
+const CAT_LABELS = { bpd:'💜 Emotions', adhd:'💙 ADHD Focus', anxiety:'💚 Anxiety', anger:'🔥 Anger Management', doing:'⭐ Hard Stuff', alateen:'🌊 Alateen', brain:'🧠 Brain Activation', superflex:'🦸 Superflex' };
+
+function renderBrainBrave(containerId, lessons) {
+  document.getElementById(containerId).innerHTML = lessons.map((l, i) => `
+    <div class="bb-card" data-cat="${l.cat}" onclick="toggleBB('${containerId}', ${i})">
+      <div class="bb-header">
+        <div class="bb-icon">${l.icon}</div>
+        <div class="bb-meta">
+          <div class="bb-cat-label">${CAT_LABELS[l.cat]||l.cat}</div>
+          <div class="bb-title">${l.title}</div>
+          <div class="bb-sub">${l.subtitle}</div>
+        </div>
+        <div id="bbo-${containerId}-${i}" style="font-size:18px;color:#ccc;transition:transform .2s;flex-shrink:0">↓</div>
+      </div>
+      <div class="bb-body">
+        <div class="bb-intro">${l.intro}</div>
+        <div style="font-size:11px;font-weight:900;letter-spacing:1.5px;text-transform:uppercase;color:var(--cat-c);margin:10px 0 6px">Lesson Steps</div>
+        ${l.agenda.map((a,n)=>`<div class="bb-step"><div class="bb-num">${n+1}</div><div><strong>${a.label}:</strong> <span style="color:#6b7280">${a.desc}</span></div></div>`).join('')}
+        <div style="font-size:11px;font-weight:900;letter-spacing:1.5px;text-transform:uppercase;color:var(--cat-c);margin:12px 0 4px">Script Starter</div>
+        <div class="bb-script">${l.script}</div>
+      </div>
+    </div>`).join('');
+}
+
+function toggleBB(containerId, i) {
+  const cards = document.querySelectorAll(`#${containerId} .bb-card`);
+  const wasOpen = cards[i].classList.contains('open');
+  cards.forEach((c,j) => { c.classList.remove('open'); const a = document.getElementById(`bbo-${containerId}-${j}`); if(a) a.style.transform = ''; });
+  if (!wasOpen) { cards[i].classList.add('open'); const a = document.getElementById(`bbo-${containerId}-${i}`); if(a) a.style.transform = 'rotate(180deg)'; }
+}
+
+renderBrainBrave('bb-lessons-oliver', BB_LESSONS);
+
+/* ── Sheet / Tasks ── */
 const SHEET_ID  = '11A5NsScePEbtN9dujN3tILb_Q2TU5tsf6I0MbT11kDY';
 const SHEET_GID = '553696854';
 const PERSON    = 'Oliver';
-const TODAY_KEY = new Date().toISOString().slice(0,10);
 const STORE_KEY = `sf_oliver_done_${TODAY_KEY}`;
 
-let TASKS = [];
-let done  = {};
-try { done = JSON.parse(localStorage.getItem(STORE_KEY) || '{}'); } catch(e) {}
-
+let TASKS = [], done = {};
+try { done = JSON.parse(localStorage.getItem(STORE_KEY)||'{}'); } catch(e){}
 function save() { localStorage.setItem(STORE_KEY, JSON.stringify(done)); }
 
-/* ── CSV parser ── */
-function parseCSV(raw) {
-  const rows = []; let i = 0, n = raw.length;
-  while (i < n) {
-    const row = [];
-    while (i < n && raw[i] !== '\n' && raw[i] !== '\r') {
-      if (raw[i] === '"') {
-        let c = ''; i++;
-        while (i < n) {
-          if (raw[i] === '"' && raw[i+1] === '"') { c += '"'; i += 2; }
-          else if (raw[i] === '"') { i++; break; }
-          else c += raw[i++];
-        }
-        row.push(c.trim()); if (raw[i] === ',') i++;
-      } else {
-        let c = '';
-        while (i < n && raw[i] !== ',' && raw[i] !== '\n' && raw[i] !== '\r') c += raw[i++];
-        row.push(c.trim()); if (raw[i] === ',') i++;
-      }
-    }
-    while (raw[i] === '\n' || raw[i] === '\r') i++;
-    if (row.some(c => c)) rows.push(row);
-  }
+function parseCSV(raw){
+  const rows=[]; let i=0,n=raw.length;
+  while(i<n){const row=[];while(i<n&&raw[i]!=='\n'&&raw[i]!=='\r'){if(raw[i]==='"'){let c='';i++;while(i<n){if(raw[i]==='"'&&raw[i+1]==='"'){c+='"';i+=2;}else if(raw[i]==='"'){i++;break;}else c+=raw[i++];}row.push(c.trim());if(raw[i]===',')i++;}else{let c='';while(i<n&&raw[i]!==','&&raw[i]!=='\n'&&raw[i]!=='\r')c+=raw[i++];row.push(c.trim());if(raw[i]===',')i++;}}while(raw[i]==='\n'||raw[i]==='\r')i++;if(row.some(c=>c))rows.push(row);}
   return rows;
 }
 
-/* ── Fetch sheet ── */
-async function loadSheet() {
-  const csvUrl = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/export?format=csv&gid=${SHEET_GID}`;
-  try {
-    const r = await fetch(csvUrl, { cache: 'no-store' });
-    if (!r.ok) throw new Error(`HTTP ${r.status}`);
-    const txt = await r.text();
-    if (!txt.trim()) throw new Error('Empty');
-    return parseCSV(txt);
-  } catch {
-    return await loadGviz();
-  }
+async function loadSheet(){
+  const url=`https://docs.google.com/spreadsheets/d/${SHEET_ID}/export?format=csv&gid=${SHEET_GID}`;
+  try{const r=await fetch(url,{cache:'no-store'});if(!r.ok)throw 0;const t=await r.text();if(!t.trim())throw 0;return parseCSV(t);}
+  catch{return loadGviz();}
 }
 
-function loadGviz() {
-  return new Promise((resolve, reject) => {
-    const cb = `_sf_cb_${Date.now()}`;
-    const s = document.createElement('script');
-    const t = setTimeout(() => { s.remove(); delete window[cb]; reject(new Error('timeout')); }, 12000);
-    window[cb] = p => {
-      clearTimeout(t); s.remove(); delete window[cb];
-      if (!p || p.status === 'error') { reject(new Error('gviz error')); return; }
-      const hdrs = (p.table.cols||[]).map((c,i) => c.label || `Col${i}`);
-      const rows = (p.table.rows||[]).map(r => (r.c||[]).map(cell => cell ? (cell.f != null ? String(cell.f) : String(cell.v ?? '')) : ''));
-      resolve([hdrs, ...rows]);
-    };
-    s.onerror = () => { clearTimeout(t); s.remove(); reject(new Error('script error')); };
-    s.src = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?gid=${SHEET_GID}&tqx=responseHandler:${cb}`;
+function loadGviz(){
+  return new Promise((res,rej)=>{
+    const cb=`_sf_cb_${Date.now()}`,s=document.createElement('script'),t=setTimeout(()=>{s.remove();delete window[cb];rej();},12000);
+    window[cb]=p=>{clearTimeout(t);s.remove();delete window[cb];if(!p||p.status==='error'){rej();return;}
+      const hdrs=(p.table.cols||[]).map((c,i)=>c.label||`Col${i}`);
+      const rows=(p.table.rows||[]).map(r=>(r.c||[]).map(cell=>cell?(cell.f!=null?String(cell.f):String(cell.v??'')):''));
+      res([hdrs,...rows]);};
+    s.onerror=()=>{clearTimeout(t);s.remove();rej();};
+    s.src=`https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?gid=${SHEET_GID}&tqx=responseHandler:${cb}`;
     document.head.append(s);
   });
 }
 
-/* ── Build task list ── */
-const YES = new Set(['yes','true','1','true','✓','✅']);
-function isOpen(row, iDone, iCompleted) {
-  const done  = (row[iDone]     || '').toLowerCase().trim();
-  const comp  = (row[iCompleted]|| '').trim();
-  if (YES.has(done)) return false;
-  if (comp && /\d{4}/.test(comp)) return false;
-  return true;
+const YES=new Set(['yes','true','1','✓','✅']);
+function isOpen(row,iDone,iComp){const d=(row[iDone]||'').toLowerCase().trim(),c=(row[iComp]||'').trim();if(YES.has(d))return false;if(c&&/\d{4}/.test(c))return false;return true;}
+
+function buildTasks(rows){
+  if(rows.length<2)return[];
+  const h=rows[0].map(x=>x.toLowerCase().trim()),col=kw=>h.findIndex(c=>c.includes(kw));
+  const iResp=col('responsible')!==-1?col('responsible'):2,iCat=col('side quest')!==-1?col('side quest'):(col('category')!==-1?col('category'):3);
+  const iEst=col('est')!==-1?col('est'):4,iTitle=col('task name')!==-1?col('task name'):5,iDesc=col('description')!==-1?col('description'):6;
+  const iDate=col('date assigned')!==-1?col('date assigned'):9,iComp=col('date completed')!==-1?col('date completed'):10,iDone=col('isdone')!==-1?col('isdone'):11;
+  const get=(r,i)=>(i>=0&&i<r.length?r[i]:'').trim(),today=new Date().toISOString().slice(0,10);
+  return rows.slice(1).filter(r=>get(r,iResp)===PERSON&&isOpen(r,iDone,iComp))
+    .map((r,idx)=>({id:get(r,0)||String(idx),title:get(r,iTitle),category:get(r,iCat),estTime:get(r,iEst),desc:get(r,iDesc),dateAssigned:get(r,iDate),priority:get(r,iDate)?(get(r,iDate)<=today?1:2):3}))
+    .filter(t=>t.title).sort((a,b)=>a.priority-b.priority||(a.dateAssigned||'').localeCompare(b.dateAssigned||''));
 }
 
-function buildTasks(rows) {
-  if (rows.length < 2) return [];
-  const h = rows[0].map(x => x.toLowerCase().trim());
-  // Cols: ID, Date Added, Responsible, Category/Side Quest, Est Time, Task Name, Description, YouTube Link, Worksheet, Date assigned, Date Completed, IsDone, Points
-  const col = kw => h.findIndex(c => c.includes(kw));
-  const iResp  = col('responsible') !== -1 ? col('responsible') : 2;
-  const iCat   = col('side quest')  !== -1 ? col('side quest')  : (col('category') !== -1 ? col('category') : 3);
-  const iEst   = col('est')         !== -1 ? col('est')         : 4;
-  const iTitle = col('task name')   !== -1 ? col('task name')   : 5;
-  const iDesc  = col('description') !== -1 ? col('description') : 6;
-  const iDate  = col('date assigned')      !== -1 ? col('date assigned')  : 9;
-  const iComp  = col('date completed')     !== -1 ? col('date completed') : 10;
-  const iDone  = col('isdone')             !== -1 ? col('isdone')         : 11;
-  const iPts   = col('points')             !== -1 ? col('points')         : 12;
-
-  const today  = new Date().toISOString().slice(0, 10);
-  const get    = (r, i) => (i >= 0 && i < r.length ? r[i] : '').trim();
-
-  return rows.slice(1)
-    .filter(r => get(r, iResp) === PERSON && isOpen(r, iDone, iComp))
-    .map((r, idx) => ({
-      id:       get(r, 0) || String(idx),
-      title:    get(r, iTitle),
-      category: get(r, iCat),
-      estTime:  get(r, iEst),
-      desc:     get(r, iDesc),
-      dateAssigned: get(r, iDate),
-      pts:      parseInt(get(r, iPts)) || 0,
-      priority: get(r, iDate) ? (get(r, iDate) <= today ? 1 : 2) : 3
-    }))
-    .filter(t => t.title)
-    .sort((a, b) => a.priority - b.priority || (a.dateAssigned || '').localeCompare(b.dateAssigned || ''));
+function updateProgress(){
+  const total=TASKS.length,n=Object.keys(done).length,pct=total?Math.round(n/total*100):0;
+  document.getElementById('prog-text').textContent=`${n} of ${total} done`;
+  document.getElementById('prog-pct').textContent=pct+'%';
+  document.getElementById('prog-fill').style.width=pct+'%';
+  document.getElementById('hero-badge').textContent=`🧒 ${total} tasks assigned`;
 }
 
-/* ── Render ── */
-function updateProgress() {
-  const total = TASKS.length;
-  const n     = Object.keys(done).length;
-  const pct   = total ? Math.round(n / total * 100) : 0;
-  document.getElementById('prog-text').textContent = `${n} of ${total} done`;
-  document.getElementById('prog-pct').textContent  = pct + '%';
-  document.getElementById('prog-fill').style.width = pct + '%';
-  document.getElementById('hero-badge').textContent = `🧒 ${total} tasks assigned`;
-}
+function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
 
-function render() {
-  const list = document.getElementById('taskList');
-  if (!TASKS.length) {
-    list.innerHTML = '<div style="padding:32px;text-align:center;color:var(--muted);font-weight:700;">🎉 No open tasks!</div>';
-    updateProgress(); return;
-  }
-  list.innerHTML = TASKS.map((t, i) => {
-    const isDone = !!done[t.id];
-    const dateLabel = t.dateAssigned ? `📅 ${t.dateAssigned}` : '';
-    return `<div class="task-card${isDone ? ' done' : ''}" style="animation-delay:${i * .04}s">
+function render(){
+  const list=document.getElementById('taskList');
+  if(!TASKS.length){list.innerHTML='<div style="padding:32px;text-align:center;color:var(--muted);font-weight:700;">🎉 No open tasks!</div>';updateProgress();return;}
+  list.innerHTML=TASKS.map((t,i)=>{
+    const isDone=!!done[t.id];
+    return `<div class="task-card${isDone?' done':''}" style="animation-delay:${i*.04}s">
       <div class="task-top"><div class="task-title">${esc(t.title)}</div></div>
       <div class="task-tags">
-        ${t.category ? `<span class="tag tag-cat">📌 ${esc(t.category)}</span>` : ''}
-        ${t.estTime  ? `<span class="tag tag-time">⏱ ${esc(t.estTime)}</span>` : ''}
-        <span class="tag ${isDone ? 'tag-done' : 'tag-open'}">${isDone ? '✓ Done' : '○ Open'}</span>
+        ${t.category?`<span class="tag tag-cat">📌 ${esc(t.category)}</span>`:''}
+        ${t.estTime?`<span class="tag tag-time">⏱ ${esc(t.estTime)}</span>`:''}
+        <span class="tag ${isDone?'tag-done':'tag-open'}">${isDone?'✓ Done':'○ Open'}</span>
       </div>
-      ${t.desc ? `<div class="task-desc">${esc(t.desc)}</div>` : ''}
+      ${t.desc?`<div class="task-desc">${esc(t.desc)}</div>`:''}
       <div class="task-foot">
-        <span class="date-hint">${dateLabel}</span>
-        <button class="complete-btn${isDone ? ' done-btn' : ''}"
-          onclick="${isDone ? '' : `complete(${JSON.stringify(t.id)})`}">
-          ${isDone ? '✓ Done' : '+ Complete'}
+        <span class="date-hint">${t.dateAssigned?'📅 '+t.dateAssigned:''}</span>
+        <button class="complete-btn${isDone?' done-btn':''}" onclick="${isDone?'':`complete(${JSON.stringify(t.id)})`}">
+          ${isDone?'✓ Done':'+ Complete'}
         </button>
       </div>
     </div>`;
@@ -185,34 +502,12 @@ function render() {
   updateProgress();
 }
 
-function complete(id) {
-  done[id] = true;
-  save(); render();
-  toast('⭐ Awesome work, Oliver!');
-}
+function complete(id){done[id]=true;save();render();toast('⭐ Awesome work, Oliver!');}
+function toast(msg){const el=document.createElement('div');el.className='toast';el.textContent=msg;document.getElementById('toasts').appendChild(el);setTimeout(()=>el.remove(),3000);}
 
-function toast(msg) {
-  const c = document.getElementById('toasts');
-  const el = document.createElement('div');
-  el.className = 'toast'; el.textContent = msg;
-  c.appendChild(el); setTimeout(() => el.remove(), 3000);
-}
-
-function esc(s) {
-  return String(s || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
-}
-
-/* ── Init ── */
-(async () => {
-  try {
-    const rows = await loadSheet();
-    TASKS = buildTasks(rows);
-    render();
-  } catch(e) {
-    document.getElementById('taskList').innerHTML =
-      `<div style="padding:20px;text-align:center;color:var(--muted);font-weight:700;">Could not load sheet — check connection.</div>`;
-    document.getElementById('hero-badge').textContent = '🧒 Offline';
-  }
+(async()=>{
+  try{const rows=await loadSheet();TASKS=buildTasks(rows);render();}
+  catch(e){document.getElementById('taskList').innerHTML=`<div style="padding:20px;text-align:center;color:var(--muted);font-weight:700;">Could not load sheet — check connection.</div>`;document.getElementById('hero-badge').textContent='🧒 Offline';}
 })();
 </script>
 </body>

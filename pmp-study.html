@@ -1,0 +1,1052 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PMP Command — Certification Study Sessions</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy: #0F1C2E;
+    --slate: #1E3A5F;
+    --gold: #C9A84C;
+    --gold-light: #E8C96A;
+    --cream: #F0EDE6;
+    --off-white: #FAF8F5;
+    --sage: #4A6741;
+    --sage-light: #6B9460;
+    --muted: #8B9BB4;
+    --card-bg: #162234;
+    --border: #2A4060;
+    --red-soft: #8B3A3A;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--navy);
+    color: var(--cream);
+    font-family: 'Inter', sans-serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* ── TOP NAV ── */
+  nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 18px 32px;
+    border-bottom: 1px solid var(--border);
+    position: sticky;
+    top: 0;
+    background: var(--navy);
+    z-index: 100;
+  }
+  .logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.25rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    color: var(--gold);
+  }
+  .logo span { color: var(--cream); font-weight: 400; }
+  .nav-meta {
+    font-size: 0.75rem;
+    color: var(--muted);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  /* ── SCREENS ── */
+  .screen { display: none; }
+  .screen.active { display: block; }
+
+  /* ── HOME SCREEN ── */
+  #home {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 52px 24px 80px;
+  }
+  .home-hero {
+    text-align: center;
+    margin-bottom: 52px;
+  }
+  .home-hero h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2rem, 5vw, 3.2rem);
+    font-weight: 700;
+    line-height: 1.15;
+    color: var(--cream);
+    margin-bottom: 14px;
+  }
+  .home-hero h1 em {
+    font-style: italic;
+    color: var(--gold);
+  }
+  .home-hero p {
+    color: var(--muted);
+    font-size: 0.95rem;
+    max-width: 480px;
+    margin: 0 auto;
+    line-height: 1.65;
+  }
+
+  .session-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 16px;
+  }
+  .session-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 24px 20px;
+    cursor: pointer;
+    transition: border-color 0.2s, transform 0.15s;
+    position: relative;
+    overflow: hidden;
+  }
+  .session-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: var(--gold);
+    opacity: 0;
+    transition: opacity 0.2s;
+  }
+  .session-card:hover {
+    border-color: var(--gold);
+    transform: translateY(-2px);
+  }
+  .session-card:hover::before { opacity: 1; }
+  .session-number {
+    font-size: 0.68rem;
+    color: var(--gold);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    font-weight: 600;
+    margin-bottom: 10px;
+  }
+  .session-card h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: var(--cream);
+    margin-bottom: 8px;
+    line-height: 1.3;
+  }
+  .session-card p {
+    font-size: 0.8rem;
+    color: var(--muted);
+    line-height: 1.55;
+    margin-bottom: 14px;
+  }
+  .session-meta {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+  }
+  .tag {
+    font-size: 0.68rem;
+    padding: 3px 8px;
+    border-radius: 100px;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+  }
+  .tag-time { background: rgba(201,168,76,0.15); color: var(--gold); }
+  .tag-count { background: rgba(74,103,65,0.2); color: var(--sage-light); }
+
+  /* ── SESSION SCREEN ── */
+  #session {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 32px 24px 80px;
+  }
+  .session-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 16px;
+    margin-bottom: 28px;
+    flex-wrap: wrap;
+  }
+  .session-title h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--cream);
+    margin-bottom: 4px;
+  }
+  .session-title p {
+    font-size: 0.8rem;
+    color: var(--muted);
+  }
+  .back-btn {
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--muted);
+    font-size: 0.8rem;
+    padding: 8px 14px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-family: 'Inter', sans-serif;
+    transition: color 0.2s, border-color 0.2s;
+    white-space: nowrap;
+  }
+  .back-btn:hover { color: var(--cream); border-color: var(--muted); }
+
+  /* Timer */
+  .timer-bar-wrap {
+    margin-bottom: 32px;
+  }
+  .timer-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+  }
+  .timer-label {
+    font-size: 0.72rem;
+    color: var(--muted);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+  .timer-display {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--gold);
+    font-variant-numeric: tabular-nums;
+    letter-spacing: 0.04em;
+  }
+  .timer-bar-track {
+    height: 4px;
+    background: var(--border);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+  .timer-bar-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--gold), var(--gold-light));
+    border-radius: 2px;
+    transition: width 1s linear, background 0.5s;
+    width: 100%;
+  }
+  .timer-bar-fill.urgent { background: linear-gradient(90deg, #B03A2E, #E74C3C); }
+
+  /* Tabs */
+  .tabs {
+    display: flex;
+    gap: 0;
+    margin-bottom: 28px;
+    border-bottom: 1px solid var(--border);
+  }
+  .tab-btn {
+    background: none;
+    border: none;
+    color: var(--muted);
+    font-family: 'Inter', sans-serif;
+    font-size: 0.82rem;
+    font-weight: 500;
+    padding: 10px 18px;
+    cursor: pointer;
+    position: relative;
+    transition: color 0.2s;
+    letter-spacing: 0.02em;
+  }
+  .tab-btn::after {
+    content: '';
+    position: absolute;
+    bottom: -1px; left: 0; right: 0;
+    height: 2px;
+    background: var(--gold);
+    opacity: 0;
+    transition: opacity 0.2s;
+  }
+  .tab-btn.active { color: var(--gold); }
+  .tab-btn.active::after { opacity: 1; }
+  .tab-btn:hover { color: var(--cream); }
+
+  /* Tab panels */
+  .tab-panel { display: none; }
+  .tab-panel.active { display: block; }
+
+  /* ── FLASHCARDS ── */
+  .card-progress {
+    font-size: 0.75rem;
+    color: var(--muted);
+    margin-bottom: 18px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .progress-dots {
+    display: flex;
+    gap: 5px;
+  }
+  .dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--border);
+    transition: background 0.3s;
+  }
+  .dot.done { background: var(--sage); }
+  .dot.current { background: var(--gold); }
+
+  .flashcard {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 30px 28px;
+    margin-bottom: 16px;
+    cursor: pointer;
+    transition: border-color 0.2s;
+    min-height: 180px;
+    position: relative;
+  }
+  .flashcard:hover { border-color: var(--slate); }
+  .flashcard.revealed { border-color: var(--sage); }
+
+  .card-domain {
+    font-size: 0.68rem;
+    color: var(--gold);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    font-weight: 600;
+    margin-bottom: 14px;
+  }
+  .card-question {
+    font-size: 1rem;
+    color: var(--cream);
+    line-height: 1.6;
+    font-weight: 500;
+    margin-bottom: 20px;
+  }
+  .card-answer-wrap {
+    border-top: 1px solid var(--border);
+    padding-top: 18px;
+    display: none;
+  }
+  .flashcard.revealed .card-answer-wrap { display: block; }
+  .card-answer-label {
+    font-size: 0.68rem;
+    color: var(--sage-light);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    font-weight: 600;
+    margin-bottom: 8px;
+  }
+  .card-answer {
+    font-size: 0.92rem;
+    color: var(--cream);
+    line-height: 1.65;
+  }
+  .card-hint {
+    font-size: 0.75rem;
+    color: var(--muted);
+    margin-top: 20px;
+    font-style: italic;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .flashcard.revealed .card-hint { display: none; }
+  .tap-icon { font-size: 0.9rem; }
+
+  .card-nav {
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end;
+    margin-top: 4px;
+  }
+  .card-nav-btn {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    color: var(--cream);
+    font-family: 'Inter', sans-serif;
+    font-size: 0.82rem;
+    padding: 10px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: border-color 0.2s, background 0.2s;
+  }
+  .card-nav-btn:hover { border-color: var(--gold); }
+  .card-nav-btn.primary {
+    background: var(--gold);
+    color: var(--navy);
+    border-color: var(--gold);
+    font-weight: 600;
+  }
+  .card-nav-btn.primary:hover { background: var(--gold-light); }
+
+  /* ── REFERENCES ── */
+  .ref-section { margin-bottom: 32px; }
+  .ref-section h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--gold);
+    margin-bottom: 16px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--border);
+  }
+  .ref-item {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 16px 18px;
+    margin-bottom: 10px;
+  }
+  .ref-item h4 {
+    font-size: 0.88rem;
+    font-weight: 600;
+    color: var(--cream);
+    margin-bottom: 5px;
+  }
+  .ref-item p {
+    font-size: 0.8rem;
+    color: var(--muted);
+    line-height: 1.55;
+  }
+  .ref-item .ref-tag {
+    display: inline-block;
+    font-size: 0.65rem;
+    padding: 2px 8px;
+    border-radius: 100px;
+    background: rgba(201,168,76,0.12);
+    color: var(--gold);
+    margin-bottom: 8px;
+    letter-spacing: 0.06em;
+    font-weight: 500;
+  }
+
+  /* ── READING ── */
+  .reading-list { list-style: none; }
+  .reading-item {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 18px;
+    margin-bottom: 10px;
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 14px;
+    align-items: start;
+  }
+  .reading-icon {
+    font-size: 1.4rem;
+    margin-top: 2px;
+  }
+  .reading-info h4 {
+    font-size: 0.88rem;
+    font-weight: 600;
+    color: var(--cream);
+    margin-bottom: 4px;
+  }
+  .reading-info p {
+    font-size: 0.78rem;
+    color: var(--muted);
+    line-height: 1.5;
+    margin-bottom: 6px;
+  }
+  .reading-type {
+    font-size: 0.65rem;
+    padding: 2px 8px;
+    border-radius: 100px;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    display: inline-block;
+  }
+  .type-standard { background: rgba(74,103,65,0.2); color: var(--sage-light); }
+  .type-book { background: rgba(30,58,95,0.5); color: #7EB3E0; }
+  .type-pmbok { background: rgba(201,168,76,0.15); color: var(--gold); }
+  .type-article { background: rgba(139,58,58,0.2); color: #E08080; }
+
+  /* ── SESSION COMPLETE ── */
+  .session-complete {
+    text-align: center;
+    padding: 60px 24px;
+  }
+  .complete-icon { font-size: 3rem; margin-bottom: 16px; }
+  .session-complete h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.8rem;
+    color: var(--gold);
+    margin-bottom: 10px;
+  }
+  .session-complete p {
+    color: var(--muted);
+    font-size: 0.9rem;
+    margin-bottom: 28px;
+  }
+  .start-over-btn {
+    background: var(--gold);
+    color: var(--navy);
+    border: none;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.88rem;
+    font-weight: 600;
+    padding: 12px 28px;
+    border-radius: 10px;
+    cursor: pointer;
+  }
+
+  /* Timer paused overlay */
+  .timer-controls {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+  }
+  .timer-toggle {
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--muted);
+    font-size: 0.75rem;
+    padding: 4px 10px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-family: 'Inter', sans-serif;
+    transition: color 0.2s, border-color 0.2s;
+  }
+  .timer-toggle:hover { color: var(--cream); border-color: var(--muted); }
+
+  @media (max-width: 540px) {
+    nav { padding: 14px 16px; }
+    #home, #session { padding: 24px 16px 60px; }
+    .session-grid { grid-template-columns: 1fr; }
+    .flashcard { padding: 22px 18px; }
+    .tabs { overflow-x: auto; }
+    .tab-btn { padding: 10px 14px; white-space: nowrap; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="logo">PMP <span>Command</span></div>
+  <div class="nav-meta">15-Minute Study Sessions</div>
+</nav>
+
+<!-- HOME SCREEN -->
+<div id="home" class="screen active">
+  <div class="home-hero">
+    <h1>Master the PMP,<br><em>one session at a time.</em></h1>
+    <p>Focused 15-minute study blocks covering all PMI exam domains — with flashcards, references, and curated reading.</p>
+  </div>
+  <div class="session-grid" id="sessionGrid"></div>
+</div>
+
+<!-- SESSION SCREEN -->
+<div id="session" class="screen">
+  <div class="session-header">
+    <div class="session-title">
+      <h2 id="sessionTitle"></h2>
+      <p id="sessionSubtitle"></p>
+    </div>
+    <button class="back-btn" onclick="goHome()">← All Sessions</button>
+  </div>
+
+  <div class="timer-bar-wrap">
+    <div class="timer-row">
+      <span class="timer-label">Session Time</span>
+      <div class="timer-controls">
+        <button class="timer-toggle" id="timerToggle" onclick="toggleTimer()">Pause</button>
+        <span class="timer-display" id="timerDisplay">15:00</span>
+      </div>
+    </div>
+    <div class="timer-bar-track">
+      <div class="timer-bar-fill" id="timerBar"></div>
+    </div>
+  </div>
+
+  <div class="tabs">
+    <button class="tab-btn active" onclick="switchTab('cards')">Flashcards</button>
+    <button class="tab-btn" onclick="switchTab('refs')">References</button>
+    <button class="tab-btn" onclick="switchTab('reading')">Suggested Reading</button>
+  </div>
+
+  <div id="panel-cards" class="tab-panel active"></div>
+  <div id="panel-refs" class="tab-panel"></div>
+  <div id="panel-reading" class="tab-panel"></div>
+</div>
+
+<script>
+// ── DATA ──────────────────────────────────────────────────────────────────────
+const sessions = [
+  {
+    id: 1,
+    title: "Project Integration Management",
+    subtitle: "Develop Charter · Manage Project Knowledge · Monitor & Control",
+    cards: [
+      {
+        domain: "Integration · Core Concept",
+        q: "What is the primary purpose of the Project Charter, and who has the authority to approve it?",
+        a: "The Project Charter formally authorizes a project and gives the Project Manager the authority to apply resources. It is approved by the project sponsor or initiating entity — not by the PM. It links the project to the organization's strategic objectives."
+      },
+      {
+        domain: "Integration · Process",
+        q: "What is the difference between 'Direct and Manage Project Work' and 'Monitor and Control Project Work'?",
+        a: "'Direct and Manage Project Work' is an executing process — the PM leads and performs the work. 'Monitor and Control Project Work' is a controlling process — the PM tracks performance against the plan and recommends corrective actions. Both occur throughout project execution."
+      },
+      {
+        domain: "Integration · Knowledge",
+        q: "What is 'tacit knowledge' and why does the PMBOK emphasize it in knowledge management?",
+        a: "Tacit knowledge is personal knowledge gained through experience that is difficult to document — instincts, judgement, 'lessons in practice.' The PMBOK emphasizes it because explicit knowledge (documents) is not enough; capturing tacit knowledge through mentoring, storytelling, and communities of practice prevents organizational knowledge loss."
+      },
+      {
+        domain: "Integration · Agile",
+        q: "In an agile/hybrid environment, what replaces the traditional Project Management Plan?",
+        a: "Agile projects use a rolling wave of lightweight plans: product backlogs, release plans, and iteration plans replace the heavy upfront Project Management Plan. Planning happens continuously and incrementally ('just-in-time planning'), with enough detail for the current sprint/iteration."
+      },
+      {
+        domain: "Integration · Ethics",
+        q: "A change request falls outside the Change Control Board's approval threshold. What should the PM do?",
+        a: "The PM should submit the change through the proper Integrated Change Control process regardless of scope. No changes should bypass the CCB — even small ones — as this undermines the baseline and sets a precedent for bypassing governance. The PM's role is to protect the process."
+      }
+    ],
+    refs: [
+      { tag: "PMBOK 7th Ed", title: "Project Work Performance Domain", desc: "Covers directing, managing, and monitoring project work. Key outputs: deliverables, work performance data, issue log, change requests." },
+      { tag: "PMI Standard", title: "Integrated Change Control", desc: "Section 4.6 of PMBOK 6th Ed. The CCB process, threshold authorities, and what constitutes a valid change request." },
+      { tag: "Agile Practice Guide", title: "Adaptive Lifecycle Planning", desc: "Chapter 3 explains rolling wave planning and how traditional integration processes adapt in agile environments." }
+    ],
+    reading: [
+      { icon: "📘", title: "PMBOK Guide, 7th Edition — Chapter 2", type: "pmbok", desc: "The Project Performance Domains section. Focus on the 'Project Work' domain and its relationship to governance." },
+      { icon: "📗", title: "Agile Practice Guide — Chapter 3", type: "standard", desc: "Lifecycle selection and the hybrid integration approach. Essential for the 50% agile content on the PMP exam." },
+      { icon: "📕", title: "\"The Project Manager's Guide to Mastering Agile\" — Charles Cobb", type: "book", desc: "Chapters 4–6 cover integrating agile planning with traditional project management structures." },
+      { icon: "🔗", title: "PMI Article: Managing Knowledge in Projects", type: "article", desc: "PMI.org white paper on knowledge management processes and tools. Search 'tacit knowledge project management PMI'." }
+    ]
+  },
+  {
+    id: 2,
+    title: "Project Scope Management",
+    subtitle: "Requirements · WBS · Scope Validation & Control",
+    cards: [
+      {
+        domain: "Scope · Core Concept",
+        q: "What is the difference between Product Scope and Project Scope?",
+        a: "Product Scope describes the features and functions of the deliverable — what the product IS. Project Scope describes all the work required to deliver the product — what we DO. Project scope is complete when all work is done; product scope is complete when all product requirements are met."
+      },
+      {
+        domain: "Scope · Tools",
+        q: "What is a Work Breakdown Structure (WBS), and what is the '100% Rule'?",
+        a: "A WBS is a hierarchical decomposition of total project scope into deliverable-oriented work packages. The 100% Rule states that the WBS must capture 100% of the project scope — every deliverable, every work package. Nothing outside the WBS is authorized scope; nothing inside it should be duplicated."
+      },
+      {
+        domain: "Scope · Process",
+        q: "What is the difference between Validate Scope and Control Quality?",
+        a: "Validate Scope is about stakeholder acceptance — did we build the right thing? It involves formal sign-off on deliverables. Control Quality is about correctness — did we build it correctly? Quality control typically happens before scope validation. You verify quality, then validate scope."
+      },
+      {
+        domain: "Scope · Agile",
+        q: "How is scope managed differently in agile versus predictive projects?",
+        a: "In predictive projects, scope is fixed upfront via requirements documents and WBS. In agile, scope is intentionally flexible — the product backlog is the 'living scope document.' Detailed requirements emerge iteratively. The team commits to the sprint scope; overall release scope flexes based on priority and capacity."
+      },
+      {
+        domain: "Scope · Risk",
+        q: "What is scope creep and how does a PM prevent it?",
+        a: "Scope creep is uncontrolled changes or continuous growth in project scope without corresponding adjustments to time, cost, or resources. Prevention: a strong CCB process, a clear scope statement, a WBS baseline, and educating stakeholders to submit formal change requests rather than informal additions."
+      }
+    ],
+    refs: [
+      { tag: "PMBOK 6th Ed §5", title: "Scope Management Plan", desc: "Defines how scope will be defined, validated, and controlled. Contains the WBS creation approach and acceptance criteria process." },
+      { tag: "PMI Standard", title: "Requirements Documentation", desc: "Requirements Traceability Matrix links requirements to deliverables and business objectives — critical for Validate Scope." },
+      { tag: "Agile Practice Guide §3", title: "Backlog as Scope Container", desc: "How the product backlog replaces the WBS in agile projects and how prioritization manages scope within fixed iterations." }
+    ],
+    reading: [
+      { icon: "📘", title: "PMBOK 6th Edition — Chapter 5", type: "pmbok", desc: "Full Scope Management chapter. Pay special attention to the inputs/tools/outputs of Validate Scope vs. Control Quality." },
+      { icon: "📗", title: "\"User Story Mapping\" — Jeff Patton", type: "book", desc: "Excellent bridge between traditional WBS thinking and agile backlog management. Chapters 1–3 are exam-relevant." },
+      { icon: "🔗", title: "PMI Practice Standard for Work Breakdown Structures", type: "standard", desc: "The definitive WBS reference from PMI. Available on PMI.org. Covers WBS types, the 100% rule, and work packages in depth." },
+      { icon: "📕", title: "\"Effective Project Management\" — Wysocki, Chapters 7–8", type: "book", desc: "Practical WBS construction and scope documentation techniques with real-world templates." }
+    ]
+  },
+  {
+    id: 3,
+    title: "Schedule Management",
+    subtitle: "CPM · Critical Path · Agile Iteration Planning",
+    cards: [
+      {
+        domain: "Schedule · Core Concept",
+        q: "What is the Critical Path, and what is 'float' (slack)?",
+        a: "The Critical Path is the longest sequence of dependent activities from project start to finish — it determines the minimum project duration. Float (slack) is the amount of time an activity can be delayed without delaying the project end date. Activities on the critical path have zero float."
+      },
+      {
+        domain: "Schedule · Tools",
+        q: "What is the difference between PDM, ADM, and CCPM scheduling techniques?",
+        a: "PDM (Precedence Diagramming Method) uses nodes as activities with finish-to-start/start-to-start/finish-to-finish relationships. ADM (Arrow Diagramming Method) uses arrows as activities — older and rarely used. CCPM (Critical Chain PM) adds buffers to protect against resource constraints and uncertainty, focusing on resource-leveled critical chain."
+      },
+      {
+        domain: "Schedule · Technique",
+        q: "What are the four dependency types in PDM and give an example of each?",
+        a: "FS (Finish-to-Start): testing can't start until coding finishes. SS (Start-to-Start): commissioning can start once installation starts. FF (Finish-to-Finish): documentation finishes when development finishes. SF (Start-to-Finish): rare — new shift can't finish until old shift starts. FS is the most common."
+      },
+      {
+        domain: "Schedule · Agile",
+        q: "How does velocity help with schedule forecasting in agile projects?",
+        a: "Velocity is the average story points completed per sprint. By dividing total backlog story points by velocity, teams forecast how many sprints remain. It's not used for commitments — it's an empirical planning tool. Velocity varies; sustainable forecasting uses a rolling average of 3–5 sprints."
+      },
+      {
+        domain: "Schedule · Analysis",
+        q: "What is schedule compression and what are the two main techniques?",
+        a: "Schedule compression shortens the project timeline without reducing scope. Crashing adds resources to critical path activities (increases cost, decreases time). Fast-tracking overlaps activities normally done in sequence (increases risk). Crashing only works on critical path; fast-tracking requires activities that can be partially parallelized."
+      }
+    ],
+    refs: [
+      { tag: "PMBOK 6th §6", title: "Schedule Management Processes", desc: "Covers all six schedule processes: Plan, Define Activities, Sequence, Estimate Durations, Develop Schedule, Control Schedule." },
+      { tag: "PMI Formula", title: "PERT Estimate Formula", desc: "Most Likely + Pessimistic + 4×Optimistic ÷ 6 = Expected Duration. Used for three-point estimates under uncertainty." },
+      { tag: "Agile Guide §3.4", title: "Iteration Velocity & Burndown", desc: "Sprint velocity, release burndown charts, and how teams measure and forecast schedule in agile environments." }
+    ],
+    reading: [
+      { icon: "📘", title: "PMBOK 6th — Chapter 6 (Schedule Management)", type: "pmbok", desc: "Full chapter required reading. Focus on Develop Schedule and Control Schedule — heaviest exam weight." },
+      { icon: "📕", title: "\"Project Management: A Systems Approach\" — Kerzner, Chapter 12", type: "book", desc: "Comprehensive CPM and PERT treatment with worked examples. Strong for float calculations." },
+      { icon: "📗", title: "\"Agile Estimating and Planning\" — Mike Cohn", type: "book", desc: "The definitive book on agile scheduling. Velocity, story points, and release planning. First 10 chapters are exam-relevant." },
+      { icon: "🔗", title: "PMI Scheduling Practice Guide", type: "standard", desc: "PMI supplementary standard. Free with PMI membership. Covers scheduling in predictive, agile, and hybrid contexts." }
+    ]
+  },
+  {
+    id: 4,
+    title: "Cost Management",
+    subtitle: "Earned Value · Budget Forecasting · Cost Control",
+    cards: [
+      {
+        domain: "Cost · EVM",
+        q: "Define the three core Earned Value measures: PV, EV, and AC.",
+        a: "PV (Planned Value): the authorized budget for work scheduled to be complete by a point in time — what we PLANNED to spend. EV (Earned Value): the authorized budget for work actually completed — what we EARNED. AC (Actual Cost): the actual cost incurred for work completed — what we SPENT. EV is the anchor metric."
+      },
+      {
+        domain: "Cost · EVM Formulas",
+        q: "What is the Schedule Performance Index (SPI) and Cost Performance Index (CPI)? What do values above and below 1.0 mean?",
+        a: "SPI = EV ÷ PV. CPI = EV ÷ AC. Values above 1.0 are favorable (ahead of schedule / under budget). Values below 1.0 are unfavorable. CPI is the more reliable predictor of final cost — a CPI below 0.8 is a serious warning sign that rarely self-corrects."
+      },
+      {
+        domain: "Cost · EVM Formulas",
+        q: "What is the Estimate at Completion (EAC) formula when future work is expected to proceed at the current CPI?",
+        a: "EAC = BAC ÷ CPI. This is the most commonly tested EAC formula. BAC = Budget at Completion (total planned budget). Use when the current efficiency rate is expected to continue. Variance at Completion (VAC) = BAC − EAC. TCPI = (BAC − EV) ÷ (BAC − AC)."
+      },
+      {
+        domain: "Cost · Process",
+        q: "What is the difference between the Cost Baseline and the Project Budget?",
+        a: "The Cost Baseline (PMB — Performance Measurement Baseline) is the approved, time-phased project budget excluding management reserves. The Project Budget includes the Cost Baseline plus Management Reserves. Contingency reserves are inside the baseline (for known-unknowns); management reserves are outside (for unknown-unknowns)."
+      },
+      {
+        domain: "Cost · Agile",
+        q: "How does cost management differ in agile environments?",
+        a: "Agile projects often use fixed-cost iterations with variable scope — the budget is fixed per sprint, scope is traded. Cost tracking focuses on burn rate and team velocity rather than variance analysis. Some agile programs use EVM at the portfolio level while managing iterations by team capacity and throughput."
+      }
+    ],
+    refs: [
+      { tag: "PMBOK 6th §7", title: "EVM Key Formulas", desc: "PV, EV, AC, CV, SV, CPI, SPI, EAC, ETC, VAC, TCPI — all formulas and interpretations. Memorize all 10+" },
+      { tag: "PMI Practice Standard", title: "Earned Value Management", desc: "PMI's dedicated EVM standard. Covers EVM implementation, reporting thresholds, and when to use different EAC formulas." },
+      { tag: "Cost Reserve", title: "Contingency vs. Management Reserve", desc: "Contingency = inside baseline, for identified risks. Management = outside baseline, for unidentified risks. Only sponsor/PMO can release management reserves." }
+    ],
+    reading: [
+      { icon: "📘", title: "PMBOK 6th — Chapter 7 (Cost Management)", type: "pmbok", desc: "Full chapter. EVM section is the highest-density exam content in this domain — study with formula sheet." },
+      { icon: "📕", title: "\"Earned Value Project Management\" — Fleming & Koppelman", type: "book", desc: "The standard EVM textbook. Clear explanations of every formula and how to interpret EVM reports." },
+      { icon: "📗", title: "PMI Practice Standard for Earned Value Management", type: "standard", desc: "Available free to PMI members. Official supplementary reference for EVM implementation and reporting." },
+      { icon: "🔗", title: "PMI EVM Calculator Practice Tool", type: "article", desc: "Search 'PMI EVM practice problems' on PrepCast or PM Study Circle — free formula drill sets available online." }
+    ]
+  },
+  {
+    id: 5,
+    title: "Risk Management",
+    subtitle: "Risk Register · Qualitative & Quantitative Analysis · Response Planning",
+    cards: [
+      {
+        domain: "Risk · Core Concept",
+        q: "What is the difference between a Risk, an Issue, and a Constraint?",
+        a: "A Risk is an uncertain event that, if it occurs, has a positive or negative effect on objectives — it hasn't happened yet. An Issue is a risk that has materialized — it's happening now and requires resolution. A Constraint is a known limitation (fixed deadline, budget cap) that isn't uncertain — it's a given condition."
+      },
+      {
+        domain: "Risk · Process",
+        q: "What are the five risk response strategies for negative risks (threats)?",
+        a: "Escalate (outside PM authority), Avoid (eliminate the uncertainty), Transfer (shift impact to third party — insurance, contracts), Mitigate (reduce probability or impact), Accept (acknowledge and monitor — active: contingency plan; passive: no action). 'EATMA' is a common mnemonic."
+      },
+      {
+        domain: "Risk · Analysis",
+        q: "What is the Expected Monetary Value (EMV) and how is it used in decision tree analysis?",
+        a: "EMV = Probability × Impact (in dollars). It quantifies the average outcome if a risk/opportunity is assessed many times. In a decision tree, EMV values are calculated for each branch and summed (factoring probability) to compare decision paths. Negative EMV = expected loss; Positive = expected gain."
+      },
+      {
+        domain: "Risk · Agile",
+        q: "How does agile manage risk differently than traditional risk management?",
+        a: "Agile manages risk through short feedback cycles (sprints reduce uncertainty rapidly), frequent retrospectives, iterative delivery (early value reduces schedule risk), and backlog prioritization (highest-risk/highest-value items first). Formal risk registers may still exist at the program level, but teams prefer transparency and adaptation over upfront risk planning."
+      },
+      {
+        domain: "Risk · Tools",
+        q: "What is the Risk Breakdown Structure (RBS) and how does it differ from a Risk Register?",
+        a: "The RBS is a hierarchical representation of risk categories (technical, external, organizational, PM) used to systematically identify risks — it's a checklist structure. The Risk Register is the live document that records identified risks, their probability/impact, response plans, owners, and status. RBS feeds the Register."
+      }
+    ],
+    refs: [
+      { tag: "PMBOK 6th §11", title: "Risk Management Processes", desc: "7 processes: Plan Risk Mgmt, Identify Risks, Qualitative Analysis, Quantitative Analysis, Plan Responses, Implement Responses, Monitor Risks." },
+      { tag: "PMI Standard", title: "Risk Response Strategies", desc: "Threats: Escalate, Avoid, Transfer, Mitigate, Accept. Opportunities: Escalate, Exploit, Share, Enhance, Accept. Both sets required for exam." },
+      { tag: "Probability/Impact Matrix", title: "Risk Scoring", desc: "P×I matrix categorizes risks as High/Medium/Low. Thresholds set in Risk Management Plan determine which risks get quantitative analysis." }
+    ],
+    reading: [
+      { icon: "📘", title: "PMBOK 6th — Chapter 11 (Risk Management)", type: "pmbok", desc: "Full chapter. Risk register, response strategies, and quantitative tools (EMV, Monte Carlo) are high exam weight." },
+      { icon: "📕", title: "\"Risk Practice Standard\" — PMI", type: "standard", desc: "PMI's dedicated risk standard. Available on PMI.org. Excellent supplement on risk attitude and appetite vs. tolerance vs. threshold." },
+      { icon: "📗", title: "\"The Failure of Risk Management\" — Douglas Hubbard", type: "book", desc: "A deeper look at why qualitative risk matrices fail and how quantitative methods improve decisions. Great for critical thinking questions." },
+      { icon: "🔗", title: "Monte Carlo Simulation Overview — PMI", type: "article", desc: "Search 'Monte Carlo simulation project management PMI' for articles explaining quantitative risk analysis without software." }
+    ]
+  },
+  {
+    id: 6,
+    title: "Stakeholder & Communications",
+    subtitle: "Engagement Assessment · Communication Planning · Conflict Resolution",
+    cards: [
+      {
+        domain: "Stakeholder · Core Concept",
+        q: "What is the Stakeholder Engagement Assessment Matrix and what are its five engagement levels?",
+        a: "The SEAM maps current vs. desired stakeholder engagement: Unaware (unaware of project/impacts), Resistant (aware but opposed), Neutral (aware but neither supportive nor resistant), Supportive (aware and supportive), Leading (actively engaged in ensuring success). The PM closes gaps between current and desired state."
+      },
+      {
+        domain: "Communications · Planning",
+        q: "What is the communication channels formula and why does it matter to PMs?",
+        a: "Number of channels = n(n-1)÷2, where n = number of stakeholders. For 10 people: 10×9÷2 = 45 channels. This formula illustrates why communication complexity grows exponentially with team size — a key argument for structured communication plans, smaller teams, and regular status reporting."
+      },
+      {
+        domain: "Stakeholder · Strategy",
+        q: "A key stakeholder moves from 'Supportive' to 'Resistant' mid-project. What is the PM's first action?",
+        a: "The PM should first seek to understand why — schedule a private conversation, listen actively, and identify the root cause of the shift (new information, unresolved concern, competing interest). Only after understanding the change in stance can the PM determine the right re-engagement strategy. Assumptions are dangerous here."
+      },
+      {
+        domain: "Communications · Conflict",
+        q: "What are the six conflict resolution techniques in the PMBOK, ranked from most to least preferred?",
+        a: "Collaborate/Problem Solve (win-win, most preferred), Compromise/Reconcile (partial satisfaction for both), Smooth/Accommodate (emphasize agreement, minimize differences), Force/Direct (win-lose, authority-imposed), Avoid/Withdraw (retreat or postpone), Escalate (when beyond PM authority). Problem Solve is always preferred on the exam."
+      },
+      {
+        domain: "Stakeholder · Agile",
+        q: "How do agile teams manage stakeholder engagement differently than traditional approaches?",
+        a: "Agile emphasizes continuous stakeholder involvement over periodic reporting. Practices include: Sprint Reviews (stakeholders inspect and adapt), Product Owner as stakeholder proxy, daily visibility through information radiators (boards, burndowns), and co-location. The goal is ongoing collaboration, not scheduled status updates."
+      }
+    ],
+    refs: [
+      { tag: "PMBOK 6th §10", title: "Communications Management", desc: "Plan, Manage, Monitor Communications. Communication requirements analysis, technology selection, and methods (interactive, push, pull)." },
+      { tag: "PMBOK 6th §13", title: "Stakeholder Management", desc: "Identify Stakeholders, Plan Engagement, Manage Engagement, Monitor Engagement. Stakeholder Register and SEAM are key tools." },
+      { tag: "PMI Exam Content Outline", title: "Business Environment Domain", desc: "The ECO 2021 update added stakeholder engagement under 'Business Environment' — understand the strategic layer of stakeholder management." }
+    ],
+    reading: [
+      { icon: "📘", title: "PMBOK 6th — Chapters 10 & 13", type: "pmbok", desc: "Both chapters cover heavily tested material. Communications planning and stakeholder engagement appear in all three ECO domains." },
+      { icon: "📕", title: "\"Crucial Conversations\" — Patterson et al.", type: "book", desc: "Practical conflict resolution and stakeholder communication skills directly applicable to scenario-based PMP questions." },
+      { icon: "📗", title: "\"Agile Practice Guide\" — Chapter 4", type: "standard", desc: "Team and stakeholder communication in agile contexts. Product Owner role, sprint review facilitation, and working agreements." },
+      { icon: "🔗", title: "PMI ECO 2021 — Domains & Tasks", type: "article", desc: "Download the current Exam Content Outline from PMI.org. Stakeholder tasks appear across all three domains (People, Process, Business Environment)." }
+    ]
+  }
+];
+
+// ── STATE ──────────────────────────────────────────────────────────────────────
+let currentSession = null;
+let currentCardIndex = 0;
+let timerSeconds = 15 * 60;
+let timerInterval = null;
+let timerRunning = false;
+const TOTAL_SECONDS = 15 * 60;
+
+// ── RENDER HOME ────────────────────────────────────────────────────────────────
+function renderHome() {
+  const grid = document.getElementById('sessionGrid');
+  grid.innerHTML = sessions.map(s => `
+    <div class="session-card" onclick="startSession(${s.id})">
+      <div class="session-number">Session ${String(s.id).padStart(2,'0')}</div>
+      <h3>${s.title}</h3>
+      <p>${s.subtitle}</p>
+      <div class="session-meta">
+        <span class="tag tag-time">⏱ 15 min</span>
+        <span class="tag tag-count">📋 ${s.cards.length} cards</span>
+      </div>
+    </div>
+  `).join('');
+}
+
+// ── START SESSION ──────────────────────────────────────────────────────────────
+function startSession(id) {
+  currentSession = sessions.find(s => s.id === id);
+  currentCardIndex = 0;
+  document.getElementById('sessionTitle').textContent = currentSession.title;
+  document.getElementById('sessionSubtitle').textContent = currentSession.subtitle;
+  switchTab('cards');
+  renderCards();
+  renderRefs();
+  renderReading();
+  showScreen('session');
+  startTimer();
+}
+
+function goHome() {
+  stopTimer();
+  showScreen('home');
+}
+
+function showScreen(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+}
+
+// ── TIMER ──────────────────────────────────────────────────────────────────────
+function startTimer() {
+  timerSeconds = TOTAL_SECONDS;
+  timerRunning = true;
+  document.getElementById('timerToggle').textContent = 'Pause';
+  updateTimerDisplay();
+  clearInterval(timerInterval);
+  timerInterval = setInterval(() => {
+    if (!timerRunning) return;
+    timerSeconds--;
+    updateTimerDisplay();
+    if (timerSeconds <= 0) {
+      clearInterval(timerInterval);
+      showSessionComplete();
+    }
+  }, 1000);
+}
+
+function toggleTimer() {
+  timerRunning = !timerRunning;
+  document.getElementById('timerToggle').textContent = timerRunning ? 'Pause' : 'Resume';
+}
+
+function stopTimer() {
+  clearInterval(timerInterval);
+  timerRunning = false;
+}
+
+function updateTimerDisplay() {
+  const m = Math.floor(timerSeconds / 60);
+  const s = timerSeconds % 60;
+  document.getElementById('timerDisplay').textContent = `${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+  const pct = (timerSeconds / TOTAL_SECONDS) * 100;
+  const bar = document.getElementById('timerBar');
+  bar.style.width = pct + '%';
+  bar.classList.toggle('urgent', pct < 20);
+}
+
+// ── TABS ───────────────────────────────────────────────────────────────────────
+function switchTab(name) {
+  document.querySelectorAll('.tab-btn').forEach((btn, i) => {
+    const names = ['cards','refs','reading'];
+    btn.classList.toggle('active', names[i] === name);
+  });
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  document.getElementById('panel-' + name).classList.add('active');
+}
+
+// ── CARDS ──────────────────────────────────────────────────────────────────────
+function renderCards() {
+  const panel = document.getElementById('panel-cards');
+  const s = currentSession;
+  const card = s.cards[currentCardIndex];
+  const dots = s.cards.map((_, i) => `<div class="dot ${i < currentCardIndex ? 'done' : i === currentCardIndex ? 'current' : ''}"></div>`).join('');
+
+  panel.innerHTML = `
+    <div class="card-progress">
+      <span>${currentCardIndex + 1} of ${s.cards.length}</span>
+      <div class="progress-dots">${dots}</div>
+    </div>
+    <div class="flashcard" id="flashcard" onclick="revealCard()">
+      <div class="card-domain">${card.domain}</div>
+      <div class="card-question">${card.q}</div>
+      <div class="card-answer-wrap">
+        <div class="card-answer-label">Answer</div>
+        <div class="card-answer">${card.a}</div>
+      </div>
+      <div class="card-hint"><span class="tap-icon">👆</span> Tap to reveal answer</div>
+    </div>
+    <div class="card-nav">
+      ${currentCardIndex > 0 ? `<button class="card-nav-btn" onclick="prevCard()">← Previous</button>` : ''}
+      ${currentCardIndex < s.cards.length - 1
+        ? `<button class="card-nav-btn primary" onclick="nextCard()">Next Card →</button>`
+        : `<button class="card-nav-btn primary" onclick="switchTab('refs')">View References →</button>`}
+    </div>
+  `;
+}
+
+function revealCard() {
+  document.getElementById('flashcard').classList.add('revealed');
+}
+
+function nextCard() {
+  if (currentCardIndex < currentSession.cards.length - 1) {
+    currentCardIndex++;
+    renderCards();
+  }
+}
+
+function prevCard() {
+  if (currentCardIndex > 0) {
+    currentCardIndex--;
+    renderCards();
+  }
+}
+
+// ── REFS ───────────────────────────────────────────────────────────────────────
+function renderRefs() {
+  const panel = document.getElementById('panel-refs');
+  const refs = currentSession.refs;
+  panel.innerHTML = `
+    <div class="ref-section">
+      <h3>Key References for This Session</h3>
+      ${refs.map(r => `
+        <div class="ref-item">
+          <div class="ref-tag">${r.tag}</div>
+          <h4>${r.title}</h4>
+          <p>${r.desc}</p>
+        </div>
+      `).join('')}
+    </div>
+    <div class="ref-section">
+      <h3>Exam Content Outline Alignment</h3>
+      <div class="ref-item">
+        <div class="ref-tag">PMI ECO 2021</div>
+        <h4>Three Exam Domains</h4>
+        <p>The current PMP exam is split approximately: <strong>42% People</strong> (leadership, teamwork, stakeholders), <strong>50% Process</strong> (project work, delivery, performance), <strong>8% Business Environment</strong> (strategy, compliance, benefits). Roughly 50% of questions reflect agile/hybrid approaches.</p>
+      </div>
+    </div>
+  `;
+}
+
+// ── READING ────────────────────────────────────────────────────────────────────
+function renderReading() {
+  const panel = document.getElementById('panel-reading');
+  const typeClass = { pmbok: 'type-pmbok', standard: 'type-standard', book: 'type-book', article: 'type-article' };
+  const typeLabel = { pmbok: 'PMBOK Guide', standard: 'PMI Standard', book: 'Book', article: 'Article / Web' };
+  panel.innerHTML = `
+    <ul class="reading-list">
+      ${currentSession.reading.map(r => `
+        <li class="reading-item">
+          <div class="reading-icon">${r.icon}</div>
+          <div class="reading-info">
+            <span class="reading-type ${typeClass[r.type]}">${typeLabel[r.type]}</span>
+            <h4>${r.title}</h4>
+            <p>${r.desc}</p>
+          </div>
+        </li>
+      `).join('')}
+    </ul>
+  `;
+}
+
+// ── SESSION COMPLETE ───────────────────────────────────────────────────────────
+function showSessionComplete() {
+  const panel = document.getElementById('panel-cards');
+  panel.innerHTML = `
+    <div class="session-complete">
+      <div class="complete-icon">🏆</div>
+      <h2>Session Complete</h2>
+      <p>You've finished all ${currentSession.cards.length} cards and your 15 minutes are up.<br>Review the references and reading list, then take a break.</p>
+      <button class="start-over-btn" onclick="restartSession()">Restart Session</button>
+    </div>
+  `;
+  switchTab('cards');
+}
+
+function restartSession() {
+  currentCardIndex = 0;
+  renderCards();
+  startTimer();
+}
+
+// ── INIT ───────────────────────────────────────────────────────────────────────
+renderHome();
+</script>
+</body>
+</html>

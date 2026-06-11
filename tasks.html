@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Tasks | Snowflake</title>
 <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Baloo+2:wght@400;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="tasks.css">
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
 
@@ -25,6 +25,8 @@
   <div class="leaderboard" id="leaderboard"></div>
   <div class="section-label category-label">Category Breakdown</div>
   <div class="category-breakdown" id="categoryBreakdown"></div>
+  <div class="section-label category-label" id="todayCategoryLabel" style="display:none">⚡ Today's Points by Category</div>
+  <div class="today-category" id="todayCategory"></div>
 </div>
 
 <!-- Filters -->
@@ -397,6 +399,7 @@ function renderLB() {
     </div>`;
   }).join('');
   renderCategoryBreakdown();
+  renderTodayByCategory();
 }
 
 function renderCategoryBreakdown() {
@@ -433,6 +436,46 @@ function renderCategoryBreakdown() {
       </span>
     </button>`;
   }).join('');
+}
+
+function renderTodayByCategory() {
+  const el = document.getElementById('todayCategory');
+  const label = document.getElementById('todayCategoryLabel');
+  if (!el) return;
+  const today = todayIsoDate();
+  const cats = {};
+
+  // Sheet-completed tasks where completedDate contains today's ISO date
+  G.tasks.forEach(t => {
+    if (!t.sheetDone || !t.completedDate) return;
+    if (!t.completedDate.includes(today)) return;
+    const cat = t.topic || 'Uncategorized';
+    cats[cat] = (cats[cat] || 0) + t.pts;
+  });
+
+  // Local completions done today (this session or saved with a date)
+  Object.entries(G.completions).forEach(([key, info]) => {
+    if (info.date && info.date !== today) return;
+    const task = G.tasks.find(t => t.key === key);
+    if (task && task.sheetDone) return; // already counted above
+    const cat = info.topic || 'Uncategorized';
+    cats[cat] = (cats[cat] || 0) + info.pts;
+  });
+
+  const items = Object.entries(cats).sort((a, b) => b[1] - a[1]);
+  if (!items.length) { el.innerHTML = ''; if (label) label.style.display = 'none'; return; }
+  if (label) label.style.display = '';
+
+  const todayTotal = items.reduce((s, [, pts]) => s + pts, 0);
+  const overallTotal = Object.values(G.players).reduce((s, p) => s + p.pts, 0);
+  el.innerHTML = items.map(([name, pts]) => {
+    const color = categoryColor(name);
+    return `<div class="today-cat-row">
+      <span class="today-cat-name" style="color:${color}">${x(name)}</span>
+      <span class="today-cat-bar-wrap"><span class="today-cat-bar" style="width:${Math.round(pts/todayTotal*100)}%;background:${color}"></span></span>
+      <span class="today-cat-pts" style="color:${color}">+${pts}pt</span>
+    </div>`;
+  }).join('') + `<div class="today-cat-total"><span>Today: <strong>${todayTotal} pts</strong></span><span>Overall: <strong>${overallTotal} pts</strong></span></div>`;
 }
 
 /* ── Render tasks ── */
@@ -574,9 +617,9 @@ async function doComplete(key) {
   t.isAssigned = false;
   delete G.assignments[key];
   if(nextTask) assignTask(nextTask, assignedDate);
-  G.completions[key] = { person: t.person||'Family', pts: t.pts };
+  G.completions[key] = { person: t.person||'Family', pts: t.pts, topic: t.topic||'Uncategorized', date: todayIsoDate() };
   G.activity.push({ person: t.person||'Family', title: t.title, pts: t.pts });
-  save(); buildPlayers(); renderLB(); renderTasks(); renderActivity();
+  save(); buildPlayers(); renderLB(); renderTasks(); renderActivity(); renderTodayByCategory();
   toast(`🎉 ${t.pts} pt${t.pts!==1?'s':''} for ${t.person||'the family'}!`);
   if(nextTask) {
     toast(`Assigned next ${nextTask.topic || 'category'} task: ${nextTask.title}`);

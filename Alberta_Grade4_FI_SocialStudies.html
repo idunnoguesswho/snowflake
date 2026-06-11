@@ -1,0 +1,1047 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sciences Humaines 4e année | Alberta French Immersion</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Nunito+Sans:wght@400;600;700&display=swap');
+
+  :root {
+    --sky:       #1B4F8A;
+    --sky-light: #2E75B6;
+    --wheat:     #D4A44C;
+    --wheat-pale:#FDF4E3;
+    --forest:    #2A6049;
+    --forest-lt: #E6F4EE;
+    --rock:      #E8E2D9;
+    --rock-dark: #A89880;
+    --ink:       #1A1A2E;
+    --mist:      #F5F3EF;
+    --done-bg:   #E6F4EE;
+    --done-ring: #2A6049;
+    --card-bg:   #FFFFFF;
+    --shadow:    rgba(27,79,138,0.10);
+    --radius:    14px;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Nunito Sans', sans-serif;
+    background: var(--mist);
+    color: var(--ink);
+    min-height: 100vh;
+  }
+
+  /* ── HEADER ── */
+  header {
+    background: linear-gradient(135deg, var(--sky) 0%, #0F3260 100%);
+    color: #fff;
+    padding: 0;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 2px 16px rgba(0,0,0,0.25);
+  }
+  .header-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 14px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+  }
+  .header-title h1 {
+    font-family: 'Nunito', sans-serif;
+    font-weight: 900;
+    font-size: clamp(1rem, 2.5vw, 1.35rem);
+    letter-spacing: -0.01em;
+    line-height: 1.2;
+  }
+  .header-title p {
+    font-size: 0.78rem;
+    opacity: 0.75;
+    margin-top: 2px;
+    font-style: italic;
+  }
+  .header-flag {
+    font-size: 1.8rem;
+    line-height: 1;
+    flex-shrink: 0;
+  }
+  .progress-pill {
+    background: rgba(255,255,255,0.15);
+    border-radius: 50px;
+    padding: 6px 14px;
+    font-size: 0.82rem;
+    font-weight: 700;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+  .progress-pill span { color: var(--wheat); }
+
+  /* ── PROGRESS BAR ── */
+  .progress-bar-wrap {
+    background: rgba(255,255,255,0.12);
+    height: 5px;
+  }
+  .progress-bar-fill {
+    height: 5px;
+    background: linear-gradient(90deg, var(--wheat) 0%, #F7C96E 100%);
+    transition: width 0.5s cubic-bezier(.4,0,.2,1);
+    border-radius: 0 3px 3px 0;
+  }
+
+  /* ── MAIN ── */
+  main {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 32px 20px 64px;
+  }
+
+  /* ── HERO STRIP ── */
+  .hero {
+    background: linear-gradient(120deg, var(--sky) 0%, var(--forest) 100%);
+    border-radius: var(--radius);
+    padding: 28px 32px;
+    color: #fff;
+    margin-bottom: 32px;
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    flex-wrap: wrap;
+  }
+  .hero-text h2 {
+    font-family: 'Nunito', sans-serif;
+    font-weight: 900;
+    font-size: clamp(1.2rem, 3vw, 1.7rem);
+    line-height: 1.2;
+  }
+  .hero-text p {
+    margin-top: 6px;
+    font-size: 0.9rem;
+    opacity: 0.85;
+    max-width: 560px;
+    line-height: 1.5;
+  }
+  .hero-stats {
+    display: flex;
+    gap: 20px;
+    margin-left: auto;
+    flex-shrink: 0;
+  }
+  .stat-block { text-align: center; }
+  .stat-block .num {
+    font-family: 'Nunito', sans-serif;
+    font-weight: 900;
+    font-size: 2rem;
+    color: var(--wheat);
+    line-height: 1;
+  }
+  .stat-block .lbl { font-size: 0.7rem; opacity: 0.8; margin-top: 2px; }
+
+  /* ── RESET BTN ── */
+  .top-actions {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 20px;
+    gap: 10px;
+  }
+  .btn-ghost {
+    background: none;
+    border: 1.5px solid var(--rock-dark);
+    border-radius: 8px;
+    padding: 7px 16px;
+    font-size: 0.82rem;
+    font-weight: 700;
+    color: var(--rock-dark);
+    cursor: pointer;
+    transition: all 0.18s;
+  }
+  .btn-ghost:hover { background: var(--rock); color: var(--ink); }
+
+  /* ── UNIT SECTION ── */
+  .unit-section { margin-bottom: 40px; }
+  .unit-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 16px;
+  }
+  .unit-badge {
+    background: var(--sky);
+    color: #fff;
+    font-family: 'Nunito', sans-serif;
+    font-weight: 800;
+    font-size: 0.72rem;
+    padding: 4px 12px;
+    border-radius: 50px;
+    white-space: nowrap;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+  .unit-badge.u2 { background: var(--forest); }
+  .unit-badge.u3 { background: #7B3F00; }
+
+  .unit-title {
+    font-family: 'Nunito', sans-serif;
+    font-weight: 800;
+    font-size: 1.1rem;
+    color: var(--sky);
+  }
+  .unit-title.u2 { color: var(--forest); }
+  .unit-title.u3 { color: #7B3F00; }
+
+  .unit-progress-text {
+    margin-left: auto;
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: var(--rock-dark);
+  }
+
+  /* ── LESSON CARD ── */
+  .lesson-card {
+    background: var(--card-bg);
+    border-radius: var(--radius);
+    border: 1.5px solid var(--rock);
+    box-shadow: 0 2px 8px var(--shadow);
+    margin-bottom: 12px;
+    overflow: hidden;
+    transition: box-shadow 0.2s, border-color 0.2s;
+  }
+  .lesson-card:hover { box-shadow: 0 4px 18px var(--shadow); }
+  .lesson-card.all-done {
+    background: var(--done-bg);
+    border-color: var(--done-ring);
+  }
+
+  .lesson-header {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 14px 18px;
+    cursor: pointer;
+    user-select: none;
+  }
+  .lesson-num {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: var(--rock);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Nunito', sans-serif;
+    font-weight: 800;
+    font-size: 0.85rem;
+    color: var(--ink);
+    flex-shrink: 0;
+    transition: background 0.2s, color 0.2s;
+  }
+  .all-done .lesson-num {
+    background: var(--forest);
+    color: #fff;
+  }
+  .lesson-header-text { flex: 1; min-width: 0; }
+  .lesson-header-text h3 {
+    font-family: 'Nunito', sans-serif;
+    font-weight: 800;
+    font-size: 0.95rem;
+    line-height: 1.3;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .lesson-header-text .sub {
+    font-size: 0.75rem;
+    color: var(--rock-dark);
+    font-style: italic;
+    margin-top: 1px;
+  }
+  .lesson-meta {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-shrink: 0;
+  }
+  .session-dots {
+    display: flex;
+    gap: 5px;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    max-width: 160px;
+  }
+  .dot {
+    width: 13px;
+    height: 13px;
+    border-radius: 50%;
+    border: 2px solid var(--rock-dark);
+    background: transparent;
+    cursor: pointer;
+    transition: background 0.18s, border-color 0.18s, transform 0.12s;
+    flex-shrink: 0;
+  }
+  .dot:hover { transform: scale(1.25); }
+  .dot.done { background: var(--forest); border-color: var(--forest); }
+  .dot.u2.done { background: var(--forest); }
+  .dot.u3.done { background: #7B3F00; border-color: #7B3F00; }
+
+  .chevron {
+    width: 20px;
+    height: 20px;
+    flex-shrink: 0;
+    transition: transform 0.25s;
+    color: var(--rock-dark);
+  }
+  .lesson-card.open .chevron { transform: rotate(180deg); }
+
+  /* ── LESSON BODY ── */
+  .lesson-body {
+    display: none;
+    padding: 0 18px 18px;
+    border-top: 1px solid var(--rock);
+  }
+  .lesson-card.open .lesson-body { display: block; }
+
+  /* ── SESSION TILES ── */
+  .sessions-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+    gap: 12px;
+    margin-top: 14px;
+  }
+  .session-tile {
+    border-radius: 10px;
+    border: 1.5px solid var(--rock);
+    background: var(--mist);
+    padding: 14px 14px 12px;
+    cursor: pointer;
+    transition: border-color 0.18s, background 0.18s, transform 0.12s;
+    position: relative;
+  }
+  .session-tile:hover { border-color: var(--sky-light); transform: translateY(-1px); }
+  .session-tile.done {
+    background: var(--done-bg);
+    border-color: var(--done-ring);
+  }
+  .session-tile .sticker {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: var(--forest);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    color: #fff;
+    opacity: 0;
+    transition: opacity 0.2s;
+  }
+  .session-tile.done .sticker { opacity: 1; }
+
+  .session-tile .s-label {
+    font-family: 'Nunito', sans-serif;
+    font-weight: 800;
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    color: var(--sky);
+    margin-bottom: 4px;
+  }
+  .session-tile.done .s-label { color: var(--forest); }
+
+  .session-tile .s-title {
+    font-weight: 700;
+    font-size: 0.88rem;
+    line-height: 1.35;
+    color: var(--ink);
+    margin-bottom: 6px;
+  }
+  .session-tile .s-fr {
+    font-style: italic;
+    font-size: 0.78rem;
+    color: var(--rock-dark);
+    line-height: 1.3;
+    margin-bottom: 8px;
+  }
+  .session-tile .s-desc {
+    font-size: 0.8rem;
+    color: #444;
+    line-height: 1.45;
+    margin-bottom: 8px;
+  }
+  .session-tile .s-type {
+    font-size: 0.72rem;
+    font-weight: 700;
+    padding: 2px 8px;
+    border-radius: 50px;
+    display: inline-block;
+  }
+  .type-hook    { background: #FFF3CD; color: #856404; }
+  .type-teach   { background: #D6E4F0; color: var(--sky); }
+  .type-activity{ background: var(--forest-lt); color: var(--forest); }
+  .type-assess  { background: #F0D6E4; color: #7A1F4A; }
+  .type-vocab   { background: #EDE7D6; color: #7B5600; }
+  .type-review  { background: #E8E8F4; color: #3A3A8C; }
+
+  .session-tile .mark-btn {
+    margin-top: 10px;
+    display: block;
+    width: 100%;
+    padding: 7px 10px;
+    border-radius: 7px;
+    border: 1.5px solid var(--rock-dark);
+    background: transparent;
+    font-family: 'Nunito', sans-serif;
+    font-weight: 700;
+    font-size: 0.78rem;
+    cursor: pointer;
+    transition: all 0.18s;
+    color: var(--ink);
+  }
+  .session-tile:not(.done) .mark-btn:hover {
+    background: var(--forest);
+    border-color: var(--forest);
+    color: #fff;
+  }
+  .session-tile.done .mark-btn {
+    background: var(--forest);
+    border-color: var(--forest);
+    color: #fff;
+  }
+  .session-tile.done .mark-btn:hover {
+    background: #C0392B;
+    border-color: #C0392B;
+  }
+
+  /* ── VOCAB GRID ── */
+  .vocab-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 10px;
+  }
+  .vocab-chip {
+    background: var(--wheat-pale);
+    border: 1px solid #E0C88A;
+    border-radius: 6px;
+    padding: 4px 10px;
+    font-size: 0.78rem;
+    font-weight: 600;
+  }
+
+  /* ── OUTCOMES BOX ── */
+  .outcomes-box {
+    background: var(--mist);
+    border-left: 4px solid var(--sky);
+    border-radius: 0 8px 8px 0;
+    padding: 10px 14px;
+    margin-top: 14px;
+    font-size: 0.8rem;
+    line-height: 1.6;
+    color: #333;
+  }
+  .outcomes-box strong { color: var(--sky); font-weight: 800; }
+
+  /* ── CONFETTI ── */
+  @keyframes confetti-fall {
+    0%   { transform: translateY(-20px) rotate(0deg); opacity: 1; }
+    100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
+  }
+  .confetti-piece {
+    position: fixed;
+    width: 8px;
+    height: 8px;
+    pointer-events: none;
+    z-index: 9999;
+    animation: confetti-fall 2.5s ease-in forwards;
+  }
+
+  /* ── CELEBRATION TOAST ── */
+  .toast {
+    position: fixed;
+    bottom: 28px;
+    left: 50%;
+    transform: translateX(-50%) translateY(120px);
+    background: var(--forest);
+    color: #fff;
+    padding: 12px 28px;
+    border-radius: 50px;
+    font-family: 'Nunito', sans-serif;
+    font-weight: 800;
+    font-size: 0.95rem;
+    z-index: 9998;
+    box-shadow: 0 6px 24px rgba(0,0,0,0.25);
+    transition: transform 0.4s cubic-bezier(.34,1.56,.64,1);
+    white-space: nowrap;
+    text-align: center;
+  }
+  .toast.show { transform: translateX(-50%) translateY(0); }
+
+  /* ── FILTER BAR ── */
+  .filter-bar {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 24px;
+    flex-wrap: wrap;
+  }
+  .filter-btn {
+    padding: 6px 16px;
+    border-radius: 50px;
+    border: 1.5px solid var(--rock);
+    background: var(--card-bg);
+    font-family: 'Nunito', sans-serif;
+    font-weight: 700;
+    font-size: 0.8rem;
+    cursor: pointer;
+    transition: all 0.18s;
+    color: var(--ink);
+  }
+  .filter-btn.active, .filter-btn:hover {
+    background: var(--sky);
+    border-color: var(--sky);
+    color: #fff;
+  }
+  .filter-btn.active.u2, .filter-btn.u2:hover { background: var(--forest); border-color: var(--forest); }
+  .filter-btn.active.u3, .filter-btn.u3:hover { background: #7B3F00; border-color: #7B3F00; }
+
+  @media(max-width:600px) {
+    .hero-stats { display: none; }
+    .session-dots { max-width: 100px; }
+    .sessions-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <div class="header-flag">🍁</div>
+    <div class="header-title">
+      <h1>Sciences Humaines 4<sup>e</sup> année &nbsp;·&nbsp; Alberta French Immersion</h1>
+      <p>Grade 4 Social Studies · Programme d'immersion française</p>
+    </div>
+    <div class="progress-pill" id="headerProgress"><span>0</span> / 48 sessions</div>
+  </div>
+  <div class="progress-bar-wrap">
+    <div class="progress-bar-fill" id="progressBar" style="width:0%"></div>
+  </div>
+</header>
+
+<main>
+  <div class="hero">
+    <div class="hero-text">
+      <h2>Bienvenue dans ton parcours d'apprentissage !</h2>
+      <p>Each lesson is broken into 4 × 15-minute sessions. Click any session tile to open it, then mark it done when you're finished. Tap the dots on a lesson card to quickly check off sessions.</p>
+    </div>
+    <div class="hero-stats">
+      <div class="stat-block"><div class="num">12</div><div class="lbl">Lessons</div></div>
+      <div class="stat-block"><div class="num">48</div><div class="lbl">Sessions</div></div>
+      <div class="stat-block"><div class="num" id="hoursNum">12</div><div class="lbl">Hours total</div></div>
+    </div>
+  </div>
+
+  <div class="top-actions">
+    <button class="btn-ghost" onclick="resetAll()">↺ Réinitialiser tout</button>
+  </div>
+
+  <div class="filter-bar">
+    <button class="filter-btn active" onclick="filterUnit('all', this)">Tout voir</button>
+    <button class="filter-btn" onclick="filterUnit('u1', this)">4.1 — La terre</button>
+    <button class="filter-btn u2" onclick="filterUnit('u2', this)">4.2 — Les peuples</button>
+    <button class="filter-btn u3" onclick="filterUnit('u3', this)">4.3 — Identité</button>
+  </div>
+
+  <div id="lessonsContainer"></div>
+</main>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// ─────────────────────────────────────────────
+// DATA
+// ─────────────────────────────────────────────
+const LESSONS = [
+  {
+    id: 1, unit: 'u1',
+    title: "Physical Geography of Alberta",
+    frTitle: "La géographie physique de l'Alberta",
+    outcome: "4.1.1 – 4.1.2 · Comment les caractéristiques physiques forgent-elles l'identité?",
+    sessions: [
+      { id:'1a', type:'hook', typeLabel:'Activation',
+        title:"Where is Alberta?", fr:"Où se trouve l'Alberta?",
+        desc:"Whole-class map activity. Students locate Alberta on a map of Canada, mark it, and discuss what they already know about Alberta's landscape. Introduce cardinal directions in French: nord, sud, est, ouest." },
+      { id:'1b', type:'vocab', typeLabel:'Vocabulaire',
+        title:"Landform Vocabulary", fr:"Vocabulaire des reliefs",
+        desc:"Introduce and practise 9 key terms: province, relief, frontière, montagne, prairie, rivière, vallée, plateau, lac. Students create a personal French vocabulary card for each." },
+      { id:'1c', type:'teach', typeLabel:'Enseignement',
+        title:"Alberta's Physical Features", fr:"Les caractéristiques physiques",
+        desc:"Mini-lesson on Alberta's six geographic regions (Rockies, Foothills, Parkland, Plains, Boreal Forest, Canadian Shield). Use a physical map to identify the Athabasca, Peace, and North Saskatchewan rivers." },
+      { id:'1d', type:'activity', typeLabel:'Activité',
+        title:"Label the Map!", fr:"Étiquette la carte!",
+        desc:"Students label an outline map of Alberta with landforms, rivers, lakes, and borders. Add compass rose and a legend (une rose des vents et une légende). Exit slip: name two landforms." },
+    ]
+  },
+  {
+    id: 2, unit: 'u1',
+    title: "Natural Regions of Alberta",
+    frTitle: "Les régions naturelles de l'Alberta",
+    outcome: "4.1.3 – 4.1.4 · Végétation et faune de chaque région naturelle",
+    sessions: [
+      { id:'2a', type:'hook', typeLabel:'Activation',
+        title:"Photo Mystery", fr:"Mystère de photos",
+        desc:"Display six unlabelled Alberta landscape photographs. Students guess which region each photo shows and write their reasoning in French on sticky notes." },
+      { id:'2b', type:'vocab', typeLabel:'Vocabulaire',
+        title:"Regions Vocabulary", fr:"Vocabulaire des régions",
+        desc:"Teach: région naturelle, végétation, faune, forêt boréale, prairies, zone de parc, contreforts, alpin, terres humides. Students sort cards into 'plante' and 'animal' categories." },
+      { id:'2c', type:'teach', typeLabel:'Enseignement',
+        title:"Six Regions Deep Dive", fr:"Les six régions en détail",
+        desc:"Direct instruction on each region's climate, plants, and animals. Highlight: grizzly & elk (Rockies), pronghorn (grasslands), moose (boreal forest), beaver (parkland). Map regions on a class display." },
+      { id:'2d', type:'activity', typeLabel:'Activité',
+        title:"Regions Foldable", fr:"Livret des régions",
+        desc:"Students create a 6-section foldable booklet. Each section: one region, one animal drawing, one plant, two facts in French. Share one region with a partner in French (oral)." },
+    ]
+  },
+  {
+    id: 3, unit: 'u1',
+    title: "Alberta's Climate",
+    frTitle: "Le climat de l'Alberta",
+    outcome: "4.1.5 – 4.1.6 · Facteurs qui déterminent le climat",
+    sessions: [
+      { id:'3a', type:'hook', typeLabel:'Activation',
+        title:"Weather vs. Climate", fr:"Temps vs. Climat",
+        desc:"Compare winter photos of Fort McMurray and Lethbridge. Discuss: Is the weather the same everywhere in Alberta? Introduce the key distinction: le temps (weather) vs. le climat (climate)." },
+      { id:'3b', type:'vocab', typeLabel:'Vocabulaire',
+        title:"Climate Vocabulary", fr:"Vocabulaire du climat",
+        desc:"Teach: température, précipitations, altitude, continental, chinook, latitude, sécheresse, gel. Students play a French vocabulary matching game in pairs." },
+      { id:'3c', type:'teach', typeLabel:'Enseignement',
+        title:"What Shapes Alberta's Climate?", fr:"Ce qui façonne le climat",
+        desc:"Factors: latitude, elevation, distance from oceans, prevailing winds. Introduce the chinook wind. Compare temperature data for Edmonton, Lethbridge, and Fort McMurray across seasons." },
+      { id:'3d', type:'activity', typeLabel:'Activité',
+        title:"Graph the Climate", fr:"Faire un graphique",
+        desc:"Students receive a monthly temperature data table for two Alberta cities. Create a labelled bar graph (axes, title in French). Write a 3-sentence comparison paragraph in French. (Rubric: content, French use, accuracy.)" },
+    ]
+  },
+  {
+    id: 4, unit: 'u1',
+    title: "Natural Resources of Alberta",
+    frTitle: "Les ressources naturelles de l'Alberta",
+    outcome: "4.1.7 – 4.1.8 · Ressources naturelles et intendance",
+    sessions: [
+      { id:'4a', type:'hook', typeLabel:'Activation',
+        title:"Pass the Sample!", fr:"Fais circuler l'échantillon!",
+        desc:"Pass around samples or photos: coal, wheat grain, oil pump, lumber. Students answer in French: 'D'où viennent-ils? Comment les utilisons-nous?' Build class list on the board." },
+      { id:'4b', type:'vocab', typeLabel:'Vocabulaire',
+        title:"Resources Vocabulary", fr:"Vocabulaire des ressources",
+        desc:"Teach: ressource naturelle, renouvelable, non renouvelable, sables bitumineux, agriculture, foresterie, intendance, économie, combustible fossile. Students sort into renouvelable / non renouvelable columns." },
+      { id:'4c', type:'teach', typeLabel:'Enseignement',
+        title:"Alberta's Key Resources", fr:"Les ressources clés",
+        desc:"Teach: petroleum (oil sands, Fort McMurray area), natural gas, agriculture (wheat, canola, beef), forestry, coal, water. Introduce stewardship (intendance) and Indigenous sustainable resource management. Alberta Parks protect resources." },
+      { id:'4d', type:'activity', typeLabel:'Activité',
+        title:"Resource Concept Web", fr:"Toile de concepts",
+        desc:"Students receive a central concept card (e.g., 'le pétrole'). Create a concept web answering: Où? Comment extrait-on? Comment utilise-t-on? Avantages? Défis? Completed on large paper in French. Share with class." },
+    ]
+  },
+  {
+    id: 5, unit: 'u2',
+    title: "Alberta's First Peoples",
+    frTitle: "Les premiers peuples de l'Alberta",
+    outcome: "4.2.1 – 4.2.3 · Les Premières Nations, les traditions orales",
+    sessions: [
+      { id:'5a', type:'hook', typeLabel:'Activation',
+        title:"Story Read-Aloud", fr:"Lecture à voix haute",
+        desc:"Read aloud a brief Cree or Blackfoot legend in French (available from Alberta Heritage Community Foundation). Class discussion: 'Qu'est-ce que cette histoire nous enseigne? Pourquoi les histoires sont-elles importantes?'" },
+      { id:'5b', type:'vocab', typeLabel:'Vocabulaire',
+        title:"First Peoples Vocabulary", fr:"Vocabulaire des premiers peuples",
+        desc:"Teach: Premières Nations, autochtone, tradition orale, traité, les Cris, les Pieds-Noirs, Siksika, Nakoda, tipi, bison. Pair activity: match French term to picture card." },
+      { id:'5c', type:'teach', typeLabel:'Enseignement',
+        title:"Nations of Alberta", fr:"Les nations de l'Alberta",
+        desc:"Introduce major First Nations: Blackfoot Confederacy (Siksika, Kainai, Piikani), Cree, Stoney Nakoda, Tsuu T'ina, Beaver/Dene, Saulteaux. Map territories. Traditional ways of life: bison, tipi, spiritual practices. Oral tradition as knowledge-keeper." },
+      { id:'5d', type:'activity', typeLabel:'Activité',
+        title:"People of the Land Page", fr:"Page illustrée",
+        desc:"Students write one French paragraph describing a traditional aspect of one First Nation's life + illustration. Teacher checks for respectful, accurate language. Class discussion: 'Qu'est-ce qui est le plus important dans ces traditions?'" },
+    ]
+  },
+  {
+    id: 6, unit: 'u2',
+    title: "Métis History and Culture",
+    frTitle: "L'histoire et la culture métisses",
+    outcome: "4.2.4 – 4.2.5 · L'émergence de la Nation métisse",
+    sessions: [
+      { id:'6a', type:'hook', typeLabel:'Activation',
+        title:"Fiddle Music & the Sash", fr:"Musique de violon et ceinture fléchée",
+        desc:"Play a short Métis fiddle piece. Show a ceinture fléchée (sash). Ask: 'De quelle culture pensez-vous que cela vient? Qu'est-ce qui vous le dit?' Record responses on the board." },
+      { id:'6b', type:'vocab', typeLabel:'Vocabulaire',
+        title:"Métis Vocabulary", fr:"Vocabulaire métis",
+        desc:"Teach: les Métis, la gigue de la Rivière-Rouge, la ceinture fléchée, le michif, le pemmican, le certificat métis, Gabriel Dumont, Louis Riel, la Nation métisse. Students create a mini-glossary." },
+      { id:'6c', type:'teach', typeLabel:'Enseignement',
+        title:"Who Are the Métis?", fr:"Qui sont les Métis?",
+        desc:"Emergence of the Métis: descendants of First Nations women and European traders. Michif language (Cree nouns + French verbs). Cultural elements: Red River jig, sash, beadwork, pemmican. Louis Riel and Gabriel Dumont. Métis Nation of Alberta today." },
+      { id:'6d', type:'activity', typeLabel:'Activité',
+        title:"Design a Sash", fr:"Dessine une ceinture fléchée",
+        desc:"Students learn the meaning of sash colours and design their own paper sash pattern, labelling colours and meaning in French. OR: Métis-inspired beadwork pattern on paper. Exit paragraph: 'Qui sont les Métis?' (3–4 sentences in French)." },
+    ]
+  },
+  {
+    id: 7, unit: 'u2',
+    title: "European Exploration & the Fur Trade",
+    frTitle: "L'exploration européenne et la traite des fourrures",
+    outcome: "4.2.6 – 4.2.7 · Impact de l'exploration européenne",
+    sessions: [
+      { id:'7a', type:'hook', typeLabel:'Activation',
+        title:"Why a Beaver?", fr:"Pourquoi un castor?",
+        desc:"Show a beaver pelt or photo. Ask: 'Pourquoi ce petit animal changerait-il l'histoire du Canada?' Build toward the European hat trade. Students share ideas in French." },
+      { id:'7b', type:'vocab', typeLabel:'Vocabulaire',
+        title:"Fur Trade Vocabulary", fr:"Vocabulaire de la traite",
+        desc:"Teach: traite des fourrures, explorateur, Compagnie de la Baie d'Hudson, Compagnie du Nord-Ouest, fort, peau de castor, David Thompson, Anthony Henday, route commerciale. Vocabulary bingo in French." },
+      { id:'7c', type:'teach', typeLabel:'Enseignement',
+        title:"Forts, Companies & Explorers", fr:"Les forts, compagnies et explorateurs",
+        desc:"Anthony Henday (1754): first European in what is now Alberta. HBC (1670) vs. NWC (1779). Fort Edmonton (1795). Role of Indigenous peoples as essential partners. Impacts: disease, resource depletion, trade dependency. Multiple perspectives introduced." },
+      { id:'7d', type:'activity', typeLabel:'Activité',
+        title:"Two Perspectives T-Chart", fr:"Tableau en T — deux perspectives",
+        desc:"Half the class = HBC traders; half = Cree/Blackfoot community. Each group reads a summary excerpt (French). Together create a T-chart comparing perspectives on the fur trade. Oral debrief in French: 'Pourquoi est-il important d'entendre plus d'une perspective?'" },
+    ]
+  },
+  {
+    id: 8, unit: 'u2',
+    title: "Settlement, Resistance & 1905",
+    frTitle: "Le peuplement, la résistance et la naissance de la province",
+    outcome: "4.2.8 – 4.2.10 · Patterns de peuplement; 1905",
+    sessions: [
+      { id:'8a', type:'hook', typeLabel:'Activation',
+        title:"'Last Best West' Poster", fr:"L'affiche « Last Best West »",
+        desc:"Show the famous Canadian government immigration poster. Ask: 'Qu'est-ce que cette affiche tente de persuader les gens de faire? À qui s'adresse-t-elle?' Discuss persuasion techniques in French." },
+      { id:'8b', type:'vocab', typeLabel:'Vocabulaire',
+        title:"Settlement Vocabulary", fr:"Vocabulaire du peuplement",
+        desc:"Teach: peuplement, immigrant, ferme de colonisation, Chemin de fer Canadien Pacifique, résistance du Nord-Ouest, province, Loi sur les terres fédérales. Students sequence vocabulary on a timeline strip." },
+      { id:'8c', type:'teach', typeLabel:'Enseignement',
+        title:"From Dominion Lands to Province", fr:"Des terres fédérales à la province",
+        desc:"Dominion Lands Act (1872): 160 acres for $10. CPR completion (1885). Northwest Resistance (1885) — Louis Riel, Gabriel Dumont, Batoche. Immigration waves: Ukrainian, German, British settlers. September 1, 1905: Alberta becomes a province. First Premier: Alexander Rutherford." },
+      { id:'8d', type:'activity', typeLabel:'Activité',
+        title:"Build the Timeline", fr:"Construis la chronologie",
+        desc:"Students create a French bilingual timeline with 6+ key dates: 1754, 1795, 1870, 1872, 1885, 1905. Each entry: illustration + one French sentence. Peer check: swap timelines and verify dates and descriptions." },
+    ]
+  },
+  {
+    id: 9, unit: 'u2',
+    title: "Alberta's Diverse Peoples & Communities",
+    frTitle: "Les habitants et les communautés diversifiées",
+    outcome: "4.2.11 – 4.2.13 · Diversité; communautés francophones",
+    sessions: [
+      { id:'9a', type:'hook', typeLabel:'Activation',
+        title:"Our Classroom Web", fr:"La toile de notre classe",
+        desc:"Ask: 'Quelles origines culturelles sont représentées dans notre classe? Quelles traditions vos familles célèbrent-elles?' Build a web on the board in French together." },
+      { id:'9b', type:'vocab', typeLabel:'Vocabulaire',
+        title:"Community Vocabulary", fr:"Vocabulaire communautaire",
+        desc:"Teach: diversité, culture, patrimoine, communauté, francophone, célébration, tradition, contribution, multiculturalisme. Students write one French sentence using each of three chosen terms." },
+      { id:'9c', type:'teach', typeLabel:'Enseignement',
+        title:"Alberta's Cultural Mosaic", fr:"La mosaïque culturelle",
+        desc:"Cultural groups: First Nations, Métis, French-Canadians, Ukrainians (Vegreville Pysanka!), Germans, British, Chinese (CPR workers). Francophone communities: Legal, Morinville, Beaumont, Plamondon. Celebrations: Calgary Stampede, K-Days, Ukrainian Cultural Heritage Village." },
+      { id:'9d', type:'activity', typeLabel:'Activité',
+        title:"Cultural Brochure", fr:"Brochure culturelle",
+        desc:"Students pick one cultural group. Create a mini French brochure: group name, 3 facts, one cultural tradition, one illustration. Present to class in French (2 minutes). Peer feedback in French." },
+    ]
+  },
+  {
+    id: 10, unit: 'u3',
+    title: "Alberta's Government & Citizenship",
+    frTitle: "Le gouvernement et la citoyenneté de l'Alberta",
+    outcome: "4.3.1 – 4.3.3 · Structures gouvernementales; droits et responsabilités",
+    sessions: [
+      { id:'10a', type:'hook', typeLabel:'Activation',
+        title:"Rules Pyramid", fr:"La pyramide des règles",
+        desc:"Ask: 'Qui fait les règles pour notre école? Notre ville? Notre province? Notre pays?' Build a pyramid on the board together. Students copy the pyramid and label each level in French." },
+      { id:'10b', type:'vocab', typeLabel:'Vocabulaire',
+        title:"Government Vocabulary", fr:"Vocabulaire du gouvernement",
+        desc:"Teach: gouvernement, province, fédéral, municipal, député provincial (MLA), Premier ministre, Assemblée législative, voter, citoyen/citoyenne, droits et responsabilités. Flashcard drill in pairs." },
+      { id:'10c', type:'teach', typeLabel:'Enseignement',
+        title:"Three Levels of Government", fr:"Les trois paliers",
+        desc:"Federal (Ottawa, Parliament Hill), Provincial (Edmonton, Assemblée législative de l'Alberta — 87 MLAs, Premier leads), Municipal (city hall). Lieutenant-Governor represents the Crown. Rights and responsibilities of citizens. Indigenous treaty rights." },
+      { id:'10d', type:'activity', typeLabel:'Activité',
+        title:"Mock Legislature Debate", fr:"Débat à l'Assemblée",
+        desc:"Divide class into 'government' and 'opposition'. Debate a school policy in French (e.g., '20 minutes de récréation obligatoire'). Each side gets 5 minutes. Class votes. Exit slip: 'Nomme un droit et une responsabilité.'" },
+    ]
+  },
+  {
+    id: 11, unit: 'u3',
+    title: "Economic Development & Environmental Challenges",
+    frTitle: "Le développement économique et les défis environnementaux",
+    outcome: "4.3.4 – 4.3.6 · Économie; défis environnementaux; équilibre",
+    sessions: [
+      { id:'11a', type:'hook', typeLabel:'Activation',
+        title:"Two Photos, One Question", fr:"Deux photos, une question",
+        desc:"Show the Edmonton skyline and a northern Alberta boreal forest. Ask: 'Comment ces deux images sont-elles liées? Peut-on avoir les deux? Qu'est-ce que l'Alberta doit faire pour garder les deux?' Students discuss in pairs then share." },
+      { id:'11b', type:'vocab', typeLabel:'Vocabulaire',
+        title:"Economy & Environment Vocab", fr:"Vocabulaire économie & environnement",
+        desc:"Teach: développement économique, environnement, défi, remise en état, émissions de carbone, déforestation, sécheresse, espèces menacées, durable, équilibre. Students make a concept word wall." },
+      { id:'11c', type:'teach', typeLabel:'Enseignement',
+        title:"Oil Sands to Endangered Species", fr:"Des sables bitumineux aux espèces menacées",
+        desc:"Alberta's economy: energy, agriculture, tourism, forestry. Oil sands (economic benefit vs. environmental impact). Agricultural challenges: drought, water, soil. Boreal forest threats. Endangered species: renard des prairies, grue blanche, ours grizzli, caribou des bois. Reclamation and parks as stewardship." },
+      { id:'11d', type:'activity', typeLabel:'Activité',
+        title:"Development Decision Cards", fr:"Fiches de décision",
+        desc:"Groups receive a French scenario card (e.g., new pipeline, wind farm, expanded park). List pros and cons in French. Present recommendation to class with justification. Self-reflection: 'Qu'ai-je appris sur l'équilibre entre l'économie et l'environnement?'" },
+    ]
+  },
+  {
+    id: 12, unit: 'u3',
+    title: "Alberta's Identity: Past, Present & Future",
+    frTitle: "L'identité de l'Alberta : passé, présent et avenir",
+    outcome: "4.3.7 – 4.3.8 · Synthèse; rôle des citoyens; leçon de consolidation",
+    sessions: [
+      { id:'12a', type:'review', typeLabel:'Révision',
+        title:"Gallery Walk Review", fr:"Promenade de galerie",
+        desc:"Post student work from all 11 previous lessons around the room. Students do a silent gallery walk with two colours of sticky notes: 'quelque chose que j'ai appris' and 'une question que j'ai encore'. Whole-class share-out in French." },
+      { id:'12b', type:'teach', typeLabel:'Enseignement',
+        title:"Connecting Land, People & Change", fr:"Relier terre, peuples et changements",
+        desc:"Build a class mind map connecting all three units: land (4.1) → people (4.2) → change & identity (4.3). Discuss Alberta's motto: Fortis et Liber. What does 'Strong and Free' mean today? How can Grade 4 students be responsible Alberta citizens right now?" },
+      { id:'12c', type:'activity', typeLabel:'Activité',
+        title:"'Mon Alberta' Project — Plan", fr:"Planification du projet",
+        desc:"Introduce the culminating project 'Mon Alberta': (1) map with 3 features, (2) First Nations/Métis description, (3) one historical event, (4) one current challenge, (5) personal reflection 'Pourquoi l'Alberta est-elle importante pour moi?' Students plan their project on a graphic organizer." },
+      { id:'12d', type:'assess', typeLabel:'Évaluation',
+        title:"'Mon Alberta' Project — Present", fr:"Présentation du projet",
+        desc:"Students present their 'Mon Alberta' project (poster, booklet, or digital) to the class or a small group in French. Assessed on: curriculum outcomes (4.1, 4.2, 4.3), French language quality, visual presentation, personal reflection depth. Self-assessment included." },
+    ]
+  },
+];
+
+const UNIT_INFO = {
+  u1: { label: '4.1', name: 'Alberta: A Sense of the Land', nameFr: 'L\'Alberta : un sens de la terre', color: 'var(--sky)' },
+  u2: { label: '4.2', name: 'Stories, Histories & Peoples', nameFr: 'Les histoires, l\'histoire et les peuples', color: 'var(--forest)' },
+  u3: { label: '4.3', name: 'Celebrations & Challenges', nameFr: 'Célébrations et défis', color: '#7B3F00' },
+};
+
+// ─────────────────────────────────────────────
+// STATE
+// ─────────────────────────────────────────────
+let completed = JSON.parse(localStorage.getItem('ab_ss4_done') || '{}');
+
+function save() {
+  localStorage.setItem('ab_ss4_done', JSON.stringify(completed));
+}
+function isDone(sid) { return !!completed[sid]; }
+function totalDone() { return Object.keys(completed).filter(k => completed[k]).length; }
+function lessonDone(lesson) { return lesson.sessions.every(s => isDone(s.id)); }
+
+// ─────────────────────────────────────────────
+// RENDER
+// ─────────────────────────────────────────────
+const TYPE_CLASS = {
+  hook: 'type-hook', vocab: 'type-vocab', teach: 'type-teach',
+  activity: 'type-activity', assess: 'type-assess', review: 'type-review'
+};
+
+let currentFilter = 'all';
+
+function renderAll() {
+  const container = document.getElementById('lessonsContainer');
+  container.innerHTML = '';
+
+  const units = [...new Set(LESSONS.map(l => l.unit))];
+  units.forEach(unit => {
+    const unitLessons = LESSONS.filter(l => l.unit === unit);
+    if (currentFilter !== 'all' && currentFilter !== unit) return;
+
+    const info = UNIT_INFO[unit];
+    const totalSessions = unitLessons.reduce((a,l) => a + l.sessions.length, 0);
+    const doneSessions  = unitLessons.reduce((a,l) => a + l.sessions.filter(s=>isDone(s.id)).length, 0);
+
+    const sec = document.createElement('div');
+    sec.className = 'unit-section';
+    sec.dataset.unit = unit;
+
+    sec.innerHTML = `
+      <div class="unit-header">
+        <div class="unit-badge ${unit}">${info.label}</div>
+        <div class="unit-title ${unit}">${info.nameFr}</div>
+        <div class="unit-progress-text">${doneSessions}/${totalSessions} sessions</div>
+      </div>
+    `;
+
+    unitLessons.forEach(lesson => {
+      const allDone = lessonDone(lesson);
+      const doneCnt = lesson.sessions.filter(s => isDone(s.id)).length;
+
+      const card = document.createElement('div');
+      card.className = `lesson-card ${allDone ? 'all-done' : ''}`;
+      card.id = `lesson-${lesson.id}`;
+
+      const dots = lesson.sessions.map(s => `
+        <div class="dot ${isDone(s.id)?'done':''} ${unit}"
+             title="${s.title}"
+             onclick="event.stopPropagation(); toggleSession('${s.id}', ${lesson.id})"></div>
+      `).join('');
+
+      const sessions = lesson.sessions.map(s => `
+        <div class="session-tile ${isDone(s.id)?'done':''}" id="tile-${s.id}">
+          <div class="sticker">✓</div>
+          <div class="s-label">Session ${s.id.slice(-1)} · 15 min</div>
+          <div class="s-title">${s.title}</div>
+          <div class="s-fr">${s.fr}</div>
+          <div class="s-desc">${s.desc}</div>
+          <span class="s-type ${TYPE_CLASS[s.type]}">${s.typeLabel}</span>
+          <button class="mark-btn" onclick="toggleSession('${s.id}', ${lesson.id})">
+            ${isDone(s.id) ? '✓ Terminé — cliquer pour annuler' : '✓ Marquer comme terminé'}
+          </button>
+        </div>
+      `).join('');
+
+      card.innerHTML = `
+        <div class="lesson-header" onclick="toggleLesson(${lesson.id})">
+          <div class="lesson-num">${allDone ? '✓' : lesson.id}</div>
+          <div class="lesson-header-text">
+            <h3>${lesson.id}. ${lesson.title}</h3>
+            <div class="sub">${lesson.frTitle}</div>
+          </div>
+          <div class="lesson-meta">
+            <div class="session-dots">${dots}</div>
+            <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+          </div>
+        </div>
+        <div class="lesson-body">
+          <div class="outcomes-box"><strong>Résultats d'apprentissage :</strong> ${lesson.outcome}</div>
+          <div class="sessions-grid">${sessions}</div>
+        </div>
+      `;
+      sec.appendChild(card);
+    });
+
+    container.appendChild(sec);
+  });
+
+  updateProgress();
+}
+
+function toggleLesson(id) {
+  const card = document.getElementById(`lesson-${id}`);
+  card.classList.toggle('open');
+}
+
+function toggleSession(sid, lessonId) {
+  completed[sid] = !isDone(sid);
+  save();
+  const wasComplete = lessonDone(LESSONS.find(l => l.id === lessonId));
+
+  // Update tile
+  const tile = document.getElementById(`tile-${sid}`);
+  if (tile) {
+    tile.classList.toggle('done', !!completed[sid]);
+    tile.querySelector('.mark-btn').textContent = completed[sid]
+      ? '✓ Terminé — cliquer pour annuler'
+      : '✓ Marquer comme terminé';
+  }
+
+  // Update dots on lesson card
+  const card = document.getElementById(`lesson-${lessonId}`);
+  if (card) {
+    const lesson = LESSONS.find(l => l.id === lessonId);
+    const allDone = lessonDone(lesson);
+    card.classList.toggle('all-done', allDone);
+    card.querySelector('.lesson-num').textContent = allDone ? '✓' : lesson.id;
+    const dots = card.querySelectorAll('.dot');
+    lesson.sessions.forEach((s, i) => {
+      dots[i].classList.toggle('done', isDone(s.id));
+    });
+  }
+
+  updateProgress();
+
+  // Celebration
+  if (completed[sid]) {
+    const lesson = LESSONS.find(l => l.id === lessonId);
+    const nowAllDone = lessonDone(lesson);
+    if (nowAllDone && !wasComplete) {
+      celebrate(`🎉 Leçon ${lessonId} complétée! Excellent travail!`);
+    } else {
+      showToast('✓ Session marquée!');
+    }
+
+    // Check all done
+    if (totalDone() === 48) {
+      setTimeout(() => celebrate('🏆 Bravo! Tu as terminé toutes les leçons!', true), 800);
+    }
+  }
+}
+
+function updateProgress() {
+  const done = totalDone();
+  const total = 48;
+  const pct = (done / total) * 100;
+
+  document.getElementById('progressBar').style.width = pct + '%';
+  const pill = document.getElementById('headerProgress');
+  pill.innerHTML = `<span>${done}</span> / ${total} sessions`;
+
+  // Update unit progress texts
+  const units = ['u1','u2','u3'];
+  units.forEach(u => {
+    const sec = document.querySelector(`.unit-section[data-unit="${u}"]`);
+    if (!sec) return;
+    const unitLessons = LESSONS.filter(l => l.unit === u);
+    const total = unitLessons.reduce((a,l) => a + l.sessions.length, 0);
+    const done  = unitLessons.reduce((a,l) => a + l.sessions.filter(s=>isDone(s.id)).length, 0);
+    const txt = sec.querySelector('.unit-progress-text');
+    if (txt) txt.textContent = `${done}/${total} sessions`;
+  });
+}
+
+function filterUnit(unit, btn) {
+  currentFilter = unit;
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  renderAll();
+}
+
+function resetAll() {
+  if (!confirm('Réinitialiser toute la progression? / Reset all progress?')) return;
+  completed = {};
+  save();
+  renderAll();
+  showToast('Progression réinitialisée.');
+}
+
+// ─────────────────────────────────────────────
+// CELEBRATION
+// ─────────────────────────────────────────────
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2200);
+}
+
+function celebrate(msg, big = false) {
+  showToast(msg);
+  const colors = ['#1B4F8A','#D4A44C','#2A6049','#E8E2D9','#F7C96E','#B3D9F0'];
+  const count = big ? 80 : 30;
+  for (let i = 0; i < count; i++) {
+    const el = document.createElement('div');
+    el.className = 'confetti-piece';
+    el.style.cssText = `
+      left: ${Math.random()*100}vw;
+      top: -10px;
+      background: ${colors[Math.floor(Math.random()*colors.length)]};
+      border-radius: ${Math.random()>0.5?'50%':'2px'};
+      width: ${6+Math.random()*8}px;
+      height: ${6+Math.random()*8}px;
+      animation-delay: ${Math.random()*1.2}s;
+      animation-duration: ${1.8+Math.random()*1.5}s;
+    `;
+    document.body.appendChild(el);
+    setTimeout(() => el.remove(), 3500);
+  }
+}
+
+// ─────────────────────────────────────────────
+// INIT
+// ─────────────────────────────────────────────
+renderAll();
+</script>
+</body>
+</html>

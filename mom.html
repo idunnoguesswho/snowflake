@@ -3,109 +3,564 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Mom's Tasks | Snowflake</title>
+<title>Mom | Snowflake</title>
 <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Baloo+2:wght@400;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
+<style>
+  :root { --accent: #ff6b6b; --accent2: #ffb347; }
+  .hero { background: linear-gradient(135deg, #ff6b6b 0%, #ffb347 100%); }
+  .hero::after { content: '🧑‍💼'; }
+  .tag-cat  { background: #ff6b6b22; color: #8b2222; border: 1px solid #ff6b6b77; }
+  .progress-fill { background: linear-gradient(90deg, #ff6b6b, #ffb347); }
+
+  .hub-nav { background: white; border-bottom: 2px solid #eee; display: flex; overflow-x: auto; padding: 0 12px; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 8px rgba(0,0,0,.06); }
+  .hub-tab { flex-shrink: 0; padding: 13px 13px; border: none; background: transparent; font-family: 'Nunito', sans-serif; font-size: 13px; font-weight: 700; color: #888; cursor: pointer; border-bottom: 3px solid transparent; transition: all 0.2s; white-space: nowrap; }
+  .hub-tab:hover { color: #e05555; }
+  .hub-tab.active { color: #e05555; border-bottom-color: #ff6b6b; }
+  .hub-panel { display: none; }
+  .hub-panel.active { display: block; animation: panelIn .18s ease; }
+  @keyframes panelIn { from { opacity:0; transform:translateY(4px); } to { opacity:1; transform:none; } }
+
+  .embed-frame { width: 100%; border: none; height: 82vh; display: block; }
+  .study-wrap  { max-width: 780px; margin: 0 auto; padding: 16px 16px 40px; }
+
+  /* Study module cards */
+  .mod-card { background: white; border-radius: 14px; padding: 20px; margin-bottom: 14px; box-shadow: 0 2px 8px rgba(0,0,0,.06); border-left: 4px solid var(--mc, #ff6b6b); }
+  .mod-tag   { font-size: 10px; font-weight: 800; letter-spacing: 1.5px; text-transform: uppercase; color: var(--mc, #ff6b6b); margin-bottom: 4px; }
+  .mod-title { font-family: 'Nunito', sans-serif; font-size: 16px; font-weight: 900; color: #1f2933; margin-bottom: 8px; }
+  .mod-body  { font-size: 13px; line-height: 1.75; color: #374151; }
+  .mod-body strong { color: #1f2933; }
+  .mod-body ul { margin: 8px 0 0 16px; padding: 0; }
+  .mod-body li { margin-bottom: 4px; }
+  .vocab-row { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+  .vocab-chip { font-size: 11px; font-weight: 700; padding: 3px 10px; border-radius: 20px; background: var(--cl, #fff0f0); color: var(--mc, #c04040); }
+  .q-label { font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; color: #888; margin: 12px 0 6px; }
+  .q-item  { font-size: 13px; color: #1f2933; padding: 7px 0; border-bottom: 1px solid #f5f5f5; }
+  .q-item:last-child { border-bottom: none; }
+
+  /* Bills summary */
+  .bills-wrap { max-width: 700px; margin: 0 auto; padding: 16px 16px 40px; }
+  .bill-card  { background: white; border-radius: 12px; padding: 16px; margin-bottom: 10px; box-shadow: 0 2px 8px rgba(0,0,0,.06); display: flex; align-items: center; gap: 14px; border-left: 4px solid var(--bc, #ccc); }
+  .bill-card.overdue   { --bc: #f07060; }
+  .bill-card.due-soon  { --bc: #f7c948; }
+  .bill-card.upcoming  { --bc: #52c4a0; }
+  .bill-amount { font-family: 'Nunito', sans-serif; font-size: 18px; font-weight: 900; color: var(--bc, #888); min-width: 80px; }
+  .bill-meta   { flex: 1; }
+  .bill-name   { font-family: 'Nunito', sans-serif; font-size: 14px; font-weight: 800; color: #1f2933; }
+  .bill-detail { font-size: 12px; color: #888; margin-top: 2px; }
+  .bill-badge  { font-size: 11px; font-weight: 700; padding: 3px 9px; border-radius: 20px; white-space: nowrap; }
+  .badge-overdue  { background: #fdecea; color: #c04040; }
+  .badge-soon     { background: #fef7d5; color: #8b6000; }
+  .badge-upcoming { background: #e1f5ee; color: #1a6b4a; }
+
+  /* Alateen cards */
+  .al-card { background: white; border-radius: 14px; margin-bottom: 10px; box-shadow: 0 2px 8px rgba(0,0,0,.06); overflow: hidden; border: 2px solid transparent; cursor: pointer; transition: border-color .2s; }
+  .al-card.open { border-color: #2abfbf; }
+  .al-header { display: flex; align-items: center; gap: 12px; padding: 14px 16px; }
+  .al-icon   { width: 40px; height: 40px; border-radius: 10px; background: #dff7f7; display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; }
+  .al-meta   { flex: 1; }
+  .al-track  { font-size: 10px; font-weight: 800; letter-spacing: 1.2px; text-transform: uppercase; color: #2abfbf; }
+  .al-title  { font-family: 'Nunito', sans-serif; font-size: 14px; font-weight: 800; color: #1f2933; }
+  .al-sub    { font-size: 11px; color: #888; }
+  .al-body   { display: none; padding: 0 16px 16px; border-top: 1px solid #f0f0f0; }
+  .al-card.open .al-body { display: block; }
+  .al-intro  { font-size: 13px; color: #6b7280; line-height: 1.6; padding-top: 12px; margin-bottom: 10px; }
+  .al-step   { font-size: 13px; color: #1f2933; padding: 6px 0; border-bottom: 1px solid #f5f5f5; line-height: 1.5; }
+  .al-step:last-child { border-bottom: none; }
+  .al-affirmation { background: #dff7f7; border-radius: 10px; padding: 12px; font-size: 13px; font-style: italic; color: #1a5f6a; margin-top: 10px; line-height: 1.6; }
+</style>
 </head>
 <body>
 
 <div class="hero">
   <div class="hero-name">Mom</div>
-  <div class="hero-sub">Today's Tasks · June 4, 2026</div>
-  <div class="hero-badge">🧑‍💼 5 tasks assigned</div>
+  <div class="hero-sub">Today's Hub · <span id="hero-date"></span></div>
+  <div class="hero-badge" id="hero-badge">🧑‍💼 Loading…</div>
 </div>
 
-<div class="progress-bar-wrap">
-  <div class="section-label" style="padding-bottom:6px">Progress</div>
-  <div class="progress-label">
-    <span id="prog-text">0 of 5 done</span>
-    <span id="prog-pct">0%</span>
+<nav class="hub-nav">
+  <button class="hub-tab active" data-tab="tasks"   onclick="showTab('tasks')">📋 Tasks</button>
+  <button class="hub-tab"        data-tab="ncso"    onclick="showTab('ncso')">🦺 NCSO</button>
+  <button class="hub-tab"        data-tab="pmp"     onclick="showTab('pmp')">📊 PMP</button>
+  <button class="hub-tab"        data-tab="alateen" onclick="showTab('alateen')">🌊 Alateen</button>
+  <button class="hub-tab"        data-tab="bills"   onclick="showTab('bills')">💰 Bills</button>
+  <button class="hub-tab"        data-tab="hustles" onclick="showTab('hustles')">💼 Hustles</button>
+  <button class="hub-tab"        data-tab="menu"    onclick="showTab('menu')">🍽️ Menu</button>
+</nav>
+
+<!-- ══ TASKS ══ -->
+<div class="hub-panel active" id="tab-tasks">
+  <div class="progress-bar-wrap">
+    <div class="section-label" style="padding-bottom:6px">Progress</div>
+    <div class="progress-label">
+      <span id="prog-text">0 of 5 done</span>
+      <span id="prog-pct">0%</span>
+    </div>
+    <div class="progress-track"><div class="progress-fill" id="prog-fill" style="width:0%"></div></div>
   </div>
-  <div class="progress-track"><div class="progress-fill" id="prog-fill" style="width:0%"></div></div>
+  <div class="section-label">📋 Today's Quest List</div>
+  <div class="task-list" id="taskList"></div>
 </div>
 
-<div class="section-label">📋 Today's Quest List</div>
+<!-- ══ NCSO STUDY ══ -->
+<div class="hub-panel" id="tab-ncso">
+  <div class="study-wrap">
+    <div style="padding:4px 0 16px">
+      <div style="font-family:'Nunito',sans-serif;font-size:20px;font-weight:900;color:#1f2933">NCSO Study Guide 🦺</div>
+      <div style="font-size:13px;color:#888;margin-top:2px">National Construction Safety Officer — Alberta / BC curriculum</div>
+    </div>
 
-<div class="task-list" id="taskList"></div>
+    <div class="mod-card" style="--mc:#e05555;--cl:#fff0f0">
+      <div class="mod-tag">Module 01</div>
+      <div class="mod-title">Legal Framework for OHS in Construction</div>
+      <div class="mod-body">
+        Construction safety in Alberta is governed by the <strong>Occupational Health and Safety Act (OHS Act)</strong>, the <strong>OHS Regulation</strong>, and the <strong>OHS Code</strong>. The Act establishes rights and responsibilities; the Regulation sets administrative requirements; the Code specifies technical standards.
+        <ul>
+          <li><strong>Prime Contractor</strong>: the party responsible for coordinating OHS at a multi-employer worksite. Designated in writing.</li>
+          <li><strong>Employer duties</strong>: ensure worker safety, hazard identification, training, supervision, PPE provision.</li>
+          <li><strong>Worker rights</strong>: right to know (hazard info), right to participate (OHS committee), right to refuse dangerous work.</li>
+          <li><strong>Due diligence</strong>: taking all reasonable precautions — the legal defence for employers against charges.</li>
+        </ul>
+      </div>
+      <div class="vocab-row">
+        <span class="vocab-chip">OHS Act</span><span class="vocab-chip">OHS Code</span><span class="vocab-chip">Prime Contractor</span><span class="vocab-chip">due diligence</span><span class="vocab-chip">right to refuse</span><span class="vocab-chip">competent worker</span>
+      </div>
+      <div class="q-label">Review Questions</div>
+      <div class="q-item">1. What are the three documents that form Alberta's OHS legislative framework?</div>
+      <div class="q-item">2. When is a Prime Contractor required on a worksite?</div>
+      <div class="q-item">3. What does "due diligence" mean for an employer facing an OHS charge?</div>
+      <div class="q-item">4. Name and explain the three worker rights under OHS legislation.</div>
+    </div>
+
+    <div class="mod-card" style="--mc:#e07830;--cl:#fff3ea">
+      <div class="mod-tag">Module 02</div>
+      <div class="mod-title">Health &amp; Safety Program Basics</div>
+      <div class="mod-body">
+        A construction H&amp;S program requires nine core elements:
+        <ul>
+          <li><strong>Policy</strong>: signed commitment by senior management</li>
+          <li><strong>Roles &amp; responsibilities</strong>: clearly defined for all levels</li>
+          <li><strong>Hazard identification &amp; control</strong>: formal system (FLHA/JHA)</li>
+          <li><strong>Training &amp; competency</strong>: verified, documented</li>
+          <li><strong>Inspections</strong>: scheduled and unannounced</li>
+          <li><strong>Incident investigation</strong>: near-miss, first-aid, medical-aid, lost-time</li>
+          <li><strong>Emergency response</strong>: plan, drills, communication</li>
+          <li><strong>Records &amp; statistics</strong>: injury rates, FLHA logs, training records</li>
+          <li><strong>Program review</strong>: annual evaluation against leading/lagging indicators</li>
+        </ul>
+      </div>
+      <div class="vocab-row">
+        <span class="vocab-chip">safety policy</span><span class="vocab-chip">FLHA</span><span class="vocab-chip">JHA</span><span class="vocab-chip">leading indicator</span><span class="vocab-chip">lagging indicator</span><span class="vocab-chip">lost-time injury</span>
+      </div>
+      <div class="q-label">Review Questions</div>
+      <div class="q-item">1. Name all nine core elements of a construction H&amp;S program.</div>
+      <div class="q-item">2. What is the difference between a leading indicator and a lagging indicator? Give one example of each.</div>
+      <div class="q-item">3. Why must senior management sign the safety policy?</div>
+    </div>
+
+    <div class="mod-card" style="--mc:#c9a800;--cl:#fef7d5">
+      <div class="mod-tag">Module 06</div>
+      <div class="mod-title">Hazard Identification Methods</div>
+      <div class="mod-body">
+        Five key methods for identifying hazards before work begins:
+        <ul>
+          <li><strong>Formal inspections</strong>: scheduled walkthroughs by supervisors; documented on inspection forms.</li>
+          <li><strong>Field-Level Hazard Assessment (FLHA)</strong>: done by workers at the task location before starting work, each shift.</li>
+          <li><strong>Job Hazard Analysis (JHA) / Job Safety Analysis (JSA)</strong>: step-by-step breakdown of a task to identify hazards at each step.</li>
+          <li><strong>Worker observation and reports</strong>: near-miss reporting culture; anonymous reporting systems.</li>
+          <li><strong>Incident trend analysis</strong>: looking at past injury/near-miss data to find patterns before the next event.</li>
+        </ul>
+      </div>
+      <div class="vocab-row">
+        <span class="vocab-chip">FLHA</span><span class="vocab-chip">JHA/JSA</span><span class="vocab-chip">near miss</span><span class="vocab-chip">inspection</span><span class="vocab-chip">trend analysis</span><span class="vocab-chip">pre-job planning</span>
+      </div>
+      <div class="q-label">Review Questions</div>
+      <div class="q-item">1. When must a FLHA be completed? Who completes it?</div>
+      <div class="q-item">2. How does a JHA differ from a FLHA?</div>
+      <div class="q-item">3. Why is near-miss reporting critical for a safety program?</div>
+      <div class="q-item">4. Give an example of how incident trend analysis prevented a future injury.</div>
+    </div>
+
+    <div class="mod-card" style="--mc:#52c4a0;--cl:#e1f5ee">
+      <div class="mod-tag">Module 08</div>
+      <div class="mod-title">Hierarchy of Controls</div>
+      <div class="mod-body">
+        Controls ranked from most to least effective:
+        <ul>
+          <li><strong>1. Elimination</strong>: remove the hazard entirely (e.g. eliminate working at height by doing work on ground).</li>
+          <li><strong>2. Substitution</strong>: replace with something less hazardous (e.g. water-based paint instead of solvent-based).</li>
+          <li><strong>3. Engineering controls</strong>: physical changes — guards, ventilation, fall arrest anchors, interlocks.</li>
+          <li><strong>4. Administrative controls</strong>: procedures, training, rotation, permits to work, signage.</li>
+          <li><strong>5. PPE</strong>: last line of defence — harness, hard hat, gloves, respirator. Requires fit, training, maintenance.</li>
+        </ul>
+        On construction sites, multiple controls are often used together (defence in depth).
+      </div>
+      <div class="vocab-row">
+        <span class="vocab-chip">elimination</span><span class="vocab-chip">substitution</span><span class="vocab-chip">engineering control</span><span class="vocab-chip">administrative control</span><span class="vocab-chip">PPE</span><span class="vocab-chip">defence in depth</span>
+      </div>
+      <div class="q-label">Review Questions</div>
+      <div class="q-item">1. List the 5 levels of the hierarchy of controls in order (most to least preferred).</div>
+      <div class="q-item">2. For a fall hazard: give one example of each control level.</div>
+      <div class="q-item">3. Why is PPE considered the last resort rather than the first response?</div>
+      <div class="q-item">4. What is "defence in depth" and why is it used on construction sites?</div>
+    </div>
+
+    <div class="mod-card" style="--mc:#5b9bd5;--cl:#e3effa">
+      <div class="mod-tag">Module 15</div>
+      <div class="mod-title">WHMIS &amp; Safety Data Sheets (SDS)</div>
+      <div class="mod-body">
+        <strong>WHMIS 2015</strong> is aligned with the Globally Harmonized System (GHS). Key components:
+        <ul>
+          <li><strong>Labels</strong>: product identifier, pictograms, signal word (DANGER / WARNING), hazard statements, precautionary statements, supplier info.</li>
+          <li><strong>Safety Data Sheets (SDS)</strong>: 16 standardized sections. Critical sections: Section 2 (Hazard ID), Section 4 (First Aid), Section 7 (Handling/Storage), Section 8 (PPE/Exposure Controls), Section 13 (Disposal), Section 14 (Transport).</li>
+          <li><strong>9 WHMIS pictograms</strong>: flammable, oxidizer, corrosive, acute toxicity, health hazard, environmental hazard, explosive, gases under pressure, biohazard.</li>
+        </ul>
+      </div>
+      <div class="vocab-row">
+        <span class="vocab-chip">WHMIS 2015</span><span class="vocab-chip">GHS</span><span class="vocab-chip">SDS</span><span class="vocab-chip">pictogram</span><span class="vocab-chip">signal word</span><span class="vocab-chip">hazard statement</span><span class="vocab-chip">precautionary statement</span>
+      </div>
+      <div class="q-label">Review Questions</div>
+      <div class="q-item">1. Name the 6 required elements of a WHMIS label.</div>
+      <div class="q-item">2. Which SDS sections cover: First Aid? PPE? Storage? Spill response?</div>
+      <div class="q-item">3. What is the difference between DANGER and WARNING as signal words?</div>
+      <div class="q-item">4. Pick one WHMIS pictogram — draw it (or describe it) and explain what category of hazard it represents.</div>
+    </div>
+
+    <div class="mod-card" style="--mc:#9b7fd4;--cl:#ede8f9">
+      <div class="mod-tag">Module 10–12</div>
+      <div class="mod-title">Construction Hazards: Falls, Struck-By, Electrical, Confined Space</div>
+      <div class="mod-body">
+        The <strong>Fatal Four</strong> in construction account for the majority of fatalities:
+        <ul>
+          <li><strong>Falls</strong>: #1 cause. Controls: guardrails, travel restraint, fall arrest, safety nets. Trigger height in Alberta: 3 m (10 ft) on most tasks.</li>
+          <li><strong>Struck-by</strong>: falling objects, vehicles, swinging loads. Controls: hard hats, exclusion zones, spotters, tool tethers.</li>
+          <li><strong>Caught-in/between</strong>: rotating equipment, trench collapse, pinch points. Controls: lockout/tagout (LOTO), shoring, machine guards.</li>
+          <li><strong>Electrical</strong>: overhead lines, buried cables, temporary wiring. Use Dig Safe (Alberta 1-Call), maintain setback distances, GFCIs for temp power.</li>
+          <li><strong>Confined space</strong>: permit-required CS requires: atmospheric testing, isolation, rescue plan, entry permit, attendant.</li>
+        </ul>
+      </div>
+      <div class="vocab-row">
+        <span class="vocab-chip">Fatal Four</span><span class="vocab-chip">fall arrest</span><span class="vocab-chip">LOTO</span><span class="vocab-chip">confined space</span><span class="vocab-chip">entry permit</span><span class="vocab-chip">GFCI</span><span class="vocab-chip">exclusion zone</span>
+      </div>
+      <div class="q-label">Review Questions</div>
+      <div class="q-item">1. What are the Fatal Four? Which is the most common cause of construction fatalities?</div>
+      <div class="q-item">2. At what height does fall protection become mandatory in Alberta for most tasks?</div>
+      <div class="q-item">3. What are the five requirements for entering a permit-required confined space?</div>
+      <div class="q-item">4. What is LOTO? Describe the steps in a lockout/tagout procedure.</div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ══ PMP STUDY ══ -->
+<div class="hub-panel" id="tab-pmp">
+  <div class="study-wrap">
+    <div style="padding:4px 0 16px">
+      <div style="font-family:'Nunito',sans-serif;font-size:20px;font-weight:900;color:#1f2933">PMP Study Guide 📊</div>
+      <div style="font-size:13px;color:#888;margin-top:2px">Project Management Professional — PMI PMBOK 7th Edition + Agile Hybrid</div>
+    </div>
+
+    <div class="mod-card" style="--mc:#ff6b6b;--cl:#fff0f0">
+      <div class="mod-tag">Domain 1</div>
+      <div class="mod-title">People — Leading &amp; Managing Project Teams</div>
+      <div class="mod-body">
+        The People domain focuses on skills to lead and motivate project teams effectively.
+        <ul>
+          <li><strong>Servant leadership</strong>: leader removes obstacles for the team rather than directing. Core to Agile.</li>
+          <li><strong>Team development stages (Tuckman)</strong>: Forming → Storming → Norming → Performing → Adjourning.</li>
+          <li><strong>Conflict resolution techniques</strong> (most to least preferred): Collaborate/Problem-solve → Compromise → Accommodate → Avoid → Force/Direct.</li>
+          <li><strong>Motivation theories</strong>: Maslow's hierarchy, Herzberg's hygiene/motivators, McGregor's Theory X/Y, McClelland's needs (achievement, affiliation, power).</li>
+          <li><strong>Emotional intelligence</strong>: self-awareness, self-regulation, empathy, social skills — essential for stakeholder engagement.</li>
+        </ul>
+      </div>
+      <div class="vocab-row">
+        <span class="vocab-chip">servant leadership</span><span class="vocab-chip">Tuckman stages</span><span class="vocab-chip">conflict resolution</span><span class="vocab-chip">EI</span><span class="vocab-chip">Theory X/Y</span><span class="vocab-chip">stakeholder</span>
+      </div>
+      <div class="q-label">Practice Questions</div>
+      <div class="q-item">1. List Tuckman's 5 team development stages. What happens at Storming?</div>
+      <div class="q-item">2. What is the most preferred conflict resolution technique and why?</div>
+      <div class="q-item">3. How does servant leadership differ from traditional command-and-control?</div>
+      <div class="q-item">4. A team member is underperforming. Which motivation theory informs your response? What do you do?</div>
+    </div>
+
+    <div class="mod-card" style="--mc:#f07060;--cl:#fdecea">
+      <div class="mod-tag">Domain 2</div>
+      <div class="mod-title">Process — Managing Project Work</div>
+      <div class="mod-body">
+        The Process domain covers the technical side of managing a project from initiation to close.
+        <ul>
+          <li><strong>Project charter</strong>: authorizes the project; names the PM; issued by the sponsor.</li>
+          <li><strong>WBS (Work Breakdown Structure)</strong>: decomposes deliverables into work packages. 100% rule — everything is captured.</li>
+          <li><strong>Critical Path Method (CPM)</strong>: identifies the longest sequence of dependent tasks. Float = flexibility.</li>
+          <li><strong>Earned Value Management (EVM)</strong>: SV = EV − PV (schedule variance). CV = EV − AC (cost variance). SPI = EV/PV. CPI = EV/AC. Values &gt;1 = good.</li>
+          <li><strong>Risk management</strong>: Identify → Qualitative → Quantitative → Response → Monitor. Responses: avoid, transfer, mitigate, accept (for threats). Exploit, share, enhance, accept (for opportunities).</li>
+          <li><strong>Change control</strong>: all scope changes go through formal change control process. No scope creep.</li>
+        </ul>
+      </div>
+      <div class="vocab-row">
+        <span class="vocab-chip">project charter</span><span class="vocab-chip">WBS</span><span class="vocab-chip">critical path</span><span class="vocab-chip">float</span><span class="vocab-chip">EVM</span><span class="vocab-chip">SPI/CPI</span><span class="vocab-chip">risk register</span><span class="vocab-chip">change control</span>
+      </div>
+      <div class="q-label">Practice Questions</div>
+      <div class="q-item">1. EV = $80K, PV = $100K, AC = $90K. Calculate SV, CV, SPI, CPI. Interpret the results.</div>
+      <div class="q-item">2. What is the 100% rule in WBS? Why does it matter?</div>
+      <div class="q-item">3. What is float (slack) on the critical path? What happens if a critical path task is delayed?</div>
+      <div class="q-item">4. Name the four responses to a negative risk (threat). Give a construction example for each.</div>
+    </div>
+
+    <div class="mod-card" style="--mc:#c9a800;--cl:#fef7d5">
+      <div class="mod-tag">Domain 3</div>
+      <div class="mod-title">Business Environment — Strategy &amp; Governance</div>
+      <div class="mod-body">
+        Projects exist within an organizational and strategic context.
+        <ul>
+          <li><strong>Business case</strong>: justifies the project investment; owned by the sponsor.</li>
+          <li><strong>Benefits realization</strong>: PM ensures project delivers promised value; often extends beyond project close.</li>
+          <li><strong>Organizational structures</strong>: Functional (PM has little authority) → Matrix (shared authority) → Projectized (PM has full authority).</li>
+          <li><strong>Project governance</strong>: PMO, steering committees, stage gates, lessons learned repository.</li>
+          <li><strong>Compliance &amp; ethics</strong>: PMI Code of Ethics — responsibility, respect, fairness, honesty. Mandatory and aspirational standards.</li>
+          <li><strong>Tailoring</strong>: adapting methodology (predictive, agile, hybrid) to fit the project context.</li>
+        </ul>
+      </div>
+      <div class="vocab-row">
+        <span class="vocab-chip">business case</span><span class="vocab-chip">benefits realization</span><span class="vocab-chip">PMO</span><span class="vocab-chip">organizational structure</span><span class="vocab-chip">tailoring</span><span class="vocab-chip">PMI Code of Ethics</span>
+      </div>
+      <div class="q-label">Practice Questions</div>
+      <div class="q-item">1. What are the three main organizational structures? How does PM authority differ in each?</div>
+      <div class="q-item">2. What is the role of a PMO? Name two types of PMO.</div>
+      <div class="q-item">3. What are the four values in the PMI Code of Ethics?</div>
+      <div class="q-item">4. When would you choose an Agile approach over a predictive one? What factors determine this?</div>
+    </div>
+
+    <div class="mod-card" style="--mc:#52c4a0;--cl:#e1f5ee">
+      <div class="mod-tag">Agile / Hybrid</div>
+      <div class="mod-title">Scrum, Kanban &amp; Hybrid Approaches</div>
+      <div class="mod-body">
+        The PMP exam is ~50% predictive, ~50% agile/hybrid.
+        <ul>
+          <li><strong>Scrum roles</strong>: Product Owner (backlog, value), Scrum Master (servant leader, removes impediments), Development Team (self-organizes).</li>
+          <li><strong>Scrum events</strong>: Sprint Planning → Daily Scrum (standup) → Sprint Review (demo) → Sprint Retrospective (process improvement). Sprint = 1–4 weeks.</li>
+          <li><strong>Kanban</strong>: visualize work, limit WIP, manage flow. No fixed iterations — continuous delivery.</li>
+          <li><strong>Agile values (Agile Manifesto)</strong>: individuals over processes; working software over docs; customer collaboration over contracts; responding to change over following a plan.</li>
+          <li><strong>Hybrid</strong>: predictive planning at the portfolio level with agile delivery at the team level. Common in construction tech and enterprise.</li>
+          <li><strong>Velocity</strong>: story points completed per sprint. Used for forecasting, not performance evaluation.</li>
+        </ul>
+      </div>
+      <div class="vocab-row">
+        <span class="vocab-chip">Scrum</span><span class="vocab-chip">Sprint</span><span class="vocab-chip">Product Owner</span><span class="vocab-chip">Scrum Master</span><span class="vocab-chip">Kanban</span><span class="vocab-chip">WIP limit</span><span class="vocab-chip">velocity</span><span class="vocab-chip">Agile Manifesto</span>
+      </div>
+      <div class="q-label">Practice Questions</div>
+      <div class="q-item">1. Name the three Scrum roles and their primary responsibility.</div>
+      <div class="q-item">2. What happens in a Sprint Retrospective? Who attends?</div>
+      <div class="q-item">3. What is a WIP limit in Kanban? Why does limiting WIP improve flow?</div>
+      <div class="q-item">4. You're managing a project with clear, fixed requirements and a compliance deadline. Agile or predictive? Why?</div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ══ ALATEEN ══ -->
+<div class="hub-panel" id="tab-alateen">
+  <div class="study-wrap">
+    <div style="padding:4px 0 16px">
+      <div style="font-family:'Nunito',sans-serif;font-size:20px;font-weight:900;color:#1f2933">Alateen / Al-Anon 🌊</div>
+      <div style="font-size:13px;color:#888;margin-top:2px">Four-track parent support guide — for families navigating recovery</div>
+    </div>
+
+    <div id="alateen-cards"></div>
+  </div>
+</div>
+
+<!-- ══ BILLS ══ -->
+<div class="hub-panel" id="tab-bills">
+  <div class="bills-wrap">
+    <div style="padding:4px 0 4px">
+      <div style="font-family:'Nunito',sans-serif;font-size:20px;font-weight:900;color:#1f2933">Bills Summary 💰</div>
+      <div style="font-size:13px;color:#888;margin-top:2px">Currently due &amp; upcoming — tap for full BillLog</div>
+    </div>
+    <div id="bills-summary" style="margin-bottom:8px"></div>
+    <div style="margin:16px 0 8px;font-size:12px;color:#888;font-weight:700;text-transform:uppercase;letter-spacing:1px">Full Bill Log</div>
+    <iframe class="embed-frame" src="money.html" title="Bill Log" style="height:60vh"></iframe>
+  </div>
+</div>
+
+<!-- ══ HUSTLES ══ -->
+<div class="hub-panel" id="tab-hustles">
+  <iframe class="embed-frame" src="hustles.html" title="Hustles"></iframe>
+</div>
+
+<!-- ══ MENU ══ -->
+<div class="hub-panel" id="tab-menu">
+  <iframe class="embed-frame" src="menu.html" title="Weekly Menu"></iframe>
+</div>
 
 <div class="toast-wrap" id="toasts"></div>
 
 <script>
-const TASKS = [
+document.getElementById('hero-date').textContent = new Date().toLocaleDateString('en-CA', { month: 'long', day: 'numeric', year: 'numeric' });
+
+function showTab(name) {
+  document.querySelectorAll('.hub-tab').forEach(t => t.classList.toggle('active', t.dataset.tab === name));
+  document.querySelectorAll('.hub-panel').forEach(p => p.classList.toggle('active', p.id === 'tab-' + name));
+}
+
+/* ── Alateen 4-Track ── */
+const ALATEEN_TRACKS = [
   {
-    id: 6,
-    title: "Dentist Appointments",
-    category: "Admin",
-    estTime: "",
-    desc: "Book annual checkup appointments for Oliver and Logan before school ends June 27.",
-    dateAssigned: "2026-06-04"
+    icon:'🏠', track:'Track 1', title:"Understanding Addiction",
+    sub:"What is addiction — and what it isn't",
+    intro:"Al-Anon's foundation: understanding addiction as a disease, not a moral failure. This shapes everything — how we respond, how we protect ourselves, how we parent through it.",
+    steps:[
+      "Addiction is a chronic brain disease affecting the reward, motivation, and memory systems. It is not a choice, a character flaw, or a failure of love.",
+      "The 3 C's for parents: You didn't Cause it. You can't Control it. You can't Cure it. These apply to you as much as to your kids.",
+      "Understanding the cycle: use → relief/reward → craving → compulsion → consequences → shame → use. This cycle runs largely outside conscious control in the early stages.",
+      "Your children absorb what they see at home. The goal is to interrupt generational patterns — which is exactly what you're doing by being here.",
+      "The disease affects the whole family system. Every member adapts — sometimes in ways that inadvertently maintain the problem (enabling, hypervigilance, people-pleasing).",
+    ],
+    affirmation:"I am not responsible for someone else's disease. I can love deeply and still set limits that protect my children and myself."
   },
   {
-    id: 19,
-    title: "NCSO 02 — Health & Safety Program Basics",
-    category: "NCSO Study",
-    estTime: "15 min",
-    desc: "Name the core pieces of a construction health and safety program: policy, roles, hazard control, training, inspections, investigations, emergency response, records, and review.",
-    dateAssigned: "2026-06-04"
+    icon:'🔦', track:'Track 2', title:"My Circle of Control",
+    sub:"Where your power actually lives",
+    intro:"Parents in these families often exhaust themselves trying to manage things they cannot control. Redirecting energy inward — to what is genuinely yours — is not giving up. It's how you survive and lead.",
+    steps:[
+      "Inner circle (yours): your responses, your boundaries, what you model for your children, how you care for yourself, what you allow in your home.",
+      "Middle ring (influence): conversations you have with your kids, the professionals you involve, the information you provide, the environment you create.",
+      "Outer ring (not yours): another adult's choices about drinking or substances, their willingness to seek help, how they respond to consequences.",
+      "Enabling vs. supporting: enabling protects someone from the consequences of their choices (removing natural accountability). Supporting is offering help that moves someone toward recovery.",
+      "Your children are watching where you put your energy. When you focus inward, you model that self-care and self-agency are possible.",
+    ],
+    affirmation:"I focus my energy on what I can actually change. My inner circle is mine, always, no matter what is happening around me."
   },
   {
-    id: 23,
-    title: "NCSO 06 — Hazard Identification Methods",
-    category: "NCSO Study",
-    estTime: "15 min",
-    desc: "Compare formal inspections, FLHA/JHA, worker observations, incident trends, and pre-job planning as ways to find hazards before work starts.",
-    dateAssigned: "2026-06-04"
+    icon:'🌱', track:'Track 3', title:"Detachment with Love",
+    sub:"The hardest and most important skill",
+    intro:"Detachment is not abandonment. It is the practice of caring deeply about someone while refusing to allow their disease to run your life or your children's lives.",
+    steps:[
+      "Detachment means: I love you AND your choices are yours to make. I care about your wellbeing AND I will not manage consequences that belong to you.",
+      "What detachment looks like in practice: not calling in sick for them, not covering up to children, not canceling your plans because of their instability.",
+      "For your children: model detachment by naming it. 'Dad is having a hard time today. That's not about you, and it's not your job to fix it. Let's make dinner.'",
+      "Detachment requires you to have your own life — friends, interests, rest, support. An empty cup cannot pour.",
+      "It will feel wrong at first. Detachment can feel like not caring, like abandonment, like giving up hope. It is none of those things. It is the most loving thing you can do — for them and for yourself.",
+      "Alateen teaches kids to detach too. When you practice it, you give your children permission and a model.",
+    ],
+    affirmation:"I can love someone with my whole heart and still not be responsible for their choices. Detachment is love in action."
   },
   {
-    id: 25,
-    title: "NCSO 08 — Hierarchy of Controls",
-    category: "NCSO Study",
-    estTime: "15 min",
-    desc: "Put controls in order: elimination, substitution, engineering, administrative, PPE. Give one example for falls, silica/dust, and moving equipment.",
-    dateAssigned: "2026-06-04"
+    icon:'⚓', track:'Track 4', title:"Parenting Through Recovery",
+    sub:"Keeping kids safe, seen, and grounded",
+    intro:"Your kids are living this too. They need honest, age-appropriate information, consistent safety, and an adult in their corner who is not drowning. That's you.",
+    steps:[
+      "Children in these families often take on adult roles — caretaking the addicted parent, managing siblings, reading the room constantly. Name this with them: 'That's not your job. Your job is to be a kid.'",
+      "They need the 3 C's too (see Track 1). Build this into your conversations regularly — not as a lecture, but as a truth you return to.",
+      "Consistency is safety. In a chaotic home, your predictability — same bedtime, same dinner, same emotional tone — is the anchor.",
+      "Don't badmouth the other parent. Kids love both parents. Badmouthing creates loyalty conflict and harms them. You can acknowledge hard truths without recruiting them to your side.",
+      "Watch for signs of parentification, anxiety, withdrawal, hypervigilance, or substance use in your kids. These are responses to chronic stress — address them directly, with professional help if needed.",
+      "Your own Al-Anon/Alateen parent meetings give YOU a container to process your experience — so you can show up more fully for your kids.",
+      "The goal: raise children who know that help is available, that they are not alone, that feelings are not secrets, and that what happened at home is not their identity.",
+    ],
+    affirmation:"My children deserve a parent who is healing. The work I do on myself is the most important thing I can give them."
   },
-  {
-    id: 32,
-    title: "NCSO 15 — WHMIS and SDS",
-    category: "NCSO Study",
-    estTime: "15 min",
-    desc: "Review WHMIS pictograms, labels, and SDS sections. Pick one product and find hazards, PPE, first aid, storage, and spill response.",
-    dateAssigned: "2026-06-04"
-  }
+];
+
+function renderAlateen() {
+  document.getElementById('alateen-cards').innerHTML = ALATEEN_TRACKS.map((t, i) => `
+    <div class="al-card" onclick="toggleAl(${i})">
+      <div class="al-header">
+        <div class="al-icon">${t.icon}</div>
+        <div class="al-meta">
+          <div class="al-track">${t.track}</div>
+          <div class="al-title">${t.title}</div>
+          <div class="al-sub">${t.sub}</div>
+        </div>
+        <div id="al-arr-${i}" style="font-size:18px;color:#ccc;transition:transform .2s;flex-shrink:0">↓</div>
+      </div>
+      <div class="al-body">
+        <div class="al-intro">${t.intro}</div>
+        ${t.steps.map((s,n)=>`<div class="al-step"><strong>${n+1}.</strong> ${s}</div>`).join('')}
+        <div class="al-affirmation">💙 ${t.affirmation}</div>
+      </div>
+    </div>`).join('');
+}
+
+function toggleAl(i) {
+  const cards = document.querySelectorAll('.al-card');
+  const wasOpen = cards[i].classList.contains('open');
+  cards.forEach((c,j) => { c.classList.remove('open'); const a = document.getElementById('al-arr-'+j); if(a) a.style.transform=''; });
+  if (!wasOpen) { cards[i].classList.add('open'); const a = document.getElementById('al-arr-'+i); if(a) a.style.transform='rotate(180deg)'; }
+}
+
+renderAlateen();
+
+/* ── Bills Summary ── */
+const BILLS = [
+  { name:'Rent',           amount:1650, due:'2026-06-01', cat:'Housing',   status:'overdue'  },
+  { name:'Phone (Family)', amount: 185, due:'2026-06-10', cat:'Utilities', status:'overdue'  },
+  { name:'Internet',       amount:  85, due:'2026-06-15', cat:'Utilities', status:'due-soon' },
+  { name:'Car Insurance',  amount: 245, due:'2026-06-20', cat:'Insurance', status:'upcoming' },
+  { name:'Storage Unit',   amount:  95, due:'2026-06-25', cat:'Housing',   status:'upcoming' },
+  { name:'Amazon Prime',   amount:  12, due:'2026-06-28', cat:'Subscriptions', status:'upcoming' },
+];
+
+function renderBills() {
+  const today = new Date().toISOString().slice(0,10);
+  const sorted = BILLS.slice().sort((a,b) => a.due.localeCompare(b.due));
+  const total = sorted.reduce((s,b) => s + b.amount, 0);
+  document.getElementById('bills-summary').innerHTML = `
+    <div style="background:white;border-radius:12px;padding:14px 16px;margin-bottom:12px;box-shadow:0 2px 8px rgba(0,0,0,.06);display:flex;gap:16px;flex-wrap:wrap">
+      <div><div style="font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:1px;color:#888">Total Outstanding</div><div style="font-family:'Nunito',sans-serif;font-size:24px;font-weight:900;color:#1f2933">$${total.toFixed(2)}</div></div>
+      <div><div style="font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:1px;color:#888">Overdue</div><div style="font-family:'Nunito',sans-serif;font-size:24px;font-weight:900;color:#f07060">$${BILLS.filter(b=>b.status==='overdue').reduce((s,b)=>s+b.amount,0).toFixed(2)}</div></div>
+      <div><div style="font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:1px;color:#888">Due This Week</div><div style="font-family:'Nunito',sans-serif;font-size:24px;font-weight:900;color:#c9a800">$${BILLS.filter(b=>b.status==='due-soon').reduce((s,b)=>s+b.amount,0).toFixed(2)}</div></div>
+    </div>
+    ${sorted.map(b=>`
+      <div class="bill-card ${b.status}">
+        <div class="bill-amount">$${b.amount}</div>
+        <div class="bill-meta">
+          <div class="bill-name">${b.name}</div>
+          <div class="bill-detail">Due ${b.due} · ${b.cat}</div>
+        </div>
+        <span class="bill-badge badge-${b.status==='overdue'?'overdue':b.status==='due-soon'?'soon':'upcoming'}">${b.status==='overdue'?'⚠️ Overdue':b.status==='due-soon'?'⏰ Due soon':'✓ Upcoming'}</span>
+      </div>`).join('')}`;
+}
+
+renderBills();
+
+/* ── Tasks ── */
+const TASKS_DATA = [
+  { id:6,  title:"Dentist Appointments",   category:"Admin",       estTime:"",      desc:"Book annual checkup appointments for Oliver and Logan before school ends June 27.", dateAssigned:"2026-06-04" },
+  { id:19, title:"NCSO 02 — Health & Safety Program Basics", category:"NCSO Study", estTime:"15 min", desc:"Name the core pieces of a construction H&S program: policy, roles, hazard control, training, inspections, investigations, emergency response, records, review.", dateAssigned:"2026-06-04" },
+  { id:23, title:"NCSO 06 — Hazard Identification Methods",  category:"NCSO Study", estTime:"15 min", desc:"Compare formal inspections, FLHA/JHA, worker observations, incident trends, and pre-job planning as ways to find hazards before work starts.", dateAssigned:"2026-06-04" },
+  { id:25, title:"NCSO 08 — Hierarchy of Controls",         category:"NCSO Study", estTime:"15 min", desc:"Put controls in order: elimination, substitution, engineering, administrative, PPE. Give one example for falls, silica/dust, and moving equipment.", dateAssigned:"2026-06-04" },
+  { id:32, title:"NCSO 15 — WHMIS and SDS",                 category:"NCSO Study", estTime:"15 min", desc:"Review WHMIS pictograms, labels, and SDS sections. Pick one product and find hazards, PPE, first aid, storage, and spill response.", dateAssigned:"2026-06-04" },
 ];
 
 const KEY = 'sf_mom_tasks_2026-06-04';
 let done = {};
-try { done = JSON.parse(localStorage.getItem(KEY) || '{}'); } catch(e){}
-
+try { done = JSON.parse(localStorage.getItem(KEY)||'{}'); } catch(e){}
 function save() { localStorage.setItem(KEY, JSON.stringify(done)); }
 
-function updateProgress() {
-  const n = Object.keys(done).length;
-  const pct = Math.round(n / TASKS.length * 100);
-  document.getElementById('prog-text').textContent = `${n} of ${TASKS.length} done`;
-  document.getElementById('prog-pct').textContent  = pct + '%';
-  document.getElementById('prog-fill').style.width  = pct + '%';
+function updateProgress(){
+  const n=Object.keys(done).length, pct=Math.round(n/TASKS_DATA.length*100);
+  document.getElementById('prog-text').textContent=`${n} of ${TASKS_DATA.length} done`;
+  document.getElementById('prog-pct').textContent=pct+'%';
+  document.getElementById('prog-fill').style.width=pct+'%';
+  document.getElementById('hero-badge').textContent=`🧑‍💼 ${TASKS_DATA.length} tasks assigned`;
 }
 
-function render() {
-  document.getElementById('taskList').innerHTML = TASKS.map((t, i) => {
-    const isDone = !!done[t.id];
-    return `<div class="task-card${isDone ? ' done' : ''}" style="animation-delay:${i * .06}s">
-      <div class="task-top">
-        <div class="task-title">${t.title}</div>
-      </div>
+function render(){
+  document.getElementById('taskList').innerHTML=TASKS_DATA.map((t,i)=>{
+    const isDone=!!done[t.id];
+    return `<div class="task-card${isDone?' done':''}" style="animation-delay:${i*.06}s">
+      <div class="task-top"><div class="task-title">${t.title}</div></div>
       <div class="task-tags">
         <span class="tag tag-cat">📌 ${t.category}</span>
-        ${t.estTime ? `<span class="tag tag-time">⏱ ${t.estTime}</span>` : ''}
-        <span class="tag ${isDone ? 'tag-done' : 'tag-open'}">${isDone ? '✓ Done' : '○ Open'}</span>
+        ${t.estTime?`<span class="tag tag-time">⏱ ${t.estTime}</span>`:''}
+        <span class="tag ${isDone?'tag-done':'tag-open'}">${isDone?'✓ Done':'○ Open'}</span>
       </div>
       <div class="task-desc">${t.desc}</div>
       <div class="task-foot">
         <span class="date-hint">📅 Assigned ${t.dateAssigned}</span>
-        <button class="complete-btn${isDone ? ' done-btn' : ''}"
-          onclick="${isDone ? '' : `complete(${t.id})`}">
-          ${isDone ? '✓ Done' : '+ Complete'}
+        <button class="complete-btn${isDone?' done-btn':''}" onclick="${isDone?'':`complete(${t.id})`}">
+          ${isDone?'✓ Done':'+ Complete'}
         </button>
       </div>
     </div>`;
@@ -113,18 +568,8 @@ function render() {
   updateProgress();
 }
 
-function complete(id) {
-  done[id] = true;
-  save(); render();
-  toast('🎉 Task complete! Great work, Mom!');
-}
-
-function toast(msg) {
-  const c = document.getElementById('toasts');
-  const el = document.createElement('div');
-  el.className = 'toast'; el.textContent = msg;
-  c.appendChild(el); setTimeout(() => el.remove(), 3000);
-}
+function complete(id){ done[id]=true; save(); render(); toast('🎉 Task complete! Great work, Mom!'); }
+function toast(msg){ const el=document.createElement('div'); el.className='toast'; el.textContent=msg; document.getElementById('toasts').appendChild(el); setTimeout(()=>el.remove(),3000); }
 
 render();
 </script>

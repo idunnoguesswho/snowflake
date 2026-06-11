@@ -3,227 +3,407 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Logan's Tasks | Snowflake</title>
+<title>Logan | Snowflake</title>
 <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Baloo+2:wght@400;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
+<style>
+  :root { --accent: #6bcb77; --accent2: #4aaa55; }
+  .hero { background: linear-gradient(135deg, #6bcb77 0%, #4aaa55 100%); }
+  .hero::after { content: '👦'; }
+  .tag-cat { background: #6bcb7733; color: #2a6b35; border: 1px solid #6bcb77; }
+  .progress-fill { background: linear-gradient(90deg, #6bcb77, #4aaa55); }
+
+  .hub-nav { background: white; border-bottom: 2px solid #eee; display: flex; overflow-x: auto; padding: 0 12px; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 8px rgba(0,0,0,.06); }
+  .hub-tab { flex-shrink: 0; padding: 14px 16px; border: none; background: transparent; font-family: 'Nunito', sans-serif; font-size: 13px; font-weight: 700; color: #888; cursor: pointer; border-bottom: 3px solid transparent; transition: all 0.2s; white-space: nowrap; }
+  .hub-tab:hover { color: #4aaa55; }
+  .hub-tab.active { color: #4aaa55; border-bottom-color: #4aaa55; }
+  .hub-panel { display: none; }
+  .hub-panel.active { display: block; animation: panelIn .18s ease; }
+  @keyframes panelIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: none; } }
+
+  .embed-frame { width: 100%; border: none; height: 82vh; display: block; }
+
+  /* Routine */
+  .routine-wrap { max-width: 640px; margin: 0 auto; padding: 16px 16px 40px; }
+  .routine-slot { display: flex; gap: 14px; padding: 12px 0; border-bottom: 1px solid #f0f0f0; align-items: flex-start; }
+  .r-time { min-width: 64px; font-size: 12px; font-weight: 700; color: #999; padding-top: 2px; }
+  .r-icon { font-size: 18px; flex-shrink: 0; width: 28px; text-align: center; }
+  .r-label { font-family: 'Nunito', sans-serif; font-size: 14px; font-weight: 800; color: #1f2933; }
+  .r-detail { font-size: 12px; color: #6b7280; margin-top: 2px; line-height: 1.45; }
+
+  /* Learn */
+  .learn-wrap { max-width: 760px; margin: 0 auto; padding: 16px 16px 40px; }
+  .learn-h2 { font-family: 'Nunito', sans-serif; font-size: 18px; font-weight: 900; color: #1f2933; margin: 28px 0 12px; display: flex; align-items: center; gap: 8px; }
+  .learn-h2:first-child { margin-top: 0; }
+
+  /* Brain Brave cards */
+  .bb-card { background: white; border-radius: 14px; margin-bottom: 10px; box-shadow: 0 2px 8px rgba(0,0,0,.06); overflow: hidden; border: 2px solid transparent; transition: border-color 0.2s; cursor: pointer; }
+  .bb-card.open { border-color: var(--cat-c, #6bcb77); }
+  .bb-header { display: flex; align-items: center; gap: 12px; padding: 14px 16px; }
+  .bb-icon { width: 40px; height: 40px; border-radius: 10px; background: var(--cat-l, #e8f8ea); display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; }
+  .bb-meta { flex: 1; }
+  .bb-cat-label { font-size: 10px; font-weight: 800; letter-spacing: 1.2px; text-transform: uppercase; color: var(--cat-c, #4aaa55); }
+  .bb-title { font-family: 'Nunito', sans-serif; font-size: 14px; font-weight: 800; color: #1f2933; }
+  .bb-sub { font-size: 11px; color: #888; }
+  .bb-body { display: none; padding: 0 16px 16px; border-top: 1px solid #f0f0f0; }
+  .bb-card.open .bb-body { display: block; }
+  .bb-intro { font-size: 13px; color: #6b7280; line-height: 1.6; padding-top: 12px; margin-bottom: 12px; }
+  .bb-step { display: flex; gap: 10px; font-size: 13px; line-height: 1.5; margin-bottom: 8px; color: #1f2933; }
+  .bb-num { width: 20px; height: 20px; border-radius: 50%; background: var(--cat-l, #e8f8ea); color: var(--cat-c, #4aaa55); font-size: 10px; font-weight: 800; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 1px; font-family: 'Nunito', sans-serif; }
+  .bb-script { background: #f8f6ff; border-left: 3px solid var(--cat-c, #6bcb77); border-radius: 0 8px 8px 0; padding: 10px 12px; font-size: 12px; font-style: italic; line-height: 1.6; margin-top: 10px; }
+  [data-cat="bpd"]     { --cat-c: #9b7fd4; --cat-l: #ede8f9; }
+  [data-cat="adhd"]    { --cat-c: #5b9bd5; --cat-l: #e3effa; }
+  [data-cat="anxiety"] { --cat-c: #52c4a0; --cat-l: #e1f5ee; }
+  [data-cat="anger"]   { --cat-c: #f07060; --cat-l: #fdecea; }
+  [data-cat="doing"]   { --cat-c: #c9a800; --cat-l: #fef7d5; }
+  [data-cat="alateen"] { --cat-c: #2abfbf; --cat-l: #dff7f7; }
+  [data-cat="brain"]   { --cat-c: #e8650a; --cat-l: #fdeede; }
+
+  /* SS units */
+  .ss-unit { background: white; border-radius: 14px; padding: 18px; margin-bottom: 14px; box-shadow: 0 2px 8px rgba(0,0,0,.06); }
+  .ss-tag { font-size: 10px; font-weight: 800; letter-spacing: 1.5px; text-transform: uppercase; color: #4aaa55; margin-bottom: 4px; }
+  .ss-title { font-family: 'Nunito', sans-serif; font-size: 16px; font-weight: 900; color: #1f2933; margin-bottom: 8px; }
+  .ss-body { font-size: 13px; line-height: 1.7; color: #374151; }
+  .ss-vocab { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+  .ss-chip { background: #e8f8ea; color: #2a6b35; font-size: 11px; font-weight: 700; padding: 3px 10px; border-radius: 20px; }
+  .ss-ql { font-weight: 700; font-size: 11px; color: #888; text-transform: uppercase; letter-spacing: 1px; margin: 12px 0 6px; }
+  .ss-q { font-size: 13px; color: #1f2933; padding: 7px 0; border-bottom: 1px solid #f0f0f0; }
+  .ss-q:last-child { border-bottom: none; }
+
+  /* Quick tools */
+  .tool-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: 12px; margin-bottom: 16px; }
+  .tool-card { background: white; border-radius: 12px; padding: 16px; box-shadow: 0 2px 8px rgba(0,0,0,.06); }
+  .tool-badge { font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 6px; }
+  .tool-name { font-family: 'Nunito', sans-serif; font-weight: 800; font-size: 15px; margin-bottom: 6px; }
+  .tool-desc { font-size: 13px; color: #6b7280; line-height: 1.5; }
+</style>
 </head>
 <body>
 
 <div class="hero">
   <div class="hero-name">Logan</div>
-  <div class="hero-sub">Today's Tasks · June 6, 2026</div>
+  <div class="hero-sub">Today's Hub · <span id="hero-date"></span></div>
   <div class="hero-badge" id="hero-badge">👦 Loading…</div>
 </div>
 
-<div class="progress-bar-wrap">
-  <div class="section-label" style="padding-bottom:6px">Progress</div>
-  <div class="progress-label">
-    <span id="prog-text">— of — done</span>
-    <span id="prog-pct">—%</span>
+<nav class="hub-nav">
+  <button class="hub-tab active" data-tab="tasks"   onclick="showTab('tasks')">📋 Tasks</button>
+  <button class="hub-tab"        data-tab="routine" onclick="showTab('routine')">🌅 Routine</button>
+  <button class="hub-tab"        data-tab="menu"    onclick="showTab('menu')">🍽️ Menu</button>
+  <button class="hub-tab"        data-tab="learn"   onclick="showTab('learn')">🧠 Learn</button>
+</nav>
+
+<!-- ══ TASKS ══ -->
+<div class="hub-panel active" id="tab-tasks">
+  <div class="progress-bar-wrap">
+    <div class="section-label" style="padding-bottom:6px">Progress</div>
+    <div class="progress-label">
+      <span id="prog-text">— of — done</span>
+      <span id="prog-pct">—%</span>
+    </div>
+    <div class="progress-track"><div class="progress-fill" id="prog-fill" style="width:0%"></div></div>
   </div>
-  <div class="progress-track"><div class="progress-fill" id="prog-fill" style="width:0%"></div></div>
+  <div class="section-label">🧹 Today's Chores</div>
+  <div class="task-list" id="choreList"></div>
+  <div class="section-label">📋 Open Tasks</div>
+  <div class="task-list" id="taskList"><div style="padding:20px;text-align:center;color:var(--muted);font-weight:700;">Loading from sheet…</div></div>
 </div>
 
-<div class="section-label">🧹 Today's Chores</div>
-<div class="task-list" id="choreList"></div>
+<!-- ══ ROUTINE ══ -->
+<div class="hub-panel" id="tab-routine">
+  <div class="routine-wrap">
+    <div style="padding:4px 0 18px">
+      <div style="font-family:'Nunito',sans-serif;font-size:20px;font-weight:900;color:#1f2933">Daily Routine 🌤️</div>
+      <div style="font-size:13px;color:#888;margin-top:2px">Logan's school-day rhythm</div>
+    </div>
+    <div class="routine-slot"><div class="r-time">7:30</div><div class="r-icon">⏰</div><div><div class="r-label">Wake Up + Get Ready</div><div class="r-detail">Get dressed, brush teeth, make bed. Ready to go by 8:00.</div></div></div>
+    <div class="routine-slot"><div class="r-time">8:00</div><div class="r-icon">🥣</div><div><div class="r-label">Breakfast</div><div class="r-detail">Eat, put dishes in the kitchen. Take lunch bag out of backpack.</div></div></div>
+    <div class="routine-slot"><div class="r-time">8:30</div><div class="r-icon">⚡</div><div><div class="r-label">Brain Activation Circuit (5 min)</div><div class="r-detail">Cross-body march → Pattern sprint → Box breathing. See Learn tab for full routine.</div></div></div>
+    <div class="routine-slot"><div class="r-time">9:00</div><div class="r-icon">📚</div><div><div class="r-label">Morning Block 1 — Français / Math</div><div class="r-detail">45 min focused work. Take a 2-min movement break every 15 min. Timer on.</div></div></div>
+    <div class="routine-slot"><div class="r-time">10:00</div><div class="r-icon">🌿</div><div><div class="r-label">Break (15 min)</div><div class="r-detail">Go outside or move your body. Screen-free. Drink water.</div></div></div>
+    <div class="routine-slot"><div class="r-time">10:15</div><div class="r-icon">🔬</div><div><div class="r-label">Morning Block 2 — Sciences / Social Studies</div><div class="r-detail">45 min. Ask for help if stuck more than 3 min — don't guess.</div></div></div>
+    <div class="routine-slot"><div class="r-time">12:00</div><div class="r-icon">🥗</div><div><div class="r-label">Lunch</div><div class="r-detail">Eat lunch. Put dishes in the kitchen. Empty lunch bag.</div></div></div>
+    <div class="routine-slot"><div class="r-time">12:30</div><div class="r-icon">🏃</div><div><div class="r-label">Outdoor / Free Time</div><div class="r-detail">30–60 min movement. Screens off during this block.</div></div></div>
+    <div class="routine-slot"><div class="r-time">1:30</div><div class="r-icon">📝</div><div><div class="r-label">Afternoon Work + Chores</div><div class="r-detail">Tasks from task list, worksheets, projects. Chores before afternoon screens.</div></div></div>
+    <div class="routine-slot"><div class="r-time">3:30</div><div class="r-icon">🎮</div><div><div class="r-label">Screen / Free Time</div><div class="r-detail">After tasks and chores are done and checked.</div></div></div>
+    <div class="routine-slot"><div class="r-time">5:30</div><div class="r-icon">🍽️</div><div><div class="r-label">Dinner</div><div class="r-detail">Table together, screens off. Empty dishwasher on your day.</div></div></div>
+    <div class="routine-slot"><div class="r-time">7:00</div><div class="r-icon">🛁</div><div><div class="r-label">Evening Routine</div><div class="r-detail">Bath/shower, pack bag for tomorrow, lay out clothes, brush teeth.</div></div></div>
+    <div class="routine-slot"><div class="r-time">8:00</div><div class="r-icon">📖</div><div><div class="r-label">Reading Time (20 min)</div><div class="r-detail">French or English book, in bed with lights on.</div></div></div>
+    <div class="routine-slot" style="border:none"><div class="r-time">8:30</div><div class="r-icon">🌙</div><div><div class="r-label">Lights Out</div><div class="r-detail">Screens off. Good night! 🌙</div></div></div>
+  </div>
+</div>
 
-<div class="section-label">📋 Open Tasks</div>
-<div class="task-list" id="taskList"><div style="padding:20px;text-align:center;color:var(--muted);font-weight:700;">Loading from sheet…</div></div>
+<!-- ══ MENU ══ -->
+<div class="hub-panel" id="tab-menu">
+  <iframe class="embed-frame" src="menu.html" title="Weekly Menu"></iframe>
+</div>
+
+<!-- ══ LEARN ══ -->
+<div class="hub-panel" id="tab-learn">
+  <div class="learn-wrap">
+
+    <!-- Brain Activation -->
+    <div class="learn-h2">⚡ Brain Activation Circuit</div>
+    <div class="tool-grid">
+      <div class="tool-card"><div class="tool-badge" style="color:#e8650a">1 min · Move</div><div class="tool-name">Cross-Body Wakeup</div><div class="tool-desc">Right elbow → left knee, then left elbow → right knee. Both brain halves fire at once.</div></div>
+      <div class="tool-card"><div class="tool-badge" style="color:#5b9bd5">2 min · Think</div><div class="tool-name">Pattern Sprint</div><div class="tool-desc">Name 3 things that go together + 1 that doesn't. Say the rule out loud.</div></div>
+      <div class="tool-card"><div class="tool-badge" style="color:#52c4a0">2 min · Reset</div><div class="tool-name">Box Breathing</div><div class="tool-desc">In 4, hold 4, out 4, hold 4. Repeat until shoulders drop.</div></div>
+    </div>
+
+    <!-- Anger Toolbox -->
+    <div class="learn-h2">🌋 Anger Toolbox</div>
+    <div style="background:white;border-radius:14px;padding:18px;box-shadow:0 2px 8px rgba(0,0,0,.06);margin-bottom:8px">
+      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px;margin-bottom:14px">
+        <div style="background:#fdecea;border-radius:10px;padding:12px;text-align:center"><div style="font-size:22px">🌡️</div><div style="font-family:'Nunito',sans-serif;font-weight:800;font-size:13px;margin:4px 0 2px">Level 1–2</div><div style="font-size:11px;color:#6b7280">Warm — I can talk. Use words.</div></div>
+        <div style="background:#fef7d5;border-radius:10px;padding:12px;text-align:center"><div style="font-size:22px">🔥</div><div style="font-family:'Nunito',sans-serif;font-weight:800;font-size:13px;margin:4px 0 2px">Level 3–4</div><div style="font-size:11px;color:#6b7280">Hot — Need space. Don't talk yet.</div></div>
+        <div style="background:#fff0f0;border-radius:10px;padding:12px;text-align:center"><div style="font-size:22px">🌋</div><div style="font-family:'Nunito',sans-serif;font-weight:800;font-size:13px;margin:4px 0 2px">Level 5</div><div style="font-size:11px;color:#6b7280">Too hot — Safe place, body tools only.</div></div>
+      </div>
+      <div style="font-size:13px;color:#374151;line-height:1.85">
+        <strong>Step 1 — Make Space:</strong> Feet on floor, unclench hands, step away<br>
+        <strong>Step 2 — Cool the Body:</strong> 5 slow breaths, cold water, press hands 10 sec<br>
+        <strong>Step 3 — Use Words:</strong> "I felt mad because ___. I need ___. I can try ___."
+      </div>
+    </div>
+
+    <!-- Brain Brave Lessons -->
+    <div class="learn-h2">🧠 Brain Brave Lessons</div>
+    <div id="bb-lessons"></div>
+
+    <!-- Grade 4 FI Social Studies -->
+    <div class="learn-h2">🍁 Sciences Humaines — Année 4</div>
+    <div style="font-size:12px;color:#888;margin:-8px 0 14px">Alberta Grade 4 FI Social Studies — L'Alberta : terre, histoires et peuples</div>
+
+    <div class="ss-unit">
+      <div class="ss-tag">Unité A</div>
+      <div class="ss-title">L'Alberta : un sens du pays</div>
+      <div class="ss-body">L'Alberta est une province canadienne dans l'Ouest du Canada. Elle a des régions géographiques très différentes : les <strong>Prairies</strong>, les <strong>Badlands</strong>, les <strong>Rocheuses</strong> et le <strong>bouclier boréal</strong>. La capitale est <strong>Edmonton</strong> et la plus grande ville est Calgary. Les rivières importantes incluent la rivière Saskatchewan du Nord et la rivière Athabasca.</div>
+      <div class="ss-vocab"><span class="ss-chip">province</span><span class="ss-chip">prairie</span><span class="ss-chip">Rocheuses</span><span class="ss-chip">Badlands</span><span class="ss-chip">capitale</span><span class="ss-chip">Edmonton</span><span class="ss-chip">rivière</span><span class="ss-chip">région</span></div>
+      <div class="ss-ql">Questions de compréhension</div>
+      <div class="ss-q">1. Nomme trois régions géographiques de l'Alberta.</div>
+      <div class="ss-q">2. Quelle est la capitale de l'Alberta ?</div>
+      <div class="ss-q">3. Pourquoi est-ce que les rivières sont importantes pour les communautés ?</div>
+      <div class="ss-q">4. Décris une différence entre les Prairies et les Rocheuses.</div>
+    </div>
+
+    <div class="ss-unit">
+      <div class="ss-tag">Unité B</div>
+      <div class="ss-title">Les peuples et les histoires de l'Alberta</div>
+      <div class="ss-body">Avant les colons européens, les <strong>Premières Nations</strong> vivaient en Alberta depuis des milliers d'années — les Cris, les Pieds-Noirs (Blackfoot), les Tsuu T'ina et bien d'autres. La <strong>traite des fourrures</strong> a commencé un contact entre les Autochtones et les Européens. Les <strong>Métis</strong> sont nés de ces unions. Plus tard, des immigrants de partout dans le monde ont bâti les premières villes de l'Alberta. L'Alberta est devenue une province en <strong>1905</strong>.</div>
+      <div class="ss-vocab"><span class="ss-chip">Premières Nations</span><span class="ss-chip">Autochtones</span><span class="ss-chip">Métis</span><span class="ss-chip">traite des fourrures</span><span class="ss-chip">colons</span><span class="ss-chip">traité</span><span class="ss-chip">1905</span><span class="ss-chip">immigrant</span></div>
+      <div class="ss-ql">Questions de compréhension</div>
+      <div class="ss-q">1. Qui étaient les premiers peuples à habiter l'Alberta ?</div>
+      <div class="ss-q">2. Qu'est-ce que la traite des fourrures ? Qui y participait ?</div>
+      <div class="ss-q">3. Qu'est-ce qu'un territoire de traité ? Pourquoi est-ce important aujourd'hui ?</div>
+      <div class="ss-q">4. Comment les immigrants ont-ils changé l'Alberta ?</div>
+    </div>
+
+    <div class="ss-unit">
+      <div class="ss-tag">Unité C</div>
+      <div class="ss-title">L'activité économique en Alberta</div>
+      <div class="ss-body">L'Alberta a une économie basée sur le <strong>pétrole et le gaz naturel</strong>, l'<strong>agriculture</strong> (blé, canola, bœuf) et l'exploitation forestière. Ces <strong>ressources naturelles</strong> créent des emplois et de la richesse. Les <strong>biens</strong> sont des choses fabriquées ou cultivées ; les <strong>services</strong> sont des actions faites pour les autres. Les communautés échangent des biens et des services.</div>
+      <div class="ss-vocab"><span class="ss-chip">ressource naturelle</span><span class="ss-chip">économie</span><span class="ss-chip">biens</span><span class="ss-chip">services</span><span class="ss-chip">agriculture</span><span class="ss-chip">pétrole</span><span class="ss-chip">emploi</span><span class="ss-chip">échange</span></div>
+      <div class="ss-ql">Questions de compréhension</div>
+      <div class="ss-q">1. Donne deux exemples de ressources naturelles importantes en Alberta.</div>
+      <div class="ss-q">2. Quelle est la différence entre un <em>bien</em> et un <em>service</em> ?</div>
+      <div class="ss-q">3. Comment l'agriculture contribue-t-elle à l'économie de l'Alberta ?</div>
+      <div class="ss-q">4. Pense à un défi lié à l'économie pétrolière. Comment pourrait-on y répondre ?</div>
+    </div>
+
+    <div class="ss-unit">
+      <div class="ss-tag">Unité D</div>
+      <div class="ss-title">La citoyenneté et la communauté</div>
+      <div class="ss-body">Un <strong>citoyen</strong> est membre d'une communauté — une ville, une province ou un pays. Les citoyens ont des <strong>droits</strong> (choses qu'ils peuvent faire ou recevoir) et des <strong>responsabilités</strong> (choses qu'ils doivent faire). En Alberta, nous sommes citoyens de notre école, de notre ville, de l'Alberta et du Canada. Les élections choisissent nos représentants au gouvernement.</div>
+      <div class="ss-vocab"><span class="ss-chip">citoyen</span><span class="ss-chip">droits</span><span class="ss-chip">responsabilités</span><span class="ss-chip">communauté</span><span class="ss-chip">gouvernement</span><span class="ss-chip">élection</span><span class="ss-chip">représentant</span></div>
+      <div class="ss-ql">Questions de compréhension</div>
+      <div class="ss-q">1. Qu'est-ce qu'un citoyen ? Donne un exemple de communauté.</div>
+      <div class="ss-q">2. Quelle est la différence entre un <em>droit</em> et une <em>responsabilité</em> ?</div>
+      <div class="ss-q">3. Nomme deux responsabilités que tu as comme citoyen de ton école.</div>
+      <div class="ss-q">4. Pourquoi est-ce important de voter lors des élections ?</div>
+    </div>
+
+  </div>
+</div>
 
 <div class="toast-wrap" id="toasts"></div>
 
 <script>
+/* ── Date ── */
+document.getElementById('hero-date').textContent = new Date().toLocaleDateString('en-CA', { month: 'long', day: 'numeric', year: 'numeric' });
+const TODAY_KEY = new Date().toISOString().slice(0, 10);
+
+/* ── Tab Switching ── */
+function showTab(name) {
+  document.querySelectorAll('.hub-tab').forEach(t => t.classList.toggle('active', t.dataset.tab === name));
+  document.querySelectorAll('.hub-panel').forEach(p => p.classList.toggle('active', p.id === 'tab-' + name));
+}
+
+/* ── Brain Brave ── */
+const BB_LESSONS = [
+  { cat:"brain",   icon:"✖️",  title:"Move to Think",          subtitle:"Cross-body movement wakes both brain hemispheres",    intro:"Cross-body moves activate both brain hemispheres at once — improving focus and readiness to learn.", agenda:[{label:"Body Check",desc:"Rate your brain 1–10. Wiggly? Sleepy? Buzzing?"},{label:"Brain Science",desc:"Left side handles words/logic; right handles pictures/creativity. Cross-body = BOTH sides wake up."},{label:"Cross-Body Moves",desc:"30 sec each: right elbow→left knee, left elbow→right knee, figure-8 in air. Rate your switch-on level."},{label:"Try a Task",desc:"Do a small task right after. Does it feel easier than before?"},{label:"Closing",desc:"'My body activates my brain. Moving is not a distraction — it's the warm-up.'"}], script:"'Did you know when you touch your right elbow to your left knee, BOTH sides of your brain fire up at once? Scientists call it bilateral integration. We just call it the fastest brain warm-up there is.'" },
+  { cat:"brain",   icon:"⚡",  title:"The 5-Minute Circuit",    subtitle:"Build your own Move / Think / Reset warmup",          intro:"Design your personalized pre-focus circuit — movement, thinking spark, calm reset. Use it daily before schoolwork.", agenda:[{label:"Why a Circuit?",desc:"Athletes warm up. Singers warm up. Your brain needs a warm-up too!"},{label:"Step 1 — Move",desc:"Try: jumping jacks, balance walk counting backward from 20, or cross-body march. Pick your favourite."},{label:"Step 2 — Think",desc:"Name 5 words starting with a letter in 30 sec. OR: 3 things + 1 that doesn't fit, explain the rule."},{label:"Step 3 — Reset",desc:"Box breathing — in 4, hold 4, out 4, hold 4. Then say: 'I am ready. My first task is ___.'"}], script:"'When you do the same warm-up routine every day before learning, your brain starts to recognize the pattern and switches on faster and faster. It's like a signal: study time is coming, wake up!'" },
+  { cat:"brain",   icon:"🔄",  title:"Brain Breaks That Work",  subtitle:"Resets that restore focus without losing momentum",   intro:"Not all brain breaks are equal — phone scrolling doesn't restore focus, but a 2-min movement break does.", agenda:[{label:"Why Brains Blur",desc:"Brains can only focus deeply for 10–20 min before needing a micro-reset. That's biology, not weakness."},{label:"Break Testing",desc:"Try: physical (jump), nature (look outside), creative (doodle), phone. Which made it easiest to return?"},{label:"The Break Rule",desc:"10–15 min work → 2-min movement break → back to work. Phone breaks = off-limits mid-task."}], script:"'When you scroll a phone on a break, your brain doesn't rest — it just switches stimulation. Movement or nature actually recover your focus centers. Let's find which breaks work for YOU.'" },
+  { cat:"anger",   icon:"🌋",  title:"The Anger Volcano",       subtitle:"How anger builds before it erupts",                   intro:"Anger never comes from nowhere. This lesson teaches you to notice the build before it erupts.", agenda:[{label:"Volcano Model",desc:"Trigger → Rumble (thoughts start) → Steam (body heats) → Eruption. Warning signs always came first!"},{label:"Your Warning Signs",desc:"What does anger feel like in YOUR body? Clenched fists? Hot face? Tight jaw? Label these on your volcano."},{label:"Interrupt It",desc:"When I notice steam, I will ___. (Walk away, hold ice, do push-ups.) Choose 2 strategies."}], script:"'Anger doesn't erupt from nowhere. It builds like a volcano. We're going to become experts at feeling the rumble EARLY, so you have time to choose what happens next.'" },
+  { cat:"anger",   icon:"🧯",  title:"STOP Before You Pop",     subtitle:"A 4-step anger pause that actually works",            intro:"The STOP skill interrupts the anger-to-action pipeline before you do something you'll regret.", agenda:[{label:"STOP Steps",desc:"S = Stop (freeze completely). T = Take a breath (one slow full breath). O = Observe (what am I thinking/feeling/wanting to do?). P = Proceed (choose wisely)."},{label:"Role Play",desc:"Act out a frustrating scenario. Practice STOP together — say each step out loud as you do it."},{label:"Code Word",desc:"Decide on a private code word a trusted adult can use to cue STOP (e.g. 'pineapple'). Practice it now."}], script:"'When you're really angry, your thinking brain goes offline. STOP is a way to hit pause long enough for your thinking brain to come back. It takes practice in CALM so it works in STORM.'" },
+  { cat:"adhd",    icon:"🚀",  title:"Your Brain is a Rocket",  subtitle:"Understanding how your brain works — without shame",  intro:"Before strategies work, you need to understand WHY your brain works differently — and that it's a superpower.", agenda:[{label:"Brain Quiz",desc:"True or false: ADHD kids are lazy. (FALSE!) They're often trying harder than most people know. (TRUE!)"},{label:"Rocket Explanation",desc:"The ADHD brain = incredible engines + steering still being built. Super powerful! Sometimes hard to aim."},{label:"Strengths List",desc:"What are you AMAZING at? Creativity, energy, big ideas, noticing things others miss, humor, hyperfocus."},{label:"Honest Challenges",desc:"Write 1–2 things that are hard. 'My brain sometimes struggles with ___ and that's okay. I'm learning.'"}], script:"'The real truth: you can pay INCREDIBLE attention to things that interest you. The challenge is your brain doesn't take orders about WHAT to focus on easily. That's not laziness. That's just how rockets work before they learn to steer.'" },
+  { cat:"adhd",    icon:"⏱️",  title:"Time Blindness",          subtitle:"Why time feels invisible and what to do about it",    intro:"Many ADHD brains experience 'time blindness' — they genuinely can't feel time passing. These tools make time visible.", agenda:[{label:"Experiment",desc:"Set a hidden timer for 1 minute. Guess when it's up. Was it longer or shorter than you thought?"},{label:"Time Blindness",desc:"ADHD brains have two times: NOW and NOT NOW. If it's not NOW, it basically doesn't exist yet."},{label:"Make Time Visible",desc:"Visual timers, sticky note countdowns, phone alarms with labels, time anchors like 'after breakfast = bag check'."},{label:"Build One System",desc:"Pick ONE hard transition (e.g. getting off screens). Design a visual timer + alarm plan just for that."}], script:"'Your brain experiences time differently — it's not that you don't care. Your brain literally doesn't feel time ticking. So we're going to make time VISIBLE, like turning on a light.'" },
+  { cat:"anxiety", icon:"🌿",  title:"Box Breathing",           subtitle:"The breathing trick that calms your nervous system",  intro:"Box breathing activates the parasympathetic nervous system — evidence-based, works within 2–3 minutes.", agenda:[{label:"Why It Works",desc:"Slow breathing sends a signal to your brain: 'No danger. Safe.' It overrides the alarm system."},{label:"Learn Box Breathing",desc:"Draw a square. IN for 4 (trace up). HOLD for 4 (right). OUT for 4 (down). HOLD for 4 (left). 4–5 rounds."},{label:"Worry Practice",desc:"Think of a mild worry (3/10). Do box breathing while holding it in mind. Did the body feeling shift?"}], script:"'Your nervous system has an on switch (alarm) and an off switch (calm). You can flip the off switch yourself using your breath. Slow breathing literally changes your brain chemistry.'" },
+  { cat:"doing",   icon:"🐢",  title:"Tiny Turtle Steps",       subtitle:"Breaking hard things into one tiny first step",       intro:"You get stuck not because you're lazy but because the task feels too big. Find the tiny first step.", agenda:[{label:"The Wall Feeling",desc:"That wall feeling is real — nervous system saying 'too much.' Make the task so small your brain can't say no."},{label:"Tiny Steps",desc:"Not 'clean room' — just 'pick up 3 things.' Not 'do homework' — just 'open the notebook.'"},{label:"The 2-Min Door",desc:"Any task has a 2-minute door. Once started, the brain often keeps going. Do it together right now."}], script:"'Your brain isn't saying NO to the task. It's saying: I don't know HOW to start. We find the first turtle step. Turtles don't rush. They just keep moving forward.'" },
+  { cat:"doing",   icon:"🏔️",  title:"Opposite Action",         subtitle:"DBT's most powerful skill for avoidance",            intro:"When a feeling urges you to avoid or give up — deliberately doing the opposite breaks the cycle.", agenda:[{label:"Opposite Action",desc:"Every feeling has an action urge. Anxiety says HIDE. Sadness says STAY IN BED. Opposite Action = do the opposite ON PURPOSE."},{label:"Practice",desc:"Anxious about a test → urge to avoid studying → Opposite: study 5 min. Feel stupid → throw the book → Opposite: read one sentence."},{label:"Your Mountain",desc:"What's one thing you've been avoiding this week? Design the SMALLEST possible opposite action step for TODAY."}], script:"'Avoidance makes the scary thing feel BIGGER. Every time you avoid, your brain logs: that must be REALLY dangerous. Opposite Action tricks your brain in reverse — every time you face something even a little, your brain learns: I can handle that.'" },
+  { cat:"alateen", icon:"🏠",  title:"It's Not Your Fault",     subtitle:"You didn't cause it, can't control it, can't cure it", intro:"The most important truth for kids in families touched by addiction: what happens at home is not your fault.", agenda:[{label:"The 3 C's",desc:"You didn't CAUSE it. You can't CONTROL it. You can't CURE it. Say all three slowly."},{label:"Where It Lands",desc:"When you hear that, what do you feel? Relief? Sadness? Disbelief? All feelings are valid here."},{label:"Letter Exercise",desc:"Write a short letter to yourself: 'Dear [name], This is not your fault because…' Just for you."}], script:"'A lot of kids secretly believe it's their fault — if they were just better, things would change. I want to tell you: no child's behaviour causes addiction. And no child's behaviour can cure it. That is the truth.'" },
+  { cat:"alateen", icon:"🔦",  title:"My Circle of Control",    subtitle:"Focus energy on what you can actually change",        intro:"Kids in chaotic homes often spend enormous energy trying to control things outside their power. Refocus on what IS yours.", agenda:[{label:"Three Circles",desc:"Inner = things I control (my words, choices, reactions). Middle = I can influence. Outer = I cannot control."},{label:"Sort It Out",desc:"Take your worries. Decide which circle each belongs in. Some will be hard — do them together."},{label:"Energy Question",desc:"When you spend energy on the outer circle, how does it feel? (Exhausted, helpless.) The inner circle is always yours."}], script:"'When something feels out of control at home, it's natural to try to fix it — even things that aren't yours to fix. That's exhausting. Today we're drawing a map of what actually belongs to you.'" },
+  { cat:"alateen", icon:"🌱",  title:"Detachment with Love",    subtitle:"How to love someone without losing yourself",         intro:"Detachment doesn't mean not caring. It means: I love you AND I don't let your choices run my life.", agenda:[{label:"What Is Detaching",desc:"I love you AND your storm is yours. I don't have to be in it. That's not selfish — it's healthy."},{label:"The Bubble",desc:"Imagine a clear bubble around you. Love travels through it. Chaos and adult problems stay outside."},{label:"What Goes In/Out",desc:"What do you want through your bubble (love, joy, connection)? What stays outside (yelling, blame, adult stress)?"}], script:"'When someone at home is really upset, you start to feel that way too — even if nothing happened to YOU. Alateen calls this being caught in someone else's storm. Detachment means you stop letting someone else's weather decide what YOUR day feels like.'" },
+  { cat:"alateen", icon:"🧳",  title:"Feelings Aren't Secrets", subtitle:"Finding safe people to tell the truth to",            intro:"Kids in families with addiction often carry a 'don't talk, don't trust, don't feel' rule. You have permission to feel AND talk — to the right people.", agenda:[{label:"Safe People Map",desc:"Draw a star. Write your name in the middle. On each point: someone safe to talk to (adult, friend, counsellor, relative)."},{label:"What To Say",desc:"Practice: 'Things at home are hard right now and I'm feeling ___. Can I talk to you?' Role-play saying it."},{label:"Closing",desc:"You deserve people who can hold your feelings. Feelings are not secrets. You are not alone."}], script:"'Your feelings are not secrets. They don't need to stay locked inside you. Part of today is finding WHO you can share them with safely.'" },
+];
+
+const CAT_LABELS = { bpd:'💜 Emotions', adhd:'💙 Focus', anxiety:'💚 Worry', anger:'🔥 Anger', doing:'⭐ Hard Stuff', alateen:'🌊 Alateen', brain:'🧠 Brain Activation' };
+
+function renderBrainBrave() {
+  document.getElementById('bb-lessons').innerHTML = BB_LESSONS.map((l, i) => `
+    <div class="bb-card" data-cat="${l.cat}" onclick="toggleBB(${i})">
+      <div class="bb-header">
+        <div class="bb-icon">${l.icon}</div>
+        <div class="bb-meta">
+          <div class="bb-cat-label">${CAT_LABELS[l.cat]||l.cat}</div>
+          <div class="bb-title">${l.title}</div>
+          <div class="bb-sub">${l.subtitle}</div>
+        </div>
+        <div id="bb-arr-${i}" style="font-size:18px;color:#ccc;transition:transform .2s;flex-shrink:0">↓</div>
+      </div>
+      <div class="bb-body">
+        <div class="bb-intro">${l.intro}</div>
+        <div style="font-size:11px;font-weight:900;letter-spacing:1.5px;text-transform:uppercase;color:var(--cat-c);margin:10px 0 6px">Lesson Steps</div>
+        ${l.agenda.map((a,n)=>`<div class="bb-step"><div class="bb-num">${n+1}</div><div><strong>${a.label}</strong><br><span style="color:#6b7280">${a.desc}</span></div></div>`).join('')}
+        <div style="font-size:11px;font-weight:900;letter-spacing:1.5px;text-transform:uppercase;color:var(--cat-c);margin:12px 0 4px">Script Starter</div>
+        <div class="bb-script">${l.script}</div>
+      </div>
+    </div>`).join('');
+}
+
+function toggleBB(i) {
+  const cards = document.querySelectorAll('.bb-card');
+  const wasOpen = cards[i].classList.contains('open');
+  cards.forEach((c,j) => { c.classList.remove('open'); const a = document.getElementById('bb-arr-'+j); if(a) a.style.transform=''; });
+  if (!wasOpen) { cards[i].classList.add('open'); const a = document.getElementById('bb-arr-'+i); if(a) a.style.transform='rotate(180deg)'; }
+}
+
+renderBrainBrave();
+
+/* ── Sheet / Tasks ── */
 const SHEET_ID  = '11A5NsScePEbtN9dujN3tILb_Q2TU5tsf6I0MbT11kDY';
 const SHEET_GID = '553696854';
 const PERSON    = 'Logan';
-const TODAY_KEY = new Date().toISOString().slice(0, 10);
 const STORE_KEY = `sf_logan_done_${TODAY_KEY}`;
 
-// New chores added June 6, 2026
 const NEW_CHORES = [
-  { id: 'chore_sweep',  title: 'Sweep Bedroom',             category: 'Chores', estTime: '5 min',  desc: 'Sweep the bedroom floor clean.',                     dateAssigned: '2026-06-06' },
-  { id: 'chore_wipe',   title: 'Wipe Beside Table',          category: 'Chores', estTime: '5 min',  desc: 'Wipe down your bedside table.',                      dateAssigned: '2026-06-06' },
-  { id: 'chore_lunch',  title: 'Take Lunch Dishes Out of Bag',category: 'Chores', estTime: '2 min',  desc: 'Empty your lunch bag and put dishes in the kitchen.', dateAssigned: '2026-06-06' },
-  { id: 'chore_dish',   title: 'Empty Dishwasher',           category: 'Chores', estTime: '10 min', desc: 'Unload the dishwasher and put everything away.',       dateAssigned: '2026-06-06' },
+  { id:'chore_sweep', title:'Sweep Bedroom',              category:'Chores', estTime:'5 min',  desc:'Sweep the bedroom floor clean.',                       dateAssigned: TODAY_KEY },
+  { id:'chore_wipe',  title:'Wipe Beside Table',           category:'Chores', estTime:'5 min',  desc:'Wipe down your bedside table.',                        dateAssigned: TODAY_KEY },
+  { id:'chore_lunch', title:'Take Lunch Dishes Out of Bag',category:'Chores', estTime:'2 min',  desc:'Empty your lunch bag and put dishes in the kitchen.',  dateAssigned: TODAY_KEY },
+  { id:'chore_dish',  title:'Empty Dishwasher',            category:'Chores', estTime:'10 min', desc:'Unload the dishwasher and put everything away.',        dateAssigned: TODAY_KEY },
 ];
 
-let TASKS = [];
-let done  = {};
-try { done = JSON.parse(localStorage.getItem(STORE_KEY) || '{}'); } catch(e) {}
-
+let TASKS = [], done = {};
+try { done = JSON.parse(localStorage.getItem(STORE_KEY)||'{}'); } catch(e){}
 function save() { localStorage.setItem(STORE_KEY, JSON.stringify(done)); }
 
-/* ── CSV parser ── */
 function parseCSV(raw) {
-  const rows = []; let i = 0, n = raw.length;
-  while (i < n) {
-    const row = [];
-    while (i < n && raw[i] !== '\n' && raw[i] !== '\r') {
-      if (raw[i] === '"') {
-        let c = ''; i++;
-        while (i < n) {
-          if (raw[i] === '"' && raw[i+1] === '"') { c += '"'; i += 2; }
-          else if (raw[i] === '"') { i++; break; }
-          else c += raw[i++];
-        }
-        row.push(c.trim()); if (raw[i] === ',') i++;
-      } else {
-        let c = '';
-        while (i < n && raw[i] !== ',' && raw[i] !== '\n' && raw[i] !== '\r') c += raw[i++];
-        row.push(c.trim()); if (raw[i] === ',') i++;
-      }
+  const rows=[]; let i=0, n=raw.length;
+  while(i<n){
+    const row=[];
+    while(i<n&&raw[i]!=='\n'&&raw[i]!=='\r'){
+      if(raw[i]==='"'){let c='';i++;while(i<n){if(raw[i]==='"'&&raw[i+1]==='"'){c+='"';i+=2;}else if(raw[i]==='"'){i++;break;}else c+=raw[i++];}row.push(c.trim());if(raw[i]===',')i++;}
+      else{let c='';while(i<n&&raw[i]!==','&&raw[i]!=='\n'&&raw[i]!=='\r')c+=raw[i++];row.push(c.trim());if(raw[i]===',')i++;}
     }
-    while (raw[i] === '\n' || raw[i] === '\r') i++;
-    if (row.some(c => c)) rows.push(row);
+    while(raw[i]==='\n'||raw[i]==='\r')i++;
+    if(row.some(c=>c))rows.push(row);
   }
   return rows;
 }
 
-async function loadSheet() {
-  const csvUrl = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/export?format=csv&gid=${SHEET_GID}`;
-  try {
-    const r = await fetch(csvUrl, { cache: 'no-store' });
-    if (!r.ok) throw new Error(`HTTP ${r.status}`);
-    const txt = await r.text();
-    if (!txt.trim()) throw new Error('Empty');
-    return parseCSV(txt);
-  } catch {
-    return await loadGviz();
-  }
+async function loadSheet(){
+  const url=`https://docs.google.com/spreadsheets/d/${SHEET_ID}/export?format=csv&gid=${SHEET_GID}`;
+  try{ const r=await fetch(url,{cache:'no-store'}); if(!r.ok)throw 0; const t=await r.text(); if(!t.trim())throw 0; return parseCSV(t); }
+  catch{ return loadGviz(); }
 }
 
-function loadGviz() {
-  return new Promise((resolve, reject) => {
-    const cb = `_sf_cb_${Date.now()}`;
-    const s = document.createElement('script');
-    const t = setTimeout(() => { s.remove(); delete window[cb]; reject(new Error('timeout')); }, 12000);
-    window[cb] = p => {
-      clearTimeout(t); s.remove(); delete window[cb];
-      if (!p || p.status === 'error') { reject(new Error('gviz error')); return; }
-      const hdrs = (p.table.cols||[]).map((c,i) => c.label || `Col${i}`);
-      const rows = (p.table.rows||[]).map(r => (r.c||[]).map(cell => cell ? (cell.f != null ? String(cell.f) : String(cell.v ?? '')) : ''));
-      resolve([hdrs, ...rows]);
-    };
-    s.onerror = () => { clearTimeout(t); s.remove(); reject(new Error('script error')); };
-    s.src = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?gid=${SHEET_GID}&tqx=responseHandler:${cb}`;
+function loadGviz(){
+  return new Promise((res,rej)=>{
+    const cb=`_sf_cb_${Date.now()}`,s=document.createElement('script'),t=setTimeout(()=>{s.remove();delete window[cb];rej();},12000);
+    window[cb]=p=>{clearTimeout(t);s.remove();delete window[cb];if(!p||p.status==='error'){rej();return;}
+      const hdrs=(p.table.cols||[]).map((c,i)=>c.label||`Col${i}`);
+      const rows=(p.table.rows||[]).map(r=>(r.c||[]).map(cell=>cell?(cell.f!=null?String(cell.f):String(cell.v??'')):''));
+      res([hdrs,...rows]);};
+    s.onerror=()=>{clearTimeout(t);s.remove();rej();};
+    s.src=`https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?gid=${SHEET_GID}&tqx=responseHandler:${cb}`;
     document.head.append(s);
   });
 }
 
-const YES = new Set(['yes','true','1','✓','✅']);
-function isOpen(row, iDone, iCompleted) {
-  const d = (row[iDone]      || '').toLowerCase().trim();
-  const c = (row[iCompleted] || '').trim();
-  if (YES.has(d)) return false;
-  if (c && /\d{4}/.test(c)) return false;
-  return true;
+const YES=new Set(['yes','true','1','✓','✅']);
+function isOpen(row,iDone,iComp){ const d=(row[iDone]||'').toLowerCase().trim(),c=(row[iComp]||'').trim(); if(YES.has(d))return false; if(c&&/\d{4}/.test(c))return false; return true; }
+
+function buildTasks(rows){
+  if(rows.length<2)return[];
+  const h=rows[0].map(x=>x.toLowerCase().trim()),col=kw=>h.findIndex(c=>c.includes(kw));
+  const iResp=col('responsible')!==-1?col('responsible'):2,iCat=col('side quest')!==-1?col('side quest'):(col('category')!==-1?col('category'):3);
+  const iEst=col('est')!==-1?col('est'):4,iTitle=col('task name')!==-1?col('task name'):5,iDesc=col('description')!==-1?col('description'):6;
+  const iDate=col('date assigned')!==-1?col('date assigned'):9,iComp=col('date completed')!==-1?col('date completed'):10,iDone=col('isdone')!==-1?col('isdone'):11;
+  const get=(r,i)=>(i>=0&&i<r.length?r[i]:'').trim(),today=new Date().toISOString().slice(0,10);
+  return rows.slice(1).filter(r=>get(r,iResp)===PERSON&&isOpen(r,iDone,iComp))
+    .map((r,idx)=>({id:get(r,0)||String(idx),title:get(r,iTitle),category:get(r,iCat),estTime:get(r,iEst),desc:get(r,iDesc),dateAssigned:get(r,iDate),priority:get(r,iDate)?(get(r,iDate)<=today?1:2):3}))
+    .filter(t=>t.title).sort((a,b)=>a.priority-b.priority||(a.dateAssigned||'').localeCompare(b.dateAssigned||''));
 }
 
-function buildTasks(rows) {
-  if (rows.length < 2) return [];
-  const h = rows[0].map(x => x.toLowerCase().trim());
-  const col = kw => h.findIndex(c => c.includes(kw));
-  const iResp  = col('responsible') !== -1 ? col('responsible') : 2;
-  const iCat   = col('side quest')  !== -1 ? col('side quest')  : (col('category') !== -1 ? col('category') : 3);
-  const iEst   = col('est')         !== -1 ? col('est')         : 4;
-  const iTitle = col('task name')   !== -1 ? col('task name')   : 5;
-  const iDesc  = col('description') !== -1 ? col('description') : 6;
-  const iDate  = col('date assigned')      !== -1 ? col('date assigned')  : 9;
-  const iComp  = col('date completed')     !== -1 ? col('date completed') : 10;
-  const iDone  = col('isdone')             !== -1 ? col('isdone')         : 11;
-  const get    = (r, i) => (i >= 0 && i < r.length ? r[i] : '').trim();
-  const today  = new Date().toISOString().slice(0, 10);
-
-  return rows.slice(1)
-    .filter(r => get(r, iResp) === PERSON && isOpen(r, iDone, iComp))
-    .map((r, idx) => ({
-      id:           get(r, 0) || String(idx),
-      title:        get(r, iTitle),
-      category:     get(r, iCat),
-      estTime:      get(r, iEst),
-      desc:         get(r, iDesc),
-      dateAssigned: get(r, iDate),
-      priority:     get(r, iDate) ? (get(r, iDate) <= today ? 1 : 2) : 3
-    }))
-    .filter(t => t.title)
-    .sort((a, b) => a.priority - b.priority || (a.dateAssigned || '').localeCompare(b.dateAssigned || ''));
+function updateProgress(){
+  const total=NEW_CHORES.length+TASKS.length,n=Object.keys(done).length,pct=total?Math.round(n/total*100):0;
+  document.getElementById('prog-text').textContent=`${n} of ${total} done`;
+  document.getElementById('prog-pct').textContent=pct+'%';
+  document.getElementById('prog-fill').style.width=pct+'%';
+  document.getElementById('hero-badge').textContent=`👦 ${total} tasks assigned`;
 }
 
-/* ── Progress ── */
-function updateProgress() {
-  const total = NEW_CHORES.length + TASKS.length;
-  const n     = Object.keys(done).length;
-  const pct   = total ? Math.round(n / total * 100) : 0;
-  document.getElementById('prog-text').textContent = `${n} of ${total} done`;
-  document.getElementById('prog-pct').textContent  = pct + '%';
-  document.getElementById('prog-fill').style.width = pct + '%';
-  document.getElementById('hero-badge').textContent = `👦 ${total} tasks assigned`;
-}
+function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
 
-/* ── Render ── */
-function renderList(container, tasks, emoji) {
-  if (!tasks.length) { container.innerHTML = ''; return; }
-  container.innerHTML = tasks.map((t, i) => {
-    const isDone = !!done[t.id];
-    return `<div class="task-card${isDone ? ' done' : ''}" style="animation-delay:${i * .04}s">
+function renderList(container,tasks){
+  if(!tasks.length){container.innerHTML='';return;}
+  container.innerHTML=tasks.map((t,i)=>{
+    const isDone=!!done[t.id];
+    return `<div class="task-card${isDone?' done':''}" style="animation-delay:${i*.04}s">
       <div class="task-top"><div class="task-title">${esc(t.title)}</div></div>
       <div class="task-tags">
-        ${t.category ? `<span class="tag tag-cat">📌 ${esc(t.category)}</span>` : ''}
-        ${t.estTime  ? `<span class="tag tag-time">⏱ ${esc(t.estTime)}</span>` : ''}
-        <span class="tag ${isDone ? 'tag-done' : 'tag-open'}">${isDone ? '✓ Done' : '○ Open'}</span>
+        ${t.category?`<span class="tag tag-cat">📌 ${esc(t.category)}</span>`:''}
+        ${t.estTime?`<span class="tag tag-time">⏱ ${esc(t.estTime)}</span>`:''}
+        <span class="tag ${isDone?'tag-done':'tag-open'}">${isDone?'✓ Done':'○ Open'}</span>
       </div>
-      ${t.desc ? `<div class="task-desc">${esc(t.desc)}</div>` : ''}
+      ${t.desc?`<div class="task-desc">${esc(t.desc)}</div>`:''}
       <div class="task-foot">
-        <span class="date-hint">${t.dateAssigned ? '📅 ' + t.dateAssigned : ''}</span>
-        <button class="complete-btn${isDone ? ' done-btn' : ''}"
-          onclick="${isDone ? '' : `complete(${JSON.stringify(t.id)})`}">
-          ${isDone ? '✓ Done' : '+ Complete'}
+        <span class="date-hint">${t.dateAssigned?'📅 '+t.dateAssigned:''}</span>
+        <button class="complete-btn${isDone?' done-btn':''}" onclick="${isDone?'':`complete(${JSON.stringify(t.id)})`}">
+          ${isDone?'✓ Done':'+ Complete'}
         </button>
       </div>
     </div>`;
   }).join('');
 }
 
-function render() {
+function render(){
   renderList(document.getElementById('choreList'), NEW_CHORES);
-  if (!TASKS.length) {
-    document.getElementById('taskList').innerHTML =
-      '<div style="padding:20px;text-align:center;color:var(--muted);font-weight:700;">🎉 No open sheet tasks!</div>';
-  } else {
-    renderList(document.getElementById('taskList'), TASKS);
-  }
+  const tl=document.getElementById('taskList');
+  if(!TASKS.length) tl.innerHTML='<div style="padding:20px;text-align:center;color:var(--muted);font-weight:700;">🎉 No open sheet tasks!</div>';
+  else renderList(tl, TASKS);
   updateProgress();
 }
 
-function complete(id) {
-  done[id] = true;
-  save(); render();
-  toast('🌟 Great job, Logan!');
+function complete(id){ done[id]=true; save(); render(); toast('🌟 Great job, Logan!'); }
+
+function toast(msg){
+  const el=document.createElement('div'); el.className='toast'; el.textContent=msg;
+  document.getElementById('toasts').appendChild(el); setTimeout(()=>el.remove(),3000);
 }
 
-function toast(msg) {
-  const c = document.getElementById('toasts');
-  const el = document.createElement('div');
-  el.className = 'toast'; el.textContent = msg;
-  c.appendChild(el); setTimeout(() => el.remove(), 3000);
-}
-
-function esc(s) {
-  return String(s || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
-}
-
-/* ── Init ── */
-renderList(document.getElementById('choreList'), NEW_CHORES); // show chores immediately
-(async () => {
-  try {
-    const rows = await loadSheet();
-    TASKS = buildTasks(rows);
-    render();
-  } catch(e) {
-    document.getElementById('taskList').innerHTML =
-      '<div style="padding:20px;text-align:center;color:var(--muted);font-weight:700;">Could not load sheet.</div>';
-    updateProgress();
-  }
+renderList(document.getElementById('choreList'), NEW_CHORES);
+(async()=>{
+  try{ const rows=await loadSheet(); TASKS=buildTasks(rows); render(); }
+  catch(e){ document.getElementById('taskList').innerHTML='<div style="padding:20px;text-align:center;color:var(--muted);font-weight:700;">Could not load sheet.</div>'; updateProgress(); }
 })();
 </script>
 </body>

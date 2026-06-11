@@ -1,0 +1,885 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NCSO Study — Safety Certification Prep</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Inter:wght@300;400;500;600;700&family=Syne:wght@700;800&display=swap');
+
+  :root {
+    --bg: #0f1117;
+    --surface: #181c25;
+    --card: #1e2330;
+    --border: #2a3040;
+    --accent: #f59e0b;
+    --accent2: #3b82f6;
+    --success: #10b981;
+    --danger: #ef4444;
+    --text: #e8eaf0;
+    --muted: #7c8494;
+    --tag-bg: #252b3b;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    line-height: 1.6;
+  }
+
+  /* ── HEADER ── */
+  header {
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    padding: 16px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .logo {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.2rem;
+    font-weight: 800;
+    letter-spacing: 0.05em;
+    color: var(--accent);
+  }
+  .logo span { color: var(--text); }
+  .timer-bar {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.85rem;
+    color: var(--muted);
+  }
+  .timer-circle {
+    width: 38px; height: 38px;
+    border-radius: 50%;
+    background: conic-gradient(var(--accent) var(--progress, 0%), #2a3040 0%);
+    display: flex; align-items: center; justify-content: center;
+    position: relative;
+  }
+  .timer-circle::after {
+    content: '';
+    width: 28px; height: 28px;
+    background: var(--surface);
+    border-radius: 50%;
+    position: absolute;
+  }
+  .timer-digits {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--accent);
+    z-index: 1;
+    position: relative;
+  }
+
+  /* ── LAYOUT ── */
+  .container { max-width: 860px; margin: 0 auto; padding: 32px 20px 80px; }
+
+  /* ── MODULE GRID ── */
+  .section-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 16px;
+  }
+
+  .module-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 12px;
+    margin-bottom: 40px;
+  }
+  .module-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 18px 20px;
+    cursor: pointer;
+    transition: border-color 0.2s, transform 0.15s;
+    position: relative;
+    overflow: hidden;
+  }
+  .module-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: var(--module-color, var(--accent));
+    opacity: 0.8;
+  }
+  .module-card:hover {
+    border-color: var(--module-color, var(--accent));
+    transform: translateY(-2px);
+  }
+  .module-card.active {
+    border-color: var(--module-color, var(--accent));
+    background: #22283a;
+  }
+  .module-num {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    color: var(--module-color, var(--accent));
+    letter-spacing: 0.1em;
+    margin-bottom: 6px;
+  }
+  .module-title { font-size: 0.9rem; font-weight: 600; color: var(--text); margin-bottom: 4px; }
+  .module-meta { font-size: 0.75rem; color: var(--muted); }
+
+  /* ── SESSION ── */
+  .session-view { display: none; }
+  .session-view.visible { display: block; }
+  .home-view { }
+
+  .session-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 16px;
+    margin-bottom: 28px;
+    flex-wrap: wrap;
+  }
+  .session-title { font-family: 'Syne', sans-serif; font-size: 1.6rem; font-weight: 800; color: var(--text); }
+  .session-subtitle { font-size: 0.85rem; color: var(--muted); margin-top: 4px; }
+
+  .btn {
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 9px 18px;
+    border-radius: 8px;
+    font-size: 0.82rem;
+    font-weight: 600;
+    cursor: pointer;
+    border: none;
+    transition: opacity 0.2s, transform 0.1s;
+    white-space: nowrap;
+  }
+  .btn:active { transform: scale(0.97); }
+  .btn-primary { background: var(--accent); color: #0f1117; }
+  .btn-ghost { background: var(--card); color: var(--muted); border: 1px solid var(--border); }
+  .btn-ghost:hover { color: var(--text); border-color: var(--muted); }
+  .btn-sm { padding: 6px 12px; font-size: 0.76rem; }
+
+  /* ── TABS ── */
+  .tab-bar {
+    display: flex;
+    gap: 4px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 4px;
+    margin-bottom: 28px;
+  }
+  .tab {
+    flex: 1;
+    padding: 8px 12px;
+    text-align: center;
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: var(--muted);
+    cursor: pointer;
+    border-radius: 7px;
+    transition: background 0.2s, color 0.2s;
+  }
+  .tab.active { background: var(--surface); color: var(--text); }
+
+  /* ── READING CONTENT ── */
+  .reading-section {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 24px;
+    margin-bottom: 20px;
+  }
+  .reading-section h3 {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--accent);
+    margin-bottom: 14px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .reading-section p { font-size: 0.88rem; color: #c4c8d4; line-height: 1.75; margin-bottom: 12px; }
+  .reading-section p:last-child { margin-bottom: 0; }
+  .reading-section ul { padding-left: 20px; margin-bottom: 12px; }
+  .reading-section li { font-size: 0.87rem; color: #c4c8d4; margin-bottom: 6px; line-height: 1.6; }
+  .reading-section strong { color: var(--text); }
+
+  .key-term {
+    display: inline-block;
+    background: var(--tag-bg);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--accent);
+    border-radius: 6px;
+    padding: 10px 14px;
+    font-size: 0.83rem;
+    color: #c4c8d4;
+    margin-bottom: 8px;
+    width: 100%;
+  }
+  .key-term strong { color: var(--accent); display: block; margin-bottom: 2px; font-size: 0.8rem; }
+
+  .ref-block {
+    background: var(--tag-bg);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 12px 16px;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+  }
+  .ref-icon { font-size: 1.1rem; margin-top: 1px; flex-shrink: 0; }
+  .ref-text { font-size: 0.82rem; color: #c4c8d4; }
+  .ref-text strong { color: var(--text); display: block; margin-bottom: 2px; }
+
+  /* ── FLIP CARDS ── */
+  .cards-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .flip-card {
+    perspective: 1000px;
+    min-height: 140px;
+    cursor: pointer;
+    border-radius: 12px;
+  }
+  .flip-inner {
+    position: relative;
+    width: 100%;
+    min-height: 140px;
+    transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    transform-style: preserve-3d;
+  }
+  .flip-card.flipped .flip-inner { transform: rotateY(180deg); }
+
+  .flip-front, .flip-back {
+    position: absolute;
+    width: 100%;
+    min-height: 140px;
+    backface-visibility: hidden;
+    border-radius: 12px;
+    padding: 20px 22px;
+    border: 1px solid var(--border);
+  }
+  .flip-front {
+    background: var(--card);
+  }
+  .flip-back {
+    background: #1a2535;
+    border-color: var(--accent2);
+    transform: rotateY(180deg);
+  }
+
+  .flip-front-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 10px;
+  }
+  .flip-question {
+    font-size: 0.92rem;
+    font-weight: 500;
+    color: var(--text);
+    line-height: 1.55;
+  }
+  .flip-hint {
+    margin-top: 12px;
+    font-size: 0.72rem;
+    color: var(--muted);
+    font-family: 'DM Mono', monospace;
+  }
+
+  .flip-back-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--accent2);
+    margin-bottom: 10px;
+  }
+  .flip-answer {
+    font-size: 0.88rem;
+    color: #c4c8d4;
+    line-height: 1.65;
+  }
+  .flip-answer strong { color: var(--success); }
+
+  /* category badge */
+  .q-badge {
+    display: inline-block;
+    padding: 3px 8px;
+    border-radius: 4px;
+    font-size: 0.68rem;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+  .badge-reg { background: rgba(59,130,246,0.15); color: #93c5fd; }
+  .badge-haz { background: rgba(239,68,68,0.15); color: #fca5a5; }
+  .badge-ppe { background: rgba(16,185,129,0.15); color: #6ee7b7; }
+  .badge-inv { background: rgba(245,158,11,0.15); color: #fcd34d; }
+  .badge-wkp { background: rgba(168,85,247,0.15); color: #d8b4fe; }
+
+  .progress-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 22px;
+  }
+  .progress-track {
+    flex: 1;
+    height: 4px;
+    background: var(--border);
+    border-radius: 99px;
+    overflow: hidden;
+  }
+  .progress-fill {
+    height: 100%;
+    background: var(--accent);
+    border-radius: 99px;
+    transition: width 0.4s;
+  }
+  .progress-text {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.72rem;
+    color: var(--muted);
+    white-space: nowrap;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">NCSO<span> Study</span></div>
+  <div class="timer-bar">
+    <div class="timer-circle" id="timerCircle">
+      <span class="timer-digits" id="timerDigits">15:00</span>
+    </div>
+    <span id="timerLabel">session</span>
+    <button class="btn btn-ghost btn-sm" id="timerBtn" onclick="toggleTimer()">Start</button>
+  </div>
+</header>
+
+<div class="container">
+
+  <!-- HOME VIEW -->
+  <div class="home-view" id="homeView">
+    <div style="margin-bottom: 36px;">
+      <h1 style="font-family:'Syne',sans-serif;font-size:2rem;font-weight:800;line-height:1.2;margin-bottom:10px;">
+        NCSO Certification<br><span style="color:var(--accent)">Study Sessions</span>
+      </h1>
+      <p style="color:var(--muted);font-size:0.9rem;max-width:480px;">15-minute focused sessions covering Canadian construction safety legislation, hazard recognition, and field practices. Tap any module to begin.</p>
+    </div>
+
+    <div class="section-label">Core Modules — pick a session</div>
+    <div class="module-grid" id="moduleGrid"></div>
+  </div>
+
+  <!-- SESSION VIEW -->
+  <div class="session-view" id="sessionView">
+    <div class="session-header">
+      <div>
+        <div class="session-title" id="sessionTitle"></div>
+        <div class="session-subtitle" id="sessionSubtitle"></div>
+      </div>
+      <button class="btn btn-ghost" onclick="goHome()">← All Modules</button>
+    </div>
+
+    <div class="tab-bar">
+      <div class="tab active" onclick="switchTab('learn',this)">📖 Learn</div>
+      <div class="tab" onclick="switchTab('quiz',this)">🃏 Quiz Cards</div>
+      <div class="tab" onclick="switchTab('refs',this)">📚 References</div>
+    </div>
+
+    <div id="tabLearn"></div>
+    <div id="tabQuiz" style="display:none;"></div>
+    <div id="tabRefs" style="display:none;"></div>
+  </div>
+
+</div>
+
+<script>
+// ── TIMER ──────────────────────────────────────────────────
+let seconds = 15 * 60;
+let timerRunning = false;
+let timerInterval = null;
+
+function toggleTimer() {
+  timerRunning = !timerRunning;
+  document.getElementById('timerBtn').textContent = timerRunning ? 'Pause' : 'Resume';
+  if (timerRunning) {
+    timerInterval = setInterval(() => {
+      if (seconds > 0) {
+        seconds--;
+        updateTimerUI();
+      } else {
+        clearInterval(timerInterval);
+        timerRunning = false;
+        document.getElementById('timerBtn').textContent = 'Done ✓';
+        document.getElementById('timerLabel').textContent = 'complete';
+      }
+    }, 1000);
+  } else {
+    clearInterval(timerInterval);
+  }
+}
+
+function resetTimer() {
+  clearInterval(timerInterval);
+  timerRunning = false;
+  seconds = 15 * 60;
+  document.getElementById('timerBtn').textContent = 'Start';
+  document.getElementById('timerLabel').textContent = 'session';
+  updateTimerUI();
+}
+
+function updateTimerUI() {
+  const m = Math.floor(seconds / 60).toString().padStart(2, '0');
+  const s = (seconds % 60).toString().padStart(2, '0');
+  document.getElementById('timerDigits').textContent = `${m}:${s}`;
+  const pct = ((900 - seconds) / 900) * 100;
+  document.getElementById('timerCircle').style.setProperty('--progress', pct + '%');
+}
+
+// ── DATA ───────────────────────────────────────────────────
+const modules = [
+  {
+    id: 1,
+    title: "Legislation & Regulatory Framework",
+    sub: "OHS Acts, WCB, jurisdiction, duties",
+    color: "#3b82f6",
+    time: "15 min",
+    learn: `
+      <div class="reading-section">
+        <h3>⚖️ The Legal Foundation of Occupational Health & Safety</h3>
+        <p>In Canada, occupational health and safety is <strong>provincially regulated</strong>. Each province and territory has its own OHS legislation, though federally regulated industries fall under the <strong>Canada Labour Code, Part II</strong>. The NCSO designation applies primarily to construction workers operating under provincial jurisdiction.</p>
+        <p>Alberta's primary legislation is the <strong>Occupational Health and Safety Act (OHS Act), Regulation, and Code</strong>. The OHS Act sets out the general rights and duties; the OHS Regulation and OHS Code contain specific technical requirements.</p>
+      </div>
+      <div class="reading-section">
+        <h3>👥 The Internal Responsibility System (IRS)</h3>
+        <p>Canada's safety system is built on the <strong>Internal Responsibility System</strong> — the idea that everyone in a workplace shares responsibility for safety. The IRS has three pillars:</p>
+        <ul>
+          <li><strong>The right to know</strong> — workers have the right to be informed about hazards</li>
+          <li><strong>The right to participate</strong> — workers have the right to take part in safety decisions</li>
+          <li><strong>The right to refuse</strong> — workers have the right to refuse unsafe work without reprisal</li>
+        </ul>
+      </div>
+      <div class="reading-section">
+        <h3>📋 Duties of Workplace Parties</h3>
+        <div class="key-term"><strong>Employer</strong> Ensure the health, safety, and welfare of all workers. Provide adequate training, equipment, and supervision. Establish a safety program.</div>
+        <div class="key-term"><strong>Prime Contractor</strong> On multi-employer worksites: coordinate OHS activities, ensure all contractors comply with applicable legislation.</div>
+        <div class="key-term"><strong>Supervisor</strong> Ensure workers under their supervision follow safety rules. Advise workers of hazards. Take corrective action.</div>
+        <div class="key-term"><strong>Worker</strong> Take reasonable care to protect their own health and safety and that of other workers. Co-operate with the employer.</div>
+        <div class="key-term"><strong>Owner / Contractor</strong> Ensure compliance with OHS legislation so far as it relates to matters under their control.</div>
+      </div>
+    `,
+    quiz: [
+      { q: "What is the Internal Responsibility System (IRS)?", a: "A system where everyone in a workplace (employers, supervisors, workers) shares responsibility for safety. It is built on three worker rights: the right to know, participate, and refuse unsafe work.", badge: "badge-reg" },
+      { q: "Name the three worker rights under the IRS.", a: "1. Right to KNOW about hazards\n2. Right to PARTICIPATE in safety decisions\n3. Right to REFUSE unsafe work without reprisal", badge: "badge-reg" },
+      { q: "Who is the Prime Contractor and what is their duty?", a: "The employer who controls a multi-employer worksite. They must coordinate all OHS activities and ensure all contractors comply with applicable legislation.", badge: "badge-reg" },
+      { q: "Under what federal legislation does construction fall if it is federally regulated?", a: "Canada Labour Code, Part II (e.g., works crossing provincial borders like bridges, telecom, federal buildings).", badge: "badge-reg" },
+      { q: "What is the difference between the OHS Act, Regulation, and Code?", a: "The Act sets general rights and duties. The Regulation provides administrative requirements. The Code contains specific technical safety requirements for workplaces.", badge: "badge-reg" },
+      { q: "Can a worker refuse unsafe work? What is the process?", a: "Yes. The worker must report to their supervisor, who investigates. If not resolved, a government OHS officer is called. The worker cannot be disciplined for a good-faith refusal.", badge: "badge-reg" },
+    ],
+    refs: [
+      { icon: "📘", title: "Alberta OHS Act", desc: "Occupational Health and Safety Act, RSA 2000" },
+      { icon: "📗", title: "OHS Code", desc: "Alberta OHS Code — technical requirements for all workplace parties" },
+      { icon: "📙", title: "Canada Labour Code Part II", desc: "Federal jurisdiction OHS legislation" },
+      { icon: "🔗", title: "CCOHS — OHS Legislation", desc: "ccohs.ca — overview of Canadian OHS Acts by province" },
+      { icon: "📕", title: "NCSO Textbook Ch. 1", desc: "Legislation and Regulatory Framework — suggested pre-reading" },
+    ]
+  },
+  {
+    id: 2,
+    title: "Hazard Identification & Risk Assessment",
+    sub: "HIRA, hierarchy of controls, JSAs",
+    color: "#ef4444",
+    time: "15 min",
+    learn: `
+      <div class="reading-section">
+        <h3>🔍 What is a Hazard?</h3>
+        <p>A <strong>hazard</strong> is any condition, act, or situation with the potential to cause injury, illness, or damage. A <strong>risk</strong> is the likelihood that a hazard will cause harm. Understanding the distinction is critical — not all hazards pose equal risk.</p>
+        <p>Types of hazards on construction sites include: <strong>physical</strong> (falls, struck-by), <strong>chemical</strong> (silica, asbestos), <strong>biological</strong> (mold, bacteria), <strong>ergonomic</strong> (repetitive motion, awkward posture), and <strong>psychosocial</strong> (violence, fatigue).</p>
+      </div>
+      <div class="reading-section">
+        <h3>📊 The HIRA Process</h3>
+        <p>A <strong>Hazard Identification and Risk Assessment (HIRA)</strong> is a formal process to systematically identify hazards, evaluate risk, and implement controls. Steps:</p>
+        <ul>
+          <li><strong>1. Identify</strong> — what hazards exist in this task or environment?</li>
+          <li><strong>2. Assess</strong> — what is the likelihood and severity of harm?</li>
+          <li><strong>3. Control</strong> — apply the hierarchy of controls</li>
+          <li><strong>4. Evaluate</strong> — review effectiveness; update as conditions change</li>
+        </ul>
+        <p>Risk = Likelihood × Severity. Many HIRA tools use a risk matrix (1–5 scale each) to prioritize action.</p>
+      </div>
+      <div class="reading-section">
+        <h3>🏗️ Hierarchy of Controls</h3>
+        <div class="key-term"><strong>1. Elimination</strong> Remove the hazard entirely (most effective). Example: redesign the task so work-at-height is unnecessary.</div>
+        <div class="key-term"><strong>2. Substitution</strong> Replace the hazard with a less dangerous alternative. Example: use water-based instead of solvent-based coatings.</div>
+        <div class="key-term"><strong>3. Engineering Controls</strong> Isolate people from the hazard. Example: guarding, ventilation, interlocks.</div>
+        <div class="key-term"><strong>4. Administrative Controls</strong> Change how people work. Example: job rotation, permit-to-work systems, training, signage.</div>
+        <div class="key-term"><strong>5. PPE</strong> Protect the worker at the point of exposure (least effective alone). Example: hard hat, safety glasses, gloves.</div>
+      </div>
+      <div class="reading-section">
+        <h3>📝 Job Safety Analysis (JSA)</h3>
+        <p>A <strong>JSA</strong> (also called Job Hazard Analysis or Field Level Hazard Assessment) breaks a job down into steps, identifies hazards at each step, and lists controls. It is completed by the worker/supervisor before starting work, especially for non-routine or high-risk tasks.</p>
+      </div>
+    `,
+    quiz: [
+      { q: "What is the difference between a hazard and a risk?", a: "A hazard is something with the potential to cause harm. Risk is the likelihood that the hazard will actually cause harm, factoring in probability and severity.", badge: "badge-haz" },
+      { q: "List the 5 levels of the Hierarchy of Controls in order from most to least effective.", a: "1. Elimination\n2. Substitution\n3. Engineering Controls\n4. Administrative Controls\n5. PPE", badge: "badge-haz" },
+      { q: "Why is PPE considered the last line of defence?", a: "PPE does not eliminate or reduce the hazard — it only protects the worker if all other controls fail. It can fail due to improper use, damage, or fit issues.", badge: "badge-ppe" },
+      { q: "What does HIRA stand for and what are its four steps?", a: "Hazard Identification and Risk Assessment.\n1. Identify hazards\n2. Assess risk (likelihood × severity)\n3. Apply controls\n4. Evaluate effectiveness", badge: "badge-haz" },
+      { q: "What is a JSA and when should it be completed?", a: "A Job Safety Analysis breaks a task into steps, identifies hazards, and outlines controls. It should be completed before starting any non-routine, high-risk, or unfamiliar task.", badge: "badge-haz" },
+      { q: "Name the 5 types of workplace hazards.", a: "1. Physical (falls, noise, struck-by)\n2. Chemical (silica, solvents, asbestos)\n3. Biological (mold, bacteria, viruses)\n4. Ergonomic (repetition, awkward posture)\n5. Psychosocial (fatigue, violence, stress)", badge: "badge-haz" },
+    ],
+    refs: [
+      { icon: "📘", title: "Alberta OHS Code Part 2", desc: "Hazard Assessment, Elimination and Control" },
+      { icon: "📗", title: "CCOHS Hazard Identification", desc: "ccohs.ca/oshanswers/hsprograms/hazard_identification.html" },
+      { icon: "📙", title: "CSA Z45001", desc: "Occupational Health and Safety Management Systems — risk assessment framework" },
+      { icon: "📕", title: "NCSO Textbook Ch. 3", desc: "Hazard Recognition, Assessment, and Control" },
+      { icon: "🔗", title: "AHSA Hazard Assessment Template", desc: "Alberta Construction Safety Association — HIRA templates and examples" },
+    ]
+  },
+  {
+    id: 3,
+    title: "Fall Protection",
+    sub: "Fall arrest, restraint, travel restriction, ladders",
+    color: "#f59e0b",
+    time: "15 min",
+    learn: `
+      <div class="reading-section">
+        <h3>⚠️ Fall Hazards — The #1 Construction Killer</h3>
+        <p>Falls are the <strong>leading cause of fatalities</strong> on Canadian construction sites. The OHS Code Part 9 covers fall protection requirements in detail. In Alberta, fall protection is required when workers are at risk of falling <strong>3 metres (10 ft) or more</strong>, or into a hazardous substance or moving equipment regardless of height.</p>
+      </div>
+      <div class="reading-section">
+        <h3>🪢 Fall Protection Systems</h3>
+        <div class="key-term"><strong>Fall Arrest System</strong> Stops a worker mid-fall. Includes full body harness, shock-absorbing lanyard, and anchor. Must limit fall arrest force to 8 kN and stop the worker within 1.8 m below the work surface.</div>
+        <div class="key-term"><strong>Fall Restraint System</strong> Prevents a worker from reaching the fall hazard. The lanyard length restricts movement so the worker cannot get to the edge.</div>
+        <div class="key-term"><strong>Travel Restriction System</strong> Limits a worker's movement to a safe zone — not a fall protection system, but prevents access to fall hazard area.</div>
+        <div class="key-term"><strong>Controlled Access Zone (CAZ)</strong> A defined area at the edge of an elevated surface where workers may work without fall arrest, but with barriers and trained workers only.</div>
+        <div class="key-term"><strong>Safety Monitoring System</strong> A designated monitor watches for fall hazards and warns workers. Lowest-level control — only when other methods are not practicable.</div>
+      </div>
+      <div class="reading-section">
+        <h3>🧗 Ladders & Scaffolding</h3>
+        <p>Extension ladders must extend at least <strong>1 metre (3 ft) above the landing</strong>. The correct angle is <strong>4:1</strong> (one unit out for every four units up). Ladders must be secured at top and bottom when possible.</p>
+        <p>Scaffolding must be designed by a competent person and inspected before each shift. Guardrails (top rail at 1.07 m, midrail, and toeboard) are required on all elevated work platforms.</p>
+      </div>
+    `,
+    quiz: [
+      { q: "At what height is fall protection required in Alberta?", a: "When a worker is at risk of falling 3 metres (approximately 10 feet) or more, OR into any hazardous substance or moving equipment regardless of height.", badge: "badge-wkp" },
+      { q: "What is the difference between fall arrest and fall restraint?", a: "Fall arrest STOPS a worker during a fall (harness + lanyard + anchor). Fall restraint PREVENTS a worker from reaching the fall hazard by limiting their range of movement to keep them away from the edge.", badge: "badge-wkp" },
+      { q: "What are the components of a personal fall arrest system?", a: "1. Full-body harness (never a body belt)\n2. Connecting device (lanyard, self-retracting lifeline)\n3. Anchor point (must withstand 22.2 kN or designed by engineer)\n4. May include a shock absorber", badge: "badge-wkp" },
+      { q: "What is the correct ladder angle for an extension ladder?", a: "The 4:1 rule — for every 4 units of vertical height, the base should be 1 unit out from the wall. This equals approximately a 75° angle.", badge: "badge-wkp" },
+      { q: "How far must a ladder extend above a landing?", a: "At least 1 metre (3 feet) above the landing surface to provide a secure handhold when stepping off.", badge: "badge-wkp" },
+      { q: "What is the maximum free-fall distance allowed in a fall arrest system?", a: "The maximum free-fall distance is 1.5 metres (approximately 5 feet). The total arrest distance (including deceleration) must not result in contact with a lower level.", badge: "badge-wkp" },
+    ],
+    refs: [
+      { icon: "📘", title: "Alberta OHS Code Part 9", desc: "Fall Protection — primary reference for all fall protection requirements" },
+      { icon: "📗", title: "Alberta OHS Code Part 23", desc: "Scaffolds and Temporary Work Platforms" },
+      { icon: "📙", title: "CSA Z259 Series", desc: "Fall Protection Equipment standards (harnesses, lanyards, anchors)" },
+      { icon: "📕", title: "NCSO Textbook Ch. 7", desc: "Fall Protection" },
+      { icon: "🔗", title: "WCB Alberta — Fall Safety", desc: "wcb.ab.ca — fall protection resources and bulletins" },
+    ]
+  },
+  {
+    id: 4,
+    title: "WHMIS & Chemical Safety",
+    sub: "GHS, SDS, labels, hazard classes",
+    color: "#10b981",
+    time: "15 min",
+    learn: `
+      <div class="reading-section">
+        <h3>🧪 WHMIS 2015 — Globally Harmonized System</h3>
+        <p><strong>WHMIS</strong> (Workplace Hazardous Materials Information System) is Canada's national workplace chemical safety program, updated in 2015 to align with the <strong>Globally Harmonized System (GHS)</strong>. It applies to all hazardous products used, stored, or handled in Canadian workplaces.</p>
+        <p>WHMIS 2015 has two main product categories: <strong>Physical Hazards</strong> and <strong>Health Hazards</strong>, each subdivided into hazard classes and categories.</p>
+      </div>
+      <div class="reading-section">
+        <h3>🏷️ Labels</h3>
+        <p>Every hazardous product must be labelled. Supplier labels (from the manufacturer) must include:</p>
+        <ul>
+          <li>Product identifier (name)</li>
+          <li>Pictogram(s) — GHS symbols in a red diamond border</li>
+          <li>Signal word (<strong>Danger</strong> or <strong>Warning</strong>)</li>
+          <li>Hazard statements</li>
+          <li>Precautionary statements</li>
+          <li>Supplier information</li>
+        </ul>
+        <p>Workplace labels are required when a product is transferred from the original container. They must show the product name, safe handling instructions, and a reference to the SDS.</p>
+      </div>
+      <div class="reading-section">
+        <h3>📄 Safety Data Sheets (SDS)</h3>
+        <p>SDS have <strong>16 standardized sections</strong>. Key sections for field workers:</p>
+        <div class="key-term"><strong>Section 2</strong> Hazard Identification — hazard class, pictograms, signal word</div>
+        <div class="key-term"><strong>Section 4</strong> First Aid Measures — what to do in an emergency</div>
+        <div class="key-term"><strong>Section 6</strong> Accidental Release — spill response</div>
+        <div class="key-term"><strong>Section 8</strong> Exposure Controls / PPE — OELs, required PPE</div>
+        <div class="key-term"><strong>Section 11</strong> Toxicological Information — health effects</div>
+      </div>
+    `,
+    quiz: [
+      { q: "What does WHMIS stand for and what does it govern?", a: "Workplace Hazardous Materials Information System. It is Canada's national standard for identifying and communicating hazards of hazardous products used in the workplace.", badge: "badge-haz" },
+      { q: "What are the three components of WHMIS 2015?", a: "1. Labels (supplier and workplace)\n2. Safety Data Sheets (SDS)\n3. Worker Education and Training", badge: "badge-haz" },
+      { q: "What is the difference between a 'Danger' and 'Warning' signal word?", a: "'Danger' indicates a more severe hazard. 'Warning' indicates a less severe hazard. Both trigger requirements for handling precautions.", badge: "badge-haz" },
+      { q: "How many sections does a standardized SDS have, and what is in Section 8?", a: "16 sections. Section 8 covers Exposure Controls and Personal Protective Equipment — it lists occupational exposure limits (OELs) and the required PPE.", badge: "badge-haz" },
+      { q: "When is a workplace label required?", a: "When a hazardous product is transferred or decanted from its original supplier-labelled container into another container for workplace use.", badge: "badge-haz" },
+      { q: "Name three GHS physical hazard classes.", a: "Examples: Flammable liquids, Flammable gases, Explosives, Oxidizing liquids, Self-reactive substances, Compressed gases, Pyrophoric liquids.", badge: "badge-haz" },
+    ],
+    refs: [
+      { icon: "📘", title: "Hazardous Products Regulations (Canada)", desc: "Federal legislation governing WHMIS supplier requirements" },
+      { icon: "📗", title: "Alberta OHS Code Part 4", desc: "Chemical Hazards — employer obligations under provincial law" },
+      { icon: "📙", title: "CCOHS WHMIS 2015 Guide", desc: "ccohs.ca/whmis — comprehensive overview with pictogram guide" },
+      { icon: "📕", title: "NCSO Textbook Ch. 5", desc: "WHMIS and Chemical Safety" },
+      { icon: "🔗", title: "Health Canada — GHS Implementation", desc: "canada.ca — Globally Harmonized System in Canada" },
+    ]
+  },
+  {
+    id: 5,
+    title: "Incident Investigation",
+    sub: "Root cause, near misses, reporting, OSHA forms",
+    color: "#a855f7",
+    time: "15 min",
+    learn: `
+      <div class="reading-section">
+        <h3>🔎 Why Investigate Incidents?</h3>
+        <p>The goal of incident investigation is <strong>not to assign blame</strong> — it is to find root causes so the same incident doesn't happen again. Every incident (and near miss) is an opportunity to prevent a future injury.</p>
+        <p>The <strong>iceberg model</strong>: for every serious injury, there are approximately 10 minor injuries, 30 property damage events, and 600 near misses. Near misses are free lessons — investigating them is critical.</p>
+      </div>
+      <div class="reading-section">
+        <h3>📋 Types of Causes</h3>
+        <div class="key-term"><strong>Immediate Cause</strong> The direct action or condition that caused the incident (e.g., worker slipped on ice). Also called the "contact event."</div>
+        <div class="key-term"><strong>Contributing Cause / Indirect Cause</strong> Factors that contributed to the immediate cause (e.g., ice not removed, inadequate footwear).</div>
+        <div class="key-term"><strong>Root Cause</strong> The underlying system or management failure (e.g., no winter maintenance procedure, inadequate training, poor housekeeping policy).</div>
+      </div>
+      <div class="reading-section">
+        <h3>🏛️ Reporting Requirements</h3>
+        <p>In Alberta, employers must report to <strong>OHS immediately</strong> (or as soon as practicable) for:</p>
+        <ul>
+          <li>Serious injuries or potentially serious injuries</li>
+          <li>Incidents involving a crane or hoist failure</li>
+          <li>Any incident causing a worker's death</li>
+          <li>Dangerous occurrence (explosion, structural collapse)</li>
+        </ul>
+        <p>A written report is required within <strong>10 days</strong> of the incident for serious injuries. Scene preservation is required until an OHS officer releases it, except to help injured persons.</p>
+      </div>
+      <div class="reading-section">
+        <h3>🔬 Investigation Tools</h3>
+        <p>Common investigation methods include: <strong>5 Whys</strong> (ask why repeatedly until root cause is found), <strong>Fault Tree Analysis</strong>, <strong>Fishbone / Ishikawa Diagram</strong> (causes grouped by: Man, Machine, Method, Material, Environment).</p>
+      </div>
+    `,
+    quiz: [
+      { q: "What is the primary goal of incident investigation?", a: "To identify root causes and prevent recurrence — not to assign blame. Incident investigation is a corrective and preventive tool.", badge: "badge-inv" },
+      { q: "Explain the 'iceberg model' of incidents.", a: "For every serious injury, there are ~10 minor injuries, ~30 property damage incidents, and ~600 near misses below the surface. Near misses are the base of the iceberg — the most preventable.", badge: "badge-inv" },
+      { q: "What is the difference between an immediate cause and a root cause?", a: "Immediate cause: the direct action/condition that caused the incident (e.g., slip on ice). Root cause: the underlying system failure (e.g., no snow/ice removal program in place).", badge: "badge-inv" },
+      { q: "In Alberta, when must a serious injury be reported to OHS?", a: "Immediately (or as soon as practicable). A written report must follow within 10 days of the incident.", badge: "badge-inv" },
+      { q: "What is the 5 Whys technique?", a: "A root cause analysis tool: ask 'why?' repeatedly (typically 5 times) after each answer until you reach the underlying systemic cause rather than a symptom.", badge: "badge-inv" },
+      { q: "What does FLHA stand for and when is it required?", a: "Field Level Hazard Assessment. Required before starting work, especially for non-routine tasks. Workers identify site-specific hazards and controls before work begins.", badge: "badge-inv" },
+    ],
+    refs: [
+      { icon: "📘", title: "Alberta OHS Act Section 18", desc: "Duties regarding incident reporting and investigation" },
+      { icon: "📗", title: "Alberta OHS Code Part 40", desc: "Investigations and Records" },
+      { icon: "📙", title: "CCOHS — Accident Investigation", desc: "Step-by-step investigation guide: ccohs.ca" },
+      { icon: "📕", title: "NCSO Textbook Ch. 10", desc: "Incident Investigation and Reporting" },
+      { icon: "🔗", title: "AHSA — Investigation Forms", desc: "Alberta Construction Safety Association — sample investigation templates" },
+    ]
+  },
+  {
+    id: 6,
+    title: "Personal Protective Equipment",
+    sub: "Head, eye, hearing, respiratory, body protection",
+    color: "#06b6d4",
+    time: "15 min",
+    learn: `
+      <div class="reading-section">
+        <h3>🦺 PPE as the Last Line of Defence</h3>
+        <p>PPE must be used when <strong>other controls are not sufficient</strong> to adequately reduce exposure to a hazard. It does not eliminate the hazard — it only protects the worker. Employers must provide, maintain, and ensure workers use appropriate PPE.</p>
+      </div>
+      <div class="reading-section">
+        <h3>⛑️ Head Protection</h3>
+        <p>Hard hats must meet <strong>CSA Standard Z94.1</strong>. Classes:</p>
+        <ul>
+          <li><strong>Class E (Electrical)</strong> — protects against impact and electrical conductors up to 20,000 V</li>
+          <li><strong>Class G (General)</strong> — impact protection, electrical conductors up to 2,200 V</li>
+          <li><strong>Class C (Conductive)</strong> — impact only, no electrical protection</li>
+        </ul>
+        <p>Hard hats must be inspected before each use. Replace if cracked, dented, or if the suspension system is damaged. Replace after any significant impact.</p>
+      </div>
+      <div class="reading-section">
+        <h3>👁️ Eye and Face Protection</h3>
+        <p>Must meet <strong>CSA Z94.3</strong>. Safety glasses provide basic splash and particle protection. Face shields protect against splashes, molten metal, and grinding debris, but must be worn <strong>over</strong> safety glasses. Welding helmets must be used for arc welding (shade varies by process).</p>
+      </div>
+      <div class="reading-section">
+        <h3>👂 Hearing Protection</h3>
+        <p>Required when noise levels exceed <strong>85 dBA (8-hour TWA)</strong>. Types:</p>
+        <div class="key-term"><strong>Earplugs</strong> Roll, pull ear up and back, insert, hold until expanded. NRR/SNR rating indicates noise reduction.</div>
+        <div class="key-term"><strong>Earmuffs</strong> Cup over the ears. Best for intermittent noise. NRR must exceed noise exposure.</div>
+      </div>
+      <div class="reading-section">
+        <h3>😷 Respiratory Protection</h3>
+        <p>Must meet <strong>CSA Z94.4</strong>. Types range from disposable dust masks (N95) to half-face respirators to full-face SCBA. A respirator fit test is required before first use of a tight-fitting respirator. Facial hair can compromise the seal.</p>
+      </div>
+    `,
+    quiz: [
+      { q: "What CSA standard governs hard hats, and what is the difference between Class E and Class G?", a: "CSA Z94.1. Class E (Electrical): protection up to 20,000 V. Class G (General): protection up to 2,200 V. Both provide impact protection.", badge: "badge-ppe" },
+      { q: "When is hearing protection required in Alberta?", a: "When noise exposure exceeds 85 dBA as an 8-hour time-weighted average (TWA), or when peak sound levels exceed 140 dB.", badge: "badge-ppe" },
+      { q: "What should you check before using a hard hat?", a: "Inspect for cracks, dents, and UV degradation in the shell. Check the suspension for tears, worn straps, or missing components. Replace after any significant impact, even if no visible damage.", badge: "badge-ppe" },
+      { q: "Why is PPE considered the last level of the hierarchy of controls?", a: "PPE only protects the worker at the point of exposure — it does not eliminate or reduce the hazard itself. If PPE fails or is used incorrectly, the worker is unprotected.", badge: "badge-ppe" },
+      { q: "What is required before a worker uses a tight-fitting respirator?", a: "A respiratory fit test (quantitative or qualitative) must be completed to ensure the respirator seals properly to the worker's face. Facial hair that lies under the seal area is not permitted.", badge: "badge-ppe" },
+      { q: "Can a face shield replace safety glasses?", a: "No. A face shield must be worn over safety glasses. A face shield alone does not protect against particles that can enter from below or the sides.", badge: "badge-ppe" },
+    ],
+    refs: [
+      { icon: "📘", title: "Alberta OHS Code Part 18", desc: "Personal Protective Equipment — employer and worker requirements" },
+      { icon: "📗", title: "CSA Z94.1 / Z94.3 / Z94.4", desc: "Head, eye, and respiratory protection standards" },
+      { icon: "📙", title: "NIOSH PPE Information", desc: "cdc.gov/niosh — hearing and respiratory protection guidance" },
+      { icon: "📕", title: "NCSO Textbook Ch. 6", desc: "Personal Protective Equipment" },
+      { icon: "🔗", title: "CCOHS — PPE Selection Guide", desc: "ccohs.ca — guidance on selecting appropriate PPE by hazard type" },
+    ]
+  },
+];
+
+// ── RENDER HOME ────────────────────────────────────────────
+function renderHome() {
+  const grid = document.getElementById('moduleGrid');
+  grid.innerHTML = modules.map(m => `
+    <div class="module-card" style="--module-color:${m.color}" onclick="openModule(${m.id})">
+      <div class="module-num">MODULE ${String(m.id).padStart(2,'0')} · ${m.time}</div>
+      <div class="module-title">${m.title}</div>
+      <div class="module-meta">${m.sub}</div>
+    </div>
+  `).join('');
+}
+
+// ── OPEN MODULE ────────────────────────────────────────────
+function openModule(id) {
+  const m = modules.find(x => x.id === id);
+  if (!m) return;
+  resetTimer();
+
+  document.getElementById('homeView').style.display = 'none';
+  const sv = document.getElementById('sessionView');
+  sv.classList.add('visible');
+  document.getElementById('sessionTitle').textContent = m.title;
+  document.getElementById('sessionSubtitle').textContent = `Module ${m.id} · ${m.sub}`;
+
+  // Learn tab
+  document.getElementById('tabLearn').innerHTML = m.learn;
+
+  // Quiz tab
+  let flipped = new Set();
+  const cards = m.quiz.map((q, i) => `
+    <div class="flip-card" id="card-${i}" onclick="flipCard(${i})">
+      <div class="flip-inner">
+        <div class="flip-front">
+          <span class="q-badge ${q.badge}">Question ${i+1}</span>
+          <div class="flip-question">${q.q}</div>
+          <div class="flip-hint">tap to reveal answer →</div>
+        </div>
+        <div class="flip-back">
+          <div class="flip-back-label">✓ Answer</div>
+          <div class="flip-answer">${q.a.replace(/\n/g,'<br>')}</div>
+        </div>
+      </div>
+    </div>
+  `).join('');
+  document.getElementById('tabQuiz').innerHTML = `
+    <div class="progress-row">
+      <div class="progress-track"><div class="progress-fill" id="quizProgress" style="width:0%"></div></div>
+      <div class="progress-text" id="quizCount">0 / ${m.quiz.length} revealed</div>
+    </div>
+    <div class="cards-grid">${cards}</div>
+    <div style="margin-top:20px;text-align:center;">
+      <button class="btn btn-ghost btn-sm" onclick="resetCards(${m.quiz.length})">↺ Reset Cards</button>
+    </div>
+  `;
+
+  // Refs tab
+  const refs = m.refs.map(r => `
+    <div class="ref-block">
+      <div class="ref-icon">${r.icon}</div>
+      <div class="ref-text"><strong>${r.title}</strong>${r.desc}</div>
+    </div>
+  `).join('');
+  document.getElementById('tabRefs').innerHTML = `
+    <div class="reading-section">
+      <h3>📚 Suggested References & Reading</h3>
+      ${refs}
+      <p style="margin-top:16px;font-size:0.8rem;color:var(--muted);">For the NCSO exam, focus on Alberta-specific legislation and the NCSO study guide. The AHSA and CCOHS websites are free, authoritative resources.</p>
+    </div>
+  `;
+
+  // reset tab state
+  switchTabById('learn');
+}
+
+let revealedCount = 0;
+let totalCards = 0;
+
+function flipCard(i) {
+  const card = document.getElementById('card-' + i);
+  if (!card.classList.contains('flipped')) {
+    card.classList.add('flipped');
+    revealedCount++;
+    totalCards = document.querySelectorAll('.flip-card').length;
+    const pct = (revealedCount / totalCards) * 100;
+    document.getElementById('quizProgress').style.width = pct + '%';
+    document.getElementById('quizCount').textContent = `${revealedCount} / ${totalCards} revealed`;
+  } else {
+    card.classList.remove('flipped');
+    revealedCount = Math.max(0, revealedCount - 1);
+    totalCards = document.querySelectorAll('.flip-card').length;
+    const pct = (revealedCount / totalCards) * 100;
+    document.getElementById('quizProgress').style.width = pct + '%';
+    document.getElementById('quizCount').textContent = `${revealedCount} / ${totalCards} revealed`;
+  }
+}
+
+function resetCards(count) {
+  document.querySelectorAll('.flip-card').forEach(c => c.classList.remove('flipped'));
+  revealedCount = 0;
+  document.getElementById('quizProgress').style.width = '0%';
+  document.getElementById('quizCount').textContent = `0 / ${count} revealed`;
+}
+
+function goHome() {
+  document.getElementById('homeView').style.display = '';
+  document.getElementById('sessionView').classList.remove('visible');
+  resetTimer();
+}
+
+function switchTab(name, el) {
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  el.classList.add('active');
+  ['tabLearn','tabQuiz','tabRefs'].forEach(id => document.getElementById(id).style.display = 'none');
+  const map = { learn:'tabLearn', quiz:'tabQuiz', refs:'tabRefs' };
+  document.getElementById(map[name]).style.display = '';
+}
+
+function switchTabById(name) {
+  document.querySelectorAll('.tab').forEach((t, i) => {
+    t.classList.toggle('active', ['learn','quiz','refs'][i] === name);
+  });
+  ['tabLearn','tabQuiz','tabRefs'].forEach(id => document.getElementById(id).style.display = 'none');
+  const map = { learn:'tabLearn', quiz:'tabQuiz', refs:'tabRefs' };
+  document.getElementById(map[name]).style.display = '';
+}
+
+renderHome();
+</script>
+</body>
+</html>

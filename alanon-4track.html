@@ -1,0 +1,1160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Walking Together Through Recovery — 4-Track Workbook</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Lato:wght@300;400;700&family=Caveat:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ivory:#FAF6EE;--ivory-dark:#EEE6D4;--ivory-mid:#F4EDE0;
+  --sage:#7A9E7E;--sage-light:#B8CEB9;--sage-dark:#4A6E4E;
+  --slate:#2C3A47;--slate-light:#4A5F72;
+  --amber:#C4843A;--amber-light:#E8B87A;
+  --rose:#A86868;--rose-light:#D4A8A8;
+  --teal:#4A8FA8;--teal-light:#A8D0E0;--teal-dark:#2A6A80;
+  --plum:#7A5A8A;--plum-light:#C4A8D4;--plum-dark:#5A3A6A;
+  --line:#C8BFA8;--shadow:rgba(44,58,71,0.09);
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{background:#DDD5C5;font-family:'Lato',sans-serif;color:var(--slate);font-size:13px;line-height:1.55;}
+
+.page{width:816px;min-height:1056px;margin:28px auto;background:var(--ivory);padding:40px 44px 64px;position:relative;page-break-after:always;}
+.page.dark{background:var(--slate);}
+
+/* COVER */
+.cover-leaf{font-family:'Caveat',cursive;color:var(--sage-light);font-size:17px;letter-spacing:3px;text-transform:uppercase;margin-bottom:22px;opacity:.85;}
+.cover-title{font-family:'Playfair Display',serif;color:var(--ivory);font-size:40px;font-weight:700;text-align:center;line-height:1.2;margin-bottom:14px;}
+.cover-title em{color:var(--amber-light);font-style:italic;}
+.cover-sub{font-family:'Playfair Display',serif;color:var(--sage-light);font-size:18px;font-style:italic;text-align:center;margin-bottom:32px;}
+.cover-div{width:100px;height:2px;background:linear-gradient(90deg,transparent,var(--amber-light),transparent);margin:0 auto 32px;}
+.cover-desc{color:#B8C8D0;font-size:13px;text-align:center;max-width:500px;margin:0 auto;line-height:1.85;}
+.cover-prayer{margin-top:32px;font-family:'Caveat',cursive;color:var(--amber-light);font-size:19px;text-align:center;line-height:1.9;opacity:.9;}
+.cover-badges{margin-top:30px;display:flex;flex-wrap:wrap;gap:7px;justify-content:center;}
+.badge{font-size:10px;padding:4px 11px;border-radius:20px;letter-spacing:.3px;}
+.badge.al{background:rgba(122,158,126,.15);border:1px solid rgba(122,158,126,.3);color:var(--sage-light);}
+.badge.te{background:rgba(74,143,168,.15);border:1px solid rgba(74,143,168,.3);color:var(--teal-light);}
+.badge.rc{background:rgba(122,90,138,.15);border:1px solid rgba(122,90,138,.3);color:var(--plum-light);}
+.cover-names{margin-top:32px;display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:14px;width:100%;border-top:1px solid rgba(184,200,183,.25);padding-top:22px;}
+.nline{text-align:center;}
+.nlabel{font-size:9px;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:7px;}
+.nrule{border-bottom:1px solid rgba(184,200,183,.35);height:22px;}
+
+/* HOW TO / SECTION HEADERS */
+.eyebrow{font-family:'Caveat',cursive;color:var(--sage);font-size:17px;margin-bottom:6px;}
+.section-title{font-family:'Playfair Display',serif;font-size:26px;color:var(--slate);margin-bottom:22px;padding-bottom:13px;border-bottom:2px solid var(--sage-light);}
+.how-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:20px;}
+.hcard{background:white;border-radius:7px;padding:17px;box-shadow:0 2px 6px var(--shadow);}
+.hcard h4{font-family:'Playfair Display',serif;font-size:14px;margin-bottom:7px;}
+.hcard p{font-size:12px;color:var(--slate-light);line-height:1.7;}
+
+/* TRACK LEGEND */
+.legend{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:10px;margin-bottom:18px;}
+.lg{border-radius:6px;padding:10px 12px;}
+.lg.ta{background:#EEF4EE;border-top:4px solid var(--sage);}
+.lg.tb{background:#FFF5E8;border-top:4px solid var(--amber);}
+.lg.tc{background:#E8F4F8;border-top:4px solid var(--teal);}
+.lg.td{background:#F4EEF8;border-top:4px solid var(--plum);}
+.lg-code{font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;}
+.lg.ta .lg-code{color:var(--sage-dark);}
+.lg.tb .lg-code{color:#8A5A18;}
+.lg.tc .lg-code{color:var(--teal-dark);}
+.lg.td .lg-code{color:var(--plum-dark);}
+.lg-who{font-family:'Playfair Display',serif;font-size:12px;font-style:italic;color:var(--slate);margin-top:2px;}
+.lg-book{font-size:10px;color:var(--slate-light);margin-top:4px;line-height:1.4;}
+
+/* SESSION HEADER */
+.sess-hdr{display:flex;align-items:flex-start;gap:15px;margin-bottom:16px;padding-bottom:14px;border-bottom:1px solid var(--sage-light);}
+.sess-num{background:var(--slate);color:var(--ivory);font-family:'Playfair Display',serif;font-size:22px;font-weight:700;width:50px;height:50px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.s-eye{font-family:'Caveat',cursive;color:var(--sage);font-size:14px;margin-bottom:2px;}
+.s-tit{font-family:'Playfair Display',serif;font-size:21px;color:var(--slate);font-style:italic;}
+.s-tim{font-size:10px;color:var(--rose);letter-spacing:1.3px;text-transform:uppercase;margin-top:3px;}
+
+/* 4-TRACK GRID */
+.tgrid{display:grid;grid-template-columns:1fr 1fr;gap:11px;margin-bottom:12px;}
+.trk{background:white;border-radius:7px;padding:13px;box-shadow:0 2px 4px var(--shadow);}
+.trk.ta{border-top:4px solid var(--sage);}
+.trk.tb{border-top:4px solid var(--amber);}
+.trk.tc{border-top:4px solid var(--teal);}
+.trk.td{border-top:4px solid var(--plum);}
+.trk-lbl{font-size:9px;font-weight:700;letter-spacing:1.8px;text-transform:uppercase;margin-bottom:2px;}
+.trk.ta .trk-lbl{color:var(--sage-dark);}
+.trk.tb .trk-lbl{color:#8A5A18;}
+.trk.tc .trk-lbl{color:var(--teal-dark);}
+.trk.td .trk-lbl{color:var(--plum-dark);}
+.trk-who{font-family:'Playfair Display',serif;font-size:11.5px;font-style:italic;color:var(--slate-light);margin-bottom:9px;padding-bottom:7px;border-bottom:1px solid var(--ivory-dark);}
+.bref{border-radius:0 4px 4px 0;padding:6px 10px;margin-bottom:9px;font-size:10.5px;color:var(--slate-light);line-height:1.5;}
+.trk.ta .bref{background:var(--ivory-mid);border-left:3px solid var(--sage);}
+.trk.tb .bref{background:var(--ivory-mid);border-left:3px solid var(--amber);}
+.trk.tc .bref{background:#EEF8FC;border-left:3px solid var(--teal);}
+.trk.td .bref{background:#F8F0FC;border-left:3px solid var(--plum);}
+.bref strong{display:block;color:var(--slate);font-size:10.5px;margin-bottom:2px;}
+.reading{font-size:11.5px;color:var(--slate);line-height:1.72;margin-bottom:9px;font-style:italic;padding-left:8px;}
+.trk.ta .reading{border-left:2px solid var(--sage-light);}
+.trk.tb .reading{border-left:2px solid var(--amber-light);}
+.trk.tc .reading{border-left:2px solid var(--teal-light);}
+.trk.td .reading{border-left:2px solid var(--plum-light);}
+.plbl{font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--rose);font-weight:700;margin-bottom:5px;}
+.prompt{font-size:11.5px;color:var(--slate);margin-bottom:5px;padding-left:13px;position:relative;line-height:1.4;}
+.prompt::before{content:'→';position:absolute;left:0;color:var(--rose-light);font-size:11px;}
+.res{display:flex;flex-wrap:wrap;gap:5px;margin-top:8px;}
+.rl{display:inline-flex;align-items:center;gap:3px;font-size:10px;padding:3px 8px;border-radius:14px;text-decoration:none;font-weight:700;}
+.rl:hover{opacity:.75;}
+.rl.rd{background:#E8F0E8;color:var(--sage-dark);border:1px solid var(--sage-light);}
+.rl.ls{background:#FFF0D8;color:#8A5A18;border:1px solid var(--amber-light);}
+.rl.wt{background:#FCE8E8;color:var(--rose);border:1px solid var(--rose-light);}
+.rl.mt{background:#E8EAF0;color:var(--slate);border:1px solid #B0B8C8;}
+.rl.rc{background:#F0E8F8;color:var(--plum-dark);border:1px solid var(--plum-light);}
+
+/* TOGETHER */
+.together{background:var(--slate);border-radius:7px;padding:12px 16px;display:flex;align-items:flex-start;gap:11px;margin-bottom:12px;}
+.tog-ico{font-size:19px;flex-shrink:0;margin-top:1px;}
+.tog-lbl{font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--sage-light);font-weight:700;margin-bottom:3px;}
+.tog-p{font-family:'Playfair Display',serif;font-style:italic;color:var(--ivory);font-size:12.5px;line-height:1.6;}
+
+/* WRITING */
+.wlbl{font-size:9px;letter-spacing:1.8px;text-transform:uppercase;color:var(--slate-light);font-weight:700;margin-bottom:7px;display:flex;align-items:center;gap:8px;}
+.wlbl::after{content:'';flex:1;height:1px;background:var(--line);}
+.wgrid{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:9px;}
+.wb-lbl{font-family:'Caveat',cursive;font-size:11px;margin-bottom:3px;}
+.wb-lbl.ta{color:var(--sage-dark);}
+.wb-lbl.tb{color:#8A5A18;}
+.wb-lbl.tc{color:var(--teal-dark);}
+.wb-lbl.td{color:var(--plum-dark);}
+.lined{background:white;border-radius:4px;padding:5px 8px;box-shadow:0 1px 3px var(--shadow);}
+.wl{height:22px;border-bottom:1px solid var(--line);}
+.wl:last-child{border-bottom:none;}
+
+/* FOOTER */
+.pftr{position:absolute;bottom:18px;left:44px;right:44px;display:flex;justify-content:space-between;border-top:1px solid var(--line);padding-top:7px;}
+.pftr-l{font-family:'Caveat',cursive;font-size:12px;color:var(--sage);}
+.pftr-r{font-size:9px;color:var(--line);letter-spacing:1px;}
+
+/* REF TABLE */
+.rtbl{width:100%;border-collapse:collapse;margin-top:18px;font-size:12px;}
+.rtbl th{background:var(--slate);color:var(--ivory);font-size:10px;letter-spacing:1.2px;text-transform:uppercase;padding:9px 11px;text-align:left;}
+.rtbl td{padding:9px 11px;border-bottom:1px solid var(--ivory-dark);vertical-align:top;}
+.rtbl tr:nth-child(even) td{background:#F4EFE4;}
+.btc{font-family:'Playfair Display',serif;font-style:italic;font-weight:600;}
+.cpill{font-family:monospace;background:var(--ivory-dark);padding:2px 5px;border-radius:3px;font-size:10px;}
+.dark-box{background:var(--slate);border-radius:8px;padding:22px 30px;text-align:center;margin-top:16px;}
+.dark-box p{font-family:'Playfair Display',serif;font-style:italic;color:var(--ivory);font-size:15px;line-height:1.9;}
+.dark-box .attr{font-family:'Caveat',cursive;color:var(--amber-light);font-size:13px;margin-top:10px;}
+
+@media print{body{background:white;}.page{margin:0;box-shadow:none;page-break-after:always;}}
+</style>
+</head>
+<body>
+
+<!-- COVER -->
+<div class="page dark" style="display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;overflow:hidden;">
+  <div class="cover-leaf">Al-Anon · Alateen · Recovering Couples Anonymous</div>
+  <div class="cover-title">Walking <em>Together</em><br>Through Recovery</div>
+  <div class="cover-sub">Four-Track Parallel Sessions for Whole-Family Healing</div>
+  <div class="cover-div"></div>
+  <div class="cover-desc">Twelve 15-minute sessions — four tracks running side by side.<br>
+  Al-Anon Member &nbsp;·&nbsp; Family or Friend &nbsp;·&nbsp; Alateen Teen &nbsp;·&nbsp; Recovering Couple<br><br>
+  Read separately. Come together. Heal together.</div>
+  <div class="cover-prayer">God, grant me the serenity to accept the things I cannot change,<br>courage to change the things I can,<br>and wisdom to know the difference.</div>
+  <div class="cover-badges">
+    <span class="badge al">How Al-Anon Works · B-22</span>
+    <span class="badge al">Courage to Change · B-16</span>
+    <span class="badge al">Paths to Recovery · B-24</span>
+    <span class="badge al">Hope for Today · B-27</span>
+    <span class="badge al">Discovering Choices · B-30</span>
+    <span class="badge al">From Survival to Recovery · B-21</span>
+    <span class="badge te">Alateen — Hope for Children of Alcoholics · B-3</span>
+    <span class="badge te">Alateen — A Day at a Time · B-10</span>
+    <span class="badge rc">Recovering Couples Anonymous · RCA Big Book</span>
+    <span class="badge rc">Chapter 9 — Couples in Recovery Anonymous</span>
+  </div>
+  <div class="cover-names">
+    <div class="nline"><div class="nlabel" style="color:var(--sage-light)">Track A · Al-Anon</div><div class="nrule"></div></div>
+    <div class="nline"><div class="nlabel" style="color:var(--amber-light)">Track B · Family/Friend</div><div class="nrule"></div></div>
+    <div class="nline"><div class="nlabel" style="color:var(--teal-light)">Track C · Alateen Teen</div><div class="nrule"></div></div>
+    <div class="nline"><div class="nlabel" style="color:var(--plum-light)">Track D · Couple (RCA)</div><div class="nrule"></div></div>
+  </div>
+</div>
+
+<!-- HOW TO USE -->
+<div class="page">
+  <div class="eyebrow">Before you begin</div>
+  <div class="section-title">How to Use This Workbook</div>
+  <div class="how-grid">
+    <div class="hcard" style="border-top:4px solid var(--sage)"><h4>📖 Read Your Own Track</h4><p>Each session has four tracks. Sit apart for 15 minutes and read only your track. Same themes, different books, different angles. You don't need to read the other tracks to fully participate.</p></div>
+    <div class="hcard" style="border-top:4px solid var(--amber)"><h4>✏️ Write in the Space Provided</h4><p>Each page has lined writing space for all four tracks. In GoodNotes, write directly on the lines with Apple Pencil. Even a few words counts. Writing surfaces things that thinking alone doesn't reach.</p></div>
+    <div class="hcard" style="border-top:4px solid var(--teal)"><h4>🧒 Track C — Alateen</h4><p>Written for teens aged 12–18 affected by someone else's drinking. The language is direct and honest. Teens can do this track alone or alongside family members doing their own tracks.</p></div>
+    <div class="hcard" style="border-top:4px solid var(--plum)"><h4>💑 Track D — Recovering Couples (RCA)</h4><p>Uses the Recovering Couples Anonymous framework — a Twelve Step program for couples healing together. Both partners read Track D together, then reflect together. This track is designed as a "we."</p></div>
+  </div>
+  <div class="legend">
+    <div class="lg ta"><div class="lg-code">Track A</div><div class="lg-who">Al-Anon Member</div><div class="lg-book">How Al-Anon Works · Courage to Change · Paths to Recovery · Hope for Today</div></div>
+    <div class="lg tb"><div class="lg-code">Track B</div><div class="lg-who">Family Member / Friend</div><div class="lg-book">How Al-Anon Works · Hope for Today · Discovering Choices</div></div>
+    <div class="lg tc"><div class="lg-code">Track C</div><div class="lg-who">Alateen Teen</div><div class="lg-book">Alateen: Hope for Children of Alcoholics (B-3) · Alateen: A Day at a Time (B-10)</div></div>
+    <div class="lg td"><div class="lg-code">Track D</div><div class="lg-who">Recovering Couple</div><div class="lg-book">Recovering Couples Anonymous (RCA) · Chapter 9 — Couples in Recovery Anonymous</div></div>
+  </div>
+  <div class="dark-box">
+    <p>"The Al-Anon program does not offer advice or try to tell us what to do.<br>Instead, it teaches us to look honestly at our choices and be responsible for ourselves."</p>
+    <div class="attr">— Paraphrased from How Al-Anon Works for Families &amp; Friends of Alcoholics (B-22)</div>
+  </div>
+</div>
+
+<!-- SESSION 1 -->
+<div class="page">
+  <div class="sess-hdr">
+    <div class="sess-num">1</div>
+    <div><div class="s-eye">Session One</div><div class="s-tit">"What Brought Us Here?"</div><div class="s-tim">⏱ 15 min · Read your track alone · Come together at the end</div></div>
+  </div>
+  <div class="tgrid">
+    <div class="trk ta">
+      <div class="trk-lbl">Track A — Al-Anon Member</div>
+      <div class="trk-who">You are in (or exploring) Al-Anon</div>
+      <div class="bref"><strong>📗 How Al-Anon Works (B-22) — Introduction &amp; Chapter 1</strong>"What Is Al-Anon?" — Read the opening pages</div>
+      <div class="reading">Al-Anon was built on one discovery: that the family and friends of alcoholics are just as affected by the disease as the person drinking. The opening chapter describes members who came not to fix anyone else — but because their own lives had become unmanageable. Recovery begins the moment we turn attention from the alcoholic toward ourselves.</div>
+      <div class="plbl">Reflect &amp; Write</div>
+      <div class="prompt">What first brought you to Al-Anon? What were you hoping would change?</div>
+      <div class="prompt">What has actually changed — in you — since you began?</div>
+      <div class="prompt">Where are you still focused outward instead of inward?</div>
+      <div class="res">
+        <a class="rl rd" href="https://al-anon.org/newcomers/what-is-al-anon/" target="_blank">📖 What Is Al-Anon?</a>
+        <a class="rl ls" href="https://al-anon.org/podcast/" target="_blank">🎧 Podcast</a>
+        <a class="rl wt" href="https://www.youtube.com/@alanonfamilygroups" target="_blank">▶ YouTube</a>
+        <a class="rl mt" href="https://al-anon.org/al-anon-meetings/" target="_blank">🏠 Meeting</a>
+      </div>
+    </div>
+    <div class="trk tb">
+      <div class="trk-lbl">Track B — Family Member / Friend</div>
+      <div class="trk-who">You love someone with a drinking problem</div>
+      <div class="bref"><strong>📗 How Al-Anon Works (B-22) — same passage</strong>Read with fresh eyes — this book was written for you</div>
+      <div class="reading">This book was written for you — the person on the outside, trying to hold everything together. Its opening message is simple and radical: you didn't cause this, and you can't cure it. But you can find your own peace and your own healing, regardless of what the alcoholic chooses to do. This program belongs entirely to you.</div>
+      <div class="plbl">Reflect &amp; Write</div>
+      <div class="prompt">What am I hoping this program will do — fix them, or help me?</div>
+      <div class="prompt">What does "unmanageable" look like in my life right now?</div>
+      <div class="prompt">What would it feel like to focus on myself for once?</div>
+      <div class="res">
+        <a class="rl rd" href="https://al-anon.org/newcomers/is-al-anon-for-you/" target="_blank">📖 Is Al-Anon for Me?</a>
+        <a class="rl wt" href="https://www.youtube.com/results?search_query=al-anon+newcomers+family" target="_blank">▶ Newcomer Shares</a>
+        <a class="rl mt" href="https://al-anon.org/al-anon-meetings/" target="_blank">🏠 Meeting</a>
+      </div>
+    </div>
+    <div class="trk tc">
+      <div class="trk-lbl">Track C — Alateen</div>
+      <div class="trk-who">You're a teen with someone's drinking affecting your life</div>
+      <div class="bref"><strong>📘 Alateen — Hope for Children of Alcoholics (B-3)</strong>Introduction — "You Are Not Alone"</div>
+      <div class="reading">Alateen started when teens realized they weren't the only ones going through this. The introduction speaks directly to you: you didn't do anything to cause someone else's drinking. It's not your job to fix it. And you deserve support that's just for you — not for your parents, not for the family — for you alone.</div>
+      <div class="plbl">Reflect &amp; Write</div>
+      <div class="prompt">What made you pick up this workbook? What do you wish someone understood about your life?</div>
+      <div class="prompt">Do you feel alone in this, or do others get it?</div>
+      <div class="res">
+        <a class="rl rd" href="https://al-anon.org/al-anon-meetings/find-an-alateen-meeting/" target="_blank">📖 Alateen Info</a>
+        <a class="rl wt" href="https://www.youtube.com/results?search_query=alateen+teens+alcoholic+parent" target="_blank">▶ Alateen Stories</a>
+        <a class="rl mt" href="https://al-anon.org/al-anon-meetings/find-an-alateen-meeting/" target="_blank">🏠 Alateen Meeting</a>
+      </div>
+    </div>
+    <div class="trk td">
+      <div class="trk-lbl">Track D — Recovering Couple (RCA)</div>
+      <div class="trk-who">Read this track together as a couple</div>
+      <div class="bref"><strong>💑 Recovering Couples Anonymous (RCA Big Book)</strong>Introduction — "What Is RCA?"</div>
+      <div class="reading">Recovering Couples Anonymous was founded on the belief that a couple's relationship is its own entity — with its own wounds, its own patterns, and its own recovery journey. RCA's opening describes how couples come not to fix each other, but to build something honest together: a "we" that is humble, willing, and grounded in truth rather than crisis management.</div>
+      <div class="plbl">Reflect — Together</div>
+      <div class="prompt">As a couple: what has alcoholism taken from your "we" — the relationship itself?</div>
+      <div class="prompt">What is one thing you hope to rebuild together through this process?</div>
+      <div class="res">
+        <a class="rl rc" href="https://recovering-couples.org/" target="_blank">💑 RCA Official Site</a>
+        <a class="rl rc" href="https://recovering-couples.org/meetings/" target="_blank">🏠 RCA Meetings</a>
+        <a class="rl wt" href="https://www.youtube.com/results?search_query=recovering+couples+anonymous+RCA" target="_blank">▶ RCA Shares</a>
+      </div>
+    </div>
+  </div>
+  <div class="together"><div class="tog-ico">🤝</div><div><div class="tog-lbl">Come Together</div><div class="tog-p">Each person shares one word describing how they felt reading their track. Then: "What were you hoping for when you picked up this workbook?" — every voice, including the teen.</div></div></div>
+  <div class="wlbl">My Reflections &amp; Notes — Session 1</div>
+  <div class="wgrid">
+    <div><div class="wb-lbl ta">Track A</div><div class="lined"><div class="wl"></div><div class="wl"></div><div class="wl"></div><div class="wl"></div><div class="wl"></div></div></div>
+    <div><div class="wb-lbl tb">Track B</div><div class="lined"><div class="wl"></div><div class="wl"></div><div class="wl"></div><div class="wl"></div><div class="wl"></div></div></div>
+    <div><div class="wb-lbl tc">Track C</div><div class="lined"><div class="wl"></div><div class="wl"></div><div class="wl"></div><div class="wl"></div><div class="wl"></div></div></div>
+    <div><div class="wb-lbl td">Track D — Together</div><div class="lined"><div class="wl"></div><div class="wl"></div><div class="wl"></div><div class="wl"></div><div class="wl"></div></div></div>
+  </div>
+  <div class="pftr"><div class="pftr-l">Walking Together Through Recovery</div><div class="pftr-r">Session 1 of 12</div></div>
+</div>
+
+<!-- SESSION 2 -->
+<div class="page">
+  <div class="sess-hdr">
+    <div class="sess-num">2</div>
+    <div><div class="s-eye">Session Two</div><div class="s-tit">"The Three Cs — You Didn't Cause It"</div><div class="s-tim">⏱ 15 min · Read your track alone · Come together at the end</div></div>
+  </div>
+  <div class="tgrid">
+    <div class="trk ta">
+      <div class="trk-lbl">Track A — Al-Anon Member</div>
+      <div class="trk-who">For the Al-Anon Member</div>
+      <div class="bref"><strong>📗 How Al-Anon Works (B-22) — "The Family Disease"</strong>The Three Cs: Cause, Control, Cure</div>
+      <div class="reading">You did not Cause it. You cannot Control it. You cannot Cure it. These three truths form the cornerstone of Al-Anon recovery. This chapter explores how family members carry enormous guilt and a desperate belief that if they had just done something differently, the drinking would have stopped. Releasing this belief is not giving up — it is the beginning of real freedom.</div>
+      <div class="plbl">Reflect &amp; Write</div>
+      <div class="prompt">Which C has been the hardest to truly accept — and why?</div>
+      <div class="prompt">Where do you still feel responsible, even subtly?</div>
+      <div class="prompt">What does letting go of responsibility for someone else's choices feel like?</div>
+      <div class="res">
+        <a class="rl rd" href="https://al-anon.org/for-members/members-resources/literature/how-al-anon-works/" target="_blank">📖 How Al-Anon Works</a>
+        <a class="rl wt" href="https://www.youtube.com/results?search_query=al-anon+three+cs+cause+control+cure" target="_blank">▶ The Three Cs</a>
+        <a class="rl mt" href="https://al-anon.org/al-anon-meetings/" target="_blank">🏠 Meeting</a>
+      </div>
+    </div>
+    <div class="trk tb">
+      <div class="trk-lbl">Track B — Family Member / Friend</div>
+      <div class="trk-who">For the Family Member / Friend</div>
+      <div class="bref"><strong>📗 How Al-Anon Works (B-22) — same chapter</strong>Read as if for the first time</div>
+      <div class="reading">You didn't cause this. You can't control it. You can't cure it. These three sentences may be the most important you will ever read about loving an alcoholic. The Three Cs can begin to loosen the grip that guilt and obsession hold on your daily life — if you allow yourself to actually believe them, rather than just read them.</div>
+      <div class="plbl">Reflect &amp; Write</div>
+      <div class="prompt">Write the Three Cs applied to your specific situation in your own words.</div>
+      <div class="prompt">Which one feels most impossible to believe right now?</div>
+      <div class="prompt">What have you tried to control that hasn't worked?</div>
+      <div class="res">
+        <a class="rl rd" href="https://al-anon.org/newcomers/is-al-anon-for-you/" target="_blank">📖 Is Al-Anon for Me?</a>
+        <a class="rl wt" href="https://www.youtube.com/results?search_query=al-anon+family+disease+three+cs" target="_blank">▶ Family Disease</a>
+        <a class="rl mt" href="https://al-anon.org/al-anon-meetings/" target="_blank">🏠 Meeting</a>
+      </div>
+    </div>
+    <div class="trk tc">
+      <div class="trk-lbl">Track C — Alateen</div>
+      <div class="trk-who">For the Alateen Teen</div>
+      <div class="bref"><strong>📘 Alateen — Hope for Children of Alcoholics (B-3)</strong>Chapter: "It's Not Your Fault"</div>
+      <div class="reading">Alateen teaches teens the same three truths: you didn't cause the drinking, you can't control it, and you can't cure it. This chapter speaks directly about the guilt and shame kids carry — the secret thought that if you had been better, quieter, or more perfect, things would be different. They wouldn't. This was never about you, and it was never in your hands.</div>
+      <div class="plbl">Reflect &amp; Write</div>
+      <div class="prompt">Have you ever believed, even secretly, that you caused or could stop the drinking?</div>
+      <div class="prompt">What would actually change for you if you truly believed the Three Cs?</div>
+      <div class="res">
+        <a class="rl rd" href="https://al-anon.org/al-anon-meetings/find-an-alateen-meeting/" target="_blank">📖 Alateen</a>
+        <a class="rl wt" href="https://www.youtube.com/results?search_query=alateen+not+your+fault+teens" target="_blank">▶ It's Not Your Fault</a>
+        <a class="rl mt" href="https://al-anon.org/al-anon-meetings/find-an-alateen-meeting/" target="_blank">🏠 Alateen Meeting</a>
+      </div>
+    </div>
+    <div class="trk td">
+      <div class="trk-lbl">Track D — Recovering Couple (RCA)</div>
+      <div class="trk-who">Read together as a couple</div>
+      <div class="bref"><strong>💑 RCA Big Book — Step One</strong>"We admitted we were powerless over our relationship..."</div>
+      <div class="reading">RCA extends the Three Cs into the relationship itself: neither partner caused the other's wounds, neither can control the other's recovery, and neither can cure what the other must heal on their own. The couple's Step One acknowledges that the relationship — not just the individual — became unmanageable. This honest reckoning is where real partnership begins.</div>
+      <div class="plbl">Reflect — Together</div>
+      <div class="prompt">Where have you tried to control each other's recovery, and what happened?</div>
+      <div class="prompt">What does "unmanageable" look like for your relationship specifically — not just individually?</div>
+      <div class="res">
+        <a class="rl rc" href="https://recovering-couples.org/" target="_blank">💑 RCA Site</a>
+        <a class="rl wt" href="https://www.youtube.com/results?search_query=recovering+couples+anonymous+step+one" target="_blank">▶ RCA Step One</a>
+        <a class="rl rc" href="https://recovering-couples.org/meetings/" target="_blank">🏠 RCA Meeting</a>
+      </div>
+    </div>
+  </div>
+  <div class="together"><div class="tog-ico">🤝</div><div><div class="tog-lbl">Come Together</div><div class="tog-p">Each person — including the teen — reads their Three Cs sentences aloud, slowly. No responding, no commenting. Then sit quietly together for 60 seconds.</div></div></div>
+  <div class="wlbl">My Three Cs in My Own Words</div>
+  <div class="wgrid">
+    <div><div class="wb-lbl ta">Track A</div><div class="lined"><div class="wl"></div><div class="wl"></div><div class="wl"></div><div class="wl"></div><div class="wl"></div></div></div>
+    <div><div class="wb-lbl tb">Track B</div><div class="lined"><div class="wl"></div><div class="wl"></div><div class="wl"></div><div class="wl"></div><div class="wl"></div></div></div>
+    <div><div class="wb-lbl tc">Track C</div><div class="lined"><div class="wl"></div><div class="wl"></div><div class="wl"></div><div class="wl"></div><div class="wl"></div></div></div>
+    <div><div class="wb-lbl td">Track D — Together</div><div class="lined"><div class="wl"></div><div class="wl"></div><div class="wl"></div><div class="wl"></div><div class="wl"></div></div></div>
+  </div>
+  <div class="pftr"><div class="pftr-l">Walking Together Through Recovery</div><div class="pftr-r">Session 2 of 12</div></div>
+</div>
+
+<!-- SESSION 3 -->
+<div class="page">
+  <div class="sess-hdr">
+    <div class="sess-num">3</div>
+    <div><div class="s-eye">Session Three</div><div class="s-tit">"Detachment with Love"</div><div class="s-tim">⏱ 15 min · Read your track alone · Come together at the end</div></div>
+  </div>
+  <div class="tgrid">
+    <div class="trk ta">
+      <div class="trk-lbl">Track A — Al-Anon Member</div>
+      <div class="trk-who">For the Al-Anon Member</div>
+      <div class="bref"><strong>📙 Courage to Change (B-16)</strong>Check the index for "detachment" — read that full entry</div>
+      <div class="reading">Detachment doesn't mean you stop caring. Courage to Change describes it as releasing your grip on outcomes — stepping back from the disease without stepping away from the person. We stop absorbing someone else's chaos into our own body and spirit. We allow natural consequences to occur. This is not cruelty. Al-Anon teaches that it is, in fact, the most loving response available to us.</div>
+      <div class="plbl">Reflect &amp; Write</div>
+      <div class="prompt">Where have you confused detachment with coldness or abandonment?</div>
+      <div class="prompt">What are you still "attached" to changing in someone else?</div>
+      <div class="prompt">What would it feel like to truly let go of one specific outcome?</div>
+      <div class="res">
+        <a class="rl rd" href="https://al-anon.org/for-members/members-resources/literature/courage-to-change/" target="_blank">📖 Courage to Change</a>
+        <a class="rl wt" href="https://www.youtube.com/results?search_query=al-anon+detachment+with+love" target="_blank">▶ Detachment</a>
+        <a class="rl mt" href="https://al-anon.org/al-anon-meetings/" target="_blank">🏠 Meeting</a>
+      </div>
+    </div>
+    <div class="trk tb">
+      <div class="trk-lbl">Track B — Family Member / Friend</div>
+      <div class="trk-who">For the Family Member / Friend</div>
+      <div class="bref"><strong>📙 Courage to Change (B-16) — same entry</strong>On detachment — read slowly</div>
+      <div class="reading">"Detachment with love" sounds like a contradiction. How can you love someone and let go at the same time? Al-Anon teaches that holding on tightly — rescuing, controlling, managing — often removes the natural consequences that might otherwise open a door to change. Letting go is not giving up on the person. It is an act of love for them, and for yourself.</div>
+      <div class="plbl">Reflect &amp; Write</div>
+      <div class="prompt">What fear surfaces when you imagine stopping your efforts to manage this situation?</div>
+      <div class="prompt">What would you do with the energy you currently spend worrying?</div>
+      <div class="res">
+        <a class="rl rd" href="https://al-anon.org/newcomers/" target="_blank">📖 Newcomers</a>
+        <a class="rl wt" href="https://www.youtube.com/results?search_query=al-anon+detachment+explanation" target="_blank">▶ Understanding Detachment</a>
+        <a class="rl mt" href="https://al-anon.org/al-anon-meetings/" target="_blank">🏠 Meeting</a>
+      </div>
+    </div>
+    <div class="trk tc">
+      <div class="trk-lbl">Track C — Alateen</div>
+      <div class="trk-who">For the Alateen Teen</div>
+      <div class="bref"><strong>📗 Alateen — A Day at a Time (B-10)</strong>Find an entry on "letting go" or "detachment"</div>
+      <div class="reading">Alateen teaches teens a version of detachment that makes real sense for their lives: you can love a parent or sibling and still not be responsible for their mood, their choices, or their recovery. You're allowed to go to school, have friends, and enjoy your own life — even when things at home are hard. That's not abandoning them. That's surviving — and it's what you're allowed to do.</div>
+      <div class="plbl">Reflect &amp; Write</div>
+      <div class="prompt">Do you feel guilty when you have a good day even though things at home are bad?</div>
+      <div class="prompt">What's one thing in your own life you've put on hold because of someone else's drinking?</div>
+      <div class="res">
+        <a class="rl rd" href="https://al-anon.org/al-anon-meetings/find-an-alateen-meeting/" target="_blank">📖 Alateen</a>
+        <a class="rl wt" href="https://www.youtube.com/results?search_query=alateen+letting+go+teens" target="_blank">▶ Letting Go</a>
+        <a class="rl mt" href="https://al-anon.org/al-anon-meetings/find-an-alateen-meeting/" target="_blank">🏠 Alateen Meeting</a>
+      </div>
+    </div>
+    <div class="trk td">
+      <div class="trk-lbl">Track D — Recovering Couple (RCA)</div>
+      <div class="trk-who">Read together as a couple</div>
+      <div class="bref"><strong>💑 RCA — Safety Guidelines &amp; Relational Detachment</strong>RCA meeting-opening literature</div>
+      <div class="reading">RCA introduces a couple's version of detachment: releasing the impulse to manage, accelerate, or fix your partner's individual recovery. Each person's journey is their own. The couple's shared work is to create safety between them — not to merge their recoveries into one, but to hold space for each other's separate process while slowly rebuilding their shared one together.</div>
+      <div class="plbl">Reflect — Together</div>
+      <div class="prompt">Where do you try to speed up or manage each other's healing — and how does it land?</div>
+      <div class="prompt">What would it look like to trust each other's process, even when it moves slowly?</div>
+      <div class="res">
+        <a class="rl rc" href="https://recovering-couples.org/" target="_blank">💑 RCA Site</a>
+        <a class="rl wt" href="https://therecoveryshow.com/2025/10/recovering-couples-anonymous-healing-a-relationship-440/" target="_blank">▶ RCA Recovery Show</a>
+        <a class="rl rc" href="https://recovering-couples.org/meetings/" target="_blank">🏠 RCA Meeting</a>
+      </div>
+    </div>
+  </div>
+  <div class="together"><div class="tog-ico">🤝</div><div><div class="tog-lbl">Come Together</div><div class="tog-p">"What would it look like if each of us detached from the chaos — together? What would we gain? What are we afraid we'd lose?" Every person answers, including the teen.</div></div></div>
+  <div class="wlbl">Detachment — What It Looks Like For Me</div>
+  <div class="wgrid">
+    <div><div class="wb-lbl ta">Track A</div><div class="lined"><div class="wl"></div><div class="wl"></div><div class="wl"></div><div class="wl"></div><div class="wl"></div></div></div>
+    <div><div class="wb-lbl tb">Track B</div><div class="lined"><div class="wl"></div><div class="wl"></div><div class="wl"></div><div class="wl"></div><div class="wl"></div></div></div>
+    <div><div class="wb-lbl tc">Track C</div><div class="lined"><div class="wl"></div><div class="wl"></div><div class="wl"></div><div class="wl"></div><div class="wl"></div></div></div>
+    <div><div class="wb-lbl td">Track D — Together</div><div class="lined"><div class="wl"></div><div class="wl"></div><div class="wl"></div><div class="wl"></div><div class="wl"></div></div></div>
+  </div>
+  <div class="pftr"><div class="pftr-l">Walking Together Through Recovery</div><div class="pftr-r">Session 3 of 12</div></div>
+</div>
+
+<!-- SESSION 4 -->
+<div class="page">
+  <div class="sess-hdr">
+    <div class="sess-num">4</div>
+    <div><div class="s-eye">Session Four</div><div class="s-tit">"Step One — Admitting Powerlessness"</div><div class="s-tim">⏱ 15 min · Read your track alone · Come together at the end</div></div>
+  </div>
+  <div class="tgrid">
+    <div class="trk ta">
+      <div class="trk-lbl">Track A — Al-Anon Member</div>
+      <div class="trk-who">For the Al-Anon Member</div>
+      <div class="bref"><strong>📘 Paths to Recovery (B-24) — Step One chapter</strong>"Powerless over alcohol — our lives unmanageable"</div>
+      <div class="reading">Paths to Recovery gives Step One a full chapter. Members share how admitting powerlessness felt like defeat — until it became the most liberating act of their lives. The chapter distinguishes two kinds of unmanageability: the external chaos of someone else's drinking, and the inner turmoil of obsession, controlling, and the self that got lost somewhere along the way.</div>
+      <div class="plbl">Reflect &amp; Write</div>
+      <div class="prompt">Where does unmanageability still show up in your own behaviour today?</div>
+      <div class="prompt">How has admitting powerlessness become freedom rather than defeat?</div>
+      <div class="prompt">Write your own Step One — not about alcohol, but about your own patterns.</div>
+      <div class="res">
+        <a class="rl rd" href="https://al-anon.org/for-members/members-resources/literature/paths-to-recovery/" target="_blank">📖 Paths to Recovery</a>
+        <a class="rl wt" href="https://www.youtube.com/results?search_query=al-anon+step+one+powerlessness" target="_blank">▶ Step One Shares</a>
+        <a class="rl mt" href="https://al-anon.org/al-anon-meetings/" target="_blank">🏠 Meeting</a>
+      </div>
+    </div>
+    <div class="trk tb">
+      <div class="trk-lbl">Track B — Family Member / Friend</div>
+      <div class="trk-who">For the Family Member / Friend</div>
+      <div class="bref"><strong>📗 How Al-Anon Works (B-22) — Step One</strong>Chapter on the Twelve Steps</div>
+      <div class="reading">The word "powerless" can feel like surrender — like giving up on someone you love. How Al-Anon Works reframes it: we stop pretending to have power we never had. Step One is the honest foundation beneath everything else — acknowledging what is real so we can stop wasting our strength on what isn't possible, and invest it in what actually is: our own healing.</div>
+      <div class="plbl">Reflect &amp; Write</div>
+      <div class="prompt">List 3 specific ways you've tried to control or stop the drinking. What resulted each time?</div>
+      <div class="prompt">Does admitting powerlessness feel like weakness — or like relief?</div>
+      <div class="res">
+        <a class="rl rd" href="https://al-anon.org/newcomers/the-twelve-steps/" target="_blank">📖 The Twelve Steps</a>
+        <a class="rl wt" href="https://www.youtube.com/results?search_query=al-anon+step+one+for+family" target="_blank">▶ Step One for Families</a>
+        <a class="rl mt" href="https://al-anon.org/al-anon-meetings/" target="_blank">🏠 Meeting</a>
+      </div>
+    </div>
+    <div class="trk tc">
+      <div class="trk-lbl">Track C — Alateen</div>
+      <div class="trk-who">For the Alateen Teen</div>
+      <div class="bref"><strong>📘 Alateen — Hope for Children of Alcoholics (B-3)</strong>The Twelve Steps for Alateen — Step One</div>
+      <div class="reading">Alateen's Step One is honest and direct: you are not powerful over someone else's drinking. You never were. The book describes how teens sometimes try to control things — being quieter, more perfect, hiding bottles, managing moods. It is exhausting work, and it doesn't work. Step One says: you can put that weight down now. It was never yours to carry.</div>
+      <div class="plbl">Reflect &amp; Write</div>
+      <div class="prompt">What have you done, even secretly, trying to stop or manage the drinking?</div>
+      <div class="prompt">What would it actually feel like to put that responsibility down for good?</div>
+      <div class="res">
+        <a class="rl rd" href="https://al-anon.org/al-anon-meetings/find-an-alateen-meeting/" target="_blank">📖 Alateen</a>
+        <a class="rl wt" href="https://www.youtube.com/results?search_query=alateen+step+one+teens+powerless" target="_blank">▶ Alateen Step One</a>
+        <a class="rl mt" href="https://al-anon.org/al-anon-meetings/find-an-alateen-meeting/" target="_blank">🏠 Alateen Meeting</a>
+      </div>
+    </div>
+    <div class="trk td">
+      <div class="trk-lbl">Track D — Recovering Couple (RCA)</div>
+      <div class="trk-who">Read together as a couple</div>
+      <div class="bref"><strong>💑 RCA Big Book — Step One (Couples)</strong>"We admitted we were powerless over our relationship..."</div>
+      <div class="reading">RCA's Step One is unique among Twelve Step programs: it asks couples to admit that their relationship — not just the addiction — became unmanageable. This means acknowledging the patterns that developed: the distance, the blame cycles, the walls built between you year by year. It also means admitting that willpower alone cannot restore intimacy. The "we" needs help too.</div>
+      <div class="plbl">Reflect — Together</div>
+      <div class="prompt">What patterns in your relationship have become unmanageable? Name them gently, without blame.</div>
+      <div class="prompt">What would it mean to surrender your relationship — not to each other, but to a Higher Power?</div>
+      <div class="res">
+        <a class="rl rc" href="https://recovering-couples.org/" target="_blank">💑 RCA Site</a>
+        <a class="rl wt" href="https://www.youtube.com/results?search_query=recovering+couples+anonymous+step+one+relationship" target="_blank">▶ RCA Step One</a>
+        <a class="rl rc" href="https://recovering-couples.org/meetings/" target="_blank">🏠 RCA Meeting</a>
+      </div>
+    </div>
+  </div>
+  <div class="together"><div class="tog-ico">🤝</div><div><div class="tog-lbl">Come Together</div><div class="tog-p">"What would I do with my energy if I stopped trying to fix what I cannot fix?" Each person shares. Couple adds: "What would our relationship look like if we both lived Step One every day?"</div></div></div>
+  <div class="wlbl">My Step One in My Own Words</div>
+  <div class="wgrid">
+    <div><div class="wb-lbl ta">Track A</div><div class="lined"><div class="wl"></div><div class="wl"></div><div class="wl"></div><div class="wl"></div><div class="wl"></div></div></div>
+    <div><div class="wb-lbl tb">Track B</div><div class="lined"><div class="wl"></div><div class="wl"></div><div class="wl"></div><div class="wl"></div><div class="wl"></div></div></div>
+    <div><div class="wb-lbl tc">Track C</div><div class="lined"><div class="wl"></div><div class="wl"></div><div class="wl"></div><div class="wl"></div><div class="wl"></div></div></div>
+    <div><div class="wb-lbl td">Track D — Together</div><div class="lined"><div class="wl"></div><div class="wl"></div><div class="wl"></div><div class="wl"></div><div class="wl"></div></div></div>
+  </div>
+  <div class="pftr"><div class="pftr-l">Walking Together Through Recovery</div><div class="pftr-r">Session 4 of 12</div></div>
+</div>
+
+<!-- SESSION 5 -->
+<div class="page">
+  <div class="sess-hdr">
+    <div class="sess-num">5</div>
+    <div><div class="s-eye">Session Five</div><div class="s-tit">"How This Disease Shapes Everyone"</div><div class="s-tim">⏱ 15 min · Read your track alone · Come together at the end</div></div>
+  </div>
+  <div class="tgrid">
+    <div class="trk ta">
+      <div class="trk-lbl">Track A — Al-Anon Member</div>
+      <div class="trk-who">For the Al-Anon Member</div>
+      <div class="bref"><strong>📕 From Survival to Recovery (B-21)</strong>Introduction — "Growing Up in an Alcoholic Home"</div>
+      <div class="reading">This book describes the survival skills people develop living alongside alcoholism: hypervigilance, people-pleasing, emotional shutdown, and a constant drive to prevent the next crisis. These adaptations kept us safe once. In Al-Anon we begin to ask with honesty: are they still serving us now — or are they quietly running our lives long after the original threat has passed?</div>
+      <div class="plbl">Reflect &amp; Write</div>
+      <div class="prompt">What survival skill did you develop that you still reach for automatically today?</div>
+      <div class="prompt">What part of yourself did you lose or hide because of this disease?</div>
+      <div class="prompt">When did you first realize the family was organized around the drinking?</div>
+      <div class="res">
+        <a class="rl rd" href="https://al-anon.org/for-members/members-resources/literature/from-survival-to-recovery/" target="_blank">📖 From Survival to Recovery</a>
+        <a class="rl wt" href="https://www.youtube.com/results?search_query=al-anon+adult+children+survival+skills" target="_blank">▶ Survival Skills</a>
+        <a class="rl mt" href="https://al-anon.org/al-anon-meetings/" target="_blank">🏠 Meeting</a>
+      </div>
+    </div>
+    <div class="trk tb">
+      <div class="trk-lbl">Track B — Family Member / Friend</div>
+      <div class="trk-who">For the Family Member / Friend</div>
+      <div class="bref"><strong>📗 How Al-Anon Works (B-22) — "The Family Disease"</strong>How alcoholism reshapes everyone in the home</div>
+      <div class="reading">Alcoholism is called a family disease because it does not only affect the drinker. How Al-Anon Works describes how family members develop their own patterns in response: anxiety, walking on eggshells, cancelling plans, hiding the truth, measuring every word. These aren't character flaws or personal failures — they are natural adaptations to an impossible situation that has lasted too long.</div>
+      <div class="plbl">Reflect &amp; Write</div>
+      <div class="prompt">Has your world gotten smaller because of someone else's drinking? What have you stopped doing?</div>
+      <div class="prompt">What would you reclaim if you felt safe enough to reach for it?</div>
+      <div class="res">
+        <a class="rl rd" href="https://al-anon.org/newcomers/is-al-anon-for-you/" target="_blank">📖 Is Al-Anon for Me?</a>
+        <a class="rl wt" href="https://www.youtube.com/results?search_query=alcoholism+effects+on+family" target="_blank">▶ Effects on Families</a>
+        <a class="rl mt" href="https://al-anon.org/al-anon-meetings/" target="_blank">🏠 Meeting</a>
+      </div>
+    </div>
+    <div class="trk tc">
+      <div class="trk-lbl">Track C — Alateen</div>
+      <div class="trk-who">For the Alateen Teen</div>
+      <div class="bref"><strong>📘 Alateen — Hope for Children of Alcoholics (B-3)</strong>Chapter: "How Alcoholism Affects the Family"</div>
+      <div class="reading">Alateen talks honestly about what it is like to grow up in a home shaped by drinking: the unpredictability, the walking on eggshells, the embarrassment, the way you become an expert at reading the room before you even take off your shoes. The book names the roles kids often take on — the hero, the invisible one, the family clown — and gently points out: none of those roles are your real self.</div>
+      <div class="plbl">Reflect &amp; Write</div>
+      <div class="prompt">What role do you play in your family — the responsible one, the invisible one, the peacekeeper?</div>
+      <div class="prompt">What's one thing you wish someone in your family actually understood about how you feel?</div>
+      <div class="res">
+        <a class="rl rd" href="https://al-anon.org/al-anon-meetings/find-an-alateen-meeting/" target="_blank">📖 Alateen</a>
+        <a class="rl wt" href="https://www.youtube.com/results?search_query=alateen+family+roles+teens" target="_blank">▶ Family Roles</a>
+        <a class="rl mt" href="https://al-anon.org/al-anon-meetings/find-an-alateen-meeting/" target="_blank">🏠 Alateen Meeting</a>
+      </div>
+    </div>
+    <div class="trk td">
+      <div class="trk-lbl">Track D — Recovering Couple (RCA)</div>
+      <div class="trk-who">Read together as a couple</div>
+      <div class="bref"><strong>💑 Chapter 9 — Couples in Recovery Anonymous</strong>Chapter on shared relational patterns</div>
+      <div class="reading">Chapter 9 describes the predictable patterns that addiction creates between partners: one person absorbing too much, the other withdrawing; cycles of crisis followed by false calm; intimacy replaced by management and distance. Naming these patterns together — without blame assigned to either person — is the first honest step toward building something different on solid ground.</div>
+      <div class="plbl">Reflect — Together</div>
+      <div class="prompt">What patterns developed in your relationship around the drinking? Name them without blame.</div>
+      <div class="prompt">Which pattern do you most want to change — and what would need to be different from both of you?</div>
+      <div class="res">
+        <a class="rl rc" href="https://www.chapter9couplesinrecovery.org/" target="_blank">💑 Chapter 9 Site</a>
+        <a class="rl wt" href="https://www.youtube.com/results?search_query=recovering+couples+anonymous+relationship+patterns" target="_blank">▶ RCA Patterns</a>
+        <a class="rl rc" href="https://recovering-couples.org/meetings/" target="_blank">🏠 RCA Meeting</a>
+      </div>
+    </div>
+  </div>
+  <div class="together"><div class="tog-ico">🤝</div><div><div class="tog-lbl">Come Together</div><div class="tog-p">Each person — including the teen — names one survival skill or role they recognized in themselves today. Just name it. Let it be witnessed by the others without commentary or correction.</div></div></div>
+  <div class="wlbl">Survival Skills &amp; Roles I Carry</div>
+  <div class="wgrid">
+    <div><div class="wb-lbl ta">Track A</div><div class="lined"><div class="wl"></div><div class="wl"></div><div class="wl"></div><div class="wl"></div><div class="wl"></div></div></div>
+    <div><div class="wb-lbl tb">Track B</div><div class="lined"><div class="wl"></div><div class="wl"></div><div class="wl"></div><div class="wl"></div><div class="wl"></div></div></div>
+    <div><div class="wb-lbl tc">Track C</div><div class="lined"><div class="wl"></div><div class="wl"></div><div class="wl"></div><div class="wl"></div><div class="wl"></div></div></div>
+    <div><div class="wb-lbl td">Track D — Our Patterns</div><div class="lined"><div class="wl"></div><div class="wl"></div><div class="wl"></div><div class="wl"></div><div class="wl"></div></div></div>
+  </div>
+  <div class="pftr"><div class="pftr-l">Walking Together Through Recovery</div><div class="pftr-r">Session 5 of 12</div></div>
+</div>
+
+<!-- SESSION 6 -->
+<div class="page">
+  <div class="sess-hdr">
+    <div class="sess-num">6</div>
+    <div><div class="s-eye">Session Six</div><div class="s-tit">"Anger and Resentment"</div><div class="s-tim">⏱ 15 min · Read your track alone · Come together at the end</div></div>
+  </div>
+  <div class="tgrid">
+    <div class="trk ta">
+      <div class="trk-lbl">Track A — Al-Anon Member</div>
+      <div class="trk-who">For the Al-Anon Member</div>
+      <div class="bref"><strong>📙 Courage to Change (B-16)</strong>Check the index for "anger" or "resentment" — read that entry fully</div>
+      <div class="reading">Courage to Change acknowledges anger as a completely natural response to living alongside alcoholism — and also as an obstacle to our own peace when we hold it indefinitely. These entries describe how resentment, carried long enough, stops affecting the other person and starts destroying us. Al-Anon does not ask us to pretend anger doesn't exist. It invites us to stop letting it be the one running our lives.</div>
+      <div class="plbl">Reflect &amp; Write</div>
+      <div class="prompt">What resentment have you been carrying the longest?</div>
+      <div class="prompt">What does holding onto this anger actually cost you — in your body, your spirit, your daily life?</div>
+      <div class="prompt">Is there a resentment you're not yet ready to release? What would have to shift?</div>
+      <div class="res">
+        <a class="rl rd" href="https://al-anon.org/for-members/members-resources/literature/courage-to-change/" target="_blank">📖 Courage to Change</a>
+        <a class="rl wt" href="https://www.youtube.com/results?search_query=al-anon+resentment+letting+go" target="_blank">▶ Releasing Resentment</a>
+        <a class="rl mt" href="https://al-anon.org/al-anon-meetings/" target="_blank">🏠 Meeting</a>
+      </div>
+    </div>
+    <div class="trk tb">
+      <div class="trk-lbl">Track B — Family Member / Friend</div>
+      <div class="trk-who">For the Family Member / Friend</div>
+      <div class="bref"><strong>📙 Courage to Change (B-16) — same entry</strong>On anger and what lives beneath it</div>
+      <div class="reading">Anger is often the surface emotion sitting directly over something much softer: fear, grief, love that feels rejected, hope that has been disappointed too many times. Courage to Change invites us to look beneath the anger — not to dismiss it, but to understand what it is protecting. For people who love alcoholics, deep anger very often lives right on top of profound love and profound loss.</div>
+      <div class="plbl">Reflect &amp; Write</div>
+      <div class="prompt">Who are you most angry at — the person, the disease, yourself, or all three?</div>
+      <div class="prompt">What emotion lives underneath that anger? Fear of what? Grief over what?</div>
+      <div class="res">
+        <a class="rl rd" href="https://al-anon.org/newcomers/" target="_blank">📖 Newcomers</a>
+        <a class="rl wt" href="https://www.youtube.com/results?search_query=al-anon+anger+family+members" target="_blank">▶ Anger in Al-Anon</a>
+        <a class="rl mt" href="https://al-anon.org/al-anon-meetings/" target="_blank">🏠 Meeting</a>
+      </div>
+    </div>
+    <div class="trk tc">
+      <div class="trk-lbl">Track C — Alateen</div>
+      <div class="trk-who">For the Alateen Teen</div>
+      <div class="bref"><strong>📗 Alateen — A Day at a Time (B-10)</strong>Find an entry on anger — read it completely</div>
+      <div class="reading">Alateen is honest that teens with alcoholic family members often carry enormous amounts of anger — and that this makes complete sense. The question the program asks isn't "why are you angry?" but "what is the anger doing to you?" Stuffing it down, exploding with it, or pretending it doesn't exist — none of those paths lead anywhere good. Alateen offers something different: a place where the truth can come out safely.</div>
+      <div class="plbl">Reflect &amp; Write</div>
+      <div class="prompt">How do you usually deal with anger — stuff it, explode, go quiet, or something else?</div>
+      <div class="prompt">What are you most angry about that you have never actually said out loud to anyone?</div>
+      <div class="res">
+        <a class="rl rd" href="https://al-anon.org/al-anon-meetings/find-an-alateen-meeting/" target="_blank">📖 Alateen</a>
+        <a class="rl wt" href="https://www.youtube.com/results?search_query=alateen+anger+teens+alcoholic+family" target="_blank">▶ Alateen and Anger</a>
+        <a class="rl mt" href="https://al-anon.org/al-anon-meetings/find-an-alateen-meeting/" target="_blank">🏠 Alateen Meeting</a>
+      </div>
+    </div>
+    <div class="trk td">
+      <div class="trk-lbl">Track D — Recovering Couple (RCA)</div>
+      <div class="trk-who">Read together as a couple</div>
+      <div class="bref"><strong>💑 RCA — Steps Four &amp; Five (Couples Inventory)</strong>Surfacing resentments in the relationship</div>
+      <div class="reading">RCA's couples inventory process invites partners to surface resentments together — not to assign blame, but to see clearly what has accumulated between them. The program describes how unspoken resentments build invisible walls in a relationship, and how naming them honestly, in a safe and structured space, is how those walls begin to come down. The goal is never to win. It is to restore truth between two people.</div>
+      <div class="plbl">Reflect — Together</div>
+      <div class="prompt">What is one resentment you have carried toward your partner that you haven't fully spoken?</div>
+      <div class="prompt">Can you hear — without defending — what your partner might carry toward you?</div>
+      <div class="res">
+        <a class="rl rc" href="https://recovering-couples.org/" target="_blank">💑 RCA Site</a>
+        <a class="rl wt" href="https://www.youtube.com/results?search_query=recovering+couples+anonymous+inventory+resentment" target="_blank">▶ RCA Inventory</a>
+        <a class="rl rc" href="https://recovering-couples.org/meetings/" target="_blank">🏠 RCA Meeting</a>
+      </div>
+    </div>
+  </div>
+  <div class="together"><div class="tog-ico">🤝</div><div><div class="tog-lbl">Come Together</div><div class="tog-p">Each person shares one resentment and one fear underneath it. The listener's only response is: "Thank you for telling me that." Nothing more — no reassurance, no debate, no fixing.</div></div></div>
+  <div class="wlbl">My Resentment → The Fear Underneath It</div>
+  <div class="wgrid">
+    <div><div class="wb-lbl ta">Track A</div><div class="lined"><div class="wl"></div><div class="wl"></div><div class="wl"></div><div class="wl"></div><div class="wl"></div></div></div>
+    <div><div class="wb-lbl tb">Track B</div><div class="lined"><div class="wl"></div><div class="wl"></div><div class="wl"></div><div class="wl"></div><div class="wl"></div></div></div>
+    <div><div class="wb-lbl tc">Track C</div><div class="lined"><div class="wl"></div><div class="wl"></div><div class="wl"></div><div class="wl"></div><div class="wl"></div></div></div>
+    <div><div class="wb-lbl td">Track D — Together</div><div class="lined"><div class="wl"></div><div class="wl"></div><div class="wl"></div><div class="wl"></div><div class="wl"></div></div></div>
+  </div>
+  <div class="pftr"><div class="pftr-l">Walking Together Through Recovery</div><div class="pftr-r">Session 6 of 12</div></div>
+</div>
+
+<!-- SESSION 7 -->
+<div class="page">
+  <div class="sess-hdr">
+    <div class="sess-num">7</div>
+    <div><div class="s-eye">Session Seven</div><div class="s-tit">"The Serenity Prayer — More Than Words"</div><div class="s-tim">⏱ 15 min · Read your track alone · Come together at the end</div></div>
+  </div>
+  <div class="tgrid">
+    <div class="trk ta">
+      <div class="trk-lbl">Track A — Al-Anon Member</div>
+      <div class="trk-who">For the Al-Anon Member</div>
+      <div class="bref"><strong>📗 How Al-Anon Works (B-22)</strong>Section on the Serenity Prayer · also <strong>📙 Courage to Change (B-16)</strong> index: "Serenity Prayer"</div>
+      <div class="reading">Al-Anon members often reach for the Serenity Prayer dozens of times a day — not as ritual, but as a practical tool for discernment. How Al-Anon Works explores each line: serenity for what we cannot change (other people), courage for what we can change (ourselves), and wisdom to tell the difference — which is the continuing, daily work of recovery across a lifetime.</div>
+      <div class="plbl">Reflect &amp; Write</div>
+      <div class="prompt">Make two honest lists: things I cannot change / things I can change about myself.</div>
+      <div class="prompt">Where are you asking for serenity while still quietly resisting acceptance?</div>
+      <div class="prompt">When in your week do you most need to reach for this prayer?</div>
+      <div class="res">
+        <a class="rl rd" href="https://al-anon.org/for-members/members-resources/literature/how-al-anon-works/" target="_blank">📖 How Al-Anon Works</a>
+        <a class="rl wt" href="https://www.youtube.com/results?search_query=al-anon+serenity+prayer+meaning" target="_blank">▶ The Serenity Prayer</a>
+        <a class="rl mt" href="https://al-anon.org/al-anon-meetings/" target="_blank">🏠 Meeting</a>
+      </div>
+    </div>
+    <div class="trk tb">
+      <div class="trk-lbl">Track B — Family Member / Friend</div>
+      <div class="trk-who">For the Family Member / Friend</div>
+      <div class="bref"><strong>📗 How Al-Anon Works (B-22) — same section</strong>Read the prayer slowly, at least three times</div>
+      <div class="reading"><em>God, grant me the serenity to accept the things I cannot change, courage to change the things I can, and wisdom to know the difference.</em> Three lines. An entire philosophy of recovery. This prayer has helped millions of people stop exhausting themselves fighting battles they cannot win — and start putting their energy into the one battle that is genuinely theirs: their own inner life.</div>
+      <div class="plbl">Reflect &amp; Write</div>
+      <div class="prompt">Which line catches most — serenity, courage, or wisdom? Why that one, right now?</div>
+      <div class="prompt">Write down one specific thing you've been trying to change that is not within your power.</div>
+      <div class="res">
+        <a class="rl rd" href="https://al-anon.org/newcomers/" target="_blank">📖 Newcomers</a>
+        <a class="rl wt" href="https://www.youtube.com/results?search_query=serenity+prayer+al-anon+explained" target="_blank">▶ Serenity Prayer</a>
+        <a class="rl mt" href="https://al-anon.org/al-anon-meetings/" target="_blank">🏠 Meeting</a>
+      </div>
+    </div>
+    <div class="trk tc">
+      <div class="trk-lbl">Track C — Alateen</div>
+      <div class="trk-who">For the Alateen Teen</div>
+      <div class="bref"><strong>📘 Alateen — Hope for Children of Alcoholics (B-3)</strong>Section on the Serenity Prayer — what it means for teens</div>
+      <div class="reading">Alateen introduces the Serenity Prayer not as a religious requirement, but as a practical tool teens can actually use in real life. The book breaks it down simply: some things are yours to change. Some things are not. And the hardest part — for everyone — is getting honest about which is which. Especially when everything feels overwhelming and out of control at the same time.</div>
+      <div class="plbl">Reflect &amp; Write</div>
+      <div class="prompt">What's one thing at home you keep trying to control — and it never actually works?</div>
+      <div class="prompt">What's one thing about your own life, your own choices, that you actually could change?</div>
+      <div class="res">
+        <a class="rl rd" href="https://al-anon.org/al-anon-meetings/find-an-alateen-meeting/" target="_blank">📖 Alateen</a>
+        <a class="rl wt" href="https://www.youtube.com/results?search_query=serenity+prayer+teens+meaning" target="_blank">▶ Prayer for Teens</a>
+        <a class="rl mt" href="https://al-anon.org/al-anon-meetings/find-an-alateen-meeting/" target="_blank">🏠 Alateen Meeting</a>
+      </div>
+    </div>
+    <div class="trk td">
+      <div class="trk-lbl">Track D — Recovering Couple (RCA)</div>
+      <div class="trk-who">Read together as a couple</div>
+      <div class="bref"><strong>💑 RCA — The Couple's Serenity Prayer</strong>Used at the opening of every RCA meeting</div>
+      <div class="reading">RCA meetings open with the Serenity Prayer, and couples are invited to apply it directly to their relationship together. What can we not change about each other? What courage does it take to change the dynamics between us? And what wisdom is needed to know when to push for growth and when to let go? For couples, the prayer becomes a shared map — not just a personal one.</div>
+      <div class="plbl">Reflect — Together</div>
+      <div class="prompt">What can you honestly not change about your partner — and are you at peace with that?</div>
+      <div class="prompt">What can you change about how you yourself show up in this relationship?</div>
+      <div class="res">
+        <a class="rl rc" href="https://recovering-couples.org/" target="_blank">💑 RCA Site</a>
+        <a class="rl wt" href="https://www.youtube.com/results?search_query=recovering+couples+anonymous+serenity+prayer" target="_blank">▶ RCA Prayer</a>
+        <a class="rl rc" href="https://recovering-couples.org/meetings/" target="_blank">🏠 RCA Meeting</a>
+      </div>
+    </div>
+  </div>
+  <div class="together"><div class="tog-ico">🤝</div><div><div class="tog-lbl">Come Together — Pray Together</div><div class="tog-p">Read the Serenity Prayer aloud, all together — every voice, including the teen — slowly, once. Then sit in silence for 60 seconds. No words are needed after.</div></div></div>
+  <div class="wlbl">What I Cannot Change / What I Can Change In Myself</div>
+  <div class="wgrid">
+    <div><div class="wb-lbl ta">Track A</div><div class="lined"><div class="wl"></div><div class="wl"></div><div class="wl"></div><div class="wl"></div><div class="wl"></div></div></div>
+    <div><div class="wb-lbl tb">Track B</div><div class="lined"><div class="wl"></div><div class="wl"></div><div class="wl"></div><div class="wl"></div><div class="wl"></div></div></div>
+    <div><div class="wb-lbl tc">Track C</div><div class="lined"><div class="wl"></div><div class="wl"></div><div class="wl"></div><div class="wl"></div><div class="wl"></div></div></div>
+    <div><div class="wb-lbl td">Track D — Together</div><div class="lined"><div class="wl"></div><div class="wl"></div><div class="wl"></div><div class="wl"></div><div class="wl"></div></div></div>
+  </div>
+  <div class="pftr"><div class="pftr-l">Walking Together Through Recovery</div><div class="pftr-r">Session 7 of 12</div></div>
+</div>
+
+<!-- SESSION 8 -->
+<div class="page">
+  <div class="sess-hdr">
+    <div class="sess-num">8</div>
+    <div><div class="s-eye">Session Eight</div><div class="s-tit">"Enabling vs. Helping"</div><div class="s-tim">⏱ 15 min · Read your track alone · Come together at the end</div></div>
+  </div>
+  <div class="tgrid">
+    <div class="trk ta">
+      <div class="trk-lbl">Track A — Al-Anon Member</div>
+      <div class="trk-who">For the Al-Anon Member</div>
+      <div class="bref"><strong>📒 Discovering Choices (B-30)</strong>Chapter on enabling in relationships</div>
+      <div class="reading">Discovering Choices examines how well-intentioned acts of love can inadvertently remove the natural consequences that might otherwise create an opening for change. The book invites an honest look at the ways we have protected, covered, absorbed, and excused — not from weakness or cowardice, but from love. Recovery asks us to love differently: with open hands rather than a grip that controls.</div>
+      <div class="plbl">Reflect &amp; Write</div>
+      <div class="prompt">What enabling behaviours have you worked to stop? Which was hardest to give up, and why?</div>
+      <div class="prompt">Where are you still enabling in ways you haven't fully admitted to yourself?</div>
+      <div class="prompt">What did you tell yourself was love — that you now see was fear?</div>
+      <div class="res">
+        <a class="rl rd" href="https://al-anon.org/for-members/members-resources/literature/discovering-choices/" target="_blank">📖 Discovering Choices</a>
+        <a class="rl wt" href="https://www.youtube.com/results?search_query=al-anon+enabling+vs+helping" target="_blank">▶ Enabling vs. Helping</a>
+        <a class="rl mt" href="https://al-anon.org/al-anon-meetings/" target="_blank">🏠 Meeting</a>
+      </div>
+    </div>
+    <div class="trk tb">
+      <div class="trk-lbl">Track B — Family Member / Friend</div>
+      <div class="trk-who">For the Family Member / Friend</div>
+      <div class="bref"><strong>📗 How Al-Anon Works (B-22) — enabling section</strong>What it is and how it actually works</div>
+      <div class="reading">Enabling isn't weakness. It is not a character flaw. It is love without enough information. How Al-Anon Works explains how protecting someone from consequences — covering for them, minimizing the situation to others, paying debts they created — can remove the very moments that might otherwise open a door to change. This session is not about blame. It is about finally seeing clearly.</div>
+      <div class="plbl">Reflect &amp; Write</div>
+      <div class="prompt">List things you have done to protect the alcoholic from natural consequences. Be honest and gentle with yourself.</div>
+      <div class="prompt">Which ones felt like love at the time? Which ones felt like fear or shame management?</div>
+      <div class="res">
+        <a class="rl rd" href="https://al-anon.org/newcomers/" target="_blank">📖 Newcomers</a>
+        <a class="rl wt" href="https://www.youtube.com/results?search_query=what+is+enabling+alcoholism+family" target="_blank">▶ What Is Enabling?</a>
+        <a class="rl mt" href="https://al-anon.org/al-anon-meetings/" target="_blank">🏠 Meeting</a>
+      </div>
+    </div>
+    <div class="trk tc">
+      <div class="trk-lbl">Track C — Alateen</div>
+      <div class="trk-who">For the Alateen Teen</div>
+      <div class="bref"><strong>📘 Alateen — Hope for Children of Alcoholics (B-3)</strong>Section on covering up and enabling</div>
+      <div class="reading">Alateen talks about something many teens know well but rarely name out loud: covering for a parent. Making excuses to friends, cleaning up messes before anyone can see, taking care of younger siblings when no adult is capable, pretending everything is completely fine. The book names this honestly: these acts come from love. But they can also keep the problem hidden from the very person who needs to see it most.</div>
+      <div class="plbl">Reflect &amp; Write</div>
+      <div class="prompt">Have you ever covered for someone's drinking — made an excuse, hid something, or played pretend?</div>
+      <div class="prompt">What were you afraid would happen if you didn't cover it up?</div>
+      <div class="res">
+        <a class="rl rd" href="https://al-anon.org/al-anon-meetings/find-an-alateen-meeting/" target="_blank">📖 Alateen</a>
+        <a class="rl wt" href="https://www.youtube.com/results?search_query=alateen+enabling+teens+family" target="_blank">▶ Teens and Enabling</a>
+        <a class="rl mt" href="https://al-anon.org/al-anon-meetings/find-an-alateen-meeting/" target="_blank">🏠 Alateen Meeting</a>
+      </div>
+    </div>
+    <div class="trk td">
+      <div class="trk-lbl">Track D — Recovering Couple (RCA)</div>
+      <div class="trk-who">Read together as a couple</div>
+      <div class="bref"><strong>💑 RCA — Enabling Dynamics in Relationships</strong>How both partners participate in the system</div>
+      <div class="reading">RCA explores how enabling operates between partners — and how the non-addicted partner often develops their own compulsive patterns of rescuing, managing, and smoothing things over. The program asks couples to look honestly at the system they created together: not to assign blame to one person, but to understand how both partners' patterns worked in concert to keep the dysfunction functioning.</div>
+      <div class="plbl">Reflect — Together</div>
+      <div class="prompt">As a couple: what enabling dynamic developed between you? How did both partners contribute?</div>
+      <div class="prompt">What would "helping without enabling" actually look like between the two of you, day to day?</div>
+      <div class="res">
+        <a class="rl rc" href="https://recovering-couples.org/" target="_blank">💑 RCA Site</a>
+        <a class="rl wt" href="https://www.youtube.com/results?search_query=recovering+couples+anonymous+enabling+patterns" target="_blank">▶ RCA Enabling</a>
+        <a class="rl rc" href="https://recovering-couples.org/meetings/" target="_blank">🏠 RCA Meeting</a>
+      </div>
+    </div>
+  </div>
+  <div class="together"><div class="tog-ico">🤝</div><div><div class="tog-lbl">Come Together — No Blame, Just Seeing</div><div class="tog-p">Each person completes: "One thing I did out of love that I now see may not have helped is ___." The listener responds only: "Thank you for saying that." Nothing more.</div></div></div>
+  <div class="wlbl">Love vs. Enabling — Honest Inventory</div>
+  <div class="wgrid">
+    <div><div class="wb-lbl ta">Track A</div><div class="lined"><div class="wl"></div><div class="wl"></div><div class="wl"></div><div class="wl"></div><div class="wl"></div></div></div>
+    <div><div class="wb-lbl tb">Track B</div><div class="lined"><div class="wl"></div><div class="wl"></div><div class="wl"></div><div class="wl"></div><div class="wl"></div></div></div>
+    <div><div class="wb-lbl tc">Track C</div><div class="lined"><div class="wl"></div><div class="wl"></div><div class="wl"></div><div class="wl"></div><div class="wl"></div></div></div>
+    <div><div class="wb-lbl td">Track D — Together</div><div class="lined"><div class="wl"></div><div class="wl"></div><div class="wl"></div><div class="wl"></div><div class="wl"></div></div></div>
+  </div>
+  <div class="pftr"><div class="pftr-l">Walking Together Through Recovery</div><div class="pftr-r">Session 8 of 12</div></div>
+</div>
+
+<!-- SESSION 9 -->
+<div class="page">
+  <div class="sess-hdr">
+    <div class="sess-num">9</div>
+    <div><div class="s-eye">Session Nine</div><div class="s-tit">"Taking Care of Yourself"</div><div class="s-tim">⏱ 15 min · Read your track alone · Come together at the end</div></div>
+  </div>
+  <div class="tgrid">
+    <div class="trk ta">
+      <div class="trk-lbl">Track A — Al-Anon Member</div>
+      <div class="trk-who">For the Al-Anon Member</div>
+      <div class="bref"><strong>📔 Hope for Today (B-27)</strong>Read any two daily entries that speak to you today</div>
+      <div class="reading">Hope for Today was written by adult children of alcoholics who found genuine healing in Al-Anon. Its entries frequently return to self-care — not as a luxury, but as a requirement of recovery. Members describe learning, often for the very first time, that their own needs matter. That rest, joy, and tending to themselves are not selfish indulgences — they are essential. You cannot pour from an empty cup.</div>
+      <div class="plbl">Reflect &amp; Write</div>
+      <div class="prompt">When did you last do something purely for yourself — without guilt attached to it?</div>
+      <div class="prompt">What is one thing your body or spirit has been asking for that you keep putting off?</div>
+      <div class="prompt">How has your understanding of self-care changed since you started recovery?</div>
+      <div class="res">
+        <a class="rl rd" href="https://al-anon.org/for-members/members-resources/literature/hope-for-today/" target="_blank">📖 Hope for Today</a>
+        <a class="rl ls" href="https://al-anon.org/podcast/" target="_blank">🎧 Podcast</a>
+        <a class="rl wt" href="https://www.youtube.com/results?search_query=al-anon+self+care+recovery" target="_blank">▶ Self-Care in Recovery</a>
+        <a class="rl mt" href="https://al-anon.org/al-anon-meetings/" target="_blank">🏠 Meeting</a>
+      </div>
+    </div>
+    <div class="trk tb">
+      <div class="trk-lbl">Track B — Family Member / Friend</div>
+      <div class="trk-who">For the Family Member / Friend</div>
+      <div class="bref"><strong>📔 Hope for Today (B-27) — same entries</strong>Read as someone who is new to putting yourself first</div>
+      <div class="reading">When someone we love is in crisis, we disappear. We stop exercising, seeing friends, pursuing anything just for us, and sleeping properly. Hope for Today describes how rediscovering personal care is not abandoning the person you love — it is making yourself strong enough to remain present in a sustainable way. Taking care of yourself is not the opposite of caring for them. It is an act of recovery.</div>
+      <div class="plbl">Reflect &amp; Write</div>
+      <div class="prompt">What did you used to enjoy before this situation began to consume your life?</div>
+      <div class="prompt">Name one small, specific thing you could reclaim just for yourself this week.</div>
+      <div class="res">
+        <a class="rl rd" href="https://al-anon.org/newcomers/" target="_blank">📖 Newcomers</a>
+        <a class="rl wt" href="https://www.youtube.com/results?search_query=self+care+loving+an+alcoholic" target="_blank">▶ Caring for Yourself</a>
+        <a class="rl mt" href="https://al-anon.org/al-anon-meetings/" target="_blank">🏠 Meeting</a>
+      </div>
+    </div>
+    <div class="trk tc">
+      <div class="trk-lbl">Track C — Alateen</div>
+      <div class="trk-who">For the Alateen Teen</div>
+      <div class="bref"><strong>📗 Alateen — A Day at a Time (B-10)</strong>Find an entry on taking care of yourself</div>
+      <div class="reading">Alateen is clear and direct about this: you are allowed to have a life. You are allowed to go to the game, hang out with friends, pursue the things that make you feel like yourself — even when things at home are difficult. The program talks honestly about what happens to teens who take on responsibility for the entire family's emotional wellbeing. That was never your job. Your life is happening right now, and you deserve to actually live it.</div>
+      <div class="plbl">Reflect &amp; Write</div>
+      <div class="prompt">What do you enjoy doing that you haven't done in a while because of what's happening at home?</div>
+      <div class="prompt">Do you feel guilty when you have fun while someone else is struggling? Where does that come from?</div>
+      <div class="res">
+        <a class="rl rd" href="https://al-anon.org/al-anon-meetings/find-an-alateen-meeting/" target="_blank">📖 Alateen</a>
+        <a class="rl wt" href="https://www.youtube.com/results?search_query=alateen+self+care+teens" target="_blank">▶ Teens and Self-Care</a>
+        <a class="rl mt" href="https://al-anon.org/al-anon-meetings/find-an-alateen-meeting/" target="_blank">🏠 Alateen Meeting</a>
+      </div>
+    </div>
+    <div class="trk td">
+      <div class="trk-lbl">Track D — Recovering Couple (RCA)</div>
+      <div class="trk-who">Read together as a couple</div>
+      <div class="bref"><strong>💑 RCA — "Tools for Relationship Recovery"</strong>Individual recovery as the foundation of couple health</div>
+      <div class="reading">RCA teaches that a healthy couple is built from two people who tend to their own individual recovery first. The RCA tools section emphasizes separate meetings, individual sponsors, and personal self-care as non-negotiable foundations for the couple's shared health. When each partner is genuinely tended to individually, they bring something real to the relationship — rather than arriving depleted and needing the other to fill them.</div>
+      <div class="plbl">Reflect — Together</div>
+      <div class="prompt">Are you each attending your own individual recovery meetings? If not, what keeps getting in the way?</div>
+      <div class="prompt">What is one thing each of you could do this week specifically for your own individual recovery?</div>
+      <div class="res">
+        <a class="rl rc" href="https://recovering-couples.org/" target="_blank">💑 RCA Site</a>
+        <a class="rl wt" href="https://www.youtube.com/results?search_query=recovering+couples+anonymous+individual+recovery" target="_blank">▶ Individual + Couple Recovery</a>
+        <a class="rl rc" href="https://recovering-couples.org/meetings/" target="_blank">🏠 RCA Meeting</a>
+      </div>
+    </div>
+  </div>
+  <div class="together"><div class="tog-ico">🤝</div><div><div class="tog-lbl">Come Together — Make a Real Commitment</div><div class="tog-p">Each person — including the teen — names one self-care commitment for this coming week. Something small and specific. Write it below. Check in at Session 10: did you keep it?</div></div></div>
+  <div class="wlbl">My Self-Care Commitment This Week</div>
+  <div class="wgrid">
+    <div><div class="wb-lbl ta">Track A — I will...</div><div class="lined"><div class="wl"></div><div class="wl"></div><div class="wl"></div><div class="wl"></div><div class="wl"></div></div></div>
+    <div><div class="wb-lbl tb">Track B — I will...</div><div class="lined"><div class="wl"></div><div class="wl"></div><div class="wl"></div><div class="wl"></div><div class="wl"></div></div></div>
+    <div><div class="wb-lbl tc">Track C — I will...</div><div class="lined"><div class="wl"></div><div class="wl"></div><div class="wl"></div><div class="wl"></div><div class="wl"></div></div></div>
+    <div><div class="wb-lbl td">Track D — We each will...</div><div class="lined"><div class="wl"></div><div class="wl"></div><div class="wl"></div><div class="wl"></div><div class="wl"></div></div></div>
+  </div>
+  <div class="pftr"><div class="pftr-l">Walking Together Through Recovery</div><div class="pftr-r">Session 9 of 12</div></div>
+</div>
+
+<!-- SESSION 10 -->
+<div class="page">
+  <div class="sess-hdr">
+    <div class="sess-num">10</div>
+    <div><div class="s-eye">Session Ten</div><div class="s-tit">"Boundaries — Love with Limits"</div><div class="s-tim">⏱ 15 min · Read your track alone · Come together at the end</div></div>
+  </div>
+  <div class="tgrid">
+    <div class="trk ta">
+      <div class="trk-lbl">Track A — Al-Anon Member</div>
+      <div class="trk-who">For the Al-Anon Member</div>
+      <div class="bref"><strong>📒 Discovering Choices (B-30)</strong>Chapter on boundaries in relationships</div>
+      <div class="reading">Discovering Choices describes boundaries not as walls to keep people out, but as the honest expression of what we will and will not accept in our lives. Members describe learning — slowly, painfully — to state their limits and then follow through when they are crossed. A boundary without a consequence is only a wish. A boundary held with love and consistency is an act of dignity for both people involved.</div>
+      <div class="plbl">Reflect &amp; Write</div>
+      <div class="prompt">What is a boundary you have set and held that you feel genuinely proud of?</div>
+      <div class="prompt">What boundary do you still struggle to set or to maintain once it's set?</div>
+      <div class="prompt">What are you afraid will happen if you hold a firm boundary with love?</div>
+      <div class="res">
+        <a class="rl rd" href="https://al-anon.org/for-members/members-resources/literature/discovering-choices/" target="_blank">📖 Discovering Choices</a>
+        <a class="rl wt" href="https://www.youtube.com/results?search_query=al-anon+healthy+boundaries+recovery" target="_blank">▶ Boundaries in Al-Anon</a>
+        <a class="rl mt" href="https://al-anon.org/al-anon-meetings/" target="_blank">🏠 Meeting</a>
+      </div>
+    </div>
+    <div class="trk tb">
+      <div class="trk-lbl">Track B — Family Member / Friend</div>
+      <div class="trk-who">For the Family Member / Friend</div>
+      <div class="bref"><strong>📗 How Al-Anon Works (B-22)</strong>Detachment section · also <strong>📒 Discovering Choices (B-30)</strong> — boundaries introduction</div>
+      <div class="reading">A boundary is not a punishment or an ultimatum delivered in anger. It is the clear line between your life and someone else's choices. How Al-Anon Works and Discovering Choices both describe how people who love alcoholics often have no clear sense of where they end and the other person begins. Recovery involves slowly rediscovering yourself — your values, your limits, your right to a peaceful daily life.</div>
+      <div class="plbl">Reflect &amp; Write</div>
+      <div class="prompt">What is one boundary you wish existed in your relationship right now?</div>
+      <div class="prompt">What has stopped you from putting it in place — fear, guilt, or something else?</div>
+      <div class="res">
+        <a class="rl rd" href="https://al-anon.org/newcomers/" target="_blank">📖 Newcomers</a>
+        <a class="rl wt" href="https://www.youtube.com/results?search_query=healthy+boundaries+loving+alcoholic" target="_blank">▶ Setting Boundaries</a>
+        <a class="rl mt" href="https://al-anon.org/al-anon-meetings/" target="_blank">🏠 Meeting</a>
+      </div>
+    </div>
+    <div class="trk tc">
+      <div class="trk-lbl">Track C — Alateen</div>
+      <div class="trk-who">For the Alateen Teen</div>
+      <div class="bref"><strong>📗 Alateen — A Day at a Time (B-10)</strong>An entry on personal rights or boundaries</div>
+      <div class="reading">Alateen teaches teens that they have real rights — including the right to feel safe in their own home, the right to not be responsible for an adult's emotions or choices, and the right to their own feelings without having to justify them. The program talks about what it means to have limits: knowing what you will and won't accept, and understanding that having those limits doesn't make you a bad kid or a disloyal one.</div>
+      <div class="plbl">Reflect &amp; Write</div>
+      <div class="prompt">What is one thing you wish was different in how you're treated at home?</div>
+      <div class="prompt">What do you have a right to ask for — even if it feels scary to say out loud?</div>
+      <div class="res">
+        <a class="rl rd" href="https://al-anon.org/al-anon-meetings/find-an-alateen-meeting/" target="_blank">📖 Alateen</a>
+        <a class="rl wt" href="https://www.youtube.com/results?search_query=alateen+teens+boundaries+personal+rights" target="_blank">▶ Teen Rights &amp; Limits</a>
+        <a class="rl mt" href="https://al-anon.org/al-anon-meetings/find-an-alateen-meeting/" target="_blank">🏠 Alateen Meeting</a>
+      </div>
+    </div>
+    <div class="trk td">
+      <div class="trk-lbl">Track D — Recovering Couple (RCA)</div>
+      <div class="trk-who">Read together as a couple</div>
+      <div class="bref"><strong>💑 RCA — Safety Guidelines &amp; Step Ten</strong>Ongoing relationship inventory and couple agreements</div>
+      <div class="reading">RCA's safety guidelines are the shared boundaries of the couple's recovery space — what is and isn't acceptable in how partners communicate, handle conflict, and care for each other. Step Ten invites regular honest check-ins not as criticism, but as ongoing maintenance of the relationship's health. In RCA, boundaries are agreements made together with mutual respect — not demands imposed by one person on the other.</div>
+      <div class="plbl">Reflect — Together</div>
+      <div class="prompt">What agreements do you need to make together about how you will treat each other going forward?</div>
+      <div class="prompt">What behaviour from either partner is no longer acceptable — and how will you both honour that together?</div>
+      <div class="res">
+        <a class="rl rc" href="https://recovering-couples.org/" target="_blank">💑 RCA Site</a>
+        <a class="rl wt" href="https://www.youtube.com/results?search_query=recovering+couples+anonymous+safety+agreements" target="_blank">▶ RCA Agreements</a>
+        <a class="rl rc" href="https://recovering-couples.org/meetings/" target="_blank">🏠 RCA Meeting</a>
+      </div>
+    </div>
+  </div>
+  <div class="together"><div class="tog-ico">🤝</div><div><div class="tog-lbl">Come Together — Witnessed, Not Solved</div><div class="tog-p">Each person shares one boundary they need right now. The listener says only: "I hear you." Then switch. Resist every impulse to fix, reassure, or debate what was shared.</div></div></div>
+  <div class="wlbl">Boundaries I Need</div>
+  <div class="wgrid">
+    <div><div class="wb-lbl ta">Track A — A boundary I need to hold</div><div class="lined"><div class="wl"></div><div class="wl"></div><div class="wl"></div><div class="wl"></div><div class="wl"></div></div></div>
+    <div><div class="wb-lbl tb">Track B — A boundary I wish existed</div><div class="lined"><div class="wl"></div><div class="wl"></div><div class="wl"></div><div class="wl"></div><div class="wl"></div></div></div>
+    <div><div class="wb-lbl tc">Track C — Something I have a right to</div><div class="lined"><div class="wl"></div><div class="wl"></div><div class="wl"></div><div class="wl"></div><div class="wl"></div></div></div>
+    <div><div class="wb-lbl td">Track D — Our shared agreement</div><div class="lined"><div class="wl"></div><div class="wl"></div><div class="wl"></div><div class="wl"></div><div class="wl"></div></div></div>
+  </div>
+  <div class="pftr"><div class="pftr-l">Walking Together Through Recovery</div><div class="pftr-r">Session 10 of 12</div></div>
+</div>
+
+<!-- SESSION 11 -->
+<div class="page">
+  <div class="sess-hdr">
+    <div class="sess-num">11</div>
+    <div><div class="s-eye">Session Eleven</div><div class="s-tit">"Hope and Recovery"</div><div class="s-tim">⏱ 15 min · Read your track alone · Come together at the end</div></div>
+  </div>
+  <div class="tgrid">
+    <div class="trk ta">
+      <div class="trk-lbl">Track A — Al-Anon Member</div>
+      <div class="trk-who">For the Al-Anon Member</div>
+      <div class="bref"><strong>📔 Hope for Today (B-27) — Introduction</strong>Read in full · also any Courage to Change (B-16) entry on hope</div>
+      <div class="reading">Hope for Today opens with a powerful truth: recovery is possible — not just for the alcoholic, but fully and genuinely for the family. Members describe coming to Al-Anon broken and doubtful, and finding not just coping tools, but real transformation. Hope in Al-Anon is not wishful thinking or positive spin. It is the lived and documented experience of people who changed their own lives entirely — regardless of what the alcoholic ultimately chose to do.</div>
+      <div class="plbl">Reflect &amp; Write</div>
+      <div class="prompt">What does your recovery look like today compared to when you first came through the doors?</div>
+      <div class="prompt">What gives you hope right now that is not dependent on the alcoholic changing?</div>
+      <div class="prompt">What would you say to someone just walking in for the very first time?</div>
+      <div class="res">
+        <a class="rl rd" href="https://al-anon.org/for-members/members-resources/literature/hope-for-today/" target="_blank">📖 Hope for Today</a>
+        <a class="rl ls" href="https://al-anon.org/podcast/" target="_blank">🎧 Podcast</a>
+        <a class="rl wt" href="https://www.youtube.com/results?search_query=al-anon+hope+recovery+stories" target="_blank">▶ Recovery &amp; Hope Stories</a>
+        <a class="rl mt" href="https://al-anon.org/al-anon-meetings/" target="_blank">🏠 Meeting</a>
+      </div>
+    </div>
+    <div class="trk tb">
+      <div class="trk-lbl">Track B — Family Member / Friend</div>
+      <div class="trk-who">For the Family Member / Friend</div>
+      <div class="bref"><strong>📔 Hope for Today (B-27) — same introduction</strong></div>
+      <div class="reading">Hope for Today was written by people who know exactly what it means to love someone whose drinking has shaped your entire life, your decisions, your sense of self. The introduction offers something rare and precious: not advice, not instructions — but evidence. Real people found real peace. Not because the alcoholic changed, but because they did. That is not a small promise. That is the whole thing.</div>
+      <div class="plbl">Reflect &amp; Write</div>
+      <div class="prompt">What would your life look like if things stayed the same — but you changed how you responded to them?</div>
+      <div class="prompt">Is there a version of yourself you hope to return to, or become for the very first time?</div>
+      <div class="res">
+        <a class="rl rd" href="https://al-anon.org/newcomers/" target="_blank">📖 Newcomers</a>
+        <a class="rl wt" href="https://www.youtube.com/results?search_query=al-anon+hope+for+families" target="_blank">▶ Hope for Families</a>
+        <a class="rl mt" href="https://al-anon.org/al-anon-meetings/" target="_blank">🏠 Meeting</a>
+      </div>
+    </div>
+    <div class="trk tc">
+      <div class="trk-lbl">Track C — Alateen</div>
+      <div class="trk-who">For the Alateen Teen</div>
+      <div class="bref"><strong>📘 Alateen — Hope for Children of Alcoholics (B-3)</strong>Closing chapter on hope and the future</div>
+      <div class="reading">Alateen's title is not accidental. It is a promise. The closing section of this book looks forward to what becomes possible for teens who stop carrying the weight of someone else's choices. Members describe what changed when they focused on their own futures — school, friendships, the things that make them feel alive. Hope is real. Your future is yours to build. You don't have to wait for things at home to get better to start.</div>
+      <div class="plbl">Reflect &amp; Write</div>
+      <div class="prompt">What do you want your life to look like five years from now — regardless of what happens at home?</div>
+      <div class="prompt">Who or what gives you genuine hope right now, today?</div>
+      <div class="res">
+        <a class="rl rd" href="https://al-anon.org/al-anon-meetings/find-an-alateen-meeting/" target="_blank">📖 Alateen</a>
+        <a class="rl wt" href="https://www.youtube.com/results?search_query=alateen+hope+teens+future" target="_blank">▶ Alateen Hope</a>
+        <a class="rl mt" href="https://al-anon.org/al-anon-meetings/find-an-alateen-meeting/" target="_blank">🏠 Alateen Meeting</a>
+      </div>
+    </div>
+    <div class="trk td">
+      <div class="trk-lbl">Track D — Recovering Couple (RCA)</div>
+      <div class="trk-who">Read together as a couple</div>
+      <div class="bref"><strong>💑 RCA — The Twelve Promises of Recovering Couples Anonymous</strong>Read the promises aloud together, slowly</div>
+      <div class="reading">RCA's Twelve Promises describe what actually becomes possible for a couple that works this program with honesty and commitment: restored intimacy, honest communication, a shared spiritual life, and a relationship rebuilt on something real. These promises are not a guarantee of perfection. They are a description of what couples have genuinely experienced when both partners do the work — together, consistently, over time.</div>
+      <div class="plbl">Reflect — Together</div>
+      <div class="prompt">Which of the RCA Promises moves you most — which one feels most impossible, or most needed?</div>
+      <div class="prompt">What does genuine hope look like for your relationship specifically — for the two of you?</div>
+      <div class="res">
+        <a class="rl rc" href="https://recovering-couples.org/" target="_blank">💑 RCA Site</a>
+        <a class="rl wt" href="https://www.youtube.com/results?search_query=recovering+couples+anonymous+twelve+promises" target="_blank">▶ RCA Promises</a>
+        <a class="rl rc" href="https://recovering-couples.org/meetings/" target="_blank">🏠 RCA Meeting</a>
+      </div>
+    </div>
+  </div>
+  <div class="together"><div class="tog-ico">🤝</div><div><div class="tog-lbl">Come Together — Speak Hope Out Loud</div><div class="tog-p">Each person completes aloud: "My hope for myself — not for anyone else, just for me — is ___." Every listener responds only: "I hope that for you too."</div></div></div>
+  <div class="wlbl">My Hope Statement</div>
+  <div class="wgrid">
+    <div><div class="wb-lbl ta">Track A — My hope for myself is...</div><div class="lined"><div class="wl"></div><div class="wl"></div><div class="wl"></div><div class="wl"></div><div class="wl"></div></div></div>
+    <div><div class="wb-lbl tb">Track B — My hope for myself is...</div><div class="lined"><div class="wl"></div><div class="wl"></div><div class="wl"></div><div class="wl"></div><div class="wl"></div></div></div>
+    <div><div class="wb-lbl tc">Track C — My hope for my future is...</div><div class="lined"><div class="wl"></div><div class="wl"></div><div class="wl"></div><div class="wl"></div><div class="wl"></div></div></div>
+    <div><div class="wb-lbl td">Track D — Our hope for us is...</div><div class="lined"><div class="wl"></div><div class="wl"></div><div class="wl"></div><div class="wl"></div><div class="wl"></div></div></div>
+  </div>
+  <div class="pftr"><div class="pftr-l">Walking Together Through Recovery</div><div class="pftr-r">Session 11 of 12</div></div>
+</div>
+
+<!-- SESSION 12 -->
+<div class="page">
+  <div class="sess-hdr">
+    <div class="sess-num">12</div>
+    <div><div class="s-eye">Session Twelve — Final Session</div><div class="s-tit">"Where Do We Go From Here?"</div><div class="s-tim">⏱ 15 min · Read your track alone · Come together at the end</div></div>
+  </div>
+  <div class="tgrid">
+    <div class="trk ta">
+      <div class="trk-lbl">Track A — Al-Anon Member</div>
+      <div class="trk-who">For the Al-Anon Member</div>
+      <div class="bref"><strong>📘 Paths to Recovery (B-24)</strong>Traditions overview or any Step you are currently working</div>
+      <div class="reading">Paths to Recovery closes each chapter with personal stories reminding us that recovery is not a destination arrived at once and then held forever. It is a daily return to the tools, the community, and an honest look at where we actually are. The Traditions remind us that we do not recover alone — the fellowship itself is part of the medicine. Your ongoing commitment to your own program is one of the most significant gifts you can offer yourself and those you love.</div>
+      <div class="plbl">Reflect &amp; Write</div>
+      <div class="prompt">What does your ongoing recovery commitment look like going forward from here?</div>
+      <div class="prompt">What tools from these twelve sessions are you taking with you into daily life?</div>
+      <div class="prompt">What would you say to someone walking through the doors for the very first time?</div>
+      <div class="res">
+        <a class="rl rd" href="https://al-anon.org/for-members/members-resources/literature/paths-to-recovery/" target="_blank">📖 Paths to Recovery</a>
+        <a class="rl wt" href="https://www.youtube.com/results?search_query=al-anon+recovery+ongoing+steps+traditions" target="_blank">▶ Ongoing Recovery</a>
+        <a class="rl mt" href="https://al-anon.org/al-anon-meetings/" target="_blank">🏠 Meeting</a>
+      </div>
+    </div>
+    <div class="trk tb">
+      <div class="trk-lbl">Track B — Family Member / Friend</div>
+      <div class="trk-who">For the Family Member / Friend</div>
+      <div class="bref"><strong>📗 How Al-Anon Works (B-22) — "Getting Started in Al-Anon"</strong>The final invitation</div>
+      <div class="reading">How Al-Anon Works closes with an invitation — to keep coming back, to find a home group, to get a sponsor, to work the Steps. This isn't the end of the workbook. It's the beginning of a life you choose for yourself, on your own terms. The program does not promise that the alcoholic will stop drinking. It promises that you can find peace, dignity, and genuine joy regardless. That is not a small thing. That is everything.</div>
+      <div class="plbl">Reflect &amp; Write</div>
+      <div class="prompt">What has shifted — even slightly — in how you see your situation after these twelve sessions?</div>
+      <div class="prompt">What is one thing you want to do differently going forward — for yourself alone?</div>
+      <div class="prompt">Are you ready to try an Al-Anon meeting? What would make that possible?</div>
+      <div class="res">
+        <a class="rl rd" href="https://al-anon.org/newcomers/how-al-anon-works/" target="_blank">📖 Get Started</a>
+        <a class="rl wt" href="https://www.youtube.com/results?search_query=al-anon+first+meeting+what+to+expect" target="_blank">▶ Your First Meeting</a>
+        <a class="rl mt" href="https://al-anon.org/al-anon-meetings/" target="_blank">🏠 Find a Meeting</a>
+      </div>
+    </div>
+    <div class="trk tc">
+      <div class="trk-lbl">Track C — Alateen</div>
+      <div class="trk-who">For the Alateen Teen</div>
+      <div class="bref"><strong>📘 Alateen — Hope for Children of Alcoholics (B-3)</strong>Final pages — "Keep Coming Back"</div>
+      <div class="reading">Alateen ends with an invitation to keep showing up — to meetings, to yourself, to your own future. The closing pages describe what teens actually found when they committed to the program: real friends who genuinely understand, a place where the truth can be spoken safely, and a growing belief that their own life is worth building — right now, not someday when things at home settle down. You don't have to wait. You can start now.</div>
+      <div class="plbl">Reflect &amp; Write</div>
+      <div class="prompt">What is one thing from these twelve sessions that you want to carry with you and actually remember?</div>
+      <div class="prompt">Would you try an Alateen meeting? What would make it easier to walk through that door?</div>
+      <div class="res">
+        <a class="rl rd" href="https://al-anon.org/al-anon-meetings/find-an-alateen-meeting/" target="_blank">📖 Find Alateen</a>
+        <a class="rl wt" href="https://www.youtube.com/results?search_query=alateen+keep+coming+back" target="_blank">▶ Keep Coming Back</a>
+        <a class="rl mt" href="https://al-anon.org/al-anon-meetings/find-an-alateen-meeting/" target="_blank">🏠 Alateen Meeting</a>
+      </div>
+    </div>
+    <div class="trk td">
+      <div class="trk-lbl">Track D — Recovering Couple (RCA)</div>
+      <div class="trk-who">Read together as a couple</div>
+      <div class="bref"><strong>💑 RCA — Step Twelve &amp; Sponsoring Other Couples</strong>Carrying the message of couple recovery forward</div>
+      <div class="reading">RCA's Step Twelve describes the gift that comes at the end of doing this work: carrying the message to other couples who are still in the dark. Couples who have worked this program with honesty become living proof that relationships can be genuinely rebuilt — not just patched over, but rebuilt on honesty and love and mutual respect. Your "we" — healed, honest, humble, and still together — is itself a form of service to others.</div>
+      <div class="plbl">Reflect — Together</div>
+      <div class="prompt">What has genuinely changed in your relationship — even slightly — across these twelve sessions?</div>
+      <div class="prompt">Are you ready to attend an RCA meeting together? What would make that possible?</div>
+      <div class="res">
+        <a class="rl rc" href="https://recovering-couples.org/meetings/" target="_blank">💑 Find RCA Meeting</a>
+        <a class="rl wt" href="https://therecoveryshow.com/2025/10/recovering-couples-anonymous-healing-a-relationship-440/" target="_blank">▶ RCA Recovery Show</a>
+        <a class="rl rc" href="https://recovering-couples.org/" target="_blank">🌐 RCA Site</a>
+      </div>
+    </div>
+  </div>
+  <div class="together"><div class="tog-ico">🤝</div><div><div class="tog-lbl">Come Together — The Final Sharing</div><div class="tog-p">Every person completes: "One thing I'm grateful I understand now that I didn't before is ___." Then close by reading the Serenity Prayer aloud together — every voice, one final time.</div></div></div>
+  <div class="wlbl">What I Am Taking With Me</div>
+  <div class="wgrid">
+    <div><div class="wb-lbl ta">Track A — My commitment going forward</div><div class="lined"><div class="wl"></div><div class="wl"></div><div class="wl"></div><div class="wl"></div><div class="wl"></div></div></div>
+    <div><div class="wb-lbl tb">Track B — What shifted for me</div><div class="lined"><div class="wl"></div><div class="wl"></div><div class="wl"></div><div class="wl"></div><div class="wl"></div></div></div>
+    <div><div class="wb-lbl tc">Track C — What I want to remember</div><div class="lined"><div class="wl"></div><div class="wl"></div><div class="wl"></div><div class="wl"></div><div class="wl"></div></div></div>
+    <div><div class="wb-lbl td">Track D — What changed between us</div><div class="lined"><div class="wl"></div><div class="wl"></div><div class="wl"></div><div class="wl"></div><div class="wl"></div></div></div>
+  </div>
+  <div class="pftr"><div class="pftr-l">Walking Together Through Recovery</div><div class="pftr-r">Session 12 of 12</div></div>
+</div>
+
+<!-- BOOK REFERENCE PAGE -->
+<div class="page" style="min-height:auto;padding-bottom:44px;">
+  <div class="eyebrow">Official Literature</div>
+  <div class="section-title">Complete Book Reference Guide</div>
+  <p style="font-size:12px;color:var(--slate-light);margin-bottom:4px;">All Al-Anon and Alateen titles are Conference Approved Literature (CAL). Purchase at <strong>al-anon.org/onlinestore</strong> or your local Al-Anon Intergroup. RCA literature is available at <strong>recovering-couples.org</strong> and <strong>chapter9couplesinrecovery.org</strong>.</p>
+  <table class="rtbl">
+    <thead><tr><th>Title</th><th>Code</th><th>Track</th><th>Best For</th></tr></thead>
+    <tbody>
+      <tr><td><span class="btc">How Al-Anon Works for Families &amp; Friends of Alcoholics</span></td><td><span class="cpill">B-22</span></td><td>A &amp; B</td><td>Foundational book for all members. Covers the program, Steps, enabling, detachment. Start here.</td></tr>
+      <tr><td><span class="btc">Courage to Change: One Day at a Time in Al-Anon II</span></td><td><span class="cpill">B-16</span></td><td>A &amp; B</td><td>Daily reader for Tracks A and B. Use every morning. Index makes topic searching easy.</td></tr>
+      <tr><td><span class="btc">Paths to Recovery: Al-Anon's Steps, Traditions &amp; Concepts</span></td><td><span class="cpill">B-24</span></td><td>A</td><td>Deep Step and Traditions work for Al-Anon members ready to go further.</td></tr>
+      <tr><td><span class="btc">Hope for Today</span></td><td><span class="cpill">B-27</span></td><td>A &amp; B</td><td>Daily reader by adult children of alcoholics. Essential for hope and self-care sessions.</td></tr>
+      <tr><td><span class="btc">Discovering Choices: Recovery in Relationships</span></td><td><span class="cpill">B-30</span></td><td>A &amp; B</td><td>Enabling, boundaries, and recovery in relationships. Deeply practical for both tracks.</td></tr>
+      <tr><td><span class="btc">From Survival to Recovery: Growing Up in an Alcoholic Home</span></td><td><span class="cpill">B-21</span></td><td>A</td><td>Survival skills and family roles. Powerful for anyone who grew up with alcoholism.</td></tr>
+      <tr><td><span class="btc" style="color:var(--teal-dark)">Alateen — Hope for Children of Alcoholics</span></td><td><span class="cpill">B-3</span></td><td style="color:var(--teal-dark);font-weight:700;">C</td><td>Core Alateen book. Steps, Traditions, personal stories, family disease. Start here for Track C.</td></tr>
+      <tr><td><span class="btc" style="color:var(--teal-dark)">Alateen — A Day at a Time</span></td><td><span class="cpill">B-10</span></td><td style="color:var(--teal-dark);font-weight:700;">C</td><td>Daily reader for teens. Use the index to find entries that match each session theme.</td></tr>
+      <tr><td><span class="btc" style="color:var(--plum)">Recovering Couples Anonymous (RCA Big Book)</span></td><td><span class="cpill">RCA</span></td><td style="color:var(--plum);font-weight:700;">D</td><td>Core RCA literature. Twelve Steps, Traditions, Promises, and tools for couple recovery.</td></tr>
+      <tr><td><span class="btc" style="color:var(--plum)">Chapter 9 — Couples in Recovery Anonymous</span></td><td><span class="cpill">Ch.9</span></td><td style="color:var(--plum);font-weight:700;">D</td><td>Steps, sober communication, and member stories written by couples in the program.</td></tr>
+    </tbody>
+  </table>
+  <div style="margin-top:18px;display:grid;grid-template-columns:1fr 1fr;gap:14px;">
+    <div style="background:#EEF4EE;border-radius:7px;padding:16px;border-left:4px solid var(--sage);">
+      <div style="font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--sage-dark);margin-bottom:10px;">Al-Anon &amp; Alateen</div>
+      <a href="https://al-anon.org/al-anon-meetings/" target="_blank" style="display:block;background:var(--sage);color:white;padding:8px 16px;border-radius:20px;text-decoration:none;font-weight:700;font-size:11px;text-align:center;margin-bottom:8px;">🏠 Find an Al-Anon Meeting</a>
+      <a href="https://al-anon.org/al-anon-meetings/find-an-alateen-meeting/" target="_blank" style="display:block;background:var(--teal);color:white;padding:8px 16px;border-radius:20px;text-decoration:none;font-weight:700;font-size:11px;text-align:center;margin-bottom:8px;">🧒 Find an Alateen Meeting</a>
+      <a href="https://al-anon.org/al-anon-meetings/electronic-meetings/" target="_blank" style="display:block;background:var(--slate);color:white;padding:8px 16px;border-radius:20px;text-decoration:none;font-weight:700;font-size:11px;text-align:center;">💻 Online &amp; Electronic Meetings</a>
+    </div>
+    <div style="background:#F4EEF8;border-radius:7px;padding:16px;border-left:4px solid var(--plum);">
+      <div style="font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--plum-dark);margin-bottom:10px;">Recovering Couples Anonymous</div>
+      <a href="https://recovering-couples.org/meetings/" target="_blank" style="display:block;background:var(--plum);color:white;padding:8px 16px;border-radius:20px;text-decoration:none;font-weight:700;font-size:11px;text-align:center;margin-bottom:8px;">💑 Find an RCA Meeting</a>
+      <a href="https://www.chapter9couplesinrecovery.org/" target="_blank" style="display:block;background:var(--slate);color:white;padding:8px 16px;border-radius:20px;text-decoration:none;font-weight:700;font-size:11px;text-align:center;margin-bottom:8px;">📖 Chapter 9 Site</a>
+      <a href="https://recovering-couples.org/literature/" target="_blank" style="display:block;background:var(--rose);color:white;padding:8px 16px;border-radius:20px;text-decoration:none;font-weight:700;font-size:11px;text-align:center;">📚 RCA Literature</a>
+    </div>
+  </div>
+  <div class="dark-box">
+    <p>"Keep coming back. It works if you work it."</p>
+    <div class="attr">— Al-Anon · Alateen · Recovering Couples Anonymous · closing affirmation</div>
+  </div>
+</div>
+
+</body>
+</html>

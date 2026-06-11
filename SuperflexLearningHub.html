@@ -1,0 +1,1856 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Superflex Learning Hub ⚡</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bangers&family=Nunito:wght@400;600;700;800;900&family=Fredoka+One&display=swap" rel="stylesheet">
+<style>
+:root {
+  --hero: #FFD700;
+  --hero2: #FF6B35;
+  --hero3: #7B2FBE;
+  --hero4: #00C896;
+  --hero5: #FF4B6E;
+  --dark: #1A0A2E;
+  --darker: #0D0518;
+  --card: #241040;
+  --card2: #1E0D38;
+  --text: #F0E6FF;
+  --muted: #9B8EC4;
+  --rock: #8B6914;
+  --glass: #4FC3F7;
+  --brain: #F06292;
+  --body: #81C784;
+  --rb: #FF5252;
+  --rb2: #FF8A80;
+}
+
+* { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Nunito', sans-serif;
+  background: var(--darker);
+  color: var(--text);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* ── COMIC TEXTURE OVERLAY ── */
+body::before {
+  content:'';
+  position:fixed; inset:0; z-index:0; pointer-events:none;
+  background-image: radial-gradient(circle at 20% 20%, rgba(123,47,190,0.15) 0%, transparent 50%),
+    radial-gradient(circle at 80% 80%, rgba(255,107,53,0.1) 0%, transparent 50%),
+    url("data:image/svg+xml,%3Csvg width='60' height='60' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='1' cy='1' r='1' fill='rgba(255,215,0,0.03)'/%3E%3C/svg%3E");
+}
+
+/* ── HALFTONE DOTS ── */
+.halftone {
+  background-image: radial-gradient(circle, rgba(255,215,0,0.08) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+
+/* ── NAV ── */
+nav {
+  position: sticky; top:0; z-index:100;
+  background: rgba(13,5,24,0.95);
+  backdrop-filter: blur(12px);
+  border-bottom: 3px solid var(--hero);
+  padding: 0 16px;
+  display: flex; align-items:center; justify-content:space-between;
+  height: 60px;
+  box-shadow: 0 4px 20px rgba(255,215,0,0.2);
+}
+
+.nav-logo {
+  font-family: 'Bangers', cursive;
+  font-size: 1.6rem;
+  letter-spacing: 2px;
+  background: linear-gradient(135deg, var(--hero), var(--hero2));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  text-shadow: none;
+}
+
+.nav-tabs {
+  display: flex; gap: 4px;
+  overflow-x: auto; scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+  padding: 6px 0;
+}
+.nav-tabs::-webkit-scrollbar { display:none; }
+
+.nav-tab {
+  background: none; border: none;
+  font-family: 'Nunito', sans-serif;
+  font-weight: 800; font-size: 0.7rem;
+  color: var(--muted);
+  padding: 6px 10px;
+  border-radius: 20px;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.2s;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+.nav-tab.active, .nav-tab:active {
+  background: var(--hero);
+  color: var(--dark);
+}
+
+/* ── PAGES ── */
+.page { display:none; padding: 16px 16px 100px; position:relative; z-index:1; }
+.page.active { display:block; animation: fadeUp 0.3s ease; }
+@keyframes fadeUp { from { opacity:0; transform:translateY(16px); } to { opacity:1; transform:translateY(0); } }
+
+/* ── HERO BANNER ── */
+.hero-banner {
+  background: linear-gradient(135deg, var(--dark) 0%, var(--hero3) 50%, var(--darker) 100%);
+  border: 3px solid var(--hero);
+  border-radius: 20px;
+  padding: 24px 20px;
+  text-align: center;
+  margin-bottom: 20px;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 0 40px rgba(255,215,0,0.3), inset 0 0 60px rgba(123,47,190,0.2);
+}
+
+.hero-banner::before {
+  content:'⚡';
+  position:absolute; top:-10px; left:-10px;
+  font-size:80px; opacity:0.07;
+  transform: rotate(-15deg);
+}
+.hero-banner::after {
+  content:'⚡';
+  position:absolute; bottom:-10px; right:-10px;
+  font-size:80px; opacity:0.07;
+  transform: rotate(15deg);
+}
+
+.hero-title {
+  font-family: 'Bangers', cursive;
+  font-size: 2.8rem;
+  line-height: 1;
+  letter-spacing: 3px;
+  color: var(--hero);
+  text-shadow: 3px 3px 0 var(--hero2), 6px 6px 0 rgba(0,0,0,0.5);
+  margin-bottom: 8px;
+}
+
+.hero-sub {
+  font-size: 0.9rem;
+  color: rgba(240,230,255,0.8);
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.hero-badges {
+  display: flex; flex-wrap:wrap; gap:8px;
+  justify-content: center;
+  margin-top: 16px;
+}
+
+.badge {
+  background: rgba(255,255,255,0.1);
+  border: 2px solid var(--hero);
+  border-radius: 20px;
+  padding: 4px 12px;
+  font-size: 0.75rem;
+  font-weight: 800;
+  color: var(--hero);
+  letter-spacing: 1px;
+}
+
+/* ── SECTION HEADERS ── */
+.section-head {
+  font-family: 'Bangers', cursive;
+  font-size: 1.8rem;
+  letter-spacing: 2px;
+  margin: 24px 0 12px;
+  display: flex; align-items:center; gap: 10px;
+}
+
+/* ── CARDS ── */
+.card-grid { display: grid; gap: 12px; grid-template-columns: 1fr; }
+.card-grid-2 { grid-template-columns: 1fr 1fr; }
+
+.card {
+  background: var(--card);
+  border: 2px solid rgba(255,255,255,0.08);
+  border-radius: 16px;
+  padding: 16px;
+  transition: transform 0.2s, box-shadow 0.2s;
+  position: relative;
+  overflow: hidden;
+}
+.card:active { transform: scale(0.98); }
+
+.card-accent {
+  position:absolute; top:0; left:0; right:0; height:4px;
+  border-radius: 16px 16px 0 0;
+}
+
+.card-icon { font-size: 2rem; margin-bottom: 8px; display:block; }
+.card-title {
+  font-family: 'Fredoka One', cursive;
+  font-size: 1.1rem;
+  color: var(--hero);
+  margin-bottom: 6px;
+}
+.card-desc { font-size: 0.82rem; color: var(--muted); line-height: 1.5; }
+
+/* ── STUCK BOTS ── */
+.bot-card {
+  border-radius: 20px;
+  padding: 20px;
+  margin-bottom: 16px;
+  border: 3px solid;
+  position: relative;
+  overflow: hidden;
+}
+
+.bot-card::before {
+  content: attr(data-emoji);
+  position: absolute; right:-10px; bottom:-15px;
+  font-size: 80px; opacity: 0.15;
+}
+
+.bot-name {
+  font-family: 'Bangers', cursive;
+  font-size: 1.6rem;
+  letter-spacing: 2px;
+  margin-bottom: 4px;
+}
+.bot-tag {
+  display: inline-block;
+  padding: 2px 10px;
+  border-radius: 20px;
+  font-size: 0.7rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 10px;
+}
+.bot-desc { font-size: 0.85rem; line-height: 1.6; margin-bottom: 12px; }
+.bot-signs { font-size: 0.8rem; margin-bottom: 12px; }
+.bot-signs li { margin-left: 16px; margin-bottom: 4px; color: rgba(240,230,255,0.8); }
+
+.strategy-box {
+  border-radius: 12px;
+  padding: 12px;
+  font-size: 0.82rem;
+  line-height: 1.6;
+}
+.strategy-box strong { display:block; font-size:0.78rem; text-transform:uppercase; letter-spacing:1px; margin-bottom:6px; }
+
+/* BOT COLORS */
+.bot-rock { background: rgba(139,105,20,0.15); border-color: #D4A017; }
+.bot-rock .bot-name { color: #D4A017; }
+.bot-rock .bot-tag { background:#D4A017; color:#1A0A2E; }
+.bot-rock .strategy-box { background: rgba(139,105,20,0.2); }
+
+.bot-glass { background: rgba(79,195,247,0.1); border-color: #4FC3F7; }
+.bot-glass .bot-name { color: #4FC3F7; }
+.bot-glass .bot-tag { background:#4FC3F7; color:#1A0A2E; }
+.bot-glass .strategy-box { background: rgba(79,195,247,0.15); }
+
+.bot-brain { background: rgba(240,98,146,0.1); border-color: #F06292; }
+.bot-brain .bot-name { color: #F06292; }
+.bot-brain .bot-tag { background:#F06292; color:#fff; }
+.bot-brain .strategy-box { background: rgba(240,98,146,0.15); }
+
+.bot-body { background: rgba(129,199,132,0.1); border-color: #81C784; }
+.bot-body .bot-name { color: #81C784; }
+.bot-body .bot-tag { background:#81C784; color:#1A0A2E; }
+.bot-body .strategy-box { background: rgba(129,199,132,0.15); }
+
+.bot-mean { background: rgba(76,175,80,0.1); border-color: #66BB6A; }
+.bot-mean .bot-name { color: #66BB6A; }
+.bot-mean .bot-tag { background:#66BB6A; color:#1A0A2E; }
+.bot-mean .strategy-box { background: rgba(76,175,80,0.15); }
+
+.bot-worry { background: rgba(255,183,77,0.1); border-color: #FFB74D; }
+.bot-worry .bot-name { color: #FFB74D; }
+.bot-worry .bot-tag { background:#FFB74D; color:#1A0A2E; }
+.bot-worry .strategy-box { background: rgba(255,183,77,0.15); }
+
+/* ── SUPERFLEX HERO ── */
+.superflex-hero {
+  background: linear-gradient(135deg, rgba(255,215,0,0.15), rgba(255,107,53,0.1));
+  border: 3px solid var(--hero);
+  border-radius: 20px;
+  padding: 20px;
+  margin-bottom: 20px;
+  text-align: center;
+}
+.superflex-hero .big-emoji { font-size: 4rem; display:block; margin-bottom: 12px; }
+.superflex-hero h2 {
+  font-family: 'Bangers', cursive;
+  font-size: 1.8rem;
+  letter-spacing: 2px;
+  color: var(--hero);
+  text-shadow: 2px 2px 0 var(--hero2);
+  margin-bottom: 8px;
+}
+.superflex-hero p { font-size: 0.85rem; color: rgba(240,230,255,0.85); line-height: 1.6; }
+
+.power-list { list-style:none; margin-top:12px; }
+.power-list li {
+  padding: 8px 12px;
+  background: rgba(255,215,0,0.08);
+  border-left: 3px solid var(--hero);
+  border-radius: 0 8px 8px 0;
+  margin-bottom: 6px;
+  font-size: 0.85rem;
+  font-weight: 700;
+}
+.power-list li::before { content:'⚡ '; }
+
+/* ── STRATEGY STEPS ── */
+.steps { display:flex; flex-direction:column; gap:10px; margin: 16px 0; }
+.step {
+  display:flex; align-items:center; gap:12px;
+  background: var(--card);
+  border: 2px solid rgba(255,255,255,0.08);
+  border-radius: 14px;
+  padding: 14px;
+}
+.step-num {
+  width:36px; height:36px;
+  background: linear-gradient(135deg, var(--hero), var(--hero2));
+  border-radius: 50%;
+  display:flex; align-items:center; justify-content:center;
+  font-family: 'Bangers', cursive;
+  font-size: 1.1rem;
+  color: var(--dark);
+  flex-shrink:0;
+}
+.step-text { font-size: 0.9rem; font-weight: 700; }
+
+/* ── QUIZ / INTERACTIVE ── */
+.quiz-card {
+  background: var(--card);
+  border: 2px solid var(--hero3);
+  border-radius: 20px;
+  padding: 20px;
+  margin-bottom: 16px;
+}
+.quiz-question {
+  font-family: 'Fredoka One', cursive;
+  font-size: 1.1rem;
+  color: var(--text);
+  margin-bottom: 14px;
+  line-height: 1.4;
+}
+.quiz-scenario {
+  background: rgba(123,47,190,0.2);
+  border-left: 4px solid var(--hero3);
+  border-radius: 0 10px 10px 0;
+  padding: 10px 14px;
+  font-size: 0.85rem;
+  margin-bottom: 14px;
+  font-style: italic;
+}
+.quiz-options { display: flex; flex-direction:column; gap:8px; }
+.quiz-opt {
+  background: rgba(255,255,255,0.05);
+  border: 2px solid rgba(255,255,255,0.1);
+  border-radius: 12px;
+  padding: 12px 14px;
+  font-size: 0.88rem;
+  font-weight: 700;
+  cursor: pointer;
+  text-align:left;
+  color: var(--text);
+  transition: all 0.2s;
+  display:flex; align-items:center; gap:10px;
+}
+.quiz-opt:active { transform: scale(0.98); }
+.quiz-opt.correct {
+  background: rgba(0,200,150,0.2);
+  border-color: var(--hero4);
+  color: var(--hero4);
+}
+.quiz-opt.wrong {
+  background: rgba(255,75,110,0.2);
+  border-color: var(--hero5);
+  color: var(--hero5);
+}
+.quiz-opt.disabled { pointer-events:none; opacity:0.6; }
+.quiz-opt.disabled.correct { opacity:1; }
+
+.quiz-feedback {
+  margin-top: 10px;
+  padding: 10px 14px;
+  border-radius: 10px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  display:none;
+}
+.quiz-feedback.show { display:block; }
+.quiz-feedback.good { background: rgba(0,200,150,0.15); color: var(--hero4); border: 1px solid var(--hero4); }
+.quiz-feedback.bad { background: rgba(255,75,110,0.15); color: var(--hero5); border: 1px solid var(--hero5); }
+
+.quiz-score {
+  text-align:center;
+  font-family: 'Bangers', cursive;
+  font-size: 2rem;
+  letter-spacing: 2px;
+  color: var(--hero);
+  margin: 16px 0;
+}
+
+/* ── TRACKER ── */
+.tracker-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 8px;
+  margin: 16px 0;
+}
+.tracker-badge {
+  aspect-ratio: 1;
+  border-radius: 12px;
+  display:flex; flex-direction:column;
+  align-items:center; justify-content:center;
+  border: 2px solid rgba(255,255,255,0.1);
+  background: var(--card);
+  cursor: pointer;
+  transition: all 0.2s;
+  padding: 6px;
+  text-align:center;
+}
+.tracker-badge.earned {
+  border-color: var(--hero);
+  background: rgba(255,215,0,0.1);
+  box-shadow: 0 0 12px rgba(255,215,0,0.2);
+}
+.tracker-badge .badge-emoji { font-size: 1.4rem; }
+.tracker-badge .badge-label {
+  font-size: 0.5rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--muted);
+  margin-top: 2px;
+  line-height: 1.2;
+}
+.tracker-badge.earned .badge-label { color: var(--hero); }
+
+.tracker-log {
+  background: var(--card);
+  border: 2px solid rgba(255,255,255,0.08);
+  border-radius: 16px;
+  padding: 16px;
+  margin-top: 12px;
+}
+.tracker-log h3 {
+  font-family: 'Fredoka One', cursive;
+  font-size: 1rem;
+  color: var(--hero);
+  margin-bottom: 12px;
+}
+.log-entry {
+  display:flex; align-items:center; gap:10px;
+  padding: 8px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+  font-size: 0.82rem;
+}
+.log-entry:last-child { border-bottom:none; }
+.log-dot {
+  width:8px; height:8px;
+  border-radius:50%;
+  background: var(--hero4);
+  flex-shrink:0;
+}
+
+/* ── SUMMER WEEKS ── */
+.week-card {
+  border-radius: 20px;
+  margin-bottom: 16px;
+  overflow: hidden;
+  border: 2px solid rgba(255,255,255,0.08);
+}
+.week-header {
+  padding: 16px 20px;
+  display:flex; align-items:center; justify-content:space-between;
+  cursor: pointer;
+}
+.week-header-left { display:flex; align-items:center; gap:12px; }
+.week-emoji { font-size: 1.8rem; }
+.week-title {
+  font-family: 'Fredoka One', cursive;
+  font-size: 1rem;
+  line-height: 1.2;
+}
+.week-num { font-size: 0.7rem; color: var(--muted); text-transform:uppercase; font-weight:800; }
+.week-toggle {
+  font-size: 1.2rem;
+  transition: transform 0.3s;
+  color: var(--muted);
+}
+.week-card.open .week-toggle { transform: rotate(180deg); }
+.week-body { display:none; padding: 0 16px 16px; }
+.week-card.open .week-body { display:block; }
+
+.subject-pill {
+  display: inline-flex; align-items:center; gap:4px;
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 0.7rem;
+  font-weight: 800;
+  margin: 3px;
+  text-transform: uppercase;
+}
+.activity-item {
+  background: rgba(255,255,255,0.04);
+  border-radius: 10px;
+  padding: 10px 12px;
+  margin-bottom: 6px;
+  font-size: 0.82rem;
+  line-height: 1.5;
+  border-left: 3px solid;
+}
+.bilingual-pair {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px;
+  margin-bottom: 8px;
+}
+.bi-fr, .bi-en {
+  padding: 8px 10px;
+  border-radius: 8px;
+  font-size: 0.76rem;
+  line-height: 1.5;
+}
+.bi-fr {
+  background: rgba(26,122,138,0.2);
+  border-left: 3px solid #1A7A8A;
+}
+.bi-en {
+  background: rgba(224,123,57,0.15);
+  border-left: 3px solid #E07B39;
+}
+.bi-flag { font-size: 0.9rem; margin-right: 4px; }
+
+/* ── DBT / BRAIN TOOLS ── */
+.skill-card {
+  background: var(--card);
+  border: 2px solid rgba(255,255,255,0.08);
+  border-radius: 16px;
+  padding: 16px;
+  margin-bottom: 12px;
+}
+.skill-card-title {
+  font-family: 'Fredoka One', cursive;
+  font-size: 1rem;
+  margin-bottom: 8px;
+  display:flex; align-items:center; gap:8px;
+}
+.skill-tag {
+  font-size: 0.65rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  padding: 2px 8px;
+  border-radius: 20px;
+}
+.skill-steps { list-style:none; }
+.skill-steps li {
+  padding: 6px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+  font-size: 0.82rem;
+  line-height: 1.5;
+  padding-left: 20px;
+  position:relative;
+}
+.skill-steps li::before {
+  content: attr(data-n);
+  position:absolute; left:0;
+  font-family: 'Bangers', cursive;
+  font-size: 0.9rem;
+  color: var(--hero);
+}
+
+/* ── BREATHING ANIMATION ── */
+.breathing-circle {
+  width: 160px; height:160px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(0,200,150,0.3), rgba(123,47,190,0.1));
+  border: 4px solid var(--hero4);
+  display:flex; align-items:center; justify-content:center;
+  margin: 20px auto;
+  cursor: pointer;
+  transition: all 0.1s;
+  box-shadow: 0 0 30px rgba(0,200,150,0.2);
+  position:relative;
+}
+.breathing-circle.inhale {
+  animation: expand 4s ease-in forwards;
+  border-color: var(--hero4);
+  box-shadow: 0 0 60px rgba(0,200,150,0.4);
+}
+.breathing-circle.hold {
+  animation: none;
+  border-color: var(--hero);
+  box-shadow: 0 0 40px rgba(255,215,0,0.4);
+}
+.breathing-circle.exhale {
+  animation: contract 4s ease-out forwards;
+  border-color: var(--hero3);
+  box-shadow: 0 0 30px rgba(123,47,190,0.3);
+}
+@keyframes expand { from { transform:scale(1); } to { transform:scale(1.4); } }
+@keyframes contract { from { transform:scale(1.4); } to { transform:scale(1); } }
+.breath-label {
+  font-family: 'Bangers', cursive;
+  font-size: 1.3rem;
+  letter-spacing: 2px;
+  color: var(--text);
+  text-align:center;
+}
+.breath-count {
+  font-size: 3rem;
+  font-family: 'Bangers', cursive;
+  color: var(--hero);
+  line-height: 1;
+}
+.breath-instruction {
+  text-align:center;
+  font-size: 0.85rem;
+  color: var(--muted);
+  margin: 8px 0;
+  font-weight:700;
+  text-transform:uppercase;
+  letter-spacing:1px;
+}
+.breath-btn {
+  display:block; width:100%; max-width:200px; margin:12px auto;
+  background: linear-gradient(135deg, var(--hero4), #00A876);
+  border:none; border-radius:25px;
+  padding: 12px 24px;
+  font-family: 'Bangers', cursive;
+  font-size: 1.1rem;
+  letter-spacing: 2px;
+  color: var(--dark);
+  cursor:pointer;
+  box-shadow: 0 4px 20px rgba(0,200,150,0.3);
+}
+
+/* ── AFFIRMATIONS ── */
+.affirmation-card {
+  background: linear-gradient(135deg, rgba(255,215,0,0.1), rgba(123,47,190,0.1));
+  border: 2px solid var(--hero);
+  border-radius: 20px;
+  padding: 28px 20px;
+  text-align:center;
+  margin: 16px 0;
+  min-height: 140px;
+  display:flex; flex-direction:column; align-items:center; justify-content:center;
+  cursor:pointer;
+  transition: all 0.2s;
+}
+.affirmation-card:active { transform:scale(0.98); }
+.affirmation-text {
+  font-family: 'Fredoka One', cursive;
+  font-size: 1.3rem;
+  color: var(--hero);
+  line-height: 1.4;
+  margin-bottom: 8px;
+}
+.affirmation-hint { font-size: 0.75rem; color: var(--muted); text-transform:uppercase; letter-spacing:1px; }
+
+/* ── BOTTOM NAV ── */
+.bottom-nav {
+  position: fixed; bottom:0; left:0; right:0; z-index:100;
+  background: rgba(13,5,24,0.97);
+  border-top: 2px solid rgba(255,215,0,0.3);
+  padding: 8px 0 max(8px, env(safe-area-inset-bottom));
+  display: flex;
+  backdrop-filter:blur(10px);
+}
+.bot-nav-btn {
+  flex:1;
+  background:none; border:none;
+  display:flex; flex-direction:column; align-items:center; gap:3px;
+  cursor:pointer;
+  padding: 6px 4px;
+}
+.bot-nav-btn .bn-icon { font-size: 1.3rem; }
+.bot-nav-btn .bn-label {
+  font-size: 0.6rem;
+  font-weight: 800;
+  text-transform:uppercase;
+  letter-spacing:0.5px;
+  color: var(--muted);
+}
+.bot-nav-btn.active .bn-label { color: var(--hero); }
+.bot-nav-btn.active .bn-icon { filter: drop-shadow(0 0 6px var(--hero)); }
+
+/* ── MISC ── */
+.divider { height:1px; background: rgba(255,255,255,0.06); margin: 16px 0; }
+.chip {
+  display:inline-block;
+  padding:3px 10px; border-radius:20px;
+  font-size:0.7rem; font-weight:800;
+  text-transform:uppercase; letter-spacing:1px;
+}
+.chip-gold { background:rgba(255,215,0,0.15); color:var(--hero); border:1px solid var(--hero); }
+.chip-purple { background:rgba(123,47,190,0.2); color:#C084FC; border:1px solid #7B2FBE; }
+.grade-pill {
+  display:inline-flex; align-items:center; gap:6px;
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 800;
+  cursor: pointer;
+  border: 2px solid;
+  margin: 4px;
+  transition: all 0.2s;
+}
+.grade-pill.active { opacity:1; }
+.grade-pill.inactive { opacity:0.4; }
+
+.info-banner {
+  background: rgba(255,215,0,0.08);
+  border: 1px solid rgba(255,215,0,0.3);
+  border-radius: 12px;
+  padding: 12px 14px;
+  font-size:0.82rem;
+  line-height:1.6;
+  margin-bottom:16px;
+  color: rgba(240,230,255,0.8);
+}
+.info-banner strong { color: var(--hero); }
+
+.deploy-card {
+  background: var(--card);
+  border: 2px solid var(--hero4);
+  border-radius: 16px;
+  padding: 16px;
+  margin-bottom: 12px;
+}
+.deploy-card h3 {
+  font-family:'Fredoka One', cursive;
+  font-size:1rem;
+  color:var(--hero4);
+  margin-bottom:8px;
+  display:flex;align-items:center;gap:8px;
+}
+.deploy-card ol { padding-left:18px; }
+.deploy-card ol li { font-size:0.82rem; line-height:1.7; color:rgba(240,230,255,0.8); }
+.deploy-card a { color:var(--hero4); }
+code {
+  background:rgba(255,255,255,0.08);
+  border-radius:4px;
+  padding:1px 6px;
+  font-family:monospace;
+  font-size:0.82em;
+  color:#C084FC;
+}
+
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo">⚡ SUPERFLEX</div>
+  <div class="nav-tabs" id="navTabs">
+    <button class="nav-tab active" onclick="showPage('home',this)">Home</button>
+    <button class="nav-tab" onclick="showPage('bots',this)">Bots</button>
+    <button class="nav-tab" onclick="showPage('quiz',this)">Quiz</button>
+    <button class="nav-tab" onclick="showPage('tools',this)">Brain Tools</button>
+    <button class="nav-tab" onclick="showPage('summer',this)">Summer</button>
+    <button class="nav-tab" onclick="showPage('tracker',this)">My Progress</button>
+    <button class="nav-tab" onclick="showPage('deploy',this)">🚀 Host It</button>
+  </div>
+</nav>
+
+<!-- ══════════════════════════════════════════
+     HOME PAGE
+══════════════════════════════════════════ -->
+<div id="page-home" class="page active">
+
+  <div class="hero-banner halftone">
+    <div class="hero-title">SUPERFLEX<br>LEARNING HUB</div>
+    <div class="hero-sub">Your brain's superhero training centre</div>
+    <div class="hero-badges">
+      <span class="badge">Grades 3–6</span>
+      <span class="badge">Bilingual 🇫🇷🇨🇦</span>
+      <span class="badge">Alberta Curriculum</span>
+    </div>
+  </div>
+
+  <div class="info-banner">
+    👋 <strong>Welcome!</strong> This app combines <strong>Superflex social-emotional learning</strong> with your <strong>bilingual summer activity packets</strong> (Grades 3→4 and 5→6). Everything is in one place and works on your iPhone!
+  </div>
+
+  <div class="section-head" style="color:var(--hero)">⚡ What's Inside</div>
+  <div class="card-grid">
+    <div class="card" onclick="showPage('bots', document.querySelectorAll('.nav-tab')[1])">
+      <div class="card-accent" style="background:linear-gradient(90deg,#D4A017,#FF6B35)"></div>
+      <span class="card-icon">🤖</span>
+      <div class="card-title">Meet the Stuck Bots</div>
+      <div class="card-desc">Rock Brain, Glassman, Brain Eater, Body Snatcher + more. Learn what they do and how to defeat them with Superflex powers!</div>
+    </div>
+    <div class="card" onclick="showPage('quiz', document.querySelectorAll('.nav-tab')[2])">
+      <div class="card-accent" style="background:linear-gradient(90deg,#7B2FBE,#4FC3F7)"></div>
+      <span class="card-icon">🧠</span>
+      <div class="card-title">Brain Challenge Quiz</div>
+      <div class="card-desc">Test your Superflex knowledge! Can you spot when a Stuck Bot is visiting?</div>
+    </div>
+    <div class="card" onclick="showPage('tools', document.querySelectorAll('.nav-tab')[3])">
+      <div class="card-accent" style="background:linear-gradient(90deg,#00C896,#4FC3F7)"></div>
+      <span class="card-icon">🌬️</span>
+      <div class="card-title">Brain Tools</div>
+      <div class="card-desc">Breathing exercises, grounding tools, DBT skills, and coping strategies for big feelings.</div>
+    </div>
+    <div class="card" onclick="showPage('summer', document.querySelectorAll('.nav-tab')[4])">
+      <div class="card-accent" style="background:linear-gradient(90deg,#FF4B6E,#FFD700)"></div>
+      <span class="card-icon">☀️</span>
+      <div class="card-title">Summer Passport</div>
+      <div class="card-desc">8 weeks of bilingual (FR/EN) activities for Grades 3→4 and 5→6. Alberta curriculum aligned.</div>
+    </div>
+  </div>
+
+  <div class="section-head" style="color:var(--hero2); margin-top:24px;">🦸 Superflex Says...</div>
+  <div class="affirmation-card" onclick="nextAffirmation()" id="affCard">
+    <div class="affirmation-text" id="affText">Loading your power-up...</div>
+    <div class="affirmation-hint">Tap for a new power-up ⚡</div>
+  </div>
+
+  <div class="section-head" style="color:var(--hero4); margin-top:8px;">📊 Quick Stats</div>
+  <div class="card-grid card-grid-2">
+    <div class="card" style="text-align:center;">
+      <div style="font-family:'Bangers',cursive;font-size:2.5rem;color:var(--hero)" id="statBots">0</div>
+      <div style="font-size:0.75rem;color:var(--muted);font-weight:700;">BOTS DEFEATED</div>
+    </div>
+    <div class="card" style="text-align:center;">
+      <div style="font-family:'Bangers',cursive;font-size:2.5rem;color:var(--hero4)" id="statScore">0</div>
+      <div style="font-size:0.75rem;color:var(--muted);font-weight:700;">QUIZ SCORE</div>
+    </div>
+    <div class="card" style="text-align:center;">
+      <div style="font-family:'Bangers',cursive;font-size:2.5rem;color:var(--hero2)" id="statWeeks">0</div>
+      <div style="font-size:0.75rem;color:var(--muted);font-weight:700;">WEEKS DONE</div>
+    </div>
+    <div class="card" style="text-align:center;">
+      <div style="font-family:'Bangers',cursive;font-size:2.5rem;color:var(--hero5)" id="statBreaths">0</div>
+      <div style="font-size:0.75rem;color:var(--muted);font-weight:700;">BREATHS TAKEN</div>
+    </div>
+  </div>
+
+</div>
+
+
+<!-- ══════════════════════════════════════════
+     BOTS PAGE
+══════════════════════════════════════════ -->
+<div id="page-bots" class="page">
+
+  <div class="superflex-hero">
+    <span class="big-emoji">🦸‍♂️</span>
+    <h2>MEET SUPERFLEX</h2>
+    <p>Superflex is the superhero living in YOUR brain. When Stuck Bots try to take over, Superflex has the power to fight back and keep your thinking flexible, calm, and kind.</p>
+    <ul class="power-list">
+      <li>Stay calm when things don't go your way</li>
+      <li>Try new ideas even when it's hard</li>
+      <li>Think about how others feel</li>
+      <li>Ask for help when you need it</li>
+      <li>STOP → THINK → TRY A NEW IDEA</li>
+    </ul>
+  </div>
+
+  <div class="section-head" style="color:var(--rb)">🤖 The Stuck Bots (UnthinkaBots)</div>
+
+  <!-- ROCK BRAIN -->
+  <div class="bot-card bot-rock" data-emoji="🪨">
+    <div class="bot-name">ROCK BRAIN</div>
+    <div class="bot-tag">StuckBot</div>
+    <div class="bot-desc">Rock Brain makes your thinking hard and stiff — like a rock! It sends signals that say <em>"MY WAY ONLY!"</em> and makes you not want to try new ideas or change your plan.</div>
+    <div class="bot-signs"><strong style="font-size:0.75rem;text-transform:uppercase;letter-spacing:1px;color:#D4A017;display:block;margin-bottom:4px;">Rock Brain might make you...</strong>
+      <ul>
+        <li>Refuse to change your mind even when it's not working</li>
+        <li>Say "No! Only my idea!" to the group</li>
+        <li>Get stuck on doing things one way only</li>
+        <li>Forget to ask for help</li>
+      </ul>
+    </div>
+    <div class="strategy-box">
+      <strong style="color:#D4A017">⚡ Superflex T-FLEX Strategy:</strong>
+      Solve another way • Pause or stop if asked • Follow the group plan • Self-talk: <em>"It's okay, I can try their idea!"</em>
+    </div>
+  </div>
+
+  <!-- GLASSMAN -->
+  <div class="bot-card bot-glass" data-emoji="💥">
+    <div class="bot-name">GLASSMAN</div>
+    <div class="bot-tag">ExplodaBot</div>
+    <div class="bot-desc">Glassman is made of glass — and so are your reactions when this bot visits! Small problems feel HUGE. Glassman makes emotions too big for the situation.</div>
+    <div class="bot-signs"><strong style="font-size:0.75rem;text-transform:uppercase;letter-spacing:1px;color:#4FC3F7;display:block;margin-bottom:4px;">Glassman might make you...</strong>
+      <ul>
+        <li>Yell or cry over small things</li>
+        <li>Slam things or stomp away</li>
+        <li>Quit when frustrated</li>
+        <li>Feel like everything is terrible</li>
+      </ul>
+    </div>
+    <div class="strategy-box">
+      <strong style="color:#4FC3F7">⚡ Superflex Calm Strategy:</strong>
+      PAUSE → BREATHE → CHOOSE A CALM SOLUTION<br>
+      Use Kool Q. Cumber's Cooling Cap: <em>Deep breaths • Tighten/relax muscles • Ask for help</em>
+    </div>
+  </div>
+
+  <!-- BRAIN EATER -->
+  <div class="bot-card bot-brain" data-emoji="🍕">
+    <div class="bot-name">BRAIN EATER</div>
+    <div class="bot-tag">DistractoBot</div>
+    <div class="bot-desc">Brain Eater (D.O.F. — Destroyer of Fun!) munches on your attention. It makes you look around, play with things, and forget what you were supposed to be doing.</div>
+    <div class="bot-signs"><strong style="font-size:0.75rem;text-transform:uppercase;letter-spacing:1px;color:#F06292;display:block;margin-bottom:4px;">Brain Eater might make you...</strong>
+      <ul>
+        <li>Stop listening mid-sentence</li>
+        <li>Play with your eraser or fidget instead of working</li>
+        <li>Forget directions you just heard</li>
+        <li>Look around the room when you should focus</li>
+      </ul>
+    </div>
+    <div class="strategy-box">
+      <strong style="color:#F06292">⚡ Focus Tron Strategy:</strong>
+      LOOK → LISTEN → DO THE JOB<br>
+      Focus Pocus • Take a brain break • Use a Distracter Shield • Move the distraction away
+    </div>
+  </div>
+
+  <!-- BODY SNATCHER -->
+  <div class="bot-card bot-body" data-emoji="🕹️">
+    <div class="bot-name">BODY SNATCHER</div>
+    <div class="bot-tag">ImpulseBot</div>
+    <div class="bot-desc">Body Snatcher tries to control your body and make you act before thinking! It moves your hands, feet, and mouth without asking your brain first.</div>
+    <div class="bot-signs"><strong style="font-size:0.75rem;text-transform:uppercase;letter-spacing:1px;color:#81C784;display:block;margin-bottom:4px;">Body Snatcher might make you...</strong>
+      <ul>
+        <li>Blurt out answers without raising your hand</li>
+        <li>Push ahead in line</li>
+        <li>Grab things without asking</li>
+        <li>Move around when you're supposed to be still</li>
+      </ul>
+    </div>
+    <div class="strategy-box">
+      <strong style="color:#81C784">⚡ Superflex Body Strategy:</strong>
+      STOP → THINK → MAKE A SAFE CHOICE<br>
+      Hands in lap • Wait your turn • Think before acting
+    </div>
+  </div>
+
+  <!-- MEAN BEAN -->
+  <div class="bot-card bot-mean" data-emoji="🫘">
+    <div class="bot-name">MEAN BEAN</div>
+    <div class="bot-tag">MeanBot</div>
+    <div class="bot-desc">Mean Bean is a sneaky, green MeanBot machine! It throws mean thoughts into your brain and tries to make those thoughts come out of your mouth as mean words or actions.</div>
+    <div class="bot-signs"><strong style="font-size:0.75rem;text-transform:uppercase;letter-spacing:1px;color:#66BB6A;display:block;margin-bottom:4px;">Mean Bean might make you...</strong>
+      <ul>
+        <li>Say hurtful things about someone's appearance</li>
+        <li>Gossip or tell mean stories</li>
+        <li>Call people names</li>
+        <li>Do mean things for no reason</li>
+      </ul>
+    </div>
+    <div class="strategy-box">
+      <strong style="color:#66BB6A">⚡ Nice Light Strategy:</strong>
+      Self-talk: <em>"Everyone has mean thoughts — but I don't have to say them."</em><br>
+      Activate Thought Catcher's Thought Net to snag those green mean thoughts!
+    </div>
+  </div>
+
+  <!-- WORRY WALL -->
+  <div class="bot-card bot-worry" data-emoji="😰">
+    <div class="bot-name">WORRY WALL</div>
+    <div class="bot-tag">WorryBot</div>
+    <div class="bot-desc">Worry Wall builds a wall of worry in your brain. It makes small worries feel enormous and can trap your thinking so you can't move forward or enjoy the moment.</div>
+    <div class="bot-signs"><strong style="font-size:0.75rem;text-transform:uppercase;letter-spacing:1px;color:#FFB74D;display:block;margin-bottom:4px;">Worry Wall might make you...</strong>
+      <ul>
+        <li>Get stuck on "what ifs"</li>
+        <li>Avoid new situations because of fear</li>
+        <li>Feel like everything will go wrong</li>
+        <li>Have trouble sleeping or concentrating</li>
+      </ul>
+    </div>
+    <div class="strategy-box">
+      <strong style="color:#FFB74D">⚡ Worry WiseWorm Strategy:</strong>
+      Is it a Wee-Tiny Worry, a Wise Worry, or a WorryBot? • Worry Journal • Deep Worm Breath • Listen to brain and body
+    </div>
+  </div>
+
+</div>
+
+
+<!-- ══════════════════════════════════════════
+     QUIZ PAGE
+══════════════════════════════════════════ -->
+<div id="page-quiz" class="page">
+  <div class="hero-banner halftone" style="margin-bottom:20px;">
+    <div class="hero-title" style="font-size:2rem;">BRAIN<br>CHALLENGE!</div>
+    <div class="hero-sub">Can you spot the Stuck Bot?</div>
+  </div>
+
+  <div class="quiz-score" id="quizScore" style="display:none"></div>
+
+  <div id="quizContainer"></div>
+
+  <button onclick="resetQuiz()" style="
+    display:block; width:100%; margin-top:16px;
+    background:linear-gradient(135deg,var(--hero3),var(--hero5));
+    border:none; border-radius:25px; padding:14px;
+    font-family:'Bangers',cursive; font-size:1.2rem;
+    letter-spacing:2px; color:white; cursor:pointer;
+    box-shadow:0 4px 20px rgba(123,47,190,0.3)
+  ">🔄 NEW QUIZ</button>
+</div>
+
+
+<!-- ══════════════════════════════════════════
+     BRAIN TOOLS PAGE
+══════════════════════════════════════════ -->
+<div id="page-tools" class="page">
+
+  <div class="section-head" style="color:var(--hero4)">🌬️ Box Breathing</div>
+  <div style="background:var(--card);border-radius:20px;padding:20px;margin-bottom:20px;text-align:center;">
+    <div class="breath-instruction" id="breathInstruct">Tap the circle to begin</div>
+    <div class="breathing-circle" id="breathCircle" onclick="startBreathing()">
+      <div>
+        <div class="breath-count" id="breathCount">4</div>
+        <div class="breath-label" id="breathLabel">BOX</div>
+      </div>
+    </div>
+    <div style="font-size:0.8rem;color:var(--muted);margin-top:8px;">4 counts in • 4 hold • 4 out • 4 hold</div>
+    <div style="margin-top:12px;font-size:0.8rem;color:var(--muted)">Total breaths: <strong style="color:var(--hero4)" id="totalBreaths">0</strong></div>
+  </div>
+
+  <div class="section-head" style="color:var(--hero5)">🌿 5-4-3-2-1 Grounding</div>
+  <div style="background:var(--card);border-radius:20px;padding:20px;margin-bottom:20px;">
+    <div style="font-size:0.85rem;color:rgba(240,230,255,0.8);margin-bottom:14px;">When feelings get big, anchor yourself right now. Look around and name:</div>
+    <div class="steps">
+      <div class="step"><div class="step-num">5</div><div class="step-text">Things you can <strong>SEE</strong> right now 👀</div></div>
+      <div class="step"><div class="step-num">4</div><div class="step-text">Things you can <strong>TOUCH</strong> or feel 🤚</div></div>
+      <div class="step"><div class="step-num">3</div><div class="step-text">Things you can <strong>HEAR</strong> 👂</div></div>
+      <div class="step"><div class="step-num">2</div><div class="step-text">Things you can <strong>SMELL</strong> 👃</div></div>
+      <div class="step"><div class="step-num">1</div><div class="step-text">Thing you can <strong>TASTE</strong> 👅</div></div>
+    </div>
+  </div>
+
+  <div class="section-head" style="color:var(--hero3)">🧠 DBT Quick Skills</div>
+
+  <div class="skill-card">
+    <div class="skill-card-title">
+      <span>🛑</span> STOP Skill
+      <span class="skill-tag" style="background:rgba(255,82,82,0.2);color:#FF5252;">Distress</span>
+    </div>
+    <ul class="skill-steps">
+      <li data-n="S">Stop what you're doing — freeze!</li>
+      <li data-n="T">Take a step back — don't act yet</li>
+      <li data-n="O">Observe — what am I feeling? What's happening?</li>
+      <li data-n="P">Proceed mindfully — now act from your wise mind</li>
+    </ul>
+  </div>
+
+  <div class="skill-card">
+    <div class="skill-card-title">
+      <span>💬</span> DEAR MAN
+      <span class="skill-tag" style="background:rgba(79,195,247,0.2);color:#4FC3F7;">Relationships</span>
+    </div>
+    <ul class="skill-steps">
+      <li data-n="D">Describe the situation clearly</li>
+      <li data-n="E">Express how you feel (I feel...)</li>
+      <li data-n="A">Assert — ask for what you want</li>
+      <li data-n="R">Reinforce — explain why it helps both of you</li>
+      <li data-n="M">Mindful — stay focused on your goal</li>
+      <li data-n="A">Appear confident — stand tall, speak clearly</li>
+      <li data-n="N">Negotiate — be willing to give a little</li>
+    </ul>
+  </div>
+
+  <div class="skill-card">
+    <div class="skill-card-title">
+      <span>💛</span> PLEASE Skills
+      <span class="skill-tag" style="background:rgba(0,200,150,0.2);color:#00C896;">Wellness</span>
+    </div>
+    <ul class="skill-steps">
+      <li data-n="PL">Treat PhysicaL illness — see a doctor</li>
+      <li data-n="E">Eating — balanced, not too much or too little</li>
+      <li data-n="A">Avoid mood-Altering substances</li>
+      <li data-n="S">Sleep — regular, balanced</li>
+      <li data-n="E">Exercise — get your body moving every day</li>
+    </ul>
+  </div>
+
+  <div class="skill-card">
+    <div class="skill-card-title">
+      <span>🎭</span> Opposite Action
+      <span class="skill-tag" style="background:rgba(255,183,77,0.2);color:#FFB74D;">Emotion Reg</span>
+    </div>
+    <div style="font-size:0.82rem;color:rgba(240,230,255,0.8);line-height:1.7;">
+      When emotions push you toward a harmful action — do the OPPOSITE.<br><br>
+      😤 <strong>Angry?</strong> → Be gentle instead of attacking<br>
+      😰 <strong>Scared?</strong> → Approach what you fear (safely)<br>
+      😔 <strong>Sad/depressed?</strong> → Get active, reach out<br>
+      😳 <strong>Ashamed?</strong> → Hold your head up, don't hide
+    </div>
+  </div>
+
+  <div class="section-head" style="color:var(--hero)">⚡ Power Affirmations</div>
+  <div class="affirmation-card" onclick="nextAffirmation()" id="toolsAffCard">
+    <div class="affirmation-text" id="toolsAffText">Tap to activate your power! ⚡</div>
+    <div class="affirmation-hint">Tap for a new affirmation</div>
+  </div>
+
+</div>
+
+
+<!-- ══════════════════════════════════════════
+     SUMMER PACKETS PAGE
+══════════════════════════════════════════ -->
+<div id="page-summer" class="page">
+
+  <div class="hero-banner halftone" style="margin-bottom:16px;">
+    <div class="hero-title" style="font-size:2rem;">MON PASSEPORT<br>D'ÉTÉ ☀️</div>
+    <div class="hero-sub">Bilingual Summer Activities • Activités bilingues</div>
+  </div>
+
+  <div style="display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap;">
+    <div class="grade-pill active" style="color:#1A7A8A;border-color:#1A7A8A;background:rgba(26,122,138,0.1)" id="pill3" onclick="switchGrade('3')">🐾 Grade 3→4</div>
+    <div class="grade-pill inactive" style="color:#7B2FBE;border-color:#7B2FBE;background:rgba(123,47,190,0.05)" id="pill5" onclick="switchGrade('5')">🌿 Grade 5→6</div>
+  </div>
+
+  <div id="summerContent"></div>
+
+</div>
+
+
+<!-- ══════════════════════════════════════════
+     TRACKER PAGE
+══════════════════════════════════════════ -->
+<div id="page-tracker" class="page">
+
+  <div class="section-head" style="color:var(--hero)">🏆 My Superflex Badges</div>
+  <div style="font-size:0.82rem;color:var(--muted);margin-bottom:12px;">Tap a badge each time you defeat that stuck bot today!</div>
+
+  <div class="tracker-grid" id="badgeGrid"></div>
+
+  <button onclick="resetBadges()" style="
+    display:block;width:100%;margin-top:12px;
+    background:rgba(255,75,110,0.1);border:2px solid var(--hero5);
+    border-radius:12px;padding:10px;
+    font-size:0.8rem;font-weight:800;color:var(--hero5);cursor:pointer;
+  ">Reset Badges</button>
+
+  <div class="divider"></div>
+
+  <div class="section-head" style="color:var(--hero4)">📅 Summer Week Tracker</div>
+  <div style="font-size:0.82rem;color:var(--muted);margin-bottom:12px;">Mark weeks as complete to track your summer progress!</div>
+  <div id="weekTracker"></div>
+
+  <div class="divider"></div>
+
+  <div class="tracker-log">
+    <h3>📝 Activity Log</h3>
+    <div id="activityLog">
+      <div style="font-size:0.82rem;color:var(--muted);text-align:center;padding:12px;">
+        No activity logged yet.<br>Start defeating some Stuck Bots! ⚡
+      </div>
+    </div>
+  </div>
+
+</div>
+
+
+<!-- ══════════════════════════════════════════
+     DEPLOY PAGE
+══════════════════════════════════════════ -->
+<div id="page-deploy" class="page">
+  <div class="hero-banner halftone" style="margin-bottom:20px;">
+    <div class="hero-title" style="font-size:2rem;">🚀 HOST<br>FOR FREE</div>
+    <div class="hero-sub">Get your own URL in 5 minutes</div>
+  </div>
+
+  <div class="info-banner">
+    This website is a <strong>single HTML file</strong> — no server, no database, no hosting fees. It runs 100% in the browser and works perfectly on iPhone. Choose any of these free hosting options:
+  </div>
+
+  <div class="deploy-card">
+    <h3>⭐ GitHub Pages (Recommended)</h3>
+    <ol>
+      <li>Go to <a href="https://github.com" target="_blank">github.com</a> and create a free account</li>
+      <li>Click <strong>New Repository</strong> → name it <code>superflex-hub</code> → Public</li>
+      <li>Click <strong>Add file → Upload files</strong></li>
+      <li>Upload this HTML file, rename it to <code>index.html</code></li>
+      <li>Go to <strong>Settings → Pages → Source: main branch</strong></li>
+      <li>Your site is live at <code>yourusername.github.io/superflex-hub</code> 🎉</li>
+    </ol>
+  </div>
+
+  <div class="deploy-card" style="border-color:#00AD9F;">
+    <h3 style="color:#00AD9F;">⚡ Netlify Drop (Fastest)</h3>
+    <ol>
+      <li>Go to <a href="https://netlify.com/drop" target="_blank">netlify.com/drop</a></li>
+      <li>Drag and drop the HTML file onto the page</li>
+      <li>Instantly get a URL like <code>random-name.netlify.app</code></li>
+      <li>Create a free account to keep the URL and customize it</li>
+    </ol>
+  </div>
+
+  <div class="deploy-card" style="border-color:#F26522;">
+    <h3 style="color:#F26522;">📱 Cloudflare Pages</h3>
+    <ol>
+      <li>Go to <a href="https://pages.cloudflare.com" target="_blank">pages.cloudflare.com</a></li>
+      <li>Create free account → Direct Upload</li>
+      <li>Upload your HTML file</li>
+      <li>Get <code>yoursite.pages.dev</code> URL</li>
+      <li>Also works as a Progressive Web App (saveable to iPhone home screen!)</li>
+    </ol>
+  </div>
+
+  <div class="info-banner" style="border-color:rgba(255,215,0,0.5);">
+    💡 <strong>Pro tip:</strong> After hosting, open the URL on your iPhone and tap <strong>Share → Add to Home Screen</strong>. It will appear as a full-screen app icon — no App Store needed!
+  </div>
+
+  <div class="deploy-card" style="border-color:var(--hero3);">
+    <h3 style="color:#C084FC;">💾 Save This File</h3>
+    <div style="font-size:0.82rem;color:rgba(240,230,255,0.8);line-height:1.7;">
+      This file has been saved to your Claude outputs as <code>SuperflexLearningHub.html</code>.<br><br>
+      All your progress (badges, quiz scores, weeks completed) is saved automatically in your browser's local storage — it persists between visits!
+    </div>
+  </div>
+
+</div>
+
+
+<!-- ══════════════════════════════════════════
+     BOTTOM NAV
+══════════════════════════════════════════ -->
+<div class="bottom-nav">
+  <button class="bot-nav-btn active" onclick="showPage('home',null,'bnHome')" id="bnHome">
+    <span class="bn-icon">🏠</span><span class="bn-label">Home</span>
+  </button>
+  <button class="bot-nav-btn" onclick="showPage('bots',null,'bnBots')" id="bnBots">
+    <span class="bn-icon">🤖</span><span class="bn-label">Bots</span>
+  </button>
+  <button class="bot-nav-btn" onclick="showPage('quiz',null,'bnQuiz')" id="bnQuiz">
+    <span class="bn-icon">🧠</span><span class="bn-label">Quiz</span>
+  </button>
+  <button class="bot-nav-btn" onclick="showPage('tools',null,'bnTools')" id="bnTools">
+    <span class="bn-icon">🌬️</span><span class="bn-label">Tools</span>
+  </button>
+  <button class="bot-nav-btn" onclick="showPage('summer',null,'bnSummer')" id="bnSummer">
+    <span class="bn-icon">☀️</span><span class="bn-label">Summer</span>
+  </button>
+</div>
+
+
+<script>
+// ── STATE ──────────────────────────────────────
+const state = JSON.parse(localStorage.getItem('sfState') || '{}');
+state.badges = state.badges || {};
+state.quizScore = state.quizScore || 0;
+state.quizTotal = state.quizTotal || 0;
+state.weeksComplete = state.weeksComplete || {};
+state.breaths = state.breaths || 0;
+state.log = state.log || [];
+state.grade = state.grade || '3';
+
+function saveState() { localStorage.setItem('sfState', JSON.stringify(state)); }
+
+// ── NAVIGATION ─────────────────────────────────
+function showPage(name, navBtn, bnId) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById('page-' + name).classList.add('active');
+  document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.bot-nav-btn').forEach(b => b.classList.remove('active'));
+  if (navBtn) navBtn.classList.add('active');
+  if (bnId) document.getElementById(bnId).classList.add('active');
+  window.scrollTo(0, 0);
+  updateStats();
+}
+
+// ── AFFIRMATIONS ────────────────────────────────
+const affirmations = [
+  "My brain can bend and try new ideas! ⚡",
+  "I am not my Stuck Bots. I am Superflex! 🦸",
+  "It's okay to ask for help. That's a superpower! 💪",
+  "I can STOP → THINK → TRY A NEW IDEA 🧠",
+  "Big feelings are okay. I know how to handle them! 🌊",
+  "I am not the cause of problems I didn't create 💛",
+  "I can be flexible — my brain is strong! 🔥",
+  "Even Superflex needs a deep breath sometimes 🌬️",
+  "I am allowed to take up space and be myself ⭐",
+  "Asking for a do-over is brave, not weak 🎯",
+  "When Rock Brain visits, I have the power to say 'let's try it' 🪨➡️⚡",
+  "My feelings are valid. AND I can choose my actions 🎭",
+  "Every day I get better at being a flexible thinker! 📈",
+  "Je suis fort(e). Mon cerveau peut changer! 🇫🇷⚡",
+  "Un nouveau défi = une nouvelle force! 💫",
+];
+let affIdx = Math.floor(Math.random() * affirmations.length);
+function nextAffirmation() {
+  affIdx = (affIdx + 1) % affirmations.length;
+  const t = affirmations[affIdx];
+  ['affText','toolsAffText'].forEach(id => {
+    const el = document.getElementById(id);
+    if(el) el.textContent = t;
+  });
+}
+document.addEventListener('DOMContentLoaded', () => {
+  nextAffirmation();
+});
+
+// ── QUIZ ────────────────────────────────────────
+const quizData = [
+  { q: "What is happening?", scenario: "You're playing a game with friends. The rules change and you shout: "NO! We're doing it MY way! I'm NOT changing!"", options: ["Superflex is in charge ⚡","Rock Brain is visiting 🪨","Glassman is visiting 💥","Brain Eater is visiting 🍕"], correct: 1, explain: "Rock Brain makes us stubborn and refuse to change. The Superflex move is to try the new rules! 🪨→⚡" },
+  { q: "Which bot is this?", scenario: "Your tower of blocks falls down and you immediately burst into tears, slam the table, and yell THIS IS THE WORST DAY EVER!", options: ["Body Snatcher 🕹️","Worry Wall 😰","Glassman 💥","Rock Brain 🪨"], correct: 2, explain: "Glassman makes reactions TOO BIG for the situation. One fallen tower ≠ worst day ever! Pause → Breathe → Calm solution 💥→🌬️" },
+  { q: "Which choice shows Superflex?", scenario: "The teacher is giving instructions, but you're watching a fly on the window instead of listening.", options: ["Keep watching the fly 🪰","Look, Listen, Do the Job 👂","Tap your friend's shoulder 👋","Doodle in your notebook ✏️"], correct: 1, explain: "Brain Eater loves when we get distracted! Focus Tron says LOOK → LISTEN → DO THE JOB to defeat it! 🍕→⚡" },
+  { q: "What's the Superflex move?", scenario: "Everyone in the group is raising their hand to answer. You know the answer RIGHT NOW and shout it out without waiting.", options: ["Keep shouting the answer 📢","Raise your hand and wait 🤚","Whisper it to a friend 🤫","Pass a note 📝"], correct: 1, explain: "Body Snatcher made you blurt! The Superflex strategy is STOP → THINK → MAKE A SAFE CHOICE. Raise your hand! 🕹️→⚡" },
+  { q: "What is Superflex's three-step strategy?", scenario: "", options: ["Stop, Drop, Roll 🔥","Stop, Think, Try a New Idea 🧠","Look, Listen, Do the Job 👂","Pause, Breathe, Choose 🌬️"], correct: 1, explain: "Superflex's core three-step strategy is STOP → THINK → TRY A NEW IDEA! This works for most Stuck Bot situations. ⚡" },
+  { q: "Which bot is visiting?", scenario: "Your friend is talking and you suddenly start talking about your weekend plans, even though it has nothing to do with what your friend said.", options: ["Topic Twistermeister 🌀","Glassman 💥","Body Snatcher 🕹️","Mean Bean 🫘"], correct: 0, explain: "Topic Twistermeister flings TwistaBots that make unrelated topics pop into your brain. Use the Topic Sniffer to stay on track! 🌀→⚡" },
+  { q: "What's the KIND MIND response?", scenario: "You notice a classmate wearing shoes you think look funny, and Mean Bean is trying to make you say something mean about them.", options: ["Say it quietly so only your friend hears 🤫","Think it but don't say it — use Thought Catcher 💭","Write it in a note 📝","Post about it online 📱"], correct: 1, explain: "Mean Bean wants you to say mean things. Nice Light's strategy: everyone has mean thoughts — we don't have to say them! Activate Thought Catcher! 🫘→💛" },
+  { q: "Which Superflex strategy helps with big worry?", scenario: "You're so worried about a test tomorrow that you can't stop thinking about it. Your worry feels bigger than everything.", options: ["Avoid thinking about it completely 🙈","Use Worry WiseWorm — is it a Wee-Tiny, Wise Worry, or WorryBot? 🐛","Glassman strategy 💥","Tell everyone about your worry all day 📢"], correct: 1, explain: "Worry WiseWorm helps you figure out if your worry is the right size! Deep Worm Breath + Worry Journal helps sort worries. 😰→🐛⚡" },
+];
+
+let currentQuiz = [];
+let quizAnswered = 0;
+let quizCorrect = 0;
+
+function shuffleArray(arr) { return [...arr].sort(() => Math.random() - 0.5); }
+
+function resetQuiz() {
+  currentQuiz = shuffleArray(quizData).slice(0, 5);
+  quizAnswered = 0; quizCorrect = 0;
+  document.getElementById('quizScore').style.display = 'none';
+  renderQuiz();
+}
+
+function renderQuiz() {
+  const c = document.getElementById('quizContainer');
+  c.innerHTML = currentQuiz.map((q, qi) => `
+    <div class="quiz-card" id="qc${qi}">
+      <div class="quiz-question">Q${qi+1}: ${q.q}</div>
+      ${q.scenario ? `<div class="quiz-scenario">"${q.scenario}"</div>` : ''}
+      <div class="quiz-options">
+        ${q.options.map((opt, oi) => `
+          <button class="quiz-opt" id="qo${qi}_${oi}" onclick="answerQuiz(${qi},${oi})">
+            <span>${opt}</span>
+          </button>
+        `).join('')}
+      </div>
+      <div class="quiz-feedback" id="qf${qi}"></div>
+    </div>
+  `).join('');
+}
+
+function answerQuiz(qi, oi) {
+  const q = currentQuiz[qi];
+  if (document.getElementById(`qo${qi}_0`).classList.contains('disabled')) return;
+  q.options.forEach((_, i) => {
+    const btn = document.getElementById(`qo${qi}_${i}`);
+    btn.classList.add('disabled');
+    if (i === q.correct) btn.classList.add('correct');
+    else if (i === oi) btn.classList.add('wrong');
+  });
+  const fb = document.getElementById(`qf${qi}`);
+  if (oi === q.correct) {
+    quizCorrect++;
+    fb.textContent = '✅ Correct! ' + q.explain;
+    fb.className = 'quiz-feedback show good';
+    logActivity('Quiz: Got question ' + (qi+1) + ' correct! ⚡');
+  } else {
+    fb.textContent = '❌ ' + q.explain;
+    fb.className = 'quiz-feedback show bad';
+  }
+  quizAnswered++;
+  if (quizAnswered === currentQuiz.length) {
+    state.quizScore = quizCorrect;
+    state.quizTotal = currentQuiz.length;
+    saveState();
+    const sc = document.getElementById('quizScore');
+    sc.style.display = 'block';
+    sc.textContent = `⚡ ${quizCorrect}/${currentQuiz.length} — ${quizCorrect >= 4 ? 'SUPERFLEX HERO! 🏆' : quizCorrect >= 3 ? 'Great brain power! 💪' : 'Keep training! 🔄'}`;
+    updateStats();
+  }
+}
+
+// ── BREATHING ──────────────────────────────────
+let breathTimer = null;
+let breathPhase = 0;
+let breathCountdown = 4;
+const phases = [
+  {label:'INHALE',inst:'Breathe in slowly...',cls:'inhale',dur:4},
+  {label:'HOLD',inst:'Hold your breath...',cls:'hold',dur:4},
+  {label:'EXHALE',inst:'Breathe out slowly...',cls:'exhale',dur:4},
+  {label:'HOLD',inst:'Hold — prepare to inhale...',cls:'hold',dur:4},
+];
+let breathCount = 0;
+
+function startBreathing() {
+  if (breathTimer) { stopBreathing(); return; }
+  breathPhase = 0; breathCountdown = phases[0].dur; breathCount = 0;
+  runBreathPhase();
+}
+
+function runBreathPhase() {
+  const p = phases[breathPhase];
+  const circle = document.getElementById('breathCircle');
+  const countEl = document.getElementById('breathCount');
+  const labelEl = document.getElementById('breathLabel');
+  const instEl = document.getElementById('breathInstruct');
+  circle.className = 'breathing-circle ' + p.cls;
+  countEl.textContent = breathCountdown;
+  labelEl.textContent = p.label;
+  instEl.textContent = p.inst;
+  breathTimer = setInterval(() => {
+    breathCountdown--;
+    countEl.textContent = breathCountdown;
+    if (breathCountdown <= 0) {
+      clearInterval(breathTimer);
+      breathPhase = (breathPhase + 1) % 4;
+      if (breathPhase === 0) {
+        breathCount++;
+        state.breaths = (state.breaths || 0) + 1;
+        document.getElementById('totalBreaths').textContent = state.breaths;
+        saveState(); updateStats();
+        logActivity('Completed 1 box breath cycle 🌬️');
+      }
+      breathCountdown = phases[breathPhase].dur;
+      breathTimer = null;
+      runBreathPhase();
+    }
+  }, 1000);
+}
+
+function stopBreathing() {
+  clearInterval(breathTimer); breathTimer = null;
+  document.getElementById('breathCircle').className = 'breathing-circle';
+  document.getElementById('breathInstruct').textContent = 'Tap the circle to begin';
+  document.getElementById('breathLabel').textContent = 'BOX';
+  document.getElementById('breathCount').textContent = '4';
+}
+
+// ── BADGES ─────────────────────────────────────
+const badgeDefs = [
+  {id:'rb',emoji:'🪨',label:'Rock Brain'},
+  {id:'gl',emoji:'💥',label:'Glassman'},
+  {id:'be',emoji:'🍕',label:'Brain Eater'},
+  {id:'bs',emoji:'🕹️',label:'Body Snatcher'},
+  {id:'mb',emoji:'🫘',label:'Mean Bean'},
+  {id:'ww',emoji:'😰',label:'Worry Wall'},
+  {id:'tt',emoji:'🌀',label:'Topic Twist'},
+  {id:'sf',emoji:'⚡',label:'Superflex!'},
+  {id:'b1',emoji:'🌬️',label:'Breathed'},
+  {id:'b2',emoji:'🌿',label:'Grounded'},
+];
+
+function renderBadges() {
+  const g = document.getElementById('badgeGrid');
+  g.innerHTML = badgeDefs.map(b => `
+    <div class="tracker-badge ${state.badges[b.id] ? 'earned' : ''}" onclick="toggleBadge('${b.id}','${b.label}')">
+      <span class="badge-emoji">${b.emoji}</span>
+      <span class="badge-label">${b.label}</span>
+    </div>
+  `).join('');
+}
+
+function toggleBadge(id, label) {
+  state.badges[id] = !state.badges[id];
+  if (state.badges[id]) logActivity('Defeated: ' + label + ' ' + badgeDefs.find(b=>b.id===id).emoji);
+  saveState(); renderBadges(); updateStats();
+}
+
+function resetBadges() {
+  state.badges = {}; saveState(); renderBadges(); updateStats();
+}
+
+// ── WEEK TRACKER ───────────────────────────────
+const allWeeks = [
+  {grade:'3', n:1, theme:'Les animaux / Animals', emoji:'🐾'},
+  {grade:'3', n:2, theme:"L'eau et la nature / Water & Nature", emoji:'💧'},
+  {grade:'3', n:3, theme:'Les saisons / Seasons', emoji:'🌸'},
+  {grade:'3', n:4, theme:'La nourriture / Food', emoji:'🍎'},
+  {grade:'3', n:5, theme:"L'espace / Space", emoji:'🚀'},
+  {grade:'3', n:6, theme:'Les sports / Sports', emoji:'⚽'},
+  {grade:'3', n:7, theme:'Droits et responsabilités / Rights', emoji:'⚖️'},
+  {grade:'3', n:8, theme:"L'été et mes souvenirs / Memories", emoji:'☀️'},
+  {grade:'5', n:1, theme:"L'environnement / Environment", emoji:'🌿'},
+  {grade:'5', n:2, theme:"L'histoire du Canada / History", emoji:'🍁'},
+  {grade:'5', n:3, theme:'Mathématiques réelles / Real Math', emoji:'💰'},
+  {grade:'5', n:4, theme:'Corps et santé / Body & Health', emoji:'🏃'},
+  {grade:'5', n:5, theme:'Technologie / Technology', emoji:'🤖'},
+  {grade:'5', n:6, theme:'Arts et culture / Arts & Culture', emoji:'🎨'},
+  {grade:'5', n:7, theme:'Enjeux mondiaux / Global Issues', emoji:'🌍'},
+  {grade:'5', n:8, theme:'Mon bilan / My Review', emoji:'🌟'},
+];
+
+function renderWeekTracker() {
+  const wt = document.getElementById('weekTracker');
+  wt.innerHTML = ['3','5'].map(g => `
+    <div style="margin-bottom:12px;">
+      <div style="font-family:'Fredoka One',cursive;font-size:0.9rem;color:${g==='3'?'#1A7A8A':'#7B2FBE'};margin-bottom:8px;">
+        ${g==='3'?'🐾 Grade 3→4':'🌿 Grade 5→6'}
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:6px;">
+        ${allWeeks.filter(w=>w.grade===g).map(w => `
+          <div onclick="toggleWeek('${g}${w.n}')" style="
+            background:${state.weeksComplete[g+w.n]?'rgba(0,200,150,0.15)':'var(--card)'};
+            border:2px solid ${state.weeksComplete[g+w.n]?'var(--hero4)':'rgba(255,255,255,0.08)'};
+            border-radius:10px;padding:8px;text-align:center;cursor:pointer;
+          ">
+            <div style="font-size:1.2rem">${w.emoji}</div>
+            <div style="font-size:0.6rem;font-weight:800;color:${state.weeksComplete[g+w.n]?'var(--hero4)':'var(--muted)'}">WK ${w.n}</div>
+            ${state.weeksComplete[g+w.n]?'<div style="font-size:0.7rem">✅</div>':''}
+          </div>
+        `).join('')}
+      </div>
+    </div>
+  `).join('');
+}
+
+function toggleWeek(key) {
+  state.weeksComplete[key] = !state.weeksComplete[key];
+  if (state.weeksComplete[key]) logActivity('Completed summer week ' + key + ' ☀️');
+  saveState(); renderWeekTracker(); updateStats();
+}
+
+// ── LOG ────────────────────────────────────────
+function logActivity(text) {
+  const now = new Date().toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'});
+  state.log.unshift({text, time: now});
+  if (state.log.length > 20) state.log = state.log.slice(0,20);
+  saveState();
+  const log = document.getElementById('activityLog');
+  if (log) {
+    log.innerHTML = state.log.map(e => `
+      <div class="log-entry">
+        <div class="log-dot"></div>
+        <span style="flex:1">${e.text}</span>
+        <span style="color:var(--muted);font-size:0.75rem">${e.time}</span>
+      </div>
+    `).join('');
+  }
+}
+
+// ── STATS ──────────────────────────────────────
+function updateStats() {
+  const bots = Object.values(state.badges).filter(Boolean).length;
+  const weeks = Object.values(state.weeksComplete).filter(Boolean).length;
+  document.getElementById('statBots').textContent = bots;
+  document.getElementById('statScore').textContent = `${state.quizScore||0}/${state.quizTotal||0}`;
+  document.getElementById('statWeeks').textContent = weeks;
+  document.getElementById('statBreaths').textContent = state.breaths || 0;
+}
+
+// ── SUMMER CONTENT ─────────────────────────────
+const g3weeks = [
+  { n:1, emoji:'🐾', fr:'Les animaux', en:'Animals', color:'#E07B39', subjects:[
+    { icon:'📖', name:'Français / French', color:'#1A7A8A', activities:[
+      {fr:'Lis un livre en français sur les animaux (15 min). Écris le titre et dessine ton personnage préféré.',en:'Read a French book about animals (15 min). Write the title and draw your favourite character.'},
+      {fr:"Écris 5 noms d'animaux en français et dessine chacun.",en:'Write 5 animal names in French and draw each one.'},
+    ]},
+    { icon:'✏️', name:'Écriture / Writing', color:'#7B2FBE', activities:[
+      {fr:'Écris 3–4 phrases en français sur ton animal préféré. Inclus son nom, où il habite, ce qu'il mange.',en:"Write 3–4 French sentences about your favourite animal: its name, where it lives, what it eats."},
+    ]},
+    { icon:'🔢', name:'Maths', color:'#3A8C5C', activities:[
+      {fr:'Résous: 347+256=___ 891−437=___ 524+368=___ 700−285=___',en:'Solve: 347+256=___ 891−437=___ 524+368=___ 700−285=___'},
+      {fr:'48 oiseaux dans un arbre. 19 s'envolent, 23 arrivent. Combien en tout?',en:'48 birds in a tree. 19 fly away, 23 arrive. How many now? Show your work.'},
+    ]},
+    { icon:'🔬', name:'Sciences', color:'#1A5FA8', activities:[
+      {fr:'Nomme les 4 besoins essentiels des animaux. Choisis un animal et explique comment il répond à chaque besoin.',en:'List the 4 basic needs of animals. Pick one animal and explain how it meets each need.'},
+    ]},
+    { icon:'🌍', name:'Sciences humaines / Social', color:'#C0567A', activities:[
+      {fr:'Dessine une carte de ton quartier. Identifie 5 endroits en français.',en:'Draw a map of your neighbourhood. Label 5 places in French.'},
+    ]},
+  ]},
+  { n:2, emoji:'💧', fr:"L'eau et la nature", en:'Water & Nature', color:'#1A5FA8', subjects:[
+    { icon:'📖', name:'Français / French', color:'#1A7A8A', activities:[
+      {fr:'Lis pendant 15 minutes en français. Écris une phrase sur ce que tu as lu.',en:'Read for 15 minutes in French. Write one sentence about what you read.'},
+      {fr:"Cherche les mots français pour: rivière, lac, océan, pluie, chute d'eau.",en:'Look up French words for: river, lake, ocean, rain, waterfall.'},
+    ]},
+    { icon:'✏️', name:'Écriture / Writing', color:'#7B2FBE', activities:[
+      {fr:'Écris un paragraphe (5–6 phrases) sur ce que tu vois, entends et ressens au bord d'un lac. Utilise tes 5 sens!',en:'Write a paragraph (5–6 sentences) describing what you see, hear, and feel at a lake. Use your 5 senses!'},
+    ]},
+    { icon:'🔢', name:'Maths', color:'#3A8C5C', activities:[
+      {fr:'Tables de multiplication — 2, 3, 5 et 10: 3×4=___ 5×7=___ 2×9=___ 10×6=___ 3×8=___',en:'Times Tables 2, 3, 5, 10: 3×4=___ 5×7=___ 2×9=___ 10×6=___ 3×8=___'},
+      {fr:'Trouve 5 objets à la maison. Mesure chacun en centimètres.',en:'Find 5 objects at home. Measure each one in centimetres.'},
+    ]},
+    { icon:'🔬', name:'Sciences', color:'#1A5FA8', activities:[
+      {fr:'Dessine et étiquette le cycle de l'eau en français: évaporation, condensation, précipitation, ruissellement.',en:'Draw and label the water cycle in French: évaporation, condensation, précipitation, ruissellement.'},
+    ]},
+  ]},
+  { n:3, emoji:'🌸', fr:'Les saisons', en:'Seasons', color:'#3A8C5C', subjects:[
+    { icon:'📖', name:'Français — Grammaire', color:'#1A7A8A', activities:[
+      {fr:'Écris 10 noms en français avec le ou la (ou l'). Essaie: soleil, lune, arbre, fleur, neige.',en:'Write 10 French nouns with le or la (or l'). Try: sun, moon, tree, flower, snow.'},
+      {fr:'Conjugue AVOIR et ÊTRE au présent. Écris les 6 formes de chaque verbe.',en:'Conjugate AVOIR and ÊTRE in the present tense. Write all 6 forms of each.'},
+    ]},
+    { icon:'✏️', name:'Écriture / Writing', color:'#7B2FBE', activities:[
+      {fr:'Écris un paragraphe sur ta saison préférée. Utilise 3 adjectifs et 3 verbes.',en:'Write a paragraph about your favourite season. Use 3 adjectives and 3 verbs.'},
+    ]},
+    { icon:'🔢', name:'Maths', color:'#3A8C5C', activities:[
+      {fr:'Division: 24÷4=___ 36÷6=___ 45÷9=___ 56÷7=___ 81÷9=___ 72÷8=___',en:'Division: 24÷4=___ 36÷6=___ 45÷9=___ 56÷7=___ 81÷9=___ 72÷8=___'},
+      {fr:'Dessine et colorie des fractions: 1/2 cercle, 1/4 rectangle, 3/4 carré.',en:'Draw and shade fractions: 1/2 of a circle, 1/4 of a rectangle, 3/4 of a square.'},
+    ]},
+  ]},
+  { n:4, emoji:'🍎', fr:'La nourriture', en:'Food', color:'#E07B39', subjects:[
+    { icon:'📖', name:'Français — Vocabulaire', color:'#1A7A8A', activities:[
+      {fr:'Écris 15 mots français pour des aliments. Organise-les en 3 catégories.',en:'Write 15 French food words. Organize them into 3 categories.'},
+    ]},
+    { icon:'✏️', name:'Écriture / Writing', color:'#7B2FBE', activities:[
+      {fr:'Écris une recette simple en français: nom, ingrédients, 4–5 étapes.',en:'Write a simple recipe in French: name, ingredients, 4–5 steps.'},
+    ]},
+    { icon:'🔢', name:'Maths — L'argent', color:'#3A8C5C', activities:[
+      {fr:'Tu as 10,00$. Crée une liste d'épicerie de 5 articles. Calcule le total et le monnaie.',en:'You have $10.00. Create a grocery list of 5 items. Calculate total and change.'},
+    ]},
+  ]},
+  { n:5, emoji:'🚀', fr:"L'espace", en:'Space', color:'#7B2FBE', subjects:[
+    { icon:'📖', name:'Français — Espace', color:'#1A7A8A', activities:[
+      {fr:'Écris et dessine: la planète, l'étoile, la lune, le soleil, la fusée, l'astronaute.',en:'Write and draw: la planète, l'étoile, la lune, le soleil, la fusée, l'astronaute.'},
+    ]},
+    { icon:'✏️', name:'Écriture / Writing', color:'#7B2FBE', activities:[
+      {fr:'Écris une entrée de journal comme si tu étais astronaute. Que vois-tu? Comment te sens-tu?',en:'Write a diary entry as an astronaut on your first day in space. What do you see?'},
+    ]},
+    { icon:'🔢', name:'Maths', color:'#3A8C5C', activities:[
+      {fr:'Écris en mots français: 4 250 | 17 800 | 300 045. Mets-les en ordre.',en:'Write in French words: 4,250 | 17,800 | 300,045. Put them in order.'},
+    ]},
+    { icon:'🔬', name:'Sciences', color:'#1A5FA8', activities:[
+      {fr:'Dessine et étiquette les 8 planètes en ordre. Ajoute un fait intéressant sur chacune.',en:'Draw and label all 8 planets in order. Add one interesting fact about each.'},
+    ]},
+  ]},
+  { n:6, emoji:'⚽', fr:'Les sports', en:'Sports', color:'#3A8C5C', subjects:[
+    { icon:'✏️', name:'Écriture / Writing', color:'#7B2FBE', activities:[
+      {fr:'Crée ton équipe sportive de rêve. Nomme l'équipe, 4 positions, et décris chaque joueur.',en:'Create your dream sports team. Name the team, 4 positions, describe each player.'},
+    ]},
+    { icon:'🔢', name:'Maths — Données', color:'#3A8C5C', activities:[
+      {fr:'Demande à 5 personnes leur sport préféré. Crée un graphique à barres. Écris 2 conclusions.',en:'Ask 5 people their favourite sport. Create a bar graph. Write 2 conclusions.'},
+      {fr:'Périmètre: rectangle 8cm×5cm, carré 6cm×6cm, triangle 4+6+5cm',en:'Perimeter: rectangle 8cm×5cm, square 6cm×6cm, triangle 4+6+5cm'},
+    ]},
+  ]},
+  { n:7, emoji:'⚖️', fr:'Les droits et responsabilités', en:'Rights & Responsibilities', color:'#1A5FA8', subjects:[
+    { icon:'📖', name:'Français — Grammaire', color:'#1A7A8A', activities:[
+      {fr:'Écris 5 phrases simples et 5 phrases composées en français (jointes par: et, mais, ou, donc).',en:'Write 5 simple and 5 compound sentences in French (joined by: et, mais, ou, donc).'},
+    ]},
+    { icon:'✏️', name:'Écriture / Writing', color:'#7B2FBE', activities:[
+      {fr:'Écris une lettre en français à ton maire sur UN droit que les enfants devraient avoir.',en:'Write a letter in French to your mayor about ONE right you think kids should have.'},
+    ]},
+    { icon:'🔢', name:'Maths — Géométrie', color:'#3A8C5C', activities:[
+      {fr:'Dessine: triangle, carré, rectangle, cercle, pentagone, hexagone. Compte les côtés en français.',en:'Draw: triangle, carré, rectangle, cercle, pentagone, hexagone. Count sides in French.'},
+      {fr:'Aire: rectangle 7cm×4cm et carré 5cm×5cm. Montre: Aire = longueur × largeur.',en:'Area: rectangle 7cm×4cm and square 5cm×5cm. Show: Area = length × width.'},
+    ]},
+  ]},
+  { n:8, emoji:'☀️', fr:"L'été et mes souvenirs", en:'Summer & Memories', color:'#F5C842', subjects:[
+    { icon:'📖', name:'Révision / Review', color:'#1A7A8A', activities:[
+      {fr:'Écris 30 mots français que tu te rappelles de cet été!',en:'Write 30 French words you remember from this summer!'},
+    ]},
+    { icon:'✏️', name:'Mon journal / My Journal', color:'#7B2FBE', activities:[
+      {fr:'Écris un paragraphe en français sur ton meilleur souvenir de l'été (qui, quoi, où, quand).',en:'Write a paragraph in French about your best summer memory (who, what, where, when).'},
+    ]},
+    { icon:'🔢', name:'Défi final / Final Challenge', color:'#3A8C5C', activities:[
+      {fr:'Invente 1 addition, 1 soustraction, 1 multiplication et 1 division. Résous chacun!',en:'Create 1 addition, 1 subtraction, 1 multiplication, and 1 division problem. Solve each!'},
+    ]},
+  ]},
+];
+
+const g5weeks = [
+  { n:1, emoji:'🌿', fr:"L'environnement", en:'The Environment', color:'#3A8C5C', subjects:[
+    { icon:'📖', name:'Français — Grammaire', color:'#1A7A8A', activities:[
+      {fr:'Écris 8 groupes du nom (GN = déterminant + nom + adjectif) avec accord correct.',en:'Write 8 noun phrases (GN = determiner + noun + adjective) with correct agreement.'},
+      {fr:'Réécris avec l'accord: un arbre (grand), une fleur (beau), des oiseaux (rare), des rivières (pollué).',en:'Rewrite with agreement: un arbre (grand), une fleur (beau), des oiseaux (rare), des rivières (pollué).'},
+    ]},
+    { icon:'✏️', name:'Écriture argumentative', color:'#7B2FBE', activities:[
+      {fr:'Écris un paragraphe persuasif (6–8 phrases) POUR ou CONTRE: voitures électriques, interdiction du plastique, ou énergie solaire.',en:'Write a persuasive paragraph (6–8 sentences) FOR or AGAINST: electric cars, plastic bans, or solar energy.'},
+    ]},
+    { icon:'🔢', name:'Maths', color:'#3A8C5C', activities:[
+      {fr:'Arrondi au dixième: 3,47=___ 8,82=___ 12,25=___. Ordonne: 0,6 — 0,56 — 0,605 — 0,065.',en:'Round to nearest tenth: 3.47=___ 8.82=___ 12.25=___. Order: 0.6, 0.56, 0.605, 0.065.'},
+      {fr:'Si 40% d'une forêt de 500 arbres est déboisée, combien en reste-t-il?',en:'If 40% of a 500-tree forest is cleared, how many remain? Show work.'},
+    ]},
+    { icon:'🔬', name:'Sciences — Écosystèmes', color:'#1A5FA8', activities:[
+      {fr:'Définis: écosystème, producteur, consommateur, décomposeur. Dessine un réseau alimentaire de 6 organismes.',en:'Define: ecosystem, producer, consumer, decomposer. Draw a food web with 6 organisms.'},
+    ]},
+  ]},
+  { n:2, emoji:'🍁', fr:"L'histoire du Canada", en:'Canadian History', color:'#C0392B', subjects:[
+    { icon:'✏️', name:'Écriture narrative', color:'#7B2FBE', activities:[
+      {fr:'Écris une narration (8–10 phrases) en français du point de vue d'un enfant pionnier au Canada.',en:'Write a narrative (8–10 sentences) in French from the perspective of a child pioneer in early Canada.'},
+    ]},
+    { icon:'🔢', name:'Maths historiques', color:'#3A8C5C', activities:[
+      {fr:'Confédération: 1867. Combien d'années depuis? Stampede 1912 = combien après? Terry Fox 1980 = quel âge aujourd'hui?',en:'Confederation: 1867. How many years ago? Stampede 1912 = how many years after? Terry Fox 1980 = how old today?'},
+      {fr:'Convertis: 3/4 en décimal et pourcentage. 0,6 en fraction. 45% en décimal.',en:'Convert: 3/4 to decimal and percent. 0.6 to fraction. 45% to decimal.'},
+    ]},
+    { icon:'🌍', name:'Sciences humaines — Réconciliation', color:'#C0567A', activities:[
+      {fr:'Que signifie la réconciliation? Nomme 3 groupes autochtones du Canada. Qu'étaient les pensionnats? Écris 6–8 phrases.',en:'What does reconciliation mean? Name 3 Indigenous groups in Canada. What were residential schools? Write 6–8 sentences.'},
+    ]},
+  ]},
+  { n:3, emoji:'💰', fr:'Maths dans la vie réelle', en:'Real-World Math', color:'#E07B39', subjects:[
+    { icon:'🔢', name:'Maths — Semaine intensive!', color:'#3A8C5C', activities:[
+      {fr:'Ratios: écris 3 ratios tirés de ta vie réelle. Simplifie chacun. Que signifie 1:3?',en:'Ratios: write 3 ratios from real life. Simplify each. What does 1:3 mean?'},
+      {fr:'Intérêt simple: 200$ à 3%/an. Combien après 1 an? 3 ans? Total en 3 ans?',en:'Simple interest: $200 at 3%/year. How much interest after 1 year? 3 years? Total after 3 years?'},
+      {fr:'Probabilité: lance une pièce 20 fois. Prédis, puis enregistre. Calcule la probabilité expérimentale.',en:'Probability: flip a coin 20 times. Predict, then record results. Calculate experimental probability.'},
+    ]},
+    { icon:'🔬', name:'Sciences — Électricité', color:'#1A5FA8', activities:[
+      {fr:'Définis: circuit, conducteur, isolant, série, parallèle. Dessine un circuit simple.',en:'Define: circuit, conductor, insulator, series, parallel. Draw a simple circuit.'},
+    ]},
+  ]},
+  { n:4, emoji:'🏃', fr:'Corps et santé', en:'Body & Health', color:'#1A5FA8', subjects:[
+    { icon:'📖', name:'Français — Les temps', color:'#1A7A8A', activities:[
+      {fr:'Conjugue ALLER et AVOIR: présent, passé composé, futur simple. 2 phrases à chaque temps.',en:'Conjugate ALLER and AVOIR: present, passé composé, futur simple. 2 sentences per tense.'},
+      {fr:'Explique la différence entre imparfait et passé composé. 2 exemples de chaque.',en:'Explain the difference between imparfait and passé composé. 2 examples of each.'},
+    ]},
+    { icon:'🔢', name:'Maths — Statistiques', color:'#3A8C5C', activities:[
+      {fr:'Mesure ton pouls au repos, après exercice léger, après exercice modéré. Crée un graphique linéaire.',en:'Measure your pulse at rest, after light exercise, after moderate exercise. Create a line graph.'},
+    ]},
+    { icon:'🌍', name:'Sciences humaines — Santé mentale', color:'#C0567A', activities:[
+      {fr:'Définis: santé mentale, résilience, stress. Liste 5 stratégies d'adaptation saines et explique chacune.',en:'Define: mental health, resilience, stress. List 5 healthy coping strategies and explain each.'},
+    ]},
+  ]},
+  { n:5, emoji:'🤖', fr:'Technologie et avenir', en:'Technology & Future', color:'#7B2FBE', subjects:[
+    { icon:'📖', name:'Français — Connecteurs', color:'#1A7A8A', activities:[
+      {fr:'Utilise dans des phrases: premièrement, cependant, d'autre part, par conséquent, en conclusion.',en:'Use in sentences: premièrement, cependant, d'autre part, par conséquent, en conclusion.'},
+    ]},
+    { icon:'✏️', name:"Écriture — L'IA", color:'#7B2FBE', activities:[
+      {fr:'Écris un texte informatif (8–10 phrases) en français sur l'intelligence artificielle. Utilise des connecteurs.',en:'Write an informational text (8–10 sentences) in French about AI. Use linking words.'},
+    ]},
+    { icon:'🔢', name:'Maths — Algèbre', color:'#3A8C5C', activities:[
+      {fr:'Si n=5: 3n+2=___ 4n−7=___ n²+1=___ 2(n+3)=___',en:'If n=5: 3n+2=___ 4n−7=___ n²+1=___ 2(n+3)=___'},
+      {fr:'BEDMAS: (3+4)×2−1=___ 5²−(3×4)+2=___ 12÷(2+1)×4=___',en:'BEDMAS: (3+4)×2−1=___ 5²−(3×4)+2=___ 12÷(2+1)×4=___'},
+    ]},
+  ]},
+  { n:6, emoji:'🎨', fr:'Arts et culture', en:'Arts & Culture', color:'#C0567A', subjects:[
+    { icon:'✏️', name:'Écriture — Ma nouvelle', color:'#7B2FBE', activities:[
+      {fr:'Écris une nouvelle (10 phrases min) avec: mise en contexte, montée d'action, point culminant, dénouement. Inclus du dialogue!',en:'Write a short story (10+ sentences) with: exposition, rising action, climax, resolution. Include dialogue!'},
+    ]},
+    { icon:'🔢', name:'Maths — Géométrie', color:'#3A8C5C', activities:[
+      {fr:'Aire ET périmètre: cercle rayon=6cm (π≈3,14), triangle base=10cm hauteur=7cm, parallélogramme base=9cm h=5cm.',en:'Area AND perimeter: circle radius=6cm (π≈3.14), triangle base=10cm height=7cm, parallelogram base=9cm h=5cm.'},
+    ]},
+    { icon:'🌍', name:'Sciences humaines — Francophones', color:'#C0567A', activities:[
+      {fr:'Nomme 5 communautés francophones hors Québec. Pourquoi est-il important de préserver la culture française? 6–8 phrases.',en:'Name 5 Francophone communities outside Quebec. Why is preserving French culture important? 6–8 sentences.'},
+    ]},
+  ]},
+  { n:7, emoji:'🌍', fr:'Enjeux mondiaux', en:'Global Issues', color:'#1A7A8A', subjects:[
+    { icon:'✏️', name:'Écriture — Débat', color:'#7B2FBE', activities:[
+      {fr:'POUR et CONTRE (4 phrases chacun) sur: action climatique, limites d'âge réseaux sociaux, ou revenu universel. Puis donne TA position.',en:'FOR and AGAINST (4 sentences each) on: climate action, social media age limits, or basic income. Then state YOUR position.'},
+    ]},
+    { icon:'🔢', name:'Maths — Statistiques mondiales', color:'#3A8C5C', activities:[
+      {fr:'Monde: 8 milliards. Canada: 40 millions. Quel % est canadien? 2,3 milliards sans eau = quelle fraction?',en:'World: 8 billion. Canada: 40 million. What % is Canadian? 2.3 billion without water = what fraction?'},
+    ]},
+    { icon:'🔬', name:'Sciences — Changement climatique', color:'#1A5FA8', activities:[
+      {fr:'Explique l'effet de serre. 5 activités qui augmentent les GES. 5 solutions individuelles.',en:'Explain the greenhouse effect. 5 activities that increase greenhouse gases. 5 individual solutions.'},
+    ]},
+  ]},
+  { n:8, emoji:'🌟', fr:'Mon bilan', en:'My Review', color:'#F5C842', subjects:[
+    { icon:'📖', name:'Portfolio de langue', color:'#1A7A8A', activities:[
+      {fr:'Dresse une liste de 20 mots français de cet été avec traduction et une phrase.',en:'List 20 French words from this summer with translation and a sentence.'},
+      {fr:'3 phrases à l'imparfait + 3 au passé composé + 3 au futur simple.',en:'3 sentences in imparfait + 3 in passé composé + 3 in futur simple.'},
+    ]},
+    { icon:'✏️', name:'Lettre formelle', color:'#7B2FBE', activities:[
+      {fr:'Écris une lettre formelle en français à ton prochain professeur: qui tu es, cet été, quelque chose dont tu es fier(ère), un objectif.',en:'Write a formal French letter to your next teacher: who you are, this summer, something you're proud of, one goal.'},
+    ]},
+    { icon:'🔢', name:'Défi final', color:'#3A8C5C', activities:[
+      {fr:'1. Achats: pommes 1,29$/kg×2,5kg + oranges 2,49$/kg×1,3kg + raisins 3,99$/kg×0,8kg. Payé avec 20$.',en:'1. Shopping: apples $1.29/kg×2.5kg + oranges $2.49/kg×1.3kg + grapes $3.99/kg×0.8kg. Paid with $20.'},
+      {fr:'2. Jardin 12m×8m. Clôture nécessaire? Superficie pour fleurs dans coin 3m×3m?',en:'2. Garden 12m×8m. Total fencing needed? Area for flowers in a 3m×3m corner?'},
+    ]},
+  ]},
+];
+
+function renderSummer(grade) {
+  const weeks = grade === '3' ? g3weeks : g5weeks;
+  const accentColor = grade === '3' ? '#1A7A8A' : '#7B2FBE';
+  return weeks.map(w => `
+    <div class="week-card" id="wk${grade}${w.n}" style="background:rgba(${grade==='3'?'26,122,138':'123,47,190'},0.05)">
+      <div class="week-header" onclick="toggleWeekCard('wk${grade}${w.n}')" style="background:rgba(${grade==='3'?'26,122,138':'123,47,190'},0.1)">
+        <div class="week-header-left">
+          <span class="week-emoji">${w.emoji}</span>
+          <div>
+            <div class="week-num">Week ${w.n} ${state.weeksComplete[grade+w.n] ? '✅' : ''}</div>
+            <div class="week-title" style="color:${w.color}">${w.fr}</div>
+            <div style="font-size:0.72rem;color:var(--muted);font-style:italic">${w.en}</div>
+          </div>
+        </div>
+        <span class="week-toggle">▼</span>
+      </div>
+      <div class="week-body">
+        ${w.subjects.map(s => `
+          <div style="margin-bottom:12px;">
+            <div style="font-size:0.78rem;font-weight:900;text-transform:uppercase;letter-spacing:1px;color:${s.color};margin:10px 0 6px;display:flex;align-items:center;gap:6px;">
+              ${s.icon} ${s.name}
+            </div>
+            ${s.activities.map(a => `
+              <div class="bilingual-pair">
+                <div class="bi-fr"><span class="bi-flag">🇫🇷</span>${a.fr}</div>
+                <div class="bi-en"><span class="bi-flag">🇨🇦</span>${a.en}</div>
+              </div>
+            `).join('')}
+          </div>
+        `).join('')}
+        <div style="margin-top:12px;text-align:center;">
+          <button onclick="markWeekDone('${grade}','${w.n}')" style="
+            background:${state.weeksComplete[grade+w.n]?'rgba(0,200,150,0.2)':'rgba(255,215,0,0.1)'};
+            border:2px solid ${state.weeksComplete[grade+w.n]?'var(--hero4)':'var(--hero)'};
+            border-radius:20px; padding:8px 20px;
+            font-weight:800; font-size:0.82rem;
+            color:${state.weeksComplete[grade+w.n]?'var(--hero4)':'var(--hero)'};
+            cursor:pointer;
+          ">
+            ${state.weeksComplete[grade+w.n] ? '✅ Week Complete!' : '⭐ Mark Complete'}
+          </button>
+        </div>
+      </div>
+    </div>
+  `).join('');
+}
+
+function switchGrade(g) {
+  state.grade = g;
+  saveState();
+  document.getElementById('pill3').className = 'grade-pill ' + (g==='3'?'active':'inactive');
+  document.getElementById('pill5').className = 'grade-pill ' + (g==='5'?'active':'inactive');
+  document.getElementById('summerContent').innerHTML = renderSummer(g);
+}
+
+function toggleWeekCard(id) {
+  const card = document.getElementById(id);
+  card.classList.toggle('open');
+}
+
+function markWeekDone(grade, n) {
+  const key = grade + n;
+  state.weeksComplete[key] = !state.weeksComplete[key];
+  if (state.weeksComplete[key]) logActivity('Completed Week ' + n + ' (Gr ' + grade + '→' + (parseInt(grade)+1) + ') ☀️');
+  saveState();
+  switchGrade(grade);
+  updateStats();
+}
+
+// ── INIT ────────────────────────────────────────
+resetQuiz();
+renderBadges();
+renderWeekTracker();
+document.getElementById('summerContent').innerHTML = renderSummer(state.grade || '3');
+if (state.grade === '5') {
+  document.getElementById('pill3').className = 'grade-pill inactive';
+  document.getElementById('pill5').className = 'grade-pill active';
+}
+updateStats();
+if (state.log && state.log.length) logActivity(state.log[0].text); // trigger log render
+
+// restore log display
+const logEl = document.getElementById('activityLog');
+if (state.log && state.log.length) {
+  logEl.innerHTML = state.log.map(e => `
+    <div class="log-entry">
+      <div class="log-dot"></div>
+      <span style="flex:1">${e.text}</span>
+      <span style="color:var(--muted);font-size:0.75rem">${e.time}</span>
+    </div>
+  `).join('');
+}
+
+document.getElementById('breathCircle').onclick = startBreathing;
+</script>
+</body>
+</html>

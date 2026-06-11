@@ -77,6 +77,14 @@
   .ss-q-wrap:last-child { border-bottom: none; }
   .ss-q-wrap .ss-q { border-bottom: none; padding: 0; }
 
+  .en-hint { display: none; background: #e8f8ea; border-left: 3px solid #4aaa55; border-radius: 0 8px 8px 0; padding: 8px 12px; font-size: 12px; color: #1a5c25; line-height: 1.55; margin: 6px 0 4px; }
+  body.show-en .en-hint { display: block; }
+  .fi-toggle-bar { display: flex; align-items: center; gap: 12px; background: white; border-radius: 12px; padding: 12px 16px; margin-bottom: 16px; box-shadow: 0 2px 8px rgba(0,0,0,.06); }
+  .fi-toggle { width: 40px; height: 22px; background: #ccc; border-radius: 11px; position: relative; transition: background .2s; cursor: pointer; border: none; flex-shrink: 0; }
+  .fi-toggle.on { background: #4aaa55; }
+  .fi-toggle::after { content:''; position: absolute; top: 3px; left: 3px; width: 16px; height: 16px; background: white; border-radius: 50%; transition: left .2s; }
+  .fi-toggle.on::after { left: 21px; }
+
   /* Quick tools */
   .tool-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: 12px; margin-bottom: 16px; }
   .tool-card { background: white; border-radius: 12px; padding: 16px; box-shadow: 0 2px 8px rgba(0,0,0,.06); }
@@ -236,9 +244,15 @@
 <div class="hub-panel" id="tab-study">
 <div class="study-wrap-g4">
 
-  <div style="padding:4px 0 16px">
-    <div style="font-family:'Nunito',sans-serif;font-size:20px;font-weight:900;color:#1f2933">Guide d'étude — Année 4 · FI 📚</div>
-    <div style="font-size:13px;color:#888;margin-top:2px">Alberta Grade 4 French Immersion · Révision complète de l'année</div>
+  <div class="fi-toggle-bar">
+    <div style="flex:1">
+      <div style="font-family:'Nunito',sans-serif;font-size:18px;font-weight:900;color:#1f2933">Guide d'étude — Année 4 · FI 📚</div>
+      <div style="font-size:12px;color:#888;margin-top:2px">Alberta Grade 4 French Immersion · Révision complète de l'année</div>
+    </div>
+    <label style="display:flex;align-items:center;gap:8px;cursor:pointer;font-family:'Nunito',sans-serif;font-size:13px;font-weight:700;color:#374151">
+      <button class="fi-toggle" id="en-toggle-study" onclick="toggleEnglish()" aria-label="Show English hints"></button>
+      🇨🇦 English hints
+    </label>
   </div>
 
   <!-- ── SUBJECT 1: FRANÇAIS ── -->
@@ -248,6 +262,7 @@
 
     <div class="study-h2">📖 Stratégies de lecture</div>
     <div class="ss-body">Il existe cinq stratégies de lecture importantes : <strong>prédire</strong> (deviner ce qui va arriver), <strong>faire des liens</strong> (connecter le texte à ta vie ou d'autres textes), <strong>visualiser</strong> (créer des images dans ta tête), <strong>poser des questions</strong> (se demander pourquoi ou comment), et <strong>inférer</strong> (comprendre ce qui n'est pas dit directement). Les types de textes incluent le texte <strong>narratif</strong> (raconte une histoire), le texte <strong>informatif</strong> (donne des informations), et le texte <strong>poétique</strong> (utilise des images et le rythme).</div>
+    <div class="en-hint">Reading strategies: Predict = guess what happens next before/during reading. Connect = link the text to your life (text-to-self), another book (text-to-text), or the world (text-to-world). Visualize = make a movie in your head. Question = ask "why?" and "how?" while reading. Infer = figure out what the author means even when it isn't directly stated — use clues + your brain. Text types: narrative tells a story (characters + plot); informational gives facts (teaches something real); poetry uses rhythm and images.</div>
     <div class="ss-vocab"><span class="ss-chip">prédire</span><span class="ss-chip">inférer</span><span class="ss-chip">faire des liens</span><span class="ss-chip">texte narratif</span><span class="ss-chip">texte informatif</span><span class="ss-chip">idée principale</span></div>
     <div class="ss-ql">Questions de compréhension</div>
     <div class="ss-q-wrap"><div class="ss-q">1. Quelle est la différence entre <em>prédire</em> et <em>inférer</em> ?</div><div class="ss-ans">Prédire = deviner ce qui va arriver avant ou pendant la lecture. Inférer = comprendre une idée qui n'est pas écrite directement dans le texte, à partir des indices.</div></div>
@@ -256,6 +271,7 @@
 
     <div class="study-h2">✏️ Processus d'écriture</div>
     <div class="ss-body">Le processus d'écriture comporte cinq étapes : <strong>idées</strong> (remue-méninges), <strong>brouillon</strong> (première version), <strong>révision</strong> (améliorer le contenu), <strong>correction</strong> (vérifier l'orthographe et la grammaire), <strong>publication</strong> (version finale). La révision s'occupe du sens et des idées ; la correction s'occupe de la langue.</div>
+    <div class="en-hint">The 5 writing steps: 1) Ideas/brainstorm — list everything you might write about. 2) Draft — write your ideas in sentences (don't worry about mistakes yet). 3) Revise — improve your IDEAS and organization (add details, reorder, cut weak parts). 4) Edit/correct — fix spelling, grammar, and punctuation. 5) Publish — write or type your best final copy. Key difference: revising = making the CONTENT better; editing = fixing ERRORS.</div>
     <div class="ss-vocab"><span class="ss-chip">remue-méninges</span><span class="ss-chip">brouillon</span><span class="ss-chip">révision</span><span class="ss-chip">correction</span></div>
     <div class="ss-ql">Questions de compréhension</div>
     <div class="ss-q-wrap"><div class="ss-q">1. Nomme les 5 étapes du processus d'écriture dans l'ordre.</div><div class="ss-ans">Idées → Brouillon → Révision → Correction → Publication.</div></div>
@@ -264,6 +280,7 @@
 
     <div class="study-h2">📝 Grammaire de base</div>
     <div class="ss-body">Le <strong>nom commun</strong> désigne une chose ou une personne en général (ex. : chien, ville). Le <strong>nom propre</strong> désigne une personne, un lieu ou une chose spécifique et prend une majuscule (ex. : Alberta, Sophie). Le <strong>verbe</strong> indique une action ou un état. L'<strong>adjectif</strong> décrit un nom. L'<strong>accord sujet-verbe</strong> au présent : le verbe change selon la personne (je parle, il parle, nous parlons). Les phrases commencent par une majuscule et se terminent par un point, un point d'interrogation ou un point d'exclamation.</div>
+    <div class="en-hint">Common noun = names any general person, place, or thing (dog, city, river). Proper noun = names a specific person, place, or thing and always starts with a capital letter (Alberta, Sophie, Edmonton). Verb = action or state word (run, sleep, is). Adjective = describing word that tells more about a noun (black, tall, happy). Subject-verb agreement: the verb form must match who is doing it (I eat / she eats / we eat). Every French sentence starts with a capital letter and ends with a period (.), question mark (?), or exclamation point (!).</div>
     <div class="ss-vocab"><span class="ss-chip">nom commun</span><span class="ss-chip">nom propre</span><span class="ss-chip">verbe</span><span class="ss-chip">adjectif</span><span class="ss-chip">accord</span></div>
     <div class="ss-ql">Questions de compréhension</div>
     <div class="ss-q-wrap"><div class="ss-q">1. Quelle est la différence entre un nom commun et un nom propre ? Donne un exemple de chaque.</div><div class="ss-ans">Nom commun : désigne une catégorie générale, ex. rivière. Nom propre : désigne quelque chose de spécifique avec majuscule, ex. Rivière Saskatchewan.</div></div>
@@ -279,6 +296,7 @@
 
     <div class="study-h2">📚 Reading</div>
     <div class="ss-body">The <strong>main idea</strong> is the most important point of a text; <strong>details</strong> support it. Making <strong>connections</strong> helps you understand: text-to-self (reminds me of my life), text-to-text (reminds me of another book), text-to-world (reminds me of something happening in the world). <strong>Retelling</strong> means summarizing a story using: somebody, wanted, but, so, then. <strong>Predicting</strong> means using clues to guess what happens next.</div>
+    <div class="en-hint">Quick recap: Main idea = the big point the whole paragraph is about. Details = the smaller facts that back it up. The "Somebody Wanted But So Then" method is a great retell shortcut: Somebody (character) Wanted (goal) But (problem) So (what they did) Then (how it ended).</div>
     <div class="ss-vocab"><span class="ss-chip">main idea</span><span class="ss-chip">detail</span><span class="ss-chip">connection</span><span class="ss-chip">prediction</span><span class="ss-chip">retell</span></div>
     <div class="ss-ql">Comprehension questions</div>
     <div class="ss-q-wrap"><div class="ss-q">1. What is the difference between a main idea and a supporting detail?</div><div class="ss-ans">Main idea = the central message or topic. Detail = a fact or example that supports the main idea.</div></div>
@@ -287,6 +305,7 @@
 
     <div class="study-h2">✏️ Writing</div>
     <div class="ss-body">A <strong>paragraph</strong> has three parts: a <strong>topic sentence</strong> (states the main idea), 2–3 <strong>detail sentences</strong> (support it with facts or examples), and a <strong>conclusion sentence</strong> (wraps it up). <strong>Narrative writing</strong> tells a story with a beginning, middle, and end. <strong>Informational writing</strong> teaches the reader about a topic. Literary devices: a <strong>simile</strong> compares using "like" or "as" (e.g. fast as lightning); <strong>alliteration</strong> repeats the same starting sound (e.g. silly snakes slither).</div>
+    <div class="en-hint">Paragraph formula: Topic sentence → Detail 1 → Detail 2 → Detail 3 → Conclusion sentence. Simile uses "like" or "as" — "as cold as ice." Personification gives human traits to things — "The wind whispered." Alliteration: same first sound in a row — "Peter Piper picked."</div>
     <div class="ss-vocab"><span class="ss-chip">topic sentence</span><span class="ss-chip">detail</span><span class="ss-chip">conclusion</span><span class="ss-chip">simile</span><span class="ss-chip">alliteration</span></div>
     <div class="ss-ql">Comprehension questions</div>
     <div class="ss-q-wrap"><div class="ss-q">1. What are the three parts of a paragraph? Describe each one.</div><div class="ss-ans">Topic sentence: states the main idea. Detail sentences: give evidence, examples, or facts. Conclusion sentence: restates the main idea in a new way or wraps up.</div></div>
@@ -295,6 +314,7 @@
 
     <div class="study-h2">🔤 Word Study</div>
     <div class="ss-body"><strong>Compound words</strong> combine two words (e.g. sunflower = sun + flower). <strong>Prefixes</strong> are added to the beginning of a word and change its meaning: <em>un-</em> means not (unhappy), <em>re-</em> means again (redo). <strong>Suffixes</strong> are added to the end: <em>-ful</em> means full of (careful), <em>-less</em> means without (careless). <strong>Context clues</strong> are words around an unfamiliar word that help you guess its meaning. <strong>Synonyms</strong> are words with similar meanings; <strong>antonyms</strong> are opposites.</div>
+    <div class="en-hint">Prefix goes at the START and changes meaning: un-(not), re-(again), pre-(before), mis-(wrong). Suffix goes at the END: -ful (full of), -less (without), -ness (state of), -ment (result of). Context clues: look at the words AROUND an unknown word — the sentence often gives hints about meaning. Synonyms = same meaning (big/large). Antonyms = opposite meaning (big/small).</div>
     <div class="ss-vocab"><span class="ss-chip">compound word</span><span class="ss-chip">prefix</span><span class="ss-chip">suffix</span><span class="ss-chip">synonym</span><span class="ss-chip">antonym</span></div>
     <div class="ss-ql">Comprehension questions</div>
     <div class="ss-q-wrap"><div class="ss-q">1. Break these compound words into their two parts: rainfall, notebook, backpack.</div><div class="ss-ans">rainfall = rain + fall; notebook = note + book; backpack = back + pack.</div></div>
@@ -309,6 +329,7 @@
 
     <div class="study-h2">🔢 Nombres jusqu'à 10 000</div>
     <div class="ss-body">On peut lire, écrire, comparer et ordonner les nombres jusqu'à 10 000. La <strong>valeur de position</strong> indique ce que vaut chaque chiffre selon sa place : <strong>unités</strong> (1s), <strong>dizaines</strong> (10s), <strong>centaines</strong> (100s), <strong>milliers</strong> (1 000s). Ex. : dans 3 472, le 3 vaut 3 000, le 4 vaut 400, le 7 vaut 70, le 2 vaut 2. Pour comparer, on utilise &lt; (moins que), &gt; (plus que) et = (égal à).</div>
+    <div class="en-hint">Place value tells you what each digit is WORTH based on its position. In 3,472: 3 is in the thousands place = 3,000; 4 is in the hundreds place = 400; 7 is in the tens place = 70; 2 is in the ones place = 2. To compare numbers: start at the largest place value and work right until you find a difference. Expanded form: 3,472 = 3,000 + 400 + 70 + 2.</div>
     <div class="ss-vocab"><span class="ss-chip">valeur de position</span><span class="ss-chip">unité</span><span class="ss-chip">dizaine</span><span class="ss-chip">centaine</span><span class="ss-chip">millier</span><span class="ss-chip">comparer</span><span class="ss-chip">ordonner</span></div>
     <div class="ss-ql">Questions de compréhension</div>
     <div class="ss-q-wrap"><div class="ss-q">1. Dans le nombre 6 853, quelle est la valeur du chiffre 8 ?</div><div class="ss-ans">Le 8 est à la position des centaines, donc sa valeur est 800.</div></div>
@@ -318,6 +339,7 @@
 
     <div class="study-h2">➕ Addition et soustraction</div>
     <div class="ss-body">L'<strong>addition</strong> combine des nombres ; la <strong>soustraction</strong> en enlève. Pour les grands nombres, on utilise les algorithmes standard avec <strong>retenue</strong> (addition) et <strong>emprunt</strong> (soustraction). L'<strong>estimation</strong> consiste à <strong>arrondir</strong> un nombre à la dizaine ou à la centaine la plus proche avant de calculer. Arrondir à la dizaine : si l'unité ≥ 5, on arrondit à la hausse ; si &lt; 5, à la baisse.</div>
+    <div class="en-hint">Standard algorithm for addition: line up place values, add right to left, carry (regroup) when a column adds up to 10 or more. Standard algorithm for subtraction: line up place values, subtract right to left, borrow (regroup) when the top digit is smaller. Estimating: round each number to the nearest 10 or 100 first, then add/subtract — gives you a quick ballpark answer to check your work.</div>
     <div class="ss-vocab"><span class="ss-chip">addition</span><span class="ss-chip">soustraction</span><span class="ss-chip">retenue</span><span class="ss-chip">emprunt</span><span class="ss-chip">arrondir</span><span class="ss-chip">estimation</span></div>
     <div class="ss-ql">Questions de compréhension</div>
     <div class="ss-q-wrap"><div class="ss-q">1. Calcule : 3 487 + 2 356 = ?</div><div class="ss-ans">3 487 + 2 356 = 5 843.</div></div>
@@ -326,6 +348,7 @@
 
     <div class="study-h2">✖️ Multiplication et division</div>
     <div class="ss-body">La <strong>multiplication</strong> est une addition répétée. Les <strong>tables de multiplication</strong> de 1 à 9 × 1 à 9 doivent être mémorisées. La <strong>propriété de distribution</strong> permet de décomposer : 6 × 7 = 6 × (5 + 2) = 30 + 12 = 42. La <strong>division</strong> partage un nombre en groupes égaux. Le <strong>reste</strong> est ce qui reste après une division. Ex. : 23 ÷ 4 = 5 reste 3.</div>
+    <div class="en-hint">Multiplication = adding equal groups (3 × 4 = 3 groups of 4 = 12). Know your times tables up to 9 × 9! Division = splitting into equal groups (12 ÷ 4 = 3, because 4 groups of 3 = 12). Multiplication and division are inverses — they undo each other (3 × 4 = 12, so 12 ÷ 4 = 3). A remainder is what's left over when a number doesn't divide evenly (13 ÷ 4 = 3 remainder 1).</div>
     <div class="ss-vocab"><span class="ss-chip">multiplication</span><span class="ss-chip">division</span><span class="ss-chip">facteur</span><span class="ss-chip">produit</span><span class="ss-chip">quotient</span><span class="ss-chip">reste</span></div>
     <div class="ss-ql">Questions de compréhension</div>
     <div class="ss-q-wrap"><div class="ss-q">1. Calcule : 7 × 8 = ? Et 9 × 6 = ?</div><div class="ss-ans">7 × 8 = 56 ; 9 × 6 = 54.</div></div>
@@ -335,6 +358,7 @@
 
     <div class="study-h2">½ Fractions</div>
     <div class="ss-body">Une <strong>fraction</strong> représente une partie d'un tout divisé en parties <strong>égales</strong>. Le <strong>numérateur</strong> (en haut) indique le nombre de parties prises ; le <strong>dénominateur</strong> (en bas) indique le nombre total de parties. Fractions de base : ½, ⅓, ¼, ⅕. Les <strong>fractions équivalentes</strong> représentent la même quantité : ½ = 2/4 = 3/6.</div>
+    <div class="en-hint">A fraction shows part of a whole. The bottom number (denominator) = total equal parts. The top number (numerator) = how many parts you have. ½ = 1 out of 2 equal parts. Equivalent fractions are different fractions that show the same amount: ½ = 2/4 = 3/6. To check if fractions are equivalent, multiply/divide both top and bottom by the same number.</div>
     <div class="ss-vocab"><span class="ss-chip">numérateur</span><span class="ss-chip">dénominateur</span><span class="ss-chip">fraction équivalente</span><span class="ss-chip">parties égales</span></div>
     <div class="ss-ql">Questions de compréhension</div>
     <div class="ss-q-wrap"><div class="ss-q">1. Dans la fraction 3/8, qu'est-ce que le numérateur et le dénominateur signifient ?</div><div class="ss-ans">Numérateur 3 = 3 parties prises. Dénominateur 8 = le tout est divisé en 8 parties égales.</div></div>
@@ -343,6 +367,7 @@
 
     <div class="study-h2">📐 Géométrie et mesures</div>
     <div class="ss-body">Formes 2D : <strong>carré</strong> (4 côtés égaux, 4 angles droits), <strong>rectangle</strong> (4 angles droits), <strong>triangle</strong> (3 côtés), <strong>cercle</strong>, <strong>pentagone</strong> (5 côtés), <strong>hexagone</strong> (6 côtés). Types d'<strong>angles</strong> : droit (90°), aigu (&lt; 90°), obtus (&gt; 90°). Le <strong>périmètre</strong> = somme de tous les côtés. Unités de mesure : longueur (cm, m, km), masse (g, kg), capacité (mL, L).</div>
+    <div class="en-hint">2D shapes (flat): triangle (3 sides), quadrilateral (4 sides — includes square, rectangle, rhombus), pentagon (5 sides), hexagon (6 sides), circle (no sides). Angles: right angle = exactly 90° (like a corner of a square ⊾). Acute angle = less than 90° (sharp/pointy). Obtuse angle = more than 90° but less than 180° (wide/open). Perimeter = distance all the way around a shape (add all sides). Measurement: cm (centimetres) for small lengths; m (metres) for bigger lengths; km for long distances; g (grams) and kg for mass; mL and L for liquid volume.</div>
     <div class="ss-vocab"><span class="ss-chip">périmètre</span><span class="ss-chip">angle droit</span><span class="ss-chip">angle aigu</span><span class="ss-chip">angle obtus</span><span class="ss-chip">côté</span><span class="ss-chip">sommet</span></div>
     <div class="ss-ql">Questions de compréhension</div>
     <div class="ss-q-wrap"><div class="ss-q">1. Calcule le périmètre d'un rectangle de 8 cm de longueur et 5 cm de largeur.</div><div class="ss-ans">Périmètre = 8 + 8 + 5 + 5 = 26 cm.</div></div>
@@ -358,6 +383,7 @@
 
     <div class="study-h2">🦁 Habitats et animaux</div>
     <div class="ss-body">Un <strong>habitat</strong> est l'endroit où un organisme vit et trouve sa nourriture, son eau et son abri. Types d'habitats : prairie, forêt, étang, arctique. Les <strong>adaptations</strong> permettent aux animaux de survivre dans leur habitat : <strong>camouflage</strong> (se camoufler), <strong>hibernation</strong> (dormir l'hiver), <strong>migration</strong> (voyager vers un nouveau lieu). La <strong>chaîne alimentaire</strong> montre qui mange qui : <strong>producteur</strong> (plante) → <strong>consommateur primaire</strong> (herbivore) → <strong>consommateur secondaire</strong> (carnivore).</div>
+    <div class="en-hint">Habitat = the place where an animal lives and gets everything it needs (food, water, shelter, space). Types of habitats: prairie (grassland), forest, pond, arctic (frozen). Adaptations = special features that help an animal survive in its habitat (a polar bear's white fur = camouflage in snow). Food chain: Producer (plant) → Primary consumer (plant-eater) → Secondary consumer (meat-eater). Predator = hunts other animals. Prey = gets hunted.</div>
     <div class="ss-vocab"><span class="ss-chip">habitat</span><span class="ss-chip">adaptation</span><span class="ss-chip">chaîne alimentaire</span><span class="ss-chip">producteur</span><span class="ss-chip">consommateur</span><span class="ss-chip">prédateur</span><span class="ss-chip">proie</span></div>
     <div class="ss-ql">Questions de compréhension</div>
     <div class="ss-q-wrap"><div class="ss-q">1. Qu'est-ce qu'un habitat ? Nomme deux habitats différents.</div><div class="ss-ans">Un habitat est l'endroit où vit un organisme et où il trouve tout ce dont il a besoin. Ex. : forêt, prairie, étang, arctique.</div></div>
@@ -367,6 +393,7 @@
 
     <div class="study-h2">🌱 Les plantes</div>
     <div class="ss-body">Les parties d'une plante : <strong>racines</strong> (absorbent eau et minéraux), <strong>tige</strong> (transporte l'eau), <strong>feuilles</strong> (font la photosynthèse), <strong>fleur</strong> (reproduction), <strong>fruit</strong> (protège la graine), <strong>graine</strong> (nouvelle plante). La <strong>photosynthèse</strong> : eau + lumière solaire → nourriture (glucose) + oxygène. La <strong>pollinisation</strong> se fait par les abeilles ou le vent. Le cycle de vie : graine → germination → plante → fleur → graine.</div>
+    <div class="en-hint">Parts of a plant: roots (soak up water + minerals from soil), stem (carries water and nutrients up), leaves (make food using sunlight), flower (makes seeds), fruit (protects seeds), seeds (grow into new plants). Photosynthesis = how plants make their own food: they use water (from roots), carbon dioxide (from air), and sunlight energy → they make glucose (sugar) + release oxygen. Plant life cycle: seed → germination (sprouts) → seedling → mature plant → flower → seeds → repeat!</div>
     <div class="ss-vocab"><span class="ss-chip">photosynthèse</span><span class="ss-chip">germination</span><span class="ss-chip">pollinisation</span><span class="ss-chip">chlorophylle</span><span class="ss-chip">cycle de vie</span></div>
     <div class="ss-ql">Questions de compréhension</div>
     <div class="ss-q-wrap"><div class="ss-q">1. Nomme les 6 parties d'une plante et décris le rôle d'une d'entre elles.</div><div class="ss-ans">Racines, tige, feuilles, fleur, fruit, graine. Ex. : les racines absorbent l'eau et les minéraux du sol.</div></div>
@@ -376,6 +403,7 @@
 
     <div class="study-h2">💡 Lumière et ombres</div>
     <div class="ss-body">La <strong>lumière voyage en ligne droite</strong>. Sources naturelles : soleil, feu, éclairs. Sources artificielles : ampoules, lampes de poche. Les objets sont : <strong>transparents</strong> (laissent passer toute la lumière — verre), <strong>translucides</strong> (laissent passer une partie — papier de soie), <strong>opaques</strong> (bloquent la lumière — mur). La <strong>réflexion</strong> se produit quand la lumière rebondit sur une surface (miroir). Les <strong>ombres</strong> se forment quand un objet opaque bloque la lumière.</div>
+    <div class="en-hint">Light travels in straight lines. Natural light sources: sun, fire, stars. Artificial (man-made) light: light bulb, flashlight, phone screen. Materials: transparent = light passes through completely (glass, clear plastic — you can see through it). Translucent = some light passes through, but blurry (frosted glass, tissue paper). Opaque = no light passes through (wood, metal, your hand). Shadow: formed when an opaque object blocks light. The shadow is on the OPPOSITE side from the light source. Reflection: light bounces off a shiny surface (mirror).</div>
     <div class="ss-vocab"><span class="ss-chip">source lumineuse</span><span class="ss-chip">opaque</span><span class="ss-chip">translucide</span><span class="ss-chip">transparent</span><span class="ss-chip">réflexion</span><span class="ss-chip">ombre</span></div>
     <div class="ss-ql">Questions de compréhension</div>
     <div class="ss-q-wrap"><div class="ss-q">1. Quelle est la différence entre un objet transparent et un objet opaque ? Donne un exemple de chaque.</div><div class="ss-ans">Transparent : laisse passer toute la lumière, ex. verre à fenêtre. Opaque : bloque toute la lumière, ex. mur en brique.</div></div>
@@ -385,6 +413,7 @@
 
     <div class="study-h2">⚙️ Machines simples</div>
     <div class="ss-body">Une <strong>machine simple</strong> est un outil qui réduit la force nécessaire ou change la direction d'une force. Il y en a 6 types : <strong>levier</strong> (bascule, ouvre-boîte), <strong>roue et axe</strong> (volant, poignée de porte), <strong>poulie</strong> (drapeau sur un mât), <strong>plan incliné</strong> (rampe), <strong>coin</strong> (hache, couteau), <strong>vis</strong> (boulon). L'<strong>effort</strong> est la force appliquée ; la <strong>charge</strong> est ce que l'on déplace.</div>
+    <div class="en-hint">Simple machines make work easier by reducing the force needed OR changing the direction of force. 6 types: 1) Lever (seesaw, crowbar) — a bar that pivots on a fulcrum. 2) Wheel and axle (doorknob, steering wheel) — wheel attached to a rod. 3) Pulley (flagpole, window blinds) — rope over a wheel. 4) Inclined plane (ramp, slide) — a slanted surface. 5) Wedge (knife, axe) — two inclined planes joined. 6) Screw (jar lid, screw bolt) — an inclined plane wrapped in a spiral.</div>
     <div class="ss-vocab"><span class="ss-chip">machine simple</span><span class="ss-chip">levier</span><span class="ss-chip">plan incliné</span><span class="ss-chip">poulie</span><span class="ss-chip">effort</span><span class="ss-chip">charge</span></div>
     <div class="ss-ql">Questions de compréhension</div>
     <div class="ss-q-wrap"><div class="ss-q">1. Nomme les 6 types de machines simples avec un exemple de chaque.</div><div class="ss-ans">Levier = bascule ; Roue et axe = volant de voiture ; Poulie = drapeau sur mât ; Plan incliné = rampe pour fauteuil roulant ; Coin = hache ; Vis = boulon.</div></div>
@@ -399,6 +428,7 @@
 
     <div class="study-h2">🗺️ Unité A — L'Alberta : un sens du pays</div>
     <div class="ss-body">L'Alberta est une province de l'Ouest du Canada. Ses régions géographiques : les <strong>Prairies</strong> (plaines agricoles), les <strong>Badlands</strong> (formations rocheuses et dinosaures), les <strong>Rocheuses</strong> (montagnes), et le <strong>bouclier boréal</strong> (forêts du nord). La capitale est <strong>Edmonton</strong> ; la plus grande ville est Calgary. Les rivières importantes : Saskatchewan du Nord, Athabasca, Bow. L'Alberta est enclavée — elle n'a pas de frontière avec l'océan.</div>
+    <div class="en-hint">Alberta is a province in western Canada. It has 4 main geographic regions: Prairies (flat farmland in the south and centre), Badlands (dry, eroded landscape with hoodoos — near Drumheller), Rocky Mountains (dramatic mountain range in the west), and Boreal Shield (forests and lakes in the north). Capital city = Edmonton (north). Largest city = Calgary (south). Major rivers: North Saskatchewan, Athabasca, Bow.</div>
     <div class="ss-vocab"><span class="ss-chip">province</span><span class="ss-chip">prairie</span><span class="ss-chip">Rocheuses</span><span class="ss-chip">Badlands</span><span class="ss-chip">capitale</span><span class="ss-chip">Edmonton</span><span class="ss-chip">rivière</span><span class="ss-chip">région</span></div>
     <div class="ss-ql">Questions de compréhension</div>
     <div class="ss-q-wrap"><div class="ss-q">1. Nomme trois régions géographiques de l'Alberta et décris-en une.</div><div class="ss-ans">Prairies, Badlands, Rocheuses, bouclier boréal. Ex. : les Prairies sont de vastes plaines plates utilisées pour l'agriculture (blé, canola).</div></div>
@@ -409,6 +439,7 @@
 
     <div class="study-h2">📜 Unité B — Les peuples et les histoires de l'Alberta</div>
     <div class="ss-body">Les <strong>Premières Nations</strong> vivaient en Alberta depuis des milliers d'années avant les Européens — notamment les Cris, les Pieds-Noirs (Blackfoot), les Tsuu T'ina. La <strong>traite des fourrures</strong> a établi un contact entre Autochtones et Européens. Les <strong>Métis</strong> ont une culture mixte européenne et autochtone. Des <strong>traités</strong> ont été signés entre les nations autochtones et le gouvernement canadien. Des immigrants du monde entier ont bâti les premières villes. L'Alberta est devenue une province en <strong>1905</strong>.</div>
+    <div class="en-hint">Indigenous peoples lived in Alberta for thousands of years before European contact. Main groups in Alberta: Cree (Nehiyaw), Blackfoot Confederacy (Siksika, Kainai, Piikani), Tsuu T'ina, Nakoda, Métis. The fur trade (1600s–1800s) brought European traders into contact with Indigenous nations — Indigenous people traded furs for European goods. Treaties = formal agreements between the Crown and Indigenous nations about land sharing and rights (most of Alberta was covered by Treaties 6, 7, and 8). Alberta became a province on September 1, 1905.</div>
     <div class="ss-vocab"><span class="ss-chip">Premières Nations</span><span class="ss-chip">Autochtones</span><span class="ss-chip">Métis</span><span class="ss-chip">traite des fourrures</span><span class="ss-chip">traité</span><span class="ss-chip">colons</span><span class="ss-chip">1905</span><span class="ss-chip">immigrant</span></div>
     <div class="ss-ql">Questions de compréhension</div>
     <div class="ss-q-wrap"><div class="ss-q">1. Qui étaient les premiers peuples à habiter l'Alberta ? Nomme deux nations.</div><div class="ss-ans">Les Premières Nations. Ex. : les Cris et les Pieds-Noirs (Blackfoot).</div></div>
@@ -419,6 +450,7 @@
 
     <div class="study-h2">💼 Unité C — L'activité économique en Alberta</div>
     <div class="ss-body">L'économie de l'Alberta repose sur le <strong>pétrole et le gaz naturel</strong>, l'<strong>agriculture</strong> (blé, canola, bœuf) et l'<strong>exploitation forestière</strong>. Ces <strong>ressources naturelles</strong> créent des emplois. Les <strong>biens</strong> sont des objets fabriqués ou cultivés ; les <strong>services</strong> sont des actions réalisées pour d'autres (enseignant, médecin). Les communautés dépendent les unes des autres par les <strong>échanges</strong>. L'économie peut changer selon les prix mondiaux du pétrole.</div>
+    <div class="en-hint">Alberta's economy runs on natural resources. Goods = things you can touch and hold (wheat, oil, a car, a loaf of bread). Services = things people DO for others (teaching, driving a bus, cutting hair, selling groceries). Alberta's key resources: oil sands (tar sands near Fort McMurray) = biggest Canadian export; natural gas; agriculture (cattle ranching, canola, wheat). Challenge: when oil prices drop, many Albertans lose jobs — the economy needs to diversify (add other industries like technology and tourism).</div>
     <div class="ss-vocab"><span class="ss-chip">ressource naturelle</span><span class="ss-chip">économie</span><span class="ss-chip">biens</span><span class="ss-chip">services</span><span class="ss-chip">agriculture</span><span class="ss-chip">pétrole</span><span class="ss-chip">emploi</span><span class="ss-chip">échange</span></div>
     <div class="ss-ql">Questions de compréhension</div>
     <div class="ss-q-wrap"><div class="ss-q">1. Donne deux exemples de ressources naturelles importantes en Alberta.</div><div class="ss-ans">Pétrole, gaz naturel, bois, blé, canola, bœuf.</div></div>
@@ -429,6 +461,7 @@
 
     <div class="study-h2">🗳️ Unité D — La citoyenneté et la communauté</div>
     <div class="ss-body">Un <strong>citoyen</strong> est membre d'une communauté. Les citoyens ont des <strong>droits</strong> (choses qu'ils peuvent faire ou recevoir) et des <strong>responsabilités</strong> (choses qu'ils doivent faire). Nous sommes citoyens de notre école, ville, province et pays. Le <strong>gouvernement</strong> fait des lois et offre des services. Les citoyens participent aux <strong>élections</strong> pour choisir leurs <strong>représentants</strong>. La participation citoyenne (voter, aider les autres, respecter les règles) renforce la communauté.</div>
+    <div class="en-hint">A citizen belongs to a community and has both rights AND responsibilities. Rights = things you are entitled to (right to education, to be safe, to be treated fairly). Responsibilities = things you must do (follow rules, respect others, take care of shared spaces). In Alberta you belong to multiple communities at once: your class, your school, your city/town, Alberta (province), and Canada. Elections = how we choose our representatives in government. Your school has rules because communities need structure to be safe and fair for everyone.</div>
     <div class="ss-vocab"><span class="ss-chip">citoyen</span><span class="ss-chip">droits</span><span class="ss-chip">responsabilités</span><span class="ss-chip">communauté</span><span class="ss-chip">gouvernement</span><span class="ss-chip">élection</span><span class="ss-chip">représentant</span><span class="ss-chip">participation</span></div>
     <div class="ss-ql">Questions de compréhension</div>
     <div class="ss-q-wrap"><div class="ss-q">1. Qu'est-ce qu'un citoyen ? Donne un exemple de communauté dont tu fais partie.</div><div class="ss-ans">Un citoyen est un membre reconnu d'une communauté. Ex. : tu es citoyen de ton école, de ta ville, de l'Alberta, du Canada.</div></div>
@@ -445,6 +478,7 @@
 
     <div class="study-h2">🥦 Santé personnelle</div>
     <div class="ss-body">Une <strong>alimentation saine</strong> comprend les 4 groupes alimentaires : légumes et fruits, grains entiers, protéines (viande, légumineuses, noix), produits laitiers. Les enfants devraient faire au moins <strong>60 minutes d'exercice</strong> par jour et dormir environ <strong>10–11 heures</strong> par nuit. L'<strong>hygiène</strong> quotidienne inclut : se laver les mains avant de manger et après les toilettes, se brosser les dents deux fois par jour, prendre une douche régulièrement.</div>
+    <div class="en-hint">Healthy eating: try to eat from all 4 food groups every day — vegetables and fruits (half your plate), grains (bread, rice, pasta), proteins (meat, beans, eggs, nuts), dairy (milk, yogurt, cheese). Physical activity: kids need at least 60 minutes of moderate-to-vigorous activity every day. Sleep: Grade 4 students need 9–11 hours per night — sleep helps your brain consolidate memory and helps your body grow. Handwashing: 20 seconds with soap, especially before eating and after the bathroom — this is the #1 way to prevent spreading illness.</div>
     <div class="ss-vocab"><span class="ss-chip">alimentation</span><span class="ss-chip">groupe alimentaire</span><span class="ss-chip">hygiène</span><span class="ss-chip">exercice</span><span class="ss-chip">sommeil</span></div>
     <div class="ss-ql">Questions de compréhension</div>
     <div class="ss-q-wrap"><div class="ss-q">1. Nomme les 4 groupes alimentaires. Donne un exemple de chaque.</div><div class="ss-ans">Légumes et fruits (ex. pomme, brocoli) ; Grains (ex. pain, riz) ; Protéines (ex. poulet, lentilles) ; Produits laitiers (ex. lait, fromage).</div></div>
@@ -453,6 +487,7 @@
 
     <div class="study-h2">💚 Émotions et bien-être</div>
     <div class="ss-body">Les émotions de base : <strong>joie</strong>, <strong>tristesse</strong>, <strong>colère</strong>, <strong>peur</strong>, <strong>surprise</strong>, <strong>dégoût</strong>. Il est important de <strong>nommer</strong> ses émotions pour mieux les gérer. Stratégies pour gérer les émotions difficiles : <strong>respiration profonde</strong>, <strong>parler à quelqu'un de confiance</strong>, <strong>prendre une pause</strong>, faire de l'exercice. Il y a une différence entre un <strong>sentiment</strong> (ce qu'on ressent) et une <strong>action</strong> (ce qu'on fait) — on peut choisir ses actions même quand les émotions sont intenses.</div>
+    <div class="en-hint">6 basic emotions everyone experiences: joy, sadness, anger, fear, surprise, disgust. All feelings are valid — but feelings and ACTIONS are different. You can FEEL angry without hitting someone. Coping strategies: deep breathing (breathe in slowly for 4 counts, out for 4 — this calms your nervous system), talking to a trusted person (sharing feelings reduces their power), taking a break (walk away to cool down before responding). Self-regulation = managing your own emotions and behaviour — a skill you can practice and get better at!</div>
     <div class="ss-vocab"><span class="ss-chip">émotion</span><span class="ss-chip">bien-être</span><span class="ss-chip">stratégie</span><span class="ss-chip">respect de soi</span></div>
     <div class="ss-ql">Questions de compréhension</div>
     <div class="ss-q-wrap"><div class="ss-q">1. Nomme 4 émotions de base. Comment peut-on les reconnaître chez quelqu'un d'autre ?</div><div class="ss-ans">Joie, tristesse, colère, peur. On peut les reconnaître par les expressions du visage, la posture du corps, le ton de la voix.</div></div>
@@ -461,6 +496,7 @@
 
     <div class="study-h2">🛡️ Sécurité personnelle</div>
     <div class="ss-body">Règles de sécurité importantes : <strong>en ligne</strong> — ne jamais partager ton nom complet, adresse, numéro de téléphone ou photos avec des inconnus ; <strong>dans la rue</strong> — regarder des deux côtés, traverser aux passages piétons, respecter les signaux ; <strong>avec des inconnus</strong> — ne pas aller seul avec quelqu'un qu'on ne connaît pas. Une <strong>personne de confiance</strong> est un adulte à qui tu peux parler si tu as peur ou si tu es en danger. Tu as le droit de dire <strong>NON</strong> si quelque chose te met mal à l'aise.</div>
+    <div class="en-hint">Online safety rules: NEVER share your full name, home address, school name, phone number, or passwords with anyone online. If something online feels wrong or uncomfortable, tell a trusted adult immediately. Road safety: always look left-right-left before crossing, use crosswalks, make eye contact with drivers. Trusted adults = people in your life you can go to if you feel unsafe or worried (parent/guardian, teacher, school counsellor, relative). Your body belongs to you — you have the right to say NO to any touch that makes you uncomfortable, and to tell a trusted adult about it.</div>
     <div class="ss-vocab"><span class="ss-chip">sécurité</span><span class="ss-chip">personne de confiance</span><span class="ss-chip">limite</span><span class="ss-chip">danger</span></div>
     <div class="ss-ql">Questions de compréhension</div>
     <div class="ss-q-wrap"><div class="ss-q">1. Nomme deux règles de sécurité à respecter en ligne.</div><div class="ss-ans">Ne jamais partager son adresse ou numéro de téléphone ; ne pas envoyer de photos à des inconnus ; ne pas accepter de rencontrer en personne quelqu'un connu seulement en ligne ; dire à un adulte si quelque chose en ligne te met mal à l'aise.</div></div>
@@ -477,6 +513,12 @@
 /* ── Date ── */
 document.getElementById('hero-date').textContent = new Date().toLocaleDateString('en-CA', { month: 'long', day: 'numeric', year: 'numeric' });
 const TODAY_KEY = new Date().toISOString().slice(0, 10);
+
+/* ── English hints toggle ── */
+function toggleEnglish() {
+  document.body.classList.toggle('show-en');
+  document.getElementById('en-toggle-study').classList.toggle('on');
+}
 
 /* ── Tab Switching ── */
 function showTab(name) {

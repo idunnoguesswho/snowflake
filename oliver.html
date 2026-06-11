@@ -55,6 +55,7 @@
   .q-label { font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; color: #888; margin: 12px 0 6px; }
   .q-item { font-size: 13px; color: #1f2933; padding: 7px 0; border-bottom: 1px solid #f5f5f5; }
   .q-item:last-child { border-bottom: none; }
+  .fi-unit-title { font-family: 'Nunito', sans-serif; font-size: 13px; font-weight: 900; color: var(--sc, #4aa8cc); margin: 18px 0 8px; padding: 6px 10px; background: var(--sl, #e8f4fb); border-radius: 8px; }
   .ref-link { display: inline-block; font-size: 12px; font-weight: 700; color: #4aa8cc; margin-top: 10px; text-decoration: none; }
 
   /* Subjects colour coding */
@@ -163,163 +164,505 @@
     <div class="fi-toggle-bar">
       <div style="flex:1">
         <div style="font-family:'Nunito',sans-serif;font-size:16px;font-weight:900;color:#1f2933">Guide d'étude — Année 6 · FI</div>
-        <div style="font-size:12px;color:#888;margin-top:2px">Alberta French Immersion · Grade 6 All Subjects</div>
+        <div style="font-size:12px;color:#888;margin-top:2px">Alberta French Immersion · Grade 6 · Révision complète de l'année</div>
       </div>
-      <label>
+      <label style="display:flex;align-items:center;gap:8px;cursor:pointer">
         <button class="fi-toggle" id="en-toggle" onclick="toggleEnglish()" aria-label="Show English hints"></button>
         🇬🇧 English hints
       </label>
     </div>
 
-    <!-- FRANÇAIS -->
+    <!-- ══ FRANÇAIS ══ -->
     <div class="subject-card s-fr">
       <div class="subj-tag" style="color:var(--sc)">#1 · Français — Arts du langage</div>
-      <div class="subj-title">Lecture, écriture et communication orale</div>
-      <div class="subj-body">
-        En 6e année, tu approfondis ta capacité à <strong>lire des textes variés</strong> (informatifs, narratifs, poétiques), à <strong>écrire avec clarté</strong> et à t'exprimer à l'oral avec confiance. Tu travailles les stratégies de lecture, l'orthographe, la grammaire (accord du verbe, des adjectifs), et la ponctuation.
-      </div>
-      <div class="en-hint">Reading strategies: predict, connect, question, visualize, infer. Writing process: brainstorm → draft → revise → edit → publish. Key grammar: verb agreement with subject, adjective agreement with noun (gender + number).</div>
+      <div class="subj-title">Lecture, écriture, grammaire et communication orale</div>
+
+      <div class="fi-unit-title">📖 Unité A — Stratégies de lecture</div>
+      <div class="subj-body">Les <strong>7 stratégies de lecture</strong> clés : prédire, faire des liens, poser des questions, visualiser, inférer, déterminer l'idée principale, synthétiser. En 6e année, tu lis des textes variés : narratifs (histoires, romans), informatifs (articles, rapports), poétiques (poèmes, chansons) et persuasifs (lettres d'opinion, publicités).</div>
+      <div class="en-hint">7 reading strategies: Predict (guess what happens), Connect (text-to-self, text-to-text, text-to-world), Question (ask while reading), Visualize (picture it), Infer (read between the lines), Determine importance (main idea vs. detail), Synthesize (new understanding). Text types: narrative tells a story; informational gives facts; poetry uses rhythm/imagery; persuasive tries to change your mind.</div>
       <div class="vocab-row">
+        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">prédire</span>
         <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">inférence</span>
-        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">stratégie de lecture</span>
-        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">accord sujet-verbe</span>
+        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">synthèse</span>
+        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">texte narratif</span>
+        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">texte informatif</span>
+        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">texte persuasif</span>
+        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">idée principale</span>
+      </div>
+      <div class="q-label">Questions — Lecture</div>
+      <div class="q-item">1. Quelle est la différence entre une <em>inférence</em> et une <em>prédiction</em> ?</div>
+      <div class="q-item">2. Nomme les 7 stratégies de lecture.</div>
+      <div class="q-item">3. Quel est le but d'un texte persuasif ? Comment le reconnais-tu ?</div>
+      <div class="en-hint">1) Prediction = before reading, you guess. Inference = during/after reading, you use clues + your knowledge. 2) Predict, Connect, Question, Visualize, Infer, Determine importance, Synthesize. 3) A persuasive text tries to change your opinion — look for opinion words, arguments, and calls to action.</div>
+
+      <div class="fi-unit-title">✏️ Unité B — Processus d'écriture</div>
+      <div class="subj-body">Le processus d'écriture en 5 étapes : <strong>1) Remue-méninges</strong> → <strong>2) Brouillon</strong> → <strong>3) Révision</strong> (idées, organisation) → <strong>4) Correction</strong> (grammaire, orthographe) → <strong>5) Publication</strong>. Types de textes : narratif, informatif, persuasif, descriptif, réflexif.</div>
+      <div class="en-hint">Writing process: 1) Pre-write/brainstorm, 2) Draft (just get ideas down), 3) Revise (improve IDEAS and structure — not just fixing spelling), 4) Edit/proofread (fix grammar, spelling, punctuation), 5) Publish/share. Key difference: revise = big picture (ideas/structure); edit = small picture (errors). Narrative: tells a story. Informational: teaches facts. Persuasive: argues a position. Descriptive: paints a picture with words.</div>
+      <div class="vocab-row">
+        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">remue-méninges</span>
         <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">brouillon</span>
         <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">révision</span>
-        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">point de vue</span>
+        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">correction</span>
+        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">publication</span>
+        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">paragraphe</span>
       </div>
-      <div class="q-label">Questions de compréhension</div>
-      <div class="q-item">1. Quelle est la différence entre une <em>inférence</em> et une <em>prédiction</em> ?</div>
-      <div class="q-item">2. Donne un exemple d'accord sujet-verbe avec un sujet pluriel.</div>
-      <div class="q-item">3. Quelles sont les étapes du processus d'écriture ?</div>
-      <div class="q-item">4. Qu'est-ce qu'un texte informatif ? Donne un exemple de texte que tu as lu.</div>
-      <div class="en-hint">Answer 1: An inference is a conclusion drawn from clues in the text + your own knowledge. A prediction is a guess about what will happen before reading. Answer 2: "Les enfants jouent." (Les enfants = plural, so jouent not joue). Answer 3: brainstorm, draft, revise, edit, publish. Answer 4: An informational text gives facts about a real topic (e.g. a science article, a biography).</div>
+      <div class="q-label">Questions — Écriture</div>
+      <div class="q-item">1. Quelles sont les 5 étapes du processus d'écriture ?</div>
+      <div class="q-item">2. Quelle est la différence entre « réviser » et « corriger » un texte ?</div>
+      <div class="q-item">3. Écris une phrase d'introduction pour un texte persuasif sur le recyclage.</div>
+      <div class="en-hint">1) Pre-write, Draft, Revise, Edit, Publish. 2) Revise = improve ideas and structure; Edit = fix surface errors (spelling, grammar, punctuation). 3) Example: "Le recyclage est essentiel pour protéger notre planète et assurer un avenir sain pour les générations futures."</div>
+
+      <div class="fi-unit-title">📝 Unité C — Grammaire et orthographe</div>
+      <div class="subj-body">Concepts clés de grammaire 6e : <strong>accord sujet-verbe</strong>, <strong>accord adjectif-nom</strong> (genre + nombre), <strong>temps de verbe</strong> (présent, passé composé, imparfait, futur simple), <strong>ponctuation</strong>, <strong>homophones</strong> (a/à, on/ont, ou/où, ses/ces, son/sont, ce/se, la/l'a).</div>
+      <div class="en-hint">Subject-verb agreement: verb matches subject in person and number — "Les enfants jouent" (plural). Adjective agreement: match noun in gender AND number — "une belle fleur" (fem. sing.), "de belles fleurs" (fem. pl.). Verb tenses: présent = now; passé composé = completed past (j'ai mangé); imparfait = ongoing/repeated past (je mangeais); futur simple = future (je mangerai). Homophones: a (avoir) vs. à (preposition); ont (avoir, they have) vs. on (pronoun, one/we).</div>
+      <div class="vocab-row">
+        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">accord sujet-verbe</span>
+        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">accord adjectif-nom</span>
+        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">passé composé</span>
+        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">imparfait</span>
+        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">futur simple</span>
+        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">homophone</span>
+      </div>
+      <div class="q-label">Questions — Grammaire</div>
+      <div class="q-item">1. Conjugue « manger » au passé composé : je, tu, elle, nous, ils.</div>
+      <div class="q-item">2. Accorde les adjectifs : « Les filles sont (beau / grand). »</div>
+      <div class="q-item">3. Choisis le bon homophone : « Il ___ (a/à) mangé sa pomme ___ (a/à) midi. »</div>
+      <div class="q-item">4. Quelle est la différence entre le passé composé et l'imparfait ? Donne un exemple de chacun.</div>
+      <div class="en-hint">1) j'ai mangé, tu as mangé, elle a mangé, nous avons mangé, ils ont mangé. 2) belles, grandes (fem. plural). 3) "Il a mangé sa pomme à midi." 4) Passé composé = completed action ("J'ai mangé une pomme hier."); Imparfait = ongoing/habitual past ("Je mangeais une pomme chaque soir.").</div>
+
+      <div class="fi-unit-title">🗣️ Unité D — Communication orale et médias</div>
+      <div class="subj-body">La communication orale comprend : les <strong>exposés oraux</strong> (introduction — développement — conclusion), la <strong>discussion</strong> (écoute active, tours de parole), le <strong>débat</strong> (défendre une position avec des arguments), et l'<strong>analyse des médias</strong> (reconnaître les techniques de persuasion : appel émotionnel, célébrités, répétition).</div>
+      <div class="en-hint">Oral presentation structure: intro (hook + topic), body (3 main points), conclusion (summary + closing). Debate: state position → give reasons + evidence → address counter-arguments. Media analysis: identify audience, purpose, and techniques — emotional appeal, celebrity endorsement, repetition, scarcity, bandwagon.</div>
+      <div class="vocab-row">
+        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">exposé oral</span>
+        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">écoute active</span>
+        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">débat</span>
+        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">argument</span>
+        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">analyse des médias</span>
+      </div>
+      <div class="q-label">Questions — Oral &amp; Médias</div>
+      <div class="q-item">1. Quelles sont les 3 parties d'un bon exposé oral ?</div>
+      <div class="q-item">2. Nomme deux techniques de persuasion utilisées dans les publicités.</div>
+      <div class="q-item">3. Comment se préparer pour un débat ? Donne trois stratégies.</div>
+      <div class="en-hint">1) Introduction (hook + topic), Body (3 points), Conclusion (summary + closing). 2) Any two: emotional appeal, celebrity endorsement, repetition, scarcity, bandwagon. 3) Research your topic, know counter-arguments, prepare evidence, practice out loud, anticipate questions.</div>
     </div>
 
-    <!-- ENGLISH LA -->
+    <!-- ══ ENGLISH LA ══ -->
     <div class="subject-card s-en">
       <div class="subj-tag" style="color:var(--sc)">#2 · English Language Arts</div>
-      <div class="subj-title">Reading, Writing & Representing</div>
-      <div class="subj-body">
-        Grade 6 ELA focuses on <strong>reading for meaning</strong>, <strong>writing in multiple forms</strong> (narrative, expository, persuasive), and representing ideas through multimedia. You work on paragraph structure, literary devices (simile, metaphor, personification), and supporting arguments with evidence.
+      <div class="subj-title">Reading, Writing, Language &amp; Representing</div>
+
+      <div class="fi-unit-title">📚 Unit A — Reading &amp; Comprehension</div>
+      <div class="subj-body">Grade 6 reading focuses on <strong>reading across genres</strong>: fiction (novels, short stories), non-fiction (biographies, articles), poetry, and drama. Key skills: making inferences, identifying theme vs. main idea, analyzing character development, comparing texts, and evaluating author's purpose.</div>
+      <div class="en-hint">Theme = the big message (e.g. "be yourself," "courage matters"). Main idea = what a specific paragraph is about. Author's purpose: to inform (gives facts), to persuade (argues a view), to entertain (tells a story). 1st person POV: narrator uses "I/we." 3rd person: narrator uses "he/she/they." Character development: protagonist changes through conflict; flat characters don't change.</div>
+      <div class="vocab-row">
+        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">theme</span>
+        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">main idea</span>
+        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">inference</span>
+        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">protagonist / antagonist</span>
+        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">author's purpose</span>
+        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">point of view</span>
       </div>
-      <div class="en-hint">Literary devices: simile (like/as), metaphor (is), personification (non-human acts human). Paragraph structure: topic sentence → 2–3 supporting details → concluding sentence. Persuasive writing: claim + reasons + evidence + counter-argument + rebuttal.</div>
+      <div class="q-label">Questions — Reading</div>
+      <div class="q-item">1. What is the difference between theme and main idea?</div>
+      <div class="q-item">2. What are the three main author's purposes? Give an example of each.</div>
+      <div class="q-item">3. What is 1st person vs. 3rd person point of view? How can you tell?</div>
+      <div class="q-item">4. How does a protagonist change from beginning to end of a story? Why is this important?</div>
+
+      <div class="fi-unit-title">✍️ Unit B — Writing Forms &amp; Structure</div>
+      <div class="subj-body"><strong>Narrative writing</strong>: engaging opening, developed plot (exposition, rising action, climax, falling action, resolution), vivid characters, sensory details, dialogue. <strong>Expository writing</strong>: clear thesis, organized body paragraphs (topic sentence + details + concluding sentence), transitions. <strong>Persuasive writing</strong>: strong claim, 3 supporting reasons with evidence, counter-argument + rebuttal, call to action. <strong>Descriptive writing</strong>: five senses, show-don't-tell, figurative language.</div>
+      <div class="en-hint">Paragraph structure: Topic Sentence → 2–3 Supporting Details → Concluding Sentence. Transitions: to add (furthermore, in addition), to contrast (however, on the other hand), to conclude (therefore, in conclusion). Narrative arc: exposition → rising action → climax → falling action → resolution. Show don't tell: instead of "She was scared," write "Her hands trembled as she reached for the door handle."</div>
+      <div class="vocab-row">
+        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">thesis statement</span>
+        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">topic sentence</span>
+        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">transition</span>
+        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">climax</span>
+        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">counter-argument</span>
+        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">rebuttal</span>
+        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">evidence</span>
+      </div>
+      <div class="q-label">Questions — Writing</div>
+      <div class="q-item">1. What are the five parts of a narrative arc?</div>
+      <div class="q-item">2. What is a thesis statement? Write one about school uniforms.</div>
+      <div class="q-item">3. What is a counter-argument and why include it in a persuasive essay?</div>
+      <div class="q-item">4. Rewrite using "show don't tell": "He was really happy."</div>
+
+      <div class="fi-unit-title">🔤 Unit C — Literary Devices</div>
+      <div class="subj-body">Key literary devices for Grade 6: <strong>Simile</strong> (comparison using "like" or "as"), <strong>Metaphor</strong> (direct comparison), <strong>Personification</strong> (human traits to non-human things), <strong>Alliteration</strong> (repeated consonant sounds), <strong>Onomatopoeia</strong> (words that sound like what they mean), <strong>Hyperbole</strong> (extreme exaggeration), <strong>Foreshadowing</strong> (hints of future events), <strong>Imagery</strong> (vivid sensory description), <strong>Symbolism</strong> (object represents a bigger idea).</div>
+      <div class="en-hint">Simile: "Her smile was like sunshine." Metaphor: "He is a shining star." Personification: "The wind whispered secrets." Alliteration: "Peter Piper picked a peck." Onomatopoeia: buzz, crash, sizzle. Hyperbole: "I've told you a million times!" Foreshadowing: "Little did she know, the key would save her life." Symbolism: a dove = peace; a storm = conflict or change. Flashback = scene from the PAST inserted into present story.</div>
       <div class="vocab-row">
         <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">simile</span>
         <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">metaphor</span>
         <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">personification</span>
-        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">thesis statement</span>
-        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">evidence</span>
-        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">inference</span>
+        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">alliteration</span>
+        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">onomatopoeia</span>
+        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">hyperbole</span>
+        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">foreshadowing</span>
+        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">symbolism</span>
       </div>
-      <div class="q-label">Understanding Questions</div>
-      <div class="q-item">1. What is the difference between a simile and a metaphor? Give an example of each.</div>
-      <div class="q-item">2. What are the three main parts of a paragraph?</div>
-      <div class="q-item">3. In a persuasive essay, what is a counter-argument and why include one?</div>
-      <div class="q-item">4. What makes a strong thesis statement? Write one about a topic you know.</div>
+      <div class="q-label">Questions — Literary Devices</div>
+      <div class="q-item">1. Identify the device: "The stars danced across the midnight sky."</div>
+      <div class="q-item">2. Write your own simile AND metaphor about school.</div>
+      <div class="q-item">3. What is the difference between foreshadowing and a flashback?</div>
+      <div class="q-item">4. Find the hyperbole: "I have so much homework I could build a house out of it."</div>
+
+      <div class="fi-unit-title">🧠 Unit D — Word Study &amp; Vocabulary</div>
+      <div class="subj-body"><strong>Prefixes and suffixes</strong> (un-, re-, pre-, -tion, -ful, -less, -ment), <strong>root words</strong>, <strong>context clues</strong> (using surrounding text), <strong>connotation vs. denotation</strong> (emotional vs. dictionary meaning), <strong>synonyms and antonyms</strong>.</div>
+      <div class="en-hint">Prefixes: un- (not), re- (again), pre- (before), mis- (wrong), inter- (between). Suffixes: -tion (action), -ful (having), -less (without), -ment (result). Context clue types: definition ("X, which means..."), example ("such as"), contrast ("unlike X, Y is..."). Denotation = dictionary definition. Connotation = feelings the word brings ("home" vs. "shack" — both mean shelter, very different feelings).</div>
+      <div class="vocab-row">
+        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">prefix / suffix</span>
+        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">root word</span>
+        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">context clue</span>
+        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">connotation</span>
+        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">denotation</span>
+        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">synonym / antonym</span>
+      </div>
+      <div class="q-label">Questions — Word Study</div>
+      <div class="q-item">1. What does the prefix "un-" mean? Give two examples.</div>
+      <div class="q-item">2. What is the difference between connotation and denotation?</div>
+      <div class="q-item">3. Use context clues: "The thief absconded with the jewels, fleeing so quickly that no one could catch him." What does "abscond" mean?</div>
     </div>
 
-    <!-- MATH -->
+    <!-- ══ MATH ══ -->
     <div class="subject-card s-math">
       <div class="subj-tag" style="color:var(--sc)">#3 · Mathématiques 6</div>
-      <div class="subj-title">Nombres, opérations, géométrie et statistiques</div>
-      <div class="subj-body">
-        Les grands thèmes de math 6 : <strong>les fractions, les décimaux et les pourcentages</strong> ; <strong>les entiers</strong> (nombres négatifs) ; <strong>les ratios</strong> ; les <strong>expressions algébriques</strong> ; la <strong>géométrie</strong> (angles, transformations, périmètre, aire) ; et les <strong>probabilités et statistiques</strong>.
-      </div>
-      <div class="en-hint">Key topics: Converting fractions ↔ decimals ↔ percentages. Integers: numbers below zero on the number line (-3, -1, 0, 1, 3). Algebra: solving for n in equations like 3n + 2 = 14. Geometry: area of triangles = ½ × base × height. Probability: theoretical (what should happen) vs. experimental (what actually happened).</div>
+      <div class="subj-title">Nombres, algèbre, géométrie, statistiques et probabilités</div>
+
+      <div class="fi-unit-title">🔢 Unité A — Nombres et opérations</div>
+      <div class="subj-body"><strong>Grands nombres</strong> jusqu'au million. <strong>Fractions</strong> : équivalentes, impropres, nombres mixtes, addition/soustraction avec PPCD. <strong>Décimaux</strong> : jusqu'aux millièmes, opérations (+, −, ×, ÷). <strong>Pourcentages</strong> : convertir fractions ↔ décimaux ↔ %, trouver un % d'un nombre. <strong>Entiers</strong> : nombres négatifs, droite numérique, addition/soustraction.</div>
+      <div class="en-hint">Fractions with unlike denominators: find the LCD. Example: ½ + ⅓ → LCD = 6 → 3/6 + 2/6 = 5/6. Mixed to improper: 2¾ = (2×4+3)/4 = 11/4. Converting: ¾ = 0.75 = 75%. Finding % of number: 30% of 80 = 0.30 × 80 = 24. Integers on number line: -3 + 5 = 2 (move 5 right from -3). Subtracting negatives: -3 − (-2) = -3 + 2 = -1.</div>
       <div class="vocab-row">
-        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">fraction</span>
+        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">fraction équivalente</span>
+        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">PPCD</span>
+        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">nombre mixte</span>
         <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">pourcentage</span>
         <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">entier</span>
-        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">ratio</span>
-        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">expression algébrique</span>
-        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">périmètre</span>
-        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">aire</span>
-        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">probabilité</span>
+        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">droite numérique</span>
       </div>
-      <div class="q-label">Questions pratiques</div>
-      <div class="q-item">1. Convertis ¾ en décimal et en pourcentage.</div>
-      <div class="q-item">2. Résous pour n : 4n − 6 = 18</div>
-      <div class="q-item">3. Calcule l'aire d'un triangle avec une base de 10 cm et une hauteur de 6 cm.</div>
-      <div class="q-item">4. Un sac contient 3 rouges, 2 bleus, 5 verts. Quelle est la probabilité de tirer un bleu ?</div>
-      <div class="en-hint">Answers: 1) ¾ = 0.75 = 75%. 2) 4n = 24, n = 6. 3) Area = ½ × 10 × 6 = 30 cm². 4) 2/10 = 1/5 = 20%.</div>
+      <div class="q-label">Questions — Nombres</div>
+      <div class="q-item">1. Convertis ⅝ en décimal et en pourcentage.</div>
+      <div class="q-item">2. Calcule : ⅓ + ¼ = ?</div>
+      <div class="q-item">3. Convertis 2¾ en fraction impropre.</div>
+      <div class="q-item">4. Calcule : −4 + 7 = ? et −3 − 5 = ?</div>
+      <div class="q-item">5. Trouve 40% de 75.</div>
+      <div class="en-hint">1) ⅝ = 0.625 = 62.5%. 2) LCD=12 → 4/12 + 3/12 = 7/12. 3) 11/4. 4) 3 ; −8. 5) 0.40 × 75 = 30.</div>
+
+      <div class="fi-unit-title">🔣 Unité B — Ratio, taux et proportions</div>
+      <div class="subj-body">Un <strong>ratio</strong> compare deux quantités (3:4). Un <strong>taux</strong> compare deux quantités d'unités différentes (60 km/h). Une <strong>proportion</strong> dit que deux ratios sont égaux (2/3 = 4/6). Résoudre avec la <strong>multiplication croisée</strong>. La <strong>mise à l'échelle</strong> agrandit ou réduit selon un facteur.</div>
+      <div class="en-hint">Proportion: 2/3 = x/9 → cross-multiply: 3x = 18, x = 6. Scale: if 1 cm = 10 km, then 5 cm = 50 km. Unit rate: cost per one item (e.g., $2.50 per apple — divide total cost by quantity). Ratio as fraction: 3 red out of 7 total = 3/7.</div>
+      <div class="vocab-row">
+        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">ratio</span>
+        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">taux</span>
+        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">proportion</span>
+        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">mise à l'échelle</span>
+        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">multiplication croisée</span>
+      </div>
+      <div class="q-label">Questions — Ratio &amp; Proportions</div>
+      <div class="q-item">1. Résous : 3/4 = x/12.</div>
+      <div class="q-item">2. Une voiture roule à 90 km/h. Combien de km en 2,5 heures ?</div>
+      <div class="q-item">3. Échelle 1:50 000. Une route de 3 cm sur la carte = combien de km ?</div>
+      <div class="en-hint">1) 4x = 36, x = 9. 2) 90 × 2.5 = 225 km. 3) 3 × 50 000 = 150 000 cm = 1.5 km.</div>
+
+      <div class="fi-unit-title">🔡 Unité C — Algèbre et expressions</div>
+      <div class="subj-body"><strong>Variables et expressions</strong> (3n + 5). <strong>Équations</strong> (3n + 5 = 20) : isoler la variable avec des opérations inverses. <strong>Ordre des opérations — PEDMAS</strong> : Parenthèses, Exposants, Division/Multiplication, Addition/Soustraction.</div>
+      <div class="en-hint">BEDMAS/PEDMAS: Brackets first, then Exponents, then Divide/Multiply left to right, then Add/Subtract left to right. Example: 3 + 4 × 2 = 3 + 8 = 11 (NOT 14!). Solving: 3n + 5 = 20 → subtract 5 → 3n = 15 → divide by 3 → n = 5. Check: 3(5) + 5 = 20 ✓. Expression has no = sign; equation does.</div>
+      <div class="vocab-row">
+        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">variable</span>
+        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">expression algébrique</span>
+        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">équation</span>
+        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">PEDMAS</span>
+        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">opération inverse</span>
+      </div>
+      <div class="q-label">Questions — Algèbre</div>
+      <div class="q-item">1. Résous pour n : 5n − 3 = 22</div>
+      <div class="q-item">2. Calcule avec PEDMAS : 2 + (8 − 3) × 4 ÷ 2</div>
+      <div class="q-item">3. Écris une équation : « J'ai 5 de plus que le double de mon âge = 19. »</div>
+      <div class="en-hint">1) 5n = 25, n = 5. 2) 2 + (5) × 4 ÷ 2 = 2 + 20 ÷ 2 = 2 + 10 = 12. 3) 2a + 5 = 19 → a = 7.</div>
+
+      <div class="fi-unit-title">📐 Unité D — Géométrie et mesures</div>
+      <div class="subj-body"><strong>Angles</strong> : aigu (&lt;90°), droit (90°), obtus (90°–180°). Triangle = 180°, quadrilatère = 360°. <strong>Aires</strong> : rectangle (l×w), triangle (½×b×h), parallélogramme (b×h), cercle (πr²). <strong>Volume</strong> : prisme (l×w×h), cylindre (πr²h). <strong>Transformations</strong> : translation, réflexion, rotation.</div>
+      <div class="en-hint">Area: Rectangle = l×w; Triangle = ½×b×h; Parallelogram = b×h; Circle = π×r². Circumference = 2πr. Volume: Rectangular prism = l×w×h; Cylinder = π×r²×h. Transformations: Translation = slide; Reflection = flip over a line; Rotation = turn around a point. Pentagon interior angles = 540°; Hexagon = 720°.</div>
+      <div class="vocab-row">
+        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">angle aigu / obtus</span>
+        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">périmètre / aire</span>
+        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">volume</span>
+        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">translation</span>
+        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">réflexion</span>
+        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">rotation</span>
+      </div>
+      <div class="q-label">Questions — Géométrie</div>
+      <div class="q-item">1. Calcule l'aire d'un triangle : base 8 cm, hauteur 5 cm.</div>
+      <div class="q-item">2. Cercle avec rayon 7 cm : calcule aire et circonférence (π ≈ 3.14).</div>
+      <div class="q-item">3. Prisme rectangulaire 4 cm × 6 cm × 3 cm. Quel est son volume ?</div>
+      <div class="q-item">4. Deux angles d'un triangle = 65° et 75°. Quel est le 3e ?</div>
+      <div class="en-hint">1) ½ × 8 × 5 = 20 cm². 2) Aire = 3.14 × 49 ≈ 153.86 cm²; Circonf. = 2 × 3.14 × 7 ≈ 43.96 cm. 3) 72 cm³. 4) 180 − 65 − 75 = 40°.</div>
+
+      <div class="fi-unit-title">📊 Unité E — Statistiques et probabilités</div>
+      <div class="subj-body"><strong>Statistiques</strong> : graphiques (barres, ligne, circulaire, tiges-et-feuilles). Mesures de tendance centrale : <strong>moyenne</strong> (somme ÷ n), <strong>médiane</strong> (valeur du milieu), <strong>mode</strong> (valeur la plus fréquente), <strong>étendue</strong> (max − min). <strong>Probabilité théorique</strong> vs. <strong>probabilité expérimentale</strong>, espace échantillonnal.</div>
+      <div class="en-hint">Mean = sum ÷ count. Median = middle value when sorted (average the two middle if even count). Mode = most frequent (can be multiple or none). Range = max − min. Theoretical probability = favourable outcomes ÷ total. P(even on a die) = 3/6 = ½. Experimental probability = what actually happened in trials. Sample space for 2 coin flips: HH, HT, TH, TT.</div>
+      <div class="vocab-row">
+        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">moyenne</span>
+        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">médiane</span>
+        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">mode</span>
+        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">étendue</span>
+        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">probabilité théorique</span>
+        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">probabilité expérimentale</span>
+        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">espace échantillonnal</span>
+      </div>
+      <div class="q-label">Questions — Stats &amp; Probabilité</div>
+      <div class="q-item">1. Données : 4, 7, 3, 9, 7, 2, 8. Calcule la moyenne, la médiane, le mode et l'étendue.</div>
+      <div class="q-item">2. Sac : 5 rouges, 3 bleus, 2 verts. P(rouge) = ?</div>
+      <div class="q-item">3. Quelle est la différence entre la probabilité théorique et expérimentale ?</div>
+      <div class="en-hint">1) Sorted: 2,3,4,7,7,8,9. Mean = 40/7 ≈ 5.7; Median = 7; Mode = 7; Range = 7. 2) 5/10 = ½ = 50%. 3) Theoretical = calculated from math; Experimental = measured from actual trials. They converge with more trials.</div>
     </div>
 
-    <!-- SCIENCE -->
+    <!-- ══ SCIENCE ══ -->
     <div class="subject-card s-sci">
       <div class="subj-tag" style="color:var(--sc)">#4 · Sciences 6</div>
-      <div class="subj-title">Électricité · Systèmes solaires · Air et aérodynamique · Arbres</div>
-      <div class="subj-body">
-        <strong>Unité 1 — L'électricité :</strong> circuits électriques (série et parallèle), conducteurs et isolants, sécurité électrique, sources d'énergie.<br><br>
-        <strong>Unité 2 — La science du ciel :</strong> le système solaire (planètes, lunes, astéroïdes), les constellations, les phases de la Lune, les éclipses solaires et lunaires.<br><br>
-        <strong>Unité 3 — L'air et l'aérodynamique :</strong> propriétés de l'air (masse, pression, température), portance, traînée, conceptions aérodynamiques, vol des oiseaux et des avions.<br><br>
-        <strong>Unité 4 — Les arbres et les forêts :</strong> parties d'un arbre, photosynthèse, rôle des forêts dans l'écosystème, impact humain.
-      </div>
-      <div class="en-hint">Electricity: a series circuit has one path; a parallel circuit has multiple paths (if one bulb burns out, others stay on). Conductors let electricity flow (metal); insulators stop it (rubber, wood). Solar system order: Mercury, Venus, Earth, Mars, Jupiter, Saturn, Uranus, Neptune. Air has mass and takes up space — proved by a balloon! Lift (upward force) vs. drag (resistance). Photosynthesis: water + CO₂ + sunlight → glucose + oxygen.</div>
+      <div class="subj-title">Électricité · Système solaire · Air &amp; Aérodynamique · Arbres</div>
+
+      <div class="fi-unit-title">⚡ Unité 1 — Électricité et circuits</div>
+      <div class="subj-body">L'<strong>électricité</strong> est le mouvement des électrons. <strong>Circuit en série</strong> : chemin unique — si un composant s'arrête, tout s'arrête. <strong>Circuit en parallèle</strong> : chemins séparés — si un s'arrête, les autres continuent. <strong>Conducteurs</strong> (cuivre, aluminium) laissent passer le courant. <strong>Isolants</strong> (caoutchouc, bois) le bloquent. <strong>Sécurité électrique</strong> : ne jamais insérer d'objets métalliques dans une prise ; tenir les appareils loin de l'eau.</div>
+      <div class="en-hint">Circuit components: battery (power), wires (conductors), switch (opens/closes), bulb (load). Series: one path, same current everywhere — one break = total failure. Parallel: current splits — one branch breaks, others stay on (why house lights are wired in parallel). Voltage (V) = "push" of electricity. Current (A) = flow of electrons. Resistance (Ω) = opposition. Static electricity: build-up of charges (rubbing balloon on hair).</div>
       <div class="vocab-row">
         <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">circuit en série</span>
         <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">circuit en parallèle</span>
-        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">conducteur</span>
-        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">isolant</span>
-        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">système solaire</span>
-        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">photosynthèse</span>
+        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">conducteur / isolant</span>
+        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">voltage</span>
+        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">courant électrique</span>
+        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">résistance</span>
+      </div>
+      <div class="q-label">Questions — Électricité</div>
+      <div class="q-item">1. Différence principale entre circuit en série et en parallèle ?</div>
+      <div class="q-item">2. Nomme trois conducteurs et trois isolants courants.</div>
+      <div class="q-item">3. Donne deux règles de sécurité électrique.</div>
+      <div class="q-item">4. Pourquoi les ampoules d'une maison sont-elles câblées en parallèle ?</div>
+      <div class="en-hint">1) Series: one path, one break = all off. Parallel: multiple paths, one break = others stay on. 2) Conductors: copper wire, aluminum foil, salt water. Insulators: rubber glove, wooden handle, plastic. 3) Never touch outlets with metal; keep electronics away from water; don't overload power bars. 4) In parallel, each bulb has its own circuit — turning off one doesn't affect others.</div>
+
+      <div class="fi-unit-title">🌌 Unité 2 — Le système solaire</div>
+      <div class="subj-body">Le <strong>système solaire</strong> : le Soleil au centre, 8 planètes en orbite. <strong>Planètes de la plus proche au plus loin</strong> : Mercure, Vénus, Terre, Mars (telluriques/rocheuses) ; Jupiter, Saturne, Uranus, Neptune (gazeuses/géantes). <strong>Phases de la Lune</strong> : nouvelle lune → croissant → premier quartier → gibbeuse croissante → pleine lune → … (cycle ≈ 29,5 jours). <strong>Éclipse solaire</strong> : Lune entre Soleil et Terre. <strong>Éclipse lunaire</strong> : Terre entre Soleil et Lune.</div>
+      <div class="en-hint">Mnemonic: "My Very Excellent Mother Just Served Us Nachos" = Mercury, Venus, Earth, Mars, Jupiter, Saturn, Uranus, Neptune. Terrestrial (rocky, smaller): Mercury, Venus, Earth, Mars. Gas giants (larger): Jupiter, Saturn, Uranus, Neptune. Solar eclipse: Moon blocks the Sun — only visible from certain spots. Lunar eclipse: Earth's shadow falls on Moon — visible from entire night side. Light-year = distance light travels in one year ≈ 9.46 trillion km.</div>
+      <div class="vocab-row">
+        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">planète tellurique</span>
+        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">planète gazeuse</span>
+        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">orbite</span>
+        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">phase de la Lune</span>
+        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">éclipse solaire / lunaire</span>
+        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">constellation</span>
+      </div>
+      <div class="q-label">Questions — Système solaire</div>
+      <div class="q-item">1. Nomme les 8 planètes dans l'ordre, du Soleil vers l'extérieur.</div>
+      <div class="q-item">2. Différence entre une éclipse solaire et lunaire ?</div>
+      <div class="q-item">3. Nomme 4 phases de la Lune dans l'ordre.</div>
+      <div class="q-item">4. Différence entre planète tellurique et planète gazeuse ?</div>
+      <div class="en-hint">1) Mercury, Venus, Earth, Mars, Jupiter, Saturn, Uranus, Neptune. 2) Solar: Moon between Earth and Sun, blocks sunlight. Lunar: Earth between Sun and Moon, Earth's shadow covers Moon. 3) New moon → crescent → first quarter → full moon. 4) Terrestrial: rocky, solid surface, smaller. Gas giants: mostly gas, much larger.</div>
+
+      <div class="fi-unit-title">🌬️ Unité 3 — L'air et l'aérodynamique</div>
+      <div class="subj-body">L'<strong>air</strong> est un mélange de gaz (azote 78%, oxygène 21%) ; il a une masse et une pression. Les <strong>4 forces du vol</strong> : <strong>portance</strong> (↑), <strong>poids/gravité</strong> (↓), <strong>poussée</strong> (→), <strong>traînée</strong> (←). Le <strong>principe de Bernoulli</strong> : l'air au-dessus d'une aile se déplace plus vite → pression plus basse → portance vers le haut. La <strong>forme aérodynamique</strong> réduit la traînée.</div>
+      <div class="en-hint">Bernoulli: faster-moving air = lower pressure → curved top of wing has faster air = lower pressure above; slower air below = higher pressure → wing is pushed UP. 4 forces: for flight, Lift > Weight AND Thrust > Drag. Streamlined shapes (teardrop, pointed nose) = less drag. Birds: asymmetric airfoil wing shape (curved top, flatter bottom). Demonstrated with a piece of paper: blow over the top → it rises (low pressure above).</div>
+      <div class="vocab-row">
         <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">portance</span>
         <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">traînée</span>
+        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">poussée</span>
+        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">poids / gravité</span>
+        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">principe de Bernoulli</span>
+        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">aérodynamique</span>
       </div>
-      <div class="q-label">Questions de compréhension</div>
-      <div class="q-item">1. Quelle est la différence entre un circuit en série et un circuit en parallèle ?</div>
-      <div class="q-item">2. Nomme les 8 planètes du système solaire dans l'ordre.</div>
-      <div class="q-item">3. Explique la photosynthèse avec les mots : eau, CO₂, soleil, glucose, oxygène.</div>
-      <div class="q-item">4. Comment la forme aérodynamique d'un avion réduit-elle la traînée ?</div>
+      <div class="q-label">Questions — Aérodynamique</div>
+      <div class="q-item">1. Nomme les 4 forces qui agissent sur un avion en vol.</div>
+      <div class="q-item">2. Explique le principe de Bernoulli et comment il crée la portance.</div>
+      <div class="q-item">3. Pourquoi la forme aérodynamique est-elle importante ?</div>
+      <div class="q-item">4. Comment prouver que l'air a une masse ?</div>
+      <div class="en-hint">1) Lift (↑), Weight/Gravity (↓), Thrust (→), Drag (←). 2) Air moving over curved wing top moves faster → lower pressure; air below moves slower → higher pressure; difference pushes wing upward. 3) Reduces air resistance (drag) → uses less fuel, goes faster. 4) A flat tire weighs less than an inflated one; compressed air in a syringe resists being pushed in.</div>
+
+      <div class="fi-unit-title">🌲 Unité 4 — Les arbres et les forêts</div>
+      <div class="subj-body"><strong>Photosynthèse</strong> : eau + CO₂ + énergie solaire → glucose + oxygène. <strong>Transpiration</strong> : les arbres libèrent de la vapeur d'eau par les stomates des feuilles. <strong>Types de forêts</strong> : boréale (conifères, nord du Canada), tempérée (mixte, 4 saisons), tropicale (la plus de biodiversité). <strong>Rôles</strong> : habitat, absorption du CO₂, production d'O₂, régulation du cycle de l'eau. <strong>Impact humain</strong> : déforestation, reboisement, exploitation durable.</div>
+      <div class="en-hint">Photosynthesis: CO₂ + H₂O + sunlight → C₆H₁₂O₆ (glucose) + O₂. Happens in chloroplasts (green part) of leaves. Transpiration contributes to rainfall and the water cycle. Alberta forests = mostly boreal (spruce, pine, aspen). Deforestation → more CO₂ in atmosphere + less absorption = accelerates climate change + soil erosion + habitat loss. Sustainable forestry: selective cutting, replanting, protected areas.</div>
+      <div class="vocab-row">
+        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">photosynthèse</span>
+        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">chlorophylle</span>
+        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">transpiration</span>
+        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">forêt boréale</span>
+        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">déforestation</span>
+        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">reboisement</span>
+        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">écosystème</span>
+      </div>
+      <div class="q-label">Questions — Arbres &amp; forêts</div>
+      <div class="q-item">1. Écris l'équation de la photosynthèse en mots.</div>
+      <div class="q-item">2. Nomme les trois types de forêts et une caractéristique de chacun.</div>
+      <div class="q-item">3. Comment la déforestation affecte-t-elle le cycle du carbone ?</div>
+      <div class="q-item">4. Qu'est-ce que la transpiration ? Quel est son rôle dans le cycle de l'eau ?</div>
+      <div class="en-hint">1) Water + Carbon dioxide + sunlight → Glucose + Oxygen. 2) Boreal: cold, coniferous (spruce, pine), northern Canada. Temperate: four seasons, mixed trees. Tropical: warm, wet, most biodiverse. 3) Trees are carbon sinks. Cutting them releases CO₂ AND removes future absorption → greenhouse effect → climate change. 4) Trees release water vapour through stomata → contributes to cloud formation and rainfall (part of the water cycle).</div>
     </div>
 
-    <!-- SOCIAL STUDIES -->
+    <!-- ══ SOCIAL STUDIES ══ -->
     <div class="subject-card s-ss">
       <div class="subj-tag" style="color:var(--sc)">#5 · Sciences humaines 6</div>
-      <div class="subj-title">Le Canada : construire notre identité</div>
-      <div class="subj-body">
-        <strong>Thème A — Géographie du Canada :</strong> les six grandes régions physiques (Cordillère, Intérieur, Bouclier canadien, Plaines à l'intérieur, Appalaches, Arctique), les ressources naturelles, les fuseaux horaires, la densité de population.<br><br>
-        <strong>Thème B — L'identité canadienne :</strong> les Premières Nations, les Métis, les Inuits (peuples autochtones), la Confédération (1867), la Charte canadienne des droits et libertés, les symboles nationaux (drapeau, hymne, unifolié).<br><br>
-        <strong>Thème C — La démocratie canadienne :</strong> les trois paliers de gouvernement (fédéral, provincial, municipal), le rôle du Parlement, les élections, les droits et responsabilités des citoyens.<br><br>
-        <strong>Thème D — L'économie canadienne :</strong> les secteurs (primaire, secondaire, tertiaire), le commerce international, les exportations et importations du Canada.
-      </div>
-      <div class="en-hint">Confederation (1867): 4 original provinces joined — Ontario, Quebec, Nova Scotia, New Brunswick. Charter of Rights: freedom of expression, religion, mobility, equality rights. Three levels of gov't: Federal (Ottawa) → laws for all Canada; Provincial (Edmonton) → education, health; Municipal (your city) → roads, parks, libraries. Economic sectors: primary = raw resources (farming, mining); secondary = manufacturing; tertiary = services (teachers, doctors, retail).</div>
+      <div class="subj-title">Le Canada — Identité, histoire, gouvernement et économie</div>
+
+      <div class="fi-unit-title">🗺️ Thème A — Géographie du Canada</div>
+      <div class="subj-body">Le Canada est divisé en <strong>7 régions géographiques</strong> : la <strong>Cordillère</strong> (C.-B., Rocheuses), les <strong>Plaines intérieures</strong> (prairies — Alberta, Saskatchewan, Manitoba), le <strong>Bouclier canadien</strong> (roche ancienne, forêts, mines), les <strong>Basses-terres des Grands Lacs</strong> (Ontario/Québec, zone la plus peuplée), les <strong>Appalaches</strong> (Maritimes), les <strong>Basses-terres arctiques</strong> et la <strong>région subarctique</strong>. Chaque région a ses ressources, son climat et sa population distinctifs.</div>
+      <div class="en-hint">7 regions: 1) Cordillera (BC mountains, mining, lumber, fish) 2) Interior Plains (flat prairies, oil, gas, wheat — Alberta is here) 3) Canadian Shield (ancient rock, hydroelectric, mining gold/nickel) 4) Great Lakes-St. Lawrence Lowlands (most populated — Toronto, Montreal, Ottawa; manufacturing) 5) Appalachian (fishing, tourism, old mountains) 6) Arctic Lowlands (tundra, permafrost, Inuit) 7) Hudson Bay Lowlands (wetlands, subarctic). Population density: highest in Lowlands, lowest in Arctic.</div>
       <div class="vocab-row">
-        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">Confédération</span>
-        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">Charte des droits</span>
-        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">palier de gouvernement</span>
-        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">démocratie</span>
-        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">région physique</span>
-        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">Autochtones</span>
-        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">secteur économique</span>
+        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">Cordillère</span>
+        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">Plaines intérieures</span>
+        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">Bouclier canadien</span>
+        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">densité de population</span>
+        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">ressources naturelles</span>
+        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">fuseau horaire</span>
       </div>
-      <div class="q-label">Questions de compréhension</div>
-      <div class="q-item">1. Quelles étaient les quatre premières provinces de la Confédération (1867) ?</div>
-      <div class="q-item">2. Nomme les trois paliers de gouvernement et donne une responsabilité de chacun.</div>
-      <div class="q-item">3. Quelle est la différence entre un secteur primaire et un secteur tertiaire ? Donne un exemple de chacun.</div>
-      <div class="q-item">4. Pourquoi la Charte canadienne des droits et libertés est-elle importante ?</div>
+      <div class="q-label">Questions — Géographie</div>
+      <div class="q-item">1. Nomme les 7 régions géographiques du Canada.</div>
+      <div class="q-item">2. Dans quelle région se trouve l'Alberta ? Quelles sont ses ressources principales ?</div>
+      <div class="q-item">3. Pourquoi la région des Grands Lacs est-elle la plus densément peuplée ?</div>
+      <div class="en-hint">1) Cordillera, Interior Plains, Canadian Shield, Great Lakes-St. Lawrence Lowlands, Appalachian, Arctic Lowlands, Hudson Bay Lowlands. 2) Interior Plains. Resources: oil sands, natural gas, agriculture (cattle, canola), coal. 3) Fertile land, mild climate, access to waterways for trade, long history of industrialization — these attracted settlers and industry.</div>
+
+      <div class="fi-unit-title">🪶 Thème B — Peuples autochtones</div>
+      <div class="subj-body">Trois groupes reconnus : les <strong>Premières Nations</strong> (ex : Cri, Blackfoot, Ojibwe), les <strong>Métis</strong> (descendance mixte européenne et autochtone, Louis Riel), les <strong>Inuits</strong> (nord du Canada, Nunavut). Les <strong>traités</strong> sont des accords juridiques sur l'utilisation des terres. Les <strong>Pensionnats indiens</strong> (1870s–1990s) ont causé un traumatisme intergénérationnel. La <strong>réconciliation</strong> est le processus pour réparer ces relations.</div>
+      <div class="en-hint">First Nations: hundreds of distinct nations with own languages and cultures. Métis: mixed Indigenous-European heritage — Louis Riel was a famous Métis leader. Inuit: Arctic peoples; "Inuit" means "people" in Inuktitut. Treaties: legal agreements between Crown and Indigenous nations about land sharing — many were not honoured. Residential schools: forced Indigenous children away from families to assimilate → loss of language, culture, identity, lasting trauma. TRC (Truth and Reconciliation Commission) produced 94 Calls to Action. Orange Shirt Day = September 30.</div>
+      <div class="vocab-row">
+        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">Premières Nations</span>
+        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">Métis</span>
+        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">Inuits</span>
+        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">traité</span>
+        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">réconciliation</span>
+        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">pensionnat indien</span>
+        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">Commission Vérité et Réconciliation</span>
+      </div>
+      <div class="q-label">Questions — Peuples autochtones</div>
+      <div class="q-item">1. Nomme les trois groupes de peuples autochtones reconnus au Canada.</div>
+      <div class="q-item">2. Qu'est-ce qu'un traité ? Pourquoi sont-ils importants aujourd'hui ?</div>
+      <div class="q-item">3. Qu'est-ce que la réconciliation et pourquoi est-elle nécessaire ?</div>
+      <div class="en-hint">1) First Nations, Métis, Inuit. 2) A treaty is a legal agreement about land use and rights. Important today because Canada is still legally bound by them and many rights are being restored. 3) Reconciliation = the ongoing process of acknowledging harm done by residential schools and colonialism, restoring rights and culture, and building an equitable relationship between Indigenous and non-Indigenous Canadians.</div>
+
+      <div class="fi-unit-title">🍁 Thème C — La Confédération et l'histoire</div>
+      <div class="subj-body"><strong>Confédération (1867)</strong> : Ontario, Québec, Nouvelle-Écosse, Nouveau-Brunswick forment le Dominion du Canada. Raisons : défense, union économique, chemin de fer. Autres provinces : C.-B. (1871), Alberta/Saskatchewan (1905), Terre-Neuve (1949), Nunavut (territoire, 1999). Aujourd'hui : <strong>10 provinces + 3 territoires</strong>. <strong>Charte canadienne des droits et libertés (1982)</strong> garantit les droits fondamentaux.</div>
+      <div class="en-hint">Confederation timeline: 1867 (Ontario, Quebec, Nova Scotia, New Brunswick) → 1870 (Manitoba) → 1871 (BC — promised railway) → 1873 (PEI) → 1905 (Alberta, Saskatchewan) → 1949 (Newfoundland) → 1999 (Nunavut). Key figures: John A. Macdonald (1st PM), George-Étienne Cartier. Canadian Pacific Railway (1885) connected Canada coast-to-coast. Charter of Rights (1982) = added to the Constitution Act — cannot be taken away by government.</div>
+      <div class="vocab-row">
+        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">Confédération (1867)</span>
+        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">Dominion du Canada</span>
+        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">province / territoire</span>
+        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">Charte des droits (1982)</span>
+        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">Pères de la Confédération</span>
+      </div>
+      <div class="q-label">Questions — Confédération</div>
+      <div class="q-item">1. Quelles étaient les 4 premières provinces de la Confédération (1867) ?</div>
+      <div class="q-item">2. Nomme 3 raisons pour lesquelles les colonies ont voulu former le Canada.</div>
+      <div class="q-item">3. En quelle année l'Alberta est-elle devenue une province ? Combien de provinces/territoires au total ?</div>
+      <div class="q-item">4. Que garantit la Charte canadienne des droits et libertés ?</div>
+      <div class="en-hint">1) Ontario, Quebec, Nova Scotia, New Brunswick. 2) Defence from the US, economic union, build the railway, stronger central government. 3) Alberta = 1905. Total = 10 provinces + 3 territories = 13. 4) Fundamental freedoms (religion, expression), democratic rights (vote), mobility, legal rights (fair trial), equality (no discrimination), minority language rights.</div>
+
+      <div class="fi-unit-title">🏛️ Thème D — Gouvernement démocratique</div>
+      <div class="subj-body">Canada = <strong>démocratie parlementaire</strong> et <strong>monarchie constitutionnelle</strong>. <strong>Trois paliers</strong> : <strong>fédéral</strong> (Ottawa) — défense, immigration, lois nationales ; <strong>provincial</strong> (Edmonton, Alberta) — éducation, santé, routes ; <strong>municipal</strong> (votre ville) — parcs, bibliothèques, collecte des ordures. <strong>Parlement</strong> = Chambre des communes + Sénat + Gouverneur général.</div>
+      <div class="en-hint">Federal: army, immigration, criminal law, money, banking, First Nations. Provincial (Alberta): education, healthcare, property/civil rights, highways, natural resources. Municipal (your city): garbage, local roads, parks, libraries, fire department, building permits. How a bill becomes law: introduced in House of Commons → debated → voted → Senate → voted → Royal Assent (Governor General) → law. You vote for your local MP (Member of Parliament), not directly for the Prime Minister.</div>
+      <div class="vocab-row">
+        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">démocratie parlementaire</span>
+        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">palier fédéral</span>
+        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">palier provincial</span>
+        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">palier municipal</span>
+        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">Chambre des communes</span>
+        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">Sénat</span>
+        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">circonscription</span>
+      </div>
+      <div class="q-label">Questions — Gouvernement</div>
+      <div class="q-item">1. Nomme les 3 paliers et donne 2 responsabilités de chacun.</div>
+      <div class="q-item">2. Comment devient-on premier ministre du Canada ?</div>
+      <div class="q-item">3. Quel palier est responsable de l'éducation ? Capitale de l'Alberta ?</div>
+      <div class="q-item">4. Qu'est-ce qu'une circonscription électorale ?</div>
+      <div class="en-hint">1) Federal: defence, immigration. Provincial: education, healthcare. Municipal: parks, garbage collection. 2) Leader of party that wins the most seats in a federal election becomes PM. Canadians vote for their local MP — the party with most MPs forms the government. 3) Education = provincial. Alberta capital = Edmonton. 4) A geographic area that elects one representative (MP federally, MLA provincially) to Parliament or the Legislature.</div>
+
+      <div class="fi-unit-title">💰 Thème E — Économie canadienne</div>
+      <div class="subj-body"><strong>Secteurs économiques</strong> : <strong>primaire</strong> (extraire des ressources naturelles — agriculture, foresterie, pêche, mines, pétrole) ; <strong>secondaire</strong> (fabriquer — transformer les ressources brutes en produits) ; <strong>tertiaire</strong> (services — santé, éducation, commerce) ; <strong>quaternaire</strong> (information, technologie, recherche). Exportations canadiennes : pétrole, bois, blé, potasse. <strong>Interdépendance économique</strong> : les pays dépendent les uns des autres.</div>
+      <div class="en-hint">Primary = extracting raw resources (farmer grows wheat). Secondary = manufacturing (mill grinds wheat into flour). Tertiary = services (baker sells bread — not making a product, doing something for someone). Quaternary = knowledge-based (IT, research). Canada's top exports: oil/gas, vehicles, gold, wheat, lumber. Top trading partner = USA (CUSMA trade deal). Supply and demand: if supply goes up and demand stays the same → price drops. Alberta economy: heavily dependent on oil sands (primary sector).</div>
+      <div class="vocab-row">
+        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">secteur primaire</span>
+        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">secteur secondaire</span>
+        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">secteur tertiaire</span>
+        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">exportation / importation</span>
+        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">interdépendance</span>
+        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">offre et demande</span>
+      </div>
+      <div class="q-label">Questions — Économie</div>
+      <div class="q-item">1. Décris les 3 principaux secteurs économiques avec un exemple pour chacun.</div>
+      <div class="q-item">2. Nomme 3 exportations importantes du Canada.</div>
+      <div class="q-item">3. Qu'est-ce que l'interdépendance économique ? Donne un exemple.</div>
+      <div class="q-item">4. Si l'offre augmente mais la demande reste la même, qu'arrive-t-il au prix ?</div>
+      <div class="en-hint">1) Primary: farmer grows wheat. Secondary: mill grinds wheat into flour. Tertiary: baker sells bread in a store. 2) Oil, wheat, lumber, gold, vehicles. 3) Countries rely on each other — Canada exports oil to the US; imports smartphones from Asia. 4) Price goes DOWN — more competition for the same buyers forces sellers to lower prices.</div>
     </div>
 
-    <!-- HEALTH -->
+    <!-- ══ HEALTH ══ -->
     <div class="subject-card s-hlth">
       <div class="subj-tag" style="color:var(--sc)">#6 · Santé 6</div>
-      <div class="subj-title">Choix sains, relations et sécurité</div>
-      <div class="subj-body">
-        En santé 6, tu explores : le <strong>développement corporel</strong> (puberté — comprendre les changements physiques et émotionnels), les <strong>relations saines</strong> (communication, limites, résolution de conflits), la <strong>prise de décisions</strong> saines, la sécurité sur Internet et les <strong>médias</strong>.
-      </div>
-      <div class="en-hint">Puberty: physical changes driven by hormones. Healthy relationships have: mutual respect, clear communication, safe boundaries, support for each other's goals. Decision-making model: 1) Identify the problem, 2) list options, 3) think about consequences, 4) choose, 5) evaluate. Online safety: never share personal information; if something feels wrong, tell a trusted adult.</div>
+      <div class="subj-title">Bien-être, relations, décisions et sécurité</div>
+
+      <div class="fi-unit-title">🧬 Unité A — Puberté et développement</div>
+      <div class="subj-body">La <strong>puberté</strong> est la transition de l'enfance à l'âge adulte, déclenchée par les <strong>hormones</strong>. <strong>Changements physiques communs</strong> : croissance rapide, poils, transpiration/odeurs, peau grasse/acné. <strong>Changements émotionnels</strong> : humeurs changeantes, besoin d'identité, nouvelles émotions intenses. <strong>Hygiène</strong> renforcée : douche régulière, déodorant, soins de la peau. Tout le monde vit la puberté différemment — c'est normal.</div>
+      <div class="en-hint">Puberty is triggered by the endocrine system releasing hormones (estrogen/progesterone or testosterone depending on biology). Everyone experiences puberty differently — some start as early as 8–9, others as late as 14–15. ALL of this is completely normal. Emotional changes: mood swings (hormones affecting the brain), developing a sense of identity, stronger friendships, possibly romantic feelings. Key message: changes are NORMAL and happen at different times for everyone.</div>
       <div class="vocab-row">
         <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">puberté</span>
-        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">relation saine</span>
-        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">limite</span>
-        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">prise de décision</span>
-        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">sécurité en ligne</span>
-        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">résolution de conflits</span>
+        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">hormone</span>
+        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">croissance</span>
+        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">changements émotionnels</span>
+        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">hygiène personnelle</span>
       </div>
-      <div class="q-label">Questions de compréhension</div>
-      <div class="q-item">1. Nomme deux changements physiques de la puberté (pour n'importe quel genre).</div>
-      <div class="q-item">2. Quelles sont les caractéristiques d'une relation saine ?</div>
-      <div class="q-item">3. Décris le modèle de prise de décision en 5 étapes.</div>
-      <div class="q-item">4. Comment rester en sécurité en ligne ? Donne deux règles importantes.</div>
+      <div class="q-label">Questions — Développement personnel</div>
+      <div class="q-item">1. Nomme 2 changements physiques qui arrivent pour tout le monde pendant la puberté.</div>
+      <div class="q-item">2. Quels changements émotionnels peut-on vivre ?</div>
+      <div class="q-item">3. Pourquoi l'hygiène est-elle plus importante pendant la puberté ?</div>
+      <div class="en-hint">1) Growth spurts, body hair, sweating/body odour, acne (any 2). 2) Mood swings, stronger emotions, developing identity, social pressure, romantic feelings. 3) Hormones activate sweat glands → more body odour → deodorant needed. Also increase oil production in skin → more acne risk → regular face washing helps.</div>
+
+      <div class="fi-unit-title">💛 Unité B — Relations saines</div>
+      <div class="subj-body">Une <strong>relation saine</strong> est basée sur le <strong>respect mutuel</strong>, la <strong>communication</strong>, la <strong>confiance</strong>, des <strong>limites claires</strong> et le soutien. Relations malsaines : contrôle, manipulation, pression, exclusion. <strong>Résolution de conflits</strong> : écouter activement, utiliser des <strong>messages-je</strong> (« Je me sens ___ quand ___ parce que ___ et j'ai besoin de ___ »), chercher une solution gagnant-gagnant.</div>
+      <div class="en-hint">Healthy relationship traits (HEART): Honesty, Equality, Accountability, Respect, Trust. Warning signs: controlling behaviour, jealousy/possessiveness, pressure to change, exclusion to isolate. I-messages: "I feel [emotion] when [situation] because [reason], and I need [request]." Consent: everyone has the right to say no — applies to physical space, possessions, activities. Peer pressure strategies: say no firmly, suggest an alternative, leave the situation.</div>
+      <div class="vocab-row">
+        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">relation saine</span>
+        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">respect mutuel</span>
+        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">limite personnelle</span>
+        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">message-je</span>
+        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">consentement</span>
+        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">intimidation / pression des pairs</span>
+      </div>
+      <div class="q-label">Questions — Relations</div>
+      <div class="q-item">1. Nomme 4 caractéristiques d'une relation saine.</div>
+      <div class="q-item">2. Qu'est-ce qu'un « message-je » ? Donne un exemple.</div>
+      <div class="q-item">3. Nomme 2 signes d'avertissement d'une relation malsaine.</div>
+      <div class="q-item">4. Qu'est-ce que la pression des pairs et comment y résister ?</div>
+      <div class="en-hint">1) Any 4: respect, trust, honesty, communication, equality, safe boundaries, support. 2) "I feel hurt when you ignore me at lunch because I think you're upset, and I need to know if something is wrong." 3) Controlling behaviour, jealousy, making you feel bad about yourself, pressure to change. 4) Peer pressure = being influenced to act because others are. Resist: say no firmly, suggest alternative, walk away, tell a trusted adult.</div>
+
+      <div class="fi-unit-title">🎯 Unité C — Prise de décisions et gestion du stress</div>
+      <div class="subj-body">Modèle en <strong>5 étapes</strong> : 1) Identifier le problème → 2) Lister les options → 3) Évaluer les conséquences → 4) Choisir → 5) Évaluer le résultat. <strong>Conséquences à court terme vs. à long terme</strong>. <strong>Gestion du stress</strong> : exercice physique, respiration profonde, parler à quelqu'un de confiance, journal personnel, limiter les écrans avant le coucher.</div>
+      <div class="en-hint">Decision-making: 1) Stop & define the problem. 2) Brainstorm all choices. 3) Evaluate short AND long-term consequences of each. 4) Choose and act. 5) Reflect — how did it go? Stress signs: headache, stomachache, trouble sleeping, irritability, difficulty concentrating. Healthy coping: physical activity (releases endorphins), deep breathing (activates calm nervous system), talking, journaling, sleep. Unhealthy coping: avoiding, bottling up, screen overuse.</div>
+      <div class="vocab-row">
+        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">prise de décision</span>
+        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">conséquence</span>
+        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">pensée critique</span>
+        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">gestion du stress</span>
+        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">stratégie d'adaptation</span>
+      </div>
+      <div class="q-label">Questions — Décisions &amp; Stress</div>
+      <div class="q-item">1. Décris les 5 étapes du modèle de prise de décision.</div>
+      <div class="q-item">2. Nomme 3 signes physiques de stress.</div>
+      <div class="q-item">3. Donne 2 stratégies saines pour gérer le stress.</div>
+      <div class="q-item">4. Différence entre conséquence à court terme et long terme ? Donne un exemple.</div>
+      <div class="en-hint">1) Identify problem → list options → evaluate consequences → choose → reflect. 2) Headaches, stomachache, trouble sleeping, tension, trouble concentrating. 3) Exercise, deep breathing, talking to someone, journaling, adequate sleep. 4) Short-term: happens right away ("stayed up late → tired tomorrow"). Long-term: happens over time ("never studied → failed the exam").</div>
+
+      <div class="fi-unit-title">💻 Unité D — Sécurité en ligne et littératie numérique</div>
+      <div class="subj-body"><strong>Sécurité en ligne</strong> : ne jamais partager d'informations personnelles (nom complet, adresse, école, mot de passe). Reconnaître l'<strong>hameçonnage</strong> (phishing). L'<strong>intimidation en ligne</strong> : ne pas répondre, garder les preuves, bloquer, signaler à un adulte. <strong>Empreinte numérique</strong> : tout ce que tu publies reste permanent. <strong>Analyse critique des médias</strong> : qui a créé ce message, pour qui, et dans quel but ?</div>
+      <div class="en-hint">Digital footprint: everything you post, search, or share creates a permanent trail — even "deleted" posts can be screenshotted. Cyberbullying steps: don't respond (may escalate), screenshot for evidence, block, tell a trusted adult. Phishing signs: urgent language, misspelled addresses, too-good-to-be-true offers. Media literacy questions: Who made this? Why? For what audience? Is it fact or opinion? What's left out? What emotions does it trigger and why?</div>
+      <div class="vocab-row">
+        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">empreinte numérique</span>
+        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">intimidation en ligne</span>
+        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">hameçonnage</span>
+        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">confidentialité</span>
+        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">littératie numérique</span>
+        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">analyse des médias</span>
+      </div>
+      <div class="q-label">Questions — Sécurité en ligne</div>
+      <div class="q-item">1. Nomme 3 informations à ne JAMAIS partager en ligne.</div>
+      <div class="q-item">2. Que faire si tu es victime d'intimidation en ligne ?</div>
+      <div class="q-item">3. Qu'est-ce que l'empreinte numérique et pourquoi est-elle permanente ?</div>
+      <div class="q-item">4. Donne 2 questions à poser pour analyser un message médiatique de façon critique.</div>
+      <div class="en-hint">1) Full name, home address, school name, passwords, phone number. 2) Don't respond, screenshot evidence, block the person, tell a trusted adult (parent, teacher, counsellor). 3) Everything posted creates a trail — even deleted posts can be saved, cached, or screenshotted. 4) Any 2: Who made this? Why? For what audience? Is it fact or opinion? What is left out? What emotions does it trigger?</div>
     </div>
 
   </div>

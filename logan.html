@@ -58,6 +58,7 @@
   [data-cat="doing"]   { --cat-c: #c9a800; --cat-l: #fef7d5; }
   [data-cat="alateen"] { --cat-c: #2abfbf; --cat-l: #dff7f7; }
   [data-cat="brain"]   { --cat-c: #e8650a; --cat-l: #fdeede; }
+  [data-cat="mood"]    { --cat-c: #7b68c8; --cat-l: #eeebfa; }
 
   /* SS units */
   .ss-unit { background: white; border-radius: 14px; padding: 18px; margin-bottom: 14px; box-shadow: 0 2px 8px rgba(0,0,0,.06); }
@@ -542,9 +543,95 @@ const BB_LESSONS = [
   { cat:"alateen", icon:"🔦",  title:"My Circle of Control",    subtitle:"Focus energy on what you can actually change",        intro:"Kids in chaotic homes often spend enormous energy trying to control things outside their power. Refocus on what IS yours.", agenda:[{label:"Three Circles",desc:"Inner = things I control (my words, choices, reactions). Middle = I can influence. Outer = I cannot control."},{label:"Sort It Out",desc:"Take your worries. Decide which circle each belongs in. Some will be hard — do them together."},{label:"Energy Question",desc:"When you spend energy on the outer circle, how does it feel? (Exhausted, helpless.) The inner circle is always yours."}], script:"'When something feels out of control at home, it's natural to try to fix it — even things that aren't yours to fix. That's exhausting. Today we're drawing a map of what actually belongs to you.'" },
   { cat:"alateen", icon:"🌱",  title:"Detachment with Love",    subtitle:"How to love someone without losing yourself",         intro:"Detachment doesn't mean not caring. It means: I love you AND I don't let your choices run my life.", agenda:[{label:"What Is Detaching",desc:"I love you AND your storm is yours. I don't have to be in it. That's not selfish — it's healthy."},{label:"The Bubble",desc:"Imagine a clear bubble around you. Love travels through it. Chaos and adult problems stay outside."},{label:"What Goes In/Out",desc:"What do you want through your bubble (love, joy, connection)? What stays outside (yelling, blame, adult stress)?"}], script:"'When someone at home is really upset, you start to feel that way too — even if nothing happened to YOU. Alateen calls this being caught in someone else's storm. Detachment means you stop letting someone else's weather decide what YOUR day feels like.'" },
   { cat:"alateen", icon:"🧳",  title:"Feelings Aren't Secrets", subtitle:"Finding safe people to tell the truth to",            intro:"Kids in families with addiction often carry a 'don't talk, don't trust, don't feel' rule. You have permission to feel AND talk — to the right people.", agenda:[{label:"Safe People Map",desc:"Draw a star. Write your name in the middle. On each point: someone safe to talk to (adult, friend, counsellor, relative)."},{label:"What To Say",desc:"Practice: 'Things at home are hard right now and I'm feeling ___. Can I talk to you?' Role-play saying it."},{label:"Closing",desc:"You deserve people who can hold your feelings. Feelings are not secrets. You are not alone."}], script:"'Your feelings are not secrets. They don't need to stay locked inside you. Part of today is finding WHO you can share them with safely.'" },
+
+  /* ── CBT for Dysthymia ── */
+  { cat:"mood", icon:"🌧️", title:"What Is Low Mood?", subtitle:"Understanding dysthymia in plain words",
+    intro:"Sometimes a grey feeling sticks around for a long time — not a huge sadness, just a flat, tired, 'meh' feeling most days. That has a name, and it is not your fault. Understanding it is the first step.",
+    agenda:[
+      {label:"What It Feels Like",desc:"Low mood (dysthymia) can feel like: tired even after sleeping, hard to get excited about things you used to like, thinking 'what's the point?', feeling a bit empty or grey inside. It is different from just having a bad day."},
+      {label:"Your Brain on Low Mood",desc:"When mood stays low, the brain gets used to seeing everything through a grey filter. It starts noticing problems more than good things — not because bad things are happening, but because the filter is on."},
+      {label:"It Is NOT",desc:"Not laziness. Not weakness. Not 'just in your head' (it is in your brain chemistry — that is real). Not something you chose. Not permanent."},
+      {label:"Name It to Tame It",desc:"Write or say: 'Right now I am feeling ___. This feeling is called low mood. It will not last forever. I can learn tools to feel better.'"},
+      {label:"Who Can Help",desc:"A trusted adult, a counsellor, or a doctor can help. You do not have to figure this out alone."}
+    ],
+    script:"'That flat, grey, low-energy feeling that sticks around — it is real, and it has a name. We call it persistent low mood or dysthymia. The important thing to know right now is: it is not your fault, and there are real tools that make it better. That is what we are going to learn together.'"
+  },
+
+  { cat:"mood", icon:"🔺", title:"The CBT Triangle", subtitle:"How thoughts, feelings, and actions connect",
+    intro:"CBT (Cognitive Behavioural Therapy) is based on one big idea: your thoughts, feelings, and actions are all connected. Change one and the others shift too.",
+    agenda:[
+      {label:"Draw the Triangle",desc:"Three corners: THOUGHTS (what I tell myself) → FEELINGS (what I feel in my body and heart) → ACTIONS (what I do). Each corner affects the other two."},
+      {label:"A Low Mood Example",desc:"Thought: 'Nobody wants to play with me.' → Feeling: sad, lonely, heavy. → Action: stay in my room, don't try. → Which makes the thought feel MORE true. It is a loop."},
+      {label:"The Good News",desc:"Because they are connected, you can jump in ANYWHERE and break the loop. Change the thought, OR change the action — and the feeling shifts."},
+      {label:"Try It",desc:"Think of a time you felt really low. What was the thought? What did you do? Now: what is one small thing you could change — a thought OR an action — that might have helped?"},
+      {label:"Practice",desc:"This week, when you notice a low feeling, ask: 'What thought am I having right now? What am I doing or not doing?'"}
+    ],
+    script:"'Imagine a triangle. Thoughts at the top, feelings on one side, actions on the other. When your mood is low, thoughts go dark, feelings go heavy, and you stop doing things — which makes the thoughts darker. But here is the thing: you can step into the triangle anywhere. Change the thought, or change the action — and the whole triangle shifts.'"
+  },
+
+  { cat:"mood", icon:"🔍", title:"Catching Unhelpful Thoughts", subtitle:"Spotting the thought traps that keep mood low",
+    intro:"Low mood comes with a set of sneaky thought patterns called cognitive distortions. They feel true — but they are the grey filter talking, not the full picture.",
+    agenda:[
+      {label:"All-or-Nothing",desc:"Seeing only extremes: 'I failed ONE question so I am terrible at math.' Reality: most things are in the middle — not all good, not all bad."},
+      {label:"Mind Reading",desc:"'They didn't wave back so they must hate me.' Reality: you cannot read minds — there are a hundred other explanations."},
+      {label:"Catastrophising",desc:"'I made one mistake and now everything is ruined forever.' Reality: most mistakes are fixable and not permanent."},
+      {label:"Filtering",desc:"Only noticing the bad stuff and filtering out the good: 'Yes, three nice things happened, but one bad thing did, so today was terrible.'"},
+      {label:"Personalising",desc:"'My friend is in a bad mood — it must be something I did.' Reality: other people's moods are usually about THEM, not you."},
+      {label:"Thought Trap Hunt",desc:"Over the next day, try to catch ONE thought trap. Write it down: 'I noticed a ___ trap. The thought was: ___.' That is it — just notice it."}
+    ],
+    script:"'Low mood has a bag of tricks — thought patterns that feel completely true but are actually the grey filter distorting reality. Learning to NAME them is like turning the lights on. You do not have to fix the thought yet — just spot it: Oh, there is a Mind Reading trap. There is Catastrophising. Just naming it puts a little distance between you and the thought.'"
+  },
+
+  { cat:"mood", icon:"⚖️", title:"Challenging Unhelpful Thoughts", subtitle:"CBT thought testing — the evidence game",
+    intro:"Once you can spot an unhelpful thought, the next step is testing it. Not forcing positive thinking — just asking: is this actually true?",
+    agenda:[
+      {label:"The 3 Questions",desc:"When you catch a grey thought, ask: 1) What is the evidence FOR this thought? 2) What is the evidence AGAINST it? 3) What would I say to a friend who had this thought?"},
+      {label:"Example",desc:"Thought: 'No one likes me.' Evidence for: 'Jake didn't talk to me today.' Evidence against: 'Sam asked me to play last week. My teacher said I'm kind. My dog is always happy to see me.' Balanced thought: 'Some days feel lonely. I do have people who care about me.'"},
+      {label:"Balanced Thought",desc:"A balanced thought is not fake-positive. It is more accurate. 'Things are hard AND I have handled hard things before.' 'This hurts AND it will not last forever.'"},
+      {label:"Practice",desc:"Write one grey thought you have had recently. Run it through the 3 questions. Write a balanced version. How does the balanced version feel in your body compared to the original?"},
+      {label:"The Thought Journal",desc:"Keep a small notebook. Thought → Evidence for/against → Balanced version. Even once a week makes a difference."}
+    ],
+    script:"'We are not trying to think positive — we are trying to think accurately. The grey filter exaggerates the bad and erases the good. The 3 questions are like recalibrating a scale that has been tilted. You are not lying to yourself — you are just getting the full picture.'"
+  },
+
+  { cat:"mood", icon:"🚀", title:"Behavioural Activation", subtitle:"Do first, feel better second",
+    intro:"Low mood tells you to stay still and wait until you feel better before doing things. But it works the OPPOSITE way — you do things first, and feeling better follows the action.",
+    agenda:[
+      {label:"The Low Mood Trap",desc:"Low mood → 'I don't feel like doing anything' → stay in bed/on couch → feel worse → even less motivation → repeat. Action breaks the loop."},
+      {label:"Activity = Medicine",desc:"Physical movement, connecting with people, doing something creative or productive — these are not rewards for feeling better. They ARE what creates feeling better."},
+      {label:"Your Activity Menu",desc:"List 10 things that used to bring you joy OR small things you know are good for you (outside time, drawing, building, shooting hoops, cooking, walking the dog). These are your activation tools."},
+      {label:"Tiny Wins",desc:"Start small. 'I will go outside for 5 minutes.' 'I will do one thing from my list.' You do not have to feel like it. Do it first. Notice if your mood shifts — even 10% better counts."},
+      {label:"Schedule One Thing",desc:"Pick ONE activity from your menu for tomorrow. Write it down. Do it. Then write how you felt before and after (even a number from 1–10)."}
+    ],
+    script:"'Low mood says: I will do things once I feel better. But the research is clear — you WILL NOT feel better first. Doing comes first, feeling follows. It feels backwards, but every time you do something even when you do not feel like it, you are sending your brain a signal: I can still do things. I am not stuck. And the brain starts to believe it.'"
+  },
+
+  { cat:"mood", icon:"📊", title:"Mood Monitoring", subtitle:"Tracking patterns so you can understand your mood",
+    intro:"You cannot change what you cannot see. Mood monitoring helps you notice patterns — what helps, what makes things harder, and that mood is not permanent.",
+    agenda:[
+      {label:"The Mood Scale",desc:"Rate your mood 1–10 each day: 1–3 = very low (grey, heavy, stuck), 4–6 = okay/mixed, 7–10 = good/energised. Write one word that describes it."},
+      {label:"What To Track",desc:"Each day: mood rating, one thing that happened, one thought you noticed, one thing you did. Takes 2 minutes. Over a week you see patterns."},
+      {label:"Triggers and Lifters",desc:"A trigger makes mood drop (conflict, bad sleep, boring day, hunger). A lifter makes mood rise (movement, connection, success, sunlight, good food). Find YOUR list."},
+      {label:"The Most Important Thing",desc:"Mood goes up and down — even for people with low mood. There will be 6s and 7s. Noticing them proves the grey feeling is not ALWAYS there and is not permanent."},
+      {label:"Build Your Chart",desc:"Use a simple notebook or your phone. This week: log your mood each evening before bed. Just the number and one word. Bring it back next session."}
+    ],
+    script:"'Mood feels like it is always the same when you are in a low patch — like it has always been this way and always will be. But when you start tracking it, you see: Tuesday was a 4, Wednesday was a 6, Friday was a 7. The grey filter makes every day seem identical. The chart shows you the truth — and the truth is that mood moves. You have more 6s and 7s than the filter lets you see.'"
+  },
+
+  { cat:"mood", icon:"🌱", title:"Building a Joy Practice", subtitle:"Growing good feelings on purpose",
+    intro:"CBT for low mood is not just fixing the bad — it is actively growing the good. Small daily practices rewire the brain toward noticing and creating positive experiences.",
+    agenda:[
+      {label:"3 Good Things",desc:"Every night, write down 3 things that went okay or better today. They can be tiny: 'My lunch was good. The sun was warm. I finished my worksheet.' Over time, this retrains your brain to scan for good."},
+      {label:"Savouring",desc:"When something good happens — even small — pause and stay with it for 20–30 seconds. Notice it in your body. This is called savouring, and it makes good experiences stick better in memory."},
+      {label:"Connection Time",desc:"Time with a person you feel safe with is one of the most powerful mood lifters there is. Schedule it. Even 10 minutes of real connection (no screens, just being together) counts."},
+      {label:"Your Strengths",desc:"Write 5 things you are good at — not just school things, anything. Being funny, loyal, creative, good at noticing details, kind to animals. Low mood hides your strengths. This is the antidote."},
+      {label:"Your Joy Plan",desc:"Combine everything: 1 activation activity, 3 good things journal, one connection moment. Pick the smallest version of each. This is your daily joy plan."}
+    ],
+    script:"'The brain is like a garden. Low mood is what grows when nothing is planted — not because you are bad, but because the soil needs tending. Three Good Things, savouring, connection, knowing your strengths — these are the seeds. You plant them every day, even when the sky is grey, and eventually the garden grows back. Not all at once. Slowly. But it grows.'"
+  },
 ];
 
-const CAT_LABELS = { bpd:'💜 Emotions', adhd:'💙 Focus', anxiety:'💚 Worry', anger:'🔥 Anger', doing:'⭐ Hard Stuff', alateen:'🌊 Alateen', brain:'🧠 Brain Activation' };
+const CAT_LABELS = { bpd:'💜 Emotions', adhd:'💙 Focus', anxiety:'💚 Worry', anger:'🔥 Anger', doing:'⭐ Hard Stuff', alateen:'🌊 Alateen', brain:'🧠 Brain Activation', mood:'🌧️ Low Mood' };
 
 function renderBrainBrave() {
   document.getElementById('bb-lessons').innerHTML = BB_LESSONS.map((l, i) => `

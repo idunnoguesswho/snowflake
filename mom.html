@@ -82,7 +82,7 @@
   <button class="hub-tab active" data-tab="tasks"   onclick="showTab('tasks')">📋 Tasks</button>
   <button class="hub-tab"        data-tab="ncso"    onclick="showTab('ncso')">🦺 NCSO</button>
   <button class="hub-tab"        data-tab="pmp"     onclick="showTab('pmp')">📊 PMP</button>
-  <button class="hub-tab"        data-tab="alateen" onclick="showTab('alateen')">🌊 Alateen</button>
+  <button class="hub-tab"        data-tab="alateen" onclick="showTab('alateen')">🌊 Recovery</button>
   <button class="hub-tab"        data-tab="bills"   onclick="showTab('bills')">💰 Bills</button>
   <button class="hub-tab"        data-tab="hustles" onclick="showTab('hustles')">💼 Hustles</button>
   <button class="hub-tab"        data-tab="menu"    onclick="showTab('menu')">🍽️ Menu</button>
@@ -902,16 +902,9 @@
   </div>
 </div>
 
-<!-- ══ ALATEEN ══ -->
+<!-- ══ RECOVERY ══ -->
 <div class="hub-panel" id="tab-alateen">
-  <div class="study-wrap">
-    <div style="padding:4px 0 16px">
-      <div style="font-family:'Nunito',sans-serif;font-size:20px;font-weight:900;color:#1f2933">Alateen / Al-Anon 🌊</div>
-      <div style="font-size:13px;color:#888;margin-top:2px">Four-track parent support guide — for families navigating recovery</div>
-    </div>
-
-    <div id="alateen-cards"></div>
-  </div>
+  <iframe class="embed-frame" src="archive/alanon-4track.html" title="Recovery"></iframe>
 </div>
 
 <!-- ══ BILLS ══ -->
@@ -938,94 +931,6 @@ function showTab(name) {
   document.querySelectorAll('.hub-tab').forEach(t => t.classList.toggle('active', t.dataset.tab === name));
   document.querySelectorAll('.hub-panel').forEach(p => p.classList.toggle('active', p.id === 'tab-' + name));
 }
-
-/* ── Alateen 4-Track ── */
-const ALATEEN_TRACKS = [
-  {
-    icon:'🏠', track:'Track 1', title:"Understanding Addiction",
-    sub:"What is addiction — and what it isn't",
-    intro:"Al-Anon's foundation: understanding addiction as a disease, not a moral failure. This shapes everything — how we respond, how we protect ourselves, how we parent through it.",
-    steps:[
-      "Addiction is a chronic brain disease affecting the reward, motivation, and memory systems. It is not a choice, a character flaw, or a failure of love.",
-      "The 3 C's for parents: You didn't Cause it. You can't Control it. You can't Cure it. These apply to you as much as to your kids.",
-      "Understanding the cycle: use → relief/reward → craving → compulsion → consequences → shame → use. This cycle runs largely outside conscious control in the early stages.",
-      "Your children absorb what they see at home. The goal is to interrupt generational patterns — which is exactly what you're doing by being here.",
-      "The disease affects the whole family system. Every member adapts — sometimes in ways that inadvertently maintain the problem (enabling, hypervigilance, people-pleasing).",
-    ],
-    affirmation:"I am not responsible for someone else's disease. I can love deeply and still set limits that protect my children and myself."
-  },
-  {
-    icon:'🔦', track:'Track 2', title:"My Circle of Control",
-    sub:"Where your power actually lives",
-    intro:"Parents in these families often exhaust themselves trying to manage things they cannot control. Redirecting energy inward — to what is genuinely yours — is not giving up. It's how you survive and lead.",
-    steps:[
-      "Inner circle (yours): your responses, your boundaries, what you model for your children, how you care for yourself, what you allow in your home.",
-      "Middle ring (influence): conversations you have with your kids, the professionals you involve, the information you provide, the environment you create.",
-      "Outer ring (not yours): another adult's choices about drinking or substances, their willingness to seek help, how they respond to consequences.",
-      "Enabling vs. supporting: enabling protects someone from the consequences of their choices (removing natural accountability). Supporting is offering help that moves someone toward recovery.",
-      "Your children are watching where you put your energy. When you focus inward, you model that self-care and self-agency are possible.",
-    ],
-    affirmation:"I focus my energy on what I can actually change. My inner circle is mine, always, no matter what is happening around me."
-  },
-  {
-    icon:'🌱', track:'Track 3', title:"Detachment with Love",
-    sub:"The hardest and most important skill",
-    intro:"Detachment is not abandonment. It is the practice of caring deeply about someone while refusing to allow their disease to run your life or your children's lives.",
-    steps:[
-      "Detachment means: I love you AND your choices are yours to make. I care about your wellbeing AND I will not manage consequences that belong to you.",
-      "What detachment looks like in practice: not calling in sick for them, not covering up to children, not canceling your plans because of their instability.",
-      "For your children: model detachment by naming it. 'Dad is having a hard time today. That's not about you, and it's not your job to fix it. Let's make dinner.'",
-      "Detachment requires you to have your own life — friends, interests, rest, support. An empty cup cannot pour.",
-      "It will feel wrong at first. Detachment can feel like not caring, like abandonment, like giving up hope. It is none of those things. It is the most loving thing you can do — for them and for yourself.",
-      "Alateen teaches kids to detach too. When you practice it, you give your children permission and a model.",
-    ],
-    affirmation:"I can love someone with my whole heart and still not be responsible for their choices. Detachment is love in action."
-  },
-  {
-    icon:'⚓', track:'Track 4', title:"Parenting Through Recovery",
-    sub:"Keeping kids safe, seen, and grounded",
-    intro:"Your kids are living this too. They need honest, age-appropriate information, consistent safety, and an adult in their corner who is not drowning. That's you.",
-    steps:[
-      "Children in these families often take on adult roles — caretaking the addicted parent, managing siblings, reading the room constantly. Name this with them: 'That's not your job. Your job is to be a kid.'",
-      "They need the 3 C's too (see Track 1). Build this into your conversations regularly — not as a lecture, but as a truth you return to.",
-      "Consistency is safety. In a chaotic home, your predictability — same bedtime, same dinner, same emotional tone — is the anchor.",
-      "Don't badmouth the other parent. Kids love both parents. Badmouthing creates loyalty conflict and harms them. You can acknowledge hard truths without recruiting them to your side.",
-      "Watch for signs of parentification, anxiety, withdrawal, hypervigilance, or substance use in your kids. These are responses to chronic stress — address them directly, with professional help if needed.",
-      "Your own Al-Anon/Alateen parent meetings give YOU a container to process your experience — so you can show up more fully for your kids.",
-      "The goal: raise children who know that help is available, that they are not alone, that feelings are not secrets, and that what happened at home is not their identity.",
-    ],
-    affirmation:"My children deserve a parent who is healing. The work I do on myself is the most important thing I can give them."
-  },
-];
-
-function renderAlateen() {
-  document.getElementById('alateen-cards').innerHTML = ALATEEN_TRACKS.map((t, i) => `
-    <div class="al-card" onclick="toggleAl(${i})">
-      <div class="al-header">
-        <div class="al-icon">${t.icon}</div>
-        <div class="al-meta">
-          <div class="al-track">${t.track}</div>
-          <div class="al-title">${t.title}</div>
-          <div class="al-sub">${t.sub}</div>
-        </div>
-        <div id="al-arr-${i}" style="font-size:18px;color:#ccc;transition:transform .2s;flex-shrink:0">↓</div>
-      </div>
-      <div class="al-body">
-        <div class="al-intro">${t.intro}</div>
-        ${t.steps.map((s,n)=>`<div class="al-step"><strong>${n+1}.</strong> ${s}</div>`).join('')}
-        <div class="al-affirmation">💙 ${t.affirmation}</div>
-      </div>
-    </div>`).join('');
-}
-
-function toggleAl(i) {
-  const cards = document.querySelectorAll('.al-card');
-  const wasOpen = cards[i].classList.contains('open');
-  cards.forEach((c,j) => { c.classList.remove('open'); const a = document.getElementById('al-arr-'+j); if(a) a.style.transform=''; });
-  if (!wasOpen) { cards[i].classList.add('open'); const a = document.getElementById('al-arr-'+i); if(a) a.style.transform='rotate(180deg)'; }
-}
-
-renderAlateen();
 
 /* ── Bills Summary ── */
 const BILLS = [

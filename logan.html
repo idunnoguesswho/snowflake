@@ -86,6 +86,10 @@
   .fi-toggle::after { content:''; position: absolute; top: 3px; left: 3px; width: 16px; height: 16px; background: white; border-radius: 50%; transition: left .2s; }
   .fi-toggle.on::after { left: 21px; }
 
+  [data-cat="bible"] { --cat-c: #8b5e3c; --cat-l: #fdf5ed; }
+  .bb-verse { font-style: italic; font-size: 13px; color: #8b5e3c; background: #fdf5ed; border-left: 3px solid #8b5e3c; padding: 8px 12px; border-radius: 0 8px 8px 0; margin-bottom: 10px; }
+  .bb-prayer { font-size: 13px; color: #6b5e4e; background: #fdf5ed; border-radius: 8px; padding: 10px 14px; margin-top: 10px; font-style: italic; }
+
   /* Quick tools */
   .tool-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: 12px; margin-bottom: 16px; }
   .tool-card { background: white; border-radius: 12px; padding: 16px; box-shadow: 0 2px 8px rgba(0,0,0,.06); }
@@ -108,6 +112,7 @@
   <button class="hub-tab"        data-tab="menu"    onclick="showTab('menu')">🍽️ Menu</button>
   <button class="hub-tab"        data-tab="learn"   onclick="showTab('learn')">🧠 Learn</button>
   <button class="hub-tab"        data-tab="study"   onclick="showTab('study')">📚 Study</button>
+  <button class="hub-tab"        data-tab="bible"   onclick="showTab('bible')">✝️ Bible</button>
 </nav>
 
 <!-- ══ TASKS ══ -->
@@ -508,6 +513,17 @@
 </div>
 </div>
 
+<!-- ══ BIBLE ══ -->
+<div class="hub-panel" id="tab-bible">
+  <div class="skills-wrap">
+    <div style="padding:4px 0 16px">
+      <div style="font-family:'Nunito',sans-serif;font-size:20px;font-weight:900;color:#4aaa55">✝️ Bible Study</div>
+      <div style="font-size:13px;color:#888;margin-top:2px">15-minute sessions · faith, character, and life</div>
+    </div>
+    <div id="bible-cards" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:12px"></div>
+  </div>
+</div>
+
 <div class="toast-wrap" id="toasts"></div>
 
 <script>
@@ -663,6 +679,219 @@ function toggleBB(i) {
 }
 
 renderBrainBrave();
+
+/* ── Bible Study ── */
+const BB_BIBLE = [
+  {
+    icon: "✝️",
+    title: "Who Is God?",
+    subtitle: "Creation, identity, and why you matter",
+    verse: "In the beginning God created the heavens and the earth. — Genesis 1:1",
+    intro: "Before anything existed, God was there. Understanding who God is helps us understand who WE are — made on purpose, with purpose.",
+    agenda: [
+      { label: "Open Question", desc: "If you could ask God one question right now, what would it be? No wrong answers." },
+      { label: "Creation Story", desc: "God spoke the world into existence — light, sky, land, creatures, and finally people. He called it all 'very good.' That includes you." },
+      { label: "What God Is Like", desc: "Explore three big ideas: God is Creator (made everything), God is personal (knows your name), God is love (1 John 4:8). Which one means the most to you right now?" },
+      { label: "You Are Not an Accident", desc: "Psalm 139:13-14 says God knit you together and you are 'fearfully and wonderfully made.' What does it feel like to know you were made on purpose?" },
+      { label: "Response", desc: "Draw or write one thing about yourself that you think God sees as good — even if you forget it sometimes." }
+    ],
+    prayer: "God, I don't always understand everything about You, but I want to know You better. Thank You for making me on purpose. Help me remember that I matter to You. Amen."
+  },
+  {
+    icon: "🐑",
+    title: "The Good Shepherd",
+    subtitle: "Psalm 23 — safety, belonging, and being known",
+    verse: "The Lord is my shepherd, I lack nothing. — Psalm 23:1",
+    intro: "A shepherd in Bible times knew every single sheep by name — their personalities, their fears, their habits. Psalm 23 says God knows YOU like that.",
+    agenda: [
+      { label: "Read It Together", desc: "Read Psalm 23 slowly, one verse at a time. Notice what images come to mind — green pastures, still waters, a dark valley, a table." },
+      { label: "What Does a Shepherd Do?", desc: "Guides, protects, feeds, finds the lost ones, stays with them in danger. Which of those do you most need right now?" },
+      { label: "The Dark Valley", desc: "Verse 4 says 'even though I walk through the darkest valley, I will fear no evil — for You are with me.' What is a 'dark valley' that feels real in your life?" },
+      { label: "The Table", desc: "God prepares a table for you even when enemies are nearby — that means provision and dignity in hard circumstances. What does that mean to you?" },
+      { label: "Surely and All the Days", desc: "The last verse says goodness and mercy will follow you 'all the days of your life.' Not some days — all days. How does that land?" }
+    ],
+    prayer: "God, I want You to be my shepherd. When I'm scared or lost or in a dark place, remind me that You are right there with me. Thank You for knowing me. Amen."
+  },
+  {
+    icon: "🪨",
+    title: "David and Goliath",
+    subtitle: "Courage when things feel too big to face",
+    verse: "The battle is the Lord's. — 1 Samuel 17:47",
+    intro: "David was a kid facing a giant soldier everyone else was too scared to fight. His secret wasn't muscles — it was knowing who was on his side.",
+    agenda: [
+      { label: "Set the Scene", desc: "The Israelite army froze for 40 days while Goliath mocked them. Everyone except one teenager who ran errands for his brothers. Why do you think David wasn't afraid?" },
+      { label: "Your Goliaths", desc: "What feels 'giant' in your life right now — something scary, overwhelming, or too big? Name it. You don't have to fight it alone." },
+      { label: "David's Secret", desc: "He said: 'You come against me with sword and spear — I come in the name of the Lord.' His confidence wasn't in himself. It was in God. What's the difference?" },
+      { label: "Five Smooth Stones", desc: "David picked up five stones — he was prepared AND trusting. Faith doesn't mean doing nothing. What's one practical step AND one prayer you could bring to your giant?" },
+      { label: "The Outcome", desc: "David ran TOWARD Goliath. Not away. What would it look like for you to take one step toward something you've been avoiding?" }
+    ],
+    prayer: "God, some things in my life feel too big for me. Help me remember that You are bigger than any giant I face. Give me the courage to take the next step. Amen."
+  },
+  {
+    icon: "🏠",
+    title: "The Prodigal Son",
+    subtitle: "Grace, coming home, and a Father who runs",
+    verse: "While he was still a long way off, his father saw him and was filled with compassion — he ran to his son. — Luke 15:20",
+    intro: "This is maybe Jesus's most famous story. It's about a kid who walked away from everything good — and what happened when he came back.",
+    agenda: [
+      { label: "The Story", desc: "The younger son demanded his inheritance early (basically saying 'I wish you were dead'), blew it all, hit rock bottom feeding pigs. Then he came to his senses." },
+      { label: "Coming to Your Senses", desc: "The son 'came to himself' and decided to go home. Have you ever had a moment of realizing you went the wrong direction? What did that feel like?" },
+      { label: "The Father Ran", desc: "In Jesus's day, a dignified father NEVER ran — it was embarrassing. But this father ran. What does that tell you about how God feels about you coming back to Him?" },
+      { label: "The Party", desc: "The father threw a party — best robe, ring, celebration. Not a lecture. Not 'I told you so.' What do you think about that reaction?" },
+      { label: "The Older Brother", desc: "The older brother was angry and refused to go in. Is there anyone you've been like the older brother toward — someone you think doesn't deserve grace?" }
+    ],
+    prayer: "God, thank You that You don't wait for me to get it all together before You love me. When I mess up and come back to You, help me believe You're actually happy to see me. Amen."
+  },
+  {
+    icon: "⛰️",
+    title: "The Sermon on the Mount",
+    subtitle: "The Beatitudes — who is truly blessed",
+    verse: "Blessed are the pure in heart, for they will see God. — Matthew 5:8",
+    intro: "Jesus sat down on a hillside and flipped everything the world says about success upside down. The Beatitudes describe what a truly good life looks like.",
+    agenda: [
+      { label: "What Does 'Blessed' Mean?", desc: "Not just 'happy' — it means deeply well, flourishing, living in the right direction. Jesus says people who seem weak or sad can actually be blessed." },
+      { label: "Meek, Merciful, Pure", desc: "Pick any three Beatitudes (Matthew 5:3-11). What does each one mean in plain words? Why would that person be called blessed?" },
+      { label: "Upside-Down Kingdom", desc: "The world says: be strong, win, get yours, look out for yourself. Jesus says: be humble, give mercy, make peace. Which is harder? Which is better?" },
+      { label: "Salt and Light", desc: "Right after the Beatitudes, Jesus calls his followers 'salt of the earth' and 'light of the world.' What does that mean for how you live at school, at home, with friends?" },
+      { label: "One to Live", desc: "Which Beatitude do you most want to grow in this week? What would that look like in a real moment on a real day?" }
+    ],
+    prayer: "Jesus, thank You for showing us what a truly good life looks like. Help me care about the things You care about — being humble, pure in heart, and a peacemaker. Amen."
+  },
+  {
+    icon: "🎨",
+    title: "Joseph and His Brothers",
+    subtitle: "Forgiveness and trusting God's plan in the dark",
+    verse: "You intended to harm me, but God intended it for good. — Genesis 50:20",
+    intro: "Joseph's story is one of the most dramatic in the Bible — betrayal, slavery, prison, and then an incredible reversal. The whole time, God had a plan.",
+    agenda: [
+      { label: "The Story Arc", desc: "Joseph was his dad's favourite, got a special coat, his brothers hated him, sold him into slavery, he ended up in an Egyptian prison — then became second-in-command of Egypt. All in one story." },
+      { label: "The Pit", desc: "Joseph sat in a pit while his brothers ate lunch and decided what to do with him. Has there been a time you felt thrown away or rejected by someone you trusted?" },
+      { label: "Faithful in Prison", desc: "Even in prison, Joseph kept doing his best. Why do you think he didn't give up? What kept him going?" },
+      { label: "Forgiveness That Cost Something", desc: "When Joseph revealed himself to his brothers, he wept and forgave them. Forgiveness doesn't mean pretending it didn't happen — it means choosing not to stay in bitterness. What's the difference?" },
+      { label: "God Meant It for Good", desc: "'You meant evil — God meant good.' Is there something hard in your life that you wonder if God could use for something good? Talk about it." }
+    ],
+    prayer: "God, help me trust You even when things are going wrong and I can't see the bigger picture. Give me the strength to forgive people who have hurt me, just like Joseph did. Amen."
+  },
+  {
+    icon: "🌊",
+    title: "Jesus Calms the Storm",
+    subtitle: "Peace in chaos — faith over fear",
+    verse: "He got up, rebuked the wind and said to the waves, 'Quiet! Be still!' Then the wind died down and it was completely calm. — Mark 4:39",
+    intro: "The disciples were experienced fishermen — and they were terrified. Jesus was asleep in the boat. This story is about more than weather.",
+    agenda: [
+      { label: "Set the Scene", desc: "Middle of the lake, sudden violent storm, boat filling with water, Jesus asleep on a cushion. The disciples wake Him in panic: 'Don't You care that we're drowning?'" },
+      { label: "Your Storms", desc: "What does a 'storm' look like in your life — something that feels out of control, scary, overwhelming? Name one." },
+      { label: "Where Is Jesus in the Storm?", desc: "He was IN the boat with them the whole time. Not watching from shore — in the boat. What does it mean to you that Jesus is WITH you in your hard things?" },
+      { label: "'Peace, Be Still'", desc: "He spoke to the storm and it obeyed. He can speak to your anxiety, your fear, your chaos. What would it look like to hand your storm to Him instead of managing it alone?" },
+      { label: "After the Storm", desc: "The disciples were more amazed by what He did than relieved the storm was over. 'Who is this man?' they asked. What does this story teach you about who Jesus is?" }
+    ],
+    prayer: "Jesus, there are storms in my life that scare me. Help me remember that You are right here in the boat with me. Speak peace into the things that feel out of control. Amen."
+  },
+  {
+    icon: "🤝",
+    title: "The Good Samaritan",
+    subtitle: "Loving your neighbour — even the unexpected one",
+    verse: "Love your neighbour as yourself. — Luke 10:27",
+    intro: "When someone asked Jesus 'Who is my neighbour?', He told a story that completely redefined the question — and the answer.",
+    agenda: [
+      { label: "The Story", desc: "A man is beaten and left for dead. Two religious leaders cross the road to avoid him. A Samaritan — an outsider that Jews looked down on — stops, bandages him, pays for his care." },
+      { label: "Why the Samaritan?", desc: "Jesus made the HERO someone the audience would have expected to be the villain. Why do you think He did that? What point was He making?" },
+      { label: "Who Did You Cross the Road For?", desc: "When have you walked past someone who needed help because it was inconvenient or awkward? No judgment — be honest." },
+      { label: "Loving Is a Verb", desc: "The Samaritan didn't just feel compassion — he acted on it. He got his hands dirty. He spent his own money. What's the difference between feeling sorry for someone and actually loving them?" },
+      { label: "Go and Do Likewise", desc: "Jesus ends with: 'Go and do the same.' Who is ONE person in your world right now that you could show unexpected kindness to this week?" }
+    ],
+    prayer: "Jesus, help me not just walk past people who need help. Give me eyes to see who needs kindness and the courage to actually do something about it. Amen."
+  },
+  {
+    icon: "🦁",
+    title: "Daniel in the Lions' Den",
+    subtitle: "Standing firm when it costs something",
+    verse: "My God sent His angel and shut the mouths of the lions. — Daniel 6:22",
+    intro: "Daniel was told he would be thrown to lions if he kept praying. He prayed anyway — three times a day, windows open, just like always.",
+    agenda: [
+      { label: "The Setup", desc: "Daniel was so faithful and excellent at his work that his enemies could only find one weakness: his faith. So they made faith illegal. What does that tell you about Daniel's character?" },
+      { label: "The Choice", desc: "Daniel knew the law, knew the consequence, and chose to pray anyway. What do you think went through his mind in that moment?" },
+      { label: "Standing Firm at School", desc: "You probably won't be thrown to lions, but there are times when following God or doing what's right costs something. What does 'standing firm' look like in your real life?" },
+      { label: "The Lions' Den Night", desc: "The king couldn't sleep. He ran to the den at dawn. What does that tell you about the effect Daniel's faith had on the people around him?" },
+      { label: "The Outcome", desc: "Daniel came out without a scratch. But even if he hadn't — what do you think his attitude would have been? Is faithfulness only worth it if it works out?" }
+    ],
+    prayer: "God, give me the courage to do what's right even when it's hard or unpopular. Help me be someone whose faith is visible and steady, like Daniel's was. Amen."
+  },
+  {
+    icon: "💛",
+    title: "Ruth and Naomi",
+    subtitle: "Loyalty, kindness, and sticking with people",
+    verse: "Where you go I will go, and where you stay I will stay. — Ruth 1:16",
+    intro: "Ruth was a young woman who had every reason to leave. Her husband was dead, her mother-in-law was heartbroken and heading home to a foreign country. Ruth stayed anyway.",
+    agenda: [
+      { label: "The Story", desc: "Naomi lost her husband and both sons. She told her daughters-in-law to go home and start over. Orpah left. Ruth refused — and said some of the most beautiful words in the Bible." },
+      { label: "Why Did Ruth Stay?", desc: "Ruth had nothing to gain and everything to lose by staying with Naomi. Why do you think she did it? What does that kind of loyalty come from?" },
+      { label: "Loyal to the Unlucky", desc: "Naomi told people to call her 'Mara' meaning bitter, because life had been so hard. She wasn't easy to be around. Ruth stayed anyway. Who in your life might be hard to love right now — and worth loving anyway?" },
+      { label: "Kindness That Notices", desc: "Boaz noticed Ruth's faithfulness and showed her extra kindness. Acts of loyalty get seen, even when we think no one is watching. How does that change how you act when no one's looking?" },
+      { label: "Hesed", desc: "The Hebrew word 'hesed' means steadfast loving-kindness — the kind that doesn't quit. It's used for Ruth AND for God. What would it look like to show hesed to someone this week?" }
+    ],
+    prayer: "God, help me be the kind of friend who stays. Give me the kind of loyal, steady love that Ruth showed — and that You show to me every single day. Amen."
+  },
+  {
+    icon: "⚔️",
+    title: "The Armour of God",
+    subtitle: "Ephesians 6 — knowing your spiritual tools",
+    verse: "Put on the full armour of God, so that you can take your stand. — Ephesians 6:11",
+    intro: "Paul wrote this from prison to people facing real opposition. He described spiritual protection using armour that Roman soldiers wore every day.",
+    agenda: [
+      { label: "Why Armour?", desc: "A soldier doesn't put on armour after the battle starts. You prepare before. What are the 'battles' in your day — temptations, negative thoughts, hard relationships?" },
+      { label: "Piece by Piece", desc: "Belt of Truth (knowing what's true), Breastplate of Righteousness (doing what's right), Shoes of Peace (ready to share good news), Shield of Faith (blocking doubts and lies), Helmet of Salvation (protecting your mind), Sword of the Spirit (God's Word). Pick two that feel most relevant to you right now." },
+      { label: "The Shield of Faith", desc: "Paul says faith 'extinguishes all the flaming arrows of the evil one.' What are the 'arrows' that most often hit you — lies you believe about yourself, fears, temptations?" },
+      { label: "The Sword", desc: "The only offensive weapon — God's Word. When Jesus was tempted in the desert, He quoted Scripture. What verse or truth could you use when you're under pressure?" },
+      { label: "Dress Every Morning", desc: "Putting on armour is a daily choice, not a one-time thing. What would it look like to do a quick 'armour check' each morning before you start your day?" }
+    ],
+    prayer: "God, help me not go into my day unprepared. Remind me who I am, what's true, and that You have equipped me for anything I'll face today. I put on Your armour now. Amen."
+  },
+  {
+    icon: "🌍",
+    title: "The Great Commission",
+    subtitle: "Your purpose — being a light in the world",
+    verse: "Go and make disciples of all nations… And surely I am with you always, to the very end of the age. — Matthew 28:19–20",
+    intro: "The last words Jesus said before ascending to heaven were a mission statement — for every follower, including you. This is about purpose.",
+    agenda: [
+      { label: "Jesus's Last Words", desc: "He didn't say 'stay safe.' He said 'go.' Before you ask where to go or what to say — notice the last promise: 'I am with you always.' Why does that matter?" },
+      { label: "What Is a Disciple?", desc: "A disciple is someone who learns from Jesus AND helps others learn too. You don't have to have it all figured out. You just have to be on the journey yourself and bring others with you." },
+      { label: "Your World Right Now", desc: "Your 'nations' right now are your school, your neighbourhood, your team, your family. Who in your world doesn't know they are loved by God?" },
+      { label: "Being a Light", desc: "Matthew 5:14 says 'You are the light of the world.' Light doesn't shout — it just shines. What does it look like to let your faith shine naturally without forcing it on people?" },
+      { label: "One Step of Purpose", desc: "You don't need to preach a sermon. What's one small thing you could do this week that reflects Jesus — an act of kindness, a word of encouragement, just showing up for someone?" }
+    ],
+    prayer: "Jesus, thank You for giving me a purpose bigger than just getting through the day. Help me be a light where I am right now — with the people You've placed around me. I'm with You. Amen."
+  }
+];
+
+function renderBible() {
+  document.getElementById('bible-cards').innerHTML = BB_BIBLE.map((l, i) => `
+    <div class="bb-card" data-cat="bible" onclick="toggleBible(${i})">
+      <div class="bb-top" style="display:flex;align-items:center;gap:12px;padding:14px 16px">
+        <div class="bb-icon">${l.icon}</div>
+        <div class="bb-info" style="flex:1">
+          <div class="bb-cat-label">✝️ Bible Study</div>
+          <div class="bb-title">${l.title}</div>
+          <div class="bb-sub">${l.subtitle}</div>
+        </div>
+        <div id="bib-arr-${i}" class="bb-arr" style="font-size:18px;color:#ccc;transition:transform .2s;flex-shrink:0">▼</div>
+      </div>
+      <div class="bb-body">
+        <div class="bb-verse">📖 ${l.verse}</div>
+        <div class="bb-intro">${l.intro}</div>
+        <div class="bb-agenda">${l.agenda.map(a => `<div class="bb-step"><strong>${a.label}</strong> — ${a.desc}</div>`).join('')}</div>
+        <div class="bb-prayer">🙏 ${l.prayer}</div>
+      </div>
+    </div>`).join('');
+}
+
+function toggleBible(i) {
+  const cards = document.querySelectorAll('#bible-cards .bb-card');
+  const wasOpen = cards[i].classList.contains('open');
+  cards.forEach((c, j) => { c.classList.remove('open'); const a = document.getElementById('bib-arr-'+j); if(a) a.style.transform=''; });
+  if (!wasOpen) { cards[i].classList.add('open'); const a = document.getElementById('bib-arr-'+i); if(a) a.style.transform='rotate(180deg)'; }
+}
+renderBible();
 
 /* ── Sheet / Tasks ── */
 const SHEET_ID  = '11A5NsScePEbtN9dujN3tILb_Q2TU5tsf6I0MbT11kDY';

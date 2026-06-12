@@ -3,203 +3,127 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Summer Badges | Snowflake</title>
+<title>Summer Badges</title>
 <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Baloo+2:wght@400;600;700;800&display=swap" rel="stylesheet">
 <style>
-:root {
-  --ink: #1f2933; --muted: #667085; --line: #d8dee6;
-  --paper: #fffdf6; --panel: #ffffff;
-}
-* { box-sizing: border-box; margin: 0; padding: 0; }
-body {
-  font-family: 'Nunito', sans-serif;
-  background: linear-gradient(160deg, #fff8e1 0%, #e8f4fd 50%, #f3e8ff 100%);
-  min-height: 100vh; color: var(--ink);
-}
+:root { --ink:#1f2933; --muted:#667085; --line:#d8dee6; }
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Nunito',sans-serif;background:linear-gradient(160deg,#fff8e1 0%,#e8f4fd 50%,#f3e8ff 100%);min-height:100vh;color:var(--ink)}
 
-/* ── Header ── */
-.site-header {
-  background: linear-gradient(135deg, #ff6b9d, #ffa94d, #ffd43b, #69db7c, #4dabf7, #cc5de8);
-  background-size: 300% 300%;
-  animation: rainbow 8s ease infinite;
-  padding: 28px 24px 20px; text-align: center; position: relative;
-}
-@keyframes rainbow { 0%{background-position:0% 50%} 50%{background-position:100% 50%} 100%{background-position:0% 50%} }
-.site-header h1 {
-  font-family: 'Baloo 2', cursive; font-size: clamp(2rem,5vw,3rem);
-  color: white; text-shadow: 0 3px 0 rgba(0,0,0,0.18); letter-spacing: 1px;
-}
-.site-header p { color: rgba(255,255,255,0.92); font-size: 1.05rem; margin-top: 4px; font-weight: 700; }
-.back-link {
-  position: absolute; left: 20px; top: 22px;
-  background: rgba(255,255,255,0.25); border: 2px solid rgba(255,255,255,0.5);
-  color: white; text-decoration: none; font-weight: 800; font-size: 0.9rem;
-  padding: 6px 14px; border-radius: 20px; backdrop-filter: blur(6px); transition: background 0.2s;
-}
-.back-link:hover { background: rgba(255,255,255,0.4); }
+.site-header{background:linear-gradient(135deg,#ff6b9d,#ffa94d,#ffd43b,#69db7c,#4dabf7,#cc5de8);background-size:300% 300%;animation:rainbow 8s ease infinite;padding:22px 24px 16px;text-align:center;position:relative}
+@keyframes rainbow{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
+.site-header h1{font-family:'Baloo 2',cursive;font-size:clamp(1.8rem,5vw,2.8rem);color:white;text-shadow:0 3px 0 rgba(0,0,0,.18)}
+.site-header p{color:rgba(255,255,255,.92);font-size:1rem;margin-top:2px;font-weight:700}
+.back-link{position:absolute;left:16px;top:18px;background:rgba(255,255,255,.25);border:2px solid rgba(255,255,255,.5);color:white;text-decoration:none;font-weight:800;font-size:.85rem;padding:5px 12px;border-radius:20px;backdrop-filter:blur(6px)}
 
-/* ── Stats ── */
-.stats-bar {
-  display: flex; flex-wrap: wrap; gap: 12px; justify-content: center;
-  padding: 20px 24px; background: white; border-bottom: 2px solid var(--line);
-  box-shadow: 0 4px 16px rgba(0,0,0,0.06);
-}
-.stat-pill {
-  display: flex; align-items: center; gap: 8px; background: #f8f9fe;
-  border: 2px solid var(--line); border-radius: 50px; padding: 8px 18px;
-  font-weight: 800; font-size: 0.95rem;
-}
-.stat-pill .num { font-size: 1.3rem; color: #4b9ef8; }
-.stat-pill .label { color: var(--muted); font-size: 0.82rem; font-weight: 700; }
+.user-switcher{display:flex;justify-content:center;gap:12px;padding:16px 24px 12px;background:white;border-bottom:2px solid var(--line)}
+.user-btn{display:flex;flex-direction:column;align-items:center;gap:3px;padding:10px 28px;border-radius:16px;border:3px solid transparent;background:#f8f9fe;font-family:'Nunito',sans-serif;cursor:pointer;transition:all .2s;min-width:120px}
+.user-btn .user-emoji{font-size:2rem;line-height:1}
+.user-btn .user-name{font-weight:900;font-size:.95rem}
+.user-btn .user-count{font-size:.78rem;font-weight:700;color:var(--muted)}
+.user-btn.oliver.active{background:linear-gradient(135deg,#dbeafe,#bfdbfe);border-color:#3b82f6;color:#1e40af}
+.user-btn.oliver.active .user-count{color:#3b82f6}
+.user-btn.logan.active{background:linear-gradient(135deg,#fef3c7,#fde68a);border-color:#f59e0b;color:#92400e}
+.user-btn.logan.active .user-count{color:#d97706}
+.user-btn:hover:not(.active){transform:translateY(-2px);box-shadow:0 4px 14px rgba(0,0,0,.1)}
 
-.progress-wrap { padding: 16px 24px 8px; max-width: 700px; margin: 0 auto; }
-.progress-label { display: flex; justify-content: space-between; font-weight: 800; font-size: 0.88rem; color: var(--muted); margin-bottom: 6px; }
-.progress-bar { height: 16px; background: #e8edf2; border-radius: 50px; overflow: hidden; }
-.progress-fill { height: 100%; background: linear-gradient(90deg, #4dabf7, #cc5de8); border-radius: 50px; transition: width 0.6s cubic-bezier(.34,1.56,.64,1); }
+.stats-bar{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;padding:14px 24px;background:white;border-bottom:2px solid var(--line);box-shadow:0 4px 16px rgba(0,0,0,.06)}
+.stat-pill{display:flex;align-items:center;gap:8px;background:#f8f9fe;border:2px solid var(--line);border-radius:50px;padding:7px 16px;font-weight:800;font-size:.9rem}
+.stat-pill .num{font-size:1.2rem;color:#4b9ef8}
+.stat-pill .label{color:var(--muted);font-size:.8rem;font-weight:700}
 
-/* ── Tabs ── */
-.cat-tabs { display: flex; flex-wrap: wrap; gap: 8px; padding: 20px 24px 12px; max-width: 1200px; margin: 0 auto; }
-.cat-tab {
-  display: flex; align-items: center; gap: 6px; padding: 8px 16px;
-  border-radius: 50px; border: 2.5px solid transparent; background: white;
-  font-family: 'Nunito', sans-serif; font-weight: 800; font-size: 0.88rem;
-  cursor: pointer; transition: all 0.2s; box-shadow: 0 2px 8px rgba(0,0,0,0.06);
-}
-.cat-tab:hover { transform: translateY(-2px); box-shadow: 0 4px 14px rgba(0,0,0,0.12); }
-.cat-tab.active { color: white; }
-.cat-tab[data-cat="all"].active      { background: linear-gradient(135deg,#667eea,#764ba2); }
-.cat-tab[data-cat="life"].active     { background: linear-gradient(135deg,#f5a623,#f7dc6f); color: #7a4f00; }
-.cat-tab[data-cat="nature"].active   { background: linear-gradient(135deg,#56ab2f,#a8e063); }
-.cat-tab[data-cat="learning"].active { background: linear-gradient(135deg,#4b9ef8,#7ed3f7); }
-.cat-tab[data-cat="kitchen"].active  { background: linear-gradient(135deg,#ef4444,#f97316); }
-.cat-tab[data-cat="clean"].active    { background: linear-gradient(135deg,#14b8a6,#6ee7b7); }
-.cat-tab[data-cat="creative"].active { background: linear-gradient(135deg,#f06878,#fda085); }
-.cat-tab[data-cat="community"].active{ background: linear-gradient(135deg,#a855f7,#d8b4fe); }
-.cat-tab[data-cat="adventure"].active{ background: linear-gradient(135deg,#dc2626,#9f1239); }
+.progress-wrap{padding:14px 24px 6px;max-width:700px;margin:0 auto}
+.progress-label{display:flex;justify-content:space-between;font-weight:800;font-size:.85rem;color:var(--muted);margin-bottom:5px}
+.progress-bar{height:14px;background:#e8edf2;border-radius:50px;overflow:hidden}
+.progress-fill{height:100%;background:linear-gradient(90deg,#4dabf7,#cc5de8);border-radius:50px;transition:width .6s cubic-bezier(.34,1.56,.64,1)}
 
-/* ── Badge grid ── */
-.badge-section { padding: 8px 24px 60px; max-width: 1200px; margin: 0 auto; }
-.cat-heading { font-family: 'Baloo 2', cursive; font-size: 1.5rem; font-weight: 800; margin: 24px 0 14px; display: flex; align-items: center; gap: 10px; }
-.badge-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(120px,1fr)); gap: 16px; }
+.cat-tabs{display:flex;flex-wrap:wrap;gap:8px;padding:16px 24px 10px;max-width:1200px;margin:0 auto}
+.cat-tab{display:flex;align-items:center;gap:5px;padding:7px 14px;border-radius:50px;border:2.5px solid transparent;background:white;font-family:'Nunito',sans-serif;font-weight:800;font-size:.85rem;cursor:pointer;transition:all .2s;box-shadow:0 2px 8px rgba(0,0,0,.06)}
+.cat-tab:hover{transform:translateY(-2px)}
+.cat-tab.active{color:white}
+.cat-tab[data-cat="all"].active{background:linear-gradient(135deg,#667eea,#764ba2)}
+.cat-tab[data-cat="life"].active{background:linear-gradient(135deg,#f5a623,#f7dc6f);color:#7a4f00}
+.cat-tab[data-cat="nature"].active{background:linear-gradient(135deg,#56ab2f,#a8e063)}
+.cat-tab[data-cat="learning"].active{background:linear-gradient(135deg,#4b9ef8,#7ed3f7)}
+.cat-tab[data-cat="kitchen"].active{background:linear-gradient(135deg,#ef4444,#f97316)}
+.cat-tab[data-cat="clean"].active{background:linear-gradient(135deg,#14b8a6,#6ee7b7)}
+.cat-tab[data-cat="creative"].active{background:linear-gradient(135deg,#f06878,#fda085)}
+.cat-tab[data-cat="community"].active{background:linear-gradient(135deg,#a855f7,#d8b4fe)}
+.cat-tab[data-cat="adventure"].active{background:linear-gradient(135deg,#dc2626,#9f1239)}
 
-.badge-card { display: flex; flex-direction: column; align-items: center; gap: 8px; cursor: pointer; transition: transform 0.2s; }
-.badge-card:hover { transform: scale(1.08) rotate(-1deg); }
-.badge-card.locked .badge-circle { filter: grayscale(80%) brightness(0.65); }
-.badge-card.locked { opacity: 0.6; }
+.badge-section{padding:6px 24px 60px;max-width:1200px;margin:0 auto}
+.cat-heading{font-family:'Baloo 2',cursive;font-size:1.4rem;font-weight:800;margin:22px 0 12px;display:flex;align-items:center;gap:8px}
+.badge-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(110px,1fr));gap:14px}
 
-.badge-circle {
-  width: 96px; height: 96px; border-radius: 50%;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 2.3rem; position: relative;
-  box-shadow: 0 6px 20px rgba(0,0,0,0.15);
-  border: 4px solid rgba(255,255,255,0.6); transition: box-shadow 0.2s;
-}
-.badge-card:hover .badge-circle { box-shadow: 0 10px 30px rgba(0,0,0,0.2); }
-.badge-circle::after { content:''; position:absolute; inset:4px; border-radius:50%; border:3px solid rgba(255,255,255,0.35); pointer-events:none; }
-.earned-star {
-  position: absolute; bottom:-4px; right:-4px; background:#ffd43b; color:#7a4f00;
-  font-size: 1rem; width: 26px; height: 26px; border-radius: 50%;
-  display: flex; align-items: center; justify-content: center;
-  border: 3px solid white; box-shadow: 0 2px 8px rgba(0,0,0,0.2);
-  animation: popIn 0.3s cubic-bezier(.34,1.56,.64,1);
-}
-@keyframes popIn { from{transform:scale(0)} to{transform:scale(1)} }
+.badge-card{display:flex;flex-direction:column;align-items:center;gap:7px;cursor:pointer;transition:transform .2s}
+.badge-card:hover{transform:scale(1.08) rotate(-1deg)}
+.badge-card.locked .badge-circle{filter:grayscale(80%) brightness(.65)}
+.badge-card.locked{opacity:.65}
 
-.badge-name { font-weight: 800; font-size: 0.75rem; text-align: center; line-height: 1.2; color: var(--ink); max-width: 108px; }
-.badge-card.locked .badge-name { color: var(--muted); }
+.badge-circle{width:90px;height:90px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:2.1rem;position:relative;box-shadow:0 6px 20px rgba(0,0,0,.15);border:4px solid rgba(255,255,255,.6);transition:box-shadow .2s}
+.badge-card:hover .badge-circle{box-shadow:0 10px 30px rgba(0,0,0,.2)}
+.badge-circle::after{content:'';position:absolute;inset:4px;border-radius:50%;border:3px solid rgba(255,255,255,.35);pointer-events:none}
 
-.bc-life      { background: linear-gradient(135deg,#f5a623,#f7dc6f); }
-.bc-nature    { background: linear-gradient(135deg,#56ab2f,#a8e063); }
-.bc-learning  { background: linear-gradient(135deg,#4b9ef8,#7ed3f7); }
-.bc-kitchen   { background: linear-gradient(135deg,#ef4444,#f97316); }
-.bc-clean     { background: linear-gradient(135deg,#14b8a6,#6ee7b7); }
-.bc-creative  { background: linear-gradient(135deg,#f06878,#fda085); }
-.bc-community { background: linear-gradient(135deg,#a855f7,#d8b4fe); }
-.bc-adventure { background: linear-gradient(135deg,#dc2626,#9f1239); }
+.earned-indicators{position:absolute;bottom:-5px;right:-8px;display:flex;gap:2px}
+.earned-pip{width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.7rem;border:2px solid white;box-shadow:0 2px 6px rgba(0,0,0,.2);animation:popIn .3s cubic-bezier(.34,1.56,.64,1)}
+.earned-pip.pip-oliver{background:#3b82f6}
+.earned-pip.pip-logan{background:#f59e0b}
+@keyframes popIn{from{transform:scale(0)}to{transform:scale(1)}}
 
-/* ── Modal ── */
-.modal-backdrop {
-  position: fixed; inset: 0; background: rgba(15,23,42,0.6); z-index: 100;
-  display: flex; align-items: center; justify-content: center; padding: 20px;
-  backdrop-filter: blur(4px); animation: fadeIn 0.15s ease;
-}
-@keyframes fadeIn { from{opacity:0} to{opacity:1} }
-.modal-backdrop.hidden { display: none; }
+.badge-name{font-weight:800;font-size:.73rem;text-align:center;line-height:1.2;color:var(--ink);max-width:100px}
+.badge-card.locked .badge-name{color:var(--muted)}
 
-.modal-box {
-  background: white; border-radius: 24px; max-width: 500px; width: 100%;
-  padding: 28px 28px 24px; box-shadow: 0 24px 80px rgba(0,0,0,0.25);
-  animation: slideUp 0.25s cubic-bezier(.34,1.56,.64,1);
-  position: relative; max-height: 90vh; overflow-y: auto;
-}
-@keyframes slideUp { from{transform:translateY(40px) scale(0.95);opacity:0} to{transform:translateY(0) scale(1);opacity:1} }
+.bc-life{background:linear-gradient(135deg,#f5a623,#f7dc6f)}
+.bc-nature{background:linear-gradient(135deg,#56ab2f,#a8e063)}
+.bc-learning{background:linear-gradient(135deg,#4b9ef8,#7ed3f7)}
+.bc-kitchen{background:linear-gradient(135deg,#ef4444,#f97316)}
+.bc-clean{background:linear-gradient(135deg,#14b8a6,#6ee7b7)}
+.bc-creative{background:linear-gradient(135deg,#f06878,#fda085)}
+.bc-community{background:linear-gradient(135deg,#a855f7,#d8b4fe)}
+.bc-adventure{background:linear-gradient(135deg,#dc2626,#9f1239)}
 
-.modal-close {
-  position: sticky; float: right; top: 0; right: 0;
-  background: #f1f5f9; border: none; width: 34px; height: 34px;
-  border-radius: 50%; font-size: 1.1rem; cursor: pointer;
-  display: flex; align-items: center; justify-content: center; transition: background 0.2s;
-  margin-left: auto; margin-bottom: 8px;
-}
-.modal-close:hover { background: #e2e8f0; }
+.modal-backdrop{position:fixed;inset:0;background:rgba(15,23,42,.6);z-index:100;display:flex;align-items:center;justify-content:center;padding:20px;backdrop-filter:blur(4px);animation:fadeIn .15s ease}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+.modal-backdrop.hidden{display:none}
+.modal-box{background:white;border-radius:24px;max-width:500px;width:100%;padding:26px 26px 22px;box-shadow:0 24px 80px rgba(0,0,0,.25);animation:slideUp .25s cubic-bezier(.34,1.56,.64,1);position:relative;max-height:90vh;overflow-y:auto}
+@keyframes slideUp{from{transform:translateY(40px) scale(.95);opacity:0}to{transform:translateY(0) scale(1);opacity:1}}
+.modal-close{position:sticky;float:right;top:0;background:#f1f5f9;border:none;width:32px;height:32px;border-radius:50%;font-size:1rem;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .2s;margin-left:auto;margin-bottom:6px}
+.modal-close:hover{background:#e2e8f0}
+.modal-badge-circle{width:76px;height:76px;border-radius:50%;font-size:2rem;display:flex;align-items:center;justify-content:center;margin:0 auto 10px;border:4px solid rgba(255,255,255,.6);box-shadow:0 8px 24px rgba(0,0,0,.15)}
+.modal-title{font-family:'Baloo 2',cursive;font-size:1.4rem;font-weight:800;text-align:center;margin-bottom:2px}
+.modal-cat-tag{text-align:center;font-size:.76rem;font-weight:800;color:var(--muted);letter-spacing:.08em;text-transform:uppercase;margin-bottom:12px}
+.modal-goal{background:#f0fdf4;border:1.5px solid #bbf7d0;border-radius:12px;padding:9px 13px;font-size:.88rem;font-weight:700;color:#166534;margin-bottom:12px;display:flex;gap:7px;align-items:flex-start}
+.modal-section-title{font-weight:900;font-size:.78rem;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:7px}
+.modal-steps{list-style:none;display:flex;flex-direction:column;gap:6px;margin-bottom:12px}
+.modal-steps li{display:flex;gap:8px;align-items:flex-start;font-size:.86rem;line-height:1.4;color:#374151}
+.step-num{background:#4b9ef8;color:white;font-weight:900;font-size:.7rem;min-width:19px;height:19px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px}
+.modal-hints{background:#fefce8;border:1.5px solid #fde68a;border-radius:12px;padding:9px 13px;margin-bottom:10px}
+.modal-hints .modal-section-title{color:#92400e;margin-bottom:5px}
+.hint-item{font-size:.84rem;color:#78350f;display:flex;gap:5px;margin-bottom:2px}
+.modal-bonus{background:#fdf4ff;border:1.5px solid #e9d5ff;border-radius:12px;padding:9px 13px;margin-bottom:12px}
+.modal-bonus .modal-section-title{color:#7e22ce;margin-bottom:3px}
+.bonus-text{font-size:.85rem;color:#6b21a8;font-weight:700}
 
-.modal-badge-circle {
-  width: 80px; height: 80px; border-radius: 50%; font-size: 2.2rem;
-  display: flex; align-items: center; justify-content: center;
-  margin: 0 auto 12px; border: 4px solid rgba(255,255,255,0.6);
-  box-shadow: 0 8px 24px rgba(0,0,0,0.15);
-}
-.modal-title { font-family: 'Baloo 2', cursive; font-size: 1.5rem; font-weight: 800; text-align: center; margin-bottom: 3px; }
-.modal-cat-tag { text-align: center; font-size: 0.78rem; font-weight: 800; color: var(--muted); letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 14px; }
+.modal-earned-status{display:flex;gap:8px;margin-bottom:14px;justify-content:center}
+.earned-tag{display:flex;align-items:center;gap:5px;padding:5px 12px;border-radius:50px;font-size:.82rem;font-weight:800;border:2px solid transparent}
+.earned-tag.yes-oliver{background:#dbeafe;border-color:#3b82f6;color:#1e40af}
+.earned-tag.yes-logan{background:#fef3c7;border-color:#f59e0b;color:#92400e}
+.earned-tag.no{background:#f8f9fe;border-color:var(--line);color:var(--muted)}
 
-.modal-goal {
-  background: #f0fdf4; border: 1.5px solid #bbf7d0; border-radius: 12px;
-  padding: 10px 14px; font-size: 0.9rem; font-weight: 700; color: #166534;
-  margin-bottom: 14px; display: flex; gap: 8px; align-items: flex-start;
-}
-.goal-icon { font-size: 1rem; flex-shrink: 0; }
+.earn-btn{width:100%;padding:12px;border-radius:50px;border:none;font-family:'Nunito',sans-serif;font-weight:900;font-size:.95rem;cursor:pointer;transition:transform .15s,box-shadow .15s;display:flex;align-items:center;justify-content:center;gap:7px}
+.earn-btn.not-earned{background:linear-gradient(135deg,#667eea,#764ba2);color:white;box-shadow:0 4px 20px rgba(102,126,234,.4)}
+.earn-btn.not-earned:hover{transform:translateY(-2px)}
+.earn-btn.is-earned{background:#f1f5f9;color:var(--muted)}
+.earn-btn.is-earned:hover{background:#fee2e2;color:#dc2626}
+.earn-btn.oliver-active.not-earned{background:linear-gradient(135deg,#3b82f6,#06b6d4);box-shadow:0 4px 20px rgba(59,130,246,.4)}
+.earn-btn.logan-active.not-earned{background:linear-gradient(135deg,#f59e0b,#f97316);color:white;box-shadow:0 4px 20px rgba(245,158,11,.4)}
 
-.modal-section-title { font-weight: 900; font-size: 0.8rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 8px; }
-.modal-steps { list-style: none; display: flex; flex-direction: column; gap: 7px; margin-bottom: 14px; }
-.modal-steps li { display: flex; gap: 9px; align-items: flex-start; font-size: 0.88rem; line-height: 1.4; color: #374151; }
-.step-num {
-  background: #4b9ef8; color: white; font-weight: 900; font-size: 0.72rem;
-  min-width: 20px; height: 20px; border-radius: 50%;
-  display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 1px;
-}
-
-.modal-hints {
-  background: #fefce8; border: 1.5px solid #fde68a; border-radius: 12px;
-  padding: 10px 14px; margin-bottom: 12px;
-}
-.modal-hints .modal-section-title { color: #92400e; margin-bottom: 6px; }
-.hint-item { font-size: 0.86rem; color: #78350f; display: flex; gap: 6px; margin-bottom: 3px; }
-
-.modal-bonus {
-  background: #fdf4ff; border: 1.5px solid #e9d5ff; border-radius: 12px;
-  padding: 10px 14px; margin-bottom: 16px;
-}
-.modal-bonus .modal-section-title { color: #7e22ce; margin-bottom: 4px; }
-.bonus-text { font-size: 0.87rem; color: #6b21a8; font-weight: 700; }
-
-.earn-btn {
-  width: 100%; padding: 13px; border-radius: 50px; border: none;
-  font-family: 'Nunito', sans-serif; font-weight: 900; font-size: 1rem;
-  cursor: pointer; transition: transform 0.15s, box-shadow 0.15s;
-  display: flex; align-items: center; justify-content: center; gap: 8px;
-}
-.earn-btn.not-earned { background: linear-gradient(135deg,#667eea,#764ba2); color: white; box-shadow: 0 4px 20px rgba(102,126,234,0.4); }
-.earn-btn.not-earned:hover { transform: translateY(-2px); box-shadow: 0 8px 28px rgba(102,126,234,0.5); }
-.earn-btn.is-earned { background: #f1f5f9; color: var(--muted); }
-.earn-btn.is-earned:hover { background: #fee2e2; color: #dc2626; }
-
-/* ── Confetti + Toast ── */
-.confetti-wrap { position: fixed; inset: 0; pointer-events: none; z-index: 200; }
-.confetto { position: absolute; width: 10px; height: 10px; border-radius: 2px; animation: fall 1.8s ease-in forwards; }
-@keyframes fall { 0%{transform:translateY(-20px) rotate(0deg);opacity:1} 100%{transform:translateY(100vh) rotate(720deg);opacity:0} }
-.toast-area { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%); z-index: 300; display: flex; flex-direction: column; gap: 10px; align-items: center; }
-.toast { background: #1a202c; color: white; padding: 12px 24px; border-radius: 50px; font-weight: 800; font-size: 0.95rem; box-shadow: 0 8px 30px rgba(0,0,0,0.25); animation: toastIn 0.3s cubic-bezier(.34,1.56,.64,1); }
-@keyframes toastIn { from{transform:translateY(20px) scale(0.9);opacity:0} to{transform:translateY(0) scale(1);opacity:1} }
+.confetti-wrap{position:fixed;inset:0;pointer-events:none;z-index:200}
+.confetto{position:absolute;width:10px;height:10px;border-radius:2px;animation:fall 1.8s ease-in forwards}
+@keyframes fall{0%{transform:translateY(-20px) rotate(0deg);opacity:1}100%{transform:translateY(100vh) rotate(720deg);opacity:0}}
+.toast-area{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);z-index:300;display:flex;flex-direction:column;gap:10px;align-items:center}
+.toast{background:#1a202c;color:white;padding:11px 22px;border-radius:50px;font-weight:800;font-size:.9rem;box-shadow:0 8px 30px rgba(0,0,0,.25);animation:toastIn .3s cubic-bezier(.34,1.56,.64,1);white-space:nowrap}
+@keyframes toastIn{from{transform:translateY(20px) scale(.9);opacity:0}to{transform:translateY(0) scale(1);opacity:1}}
 </style>
 </head>
 <body>
@@ -210,15 +134,28 @@ body {
   <p>Earn all 80 badges before summer ends!</p>
 </header>
 
+<div class="user-switcher">
+  <button class="user-btn oliver active" id="btn-oliver" onclick="switchUser('oliver')">
+    <span class="user-emoji">🧒</span>
+    <span class="user-name">Oliver</span>
+    <span class="user-count" id="count-oliver">0 / 80</span>
+  </button>
+  <button class="user-btn logan" id="btn-logan" onclick="switchUser('logan')">
+    <span class="user-emoji">👦</span>
+    <span class="user-name">Logan</span>
+    <span class="user-count" id="count-logan">0 / 80</span>
+  </button>
+</div>
+
 <div class="stats-bar">
-  <div class="stat-pill"><span class="num" id="earnedCount">0</span><span class="label">Badges Earned</span></div>
-  <div class="stat-pill"><span class="num">80</span><span class="label">Total Badges</span></div>
+  <div class="stat-pill"><span class="num" id="earnedCount">0</span><span class="label">Earned</span></div>
+  <div class="stat-pill"><span class="num">80</span><span class="label">Total</span></div>
   <div class="stat-pill"><span class="num" id="catCount">0</span><span class="label">Categories Done</span></div>
   <div class="stat-pill"><span class="num" id="pct">0%</span><span class="label">Complete</span></div>
 </div>
 
 <div class="progress-wrap">
-  <div class="progress-label"><span>Summer Progress</span><span id="pctLabel">0 / 80</span></div>
+  <div class="progress-label"><span id="progressName">Oliver's Progress</span><span id="pctLabel">0 / 80</span></div>
   <div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
 </div>
 
@@ -242,11 +179,12 @@ body {
     <div class="modal-badge-circle" id="mCircle"></div>
     <div class="modal-title" id="mTitle"></div>
     <div class="modal-cat-tag" id="mCat"></div>
-    <div class="modal-goal"><span class="goal-icon">🎯</span><span id="mGoal"></span></div>
-    <div class="modal-section-title">📋 What You\'ll Do</div>
+    <div class="modal-goal"><span>🎯</span><span id="mGoal"></span></div>
+    <div class="modal-section-title">📋 What You'll Do</div>
     <ul class="modal-steps" id="mSteps"></ul>
     <div class="modal-hints" id="mHints"></div>
     <div class="modal-bonus" id="mBonus"></div>
+    <div class="modal-earned-status" id="mEarnedStatus"></div>
     <button class="earn-btn" id="earnBtn" onclick="toggleEarn()"></button>
   </div>
 </div>
@@ -256,842 +194,864 @@ body {
 
 <script>
 const BADGES = [
-  // ── LIFE SKILLS & CHORES ──
-  {id:'l1', cat:'life', icon:'🧺', name:'Laundry Legend',
+  // LIFE SKILLS & CHORES (10 badges matching PPTX)
+  {id:'l1',cat:'life',icon:'🧺',name:'Laundry Legend',
    goal:'Learn how to sort, wash, dry, and fold your clothes.',
    steps:['Sort your laundry — separate darks, lights, and towels into different piles.',
-          'Start the washing machine — add clothes and detergent, ask for help with settings, then press start!',
+          'Start the washing machine — add clothes and detergent, ask for help with settings, then press start.',
           'Move to the dryer — when the washer is done, transfer clothes to the dryer or drying rack.',
-          'Fold everything — match socks, fold shirts and pants neatly, and stack towels.',
+          'Fold everything — match socks, fold shirts and pants neatly, stack towels.',
           'Put it all away — carry clothes to the right drawers or shelves.'],
-   hints:['Do it with a grown-up the first time.','Use a checklist if it helps — it\'s okay to ask for help!'],
+   hints:['You can do it with a grown-up the first time.','Use a checklist if it helps — it is okay to ask for help!'],
    bonus:'Take a photo of your neatly folded clothes or sorted laundry baskets!'},
 
-  {id:'l2', cat:'life', icon:'🍽️', name:'Dish Duty Champ',
-   goal:'Wash up after a meal all by yourself.',
-   steps:['Clear the table — carry dishes to the sink carefully, one load at a time.',
-          'Rinse first — rinse each dish with warm water to remove food bits.',
-          'Wash with soap — scrub each dish, cup, and utensil with a soapy sponge.',
-          'Rinse again — rinse off all the soap under running water.',
-          'Dry and put away — dry with a clean towel or leave to air-dry, then return everything to its place.'],
+  {id:'l2',cat:'life',icon:'🍽️',name:'Dish Duty Champ',
+   goal:'Wash the dishes and clean the sink all by yourself.',
+   steps:['Rinse the dishes under warm water to remove food bits.',
+          'Load the dishwasher so the dishes will all get water during the cleaning cycle.',
+          'Add the dishwasher pod.',
+          'Start the dishwasher.',
+          'Wash and rinse the sink.',
+          'Set a timer for 2 hours 15 minutes.',
+          'Return and unload the dishwasher.',
+          'Put all the dishes away in their correct spots.'],
    hints:['Be careful with sharp knives — ask a grown-up to handle those.','Hot water gets things cleaner!'],
-   bonus:'Leave the kitchen sparkling — wipe down the counter too!'},
+   bonus:'Leave the kitchen sparkling — wipe the counter too!'},
 
-  {id:'l3', cat:'life', icon:'🛏️', name:'Room Rescuer',
-   goal:'Tidy your bedroom from messy to clean, all on your own.',
-   steps:['Pick up the floor — gather everything and sort: put away, rubbish, or donate.',
-          'Make the bed — straighten the sheets, fluff the pillow, and pull up the blanket neatly.',
-          'Clear flat surfaces — tidy your desk, windowsill, and shelves.',
-          'Organize one drawer — re-fold or re-stack anything messy inside.',
-          'Do a final check — walk around the room. Is anything still out of place?'],
-   hints:['Put on music to make it more fun!','Set a timer — see how fast you can do it.'],
-   bonus:'Spray the room with a light room spray and declare it officially done!'},
+  {id:'l3lv',cat:'life',icon:'🛋️',name:'Room Rescuer — Living Room',
+   goal:'Help clean and tidy the living room.',
+   steps:['Move all the items off the couch to their homes.',
+          'Move the trampoline and dog bed to the couch.',
+          'Pick up the shoes and put them on the rack.',
+          'Pick up any garbage and put it in the bin.',
+          'Pick up any toys and put them away.',
+          'Hang up any stray coats or jackets.'],
+   hints:['You can do it with a grown-up the first time.','Use a checklist if it helps!'],
+   bonus:'Take a picture of the clean living room!'},
 
-  {id:'l4', cat:'life', icon:'📦', name:'Organizing Hero',
-   goal:'Organize one area of your home — a drawer, shelf, or cupboard.',
-   steps:['Choose your spot — pick one area that really needs organizing.',
-          'Empty it out — take everything out and lay it where you can see it all.',
-          'Sort into groups — group similar things together.',
-          'Decide what stays — remove anything broken, old, or no longer needed.',
-          'Put it back neatly — replace items in a logical order and label if you can!'],
-   hints:['Use small containers or boxes to keep groups together.','Start small — even one drawer counts!'],
-   bonus:'Take a before-and-after photo!'},
+  {id:'l3kt',cat:'life',icon:'🍳',name:'Room Rescuer — Kitchen',
+   goal:'Help clean the kitchen.',
+   steps:['Clean all the food and beverages off the table.',
+          'Wipe the table with a clean damp cloth.',
+          'Put away any stray toys, paper, and garbage.',
+          'Wipe the counters.',
+          'Sweep the floor.'],
+   hints:['Wipe in one direction so crumbs go into a pile.','Clean surfaces mean safe food prep!'],
+   bonus:'Take a picture of the clean kitchen!'},
 
-  {id:'l5', cat:'life', icon:'🌱', name:'Plant Parent',
-   goal:'Care for a plant every day for a full week without being reminded.',
-   steps:['Learn about your plant — find out how often it needs water and whether it likes sun or shade.',
-          'Set up a schedule — decide which days you\'ll water it and write it down.',
-          'Water correctly — check the soil first; not too much, not too little.',
-          'Find the right spot — move it to where it gets the right amount of light.',
-          'Check in daily — look at the leaves, track any changes, and keep a little log.'],
-   hints:['Stick your finger 1cm into the soil — if it\'s dry, time to water!','Over-watering is the #1 plant killer.'],
-   bonus:'Take a daily photo and make a mini growth diary.'},
+  {id:'l3bd',cat:'life',icon:'🛏️',name:'Room Rescuer — Bedroom',
+   goal:'Help clean your bedroom from top to bottom.',
+   steps:['Clean up all stray toys, paper, garbage, bottles, and clothes from the floor, bed, and surfaces.',
+          'Make your bed — sheets straight, pillow fluffed.',
+          'Sweep your floor.',
+          'Vacuum your floor.',
+          'Mop your floor.'],
+   hints:['Music makes chores go faster!','Do one zone at a time so it does not feel overwhelming.'],
+   bonus:'Take a picture of the cleaned bedroom!'},
 
-  {id:'l6', cat:'life', icon:'🐾', name:'Pet Pal',
-   goal:'Take responsibility for a pet\'s care for one full day.',
-   steps:['Feed on time — give your pet fresh food and water at the right time.',
-          'Clean up — scoop litter, clean a cage, or pick up the yard.',
-          'Exercise and play — spend at least 15 minutes playing with or exercising your pet.',
-          'Health check — look at eyes, fur, and behaviour. Does anything seem different?',
-          'Give love — spend calm, quiet time with your pet — petting, talking, or just sitting nearby.'],
-   hints:['Ask a grown-up about your pet\'s routine before you start.','Animals rely on routine — consistency matters!'],
-   bonus:'Draw or photograph your pet and write 3 facts about their species.'},
+  {id:'l3bt',cat:'life',icon:'🚿',name:'Room Rescuer — Bathroom',
+   goal:'Help clean the bathroom from top to bottom.',
+   steps:['Move all the items on the counter to the floor.',
+          'Clean the counter and sink.',
+          'Neatly replace all the items on the counter.',
+          'Remove everything from the bathtub.',
+          'Clean the bathtub.',
+          'Replace the bottles.',
+          'Clean the toilet.',
+          'Sweep then mop the floor.'],
+   hints:['Always wear gloves for the toilet.','Clean top to bottom — dirt falls down!'],
+   bonus:'Refill the soap dispenser and replace any empty toilet rolls too.'},
 
-  {id:'l7', cat:'life', icon:'♻️', name:'Recycling Ranger',
-   goal:'Sort a household recycling collection correctly.',
-   steps:['Learn the rules — find out what goes in each bin (paper, plastic, glass, compost).',
-          'Set up the sorting area — make sure all bins are in the right place.',
-          'Sort a collection — go through a bag of mixed items and sort everything correctly.',
-          'Check labels — read the recycling symbols on plastic items.',
-          'Take it out — when full, take the recycling to the outdoor bin or collection point.'],
-   hints:['When in doubt, it goes in regular rubbish rather than contaminating recycling.','Not sure? Look it up or ask!'],
-   bonus:'Research one thing that happens to recycled plastic after it leaves your bin.'},
+  {id:'l4',cat:'life',icon:'🧽',name:'Floor Guy',
+   goal:'Clean all the floors in the main living areas.',
+   steps:['Move the trampoline, dog bed, and any debris from the living room floor.',
+          'Pick up any debris from the bathroom, hallway, and kitchen floors.',
+          'Vacuum all the floors.',
+          'Empty the vacuum canister.',
+          'Put the vacuum away.',
+          'Add hot water and 1 capful of floor cleaner to the mop bucket.',
+          'Mop all the floors.'],
+   hints:['Do the dry cleaning (vacuum) before the wet cleaning (mop).','Empty the canister before vacuuming so it has full suction.'],
+   bonus:'Take a photo of the shiny clean floor!'},
 
-  {id:'l8', cat:'life', icon:'💰', name:'Money Minder',
-   goal:'Learn the basics of saving and spending money wisely.',
-   steps:['Count your money — find all your coins and bills and add them up.',
-          'Set a saving goal — choose something to save for and write down the price.',
-          'Make a plan — figure out how long it will take if you put some away each week.',
-          'Track your spending — over 3 days, write down everything you spend money on.',
-          'Review your choices — look at your spending. What would you do differently?'],
+  {id:'l5',cat:'life',icon:'💰',name:'Money Minder',
+   goal:'Learn the basics of budgeting and spending money wisely.',
+   steps:['Create a budget — list your income for the day, week, or month.',
+          'Make a list of required payments: loans, food, shelter, utilities.',
+          'Make a list of things you want: in-game purchases, snacks, toys.',
+          'Put a dollar value next to each want.',
+          'Figure out what you can afford and what you need to save for.'],
    hints:['Split money into 3 jars: Save, Spend, Give.','Even saving a little each week adds up fast!'],
-   bonus:'Open a real savings account or start a labeled money jar with your goal written on it.'},
+   bonus:'Open a savings account or start a labeled money jar with your goal written on it.'},
 
-  {id:'l9', cat:'life', icon:'🍴', name:'Cooking Assistant',
+  {id:'l6',cat:'life',icon:'🍴',name:'Cooking Assistant',
    goal:'Help cook a full meal from start to finish.',
-   steps:['Plan the meal — read the recipe together and understand every step.',
-          'Get ready — wash your hands and set out all ingredients and tools.',
-          'Measure and prep — measure ingredients, wash vegetables, and do safe prep tasks.',
-          'Cook together — stir, pour, and help at the stove with supervision.',
-          'Plate and serve — dish up the food and help bring it to the table.'],
-   hints:['Ask before touching any sharp tools.','Keep your workspace tidy as you go — chefs call this "mise en place"!'],
-   bonus:'Write the recipe in your own words so you can make it again.'},
+   steps:['Find a recipe you want to make.',
+          'Take out the required tools and ingredients.',
+          'Follow the recipe step by step.',
+          'Plate the dish nicely.'],
+   hints:['Ask before touching any sharp tools.','Read the whole recipe before starting!'],
+   bonus:'Take a picture of the food you made.'},
 
-  {id:'l10', cat:'life', icon:'🛒', name:'Grocery Helper',
-   goal:'Help with grocery shopping and learn where food comes from.',
-   steps:['Write the list — check what\'s low in the fridge and pantry.',
-          'Organize the list — sort items by section to make shopping faster.',
-          'Find items at the store — help locate each item on the list.',
-          'Check prices — compare two similar products and figure out which is better value.',
-          'Help pack and unpack — pack bags at checkout and put groceries away at home.'],
-   hints:['Look at produce labels — your food might have travelled thousands of kilometres!','Organized lists save time and money.'],
-   bonus:'Pick one fruit or vegetable you\'ve never tried before and taste it.'},
+  {id:'l7',cat:'life',icon:'🛒',name:'Grocery Helper',
+   goal:'Help plan the week\'s meals and make a grocery list.',
+   steps:['Pick 5-7 supper recipes for the week.',
+          'Make a list of the foods needed to make those recipes.',
+          'Make a list of foods needed for breakfasts and lunches.',
+          'Price check items between two stores to find the best deal.',
+          'Help shop and unpack the groceries when you get home.'],
+   hints:['Organized lists save time and money at the store.','Look at produce labels — your food might have travelled thousands of kilometres!'],
+   bonus:'Pick one fruit or vegetable you have never tried before and taste it.'},
 
-  // ── NATURE & OUTDOORS ──
-  {id:'n1', cat:'nature', icon:'🐛', name:'Bug Spotter',
-   goal:'Find and identify at least 5 different insects or bugs.',
-   steps:['Get prepared — grab a notebook, pencil, and magnifying glass if you have one.',
-          'Choose your spot — a garden, park, or patch of grass works perfectly.',
-          'Look in the right places — check under rocks, leaves, near flowers, and logs.',
-          'Observe without disturbing — how many legs? Wings? Antennae? Look closely!',
-          'Record your finds — draw or describe each bug and try to identify it by name.'],
+  // NATURE & OUTDOORS
+  {id:'n1',cat:'nature',icon:'🐛',name:'Bug Spotter',
+   goal:'Find and identify 5 different bugs.',
+   steps:['Take a picture of a bug you see.',
+          'Use a guide or app to find out what it is.',
+          'Repeat for 5 completely different bugs.',
+          'Write down one fact about each bug.',
+          'Share your findings with someone.'],
    hints:['Go in the morning when bugs are most active.','Be gentle — bugs are living creatures!'],
-   bonus:'Look up one surprising fact about your favourite bug you found.'},
+   bonus:'Find out how one of these bugs helps us in the home, garden, or camper.'},
 
-  {id:'n2', cat:'nature', icon:'🐦', name:'Bird Watcher',
-   goal:'Sit quietly outside and spot at least 5 different birds.',
-   steps:['Set up your spot — find a quiet place near trees, water, or a bird feeder.',
-          'Be still and patient — sit quietly for at least 10 minutes without moving around.',
-          'Watch and listen — notice colours, beak shapes, sizes, and sounds.',
-          'Record what you see — draw or describe each bird in your notebook.',
-          'Try to identify them — look them up in a bird book or app.'],
-   hints:['Early morning is the best time for birds!','Wear quiet, non-bright clothing so you don\'t scare them.'],
-   bonus:'Set up a simple bird feeder and watch who visits over a few days.'},
+  {id:'n2',cat:'nature',icon:'🐦',name:'Bird Watcher',
+   goal:'Find and identify a bird and learn about it.',
+   steps:['Find a bird you can see clearly.',
+          'Try to identify it using a guide or app.',
+          'Take a picture of it.',
+          'Find out what it eats.',
+          'Research its migration pattern — where does it go?'],
+   hints:['Early morning is the best time for birds!','Stay still and quiet so you do not scare them.'],
+   bonus:'Make a slide or drawing about the things you learned about this bird.'},
 
-  {id:'n3', cat:'nature', icon:'🌳', name:'Tree Identifier',
-   goal:'Identify at least 5 different types of trees.',
-   steps:['Walk your area — stroll around a park, street, or your yard.',
-          'Look at the whole tree — notice shape, height, and bark texture.',
-          'Study the leaves — collect one fallen leaf from each tree and examine it closely.',
-          'Look for fruit or seeds — acorns? Pine cones? Berries? These help with identification.',
-          'Name them — use a tree guide or app to figure out what each tree is.'],
-   hints:['Pressing paper over bark creates a cool rubbing you can keep!','Leaves are the easiest identification clue.'],
-   bonus:'Find the oldest or tallest tree in your area and research its history.'},
+  {id:'n3',cat:'nature',icon:'🌳',name:'Tree Identifier',
+   goal:'Find and identify a tree and learn what makes it special.',
+   steps:['Find a tree you can see clearly.',
+          'Try to identify it using a guide or app.',
+          'Take a picture of it.',
+          'Find out one cool thing about this tree.',
+          'Learn if it produces fruit, seeds, or flowers.'],
+   hints:['Look at the leaves — shape is the best identification clue.','Bark texture is different on every species!'],
+   bonus:'Make a slide or drawing about what you learned.'},
 
-  {id:'n4', cat:'nature', icon:'✏️', name:'Nature Sketcher',
-   goal:'Go outside and draw 5 things from nature from careful observation.',
-   steps:['Gather your tools — sketchbook or paper, pencil, and optional coloured pencils.',
-          'Choose a spot — sit somewhere comfortable with interesting things to look at.',
-          'Look before you draw — spend 30 seconds really studying your subject first.',
-          'Draw slowly — focus on shape, texture, and shadows. Don\'t worry about perfection!',
-          'Add details and labels — write what you drew and where you found it.'],
+  {id:'n4',cat:'nature',icon:'✏️',name:'Nature Sketcher',
+   goal:'Sketch something you find in nature from careful observation.',
+   steps:['Find something cool in nature to draw.',
+          'Take a picture of it first.',
+          'Sketch it on paper or tablet — look at the real thing, not just the photo.',
+          'Add details like texture, shadows, and labels.',
+          'Share your sketch and the photo side by side.'],
    hints:['Draw what you actually SEE, not what you think something looks like.','Every line is good practice!'],
-   bonus:'Combine all your sketches into a mini nature field guide.'},
+   bonus:'Make a slide showing the photo and your sketch together.'},
 
-  {id:'n5', cat:'nature', icon:'🌻', name:'Garden Grower',
-   goal:'Plant something and care for it until it sprouts or blooms.',
-   steps:['Choose what to grow — seeds, bulbs, or seedlings all count!',
-          'Prepare your pot or patch — fill with soil and make sure it drains well.',
-          'Plant correctly — follow the depth and spacing instructions on the seed packet.',
-          'Water and watch — keep it moist and in the right amount of light.',
-          'Track its progress — check daily and write or draw what you notice each day.'],
-   hints:['Tomatoes, sunflowers, and radishes grow quickly — great for beginners!','Read the label before planting.'],
-   bonus:'Grow enough to pick and eat something you grew yourself.'},
+  {id:'n5',cat:'nature',icon:'🌻',name:'Garden Grower',
+   goal:'Grow a plant you can eat from seed to harvest.',
+   steps:['Pick a plant you can eat — tomatoes, herbs, and beans are great starters.',
+          'Learn what it takes to grow the plant — sun, water, and soil needs.',
+          'Plant the seeds following the packet instructions.',
+          'Nurture the plant — water regularly and check on it daily.',
+          'Harvest the plant when it is ready.'],
+   hints:['Stick your finger 1cm into the soil — if it is dry, time to water.','Over-watering is the top plant killer!'],
+   bonus:'Take a picture of the plant growing, then find a recipe using what you grew.'},
 
-  {id:'n6', cat:'nature', icon:'⭐', name:'Stargazer',
-   goal:'Go outside at night and identify at least 3 constellations.',
-   steps:['Plan your night — check for a clear forecast and let your eyes adjust for 10 minutes.',
-          'Learn 3 constellations — look up Orion, the Big Dipper, and one other before going out.',
-          'Find them in the sky — scan slowly and match the star patterns.',
-          'Sketch what you see — draw the stars you can spot and connect the ones you recognize.',
-          'Look for planets or the moon — note what else is visible. Planets don\'t twinkle!'],
-   hints:['Get away from bright lights if you can.','Full eye adjustment takes 10–15 minutes in the dark.'],
-   bonus:'Stay out and watch for a shooting star or satellite passing overhead.'},
+  {id:'n6',cat:'nature',icon:'⭐',name:'Stargazer',
+   goal:'Find a constellation in the night sky and learn its story.',
+   steps:['Take a picture of a constellation you can see.',
+          'Identify the individual stars in the constellation.',
+          'Learn what the constellation represents.',
+          'Find out when it was discovered or named.',
+          'Share what you learned with someone.'],
+   hints:['Get away from bright lights for the best view.','Give your eyes 10-15 minutes to adjust to the dark.'],
+   bonus:'Make a slide about the constellation — include a star map and the story behind it.'},
 
-  {id:'n7', cat:'nature', icon:'☁️', name:'Cloud Tracker',
-   goal:'Go outside and identify at least 4 different types of clouds.',
-   steps:['Learn the cloud types — look up cumulus, stratus, cirrus, and cumulonimbus first.',
-          'Pick a watching spot — find somewhere open with a good view of the sky.',
-          'Observe and sketch — sketch or photograph the clouds you can see.',
-          'Identify each one — use a cloud chart to name what you\'re looking at.',
-          'Predict the weather — guess what\'s coming based on what you see, then check back later!'],
-   hints:['Fluffy = cumulus, flat and grey = stratus, wispy and high = cirrus.','Storm clouds are cumulonimbus!'],
-   bonus:'Keep a cloud diary for 3 days and see if your weather predictions come true.'},
+  {id:'n7',cat:'nature',icon:'☁️',name:'Cloud Tracker',
+   goal:'Track the clouds for a week and learn what different clouds mean.',
+   steps:['Track the clouds every day for one week.',
+          'Identify at least 2 different types of clouds.',
+          'Find out what those cloud types usually mean for the weather.',
+          'Find out how those clouds impact the sky.',
+          'Record your findings each day.'],
+   hints:['Fluffy white = cumulus. Flat grey = stratus. Wispy high = cirrus.','Storm clouds are cumulonimbus!'],
+   bonus:'Take a picture of the sky from the same spot every day for a week.'},
 
-  {id:'n8', cat:'nature', icon:'🥾', name:'Trail Trekker',
-   goal:'Complete a hike or nature walk of at least 30 minutes.',
-   steps:['Plan the route — choose a trail or walk and check how long it is.',
-          'Pack your bag — water, snack, sunscreen, and comfortable shoes.',
-          'Walk the full route — don\'t skip ahead! Walk at a steady pace and stay on the trail.',
-          'Observe along the way — notice plants, animals, sounds, and smells. Collect nothing!',
-          'Record highlights — when you get back, write or draw 3 things you noticed.'],
-   hints:['Tell someone where you\'re going.','Never leave the trail. Leave no trace!'],
-   bonus:'Photograph one thing that genuinely surprised you on the trail.'},
+  {id:'n8',cat:'nature',icon:'🥾',name:'Trail Trekker',
+   goal:'Explore a local trail and learn about it.',
+   steps:['Find a map of the area.',
+          'Mark the trail you want to explore on the map.',
+          'Walk the trail and find a plant or animal along the way.',
+          'Find out if the trail has a name and why.',
+          'Share what you found.'],
+   hints:['Tell someone where you are going.','Never leave the trail. Leave no trace!'],
+   bonus:'Make a slide about the walk — include the trail name, map, and what you found.'},
 
-  {id:'n9', cat:'nature', icon:'🌦️', name:'Weather Watcher',
-   goal:'Observe and record the weather every day for 5 days.',
-   steps:['Set up your weather log — create a table: date, temperature, cloud cover, wind, rain.',
-          'Check each morning — go outside and observe before looking at a forecast.',
-          'Record your findings — fill in the log after each observation.',
-          'Compare to the forecast — look at what was predicted vs. what actually happened.',
-          'Spot patterns — after 5 days, what patterns can you see in your data?'],
-   hints:['Use a thermometer if you have one!','"Warm / cool / cold" is perfectly fine without one.'],
-   bonus:'Build a simple rain gauge from a plastic bottle and measure actual rainfall.'},
+  {id:'n9',cat:'nature',icon:'🌦️',name:'Weather Watcher',
+   goal:'Track the weather every day for a week and notice patterns.',
+   steps:['Track the weather every day for one week.',
+          'Write down what types of weather you saw.',
+          'Write down what types of weather you did NOT see.',
+          'Decide what type of weather is most fun to play outside in.',
+          'Look for patterns — what changed across the week?'],
+   hints:['Use a thermometer if you have one.','Warm, cool, or cold is perfectly fine without one!'],
+   bonus:'Take a picture of the same spot outside every day for a week to show the weather changing.'},
 
-  {id:'n10', cat:'nature', icon:'🪨', name:'Nature Collector',
-   goal:'Collect 10 safe, non-living nature items and create a display.',
-   steps:['Know the rules — only collect non-living items: rocks, feathers, shells, pine cones.',
-          'Go on a collecting walk — bring a bag and look carefully as you go.',
-          'Clean your finds — rinse off dirt gently and let everything dry.',
-          'Arrange a display — lay them out on a tray, in a box, or on paper.',
-          'Label each item — write the name, where you found it, and one interesting fact.'],
-   hints:['Never take living things — leave plants rooted and animals undisturbed.','Feathers are fine; eggs and nests are not.'],
-   bonus:'Create a mini museum card for your favourite find with a drawing and description.'},
+  {id:'n10',cat:'nature',icon:'🪨',name:'Nature Collector',
+   goal:'Find 2 things from nature and learn about them.',
+   steps:['Collect 2 non-living things in nature, OR take a picture of 2 living things.',
+          'Identify where they came from.',
+          'Find out what they are and what they do in nature.',
+          'Write or draw what you learned about each one.',
+          'Share your findings.'],
+   hints:['Only collect non-living items — rocks, feathers, shells, pine cones.','Never take living things from the wild!'],
+   bonus:'Make a slide about your nature learnings — include pictures and facts.'},
 
-  // ── LEARNING & CURIOSITY ──
-  {id:'lr1', cat:'learning', icon:'📚', name:'Library Explorer',
-   goal:'Visit a library and find 3 books on a topic you\'ve never read about before.',
-   steps:['Plan your visit — think of a topic you\'re curious about.',
-          'Find the section — ask a librarian to help you find the right area.',
-          'Browse and choose — flip through several books and pick 3 that look interesting.',
-          'Read at least one — spend at least 20 minutes reading at the library or check them out.',
-          'Share what you learned — tell someone one surprising thing you discovered.'],
-   hints:['Don\'t just read — look at maps, diagrams, and photos too!','Librarians love helping curious kids.'],
-   bonus:'Write a recommendation note for one of the books and leave it inside for the next reader.'},
+  // LEARNING & CURIOSITY
+  {id:'lr1',cat:'learning',icon:'📚',name:'Library Explorer',
+   goal:'Discover a new section of the library and learn something new.',
+   steps:['Ask a parent to help you get to the library.',
+          'Go to the library and find a section you have never looked at before.',
+          'Pick a topic in that section.',
+          'Learn 3 new things from a book in that section.',
+          'Share what you found with someone.'],
+   hints:['Librarians love helping curious kids — ask for their recommendation!','Do not just read — look at maps, diagrams, and photos too.'],
+   bonus:'Take a picture of the book section you discovered.'},
 
-  {id:'lr2', cat:'learning', icon:'📖', name:'Bookworm Badge',
-   goal:'Read 3 books this summer (fiction, non-fiction, or graphic novels all count).',
-   steps:['Choose your books — pick 3 that genuinely interest you. Mix it up!',
-          'Set a reading schedule — decide when each day you\'ll read. Even 20 minutes counts.',
-          'Read each book fully — don\'t skip the ending! Take your time.',
-          'Keep a reading log — write the title, author, and one sentence about each book.',
-          'Recommend one — tell a friend or family member which book they should read next.'],
-   hints:['Reading before bed is a great habit — it helps you sleep!','Audiobooks count too.'],
-   bonus:'Give each book a star rating and write a 2-sentence mini review.'},
+  {id:'lr2',cat:'learning',icon:'📖',name:'Bookworm Badge',
+   goal:'Read every day for a week.',
+   steps:['Select a book from home or borrow one from the library.',
+          'Read for at least 20 minutes every day for a week.',
+          'Keep a simple log — title, date, pages read.',
+          'Finish the book if you can.',
+          'Tell someone what the book was about.'],
+   hints:['Reading before bed is a great habit.','Audiobooks count too!'],
+   bonus:'Take a picture of the book you read.'},
 
-  {id:'lr3', cat:'learning', icon:'🏺', name:'History Hunter',
-   goal:'Research a historical event or person and create a mini report or poster.',
-   steps:['Choose a topic — pick something that genuinely interests you.',
-          'Find 3 sources — use books, a library, or trusted websites.',
-          'Take notes — write key facts, dates, names, and 3 things that surprised you.',
-          'Make your report or poster — organize notes into headings. Add drawings or diagrams.',
-          'Present it — share your report with at least one person and explain what you found.'],
-   hints:['Ask "why" questions — why did it happen? What changed because of it? That\'s real history thinking!','Check more than one source.'],
-   bonus:'Find out if any of this history connects to your own family or hometown.'},
+  {id:'lr3',cat:'learning',icon:'🏺',name:'History Hunter',
+   goal:'Learn 3 historic facts about a person, place, or event.',
+   steps:['Pick a historical topic that interests you.',
+          'Find at least 2 sources of information about it.',
+          'Take notes on 3 facts that surprised or impressed you.',
+          'Organize your facts clearly.',
+          'Share what you found.'],
+   hints:['Ask "why did this happen?" — that is real history thinking!','Check more than one source.'],
+   bonus:'Make a slide about something from history — include at least 3 facts.'},
 
-  {id:'lr4', cat:'learning', icon:'🔬', name:'Science Sleuth',
-   goal:'Choose a science question and design a simple experiment to answer it.',
-   steps:['Ask a question — pick something you want to test. "Does ice melt faster in the sun?"',
-          'Make a prediction — write down what you THINK will happen and why.',
-          'Design the test — list what you\'ll need and exactly what you\'ll do.',
-          'Run the experiment — carry out your test and record your results honestly.',
-          'Draw a conclusion — did the results match your prediction? What did you learn?'],
-   hints:['A good experiment changes only ONE variable — everything else stays the same!','"Fair test" is the key phrase.'],
-   bonus:'Write up your experiment like a real scientist and share your findings.'},
+  {id:'lr4',cat:'learning',icon:'🔬',name:'Science Sleuth',
+   goal:'Investigate a science topic and discover something new.',
+   steps:['Pick a science topic you are curious about.',
+          'Research it using books or trusted websites.',
+          'Find 3 facts that surprised you.',
+          'Write your findings in your own words.',
+          'Share what you discovered.'],
+   hints:['Good science asks "why" and "how."','Simple questions often have fascinating answers!'],
+   bonus:'Make a slide about something you discovered — include at least 3 facts.'},
 
-  {id:'lr5', cat:'learning', icon:'🌍', name:'Geography Guru',
-   goal:'Learn the locations and capitals of 10 countries you didn\'t know before.',
-   steps:['Pick your countries — choose 10 that interest you, spread across different continents.',
-          'Find them on a map — locate each one on a world map or globe.',
-          'Learn the capitals — find out the capital city of each country.',
-          'Learn one fact per country — a flag detail, famous landmark, language, or food.',
-          'Test yourself — cover your notes and try to recall all 10 from memory.'],
-   hints:['Use flashcards — flag on one side, capital on the back.','Geography games online can help!'],
-   bonus:'Plan an imaginary trip visiting all 10 countries and map your route.'},
+  {id:'lr5',cat:'learning',icon:'⚗️',name:'Chemistry Major',
+   goal:'Learn about a chemical reaction by doing an experiment.',
+   steps:['Pick a simple chemistry experiment — baking soda and vinegar is a classic.',
+          'Learn about the reaction before starting — what will happen and why?',
+          'Gather your materials safely.',
+          'Conduct the experiment carefully.',
+          'Explain what happened in your own words.'],
+   hints:['Always do experiments in the kitchen or outside — easier to clean up!','Ask a grown-up before using any chemicals.'],
+   bonus:'Take a picture of your experiment and make a slide explaining the science behind it.'},
 
-  {id:'lr6', cat:'learning', icon:'💡', name:'Junior Researcher',
-   goal:'Research a topic in depth and teach it to someone else.',
-   steps:['Pick your topic — choose something specific, like "how dolphins communicate."',
-          'Use multiple sources — find at least 3 different sources of information.',
-          'Organise your notes — sort into: facts, how it works, why it matters.',
-          'Prepare to teach — write 5 key points you want to share. Use visuals if you can.',
-          'Teach someone — present your topic to a real person and answer their questions.'],
-   hints:['The best test of understanding is whether you can explain it clearly to someone else!','Simple words, clear examples.'],
-   bonus:'Make a short quiz about your topic and see how much the person remembers afterwards.'},
+  {id:'lr6',cat:'learning',icon:'🌍',name:'Geography Guru',
+   goal:'Learn about a city you have never studied before.',
+   steps:['Pick a city anywhere in the world that you know nothing about.',
+          'Find it on a map.',
+          'Learn what the city imports and exports.',
+          'Find one famous landmark in that city.',
+          'Find out the population and one interesting fact.'],
+   hints:['Use a globe or map to get a feel for where it is.','Every city has a surprising story!'],
+   bonus:'Create a slide about the city — include an import, export, landmark, and population.'},
 
-  {id:'lr7', cat:'learning', icon:'🧩', name:'Puzzle Pro',
-   goal:'Complete a challenging puzzle or brain teaser.',
-   steps:['Choose your challenge — a jigsaw (500+ pieces), sudoku, crossword, or logic puzzle.',
-          'Plan your approach — edges first? By colour? By theme? Decide before you start.',
-          'Work through it — don\'t give up when it gets tricky! Take breaks and come back.',
-          'Track your time — how long did the whole thing take?',
-          'Reflect on your strategy — what worked? What would you do differently next time?'],
-   hints:['If you\'re stuck, step away and come back with fresh eyes.','Persistence is the most important skill here!'],
-   bonus:'Create your own puzzle or brain teaser for someone else to solve.'},
+  {id:'lr7',cat:'learning',icon:'💡',name:'Junior Researcher',
+   goal:'Research a topic you have been curious about and share what you find.',
+   steps:['Pick a topic on your mind.',
+          'Find at least 2 sources of information.',
+          'Learn 3 new things about the topic.',
+          'Organize your 3 facts clearly.',
+          'Share your research with someone.'],
+   hints:['The best test of understanding is whether you can explain it simply.','Short clear facts are better than long confusing ones!'],
+   bonus:'Create a slide about the topic — include your 3 new facts.'},
 
-  {id:'lr8', cat:'learning', icon:'🔢', name:'Math Master',
-   goal:'Complete a set of 20 maths problems with accuracy.',
-   steps:['Choose your level — fractions, multiplication, geometry, or word problems.',
-          'Write or find 20 problems — create your own or find a practice sheet.',
-          'Work without rushing — focus on accuracy first, then speed.',
-          'Check your answers — go back and check each one. Correct any mistakes.',
-          'Track your score — how many right? Set a goal to improve next time.'],
-   hints:['Show your working — it\'s much easier to find mistakes that way.','Maths is about practice, not talent!'],
-   bonus:'Create a maths problem with a surprising or tricky answer and stump a grown-up.'},
+  {id:'lr8',cat:'learning',icon:'🧩',name:'Puzzle Pro',
+   goal:'Work on a large puzzle every day for a week and complete it.',
+   steps:['Choose a large puzzle — 500 pieces or more.',
+          'Work on it for at least 20 minutes every day for a week.',
+          'Use a strategy — edges first, then sort by colour or pattern.',
+          'Do not give up when it gets hard! Take breaks and come back.',
+          'Finish the puzzle.'],
+   hints:['If you are stuck, step away and come back with fresh eyes.','Persistence is the most important skill here!'],
+   bonus:'Take a picture of the completed puzzle.'},
 
-  {id:'lr9', cat:'learning', icon:'🗣️', name:'Language Learner',
-   goal:'Learn 20 words or phrases in a language you don\'t speak.',
-   steps:['Pick your language — choose one you\'re curious about or connected to your family.',
-          'Learn the basics first — numbers, colours, greetings, and common words.',
-          'Make flashcards — English on one side, the new language on the other.',
-          'Practice daily — spend 10 minutes a day for at least 3 days.',
-          'Use it — try using 5 of your new words in a real conversation or sentence.'],
-   hints:['Apps like Duolingo make it fun and gamified.','Watching a show in another language helps your ear tune in!'],
-   bonus:'Record yourself saying all 20 words and compare to a native speaker.'},
+  {id:'lr9',cat:'learning',icon:'🔢',name:'Math Master',
+   goal:'Complete 10 math worksheets from the homework book.',
+   steps:['Pick 10 worksheets from the homework book related to math.',
+          'Work through each one carefully — show your work.',
+          'Check your answers after each page.',
+          'Correct any mistakes and figure out where you went wrong.',
+          'Complete all 10 worksheets.'],
+   hints:['Show your working — it is much easier to find mistakes.','Math is about practice, not talent!'],
+   bonus:'Take a picture of your favorite or least favorite page you completed.'},
 
-  {id:'lr10', cat:'learning', icon:'💻', name:'Digital Detective',
-   goal:'Use the internet safely to research a topic and evaluate your sources.',
-   steps:['Choose your question — pick something you genuinely want to know more about.',
-          'Search safely — use a safe search engine and stick to trusted websites.',
-          'Find 3 different websites — don\'t just use the first result.',
-          'Check if it\'s trustworthy — who wrote it? Is it up to date? Is it a reliable source?',
-          'Summarize what you found — write 5 bullet points in your own words.'],
-   hints:['If two reliable sources agree, it\'s probably true.','If they disagree, dig deeper!'],
-   bonus:'Find one claim online that turned out to be wrong or misleading — how did you figure it out?'},
+  {id:'lr10',cat:'learning',icon:'🗣️',name:'Language Learner',
+   goal:'Learn how to say and write hello in 10 different languages.',
+   steps:['Choose 10 languages from different parts of the world.',
+          'Learn how to say "hello" out loud in each one.',
+          'Learn how to write "hello" in each one.',
+          'Practice saying all 10 from memory.',
+          'Write them all on a single page.'],
+   hints:['Say them out loud — speaking is different from just reading!','Use flashcards to practice.'],
+   bonus:'Take a picture of the words you have written in all 10 languages.'},
 
-  // ── KITCHEN & FOOD ──
-  {id:'k1', cat:'kitchen', icon:'🥪', name:'Sandwich Star',
-   goal:'Make a complete, creative sandwich from scratch.',
-   steps:['Plan your sandwich — think about flavour combinations. Sweet? Savoury? Both?',
-          'Prepare your ingredients — wash any veg, slice toppings carefully.',
-          'Build in layers — start with the bread and add fillings in a thoughtful order.',
-          'Cut and plate it — cut into a fun shape and arrange nicely on a plate.',
-          'Serve and share — make one for yourself AND one for someone else.'],
-   hints:['Think about texture — crunchy + soft + creamy makes the best sandwiches!','Toast the bread for extra points.'],
-   bonus:'Name your sandwich creation and write the recipe on a card.'},
+  // KITCHEN & FOOD
+  {id:'k1',cat:'kitchen',icon:'🥪',name:'Sandwich Star',
+   goal:'Make a creative sandwich from scratch.',
+   steps:['Plan your sandwich — think about flavour and texture combinations.',
+          'Prepare your ingredients — wash veg, slice toppings carefully.',
+          'Build in layers starting with the bread.',
+          'Cut and plate it nicely.',
+          'Clean up any mess you make.'],
+   hints:['Crunchy + soft + creamy is the winning combination!','Toast the bread for extra points.'],
+   bonus:'Make a recipe card for your sandwich so you can make it again.'},
 
-  {id:'k2', cat:'kitchen', icon:'🍳', name:'Breakfast Boss',
-   goal:'Make a complete breakfast for yourself from scratch.',
-   steps:['Choose your menu — decide on at least 2 components (e.g. eggs + toast + fruit).',
-          'Check you have everything — look in the fridge and cupboard first.',
-          'Cook safely — follow safety rules at the stove. Ask for supervision if needed.',
-          'Plate it attractively — arrange the food nicely — colour and presentation count!',
-          'Clean as you go — wipe surfaces, rinse equipment, leave the kitchen tidy.'],
-   hints:['Eggs can be scrambled, fried, or boiled — all great for beginners!','Plan something you can do mostly independently.'],
-   bonus:'Set the table properly with a napkin and juice before serving.'},
+  {id:'k2',cat:'kitchen',icon:'🍳',name:'Breakfast Boss',
+   goal:'Make breakfast for the whole family.',
+   steps:['Find a healthy breakfast recipe.',
+          'Make breakfast for the family — everyone gets a plate.',
+          'Clean up any mess you make.',
+          'Enjoy breakfast together.'],
+   hints:['Plan something you can do mostly independently.','Eggs, toast, and fruit is a great starter menu!'],
+   bonus:'Make a recipe card for your breakfast dish.'},
 
-  {id:'k3', cat:'kitchen', icon:'🍎', name:'Snack Stylist',
+  {id:'k3',cat:'kitchen',icon:'🍎',name:'Snack Stylist',
    goal:'Invent and make an original snack using at least 5 ingredients.',
-   steps:['Brainstorm your snack — what flavours and textures do you enjoy together?',
-          'Write down your recipe — list ingredients and steps before starting.',
-          'Prepare all ingredients — wash, cut, and measure everything first.',
-          'Assemble your snack — put it together according to your plan.',
-          'Present and taste test — serve it nicely and rate it honestly out of 10.'],
-   hints:['Sweet + salty is a classic winning combination.','Don\'t be afraid to experiment!'],
+   steps:['Brainstorm your snack — what flavours and textures do you enjoy?',
+          'Write your recipe before starting.',
+          'Prepare all ingredients — wash, cut, and measure everything.',
+          'Assemble your snack.',
+          'Present it nicely and give it an honest rating out of 10.'],
+   hints:['Sweet and salty is a classic winning combination.','Do not be afraid to experiment!'],
    bonus:'Get someone to taste test it without knowing the ingredients — can they guess?'},
 
-  {id:'k4', cat:'kitchen', icon:'🥦', name:'Healthy Eater',
+  {id:'k4',cat:'kitchen',icon:'🥦',name:'Healthy Eater',
    goal:'Eat at least one fruit AND one vegetable every day for 5 days.',
-   steps:['Set up your tracker — make a chart with 5 days and 2 columns: fruit and vegetable.',
-          'Plan ahead — look at what\'s in the house and choose one for each day.',
-          'Eat mindfully — notice the taste, texture, and colour of each one.',
-          'Try something new — include at least one fruit or veg you\'ve never tried before.',
-          'Complete your chart — fill it in each day. Can you go 5 for 5?'],
-   hints:['Frozen fruit and veg count too!','Smoothies are a great way to sneak in extra goodness.'],
+   steps:['Make a chart with 5 days and 2 columns: fruit and vegetable.',
+          'Plan ahead — look at what is in the house and choose one for each day.',
+          'Eat mindfully — notice the taste, texture, and colour.',
+          'Include at least one fruit or vegetable you have never tried before.',
+          'Fill in your chart every day — aim for 5 for 5.'],
+   hints:['Frozen fruit and vegetables count too!','Smoothies are a great way to sneak in extra goodness.'],
    bonus:'Find out where one of your vegetables was grown before it reached your plate.'},
 
-  {id:'k5', cat:'kitchen', icon:'🦺', name:'Food Safety Scout',
+  {id:'k5',cat:'kitchen',icon:'🦺',name:'Food Safety Scout',
    goal:'Learn and demonstrate 5 food safety rules.',
-   steps:['Learn the rules — hand washing, safe temperatures, keeping raw meat separate, use-by dates, clean surfaces.',
-          'Write them out — put the 5 rules in your own words from memory.',
-          'Apply them — next time food is prepared, actively follow all 5 rules.',
-          'Check the fridge — is anything past its use-by date? Is anything stored incorrectly?',
-          'Teach one rule — explain one food safety rule to a family member.'],
-   hints:['The danger zone for bacteria is 5°C–60°C — food shouldn\'t stay there long!','When in doubt, throw it out.'],
+   steps:['Learn the 5 rules: hand washing, safe temperatures, keeping raw meat separate, use-by dates, clean surfaces.',
+          'Write them out in your own words from memory.',
+          'Apply them the next time food is prepared.',
+          'Check the fridge — is anything past its use-by date?',
+          'Teach one rule to a family member.'],
+   hints:['The danger zone for bacteria is 5C to 60C — food should not stay there long!','When in doubt, throw it out.'],
    bonus:'Create a food safety poster for your kitchen.'},
 
-  {id:'k6', cat:'kitchen', icon:'🍽️', name:'Dish Designer',
+  {id:'k6',cat:'kitchen',icon:'🍽️',name:'Dish Designer',
    goal:'Present a simple meal beautifully, like a restaurant dish.',
-   steps:['Plan the plate — sketch how you want the food arranged before you start.',
+   steps:['Sketch how you want the food arranged on the plate.',
           'Think about colour — use at least 3 colours on the plate.',
           'Think about height — stack or lean things to create levels.',
-          'Add a garnish — a sprig of herbs, a slice of lemon, or a sauce swirl makes it special.',
-          'Photograph it — take a photo before anyone eats!'],
-   hints:['Odd numbers (3 or 5 elements) look better on a plate than even numbers.','Chefs call this "plating"!'],
+          'Add a garnish — herbs, a lemon slice, or a sauce swirl.',
+          'Photograph it before anyone eats!'],
+   hints:['Odd numbers (3 or 5 elements) look better on a plate.','Chefs call this plating!'],
    bonus:'Recreate a dish from a restaurant, plating it as beautifully as the original.'},
 
-  {id:'k7', cat:'kitchen', icon:'🧁', name:'Bake-Off Beginner',
+  {id:'k7',cat:'kitchen',icon:'🧁',name:'Bake-Off Beginner',
    goal:'Bake something from a recipe, following every step exactly.',
-   steps:['Choose your recipe — muffins, cookies, banana bread, or brownies are great starts.',
-          'Read the whole recipe first — never skip this step! Understand it before beginning.',
-          'Measure carefully — use proper measuring cups and spoons. Baking is a science!',
-          'Follow every step — don\'t skip or improvise. Follow exactly this time.',
-          'Taste and reflect — how did it turn out? What would you do differently next time?'],
-   hints:['Always preheat your oven before starting to bake.','Measure everything before you begin — mise en place!'],
-   bonus:'Decorate your bake beautifully and give some to a neighbour or friend.'},
+   steps:['Choose your recipe — muffins, cookies, or banana bread are great starts.',
+          'Read the whole recipe before beginning.',
+          'Measure carefully — baking is a science and exact amounts matter.',
+          'Follow every step — no skipping or improvising.',
+          'Taste and reflect — how did it turn out?'],
+   hints:['Always preheat your oven before starting.','Measure everything out before you begin — mise en place!'],
+   bonus:'Decorate your bake and give some to a neighbour or friend.'},
 
-  {id:'k8', cat:'kitchen', icon:'🥤', name:'Smoothie Maker',
+  {id:'k8',cat:'kitchen',icon:'🥤',name:'Smoothie Maker',
    goal:'Create 3 different smoothie recipes and rate each one.',
-   steps:['Gather ingredients — fruit, liquid (milk, juice, water), and optional extras (yogurt, oats).',
-          'Make Smoothie 1 — blend, taste, and rate it out of 10. Note what you\'d change.',
+   steps:['Gather ingredients — fruit, liquid, and optional extras like yogurt or oats.',
+          'Make Smoothie 1 — blend, taste, and rate it out of 10.',
           'Make Smoothie 2 — try a completely different flavour combination.',
-          'Make Smoothie 3 — use what you\'ve learned to make your best version yet.',
-          'Write your favourite recipe — record it so you can make it again.'],
-   hints:['Freeze your fruit beforehand for a thicker, colder smoothie.','Banana adds creaminess without dairy!'],
+          'Make Smoothie 3 — use what you learned to make your best version yet.',
+          'Write your favourite recipe down.'],
+   hints:['Freeze your fruit beforehand for a thicker smoothie.','Banana adds creaminess without dairy!'],
    bonus:'Give your best smoothie a name and design a label for the glass.'},
 
-  {id:'k9', cat:'kitchen', icon:'📏', name:'Measuring Maestro',
+  {id:'k9',cat:'kitchen',icon:'📏',name:'Measuring Maestro',
    goal:'Practice measuring ingredients accurately for 3 different recipes.',
    steps:['Learn the measures — cups, tablespoons, teaspoons, and grams.',
-          'Choose 3 recipes — find 3 recipes that require measuring (not just "a handful").',
-          'Measure each ingredient — use proper measuring tools. Level off dry ingredients with a knife.',
-          'Compare methods — try measuring by cup AND by weight for one ingredient.',
-          'Record your accuracy — ask an adult to check your measurements before you cook.'],
-   hints:['For flour: spoon it into the cup rather than scooping — scooping packs it down!','Precise measuring = better results.'],
+          'Choose 3 recipes that require precise measuring.',
+          'Measure each ingredient using proper tools.',
+          'Level off dry ingredients with a knife.',
+          'Ask an adult to check your measurements before cooking.'],
+   hints:['Spoon flour into the cup rather than scooping — scooping packs it down.','Precise measuring equals better results!'],
    bonus:'Convert a recipe from cups to grams using a conversion chart.'},
 
-  {id:'k10', cat:'kitchen', icon:'📝', name:'Recipe Recorder',
+  {id:'k10',cat:'kitchen',icon:'📝',name:'Recipe Recorder',
    goal:'Write your own original recipe from scratch and cook it.',
-   steps:['Invent your dish — think of something you\'d like to eat that you\'ve never had before.',
-          'List your ingredients — write every ingredient with the exact amount.',
-          'Write the steps — describe each step clearly enough that a stranger could follow it.',
-          'Cook it — follow YOUR own recipe exactly. No improvising!',
-          'Evaluate and edit — rate it and rewrite any steps that weren\'t clear.'],
-   hints:['Good recipes describe HOW as well as WHAT — "stir gently" not just "stir."','Read it back as if you\'ve never cooked before.'],
+   steps:['Invent a dish — think of something you would like to eat.',
+          'List every ingredient with the exact amount.',
+          'Write the steps clearly enough that a stranger could follow them.',
+          'Cook it — follow YOUR own recipe exactly.',
+          'Rate it and rewrite any steps that were not clear.'],
+   hints:['Good recipes say HOW as well as WHAT — "stir gently" not just "stir."','Read it back as if you have never cooked before.'],
    bonus:'Illustrate your recipe card with drawings of each step.'},
 
-  // ── CLEAN & TIDY ──
-  {id:'c1', cat:'clean', icon:'🧹', name:'Sweeping Star',
+  // CLEAN & TIDY
+  {id:'c1',cat:'clean',icon:'🧹',name:'Sweeping Star',
    goal:'Sweep a floor completely clean.',
-   steps:['Clear the area — move furniture, shoes, and objects off the floor first.',
-          'Start at the edges — sweep corners and edges first, working toward the middle.',
-          'Collect the pile — guide all the debris into one tidy pile.',
-          'Dustpan it — use a dustpan and brush to scoop it all up cleanly.',
-          'Empty and rinse — empty the dustpan into the bin and wipe it clean.'],
-   hints:['Sweep in ONE direction — back and forth just scatters the dust again!','Work from the furthest corner toward the door.'],
+   steps:['Clear the area — move furniture and objects off the floor.',
+          'Start at the edges — sweep corners first, working toward the middle.',
+          'Collect the pile — guide all debris into one tidy pile.',
+          'Dustpan it — scoop everything up cleanly.',
+          'Empty and rinse the dustpan.'],
+   hints:['Sweep in ONE direction — back and forth just scatters dust again.','Work from the furthest corner toward the door!'],
    bonus:'Mop the floor afterwards for a truly sparkling finish.'},
 
-  {id:'c2', cat:'clean', icon:'🚿', name:'Bathroom Boss',
+  {id:'c2',cat:'clean',icon:'🚿',name:'Bathroom Boss',
    goal:'Clean the bathroom completely from top to bottom.',
-   steps:['Gather supplies — scrubbing brush, cloth, cleaning spray, and gloves if available.',
-          'Wipe the sink and tap — spray and wipe. Don\'t forget the tap handles!',
-          'Scrub the toilet — clean the outside first, then inside the bowl. Flush when done.',
-          'Wipe the mirror — use a damp cloth or glass cleaner for a streak-free shine.',
-          'Wipe surfaces and mop the floor — do bench tops first, then the floor last.'],
+   steps:['Gather supplies — scrubbing brush, cloth, cleaning spray, and gloves.',
+          'Wipe the sink and tap — spray and wipe, including the handles.',
+          'Scrub the toilet — outside first, then inside the bowl. Flush when done.',
+          'Wipe the mirror — use glass cleaner for a streak-free shine.',
+          'Wipe surfaces then mop the floor — bench tops first, floor last.'],
    hints:['Always clean from top to bottom — dirt falls down!','Wear gloves for the toilet.'],
    bonus:'Refill the soap dispenser and replace any empty toilet rolls too.'},
 
-  {id:'c3', cat:'clean', icon:'👟', name:'Shoe Organizer',
+  {id:'c3',cat:'clean',icon:'👟',name:'Shoe Organizer',
    goal:'Organize and clean all the shoes in your home.',
-   steps:['Collect all the shoes — gather every pair from everywhere in the house.',
+   steps:['Collect all the shoes from everywhere in the house.',
           'Sort by person — make a pile for each family member.',
           'Clean them — wipe or brush off dirt from each pair.',
           'Match and pair — make sure every shoe has its partner.',
-          'Put them away neatly — return them to their proper place.'],
-   hints:['Stuffing newspaper inside wet shoes dries them out overnight!','Group by person or by type — whatever makes sense for your home.'],
+          'Put them away neatly.'],
+   hints:['Stuffing newspaper inside wet shoes dries them out overnight.','Group by person or by type — whatever makes sense!'],
    bonus:'Find any shoes that no longer fit and set them aside for donation.'},
 
-  {id:'c4', cat:'clean', icon:'🛏️', name:'Bed Maker',
+  {id:'c4',cat:'clean',icon:'🛏️',name:'Bed Maker',
    goal:'Make your bed neatly every morning for 5 days in a row.',
-   steps:['Start with the fitted sheet — make sure the corners are tucked tightly.',
-          'Straighten the top sheet — pull it flat and tuck under the mattress at the bottom.',
-          'Fluff the pillow — shake and straighten it. Place at the head of the bed.',
-          'Pull up the duvet or blanket — smooth it out evenly. No lumps!',
-          'Add finishing touches — arrange any decorative pillows or stuffed animals neatly.'],
-   hints:['A made bed makes your whole room look cleaner instantly!','It takes less than 3 minutes once you\'re good at it.'],
+   steps:['Straighten the fitted sheet — make sure corners are tucked tightly.',
+          'Pull the top sheet flat and tuck under the mattress at the bottom.',
+          'Fluff and straighten the pillow.',
+          'Pull up the duvet or blanket — smooth it out evenly.',
+          'Arrange any decorative pillows or stuffed animals neatly.'],
+   hints:['A made bed makes your whole room look cleaner instantly!','It takes less than 3 minutes once you are good at it.'],
    bonus:'Make someone else\'s bed as a surprise.'},
 
-  {id:'c5', cat:'clean', icon:'🗑️', name:'Trash Tracker',
-   goal:'Empty all the bins in your home and take rubbish to the outdoor bin.',
-   steps:['Count the bins — find every bin in the house (kitchen, bathrooms, bedrooms).',
-          'Empty each one — take the bag or contents out carefully without spilling.',
-          'Replace the liner — put a new bin bag in every bin you emptied.',
-          'Take it outside — carry the bags to the outdoor rubbish bin.',
-          'Wash your hands — always wash up after handling rubbish!'],
-   hints:['Do this before the council collection day so nothing is missed.','Bags that are too full are hard to lift and can tear!'],
+  {id:'c5',cat:'clean',icon:'🗑️',name:'Trash Tracker',
+   goal:'Empty all the bins in the house and take rubbish to the outdoor bin.',
+   steps:['Find every bin in the house — kitchen, bathrooms, bedrooms.',
+          'Empty each one carefully without spilling.',
+          'Replace the liner in every bin you emptied.',
+          'Carry the bags to the outdoor rubbish bin.',
+          'Wash your hands thoroughly after handling rubbish.'],
+   hints:['Do this before collection day so nothing is missed.','Bags that are too full can tear — do not overfill them!'],
    bonus:'Rinse out any recycling bins that have become smelly.'},
 
-  {id:'c6', cat:'clean', icon:'🧦', name:'Sock Matcher',
+  {id:'c6',cat:'clean',icon:'🧦',name:'Sock Matcher',
    goal:'Sort and match a full basket of laundry socks.',
-   steps:['Tip them out — pour all the socks into a pile on a clean surface.',
-          'Sort by colour — make rough colour groups first to speed things up.',
-          'Find the matches — match each sock to its pair.',
-          'Fold or roll — fold matched pairs together neatly.',
-          'Sort by owner — put each person\'s socks in a separate pile.'],
-   hints:['Turn all socks the right way out first.','Missing a match? Set it aside — the other one often appears in the next wash!'],
+   steps:['Tip all the socks into a pile on a clean surface.',
+          'Turn all socks the right way out first.',
+          'Sort by colour — make rough groups to speed things up.',
+          'Find and match each sock to its pair.',
+          'Fold or roll matched pairs and sort by owner.'],
+   hints:['Missing a match? Set it aside — the other one often appears in the next wash.','The faster you get, the more satisfying it is!'],
    bonus:'Match an entire laundry load, not just the socks.'},
 
-  {id:'c7', cat:'clean', icon:'👗', name:'Closet Commander',
+  {id:'c7',cat:'clean',icon:'👗',name:'Closet Commander',
    goal:'Organize your wardrobe or clothing storage neatly.',
    steps:['Take everything out — empty your wardrobe completely.',
-          'Sort into categories — keep, donate, rubbish. Be honest about what you actually wear!',
-          'Group what stays — sort by type: tops, bottoms, dresses, jumpers.',
-          'Hang or fold properly — hang items that wrinkle; fold knitwear and jeans.',
-          'Put it back neatly — arrange by category and by colour if you like!'],
-   hints:['If you haven\'t worn something in 6 months, you probably don\'t need it.','A clear-out feels amazing!'],
+          'Sort into categories — keep, donate, rubbish.',
+          'Group what stays — sort by type: tops, bottoms, jumpers.',
+          'Hang or fold properly — hang items that wrinkle; fold knitwear.',
+          'Put it back neatly — arrange by category and colour.'],
+   hints:['If you have not worn something in 6 months, you probably do not need it.','A clear-out feels amazing!'],
    bonus:'Create a simple outfit planner for the next 5 days using what you own.'},
 
-  {id:'c8', cat:'clean', icon:'🧸', name:'Toy Tamer',
+  {id:'c8',cat:'clean',icon:'🧸',name:'Toy Tamer',
    goal:'Tidy all your toys and games back to their correct places.',
-   steps:['Collect everything — gather all toys from all rooms, including under the bed!',
-          'Sort by type — board games together, Lego together, stuffed animals together.',
-          'Find their homes — every toy needs a place where it belongs.',
+   steps:['Collect everything — gather all toys from all rooms, including under the bed.',
+          'Sort by type — board games, Lego, stuffed animals, and so on.',
+          'Find a home for everything — every toy needs a place where it belongs.',
           'Check for completeness — are any games missing pieces? Set those aside.',
-          'Return and organize — place everything back in its correct spot, neatly.'],
-   hints:['Use labeled boxes or baskets to make it easy to find things and put them back.','One system that everyone knows works best.'],
+          'Return and organize — place everything back in its correct spot.'],
+   hints:['Use labeled boxes or baskets to make it easy to put things back.','One system everyone knows works best!'],
    bonus:'Find toys you no longer play with and put them in a donation bag.'},
 
-  {id:'c9', cat:'clean', icon:'🌀', name:'Vacuum Virtuoso',
+  {id:'c9',cat:'clean',icon:'🌀',name:'Vacuum Virtuoso',
    goal:'Vacuum the floors in at least 3 rooms.',
-   steps:['Prepare the room — pick up everything off the floor so you can vacuum freely.',
-          'Learn the vacuum — ask how to operate it properly before beginning.',
-          'Vacuum in rows — go back and forth in overlapping rows, like mowing a lawn.',
-          'Get the edges — use the attachment to vacuum along the edges and in corners.',
-          'Empty the bin — check and empty the dustbin or replace the bag when done.'],
+   steps:['Pick up everything off the floor before starting.',
+          'Ask how to operate the vacuum properly if you are not sure.',
+          'Vacuum in rows — back and forth in overlapping lines.',
+          'Use the attachment to vacuum edges and corners.',
+          'Empty the dustbin when done.'],
    hints:['Go slowly — rushing means missing dirt.','Pay extra attention to high-traffic areas!'],
    bonus:'Vacuum the furniture cushions too — crumbs hide there!'},
 
-  {id:'c10', cat:'clean', icon:'🧽', name:'Wipe-Down Wonder',
+  {id:'c10',cat:'clean',icon:'🧽',name:'Wipe-Down Wonder',
    goal:'Wipe down all surfaces in the kitchen and living areas.',
-   steps:['Get your cloth and spray — use an appropriate cleaning spray and a clean cloth.',
-          'Start high, go low — begin with high surfaces (shelves, bench tops) and work down.',
+   steps:['Get your cloth and appropriate cleaning spray.',
+          'Start high, go low — begin with shelves and bench tops, work down.',
           'Wipe in sections — work your way around the room systematically.',
-          'Hit handles and buttons — light switches, door handles, and remotes need wiping too!',
-          'Rinse or replace the cloth — a dirty cloth just spreads dirt around.'],
-   hints:['Microfibre cloths work best — they pick up dust without pushing it around.','Change or rinse your cloth between rooms.'],
-   bonus:'Clean the inside of the microwave too — run a damp cloth around after microwaving a cup of water.'},
+          'Hit handles and buttons — light switches, door handles, and remotes too.',
+          'Rinse or replace the cloth between rooms.'],
+   hints:['Microfibre cloths work best — they pick up dust without spreading it.','Change your cloth between rooms!'],
+   bonus:'Clean the inside of the microwave by microwaving a cup of water first to loosen grime, then wipe.'},
 
-  // ── CREATIVITY & EXPRESSION ──
-  {id:'cr1', cat:'creative', icon:'🎨', name:'Crafty Creator',
+  // CREATIVITY & EXPRESSION
+  {id:'cr1',cat:'creative',icon:'🎨',name:'Crafty Creator',
    goal:'Complete a craft project from start to finish using materials you already have.',
-   steps:['Decide what to make — cardboard, fabric, buttons, wool, paint — what do you have?',
+   steps:['Decide what to make — cardboard, fabric, buttons, wool, paint, what do you have?',
           'Plan it out — sketch your idea on paper first.',
-          'Gather materials — collect everything you need before starting.',
-          'Make it — take your time and enjoy the process, not just the result!',
-          'Display or give it away — show it off or give it as a gift.'],
-   hints:['The best crafts often come from a "junk box" of toilet rolls, egg cartons, and foil!','Get creative with what you already have.'],
+          'Gather all materials before starting.',
+          'Make it — take your time and enjoy the process.',
+          'Display or give it away.'],
+   hints:['The best crafts come from a junk box of toilet rolls, egg cartons, and foil!','Get creative with what you already have.'],
    bonus:'Make a second version and try to improve on your first attempt.'},
 
-  {id:'cr2', cat:'creative', icon:'🔨', name:'DIY Maker',
+  {id:'cr2',cat:'creative',icon:'🔨',name:'DIY Maker',
    goal:'Build something useful from household materials.',
-   steps:['Identify a need — what could you make that would actually be useful?',
+   steps:['Identify a need — what could you make that would be useful?',
           'Plan and design — draw your design with measurements if possible.',
-          'Gather materials — cardboard, wood scraps, tape, glue — whatever you can find.',
-          'Build it — assemble step by step, being patient with each part.',
-          'Test it — does it work? Does it do what you designed it for?'],
+          'Gather materials — cardboard, wood scraps, tape, glue.',
+          'Build it step by step, being patient with each part.',
+          'Test it — does it do what you designed it for?'],
    hints:['Start simple. The best designs solve one specific problem clearly.','Measure twice, cut once!'],
    bonus:'Decorate your creation and write a label explaining what it is and how you made it.'},
 
-  {id:'cr3', cat:'creative', icon:'📔', name:'Journal Jotter',
+  {id:'cr3',cat:'creative',icon:'📔',name:'Journal Jotter',
    goal:'Write in a journal every day for 7 days.',
-   steps:['Set up your journal — choose a notebook or make your own from folded paper.',
-          'Write every day — even a few sentences counts! Set a time each day.',
+   steps:['Set up your journal — choose a notebook or make your own.',
+          'Write every day — even a few sentences counts.',
           'Use prompts if stuck — "The best part of today was..." or "I wonder why..."',
-          'Include a drawing — at least 3 entries should have a picture.',
-          'Read back your entries — at the end of 7 days, read from the beginning.'],
-   hints:['There\'s no wrong way to journal. No one is grading your spelling!','Be honest with yourself.'],
+          'Include a drawing in at least 3 entries.',
+          'Read back all your entries at the end of 7 days.'],
+   hints:['There is no wrong way to journal. No one is grading your spelling!','Be honest with yourself.'],
    bonus:'Decorate the cover of your journal to make it feel special.'},
 
-  {id:'cr4', cat:'creative', icon:'🎬', name:'Mini Filmmaker',
+  {id:'cr4',cat:'creative',icon:'🎬',name:'Mini Filmmaker',
    goal:'Write, film, and edit a short video of at least 1 minute.',
-   steps:['Write a script or plan — what\'s the story? Who\'s in it? What happens?',
-          'Set up your "studio" — choose a spot with good lighting and a clean background.',
-          'Film your scenes — record each scene. You can redo them as many times as you like!',
-          'Edit your footage — use any simple editing tool to put clips together. Add a title.',
-          'Screen it — watch your film with an audience and take their feedback.'],
-   hints:['Natural light from a window is the best!','Short scenes are easier to edit. Always plan before filming.'],
+   steps:['Write a script or plan — what is the story? Who is in it?',
+          'Set up your filming spot — good lighting and a clean background.',
+          'Film your scenes — record each scene and redo them until you are happy.',
+          'Edit your footage — put clips together and add a title.',
+          'Screen it for an audience.'],
+   hints:['Natural light from a window is the best!','Short scenes are easier to edit. Plan before filming.'],
    bonus:'Add a title card at the beginning and credits at the end like a real film.'},
 
-  {id:'cr5', cat:'creative', icon:'📷', name:'Photo Snapper',
+  {id:'cr5',cat:'creative',icon:'📷',name:'Photo Snapper',
    goal:'Go on a photography walk and take 10 intentional photos with a theme.',
-   steps:['Choose a theme — colour, shadows, textures, patterns, nature, or reflections.',
-          'Plan your walk — around your neighbourhood, a park, or even your own home.',
-          'Be intentional — think before you take each photo. Is it interesting?',
-          'Take your 10 photos — make each one count. No duplicates!',
-          'Choose your best 3 — look through them all and pick your top three.'],
+   steps:['Choose a theme — colour, shadows, textures, patterns, or reflections.',
+          'Plan your walk — neighbourhood, park, or even your home.',
+          'Think before each shot — is it interesting? Is it on theme?',
+          'Take your 10 photos — no duplicates.',
+          'Choose your best 3 and share them.'],
    hints:['Get close for details. Get low for a different perspective.','Look for unexpected angles!'],
    bonus:'Print or display your top 3 and write a caption for each.'},
 
-  {id:'cr6', cat:'creative', icon:'✏️', name:'Comic Artist',
+  {id:'cr6',cat:'creative',icon:'✏️',name:'Comic Artist',
    goal:'Write and draw a comic strip with at least 6 panels.',
-   steps:['Create your characters — decide who\'s in your comic. Give them names and personalities.',
+   steps:['Create your characters — give them names and personalities.',
           'Write a short story — a simple problem and solution.',
-          'Plan your panels — sketch tiny thumbnails of each panel before drawing full size.',
+          'Plan your panels — sketch tiny thumbnails first.',
           'Draw your panels — add detail, expressions, and speech bubbles.',
-          'Ink and colour — go over your pencil lines and add colour if you like.'],
-   hints:['Expressions are the most important part of a comic! Big eyes, big emotions.','Simple is always fine.'],
-   bonus:'Share your comic with someone who doesn\'t know the story — can they follow it?'},
+          'Ink and colour — go over pencil lines and add colour.'],
+   hints:['Expressions are the most important part of a comic!','Simple is always fine.'],
+   bonus:'Share your comic with someone who does not know the story — can they follow it?'},
 
-  {id:'cr7', cat:'creative', icon:'🎵', name:'Music Mixer',
+  {id:'cr7',cat:'creative',icon:'🎵',name:'Music Mixer',
    goal:'Create a short piece of music or rhythm using whatever you have.',
-   steps:['Explore your sounds — pots, spoons, clapping, tapping, and humming all count!',
+   steps:['Explore your sounds — pots, spoons, clapping, tapping, humming all count!',
           'Create a beat — start with a steady rhythm you can keep going.',
-          'Add a melody — hum, sing, or create a simple tune on top of your beat.',
+          'Add a melody — hum, sing, or create a tune on top of your beat.',
           'Practice it — repeat until you can perform it the same way twice.',
-          'Record or perform it — play it for someone or record it on a device.'],
-   hints:['Music doesn\'t need instruments — rhythm and melody can come from anything!','A great beat is the foundation.'],
+          'Record or perform it for someone.'],
+   hints:['Music does not need instruments — rhythm and melody can come from anything!','A great beat is the foundation.'],
    bonus:'Teach your beat to someone else so you can play it together.'},
 
-  {id:'cr8', cat:'creative', icon:'👒', name:'Costume Designer',
+  {id:'cr8',cat:'creative',icon:'👒',name:'Costume Designer',
    goal:'Design and make a costume or outfit using items from around the house.',
-   steps:['Choose your character or theme — who or what do you want to be?',
-          'Plan the costume — draw it out first. What makes it recognizable?',
+   steps:['Choose your character or theme.',
+          'Plan the costume — draw it out first.',
           'Search your home — clothes, scarves, hats, craft supplies, old fabric.',
-          'Make or alter pieces — cut, tie, pin, or sew if needed. Use safety pins!',
-          'Put it on and perform — wear your creation and do something in character!'],
-   hints:['Accessories make or break a costume — a hat or staff transforms an outfit instantly!','Look before you cut — pinning first lets you adjust.'],
+          'Make or alter pieces — cut, tie, pin, or sew if needed.',
+          'Put it on and perform in character!'],
+   hints:['Accessories make or break a costume — a hat transforms an outfit instantly!','Pin before you cut so you can adjust.'],
    bonus:'Photograph your finished costume and write a character description.'},
 
-  {id:'cr9', cat:'creative', icon:'💃', name:'Dance Dynamo',
+  {id:'cr9',cat:'creative',icon:'💃',name:'Dance Dynamo',
    goal:'Choreograph and perform an original dance to a full song.',
-   steps:['Choose your song — pick something with a clear beat and good structure.',
-          'Listen a few times — notice the verses, chorus, and changes before planning.',
-          'Create your moves — invent at least 8 different moves for different sections.',
-          'Practice until it flows — repeat until each move follows naturally from the last.',
-          'Perform for an audience — dance it from start to finish for at least one person.'],
+   steps:['Choose your song — pick something with a clear beat.',
+          'Listen a few times — notice the verses, chorus, and changes.',
+          'Create at least 8 different moves for different sections.',
+          'Practice until each move flows naturally from the last.',
+          'Perform it from start to finish for at least one person.'],
    hints:['Mark song changes with specific moves so it tells a story.','Counts of 8 are the foundation of dance!'],
    bonus:'Teach your dance to someone and perform it together.'},
 
-  {id:'cr10', cat:'creative', icon:'🎭', name:'Puppet Performer',
+  {id:'cr10',cat:'creative',icon:'🎭',name:'Puppet Performer',
    goal:'Make at least 3 puppets and perform a short puppet show.',
-   steps:['Choose your characters — who\'s in your show? What will happen?',
-          'Make your puppets — socks, paper bags, cardboard, or wooden spoons work great.',
+   steps:['Choose your characters — who is in your show and what will happen?',
+          'Make your puppets — socks, paper bags, or cardboard all work great.',
           'Build your theatre — a box with a cut-out front, or a table with a cloth.',
           'Rehearse your show — practice voices, movements, and timing.',
-          'Perform it — put on the show for at least one real audience member.'],
+          'Perform it for at least one real audience member.'],
    hints:['Keep puppets moving when they speak — stillness makes them look lifeless!','Distinct voices for each character help a lot.'],
    bonus:'Add sound effects or music to your show using a device.'},
 
-  // ── COMMUNITY & FRIENDSHIP ──
-  {id:'co1', cat:'community', icon:'💛', name:'Kindness Captain',
+  // COMMUNITY & FRIENDSHIP
+  {id:'co1',cat:'community',icon:'💛',name:'Kindness Captain',
    goal:'Carry out 5 acts of kindness for 5 different people.',
-   steps:['Make your list — think of 5 different people you could do something kind for.',
-          'Plan each act — think of something specific and genuine for each person.',
-          'Do them all — complete each act of kindness, one per day or all in one day.',
-          'Don\'t expect a reward — true kindness asks for nothing back.',
+   steps:['Make your list — think of 5 people you could do something kind for.',
+          'Plan each act — something specific and genuine for each person.',
+          'Do them all.',
+          'Do not expect a reward — true kindness asks for nothing back.',
           'Reflect — write down what you did and how each person responded.'],
-   hints:['Kindness doesn\'t have to cost money. A genuine compliment is powerful!','The smaller and quieter the act, often the more meaningful it is.'],
+   hints:['Kindness does not have to cost money. A genuine compliment is powerful!','The quieter the act, often the more meaningful it is.'],
    bonus:'Do one anonymous act of kindness — something kind where nobody knows it was you.'},
 
-  {id:'co2', cat:'community', icon:'🏡', name:'Good Neighbor',
+  {id:'co2',cat:'community',icon:'🏡',name:'Good Neighbor',
    goal:'Do something helpful or kind specifically for a neighbour.',
    steps:['Think about your neighbours — who lives nearby? Is anyone elderly or new?',
-          'Plan something helpful — bring in their bins, water their plants, or simply visit for a chat.',
-          'Ask first! — check with a grown-up before approaching a neighbour. Go with an adult.',
-          'Do the helpful thing — carry through your plan with a smile.',
-          'Don\'t expect thanks — do it because it\'s right, not for reward.'],
-   hints:['Elderly or unwell neighbours often appreciate a visit most of all.','Being seen and noticed matters enormously to people.'],
+          'Plan something helpful — bring in their bins, water plants, or stop for a chat.',
+          'Check with a grown-up before approaching a neighbour. Go with an adult.',
+          'Do the helpful thing with a smile.',
+          'Do not expect thanks — do it because it is right.'],
+   hints:['Elderly neighbours often appreciate a visit most of all.','Being seen and noticed matters enormously to people.'],
    bonus:'Leave an anonymous kindness note in a neighbour\'s mailbox.'},
 
-  {id:'co3', cat:'community', icon:'🦸', name:'Helper Hero',
+  {id:'co3',cat:'community',icon:'🦸',name:'Helper Hero',
    goal:'Help a family member with a task they usually do alone.',
-   steps:['Observe — notice what jobs adults do at home that they don\'t usually get help with.',
-          'Offer genuinely — don\'t wait to be asked. Volunteer on your own.',
+   steps:['Observe — notice what jobs adults do at home without usually getting help.',
+          'Offer genuinely — do not wait to be asked. Volunteer on your own.',
           'Learn how — ask for instructions and pay close attention.',
-          'Do it well — don\'t rush. Do it as carefully as possible.',
+          'Do it well — do not rush. Do it as carefully as possible.',
           'Keep it up — offer to help with the same task again next time.'],
-   hints:['The best help is offered without being asked. Notice what needs doing!','Doing it unsolicited is what makes it truly helpful.'],
+   hints:['The best help is offered without being asked.','Doing it unsolicited is what makes it truly helpful!'],
    bonus:'Take over a regular chore completely for a whole week.'},
 
-  {id:'co4', cat:'community', icon:'✉️', name:'Thank You Note Ninja',
+  {id:'co4',cat:'community',icon:'✉️',name:'Thank You Note Ninja',
    goal:'Write 3 genuine, specific thank you notes and deliver them.',
-   steps:['Think of 3 people — who has done something kind for you recently?',
-          'Be specific — don\'t just say "thanks for the gift." Say exactly what it meant to you.',
-          'Write each note by hand — use your best handwriting. Add a drawing if you like.',
-          'Send or deliver them — post them, hand deliver, or leave them to be found.',
+   steps:['Think of 3 people who have done something kind for you recently.',
+          'Be specific — do not just say "thanks." Say exactly what it meant to you.',
+          'Write each note by hand — use your best handwriting.',
+          'Send or deliver them.',
           'Reflect — how did it feel to write and send them?'],
    hints:['The more specific the thanks, the more it means.','Mention exactly what the person did and how it made you feel.'],
    bonus:'Write a thank you note to someone who helped you so long ago they might have forgotten.'},
 
-  {id:'co5', cat:'community', icon:'😊', name:'Smile Spreader',
+  {id:'co5',cat:'community',icon:'😊',name:'Smile Spreader',
    goal:'Brighten the day of 3 different people today.',
-   steps:['Plan your approach — think about what genuinely makes people feel better.',
+   steps:['Plan your approach — what genuinely makes people feel better?',
           'Give a real compliment — say something true and specific.',
           'Start a conversation — ask someone about their day and actually listen.',
-          'Do something unexpected — bring someone a drink, hold a door, help without being asked.',
+          'Do something unexpected — bring someone a drink, hold a door, or help without being asked.',
           'Check in with yourself — did it feel good to make others feel good?'],
-   hints:['A genuine smile is contagious. Look people in the eye when you speak to them.','Listening is often the kindest thing you can do.'],
-   bonus:'Challenge yourself to make a stranger smile (in a safe, public place, with a grown-up nearby).'},
+   hints:['A genuine smile is contagious. Look people in the eye when you speak.','Listening is often the kindest thing you can do.'],
+   bonus:'Challenge yourself to make a stranger smile in a safe, public place with a grown-up nearby.'},
 
-  {id:'co6', cat:'community', icon:'🕊️', name:'Conflict Solver',
+  {id:'co6',cat:'community',icon:'🕊️',name:'Conflict Solver',
    goal:'Learn and practice a strategy for resolving a disagreement peacefully.',
-   steps:['Learn the steps — look up "conflict resolution" or ask a grown-up to explain.',
-          'Practice on a past conflict — how could a recent disagreement have been resolved better?',
-          'Role-play a scenario — act out a conflict with a family member and practice the steps.',
-          'Apply it for real — next time a real disagreement happens, use your new skills.',
+   steps:['Learn the steps: listen, share feelings, find common ground, agree on a solution.',
+          'Practice on a past conflict — how could it have gone better?',
+          'Role-play a scenario with a family member and practice the steps.',
+          'Apply it for real — use your skills the next time a disagreement happens.',
           'Reflect — what worked? What was hard?'],
-   hints:['The key steps: listen, share feelings, find common ground, agree on a solution.','Repeat as needed — it takes practice!'],
-   bonus:'Create a "conflict resolution guide" poster for your family.'},
+   hints:['The key steps: listen, share feelings, find common ground, agree on a solution.','It takes practice — be patient with yourself and others.'],
+   bonus:'Create a conflict resolution guide poster for your family.'},
 
-  {id:'co7', cat:'community', icon:'⭐', name:'Sharing Star',
-   goal:'Share something meaningful with someone — your time, something you own, or a skill.',
+  {id:'co7',cat:'community',icon:'⭐',name:'Sharing Star',
+   goal:'Share something meaningful with someone — time, something you own, or a skill.',
    steps:['Think about what you have to share — time, a favourite toy, a snack, a skill.',
-          'Choose someone to share with — a sibling, friend, or someone who doesn\'t have as much.',
-          'Share genuinely — don\'t hold back. Share the good stuff, not just what you don\'t want!',
+          'Choose someone to share with.',
+          'Share genuinely — share the good stuff, not just what you do not want.',
           'Notice the other person\'s reaction — how do they feel? How do you feel?',
           'Make it a habit — commit to sharing something at least once a week.'],
-   hints:['Sharing time (playing with someone, listening to them) is often more valuable than sharing things.','The attitude matters as much as the act.'],
+   hints:['Sharing time is often more valuable than sharing things.','The attitude matters as much as the act!'],
    bonus:'Organize a toy, book, or clothes swap with friends or neighbours.'},
 
-  {id:'co8', cat:'community', icon:'🎂', name:'Birthday Buddy',
+  {id:'co8',cat:'community',icon:'🎂',name:'Birthday Buddy',
    goal:'Plan and do something special for someone\'s birthday entirely on your own.',
    steps:['Remember the date — check if anyone has a birthday coming up soon.',
           'Plan your gesture — make a card, bake something, or write a special message.',
           'Make or prepare it — do everything yourself as much as possible.',
-          'Deliver it on the day — timing matters! Don\'t wait until it\'s too late.',
+          'Deliver it on the day.',
           'Make them feel celebrated — a hug and a song count as much as a gift!'],
-   hints:['A homemade card often means more than a bought one. Put real thought into it!','It\'s the effort that people remember.'],
+   hints:['A homemade card often means more than a bought one.','It is the effort that people remember.'],
    bonus:'Create a birthday tradition you could do for everyone in your family each year.'},
 
-  {id:'co9', cat:'community', icon:'🌟', name:'Little Leader',
+  {id:'co9',cat:'community',icon:'🌟',name:'Little Leader',
    goal:'Organise and lead an activity for at least 2 other people.',
-   steps:['Choose your activity — a game, craft, cooking project, walk, or challenge.',
-          'Plan it properly — what do you need? What are the rules or steps? How long will it take?',
-          'Invite people and explain — communicate clearly what you\'re doing.',
-          'Lead calmly — keep things moving and handle any disagreements fairly.',
-          'Wrap it up — thank everyone for participating and ask for feedback.'],
-   hints:['A good leader listens as well as talks.','Make sure everyone feels included and valued.'],
-   bonus:'Lead the same activity again and see how you\'ve improved from the first time.'},
+   steps:['Choose your activity — a game, craft, cooking project, or walk.',
+          'Plan it properly — what do you need? What are the rules? How long will it take?',
+          'Invite people and explain what you are doing.',
+          'Lead calmly — keep things moving and handle disagreements fairly.',
+          'Wrap it up — thank everyone and ask for feedback.'],
+   hints:['A good leader listens as well as talks.','Make sure everyone feels included.'],
+   bonus:'Lead the same activity again and see how much you have improved.'},
 
-  {id:'co10', cat:'community', icon:'🤝', name:'Teamwork Titan',
-   goal:'Complete a challenge that requires genuine teamwork with at least 2 other people.',
-   steps:['Choose a challenge — build something together, complete a puzzle, or cook a meal.',
-          'Plan as a team — talk through who does what before starting. Everyone has a role.',
-          'Communicate while working — check in with each other. Ask if anyone needs help.',
-          'Handle disagreements — stay calm, listen, and compromise.',
-          'Celebrate as a team — when done, celebrate everyone\'s contribution equally.'],
+  {id:'co10',cat:'community',icon:'🤝',name:'Teamwork Titan',
+   goal:'Complete a challenge that requires genuine teamwork with at least 2 others.',
+   steps:['Choose a challenge — build something, complete a puzzle, or cook a meal together.',
+          'Plan as a team — talk through who does what before starting.',
+          'Communicate while working — check in with each other and ask if anyone needs help.',
+          'Handle disagreements calmly — listen and compromise.',
+          'Celebrate as a team — everyone contributed!'],
    hints:['The team succeeds or fails together — never blame one person.','Look for what each person does well!'],
-   bonus:'Reflect on: what did each person contribute that you couldn\'t have done alone?'},
+   bonus:'Reflect: what did each person contribute that you could not have done alone?'},
 
-  // ── ADVENTURE & CHALLENGES ──
-  {id:'a1', cat:'adventure', icon:'🏕️', name:'Backyard Camper',
+  // ADVENTURE & CHALLENGES
+  {id:'a1',cat:'adventure',icon:'🏕️',name:'Backyard Camper',
    goal:'Set up a tent or fort outside and spend at least an hour outdoors after dark.',
    steps:['Set up camp — pitch a tent, build a fort, or make a comfortable outdoor spot.',
-          'Pack your kit — torch, water, snacks, a blanket, and something to do.',
-          'Explore your surroundings — look at the sky. Listen to the sounds around you.',
-          'Do a night activity — stargaze, tell stories, shadow puppets with a torch, or write in a journal.',
+          'Pack your kit — torch, water, snacks, blanket, and something to do.',
+          'Explore your surroundings — look at the sky and listen to the sounds around you.',
+          'Do a night activity — stargaze, tell stories, or write in a journal.',
           'Stay outside — stick it out for at least an hour. No going inside!'],
    hints:['Tell a grown-up where you are.','Bring a friend or sibling for extra fun!'],
-   bonus:'Stay out long enough to see a constellation appear that wasn\'t visible when you first went out.'},
+   bonus:'Stay out long enough to see a constellation appear that was not visible when you first went out.'},
 
-  {id:'a2', cat:'adventure', icon:'💧', name:'Water Warrior',
+  {id:'a2',cat:'adventure',icon:'💧',name:'Water Warrior',
    goal:'Practice a water-based activity safely — swimming, water play, or water games.',
-   steps:['Choose your activity — swimming laps, water balloon games, sprinkler play, or a splash pad.',
-          'Set up safely — always have adult supervision near water. Know the rules.',
-          'Warm up — start gradually. Don\'t jump straight into cold water!',
-          'Challenge yourself — try something harder than last time: swim further, a new stroke.',
+   steps:['Choose your activity — swimming laps, water balloon games, or sprinkler play.',
+          'Set up safely — always have adult supervision near water.',
+          'Warm up — start gradually. Do not jump straight into cold water.',
+          'Challenge yourself — try something harder than last time.',
           'Cool down — rinse off, dry off, and reflect on what you practiced.'],
-   hints:['Water safety first, always. Never swim alone.','Know where to find the nearest adult at all times.'],
+   hints:['Water safety first, always. Never swim alone.','Know where the nearest adult is at all times.'],
    bonus:'Time yourself on a swimming challenge and try to beat your time next session.'},
 
-  {id:'a3', cat:'adventure', icon:'🔥', name:'Fire Safety Scout',
+  {id:'a3',cat:'adventure',icon:'🔥',name:'Fire Safety Scout',
    goal:'Learn and demonstrate 5 fire safety rules to your family.',
    steps:['Research fire safety — find out the top 5 home fire safety rules.',
           'Check your home — is there a working smoke alarm? Do you know the escape plan?',
           'Learn Stop, Drop, and Roll — practice it properly.',
-          'Write your 5 rules — list them in your own words from memory.',
-          'Teach your family — present the rules and quiz them. Are they prepared?'],
+          'Write your 5 rules in your own words from memory.',
+          'Teach your family — present the rules and quiz them.'],
    hints:['Practice your family\'s escape plan at least twice a year.','Know TWO ways out of every room!'],
    bonus:'Help check the batteries in your smoke alarms at home.'},
 
-  {id:'a4', cat:'adventure', icon:'🏰', name:'DIY Fort Builder',
+  {id:'a4',cat:'adventure',icon:'🏰',name:'DIY Fort Builder',
    goal:'Design and build a fort big enough to sit inside, from scratch.',
    steps:['Design first — sketch your fort before building. What shape? How do you get in?',
-          'Gather materials — blankets, pillows, chairs, cushions, cardboard.',
-          'Build it — follow your design as closely as possible. Problem-solve when things don\'t work!',
-          'Add features — a secret entrance, a window, a sign with your fort\'s name.',
-          'Spend time inside — read, rest, or invite someone in. The fort must be used!'],
-   hints:['Clip blankets to furniture with pegs or large clips for a more stable structure.','The messier the process, the better the fort.'],
+          'Gather materials — blankets, pillows, chairs, cushions, or cardboard.',
+          'Build it — follow your design and problem-solve when things do not work.',
+          'Add features — a secret entrance, a window, or a sign with your fort\'s name.',
+          'Spend time inside — read, rest, or invite someone in.'],
+   hints:['Clip blankets to furniture with pegs for a more stable structure.','The messier the process, the better the fort!'],
    bonus:'Hold a fort inspection — invite a grown-up to officially declare your fort open.'},
 
-  {id:'a5', cat:'adventure', icon:'🔍', name:'Summer Scavenger',
+  {id:'a5',cat:'adventure',icon:'🔍',name:'Summer Scavenger',
    goal:'Complete a summer scavenger hunt with at least 15 items to find.',
    steps:['Write the list — create or find a scavenger hunt list of 15 things to find outdoors.',
           'Set the rules — where can you look? Do you need photos as proof?',
-          'Hunt solo or with a partner — work through the list as completely as you can.',
+          'Hunt solo or with a partner.',
           'Document each find — photo, drawing, or tick on the list.',
-          'Celebrate completion — how many did you find? Aim for all 15!'],
-   hints:['Include a mix of easy and tricky items.','Some can be sounds to hear, not just things to see!'],
+          'Celebrate completion — aim for all 15!'],
+   hints:['Include a mix of easy and tricky items.','Some items can be sounds to hear, not just things to see!'],
    bonus:'Create a scavenger hunt for someone else using the same format.'},
 
-  {id:'a6', cat:'adventure', icon:'🗺️', name:'Map Reader',
+  {id:'a6',cat:'adventure',icon:'🗺️',name:'Map Reader',
    goal:'Read a real map to navigate to a destination without GPS.',
    steps:['Find a map — use a paper map of your neighbourhood, park, or a trail.',
-          'Orient the map — figure out which direction you\'re facing and match it to the map.',
-          'Identify landmarks — find 3 things on the map that you can also see in real life.',
-          'Plan a route — choose a starting point and destination. Which way will you go?',
-          'Navigate there — follow the map to reach your destination without GPS assistance.'],
-   hints:['Look for landmarks — a building, a tree, a corner — to confirm you\'re on the right path.','Rotate the map to match the direction you\'re walking.'],
+          'Orient the map — figure out which direction you are facing and match it to the map.',
+          'Identify 3 landmarks on the map that you can also see in real life.',
+          'Plan a route — choose a starting point and destination.',
+          'Navigate there — follow the map without GPS assistance.'],
+   hints:['Look for landmarks to confirm you are on the right path.','Rotate the map to match the direction you are walking.'],
    bonus:'Draw your own map of your street from memory, then check its accuracy.'},
 
-  {id:'a7', cat:'adventure', icon:'🧭', name:'Compass Kid',
+  {id:'a7',cat:'adventure',icon:'🧭',name:'Compass Kid',
    goal:'Learn how to use a compass and navigate using cardinal directions.',
-   steps:['Learn the directions — North, South, East, West — and the points between.',
+   steps:['Learn the 4 cardinal directions — North, South, East, West.',
           'Use a compass — hold it flat, let it settle, and identify North.',
           'Practice at home — stand in the centre of a room and point in each direction.',
-          'Navigate outdoors — use the compass to follow a series of direction instructions.',
+          'Navigate outdoors — follow a series of direction instructions.',
           'Make a treasure map — create a direction-based map to a "treasure" in your garden.'],
-   hints:['The red needle always points North.','Turn your BODY, not just the compass, when changing direction.'],
+   hints:['The red needle always points North.','Turn your whole body, not just the compass, when changing direction.'],
    bonus:'Follow a compass bearing for 50 steps in each direction and see where you end up.'},
 
-  {id:'a8', cat:'adventure', icon:'🚲', name:'Bike Rider',
+  {id:'a8',cat:'adventure',icon:'🚲',name:'Bike Rider',
    goal:'Complete a bike ride on a new route and navigate safely.',
    steps:['Check your bike — tyres pumped? Brakes working? Helmet fitted correctly?',
-          'Plan your route — choose a route you haven\'t done before.',
+          'Plan your route — choose a route you have not done before.',
           'Ride safely — follow road rules, signal turns, and watch for traffic.',
-          'Notice new things — what do you see on this route you\'ve never noticed before?',
-          'Complete the full route — don\'t cut it short! Ride the whole planned distance.'],
-   hints:['Always wear your helmet.','Walk your bike across busy roads — safety always comes first.'],
+          'Notice new things — what do you see on this route you have never noticed before?',
+          'Complete the full route — do not cut it short!'],
+   hints:['Always wear your helmet.','Walk your bike across busy roads.'],
    bonus:'Ride the same route again and try to beat your time.'},
 
-  {id:'a9', cat:'adventure', icon:'🦺', name:'Safety Spotter',
+  {id:'a9',cat:'adventure',icon:'🦺',name:'Safety Spotter',
    goal:'Identify and address 5 safety hazards in your home.',
    steps:['Do a safety walk — go through each room looking for potential hazards.',
-          'Make a hazard list — write down everything you find (loose rugs, blocked exits).',
+          'Make a hazard list — write down everything you find.',
           'Rank by risk — which are most dangerous? Put those at the top.',
           'Fix what you can — straighten a rug, move something blocking a door.',
-          'Report the rest — tell a grown-up about any hazards you can\'t fix yourself.'],
-   hints:['Think like a safety inspector: what could cause a fall? A burn? A bump?','What could block an escape route?'],
+          'Report the rest — tell a grown-up about any hazards you cannot fix yourself.'],
+   hints:['Think like a safety inspector: what could cause a fall, burn, or bump?','What could block an escape route?'],
    bonus:'Create a home safety checklist that your family can use once a month.'},
 
-  {id:'a10', cat:'adventure', icon:'🌟', name:'Mini Mentor',
+  {id:'a10',cat:'adventure',icon:'🌟',name:'Mini Mentor',
    goal:'Spend quality time helping and teaching a younger child.',
    steps:['Choose your person — a younger sibling, cousin, or family friend.',
-          'Find out what they want to learn — ask them! What do they find hard?',
-          'Plan how to help — keep it simple and fun. Think about how you\'ll explain it.',
+          'Find out what they want to learn — ask them!',
+          'Plan how to help — keep it simple and fun.',
           'Spend at least 30 minutes — be patient. Children learn at their own pace.',
-          'Celebrate their progress — make them feel proud of what they achieved with your help.'],
+          'Celebrate their progress — make them feel proud of what they achieved.'],
    hints:['Never show frustration — encouragement always works better.','Speak at their level, not above it.'],
-   bonus:'Teach them a skill they can then teach someone ELSE, passing it on.'},
+   bonus:'Teach them a skill they can then teach someone else, passing it on.'},
 ];
 
 const CAT_LABELS = {
-  life:      '🏠 Life Skills & Chores',
-  nature:    '🌿 Nature & Outdoors',
-  learning:  '🧠 Learning & Curiosity',
-  kitchen:   '🧑‍🍳 Kitchen & Food',
-  clean:     '🧹 Clean & Tidy',
-  creative:  '🎨 Creativity & Expression',
-  community: '👫 Community & Friendship',
-  adventure: '⚔️ Adventure & Challenges',
+  life:'🏠 Life Skills & Chores', nature:'🌿 Nature & Outdoors',
+  learning:'🧠 Learning & Curiosity', kitchen:'🧑‍🍳 Kitchen & Food',
+  clean:'🧹 Clean & Tidy', creative:'🎨 Creativity & Expression',
+  community:'👫 Community & Friendship', adventure:'⚔️ Adventure & Challenges'
 };
 const CAT_ORDER = ['life','nature','learning','kitchen','clean','creative','community','adventure'];
+const USERS = { oliver:{emoji:'🧒',label:'Oliver'}, logan:{emoji:'👦',label:'Logan'} };
 
-let earned = (() => { try { return JSON.parse(localStorage.getItem('sf_badges') || '[]'); } catch(e) { return []; } })();
+let currentUser = localStorage.getItem('sf_badges_user') || 'oliver';
+let userData = { oliver: loadEarned('oliver'), logan: loadEarned('logan') };
+
+function loadEarned(u) { try { return JSON.parse(localStorage.getItem('sf_badges_'+u)||'[]'); } catch(e) { return []; } }
+function saveEarned(u) { try { localStorage.setItem('sf_badges_'+u, JSON.stringify(userData[u])); } catch(e) {} }
+function isEarned(id) { return userData[currentUser].includes(id); }
+function isEarnedBy(id, u) { return userData[u].includes(id); }
+
 let activeFilter = 'all';
 let modalBadge = null;
 
-function save() { try { localStorage.setItem('sf_badges', JSON.stringify(earned)); } catch(e) {} }
-function isEarned(id) { return earned.includes(id); }
+function switchUser(u) {
+  currentUser = u;
+  localStorage.setItem('sf_badges_user', u);
+  document.querySelectorAll('.user-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('btn-'+u).classList.add('active');
+  updateStats(); renderBadges();
+  if (modalBadge) refreshEarnBtn();
+}
 
 function updateStats() {
-  const n = earned.length;
+  const n = userData[currentUser].length;
+  const pctVal = Math.round(n/80*100);
   document.getElementById('earnedCount').textContent = n;
-  document.getElementById('pct').textContent = Math.round(n/80*100) + '%';
-  document.getElementById('pctLabel').textContent = n + ' / 80';
-  document.getElementById('progressFill').style.width = (n/80*100) + '%';
-  const catDone = CAT_ORDER.filter(cat => BADGES.filter(b => b.cat===cat).every(b => isEarned(b.id))).length;
+  document.getElementById('pct').textContent = pctVal+'%';
+  document.getElementById('pctLabel').textContent = n+' / 80';
+  document.getElementById('progressFill').style.width = pctVal+'%';
+  document.getElementById('progressName').textContent = USERS[currentUser].label+'\'s Progress';
+  const catDone = CAT_ORDER.filter(cat => BADGES.filter(b=>b.cat===cat).every(b=>isEarned(b.id))).length;
   document.getElementById('catCount').textContent = catDone;
+  ['oliver','logan'].forEach(u => {
+    document.getElementById('count-'+u).textContent = userData[u].length+' / 80';
+  });
 }
 
 function renderBadges() {
@@ -1099,13 +1059,19 @@ function renderBadges() {
   const cats = activeFilter === 'all' ? CAT_ORDER : [activeFilter];
   section.innerHTML = cats.map(cat => {
     const badges = BADGES.filter(b => b.cat === cat);
-    return '<div class="cat-group"><div class="cat-heading">' + CAT_LABELS[cat] + '</div><div class="badge-grid">' +
-      badges.map(b =>
-        '<div class="badge-card ' + (isEarned(b.id)?'earned':'locked') + '" onclick="openModal(\'' + b.id + '\')">' +
-        '<div class="badge-circle bc-' + b.cat + '">' + b.icon +
-        (isEarned(b.id) ? '<div class="earned-star">⭐</div>' : '') +
-        '</div><div class="badge-name">' + b.name + '</div></div>'
-      ).join('') + '</div></div>';
+    return '<div class="cat-group"><div class="cat-heading">'+CAT_LABELS[cat]+'</div><div class="badge-grid">'+
+      badges.map(b => {
+        const cur = isEarned(b.id);
+        const oliv = isEarnedBy(b.id,'oliver');
+        const log  = isEarnedBy(b.id,'logan');
+        let pips = '';
+        if (oliv) pips += '<div class="earned-pip pip-oliver">🧒</div>';
+        if (log)  pips += '<div class="earned-pip pip-logan">👦</div>';
+        const inds = (oliv||log) ? '<div class="earned-indicators">'+pips+'</div>' : '';
+        return '<div class="badge-card '+(cur?'earned':'locked')+'" onclick="openModal(\''+b.id+'\')">' +
+          '<div class="badge-circle bc-'+b.cat+'">'+b.icon+inds+'</div>' +
+          '<div class="badge-name">'+b.name+'</div></div>';
+      }).join('')+'</div></div>';
   }).join('');
 }
 
@@ -1113,73 +1079,71 @@ function openModal(id) {
   modalBadge = BADGES.find(b => b.id === id);
   if (!modalBadge) return;
   const b = modalBadge;
-  document.getElementById('mCircle').className = 'modal-badge-circle bc-' + b.cat;
+  document.getElementById('mCircle').className = 'modal-badge-circle bc-'+b.cat;
   document.getElementById('mCircle').textContent = b.icon;
   document.getElementById('mTitle').textContent = b.name;
   document.getElementById('mCat').textContent = CAT_LABELS[b.cat];
   document.getElementById('mGoal').textContent = b.goal;
-  document.getElementById('mSteps').innerHTML = b.steps.map((s,i) =>
-    '<li><span class="step-num">'+(i+1)+'</span> '+s+'</li>'
-  ).join('');
-  document.getElementById('mHints').innerHTML =
-    '<div class="modal-section-title">💡 Helpful Hints</div>' +
-    b.hints.map(h => '<div class="hint-item">• ' + h + '</div>').join('');
-  document.getElementById('mBonus').innerHTML =
-    '<div class="modal-section-title">📸 Bonus Challenge</div>' +
-    '<div class="bonus-text">' + b.bonus + '</div>';
+  document.getElementById('mSteps').innerHTML = b.steps.map((s,i)=>'<li><span class="step-num">'+(i+1)+'</span> '+s+'</li>').join('');
+  document.getElementById('mHints').innerHTML = '<div class="modal-section-title">💡 Helpful Hints</div>'+b.hints.map(h=>'<div class="hint-item">• '+h+'</div>').join('');
+  document.getElementById('mBonus').innerHTML = '<div class="modal-section-title">📸 Bonus Challenge</div><div class="bonus-text">'+b.bonus+'</div>';
   refreshEarnBtn();
   document.getElementById('modal').classList.remove('hidden');
 }
 
 function refreshEarnBtn() {
   if (!modalBadge) return;
-  const e = isEarned(modalBadge.id);
+  const b = modalBadge;
+  const oliv = isEarnedBy(b.id,'oliver');
+  const log  = isEarnedBy(b.id,'logan');
+  document.getElementById('mEarnedStatus').innerHTML =
+    '<div class="earned-tag '+(oliv?'yes-oliver':'no')+'">🧒 Oliver '+(oliv?'✓':'–')+'</div>'+
+    '<div class="earned-tag '+(log?'yes-logan':'no')+'">👦 Logan '+(log?'✓':'–')+'</div>';
+  const earned = isEarned(b.id);
   const btn = document.getElementById('earnBtn');
-  btn.className = 'earn-btn ' + (e ? 'is-earned' : 'not-earned');
-  btn.textContent = e ? '✓ Earned — tap to undo' : '🏅 Mark as Earned!';
+  btn.className = 'earn-btn '+currentUser+'-active '+(earned?'is-earned':'not-earned');
+  btn.textContent = earned
+    ? '✓ '+USERS[currentUser].label+' earned this — tap to undo'
+    : '🏅 Mark as Earned for '+USERS[currentUser].label+'!';
 }
 
 function toggleEarn() {
   if (!modalBadge) return;
   const id = modalBadge.id;
   if (isEarned(id)) {
-    earned = earned.filter(x => x !== id);
-    toast('Badge removed.');
+    userData[currentUser] = userData[currentUser].filter(x=>x!==id);
+    toast('Removed for '+USERS[currentUser].label+'.');
   } else {
-    earned.push(id);
+    userData[currentUser].push(id);
     celebrate();
-    toast('🎉 Badge earned: ' + modalBadge.name + '!');
+    toast('🎉 '+USERS[currentUser].label+' earned: '+modalBadge.name+'!');
   }
-  save(); updateStats(); renderBadges(); refreshEarnBtn();
+  saveEarned(currentUser); updateStats(); renderBadges(); refreshEarnBtn();
 }
 
 function hideModal() { document.getElementById('modal').classList.add('hidden'); modalBadge = null; }
-function closeModal(e) { if (e.target === document.getElementById('modal')) hideModal(); }
+function closeModal(e) { if (e.target===document.getElementById('modal')) hideModal(); }
 
 function celebrate() {
   const wrap = document.getElementById('confettiWrap');
   const cols = ['#ff6b9d','#ffa94d','#ffd43b','#69db7c','#4dabf7','#cc5de8','#f06878'];
-  for (let i = 0; i < 60; i++) {
-    const el = document.createElement('div');
-    el.className = 'confetto';
-    el.style.cssText = 'left:'+Math.random()*100+'%;background:'+cols[Math.floor(Math.random()*cols.length)]+';border-radius:'+(Math.random()>0.5?'50%':'2px')+';width:'+(6+Math.random()*10)+'px;height:'+(6+Math.random()*10)+'px;animation-delay:'+Math.random()*0.5+'s;animation-duration:'+(1.4+Math.random()*0.8)+'s';
-    wrap.appendChild(el);
-    setTimeout(() => el.remove(), 2400);
+  for (let i=0;i<60;i++) {
+    const el = document.createElement('div'); el.className='confetto';
+    el.style.cssText='left:'+Math.random()*100+'%;background:'+cols[Math.floor(Math.random()*cols.length)]+';border-radius:'+(Math.random()>.5?'50%':'2px')+';width:'+(6+Math.random()*10)+'px;height:'+(6+Math.random()*10)+'px;animation-delay:'+Math.random()*.5+'s;animation-duration:'+(1.4+Math.random()*.8)+'s';
+    wrap.appendChild(el); setTimeout(()=>el.remove(),2400);
   }
 }
 
 function toast(msg) {
   const area = document.getElementById('toastArea');
-  const el = document.createElement('div');
-  el.className = 'toast'; el.textContent = msg;
-  area.appendChild(el);
-  setTimeout(() => el.remove(), 3200);
+  const el = document.createElement('div'); el.className='toast'; el.textContent=msg;
+  area.appendChild(el); setTimeout(()=>el.remove(),3200);
 }
 
 document.getElementById('catTabs').addEventListener('click', e => {
   const tab = e.target.closest('.cat-tab');
   if (!tab) return;
-  document.querySelectorAll('.cat-tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.cat-tab').forEach(t=>t.classList.remove('active'));
   tab.classList.add('active');
   activeFilter = tab.dataset.cat;
   renderBadges();

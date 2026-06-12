@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Daily Quotes - June 11, 2026</title>
+<title>Daily Quotes</title>
 <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Baloo+2:wght@400;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
 </head>
@@ -11,117 +11,142 @@
 
 <div class="page-header">
   <div class="page-title">Daily Quotes <em>*</em></div>
-  <div class="page-subtitle">Thursday, June 11, 2026</div>
+  <div class="page-subtitle" id="page-date"></div>
 </div>
 
-<div class="section s-stoic">
-  <div class="section-label">A - Marcus Aurelius / Daily Stoic Reflection</div>
-  <div class="section-title">On Doing Good Without Applause</div>
-  <blockquote class="stoic">
-    "Waste no more time arguing what a good man should be. Be one."
-    <br><span style="font-size:.82rem;font-weight:600;opacity:.7;">- Marcus Aurelius, Meditations X.16</span>
-  </blockquote>
-  <div class="section-body">
-    <p><strong>What Marcus meant:</strong> Marcus spent years surrounded by courtiers, philosophers, and politicians who loved to debate virtue in the abstract. He grew impatient with it. The whole point of Stoic philosophy was not to have better arguments — it was to act better. Arguing about goodness is itself a way of avoiding it.</p>
-    <p><strong>Applied today:</strong> Thursday is a working day with real tasks in front of you. Less planning what a productive day looks like, more doing the thing. The version of you who acts is more useful than the version who thinks about acting.</p>
-  </div>
-  <div class="practice-box">Practice for today: Pick one thing you've been thinking about doing instead of doing. Do just the first step of it before noon.</div>
+<div id="quotes-container">
+  <div class="section" style="text-align:center;padding:2rem;color:var(--muted);">Loading quotes…</div>
 </div>
 
-<div class="section s-aa">
-  <div class="section-label">B - AA Daily Reflection - June 11</div>
-  <div class="section-title">Family Obligations</div>
-  <blockquote class="aa">
-    "… a spiritual life which does not include … family obligations may not be so perfect after all."
-    <br><span style="font-size:.82rem;font-weight:600;opacity:.7;">— Alcoholics Anonymous, p. 129</span>
-  </blockquote>
-  <div class="section-body">
-    <p>Today's AA Daily Reflection is titled <strong>Family Obligations</strong>. Its core challenge: the program can be going beautifully at meetings, at work, and in service — and still be falling apart at home. Recovery that looks good everywhere except in the kitchen doesn't count.</p>
-    <p>The reflection asks hard questions: Are our amends a mumbled "sorry," or do they take the form of patience and tolerance? Do we preach at the people we love instead of listening? The spiritual life, it reminds us, is not a theory — we have to live it, starting with the people right in front of us.</p>
-    <p style="font-size:.85rem;color:var(--muted);">Full text: <a href="https://www.aa.org/daily-reflections-june-11" style="color:#148F77;">aa.org/daily-reflections-june-11</a></p>
-  </div>
+<div class="sources" id="sources-footer" style="display:none;">
+  <strong>Source</strong>
+  <a href="https://docs.google.com/spreadsheets/d/11A5NsScePEbtN9dujN3tILb_Q2TU5tsf6I0MbT11kDY/edit?gid=575264347" target="_blank">Daily Quotes — Google Sheet</a>
 </div>
 
-<div class="section s-bible">
-  <div class="section-label">C - Bible Verse of the Day</div>
-  <div class="section-title">James 1:5 <span style="font-size:.85rem;font-weight:600;color:var(--muted);">- NLT</span></div>
-  <blockquote class="bible">
-    "If you need wisdom, ask our generous God, and he will give it to you. He will not rebuke you for asking."
-  </blockquote>
-  <div class="section-body">
-    <p><strong>Context:</strong> James wrote to Jewish Christians scattered across the Roman world — people navigating trials, uncertainty, and loss far from home. In that world, wisdom wasn't philosophy; it was the practical ability to navigate hard things well. James's point is almost startling: God is not stingy with it, and He does not scold you for needing it. The door is open.</p>
-    <p><strong>Today:</strong> If you hit a decision today where you genuinely don't know what the right move is — ask. That's what this verse is for.</p>
-  </div>
-</div>
+<script>
+const SHEET_ID = "11A5NsScePEbtN9dujN3tILb_Q2TU5tsf6I0MbT11kDY";
+const SHEET_GID = "575264347";
+const SECTION_CLASSES = ["s-stoic", "s-aa", "s-bible", "s-word", "s-history", "s-brit"];
 
-<div class="section s-word">
-  <div class="section-label">D - Merriam-Webster Word of the Day</div>
-  <div class="section-title">saturnine <span style="font-size:.9rem;font-weight:600;color:var(--muted);">- adjective - SAT-er-nyne</span></div>
-  <div class="section-body">
-    <p>To be <strong>saturnine</strong> is to be glum, gloomy, and slow to warm up — the sort of person who carries a cloud with them into a sunny room. It can also mean slow to act or change.</p>
-    <blockquote style="border-color:var(--sky);background:#EBF8FF;color:#1A5276;font-style:italic;font-weight:700;">
-      "A walk in the sunshine can improve your mood significantly, raising the spirits of even the most saturnine among us."
-    </blockquote>
-  </div>
-  <div class="etymology">
-    <strong>Etymology:</strong> From <em>Sāturnus</em> — the Roman god of agriculture, typically depicted as a bent old man with a stern, slow, and sullen disposition. Ancient astrologers believed those born under Saturn's influence inherited his heavy temperament. The word travelled through medieval astrology into literary English, where it settled comfortably onto anyone wearing the weight of the world on their face.
-  </div>
-</div>
+function todayISO() {
+  const d = new Date();
+  const pad = n => String(n).padStart(2, "0");
+  return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`;
+}
 
-<div class="section s-history">
-  <div class="section-label">E - This Day in History - June 11</div>
-  <div class="section-body">
+function formatDisplayDate(isoDate) {
+  const d = new Date(isoDate + "T12:00:00");
+  return d.toLocaleDateString("en-US", { weekday: "long", year: "numeric", month: "long", day: "numeric" });
+}
 
-    <div class="history-item">
-      <div class="history-year">323 BC</div>
-      <div class="history-text"><strong>Alexander the Great dies at 32.</strong> The Macedonian general who built the largest empire the ancient world had seen — stretching from Greece to northwestern India — died in Babylon under disputed circumstances. His empire immediately fractured among his generals, reshaping the entire Mediterranean and Near East for centuries.</div>
-    </div>
+function normalizeDate(cellValue, cellFormatted) {
+  // gviz returns dates as "Date(year,month0,day)" in cell.v, or formatted string in cell.f
+  if (cellValue && typeof cellValue === "string" && cellValue.startsWith("Date(")) {
+    const parts = cellValue.replace("Date(", "").replace(")", "").split(",").map(Number);
+    const pad = n => String(n).padStart(2, "0");
+    return `${parts[0]}-${pad(parts[1] + 1)}-${pad(parts[2])}`;
+  }
+  // Try formatted string like "6/12/2026" or "2026-06-12"
+  if (cellFormatted) {
+    const iso = cellFormatted.trim().match(/^(\d{4})-(\d{2})-(\d{2})$/);
+    if (iso) return cellFormatted.trim();
+    const slash = cellFormatted.trim().match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/);
+    if (slash) {
+      const pad = n => String(n).padStart(2, "0");
+      return `${slash[3]}-${pad(slash[1])}-${pad(slash[2])}`;
+    }
+  }
+  if (cellValue && typeof cellValue === "string") return cellValue.trim().substring(0, 10);
+  return "";
+}
 
-    <div class="history-item">
-      <div class="history-year">1509</div>
-      <div class="history-text"><strong>Henry VIII marries Catherine of Aragon.</strong> His first of six marriages — and arguably the most consequential. When Catherine failed to produce a male heir, Henry's determination to annul the union led directly to the English Reformation, the founding of the Church of England, and the permanent break with Rome.</div>
-    </div>
+function loadSheetRows() {
+  return new Promise((resolve, reject) => {
+    const cb = `quotesCallback_${Math.random().toString(36).slice(2)}`;
+    const script = document.createElement("script");
+    const timer = setTimeout(() => { cleanup(); reject(new Error("Timed out")); }, 12000);
 
-    <div class="history-item">
-      <div class="history-year">1776</div>
-      <div class="history-text"><strong>The Committee of Five is appointed.</strong> The Continental Congress selected Jefferson, Adams, Franklin, Sherman, and Livingston to draft a declaration of independence. They had seventeen days. Jefferson's pen would do most of the work.</div>
-    </div>
+    function cleanup() {
+      clearTimeout(timer);
+      delete window[cb];
+      script.remove();
+    }
 
-    <div class="history-item">
-      <div class="history-year">1963</div>
-      <div class="history-text"><strong>Kennedy addresses the nation on civil rights.</strong> In a landmark televised speech, President Kennedy called racial segregation a moral crisis and proposed what would become the Civil Rights Act of 1964. On the same day, Governor George Wallace stood in the University of Alabama doorway to block two Black students — but federal authority prevailed.</div>
-    </div>
+    window[cb] = (payload) => {
+      cleanup();
+      if (!payload || payload.status === "error") {
+        const msg = payload && payload.errors && payload.errors[0] && payload.errors[0].detailed_message;
+        reject(new Error(msg || "Sheet returned an error"));
+        return;
+      }
+      const cols = (payload.table.cols || []).map(c => (c.label || c.id || "").trim().toLowerCase());
+      const rows = (payload.table.rows || []).map(r =>
+        (r.c || []).map(cell => cell ? { v: cell.v == null ? "" : String(cell.v), f: cell.f != null ? String(cell.f) : null } : { v: "", f: null })
+      );
+      resolve({ cols, rows });
+    };
 
-    <div class="history-item">
-      <div class="history-year">1970</div>
-      <div class="history-text"><strong>First women promoted to U.S. Army general.</strong> Anna Mae Hays and Elizabeth P. Hoisington became the first female general officers in U.S. Army history — a ceiling broken after more than two centuries of the military's existence.</div>
-    </div>
+    script.onerror = () => { cleanup(); reject(new Error("Could not load sheet")); };
+    script.src = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?gid=${SHEET_GID}&tqx=responseHandler:${cb}`;
+    document.head.append(script);
+  });
+}
 
-    <div class="history-item">
-      <div class="history-year">1742</div>
-      <div class="history-text"><strong>Treaty of Breslau ends the First Silesian War.</strong> Empress Maria Theresa ceded almost all of Silesia — Austria's wealthiest province — to Frederick the Great of Prussia. She never forgave him. The loss drove two decades of reform that transformed Austria into a modern state, and ultimately sparked the Diplomatic Revolution of 1756 as she tried to win it back. She never did.</div>
-    </div>
+function renderQuotes(quotes) {
+  const container = document.getElementById("quotes-container");
+  if (!quotes.length) {
+    container.innerHTML = '<div class="section" style="text-align:center;padding:2rem;color:var(--muted);">No quotes found for today.</div>';
+    return;
+  }
+  container.innerHTML = quotes.map((q, i) => {
+    const cls = SECTION_CLASSES[i % SECTION_CLASSES.length];
+    return `<div class="section ${cls}">
+      <div class="section-label">${escHtml(q.source)}</div>
+      <div class="section-body">${q.description}</div>
+    </div>`;
+  }).join("\n");
+  document.getElementById("sources-footer").style.display = "";
+}
 
-  </div>
-</div>
+function escHtml(s) {
+  return s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+}
 
-<div class="section s-brit">
-  <div class="section-label">F - Britannica Encyclopaedia Fact</div>
-  <div class="section-title">The Empress Who Never Forgave</div>
-  <div class="section-body">
-    <p>When Maria Theresa signed the Treaty of Breslau in 1742, she did something almost unheard of for an 18th-century monarch: she wept publicly in court. She was twenty-five, had just inherited the Habsburg empire through a contested succession, and had now been forced to hand Frederick the Great her richest province. Contemporary accounts say she signed the treaty and then left the room without a word.</p>
-    <p>What followed was remarkable. Rather than accepting the loss, she spent the next fourteen years quietly rebuilding — restructuring Austria's finances, modernizing her army, and engineering a complete reversal of European alliances known as the Diplomatic Revolution. She brought France, her old enemy, onto her side specifically to isolate Prussia. The Seven Years' War followed. She still didn't get Silesia back. But the effort forged the Austrian Empire that would last another 170 years. Sometimes the thing you lose becomes the thing that makes you.</p>
-  </div>
-</div>
+function showError(msg) {
+  document.getElementById("quotes-container").innerHTML =
+    `<div class="section" style="text-align:center;padding:2rem;color:var(--muted);">${msg}</div>`;
+}
 
-<div class="sources">
-  <strong>Sources</strong>
-  <a href="https://www.merriam-webster.com/word-of-the-day/">Merriam-Webster Word of the Day</a> |
-  <a href="https://www.bible.com/verse-of-the-day">YouVersion Verse of the Day - James 1:5</a> |
-  <a href="https://www.aa.org/daily-reflections-june-11">AA Daily Reflections - June 11</a> |
-  <a href="https://www.britannica.com/on-this-day/June-11">Britannica - June 11</a> |
-  <a href="https://www.history.com/this-day-in-history/june-11">History.com - June 11</a>
-</div>
+async function init() {
+  const today = todayISO();
+  document.getElementById("page-date").textContent = formatDisplayDate(today);
+  document.title = "Daily Quotes — " + formatDisplayDate(today);
 
+  try {
+    const { cols, rows } = await loadSheetRows();
+    const dateIdx = cols.indexOf("date");
+    const sourceIdx = cols.indexOf("source");
+    const descIdx = cols.indexOf("description");
+
+    if (dateIdx < 0 || sourceIdx < 0 || descIdx < 0) {
+      throw new Error(`Expected columns Date, Source, Description — found: ${cols.join(", ")}`);
+    }
+
+    const todayQuotes = rows
+      .filter(row => normalizeDate(row[dateIdx].v, row[dateIdx].f) === today)
+      .map(row => ({
+        source: (row[sourceIdx].f || row[sourceIdx].v || "").trim(),
+        description: (row[descIdx].f || row[descIdx].v || "").trim()
+      }))
+      .filter(q => q.description);
+
+    renderQuotes(todayQuotes);
+  } catch (err) {
+    showError("Could not load quotes: " + err.message);
+  }
+}
+
+init();
+</script>
 </body>
 </html>

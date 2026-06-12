@@ -628,7 +628,7 @@ const CAT_LABELS = {
 
 const CAT_ORDER = ['nature','science','art','kitchen','reading','active','helper','builder'];
 
-let earned = JSON.parse(localStorage.getItem('sf_badges') || '[]');
+let earned = (() => { try { return JSON.parse(localStorage.getItem('sf_badges') || '[]'); } catch(e) { return []; } })();
 let activeFilter = 'all';
 let modalBadge = null;
 
@@ -763,8 +763,11 @@ document.getElementById('catTabs').addEventListener('click', e => {
 });
 
 // Init
-updateStats();
-renderBadges();
+document.addEventListener('DOMContentLoaded', function() {
+  updateStats();
+  renderBadges();
+});
+if (document.readyState !== 'loading') { updateStats(); renderBadges(); }
 </script>
 </body>
 </html>

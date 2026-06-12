@@ -901,7 +901,7 @@ const CAT_COLOURS = {
   social:   { label: '💬 Social',   bg: '#ede9fe', colour: '#5b21b6' },
 };
 
-let done = JSON.parse(localStorage.getItem('sf_missions') || '[]');
+let done = (() => { try { return JSON.parse(localStorage.getItem('sf_missions') || '[]'); } catch(e) { return []; } })();
 let activeFilter = 'all';
 let showDone = true;
 
@@ -1003,8 +1003,11 @@ document.querySelector('.filter-bar').addEventListener('click', e => {
 });
 
 // Init
-updateStats();
-renderMissions();
+document.addEventListener('DOMContentLoaded', function() {
+  updateStats();
+  renderMissions();
+});
+if (document.readyState !== 'loading') { updateStats(); renderMissions(); }
 </script>
 </body>
 </html>

@@ -1,0 +1,1009 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Daily Missions | Snowflake</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Baloo+2:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ink: #1f2933;
+  --muted: #667085;
+  --line: #d8dee6;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: 'Nunito', sans-serif;
+  background: linear-gradient(160deg, #fff8e1 0%, #e8f4fd 50%, #f3e8ff 100%);
+  min-height: 100vh;
+  color: var(--ink);
+}
+
+/* ── Header ── */
+.site-header {
+  background: linear-gradient(135deg, #43e97b, #38f9d7, #4facfe, #f093fb);
+  background-size: 300% 300%;
+  animation: rainbow 8s ease infinite;
+  padding: 28px 24px 20px;
+  text-align: center;
+  position: relative;
+}
+@keyframes rainbow {
+  0%{background-position:0% 50%} 50%{background-position:100% 50%} 100%{background-position:0% 50%}
+}
+.site-header h1 {
+  font-family: 'Baloo 2', cursive;
+  font-size: clamp(2rem, 5vw, 3rem);
+  color: white;
+  text-shadow: 0 3px 0 rgba(0,0,0,0.18);
+  letter-spacing: 1px;
+}
+.site-header p {
+  color: rgba(255,255,255,0.92);
+  font-size: 1.05rem;
+  margin-top: 4px;
+  font-weight: 700;
+}
+.back-link {
+  position: absolute;
+  left: 20px; top: 22px;
+  background: rgba(255,255,255,0.25);
+  border: 2px solid rgba(255,255,255,0.5);
+  color: white;
+  text-decoration: none;
+  font-weight: 800;
+  font-size: 0.9rem;
+  padding: 6px 14px;
+  border-radius: 20px;
+  backdrop-filter: blur(6px);
+  transition: background 0.2s;
+}
+.back-link:hover { background: rgba(255,255,255,0.4); }
+.badges-link {
+  position: absolute;
+  right: 20px; top: 22px;
+  background: rgba(255,255,255,0.25);
+  border: 2px solid rgba(255,255,255,0.5);
+  color: white;
+  text-decoration: none;
+  font-weight: 800;
+  font-size: 0.9rem;
+  padding: 6px 14px;
+  border-radius: 20px;
+  backdrop-filter: blur(6px);
+  transition: background 0.2s;
+}
+.badges-link:hover { background: rgba(255,255,255,0.4); }
+
+/* ── Stats bar ── */
+.stats-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  justify-content: center;
+  padding: 18px 24px;
+  background: white;
+  border-bottom: 2px solid var(--line);
+  box-shadow: 0 4px 16px rgba(0,0,0,0.06);
+}
+.stat-pill {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: #f8f9fe;
+  border: 2px solid var(--line);
+  border-radius: 50px;
+  padding: 8px 18px;
+  font-weight: 800;
+  font-size: 0.95rem;
+}
+.stat-pill .num { font-size: 1.3rem; color: #43e97b; }
+.stat-pill .label { color: var(--muted); font-size: 0.82rem; font-weight: 700; }
+
+.progress-wrap {
+  padding: 16px 24px 8px;
+  max-width: 700px;
+  margin: 0 auto;
+}
+.progress-label {
+  display: flex;
+  justify-content: space-between;
+  font-weight: 800;
+  font-size: 0.88rem;
+  color: var(--muted);
+  margin-bottom: 6px;
+}
+.progress-bar {
+  height: 16px;
+  background: #e8edf2;
+  border-radius: 50px;
+  overflow: hidden;
+}
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #43e97b, #38f9d7);
+  border-radius: 50px;
+  transition: width 0.6s cubic-bezier(.34,1.56,.64,1);
+}
+
+/* ── Filter bar ── */
+.filter-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 18px 24px 8px;
+  max-width: 1200px;
+  margin: 0 auto;
+  align-items: center;
+}
+.filter-chip {
+  padding: 7px 16px;
+  border-radius: 50px;
+  border: 2.5px solid var(--line);
+  background: white;
+  font-family: 'Nunito', sans-serif;
+  font-weight: 800;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: all 0.18s;
+  color: var(--muted);
+}
+.filter-chip:hover { border-color: #43e97b; color: var(--ink); }
+.filter-chip.active { background: #43e97b; border-color: #43e97b; color: white; }
+
+.show-done-toggle {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 800;
+  font-size: 0.88rem;
+  color: var(--muted);
+  cursor: pointer;
+}
+.toggle-switch {
+  width: 42px; height: 24px;
+  background: #d1d5db;
+  border-radius: 50px;
+  position: relative;
+  transition: background 0.2s;
+  flex-shrink: 0;
+}
+.toggle-switch.on { background: #43e97b; }
+.toggle-knob {
+  position: absolute;
+  top: 3px; left: 3px;
+  width: 18px; height: 18px;
+  background: white;
+  border-radius: 50%;
+  transition: left 0.2s;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.2);
+}
+.toggle-switch.on .toggle-knob { left: 21px; }
+
+/* ── Mission grid ── */
+.mission-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 20px;
+  padding: 20px 24px 60px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.mission-card {
+  background: white;
+  border-radius: 20px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.07);
+  border: 2.5px solid transparent;
+  overflow: hidden;
+  transition: transform 0.2s, box-shadow 0.2s;
+  display: flex;
+  flex-direction: column;
+}
+.mission-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 36px rgba(0,0,0,0.12);
+}
+.mission-card.done {
+  opacity: 0.65;
+  border-color: #43e97b;
+}
+.mission-card.done .card-body { background: #f0fdf4; }
+
+.card-header {
+  padding: 18px 20px 14px;
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+}
+.card-icon {
+  font-size: 2.2rem;
+  line-height: 1;
+  flex-shrink: 0;
+  width: 52px;
+  height: 52px;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.card-meta { flex: 1; min-width: 0; }
+.card-title {
+  font-family: 'Baloo 2', cursive;
+  font-size: 1.15rem;
+  font-weight: 800;
+  line-height: 1.2;
+  margin-bottom: 6px;
+}
+.card-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+.tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  padding: 2px 10px;
+  border-radius: 50px;
+  font-size: 0.73rem;
+  font-weight: 800;
+}
+.tag-time { background: #fef3c7; color: #92400e; }
+.tag-cat  { background: #ede9fe; color: #5b21b6; }
+.tag-stem { background: #dcfce7; color: #166534; }
+.tag-creative { background: #fce7f3; color: #9d174d; }
+
+.card-body {
+  padding: 0 20px 14px;
+  flex: 1;
+}
+
+.mission-intro {
+  font-size: 0.88rem;
+  color: #374151;
+  line-height: 1.5;
+  margin-bottom: 12px;
+}
+
+.materials-label {
+  font-weight: 900;
+  font-size: 0.78rem;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin-bottom: 5px;
+}
+.materials-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  margin-bottom: 12px;
+}
+.material-chip {
+  background: #f1f5f9;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 50px;
+  padding: 2px 10px;
+  font-size: 0.76rem;
+  font-weight: 700;
+  color: #475569;
+}
+
+.steps-label {
+  font-weight: 900;
+  font-size: 0.78rem;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin-bottom: 6px;
+}
+.steps-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.steps-list li {
+  display: flex;
+  gap: 9px;
+  align-items: flex-start;
+  font-size: 0.86rem;
+  line-height: 1.4;
+  color: #374151;
+}
+.step-dot {
+  min-width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #43e97b, #38f9d7);
+  color: white;
+  font-size: 0.7rem;
+  font-weight: 900;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+.card-footer {
+  padding: 12px 20px 18px;
+  border-top: 1.5px solid #f1f5f9;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.done-btn {
+  flex: 1;
+  padding: 10px;
+  border-radius: 50px;
+  border: none;
+  font-family: 'Nunito', sans-serif;
+  font-weight: 900;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.18s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+.done-btn.not-done {
+  background: linear-gradient(135deg, #43e97b, #38f9d7);
+  color: #064e3b;
+  box-shadow: 0 3px 12px rgba(67,233,123,0.35);
+}
+.done-btn.not-done:hover { transform: scale(1.03); }
+.done-btn.is-done {
+  background: #f0fdf4;
+  color: #16a34a;
+  border: 2px solid #bbf7d0;
+}
+.done-btn.is-done:hover { background: #fee2e2; color: #dc2626; border-color: #fca5a5; }
+
+.mission-num {
+  font-size: 0.75rem;
+  font-weight: 900;
+  color: #cbd5e1;
+  min-width: 28px;
+  text-align: right;
+}
+
+/* ── Done banner ── */
+.done-banner {
+  display: none;
+  text-align: center;
+  padding: 40px 24px;
+  font-family: 'Baloo 2', cursive;
+  font-size: 1.4rem;
+  font-weight: 800;
+  color: #064e3b;
+}
+.done-banner.show { display: block; }
+
+/* ── Toast ── */
+.toast-area {
+  position: fixed;
+  bottom: 24px; left: 50%;
+  transform: translateX(-50%);
+  z-index: 300;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: center;
+}
+.toast {
+  background: #1a202c;
+  color: white;
+  padding: 12px 24px;
+  border-radius: 50px;
+  font-weight: 800;
+  font-size: 0.95rem;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.25);
+  animation: toastIn 0.3s cubic-bezier(.34,1.56,.64,1);
+}
+@keyframes toastIn {
+  from { transform: translateY(20px) scale(0.9); opacity: 0; }
+  to   { transform: translateY(0) scale(1);      opacity: 1; }
+}
+
+/* ── Icon bg colours ── */
+.icon-stem     { background: #dcfce7; }
+.icon-creative { background: #fce7f3; }
+.icon-outdoor  { background: #fef3c7; }
+.icon-kitchen  { background: #fff7ed; }
+.icon-social   { background: #ede9fe; }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <a href="index.html" class="back-link">← Home</a>
+  <h1>⚡ Daily Missions</h1>
+  <p>30 adventures · 30 to 45 minutes each · you've got this!</p>
+  <a href="badges.html" class="badges-link">🏅 Badges →</a>
+</header>
+
+<div class="stats-bar">
+  <div class="stat-pill">
+    <span class="num" id="doneCount">0</span>
+    <span class="label">Missions Done</span>
+  </div>
+  <div class="stat-pill">
+    <span class="num">30</span>
+    <span class="label">Total Missions</span>
+  </div>
+  <div class="stat-pill">
+    <span class="num" id="pct">0%</span>
+    <span class="label">Complete</span>
+  </div>
+</div>
+
+<div class="progress-wrap">
+  <div class="progress-label">
+    <span>Mission Progress</span>
+    <span id="pctLabel">0 / 30</span>
+  </div>
+  <div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+</div>
+
+<div class="filter-bar">
+  <button class="filter-chip active" data-filter="all">All</button>
+  <button class="filter-chip" data-filter="stem">🔬 STEM</button>
+  <button class="filter-chip" data-filter="creative">🎨 Creative</button>
+  <button class="filter-chip" data-filter="outdoor">🌿 Outdoor</button>
+  <button class="filter-chip" data-filter="kitchen">🍳 Kitchen</button>
+  <button class="filter-chip" data-filter="social">💬 Social</button>
+  <div class="show-done-toggle" onclick="toggleDone()">
+    <div class="toggle-switch" id="doneToggle"><div class="toggle-knob"></div></div>
+    Show completed
+  </div>
+</div>
+
+<div class="mission-grid" id="missionGrid"></div>
+<div class="done-banner" id="doneBanner">🎉 All 30 missions complete! You're a Summer Champion! 🏆</div>
+
+<div class="toast-area" id="toastArea"></div>
+
+<script>
+const MISSIONS = [
+  {
+    id: 'm1', icon: '🌡️', iconBg: 'icon-stem', cat: 'stem',
+    title: 'Thermometer Detective',
+    time: '35 min', type: 'STEM',
+    intro: 'Discover how temperature changes throughout your home and yard.',
+    materials: ['Thermometer (or thermometer app)', 'Notebook', 'Pencil'],
+    steps: [
+      'Pick 8 different spots: in the sun, in the shade, near the freezer, in a closet, etc.',
+      'Measure and record the temperature at each spot.',
+      'Make a bar chart of your results.',
+      'Find the hottest and coldest spots. Why do you think they're that way?',
+      'Bonus: check the same spots at a different time of day. Did anything change?'
+    ]
+  },
+  {
+    id: 'm2', icon: '🧃', iconBg: 'icon-kitchen', cat: 'kitchen',
+    title: 'Flavour Lab',
+    time: '40 min', type: 'Kitchen',
+    intro: 'Invent your own flavoured drink by mixing and testing different combinations.',
+    materials: ['Fruit juices (3+ kinds)', 'Sparkling water', 'Cups', 'Small measuring spoons', 'Notebook'],
+    steps: [
+      'Pour small amounts of 2–3 juices to create a "flavour 1". Taste and rate it.',
+      'Try 4 more combinations, keeping notes on measurements.',
+      'Add sparkling water to your top pick. Does fizz change the flavour?',
+      'Name your best invention and write the official recipe.',
+      'Serve it to someone and see if they guess the flavours!'
+    ]
+  },
+  {
+    id: 'm3', icon: '🌦️', iconBg: 'icon-outdoor', cat: 'outdoor',
+    title: 'Weather Station Builder',
+    time: '45 min', type: 'STEM + Outdoor',
+    intro: 'Build a simple rain gauge and wind vane, then take readings all week.',
+    materials: ['Plastic bottle', 'Ruler', 'Permanent marker', 'Straw', 'Cardstock', 'Tape', 'Pencil with eraser', 'Pin'],
+    steps: [
+      'Cut the top off a bottle, flip it and place it inside the bottom — that\'s your rain gauge. Mark cm lines on the side.',
+      'Cut an arrow shape and a tail from cardstock. Tape to opposite ends of the straw.',
+      'Push a pin through the straw\'s centre and into the pencil eraser. Your wind vane spins freely!',
+      'Set both outside. Check and record rain amounts and wind direction each morning.',
+      'After 3 days, predict tomorrow\'s weather. Were you right?'
+    ]
+  },
+  {
+    id: 'm4', icon: '🎭', iconBg: 'icon-creative', cat: 'creative',
+    title: 'Shadow Puppet Theatre',
+    time: '40 min', type: 'Creative',
+    intro: 'Design a full shadow puppet show — build the puppets, write the story, perform it.',
+    materials: ['Black cardstock or cardboard', 'Scissors', 'Tape', 'Sticks or chopsticks', 'Flashlight', 'White sheet or wall'],
+    steps: [
+      'Make up a 3-character story with a beginning, problem, and resolution.',
+      'Cut silhouettes of your characters from black cardstock.',
+      'Tape each puppet to a stick handle.',
+      'Hang a white sheet or use a white wall and shine the flashlight behind it.',
+      'Perform your show! Try changing the distance to make puppets bigger or smaller.'
+    ]
+  },
+  {
+    id: 'm5', icon: '🔭', iconBg: 'icon-stem', cat: 'stem',
+    title: 'Backyard Ecosystem Map',
+    time: '35 min', type: 'STEM + Outdoor',
+    intro: 'Become a scientist and map every living thing you can find in a small patch of nature.',
+    materials: ['Ruler or string', '4 sticks', 'Notebook', 'Pencil', 'Magnifying glass (optional)'],
+    steps: [
+      'Use sticks and string to mark off a 1-metre square of ground outside.',
+      'Carefully observe everything living inside: bugs, plants, worms, moss, fungi.',
+      'Draw a map of your square, placing each living thing where you found it.',
+      'Count the total number of species (different kinds of things).',
+      'Write 2 sentences about how the living things might help each other.'
+    ]
+  },
+  {
+    id: 'm6', icon: '🏗️', iconBg: 'icon-stem', cat: 'stem',
+    title: 'Earthquake-Proof Tower',
+    time: '40 min', type: 'STEM Engineering',
+    intro: 'Engineer the tallest building that can survive a simulated earthquake.',
+    materials: ['Marshmallows or gumdrops', 'Dry spaghetti or toothpicks', 'Small book or tray to shake'],
+    steps: [
+      'Challenge: build the tallest free-standing tower you can using marshmallows and spaghetti.',
+      'Place it on a tray or book.',
+      'Shake the tray side to side — the earthquake test!',
+      'If it falls, redesign and rebuild. What makes it stronger?',
+      'Measure your best tower and compare with any other builders.'
+    ]
+  },
+  {
+    id: 'm7', icon: '🗺️', iconBg: 'icon-outdoor', cat: 'outdoor',
+    title: 'Neighbourhood Treasure Hunt',
+    time: '45 min', type: 'Outdoor',
+    intro: 'Create and run a scavenger hunt using handmade clues hidden around your neighbourhood.',
+    materials: ['Paper', 'Pencils or markers', 'Knowledge of local spots'],
+    steps: [
+      'Write 6 clues — each one leads to the next hiding spot.',
+      'Make the last clue lead to a small "treasure" (a snack, note, or toy).',
+      'Hide all the clues and mark the route on a map.',
+      'Guide a friend or family member through the hunt.',
+      'Next time, swap roles — they make the hunt for you!'
+    ]
+  },
+  {
+    id: 'm8', icon: '🧪', iconBg: 'icon-stem', cat: 'stem',
+    title: 'Colour Chromatography',
+    time: '35 min', type: 'STEM Science',
+    intro: 'Separate the hidden colours inside markers using just water and paper towels.',
+    materials: ['Washable markers (black works best)', 'Coffee filters or paper towels', 'Cups of water', 'Scissors'],
+    steps: [
+      'Cut the filter/towel into 3cm strips.',
+      'Draw a thick dot of marker about 1cm from the bottom of each strip.',
+      'Rest the strip so just the very bottom dips into a cm of water.',
+      'Watch what happens as the water climbs up!',
+      'Which marker had the most hidden colours? Record your results.'
+    ]
+  },
+  {
+    id: 'm9', icon: '🎵', iconBg: 'icon-creative', cat: 'creative',
+    title: 'Homemade Instrument Band',
+    time: '40 min', type: 'Creative + STEM',
+    intro: 'Build 3 different instruments and use them to play a song.',
+    materials: ['Rice/dried beans', 'Plastic containers', 'Rubber bands', 'Empty boxes', 'Sticks', 'Tape'],
+    steps: [
+      'Make a shaker: put rice in a sealed container.',
+      'Make a string instrument: stretch rubber bands of different thicknesses over an open box.',
+      'Make a drum: tap on an upside-down container with a stick.',
+      'Experiment — what changes the sound? More rubber bands? Tighter?',
+      'Play a rhythm together and perform a 1-minute "concert".'
+    ]
+  },
+  {
+    id: 'm10', icon: '🌊', iconBg: 'icon-outdoor', cat: 'outdoor',
+    title: 'Watercraft Engineer',
+    time: '45 min', type: 'STEM Engineering',
+    intro: 'Design and build a boat from household materials that floats and carries cargo.',
+    materials: ['Foil', 'Plastic wrap', 'Tape', 'Cardboard', 'Cork', 'Tub or sink of water', 'Pennies or small weights'],
+    steps: [
+      'Design your boat on paper first — what shape will hold the most weight?',
+      'Build your first prototype using any materials you like.',
+      'Float it in the tub and add pennies one at a time until it sinks.',
+      'Redesign based on what happened.',
+      'Can your final design hold 20 pennies?'
+    ]
+  },
+  {
+    id: 'm11', icon: '📸', iconBg: 'icon-creative', cat: 'creative',
+    title: 'Photo Story',
+    time: '40 min', type: 'Creative',
+    intro: 'Tell a complete story using only 8 photographs — no words allowed.',
+    materials: ['Camera or device', 'Optional: props, costumes'],
+    steps: [
+      'Plan a simple story: hero, problem, solution.',
+      'Decide on 8 "scenes" that tell the story visually.',
+      'Set up and photograph each scene.',
+      'Arrange them in order.',
+      'Show your photo story to someone — can they understand the plot without any explanation?'
+    ]
+  },
+  {
+    id: 'm12', icon: '🧠', iconBg: 'icon-social', cat: 'social',
+    title: 'Quiz Master Challenge',
+    time: '35 min', type: 'Social + Learning',
+    intro: 'Research, write, and run your own trivia quiz on a topic you love.',
+    materials: ['Notebook', 'Pencil', 'Reference books or supervised internet access'],
+    steps: [
+      'Choose a topic you know and love (animals, space, video games, sports...).',
+      'Write 10 trivia questions with 3 multiple-choice answers each.',
+      'Look up the answers to check they\'re correct!',
+      'Design an answer sheet for players.',
+      'Run the quiz for at least 2 players. Award the winner a prize!'
+    ]
+  },
+  {
+    id: 'm13', icon: '🌿', iconBg: 'icon-outdoor', cat: 'outdoor',
+    title: 'Seed Saving & Planting',
+    time: '35 min', type: 'STEM + Outdoor',
+    intro: 'Harvest seeds from kitchen produce and start your own mini garden.',
+    materials: ['Fruits or veggies from the kitchen (apple, tomato, pepper)', 'Small pots or cups', 'Soil', 'Water'],
+    steps: [
+      'Carefully remove seeds from 2–3 different fruits or vegetables.',
+      'Rinse and dry the seeds on a paper towel.',
+      'Fill small cups with moist soil and press seeds about 1cm deep.',
+      'Label each cup with the plant name and date.',
+      'Water gently every 2 days and track which sprout appears first!'
+    ]
+  },
+  {
+    id: 'm14', icon: '🎨', iconBg: 'icon-creative', cat: 'creative',
+    title: 'Optical Illusion Artist',
+    time: '40 min', type: 'Creative + STEM',
+    intro: 'Learn and then teach yourself to draw 3 optical illusions.',
+    materials: ['White paper', 'Pencil', 'Ruler', 'Coloured pencils or markers'],
+    steps: [
+      'Look up how to draw a "3D hole" optical illusion — try it.',
+      'Look up how to draw a "disappearing dot" or "checker shadow" illusion.',
+      'Try one more of your choice.',
+      'Colour and refine your best one.',
+      'Show it to someone and ask what they see — do they see the illusion?'
+    ]
+  },
+  {
+    id: 'm15', icon: '🌍', iconBg: 'icon-social', cat: 'social',
+    title: 'Global Food Explorer',
+    time: '45 min', type: 'Kitchen + Social',
+    intro: 'Pick a country, research a traditional food, and cook a simple version of it.',
+    materials: ['Atlas or map', 'Recipe ingredients', 'Kitchen access'],
+    steps: [
+      'Spin a globe or point at a random map location — that\'s your country!',
+      'Look up one traditional food from that country.',
+      'Find a simple beginner-friendly recipe for it.',
+      'Cook it with as little adult help as possible.',
+      'Learn 3 facts about the country to share while you eat!'
+    ]
+  },
+  {
+    id: 'm16', icon: '⚡', iconBg: 'icon-stem', cat: 'stem',
+    title: 'Static Electricity Lab',
+    time: '35 min', type: 'STEM Science',
+    intro: 'Run 5 experiments to understand static electricity.',
+    materials: ['Balloon', 'Wool cloth or hair', 'Small paper bits', 'Pepper', 'Salt', 'Running tap', 'Plastic comb'],
+    steps: [
+      'Experiment 1: Rub balloon on hair, hold over paper bits — what happens?',
+      'Experiment 2: Rub comb, hold over a mix of salt and pepper — can you separate them?',
+      'Experiment 3: Charge the balloon and bend a thin stream of water from a tap.',
+      'Experiment 4: Stick the balloon to the wall. How long does it stay?',
+      'Record results and explain: what does "charged" mean in your own words?'
+    ]
+  },
+  {
+    id: 'm17', icon: '🏛️', iconBg: 'icon-creative', cat: 'creative',
+    title: 'Museum Curator',
+    time: '40 min', type: 'Creative + Social',
+    intro: 'Curate and open a mini museum about your summer — complete with exhibits and a tour.',
+    materials: ['Collected objects from summer', 'Index cards or paper', 'Markers', 'Table or shelf space'],
+    steps: [
+      'Gather 8–10 interesting objects (rocks, leaves, photos, creations).',
+      'Write a small label for each: what is it, where is it from, why it\'s interesting.',
+      'Arrange them on a table or shelf as a display.',
+      'Make a museum sign with your museum\'s name.',
+      'Give a guided tour to at least one visitor!'
+    ]
+  },
+  {
+    id: 'm18', icon: '🔍', iconBg: 'icon-outdoor', cat: 'outdoor',
+    title: 'Ant Civilization Study',
+    time: '35 min', type: 'STEM + Outdoor',
+    intro: 'Spend time observing an ant colony and document their fascinating behaviour.',
+    materials: ['Notebook', 'Pencil', 'Magnifying glass', 'Small food items (crumb, sugar, tiny fruit piece)'],
+    steps: [
+      'Find an active ant area (sidewalk, garden, near a wall).',
+      'Observe quietly for 10 minutes without disturbing them. What are they doing?',
+      'Place a tiny food item nearby and watch what happens.',
+      'Draw a map of their path and count how many ants you can see.',
+      'Write a paragraph describing ant life as if you were a nature documentary narrator.'
+    ]
+  },
+  {
+    id: 'm19', icon: '🎪', iconBg: 'icon-social', cat: 'social',
+    title: 'Teach a Skill Workshop',
+    time: '40 min', type: 'Social',
+    intro: 'Pick something you know how to do, prepare a mini lesson, and teach it.',
+    materials: ['Whatever your skill needs', 'Optional: instructions written on paper'],
+    steps: [
+      'Choose a skill: card tricks, origami, drawing a specific thing, a sport move, a game...',
+      'Write step-by-step instructions as if for someone who knows nothing.',
+      'Practise teaching it to yourself first (or a stuffed animal!).',
+      'Find a real student — a sibling, parent, or friend.',
+      'Teach them until they can do it on their own. You\'re the expert!'
+    ]
+  },
+  {
+    id: 'm20', icon: '🌌', iconBg: 'icon-stem', cat: 'stem',
+    title: 'Constellation Creator',
+    time: '40 min', type: 'STEM + Creative',
+    intro: 'Learn 5 real constellations, then invent your own.',
+    materials: ['Black paper', 'White pencil or chalk', 'Star stickers or white paint', 'Flashlight (optional)'],
+    steps: [
+      'Look up 5 constellations: their names, shapes, and a myth or story about each.',
+      'Draw them on black paper with white pencil and star stickers.',
+      'Now invent 3 of your own constellations — name them and write a myth!',
+      'Poke holes in black paper and shine a flashlight through to see your stars on the ceiling.',
+      'On a clear night, try to find one real constellation you learned!'
+    ]
+  },
+  {
+    id: 'm21', icon: '🧁', iconBg: 'icon-kitchen', cat: 'kitchen',
+    title: 'Decorated Cupcake Gallery',
+    time: '45 min', type: 'Kitchen + Creative',
+    intro: 'Bake or buy plain cupcakes and transform them into miniature art pieces.',
+    materials: ['Plain cupcakes', 'Icing (store-bought or butter + icing sugar)', 'Food colouring', 'Sprinkles', 'Small sweets for decoration'],
+    steps: [
+      'Divide your icing into 3 bowls. Colour each a different shade.',
+      'Plan a theme for your gallery: animals, emojis, seasons, or characters.',
+      'Decorate each cupcake as a different "artwork."',
+      'Arrange them like an art gallery with tiny labels describing each piece.',
+      'Photograph the gallery before it gets eaten!'
+    ]
+  },
+  {
+    id: 'm22', icon: '💻', iconBg: 'icon-stem', cat: 'stem',
+    title: 'Scratch Game Designer',
+    time: '45 min', type: 'STEM (Coding)',
+    intro: 'Design and build a simple game on Scratch — a free, kid-friendly coding platform.',
+    materials: ['Computer or tablet', 'Scratch.mit.edu (free)'],
+    steps: [
+      'Go to scratch.mit.edu and create a free account.',
+      'Play through the built-in tutorial to learn the basics.',
+      'Create a simple game: catching items, a maze, or an animated story.',
+      'Add at least one score or win condition.',
+      'Share the link with someone and let them play!'
+    ]
+  },
+  {
+    id: 'm23', icon: '🌺', iconBg: 'icon-outdoor', cat: 'outdoor',
+    title: 'Pressed Flower Craft',
+    time: '40 min', type: 'Outdoor + Creative',
+    intro: 'Collect, press, and arrange flowers into beautiful artwork.',
+    materials: ['Flowers and leaves from outside', 'Heavy books', 'Paper', 'Glue', 'Frame or cardstock'],
+    steps: [
+      'Gently collect a variety of flowers and leaves. Ask before picking from a garden!',
+      'Arrange them flat between sheets of paper and press inside a heavy book.',
+      'Leave them for at least 30 minutes (or better: overnight for a perfect press).',
+      'Arrange the pressed flowers on cardstock into a pattern, picture, or border.',
+      'Glue carefully and let dry — you\'ve made botanical art!'
+    ]
+  },
+  {
+    id: 'm24', icon: '🧩', iconBg: 'icon-stem', cat: 'stem',
+    title: 'Bridge Weight Challenge',
+    time: '40 min', type: 'STEM Engineering',
+    intro: 'Engineer a paper bridge that holds as much weight as possible.',
+    materials: ['A4 paper (5 sheets)', 'Tape only (no glue)', 'Two stacks of books as supports', 'Coins or small weights'],
+    steps: [
+      'Rules: you may only use paper and tape. The bridge must span a 20cm gap.',
+      'Design on paper first — think about shapes that are strong (triangles!).',
+      'Build your bridge in 15 minutes.',
+      'Test it by placing coins in a cup on top. Count until it collapses.',
+      'Redesign once using what you learned. Did your second version hold more?'
+    ]
+  },
+  {
+    id: 'm25', icon: '🎬', iconBg: 'icon-creative', cat: 'creative',
+    title: 'Stop Motion Director',
+    time: '45 min', type: 'Creative + STEM',
+    intro: 'Make a short stop-motion animation using toys, clay, or paper cutouts.',
+    materials: ['Device with camera', 'Flat surface', 'Small figures or clay shapes', 'Optional: stop motion app'],
+    steps: [
+      'Plan a 10-second story (simple: a character walks, finds something, reacts).',
+      'Set up your "stage" with a plain background.',
+      'Take a photo. Move your character the tiniest bit. Take another photo.',
+      'Repeat until you have 30–50 frames.',
+      'Play them back quickly to see your animation come to life!'
+    ]
+  },
+  {
+    id: 'm26', icon: '🏕️', iconBg: 'icon-outdoor', cat: 'outdoor',
+    title: 'Backyard Camp Night',
+    time: '45 min', type: 'Outdoor + Social',
+    intro: 'Plan and set up a real backyard camping experience from scratch.',
+    materials: ['Tent or blanket fort', 'Sleeping bags', 'Flashlights', 'Snacks', 'Activity ideas'],
+    steps: [
+      'Set up a tent or build a blanket fort outside.',
+      'Pack a "camping kit": torch, snacks, water, notebook, cosy blanket.',
+      'Plan 2 outdoor activities: stargazing, night sound listening, shadow stories.',
+      'Make a campfire-style snack — even marshmallows microwaved count!',
+      'Spend at least 45 minutes outside after dark (with a grown-up nearby).'
+    ]
+  },
+  {
+    id: 'm27', icon: '🤸', iconBg: 'icon-social', cat: 'social',
+    title: 'Create Your Own Sport',
+    time: '40 min', type: 'Social + Active',
+    intro: 'Invent a brand-new sport with unique rules, then play it with others.',
+    materials: ['Whatever you want: balls, cones, chalk, hula hoops, etc.'],
+    steps: [
+      'Design the sport: how do you score? How do you win? How many players?',
+      'Write down the official rules on paper.',
+      'Draw the playing field layout.',
+      'Teach the rules to at least 2 other people.',
+      'Play a full round and evaluate: what rule needs changing to make it more fun?'
+    ]
+  },
+  {
+    id: 'm28', icon: '🧬', iconBg: 'icon-stem', cat: 'stem',
+    title: 'DNA Extraction',
+    time: '35 min', type: 'STEM Science',
+    intro: 'Extract real DNA from a strawberry using just kitchen ingredients.',
+    materials: ['Strawberry', 'Small bowl', 'Dish soap (half tsp)', 'Salt (quarter tsp)', 'Cold rubbing alcohol or cold water', 'Strainer or coffee filter', 'Clear cup', 'Toothpick'],
+    steps: [
+      'Mash the strawberry thoroughly in a bag or bowl.',
+      'Mix in dish soap and a pinch of salt. Mash together gently.',
+      'Pour through a strainer or coffee filter into a clear cup.',
+      'Slowly pour cold alcohol down the side of the cup.',
+      'Watch white strands appear at the boundary — that\'s real strawberry DNA! Spool it on a toothpick.'
+    ]
+  },
+  {
+    id: 'm29', icon: '📰', iconBg: 'icon-creative', cat: 'creative',
+    title: 'Summer Newspaper',
+    time: '45 min', type: 'Creative + Social',
+    intro: 'Write, design, and publish a one-page newspaper about your summer so far.',
+    materials: ['Paper (landscape)', 'Pencils and markers', 'Optional: ruler for columns'],
+    steps: [
+      'Plan your newspaper: a headline story, a "local" story (home life), weather, and a comic or joke section.',
+      'Write each section in short, punchy sentences like a real journalist.',
+      'Add hand-drawn pictures or charts.',
+      'Give your newspaper a name and add the date.',
+      'Make at least 2 copies and distribute them to family members!'
+    ]
+  },
+  {
+    id: 'm30', icon: '🏆', iconBg: 'icon-social', cat: 'social',
+    title: 'Summer Olympics',
+    time: '45 min', type: 'Active + Social',
+    intro: 'Organise your own Summer Olympics with custom events, a ceremony, and medals.',
+    materials: ['Paper for medals', 'Ribbon or string', 'Chalk or cones for events', 'Stopwatch or phone timer'],
+    steps: [
+      'Design 5 events that suit your space: long jump, paper plane throw, hula hoop timing, egg-and-spoon, sprint.',
+      'Make gold, silver, and bronze medals from cardboard and ribbon.',
+      'Open the ceremony with a theme song and an athlete\'s oath.',
+      'Run all 5 events, recording results officially.',
+      'Hold a closing ceremony with the medal presentation!'
+    ]
+  },
+];
+
+const CAT_COLOURS = {
+  stem:     { label: '🔬 STEM',     bg: '#dcfce7', colour: '#166534' },
+  creative: { label: '🎨 Creative', bg: '#fce7f3', colour: '#9d174d' },
+  outdoor:  { label: '🌿 Outdoor',  bg: '#fef3c7', colour: '#92400e' },
+  kitchen:  { label: '🍳 Kitchen',  bg: '#fff7ed', colour: '#7c2d12' },
+  social:   { label: '💬 Social',   bg: '#ede9fe', colour: '#5b21b6' },
+};
+
+let done = JSON.parse(localStorage.getItem('sf_missions') || '[]');
+let activeFilter = 'all';
+let showDone = true;
+
+function isDone(id) { return done.includes(id); }
+function save() { localStorage.setItem('sf_missions', JSON.stringify(done)); }
+
+function updateStats() {
+  const n = done.length;
+  document.getElementById('doneCount').textContent = n;
+  document.getElementById('pct').textContent = Math.round(n/30*100) + '%';
+  document.getElementById('pctLabel').textContent = n + ' / 30';
+  document.getElementById('progressFill').style.width = (n/30*100) + '%';
+  document.getElementById('doneBanner').classList.toggle('show', n === 30);
+}
+
+function toggleDone() {
+  showDone = !showDone;
+  document.getElementById('doneToggle').classList.toggle('on', showDone);
+  renderMissions();
+}
+
+function renderMissions() {
+  const grid = document.getElementById('missionGrid');
+  const filtered = MISSIONS.filter(m => {
+    if (activeFilter !== 'all' && m.cat !== activeFilter) return false;
+    if (!showDone && isDone(m.id)) return false;
+    return true;
+  });
+
+  grid.innerHTML = filtered.map((m, idx) => {
+    const catInfo = CAT_COLOURS[m.cat];
+    const d = isDone(m.id);
+    return `
+      <div class="mission-card ${d ? 'done' : ''}" id="card-${m.id}">
+        <div class="card-header">
+          <div class="card-icon ${m.iconBg}">${m.icon}</div>
+          <div class="card-meta">
+            <div class="card-title">${m.title}</div>
+            <div class="card-tags">
+              <span class="tag tag-time">⏱ ${m.time}</span>
+              <span class="tag tag-cat" style="background:${catInfo.bg};color:${catInfo.colour}">${catInfo.label}</span>
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="mission-intro">${m.intro}</div>
+          <div class="materials-label">You'll need</div>
+          <div class="materials-list">
+            ${m.materials.map(mat => `<span class="material-chip">${mat}</span>`).join('')}
+          </div>
+          <div class="steps-label">Mission Steps</div>
+          <ul class="steps-list">
+            ${m.steps.map((s, i) => `
+              <li><span class="step-dot">${i+1}</span> ${s}</li>
+            `).join('')}
+          </ul>
+        </div>
+        <div class="card-footer">
+          <button class="done-btn ${d ? 'is-done' : 'not-done'}" onclick="toggleMission('${m.id}')">
+            ${d ? '✓ Done — click to undo' : '✅ Mission Complete!'}
+          </button>
+          <span class="mission-num">#${String(MISSIONS.indexOf(m)+1).padStart(2,'0')}</span>
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
+function toggleMission(id) {
+  if (isDone(id)) {
+    done = done.filter(x => x !== id);
+    toast('Mission unchecked.');
+  } else {
+    done.push(id);
+    toast('⚡ Mission complete! Great work!');
+  }
+  save();
+  updateStats();
+  renderMissions();
+}
+
+function toast(msg) {
+  const area = document.getElementById('toastArea');
+  const el = document.createElement('div');
+  el.className = 'toast';
+  el.textContent = msg;
+  area.appendChild(el);
+  setTimeout(() => el.remove(), 3000);
+}
+
+// Filter chips
+document.querySelector('.filter-bar').addEventListener('click', e => {
+  const chip = e.target.closest('.filter-chip');
+  if (!chip) return;
+  document.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
+  chip.classList.add('active');
+  activeFilter = chip.dataset.filter;
+  renderMissions();
+});
+
+// Init
+updateStats();
+renderMissions();
+</script>
+</body>
+</html>

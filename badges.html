@@ -1,0 +1,769 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Summer Badges | Snowflake</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Baloo+2:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ink: #1f2933;
+  --muted: #667085;
+  --line: #d8dee6;
+  --paper: #fffdf6;
+  --panel: #ffffff;
+  --blue: #4b9ef8;
+  --green: #3dbf87;
+  --rose: #f06878;
+  --gold: #f5a623;
+  --purple: #9b6fd4;
+  --orange: #f07d3c;
+  --teal: #3dbfbf;
+  --pink: #f06ea0;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: 'Nunito', sans-serif;
+  background: linear-gradient(160deg, #fff8e1 0%, #e8f4fd 50%, #f3e8ff 100%);
+  min-height: 100vh;
+  color: var(--ink);
+}
+
+/* ── Header ── */
+.site-header {
+  background: linear-gradient(135deg, #ff6b9d, #ffa94d, #ffd43b, #69db7c, #4dabf7, #cc5de8);
+  background-size: 300% 300%;
+  animation: rainbow 8s ease infinite;
+  padding: 28px 24px 20px;
+  text-align: center;
+  position: relative;
+}
+@keyframes rainbow {
+  0%{background-position:0% 50%} 50%{background-position:100% 50%} 100%{background-position:0% 50%}
+}
+.site-header h1 {
+  font-family: 'Baloo 2', cursive;
+  font-size: clamp(2rem, 5vw, 3rem);
+  color: white;
+  text-shadow: 0 3px 0 rgba(0,0,0,0.18), 0 0 20px rgba(255,255,255,0.4);
+  letter-spacing: 1px;
+}
+.site-header p {
+  color: rgba(255,255,255,0.92);
+  font-size: 1.05rem;
+  margin-top: 4px;
+  font-weight: 700;
+}
+.back-link {
+  position: absolute;
+  left: 20px; top: 22px;
+  background: rgba(255,255,255,0.25);
+  border: 2px solid rgba(255,255,255,0.5);
+  color: white;
+  text-decoration: none;
+  font-weight: 800;
+  font-size: 0.9rem;
+  padding: 6px 14px;
+  border-radius: 20px;
+  backdrop-filter: blur(6px);
+  transition: background 0.2s;
+}
+.back-link:hover { background: rgba(255,255,255,0.4); }
+
+/* ── Stats bar ── */
+.stats-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  justify-content: center;
+  padding: 20px 24px;
+  background: white;
+  border-bottom: 2px solid var(--line);
+  box-shadow: 0 4px 16px rgba(0,0,0,0.06);
+}
+.stat-pill {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: #f8f9fe;
+  border: 2px solid var(--line);
+  border-radius: 50px;
+  padding: 8px 18px;
+  font-weight: 800;
+  font-size: 0.95rem;
+}
+.stat-pill .num { font-size: 1.3rem; color: var(--blue); }
+.stat-pill .label { color: var(--muted); font-size: 0.82rem; font-weight: 700; }
+
+.progress-wrap {
+  padding: 16px 24px 8px;
+  max-width: 700px;
+  margin: 0 auto;
+}
+.progress-label {
+  display: flex;
+  justify-content: space-between;
+  font-weight: 800;
+  font-size: 0.88rem;
+  color: var(--muted);
+  margin-bottom: 6px;
+}
+.progress-bar {
+  height: 16px;
+  background: #e8edf2;
+  border-radius: 50px;
+  overflow: hidden;
+}
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #4dabf7, #cc5de8);
+  border-radius: 50px;
+  transition: width 0.6s cubic-bezier(.34,1.56,.64,1);
+  min-width: 0;
+}
+
+/* ── Category tabs ── */
+.cat-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 20px 24px 12px;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+.cat-tab {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 16px;
+  border-radius: 50px;
+  border: 2.5px solid transparent;
+  background: white;
+  font-family: 'Nunito', sans-serif;
+  font-weight: 800;
+  font-size: 0.88rem;
+  cursor: pointer;
+  transition: all 0.2s;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+}
+.cat-tab:hover { transform: translateY(-2px); box-shadow: 0 4px 14px rgba(0,0,0,0.12); }
+.cat-tab.active { color: white; border-color: transparent; }
+.cat-tab[data-cat="all"].active    { background: linear-gradient(135deg, #667eea, #764ba2); }
+.cat-tab[data-cat="nature"].active { background: linear-gradient(135deg, #56ab2f, #a8e063); }
+.cat-tab[data-cat="science"].active{ background: linear-gradient(135deg, #4b9ef8, #7ed3f7); }
+.cat-tab[data-cat="art"].active    { background: linear-gradient(135deg, #f06878, #fda085); }
+.cat-tab[data-cat="kitchen"].active{ background: linear-gradient(135deg, #f5a623, #f7dc6f); color: #7a4f00; }
+.cat-tab[data-cat="reading"].active{ background: linear-gradient(135deg, #a855f7, #d8b4fe); }
+.cat-tab[data-cat="active"].active { background: linear-gradient(135deg, #ef4444, #f97316); }
+.cat-tab[data-cat="helper"].active { background: linear-gradient(135deg, #ec4899, #f9a8d4); }
+.cat-tab[data-cat="builder"].active{ background: linear-gradient(135deg, #14b8a6, #6ee7b7); }
+
+/* ── Badge grid ── */
+.badge-section { padding: 8px 24px 60px; max-width: 1100px; margin: 0 auto; }
+.cat-heading {
+  font-family: 'Baloo 2', cursive;
+  font-size: 1.5rem;
+  font-weight: 800;
+  margin: 24px 0 14px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.badge-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+  gap: 16px;
+}
+
+/* ── Individual badge ── */
+.badge-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+.badge-card:hover { transform: scale(1.08) rotate(-1deg); }
+.badge-card.earned .badge-circle { filter: none; }
+.badge-card.locked .badge-circle { filter: grayscale(80%) brightness(0.7); }
+.badge-card.locked { opacity: 0.6; }
+
+.badge-circle {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.5rem;
+  position: relative;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+  transition: box-shadow 0.2s;
+  border: 4px solid rgba(255,255,255,0.6);
+}
+.badge-card:hover .badge-circle {
+  box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+}
+.badge-circle::after {
+  content: '';
+  position: absolute;
+  inset: 4px;
+  border-radius: 50%;
+  border: 3px solid rgba(255,255,255,0.35);
+  pointer-events: none;
+}
+
+/* Earned star overlay */
+.badge-circle .earned-star {
+  position: absolute;
+  bottom: -4px;
+  right: -4px;
+  background: #ffd43b;
+  color: #7a4f00;
+  font-size: 1.1rem;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 3px solid white;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+  animation: popIn 0.3s cubic-bezier(.34,1.56,.64,1);
+}
+@keyframes popIn {
+  from { transform: scale(0); }
+  to   { transform: scale(1); }
+}
+
+.badge-name {
+  font-weight: 800;
+  font-size: 0.78rem;
+  text-align: center;
+  line-height: 1.2;
+  color: var(--ink);
+  max-width: 110px;
+}
+.badge-card.locked .badge-name { color: var(--muted); }
+
+/* Category color schemes */
+.bc-nature  { background: linear-gradient(135deg, #56ab2f, #a8e063); }
+.bc-science { background: linear-gradient(135deg, #4b9ef8, #7ed3f7); }
+.bc-art     { background: linear-gradient(135deg, #f06878, #fda085); }
+.bc-kitchen { background: linear-gradient(135deg, #f5a623, #f7dc6f); }
+.bc-reading { background: linear-gradient(135deg, #a855f7, #d8b4fe); }
+.bc-active  { background: linear-gradient(135deg, #ef4444, #f97316); }
+.bc-helper  { background: linear-gradient(135deg, #ec4899, #f9a8d4); }
+.bc-builder { background: linear-gradient(135deg, #14b8a6, #6ee7b7); }
+
+/* ── Modal ── */
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(15,23,42,0.6);
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  backdrop-filter: blur(4px);
+  animation: fadeIn 0.15s ease;
+}
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+.modal-backdrop.hidden { display: none; }
+
+.modal-box {
+  background: white;
+  border-radius: 24px;
+  max-width: 480px;
+  width: 100%;
+  padding: 32px;
+  box-shadow: 0 24px 80px rgba(0,0,0,0.25);
+  animation: slideUp 0.25s cubic-bezier(.34,1.56,.64,1);
+  position: relative;
+}
+@keyframes slideUp {
+  from { transform: translateY(40px) scale(0.95); opacity: 0; }
+  to   { transform: translateY(0) scale(1);       opacity: 1; }
+}
+
+.modal-close {
+  position: absolute;
+  top: 16px; right: 16px;
+  background: #f1f5f9;
+  border: none;
+  width: 34px; height: 34px;
+  border-radius: 50%;
+  font-size: 1.2rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s;
+}
+.modal-close:hover { background: #e2e8f0; }
+
+.modal-badge-circle {
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  font-size: 2.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 16px;
+  border: 4px solid rgba(255,255,255,0.6);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+}
+.modal-title {
+  font-family: 'Baloo 2', cursive;
+  font-size: 1.6rem;
+  font-weight: 800;
+  text-align: center;
+  margin-bottom: 4px;
+}
+.modal-cat-tag {
+  text-align: center;
+  font-size: 0.8rem;
+  font-weight: 800;
+  color: var(--muted);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-bottom: 18px;
+}
+.modal-how-title {
+  font-weight: 900;
+  font-size: 1rem;
+  margin-bottom: 10px;
+  color: var(--ink);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.modal-steps {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 24px;
+}
+.modal-steps li {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  font-size: 0.92rem;
+  line-height: 1.4;
+  color: #374151;
+}
+.step-num {
+  background: var(--blue);
+  color: white;
+  font-weight: 900;
+  font-size: 0.75rem;
+  min-width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+.earn-btn {
+  width: 100%;
+  padding: 14px;
+  border-radius: 50px;
+  border: none;
+  font-family: 'Nunito', sans-serif;
+  font-weight: 900;
+  font-size: 1.05rem;
+  cursor: pointer;
+  transition: transform 0.15s, box-shadow 0.15s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+.earn-btn.not-earned {
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  color: white;
+  box-shadow: 0 4px 20px rgba(102,126,234,0.4);
+}
+.earn-btn.not-earned:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 28px rgba(102,126,234,0.5);
+}
+.earn-btn.is-earned {
+  background: #f1f5f9;
+  color: var(--muted);
+}
+.earn-btn.is-earned:hover { background: #fee2e2; color: #dc2626; }
+
+/* ── Celebration confetti ── */
+.confetti-wrap {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 200;
+}
+.confetto {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  border-radius: 2px;
+  animation: fall 1.8s ease-in forwards;
+}
+@keyframes fall {
+  0%   { transform: translateY(-20px) rotate(0deg); opacity: 1; }
+  100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
+}
+
+/* ── Toast ── */
+.toast-area {
+  position: fixed;
+  bottom: 24px; left: 50%;
+  transform: translateX(-50%);
+  z-index: 300;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: center;
+}
+.toast {
+  background: #1a202c;
+  color: white;
+  padding: 12px 24px;
+  border-radius: 50px;
+  font-weight: 800;
+  font-size: 0.95rem;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.25);
+  animation: toastIn 0.3s cubic-bezier(.34,1.56,.64,1);
+}
+@keyframes toastIn {
+  from { transform: translateY(20px) scale(0.9); opacity: 0; }
+  to   { transform: translateY(0) scale(1);      opacity: 1; }
+}
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <a href="index.html" class="back-link">← Home</a>
+  <h1>🏅 Summer Badge Hunt</h1>
+  <p>Earn all 80 badges before summer ends!</p>
+</header>
+
+<div class="stats-bar">
+  <div class="stat-pill">
+    <span class="num" id="earnedCount">0</span>
+    <span class="label">Badges Earned</span>
+  </div>
+  <div class="stat-pill">
+    <span class="num">80</span>
+    <span class="label">Total Badges</span>
+  </div>
+  <div class="stat-pill">
+    <span class="num" id="catCount">0</span>
+    <span class="label">Categories Done</span>
+  </div>
+  <div class="stat-pill">
+    <span class="num" id="pct">0%</span>
+    <span class="label">Complete</span>
+  </div>
+</div>
+
+<div class="progress-wrap">
+  <div class="progress-label">
+    <span>Summer Progress</span>
+    <span id="pctLabel">0 / 80</span>
+  </div>
+  <div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+</div>
+
+<div class="cat-tabs" id="catTabs">
+  <button class="cat-tab active" data-cat="all">🌟 All Badges</button>
+  <button class="cat-tab" data-cat="nature">🌿 Nature</button>
+  <button class="cat-tab" data-cat="science">🔬 Science</button>
+  <button class="cat-tab" data-cat="art">🎨 Art</button>
+  <button class="cat-tab" data-cat="kitchen">🍳 Kitchen</button>
+  <button class="cat-tab" data-cat="reading">📚 Reading</button>
+  <button class="cat-tab" data-cat="active">⚽ Active</button>
+  <button class="cat-tab" data-cat="helper">💝 Helper</button>
+  <button class="cat-tab" data-cat="builder">🔧 Builder</button>
+</div>
+
+<div class="badge-section" id="badgeSection"></div>
+
+<!-- Modal -->
+<div class="modal-backdrop hidden" id="modal" onclick="closeModal(event)">
+  <div class="modal-box">
+    <button class="modal-close" onclick="hideModal()">✕</button>
+    <div class="modal-badge-circle" id="mCircle"></div>
+    <div class="modal-title" id="mTitle"></div>
+    <div class="modal-cat-tag" id="mCat"></div>
+    <div class="modal-how-title">📋 How to Earn This Badge</div>
+    <ul class="modal-steps" id="mSteps"></ul>
+    <button class="earn-btn" id="earnBtn" onclick="toggleEarn()"></button>
+  </div>
+</div>
+
+<div class="confetti-wrap" id="confettiWrap"></div>
+<div class="toast-area" id="toastArea"></div>
+
+<script>
+const BADGES = [
+  // ── NATURE (10) ──
+  { id:'n1',  cat:'nature',  icon:'🐛', name:'Bug Detective',      steps:['Go outside and look under rocks, logs, and leaves.','Find and identify at least 5 different insects or bugs.','Draw or photograph each one.','Write one cool fact about each bug you found.'] },
+  { id:'n2',  cat:'nature',  icon:'☁️', name:'Cloud Watcher',      steps:['Go outside on a partly cloudy day.','Look for at least 3 different cloud shapes (fluffy, wispy, flat, dark).','Draw what you see in a notebook.','Try to predict the weather based on what you see!'] },
+  { id:'n3',  cat:'nature',  icon:'🍂', name:'Leaf Collector',     steps:['Collect at least 10 different leaves from different plants.','Press them flat between heavy books for 24 hours.','Arrange them on paper and tape them down.','Try to look up what kind of tree or plant each came from.'] },
+  { id:'n4',  cat:'nature',  icon:'🐦', name:'Bird Spotter',       steps:['Sit quietly outside for at least 15 minutes.','Watch for birds — count how many you see.','Spot at least 5 different birds.','Note the colour, size, and any sounds each bird made.'] },
+  { id:'n5',  cat:'nature',  icon:'💧', name:'Puddle Scientist',   steps:['Find a puddle or make one in a tray.','Drop different things in — a pebble, a leaf, a feather.','Watch what happens to the surface.','Try dropping food colouring in and watch it spread!'] },
+  { id:'n6',  cat:'nature',  icon:'🪨', name:'Rock Hunter',        steps:['Collect at least 5 interesting rocks from outside.','Sort them by colour, size, or texture.','Pick your favourite and describe what makes it special.','Make a mini rock museum on a shelf or windowsill.'] },
+  { id:'n7',  cat:'nature',  icon:'🌸', name:'Flower Finder',      steps:['Go on a walk and look for wildflowers or garden flowers.','Find at least 5 different types.','Gently sketch or photograph each one.','Look one up and learn its real name.'] },
+  { id:'n8',  cat:'nature',  icon:'📸', name:'Nature Photographer',steps:['Take your device (or a camera) outside.','Take at least 10 photos of interesting nature things — textures, bugs, plants, patterns.','Pick your 3 favourite photos.','Share them or print them out to display.'] },
+  { id:'n9',  cat:'nature',  icon:'🌱', name:'Dirt Expert',        steps:['Dig up a small amount of soil from outside.','Look at it closely — what do you see? (Worms? Roots? Rocks?)','Mix it with water. What happens?','Try planting a seed in it and watch it grow over a week.'] },
+  { id:'n10', cat:'nature',  icon:'🌅', name:'Sunset Chaser',      steps:['Find a good spot to watch the sunset.','Go outside and watch the whole thing from start to finish.','Notice the colours as they change.','Describe or draw what you saw afterwards.'] },
+
+  // ── SCIENCE (10) ──
+  { id:'s1',  cat:'science', icon:'🌋', name:'Fizz Wizard',        steps:['Get a container, baking soda, and vinegar.','Put 3 spoonfuls of baking soda in the container.','Pour in some vinegar and watch the reaction!','Try adding food colouring. What happens if you add MORE baking soda or MORE vinegar?'] },
+  { id:'s2',  cat:'science', icon:'⚡', name:'Static Star',        steps:['Blow up a balloon and tie it.','Rub the balloon on your hair for 30 seconds.','Hold it near small pieces of paper or your hair.','Try to stick it to a wall. How long does it stay up?'] },
+  { id:'s3',  cat:'science', icon:'🧲', name:'Magnet Master',      steps:['Get a magnet from the fridge or a set.','Walk around and test 10 different objects.','Make two lists: things it sticks to, and things it doesn't.','What do all the things it sticks to have in common?'] },
+  { id:'s4',  cat:'science', icon:'🌞', name:'Shadow Tracer',      steps:['Go outside on a sunny day with chalk or a pencil.','Trace your shadow in the morning.','Come back at noon and trace it again.','Come back in the afternoon and trace a third time. What changed?'] },
+  { id:'s5',  cat:'science', icon:'🧊', name:'Ice Sculptor',       steps:['Fill a container with water and add food colouring.','Add a small toy, flower, or other object inside.','Freeze it overnight.','Pop it out and watch it melt — how long does it take?'] },
+  { id:'s6',  cat:'science', icon:'🌈', name:'Rainbow Maker',      steps:['On a sunny day, get a glass of water or a garden hose.','Hold the glass near a white wall or use the hose in sunlight.','Tilt until you see a rainbow appear.','Try with a mirror in water in a bowl too!'] },
+  { id:'s7',  cat:'science', icon:'🫧', name:'Bubble Scientist',   steps:['Mix 1 cup water + 2 tbsp dish soap + 1 tsp sugar.','Stir gently (don't make it foamy).','Try different bubble wand shapes — circle, square, triangle.','Which shape makes the biggest bubble?'] },
+  { id:'s8',  cat:'science', icon:'✈️', name:'Paper Plane Pro',    steps:['Design 3 different paper airplane shapes.','Test each one by throwing it from the same spot.','Measure how far each one flies.','Which design flew the furthest? Why do you think that is?'] },
+  { id:'s9',  cat:'science', icon:'🛁', name:'Sink or Float',      steps:['Fill a bucket or sink with water.','Gather 10 different objects from around the house.','Predict whether each will sink or float.','Test each one — were your predictions right?'] },
+  { id:'s10', cat:'science', icon:'🪞', name:'Mirror Explorer',    steps:['Get two mirrors or use a spoon (curved side and flat side).','Look at your face in each one — what's different?','Set two flat mirrors at an angle. How many reflections do you see?','Try writing your name and reading it in a mirror.'] },
+
+  // ── ART (10) ──
+  { id:'a1',  cat:'art',     icon:'🎨', name:'Colour Mixer',       steps:['Get red, yellow, and blue paint or food colouring.','Mix red + yellow. What do you get?','Mix blue + yellow. What do you get?','Mix red + blue. What do you get? Try making as many colours as you can!'] },
+  { id:'a2',  cat:'art',     icon:'🖼️', name:'Collage Queen/King', steps:['Collect old magazines, newspapers, wrapping paper, or fabric scraps.','Choose a theme (animals, nature, space, food...).','Cut and arrange pieces on paper without gluing first.','Glue everything down to make your masterpiece!'] },
+  { id:'a3',  cat:'art',     icon:'🦢', name:'Origami Starter',    steps:['Find paper folding instructions online or in a book.','Fold at least 3 different shapes (crane, boat, frog, box...).','Make each one carefully — sharp folds make it work better.','Give one to someone as a gift!'] },
+  { id:'a4',  cat:'art',     icon:'🖍️', name:'Chalk Artist',       steps:['Get sidewalk chalk and find a big paved area.','Draw something huge — bigger than yourself!','Try drawing a 3D illusion (like a hole in the ground).','Take a photo of your finished artwork from above.'] },
+  { id:'a5',  cat:'art',     icon:'🏺', name:'Clay Creator',       steps:['Use air-dry clay, salt dough, or play-doh.','Think of something to make — an animal, bowl, or character.','Build it up slowly, adding details.','Let it dry or bake it, then paint or decorate it.'] },
+  { id:'a6',  cat:'art',     icon:'🪡', name:'Bracelet Maker',     steps:['Get string, embroidery floss, or yarn in 3+ colours.','Look up a simple friendship bracelet pattern.','Make one for yourself and one for a friend.','Tie it on with a knot and make a wish!'] },
+  { id:'a7',  cat:'art',     icon:'👕', name:'Tie-Dye Champ',      steps:['Get a white sock or cloth (an old t-shirt works great!).','Twist, fold, or scrunch it and tie with rubber bands.','Dip sections into different colours of fabric dye or food colouring.','Let it sit for an hour, then rinse and reveal your pattern!'] },
+  { id:'a8',  cat:'art',     icon:'💬', name:'Comic Creator',      steps:['Fold a piece of paper into 6 or 8 panels.','Think of a simple story with a beginning, middle, and end.','Draw each scene in a panel with speech bubbles.','Show your comic to someone and read it aloud to them!'] },
+  { id:'a9',  cat:'art',     icon:'🌿', name:'Nature Printer',     steps:['Collect interesting leaves or flowers.','Apply paint or ink to the flat side.','Press the painted side firmly onto paper.','Lift carefully to reveal the print. Try layering different colours!'] },
+  { id:'a10', cat:'art',     icon:'🧩', name:'Mosaic Maker',       steps:['Tear coloured paper or collect small pebbles, beans, or tiles.','Draw an outline of a simple shape or animal on cardboard.','Glue the pieces inside the outline, fitting them together like a puzzle.','Fill in the whole shape — no gaps allowed!'] },
+
+  // ── KITCHEN (10) ──
+  { id:'k1',  cat:'kitchen', icon:'🥤', name:'Smoothie Pro',       steps:['Pick 2–3 fruits (fresh or frozen).','Add a splash of juice or milk.','Blend everything together.','Pour into a glass, add a straw, and give it a creative name!'] },
+  { id:'k2',  cat:'kitchen', icon:'🥗', name:'Salad Builder',      steps:['Choose at least 5 salad ingredients (lettuce, cucumber, tomato, etc.).','Wash and chop everything carefully (ask for help with sharp knives).','Make your own simple dressing: oil + lemon + a pinch of salt.','Toss and serve!'] },
+  { id:'k3',  cat:'kitchen', icon:'🍫', name:'No-Bake Baker',      steps:['Look up a no-bake recipe (energy balls, rice crispy squares, chocolate truffles).','Gather all the ingredients first.','Make the recipe completely on your own.','Package some up nicely to share with someone.'] },
+  { id:'k4',  cat:'kitchen', icon:'🧀', name:'Snack Inventor',     steps:['Think of a snack that no one has ever made before.','Write down your invented recipe.','Make it using ingredients you have at home.','Rate it out of 10 — and have someone else taste test it too!'] },
+  { id:'k5',  cat:'kitchen', icon:'🥪', name:'Sandwich Artist',    steps:['Choose your bread, spread, fillings, and toppings.','Layer everything carefully — think about flavour combinations.','Cut it into a fun shape (diagonal, triangles, or use a cookie cutter).','Make one for yourself AND one for someone else.'] },
+  { id:'k6',  cat:'kitchen', icon:'🍡', name:'Fruit Skewer Pro',   steps:['Wash and cut several different fruits into chunks.','Thread them onto skewers in a colourful pattern.','Make a simple dip: yogurt + a tiny bit of honey.','Arrange them on a plate to look beautiful before eating!'] },
+  { id:'k7',  cat:'kitchen', icon:'🥞', name:'Pancake Painter',    steps:['Make a simple pancake batter (or use a mix).','Pour the batter into shapes on the pan — hearts, stars, initials.','Add food colouring to different batter portions for coloured pancakes.','Decorate with toppings to complete your edible art!'] },
+  { id:'k8',  cat:'kitchen', icon:'🍋', name:'Lemonade Stand',     steps:['Make a batch of lemonade from scratch: lemons, water, sugar.','Set up a stand outside (even just a table).','Make a sign advertising your lemonade.','Serve at least 3 customers — family counts!'] },
+  { id:'k9',  cat:'kitchen', icon:'🤔', name:'Taste Tester',       steps:['Gather 6 different foods with similar textures (like different fruits or cheeses).','Blindfold a helper and have them try each one.','See if they can guess what they're eating.','Then switch — you get blindfolded and they feed you!'] },
+  { id:'k10', cat:'kitchen', icon:'🍳', name:'Dinner Helper',      steps:['Offer to help cook a full family dinner.','Help with at least 3 steps: washing, chopping, stirring, or setting the table.','Watch and learn one technique (like how to dice an onion or stir a sauce).','Clean up your mess at the end — that\'s part of being a chef!'] },
+
+  // ── READING (10) ──
+  { id:'r1',  cat:'reading', icon:'📚', name:'Bookworm',           steps:['Read at least 5 books this summer.','Keep a list of every book you finish.','Write one sentence about each book — what was it about?','Pick your favourite and recommend it to a friend.'] },
+  { id:'r2',  cat:'reading', icon:'✏️', name:'Poem Poet',          steps:['Write at least 3 different poems.','Try different styles: rhyming poem, haiku (5-7-5 syllables), or free verse.','Illustrate at least one poem with a drawing.','Read one of your poems aloud to someone.'] },
+  { id:'r3',  cat:'reading', icon:'📖', name:'Story Starter',      steps:['Begin writing a chapter book or long story.','Write at least 3 chapters (they can be short!).','Give your story a title and a main character with a name.','Draw a picture of your main character.'] },
+  { id:'r4',  cat:'reading', icon:'✉️', name:'Letter Writer',      steps:['Think of someone you'd like to write to (grandparent, friend, pen pal).','Write a real letter — at least a full page.','Put it in an envelope, address it, and add a stamp.','Mail it at a real mailbox!'] },
+  { id:'r5',  cat:'reading', icon:'📔', name:'Journaler',          steps:['Write in a journal every day for 7 days in a row.','Each entry should be at least 4 sentences.','Try prompts: best part of my day, something funny that happened, a dream I had.','Decorate the cover of your journal.'] },
+  { id:'r6',  cat:'reading', icon:'⭐', name:'Book Reviewer',      steps:['Finish a book you've been reading.','Write a review: What happened? Did you like it? Who would you recommend it to?','Give it a rating out of 5 stars.','Post it on your shelf with the rating visible!'] },
+  { id:'r7',  cat:'reading', icon:'🤣', name:'Riddle Master',      steps:['Come up with 5 original riddles you made up yourself.','Test them on your family — can anyone solve them?','Write them down neatly.','Illustrate your favourite riddle.'] },
+  { id:'r8',  cat:'reading', icon:'🗒️', name:'News Reporter',      steps:['Pick a recent event or something that happened at home.','Write it like a news article: who, what, where, when, why?','Give it a headline.','Read your article aloud like a news anchor.'] },
+  { id:'r9',  cat:'reading', icon:'🎙️', name:'Storyteller',       steps:['Make up a completely original story — no writing required.','Tell your story out loud to at least 2 people.','Include: a hero, a problem, and a solution.','Make sound effects or silly voices for different characters.'] },
+  { id:'r10', cat:'reading', icon:'🌍', name:'Atlas Explorer',     steps:['Get an atlas, globe, or use a map app.','Find 5 countries you've never heard of.','Learn one interesting fact about each one.','Draw or find a picture of something from each country.'] },
+
+  // ── ACTIVE (10) ──
+  { id:'ac1', cat:'active',  icon:'🚲', name:'Bike Explorer',      steps:['Plan a route you haven't biked before.','Ride for at least 20 minutes.','Notice something new you've never seen on the way.','Tell someone about one thing you discovered.'] },
+  { id:'ac2', cat:'active',  icon:'🪢', name:'Jump Rope Pro',      steps:['Warm up with 20 jumps.','Practice until you can do 50 jumps in a row without stopping.','Try a two-person skipping song or rhyme.','Challenge a friend to a jump-off!'] },
+  { id:'ac3', cat:'active',  icon:'🏊', name:'Swim Star',          steps:['Head to a pool or swimming area.','Swim at least 4 widths of the pool without stopping.','Try a new stroke you haven't done before.','Practice floating on your back for 30 seconds.'] },
+  { id:'ac4', cat:'active',  icon:'💃', name:'Dance Choreographer',steps:['Choose a song you love.','Make up a dance routine that goes with the whole song.','Practice it until you know it by heart.','Perform it for at least one person!'] },
+  { id:'ac5', cat:'active',  icon:'🧘', name:'Yoga Adventurer',   steps:['Find a yoga video for kids online, or look up poses in a book.','Try at least 8 different poses.','Do a 15-minute routine from start to finish.','Do it two days in a row.'] },
+  { id:'ac6', cat:'active',  icon:'🏃', name:'Obstacle Creator',   steps:['Design and build an obstacle course in your yard or house.','Include at least 5 different challenges (crawl, jump, balance, dodge...).','Run the course yourself, timing how long it takes.','Have someone else try it and compare times!'] },
+  { id:'ac7', cat:'active',  icon:'⚽', name:'Sports Sampler',     steps:['Try 3 different sports or physical activities this summer.','Each one should be something you've never tried or rarely do.','Play for at least 20 minutes each.','Rate each one: would you play it again?'] },
+  { id:'ac8', cat:'active',  icon:'🏄', name:'Balance Master',     steps:['Practice 5 balance challenges: stand on one foot, walk a line heel-to-toe, balance a book on your head, try a cartwheel, stand on tiptoe for 30 sec.','Time how long you can hold each one.','Practise daily for a week and see if you improve.','Add your own balance challenge to the list!'] },
+  { id:'ac9', cat:'active',  icon:'🥾', name:'Nature Hiker',       steps:['Plan a hiking trip to a trail, park, or forest.','Hike for at least 30 minutes.','Bring water and a snack.','Find something surprising and photograph it.'] },
+  { id:'ac10',cat:'active',  icon:'🏅', name:'Game Organiser',     steps:['Think of a group game (tag, capture the flag, relay race, etc.).','Explain the rules to everyone.','Organise and run the game for a group of at least 3 people.','Make sure everyone has fun and knows the rules!'] },
+
+  // ── HELPER (10) ──
+  { id:'h1',  cat:'helper',  icon:'🌱', name:'Garden Helper',      steps:['Water plants or a garden every day for 7 days.','Pull at least 10 weeds on one of those days.','Notice if any plants grew or changed.','Plant something new — a seed, bulb, or small plant.'] },
+  { id:'h2',  cat:'helper',  icon:'🐾', name:'Animal Friend',      steps:['Spend extra special time with a pet or animal.','Give them fresh water, food, or brushing.','Learn one new fact about their species.','Make or buy them a small treat or toy.'] },
+  { id:'h3',  cat:'helper',  icon:'💝', name:'Kindness Card Maker',steps:['Make 5 handmade cards — each for a different person.','Each card should say something specific and kind (not just "you're nice").','Decorate each one with drawings or stickers.','Deliver or mail them all!'] },
+  { id:'h4',  cat:'helper',  icon:'📦', name:'Donation Driver',    steps:['Look through your toys, books, or clothes.','Choose at least 5 things in good condition to donate.','Clean or tidy them up.','Help take them to a donation bin or shelter.'] },
+  { id:'h5',  cat:'helper',  icon:'🎓', name:'Teach Someone',      steps:['Think of something you know how to do that others might not.','Plan how to teach it step by step.','Teach it to at least one person.','Make sure they can do it themselves by the end!'] },
+  { id:'h6',  cat:'helper',  icon:'🧹', name:'Clean-Up Crew',      steps:['Go to a park, beach, or neighbourhood street.','Bring a bag and gloves.','Pick up as much litter as you can find.','Count how many pieces you collected!'] },
+  { id:'h7',  cat:'helper',  icon:'🙏', name:'Gratitude List',     steps:['Think quietly about your life for 5 minutes.','Write down 10 things you are genuinely grateful for.','For each one, write WHY you're grateful — not just what it is.','Share your list with one person.'] },
+  { id:'h8',  cat:'helper',  icon:'💬', name:'Compliment Giver',   steps:['Give 5 genuine, specific compliments to 5 different people.','Each compliment must be real — something you truly think.','Notice how the person reacts.','Give at least one to someone who seems like they're having a rough day.'] },
+  { id:'h9',  cat:'helper',  icon:'👨‍🍳', name:'Family Chef',        steps:['Plan and cook an entire meal for your family.','Do as much as you can independently — get help only if needed for safety.','Set the table nicely too.','Ask for feedback about what they enjoyed!'] },
+  { id:'h10', cat:'helper',  icon:'👂', name:'Good Listener',      steps:['Ask someone in your family about their day.','Listen without interrupting for at least 3 minutes.','Ask two follow-up questions to show you were listening.','Don\'t look at any screens the whole time!'] },
+
+  // ── BUILDER (10) ──
+  { id:'b1',  cat:'builder', icon:'🏰', name:'Fort Builder',       steps:['Design your fort before you build — make a quick sketch.','Use blankets, pillows, chairs, or cardboard.','Build it big enough to sit inside.','Add a secret entrance and a sign with your fort\'s name.'] },
+  { id:'b2',  cat:'builder', icon:'🌉', name:'Bridge Builder',     steps:['Gather popsicle sticks and white glue (or tape).','Design a bridge that spans at least 20cm.','Let it dry fully before testing.','Test how many coins or pennies it can hold before breaking!'] },
+  { id:'b3',  cat:'builder', icon:'🔮', name:'Marble Run Designer',steps:['Use cardboard tubes, paper, tape, and ramps.','Design a track that a marble can roll down by itself.','Include at least 3 turns or drops.','Time how long the marble takes to reach the end.'] },
+  { id:'b4',  cat:'builder', icon:'📦', name:'Cardboard City',     steps:['Collect cardboard boxes — all sizes.','Plan a city layout: roads, buildings, parks.','Build and decorate at least 5 structures.','Add details: windows, doors, signs, tiny cars or people.'] },
+  { id:'b5',  cat:'builder', icon:'🪁', name:'Kite Maker',         steps:['Make a simple kite from a plastic bag or paper, sticks, and string.','Decorate it with a unique design.','Add a tail for stability.','Take it outside and fly it — it should stay up for at least 10 seconds!'] },
+  { id:'b6',  cat:'builder', icon:'🧦', name:'Puppet Show Producer',steps:['Make at least 3 puppets from socks, paper bags, or cardboard.','Write a short script or make up the story as you go.','Build a simple puppet theatre (use a box or a table covered with a blanket).','Perform the show for an audience!'] },
+  { id:'b7',  cat:'builder', icon:'🎳', name:'Domino Toppler',     steps:['Set up at least 50 dominoes (blocks, coins, or real dominoes) in a line.','Add curves, bridges, or side branches.','Film it when you're ready to topple.','Build it again and make it even more complicated!'] },
+  { id:'b8',  cat:'builder', icon:'🔧', name:'Tinkerer',           steps:['Find an old, broken toy or electronic device (ask first!).','Use a screwdriver to carefully take it apart.','Look at all the pieces and figure out what each one does.','Reassemble it or create something new from the parts.'] },
+  { id:'b9',  cat:'builder', icon:'⚙️', name:'Chain Reaction Master',steps:['Design a Rube Goldberg machine — a chain reaction.','It must have at least 5 steps.','Use balls, ramps, dominoes, cups, string, and household items.','The final step should do something useful (ring a bell, drop a ball in a cup).'] },
+  { id:'b10', cat:'builder', icon:'💡', name:'Inventor',           steps:['Identify a problem in your daily life (even a tiny one!).','Brainstorm 3 different invention ideas to solve it.','Choose the best idea and build a prototype from household materials.','Present your invention: explain the problem it solves and how it works.'] },
+];
+
+const CAT_LABELS = {
+  nature:  '🌿 Nature Explorer',
+  science: '🔬 Science Lab',
+  art:     '🎨 Art Studio',
+  kitchen: '🍳 Kitchen Scientist',
+  reading: '📚 Words & Stories',
+  active:  '⚽ Get Moving',
+  helper:  '💝 Helper & Friend',
+  builder: '🔧 Builder & Maker',
+};
+
+const CAT_ORDER = ['nature','science','art','kitchen','reading','active','helper','builder'];
+
+let earned = JSON.parse(localStorage.getItem('sf_badges') || '[]');
+let activeFilter = 'all';
+let modalBadge = null;
+
+function save() { localStorage.setItem('sf_badges', JSON.stringify(earned)); }
+function isEarned(id) { return earned.includes(id); }
+
+function updateStats() {
+  const n = earned.length;
+  document.getElementById('earnedCount').textContent = n;
+  document.getElementById('pct').textContent = Math.round(n/80*100) + '%';
+  document.getElementById('pctLabel').textContent = n + ' / 80';
+  document.getElementById('progressFill').style.width = (n/80*100) + '%';
+
+  const catDone = CAT_ORDER.filter(cat => {
+    const catBadges = BADGES.filter(b => b.cat === cat);
+    return catBadges.every(b => isEarned(b.id));
+  }).length;
+  document.getElementById('catCount').textContent = catDone;
+}
+
+function renderBadges() {
+  const section = document.getElementById('badgeSection');
+  const cats = activeFilter === 'all' ? CAT_ORDER : [activeFilter];
+
+  section.innerHTML = cats.map(cat => {
+    const badges = BADGES.filter(b => b.cat === cat);
+    return `
+      <div class="cat-group" data-cat="${cat}">
+        <div class="cat-heading">${CAT_LABELS[cat]}</div>
+        <div class="badge-grid">
+          ${badges.map(b => `
+            <div class="badge-card ${isEarned(b.id) ? 'earned' : 'locked'}" onclick="openModal('${b.id}')">
+              <div class="badge-circle bc-${b.cat}">
+                ${b.icon}
+                ${isEarned(b.id) ? '<div class="earned-star">⭐</div>' : ''}
+              </div>
+              <div class="badge-name">${b.name}</div>
+            </div>
+          `).join('')}
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
+function openModal(id) {
+  modalBadge = BADGES.find(b => b.id === id);
+  if (!modalBadge) return;
+  const b = modalBadge;
+
+  document.getElementById('mCircle').className = `modal-badge-circle bc-${b.cat}`;
+  document.getElementById('mCircle').textContent = b.icon;
+  document.getElementById('mTitle').textContent = b.name;
+  document.getElementById('mCat').textContent = CAT_LABELS[b.cat];
+
+  document.getElementById('mSteps').innerHTML = b.steps.map((s, i) => `
+    <li><span class="step-num">${i+1}</span> ${s}</li>
+  `).join('');
+
+  refreshEarnBtn();
+  document.getElementById('modal').classList.remove('hidden');
+}
+
+function refreshEarnBtn() {
+  const btn = document.getElementById('earnBtn');
+  if (!modalBadge) return;
+  const e = isEarned(modalBadge.id);
+  btn.className = 'earn-btn ' + (e ? 'is-earned' : 'not-earned');
+  btn.textContent = e ? '✓ Earned — click to undo' : '🏅 Mark as Earned!';
+}
+
+function toggleEarn() {
+  if (!modalBadge) return;
+  const id = modalBadge.id;
+  if (isEarned(id)) {
+    earned = earned.filter(x => x !== id);
+    toast('Badge removed.');
+  } else {
+    earned.push(id);
+    celebrate();
+    toast('🎉 Badge earned: ' + modalBadge.name + '!');
+  }
+  save();
+  updateStats();
+  renderBadges();
+  refreshEarnBtn();
+}
+
+function hideModal() {
+  document.getElementById('modal').classList.add('hidden');
+  modalBadge = null;
+}
+function closeModal(e) { if (e.target === document.getElementById('modal')) hideModal(); }
+
+function celebrate() {
+  const wrap = document.getElementById('confettiWrap');
+  const colours = ['#ff6b9d','#ffa94d','#ffd43b','#69db7c','#4dabf7','#cc5de8','#f06878'];
+  for (let i = 0; i < 60; i++) {
+    const el = document.createElement('div');
+    el.className = 'confetto';
+    el.style.cssText = `
+      left:${Math.random()*100}%;
+      background:${colours[Math.floor(Math.random()*colours.length)]};
+      border-radius:${Math.random() > 0.5 ? '50%' : '2px'};
+      width:${6+Math.random()*10}px;
+      height:${6+Math.random()*10}px;
+      animation-delay:${Math.random()*0.5}s;
+      animation-duration:${1.4+Math.random()*0.8}s;
+    `;
+    wrap.appendChild(el);
+    setTimeout(() => el.remove(), 2400);
+  }
+}
+
+function toast(msg) {
+  const area = document.getElementById('toastArea');
+  const el = document.createElement('div');
+  el.className = 'toast';
+  el.textContent = msg;
+  area.appendChild(el);
+  setTimeout(() => el.remove(), 3200);
+}
+
+// Category tab switching
+document.getElementById('catTabs').addEventListener('click', e => {
+  const tab = e.target.closest('.cat-tab');
+  if (!tab) return;
+  document.querySelectorAll('.cat-tab').forEach(t => t.classList.remove('active'));
+  tab.classList.add('active');
+  activeFilter = tab.dataset.cat;
+  renderBadges();
+});
+
+// Init
+updateStats();
+renderBadges();
+</script>
+</body>
+</html>

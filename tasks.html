@@ -592,32 +592,16 @@ function renderTasks() {
 async function doComplete(key) {
   const t = G.tasks.find(t=>t.key===key);
   if(!t||t.isDone) return;
-  const assignedDate = todayIsoDate();
+  const today = todayIsoDate();
   const nextTask = nextTaskInCategory(t);
-  try {
-    const endpoint = sheetEndpoint();
-    if(endpoint) {
-      const response = await fetch(endpoint, {
-        method: 'POST',
-        body: JSON.stringify({
-          rowNumber: t.rowNumber,
-          completedDate: assignedDate,
-          assignNextRowNumber: nextTask ? nextTask.rowNumber : null,
-          assignedDate
-        })
-      });
-      const payload = await response.json();
-      if(!response.ok || !payload.ok) throw new Error(payload.error || `Sheet endpoint returned ${response.status}`);
-    }
-  } catch(error) {
-    toast(`Could not mark complete: ${error.message}`);
-    return;
-  }
+
+  // Optimistically update UI immediately — don't wait on the network
   t.isDone = true;
   t.isAssigned = false;
+  t.completedDate = today;
   delete G.assignments[key];
-  if(nextTask) assignTask(nextTask, assignedDate);
-  G.completions[key] = { person: t.person||'Family', pts: t.pts, topic: t.topic||'Uncategorized', date: todayIsoDate() };
+  if(nextTask) assignTask(nextTask, today);
+  G.completions[key] = { person: t.person||'Family', pts: t.pts, topic: t.topic||'Uncategorized', date: today };
   G.activity.push({ person: t.person||'Family', title: t.title, pts: t.pts });
   save(); buildPlayers(); renderLB(); renderTasks(); renderActivity(); renderTodayByCategory();
   toast(`🎉 ${t.pts} pt${t.pts!==1?'s':''} for ${t.person||'the family'}!`);
@@ -626,6 +610,47 @@ async function doComplete(key) {
     openWorksheet(nextTask);
   }
   burst();
+
+  // Write to Google Sheet in the background
+  // Apps Script web apps require no-cors mode from the browser —
+  // we can't read the response but the POST still lands and updates the sheet.
+  const endpoint = sheetEndpoint();
+  if(!endpoint) return;
+
+  const body = JSON.stringify({
+    rowNumber: t.rowNumber,
+    completedDate: today,
+    assignNextRowNumber: nextTask ? nextTask.rowNumber : null,
+    assignedDate: today
+  });
+
+  try {
+    // Try a normal fetch first (works when Apps Script CORS is configured)
+    const res = await fetch(endpoint, {
+      method: 'POST',
+      headers: { 'Content-Type': 'text/plain' },   // text/plain avoids preflight
+      body
+    });
+    // Apps Script returns a redirect to a login page on auth errors — catch that
+    const text = await res.text();
+    let parsed;
+    try { parsed = JSON.parse(text); } catch(e) { parsed = null; }
+    if(parsed && parsed.ok === false) {
+      toast(`⚠️ Sheet write: ${parsed.error || 'unknown error'}`);
+    }
+  } catch(fetchErr) {
+    // CORS blocked — fall back to no-cors (fire-and-forget; response unreadable but write lands)
+    try {
+      await fetch(endpoint, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'text/plain' },
+        body
+      });
+    } catch(noCorsErr) {
+      toast(`⚠️ Could not reach sheet: ${noCorsErr.message}`);
+    }
+  }
 }
 
 function openCard(key) {

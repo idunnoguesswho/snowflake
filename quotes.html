@@ -6,6 +6,131 @@
 <title>Daily Quotes</title>
 <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Baloo+2:wght@400;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
+<style>
+  .loading-wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 3rem 1rem;
+    gap: 14px;
+    color: var(--muted);
+  }
+  .spinner {
+    width: 36px;
+    height: 36px;
+    border: 3px solid var(--line, #d8dee6);
+    border-top-color: var(--lavender, #c9b8ff);
+    border-radius: 50%;
+    animation: spin 0.75s linear infinite;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  .error-wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    padding: 2.5rem 1rem;
+    color: var(--rose, #c35465);
+    text-align: center;
+  }
+  .error-icon { font-size: 2rem; }
+  .error-msg  { font-size: .9rem; font-weight: 700; max-width: 360px; line-height: 1.55; }
+  .retry-btn  {
+    margin-top: 6px;
+    padding: 8px 20px;
+    border-radius: 50px;
+    border: 0;
+    background: var(--lavender, #c9b8ff);
+    color: #3d2f7f;
+    font-family: inherit;
+    font-size: .85rem;
+    font-weight: 800;
+    cursor: pointer;
+  }
+  .retry-btn:hover { opacity: .85; }
+
+  .no-quotes {
+    text-align: center;
+    padding: 2.5rem 1rem;
+    color: var(--muted);
+    font-weight: 700;
+    font-size: .95rem;
+  }
+  .no-quotes .nq-date {
+    display: block;
+    margin-top: 6px;
+    font-size: .8rem;
+    font-weight: 600;
+  }
+
+  /* section card matching quotes.css .q-section */
+  .section {
+    background: var(--card, #fff);
+    border-radius: 20px;
+    padding: 22px 26px;
+    margin-bottom: 16px;
+    box-shadow: 0 4px 18px rgba(0,0,0,.06);
+    animation: popIn .4s cubic-bezier(.34,1.56,.64,1) both;
+  }
+  .section-label {
+    font-family: 'Baloo 2', cursive;
+    font-size: 1.1rem;
+    font-weight: 800;
+    margin-bottom: 10px;
+    line-height: 1.2;
+  }
+  .section-body {
+    font-size: .95rem;
+    line-height: 1.75;
+    color: var(--ink, #1f2933);
+    white-space: pre-wrap;
+  }
+  .section-body p { margin-bottom: 10px; }
+  .section-body p:last-child { margin-bottom: 0; }
+
+  /* colour themes per source type */
+  .s-stoic   { border-top: 4px solid #2D2A4A; }
+  .s-stoic   .section-label { color: #2D2A4A; }
+  .s-aa      { border-top: 4px solid #A8EDCA; }
+  .s-aa      .section-label { color: #148F77; }
+  .s-bible   { border-top: 4px solid #6BCB77; }
+  .s-bible   .section-label { color: #1E8449; }
+  .s-word    { border-top: 4px solid #7EC8E3; }
+  .s-word    .section-label { color: #2E86C1; }
+  .s-history { border-top: 4px solid #FFB347; }
+  .s-history .section-label { color: #D35400; }
+  .s-brit    { border-top: 4px solid #C9B8FF; }
+  .s-brit    .section-label { color: #7B68EE; }
+  .s-rca     { border-top: 4px solid #FF6B6B; }
+  .s-rca     .section-label { color: #c0392b; }
+  .s-prayer  { border-top: 4px solid #FFD166; }
+  .s-prayer  .section-label { color: #b8860b; }
+  .s-kids    { border-top: 4px solid #6BCB77; }
+  .s-kids    .section-label { color: #1E8449; }
+  .s-default { border-top: 4px solid var(--lavender, #c9b8ff); }
+  .s-default .section-label { color: #7B68EE; }
+
+  .sources {
+    margin-top: 28px;
+    padding: 14px 18px;
+    background: #F8F5FF;
+    border-radius: 14px;
+    font-size: .8rem;
+    color: var(--muted, #667085);
+    font-weight: 600;
+  }
+  .sources strong {
+    color: var(--ink, #1f2933);
+    display: block;
+    margin-bottom: 6px;
+    font-family: 'Baloo 2', cursive;
+    font-size: .9rem;
+  }
+  .sources a { color: #7B68EE; text-decoration: none; }
+  .sources a:hover { text-decoration: underline; }
+</style>
 </head>
 <body>
 
@@ -15,56 +140,90 @@
 </div>
 
 <div id="quotes-container">
-  <div class="section" style="text-align:center;padding:2rem;color:var(--muted);">Loading quotes…</div>
+  <div class="loading-wrap">
+    <div class="spinner"></div>
+    <span>Loading today's quotes…</span>
+  </div>
 </div>
 
-<div class="sources" id="sources-footer" style="display:none;">
+<div class="sources" id="sources-footer" style="display:none">
   <strong>Source</strong>
-  <a href="https://docs.google.com/spreadsheets/d/11A5NsScePEbtN9dujN3tILb_Q2TU5tsf6I0MbT11kDY/edit?gid=575264347" target="_blank">Daily Quotes — Google Sheet</a>
+  <a href="https://docs.google.com/spreadsheets/d/11A5NsScePEbtN9dujN3tILb_Q2TU5tsf6I0MbT11kDY/edit?gid=575264347"
+     target="_blank" rel="noopener">Daily Quotes — Google Sheet</a>
 </div>
 
 <script>
-const SHEET_ID = "11A5NsScePEbtN9dujN3tILb_Q2TU5tsf6I0MbT11kDY";
-const SHEET_GID = "575264347";
-const SECTION_CLASSES = ["s-stoic", "s-aa", "s-bible", "s-word", "s-history", "s-brit"];
+// ─── Config ───────────────────────────────────────────────────────────────────
+const APPS_SCRIPT_URL = window.SNOWFLAKE_CONFIG
+  ? window.SNOWFLAKE_CONFIG.appsScriptUrl
+  : "https://script.google.com/macros/s/AKfycbxrNaM1VxinXBWPJcd5zskwl00prHu7zASZF8uhzDnZXfH70LezRfbb4-qNJLnr7_0Z/exec";
 
+const SHEET_ID  = "11A5NsScePEbtN9dujN3tILb_Q2TU5tsf6I0MbT11kDY";
+const SHEET_GID = "575264347";
+
+// Source keyword → CSS class mapping (checked case-insensitively)
+const SOURCE_CLASSES = [
+  [/stoic|marcus|aurelius|meditat/i,    "s-stoic"],
+  [/\baa\b|alcoholics|big.?book|daily.?reflect/i, "s-aa"],
+  [/bible|scripture|verse|proverb|psalm|john|corinth|roman|ephes/i, "s-bible"],
+  [/word.?of.?the.?day|webster|dictionary|vocab/i, "s-word"],
+  [/histor|on.?this.?day|britannica.*(hist|today)/i, "s-history"],
+  [/britannica|fact|trivia/i, "s-brit"],
+  [/rca|recovery.?coach|al.?anon|alanon|alateen|one.?day|courage/i, "s-rca"],
+  [/prayer|morning|serenity|gratitude/i, "s-prayer"],
+  [/kids|children|after.?school|question/i, "s-kids"],
+];
+
+function sourceClass(src) {
+  for (const [re, cls] of SOURCE_CLASSES) {
+    if (re.test(src)) return cls;
+  }
+  return "s-default";
+}
+
+// ─── Date helpers ─────────────────────────────────────────────────────────────
 function todayISO() {
   const d = new Date();
-  const pad = n => String(n).padStart(2, "0");
-  return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`;
+  const p = n => String(n).padStart(2, "0");
+  return `${d.getFullYear()}-${p(d.getMonth() + 1)}-${p(d.getDate())}`;
 }
 
-function formatDisplayDate(isoDate) {
-  const d = new Date(isoDate + "T12:00:00");
-  return d.toLocaleDateString("en-US", { weekday: "long", year: "numeric", month: "long", day: "numeric" });
+function formatDisplayDate(iso) {
+  return new Date(iso + "T12:00:00").toLocaleDateString("en-US", {
+    weekday: "long", year: "numeric", month: "long", day: "numeric"
+  });
 }
 
-function normalizeDate(cellValue, cellFormatted) {
-  // gviz returns dates as "Date(year,month0,day)" in cell.v, or formatted string in cell.f
-  if (cellValue && typeof cellValue === "string" && cellValue.startsWith("Date(")) {
-    const parts = cellValue.replace("Date(", "").replace(")", "").split(",").map(Number);
-    const pad = n => String(n).padStart(2, "0");
-    return `${parts[0]}-${pad(parts[1] + 1)}-${pad(parts[2])}`;
+function normalizeDate(v) {
+  if (!v) return "";
+  // Apps Script Date objects serialise as ISO strings
+  if (typeof v === "string") {
+    const m = v.match(/^(\d{4}-\d{2}-\d{2})/);
+    if (m) return m[1];
+    // m/d/yyyy
+    const s = v.trim().match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/);
+    if (s) return `${s[3]}-${s[1].padStart(2,"0")}-${s[2].padStart(2,"0")}`;
   }
-  // Try formatted string like "6/12/2026" or "2026-06-12"
-  if (cellFormatted) {
-    const iso = cellFormatted.trim().match(/^(\d{4})-(\d{2})-(\d{2})$/);
-    if (iso) return cellFormatted.trim();
-    const slash = cellFormatted.trim().match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/);
-    if (slash) {
-      const pad = n => String(n).padStart(2, "0");
-      return `${slash[3]}-${pad(slash[1])}-${pad(slash[2])}`;
-    }
-  }
-  if (cellValue && typeof cellValue === "string") return cellValue.trim().substring(0, 10);
-  return "";
+  return String(v).trim().substring(0, 10);
 }
 
-function loadSheetRows() {
+// ─── Fetch via Apps Script (tab=quotes) ──────────────────────────────────────
+async function fetchFromAppsScript(today) {
+  const url = `${APPS_SCRIPT_URL}?tab=quotes&date=${today}`;
+  const res  = await fetch(url);
+  if (!res.ok) throw new Error(`HTTP ${res.status}`);
+  const data = await res.json();
+  // If the Apps Script returns { ok, quotes: [...] }
+  if (data && Array.isArray(data.quotes)) return data.quotes;
+  throw new Error("Unexpected response format from Apps Script");
+}
+
+// ─── Fallback: gviz/tq JSONP directly from the sheet ─────────────────────────
+function fetchFromSheet(today) {
   return new Promise((resolve, reject) => {
-    const cb = `quotesCallback_${Math.random().toString(36).slice(2)}`;
+    const cb    = `_qcb${Math.random().toString(36).slice(2)}`;
     const script = document.createElement("script");
-    const timer = setTimeout(() => { cleanup(); reject(new Error("Timed out")); }, 12000);
+    const timer  = setTimeout(() => { cleanup(); reject(new Error("Timed out")); }, 12000);
 
     function cleanup() {
       clearTimeout(timer);
@@ -72,18 +231,37 @@ function loadSheetRows() {
       script.remove();
     }
 
-    window[cb] = (payload) => {
+    window[cb] = payload => {
       cleanup();
       if (!payload || payload.status === "error") {
-        const msg = payload && payload.errors && payload.errors[0] && payload.errors[0].detailed_message;
-        reject(new Error(msg || "Sheet returned an error"));
+        const msg = payload?.errors?.[0]?.detailed_message || "Sheet returned an error";
+        reject(new Error(msg));
         return;
       }
       const cols = (payload.table.cols || []).map(c => (c.label || c.id || "").trim().toLowerCase());
-      const rows = (payload.table.rows || []).map(r =>
-        (r.c || []).map(cell => cell ? { v: cell.v == null ? "" : String(cell.v), f: cell.f != null ? String(cell.f) : null } : { v: "", f: null })
-      );
-      resolve({ cols, rows });
+      const dateIdx   = cols.indexOf("date");
+      const sourceIdx = cols.indexOf("source");
+      const descIdx   = cols.indexOf("description");
+
+      if (dateIdx < 0 || sourceIdx < 0 || descIdx < 0) {
+        reject(new Error(`Expected columns Date, Source, Description — got: ${cols.join(", ")}`));
+        return;
+      }
+
+      const quotes = (payload.table.rows || [])
+        .map(r => (r.c || []).map(cell => cell ? { v: cell.v ?? "", f: cell.f ?? null } : { v: "", f: null }))
+        .filter(row => {
+          const cell = row[dateIdx];
+          const raw  = cell.v != null ? String(cell.v) : (cell.f ?? "");
+          return normalizeDate(raw) === today;
+        })
+        .map(row => ({
+          source:      String(row[sourceIdx].f ?? row[sourceIdx].v ?? "").trim(),
+          description: String(row[descIdx].f  ?? row[descIdx].v  ?? "").trim(),
+        }))
+        .filter(q => q.description);
+
+      resolve(quotes);
     };
 
     script.onerror = () => { cleanup(); reject(new Error("Could not load sheet")); };
@@ -92,61 +270,83 @@ function loadSheetRows() {
   });
 }
 
-function renderQuotes(quotes) {
+// ─── Render ───────────────────────────────────────────────────────────────────
+function escHtml(s) {
+  return String(s)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;");
+}
+
+function renderQuotes(quotes, today) {
   const container = document.getElementById("quotes-container");
   if (!quotes.length) {
-    container.innerHTML = '<div class="section" style="text-align:center;padding:2rem;color:var(--muted);">No quotes found for today.</div>';
+    container.innerHTML = `
+      <div class="no-quotes">
+        No quotes found for today.
+        <span class="nq-date">${escHtml(formatDisplayDate(today))}</span>
+      </div>`;
     return;
   }
-  container.innerHTML = quotes.map((q, i) => {
-    const cls = SECTION_CLASSES[i % SECTION_CLASSES.length];
-    return `<div class="section ${cls}">
+  container.innerHTML = quotes.map((q, i) => `
+    <div class="section ${sourceClass(q.source)}" style="animation-delay:${i * 0.05}s">
       <div class="section-label">${escHtml(q.source)}</div>
-      <div class="section-body">${q.description}</div>
-    </div>`;
-  }).join("\n");
+      <div class="section-body">${escHtml(q.description)}</div>
+    </div>`).join("\n");
   document.getElementById("sources-footer").style.display = "";
 }
 
-function escHtml(s) {
-  return s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+function renderError(msg) {
+  const container = document.getElementById("quotes-container");
+  container.innerHTML = `
+    <div class="error-wrap">
+      <div class="error-icon">⚠️</div>
+      <div class="error-msg">${escHtml(msg)}</div>
+      <button class="retry-btn" onclick="init()">Try again</button>
+    </div>`;
 }
 
-function showError(msg) {
-  document.getElementById("quotes-container").innerHTML =
-    `<div class="section" style="text-align:center;padding:2rem;color:var(--muted);">${msg}</div>`;
-}
-
+// ─── Init ─────────────────────────────────────────────────────────────────────
 async function init() {
   const today = todayISO();
   document.getElementById("page-date").textContent = formatDisplayDate(today);
   document.title = "Daily Quotes — " + formatDisplayDate(today);
 
+  document.getElementById("quotes-container").innerHTML = `
+    <div class="loading-wrap">
+      <div class="spinner"></div>
+      <span>Loading today's quotes…</span>
+    </div>`;
+  document.getElementById("sources-footer").style.display = "none";
+
+  // Try Apps Script first, fall back to gviz/tq
+  let quotes;
   try {
-    const { cols, rows } = await loadSheetRows();
-    const dateIdx = cols.indexOf("date");
-    const sourceIdx = cols.indexOf("source");
-    const descIdx = cols.indexOf("description");
-
-    if (dateIdx < 0 || sourceIdx < 0 || descIdx < 0) {
-      throw new Error(`Expected columns Date, Source, Description — found: ${cols.join(", ")}`);
+    quotes = await fetchFromAppsScript(today);
+  } catch (appsScriptErr) {
+    console.warn("Apps Script fetch failed, trying gviz fallback:", appsScriptErr.message);
+    try {
+      quotes = await fetchFromSheet(today);
+    } catch (sheetErr) {
+      renderError(`Could not load quotes.\n\nApps Script: ${appsScriptErr.message}\nSheet fallback: ${sheetErr.message}`);
+      return;
     }
-
-    const todayQuotes = rows
-      .filter(row => normalizeDate(row[dateIdx].v, row[dateIdx].f) === today)
-      .map(row => ({
-        source: (row[sourceIdx].f || row[sourceIdx].v || "").trim(),
-        description: (row[descIdx].f || row[descIdx].v || "").trim()
-      }))
-      .filter(q => q.description);
-
-    renderQuotes(todayQuotes);
-  } catch (err) {
-    showError("Could not load quotes: " + err.message);
   }
+
+  renderQuotes(quotes, today);
 }
 
-init();
+// Load config if available, then init
+if (!window.SNOWFLAKE_CONFIG) {
+  const cfg = document.createElement("script");
+  cfg.src = "snowflake-config.js";
+  cfg.onload  = init;
+  cfg.onerror = init; // init anyway, will use hardcoded URL
+  document.head.append(cfg);
+} else {
+  init();
+}
 </script>
 </body>
 </html>

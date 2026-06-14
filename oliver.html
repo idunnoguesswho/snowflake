@@ -3,1022 +3,382 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Oliver | Snowflake</title>
+<title>Oliver · Today</title>
 <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Baloo+2:wght@400;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
 <style>
-  :root { --accent: #7ec8e3; --accent2: #4aa8cc; }
-  .hero { background: linear-gradient(135deg, #7ec8e3 0%, #4aa8cc 100%); }
-  .hero::after { content: '🧒'; }
-  .hero-name { color: var(--text); }
-  .hero-sub  { color: var(--text); opacity: .75; }
-  .hero-badge { background: rgba(255,255,255,.35); border-color: rgba(255,255,255,.55); }
-  .tag-cat  { background: #7ec8e344; color: #1a607a; border: 1px solid #7ec8e3; }
-  .progress-fill { background: linear-gradient(90deg, #7ec8e3, #4aa8cc); }
+:root {
+  --sky:    #7ec8e3;
+  --sky2:   #4aa8cc;
+  --ink:    #1f2933;
+  --muted:  #6b7280;
+  --soft:   #f4f8fb;
+  --line:   #e8eef2;
+  --done:   #d1fae5;
+  --done2:  #059669;
+}
 
-  .hub-nav { background: white; border-bottom: 2px solid #eee; display: flex; overflow-x: auto; padding: 0 12px; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 8px rgba(0,0,0,.06); }
-  .hub-tab { flex-shrink: 0; padding: 14px 14px; border: none; background: transparent; font-family: 'Nunito', sans-serif; font-size: 13px; font-weight: 700; color: #888; cursor: pointer; border-bottom: 3px solid transparent; transition: all 0.2s; white-space: nowrap; }
-  .hub-tab:hover { color: #4aa8cc; }
-  .hub-tab.active { color: #4aa8cc; border-bottom-color: #4aa8cc; }
-  .hub-panel { display: none; }
-  .hub-panel.active { display: block; animation: panelIn .18s ease; }
-  @keyframes panelIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: none; } }
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--soft); font-family: 'Nunito', sans-serif; color: var(--ink); }
 
-  .embed-frame { width: 100%; border: none; height: 82vh; display: block; }
+/* ── HERO ── */
+.hero {
+  background: linear-gradient(135deg, var(--sky) 0%, var(--sky2) 100%);
+  padding: 22px 20px 18px;
+  display: flex; align-items: center; gap: 14px;
+}
+.hero-avatar { font-size: 36px; flex-shrink: 0; }
+.hero-info { flex: 1; }
+.hero-name { font-family: 'Baloo 2', sans-serif; font-size: 24px; font-weight: 800; color: #fff; line-height: 1.1; }
+.hero-date { font-size: 13px; color: rgba(255,255,255,.8); margin-top: 2px; }
+.hero-badge {
+  background: rgba(255,255,255,.25); border: 1.5px solid rgba(255,255,255,.45);
+  border-radius: 20px; padding: 5px 12px;
+  font-size: 12px; font-weight: 800; color: #fff; white-space: nowrap;
+}
 
-  /* Routine */
-  .routine-wrap { max-width: 640px; margin: 0 auto; padding: 16px 16px 40px; }
-  .routine-slot { display: flex; gap: 14px; padding: 12px 0; border-bottom: 1px solid #f0f0f0; align-items: flex-start; }
-  .r-time { min-width: 64px; font-size: 12px; font-weight: 700; color: #999; padding-top: 2px; }
-  .r-icon { font-size: 18px; flex-shrink: 0; width: 28px; text-align: center; }
-  .r-label { font-family: 'Nunito', sans-serif; font-size: 14px; font-weight: 800; color: #1f2933; }
-  .r-detail { font-size: 12px; color: #6b7280; margin-top: 2px; line-height: 1.45; }
+/* ── PROGRESS ── */
+.progress-wrap { background: #fff; padding: 14px 16px 12px; border-bottom: 1px solid var(--line); }
+.prog-row { display: flex; justify-content: space-between; font-size: 12px; font-weight: 800; color: var(--muted); margin-bottom: 6px; }
+.prog-track { height: 8px; background: var(--line); border-radius: 99px; overflow: hidden; }
+.prog-fill { height: 100%; background: linear-gradient(90deg, var(--sky), var(--sky2)); border-radius: 99px; transition: width .5s ease; }
 
-  /* FI Study */
-  .fi-wrap { max-width: 820px; margin: 0 auto; padding: 16px 16px 40px; }
-  .fi-toggle-bar { display: flex; align-items: center; gap: 12px; background: white; border-radius: 12px; padding: 12px 16px; margin-bottom: 16px; box-shadow: 0 2px 8px rgba(0,0,0,.06); }
-  .fi-toggle-bar label { font-family: 'Nunito', sans-serif; font-size: 13px; font-weight: 700; color: #374151; cursor: pointer; display: flex; align-items: center; gap: 8px; }
-  .fi-toggle { width: 40px; height: 22px; background: #ccc; border-radius: 11px; position: relative; transition: background .2s; cursor: pointer; border: none; flex-shrink: 0; }
-  .fi-toggle.on { background: #4aa8cc; }
-  .fi-toggle::after { content:''; position: absolute; top: 3px; left: 3px; width: 16px; height: 16px; background: white; border-radius: 50%; transition: left .2s; }
-  .fi-toggle.on::after { left: 21px; }
-  .en-hint { display: none; background: #e8f4fb; border-left: 3px solid #4aa8cc; border-radius: 0 8px 8px 0; padding: 8px 12px; font-size: 12px; color: #1a607a; line-height: 1.5; margin-top: 6px; font-style: italic; }
-  body.show-en .en-hint { display: block; }
+/* ── SECTION LABEL ── */
+.sec-label {
+  font-size: 10px; font-weight: 900; letter-spacing: 2px; text-transform: uppercase;
+  color: var(--sky2); padding: 18px 16px 8px; background: var(--soft);
+}
 
-  .subject-card { background: white; border-radius: 14px; padding: 20px; margin-bottom: 14px; box-shadow: 0 2px 8px rgba(0,0,0,.06); }
-  .subj-tag { font-size: 10px; font-weight: 800; letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 4px; }
-  .subj-title { font-family: 'Nunito', sans-serif; font-size: 17px; font-weight: 900; color: #1f2933; margin-bottom: 10px; }
-  .subj-body { font-size: 13px; line-height: 1.75; color: #374151; }
-  .subj-body strong { color: #1f2933; }
-  .vocab-row { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
-  .vocab-chip { font-size: 11px; font-weight: 700; padding: 3px 10px; border-radius: 20px; }
-  .q-label { font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; color: #888; margin: 12px 0 6px; }
-  .q-item { font-size: 13px; color: #1f2933; padding: 7px 0; border-bottom: 1px solid #f5f5f5; }
-  .q-item:last-child { border-bottom: none; }
-  .fi-unit-title { font-family: 'Nunito', sans-serif; font-size: 13px; font-weight: 900; color: var(--sc, #4aa8cc); margin: 18px 0 8px; padding: 6px 10px; background: var(--sl, #e8f4fb); border-radius: 8px; }
-  .ref-link { display: inline-block; font-size: 12px; font-weight: 700; color: #4aa8cc; margin-top: 10px; text-decoration: none; }
+/* ── SCHEDULE BLOCK ── */
+.schedule { padding: 0 12px 8px; }
+.sched-slot {
+  display: flex; gap: 12px; background: #fff;
+  border-radius: 14px; padding: 13px 14px; margin-bottom: 8px;
+  box-shadow: 0 1px 4px rgba(0,0,0,.06);
+}
+.sched-slot.active-now { border-left: 4px solid var(--sky2); }
+.s-time { min-width: 46px; font-size: 12px; font-weight: 800; color: var(--sky2); padding-top: 2px; }
+.s-icon { font-size: 20px; flex-shrink: 0; width: 26px; text-align: center; }
+.s-body { flex: 1; min-width: 0; }
+.s-label { font-size: 14px; font-weight: 900; color: var(--ink); }
+.s-detail { font-size: 12px; color: var(--muted); margin-top: 2px; line-height: 1.5; }
 
-  /* Subjects colour coding */
-  .s-fr   { --sc: #9b7fd4; --sl: #ede8f9; }
-  .s-en   { --sc: #5b9bd5; --sl: #e3effa; }
-  .s-math { --sc: #f07060; --sl: #fdecea; }
-  .s-sci  { --sc: #52c4a0; --sl: #e1f5ee; }
-  .s-ss   { --sc: #c9a800; --sl: #fef7d5; }
-  .s-hlth { --sc: #e8650a; --sl: #fdeede; }
+/* Inline task list inside schedule */
+.inline-tasks { margin-top: 10px; border-top: 1px solid var(--line); padding-top: 8px; }
+.itask {
+  display: flex; align-items: flex-start; gap: 10px;
+  padding: 8px 0; border-bottom: 1px solid #f5f5f5;
+}
+.itask:last-child { border-bottom: none; }
+.itask-check {
+  width: 22px; height: 22px; border-radius: 50%;
+  border: 2px solid var(--sky); background: #fff;
+  flex-shrink: 0; cursor: pointer; margin-top: 1px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 12px; transition: all .2s;
+}
+.itask-check.done { background: var(--sky2); border-color: var(--sky2); color: #fff; }
+.itask-body { flex: 1; min-width: 0; }
+.itask-title { font-size: 13px; font-weight: 800; color: var(--ink); }
+.itask-title.done { text-decoration: line-through; color: var(--muted); }
+.itask-tags { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 4px; }
+.itag {
+  font-size: 10px; font-weight: 700; padding: 2px 7px; border-radius: 10px;
+  background: #e8f4fb; color: var(--sky2);
+}
+.itag.overdue { background: #fde8e8; color: #c0392b; }
+.itask-desc { font-size: 11px; color: var(--muted); margin-top: 3px; line-height: 1.4; }
+.no-tasks { font-size: 12px; color: var(--muted); font-style: italic; padding: 6px 0; }
 
-  /* Skills / Brain Brave */
-  .skills-wrap { max-width: 760px; margin: 0 auto; padding: 16px 16px 40px; }
-  .skills-h2 { font-family: 'Nunito', sans-serif; font-size: 18px; font-weight: 900; color: #1f2933; margin: 28px 0 12px; display: flex; align-items: center; gap: 8px; }
-  .skills-h2:first-child { margin-top: 0; }
-  .bb-card { background: white; border-radius: 14px; margin-bottom: 10px; box-shadow: 0 2px 8px rgba(0,0,0,.06); overflow: hidden; border: 2px solid transparent; cursor: pointer; transition: border-color .2s; }
-  .bb-card.open { border-color: var(--cat-c, #4aa8cc); }
-  .bb-header { display: flex; align-items: center; gap: 12px; padding: 14px 16px; }
-  .bb-icon { width: 40px; height: 40px; border-radius: 10px; background: var(--cat-l, #e8f4fb); display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; }
-  .bb-meta { flex: 1; }
-  .bb-cat-label { font-size: 10px; font-weight: 800; letter-spacing: 1.2px; text-transform: uppercase; color: var(--cat-c, #4aa8cc); }
-  .bb-title { font-family: 'Nunito', sans-serif; font-size: 14px; font-weight: 800; color: #1f2933; }
-  .bb-sub { font-size: 11px; color: #888; }
-  .bb-body { display: none; padding: 0 16px 16px; border-top: 1px solid #f0f0f0; }
-  .bb-card.open .bb-body { display: block; }
-  .bb-intro { font-size: 13px; color: #6b7280; line-height: 1.6; padding-top: 12px; margin-bottom: 12px; }
-  .bb-step { display: flex; gap: 10px; font-size: 13px; line-height: 1.5; margin-bottom: 8px; color: #1f2933; }
-  .bb-num { width: 20px; height: 20px; border-radius: 50%; background: var(--cat-l, #e8f4fb); color: var(--cat-c, #4aa8cc); font-size: 10px; font-weight: 800; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 1px; font-family: 'Nunito', sans-serif; }
-  .bb-script { background: #f0f8fc; border-left: 3px solid var(--cat-c, #4aa8cc); border-radius: 0 8px 8px 0; padding: 10px 12px; font-size: 12px; font-style: italic; line-height: 1.6; margin-top: 10px; }
-  [data-cat="bpd"]     { --cat-c: #9b7fd4; --cat-l: #ede8f9; }
-  [data-cat="adhd"]    { --cat-c: #5b9bd5; --cat-l: #e3effa; }
-  [data-cat="anxiety"] { --cat-c: #52c4a0; --cat-l: #e1f5ee; }
-  [data-cat="anger"]   { --cat-c: #f07060; --cat-l: #fdecea; }
-  [data-cat="doing"]   { --cat-c: #c9a800; --cat-l: #fef7d5; }
-  [data-cat="alateen"] { --cat-c: #2abfbf; --cat-l: #dff7f7; }
-  [data-cat="brain"]   { --cat-c: #e8650a; --cat-l: #fdeede; }
-  [data-cat="superflex"]{ --cat-c: #7b2fbe; --cat-l: #f0e8ff; }
+/* task expand */
+.itask-expand { font-size: 11px; color: var(--sky2); font-weight: 700; cursor: pointer; margin-top: 3px; display: inline-block; }
+.itask-full { display: none; background: #f0f8fc; border-radius: 8px; padding: 8px 10px; margin-top: 6px; font-size: 12px; color: #374151; line-height: 1.6; }
+.itask-full.open { display: block; }
 
-  .sf-card { background: white; border-radius: 14px; padding: 18px; margin-bottom: 12px; box-shadow: 0 2px 8px rgba(0,0,0,.06); border-left: 4px solid var(--sc, #7b2fbe); }
-  .sf-name { font-family: 'Nunito', sans-serif; font-size: 16px; font-weight: 900; color: #1f2933; margin-bottom: 4px; }
-  .sf-think { font-size: 13px; color: #6b7280; line-height: 1.5; margin-bottom: 8px; }
-  .sf-strategy { font-size: 12.5px; color: #374151; line-height: 1.6; }
+/* complete button */
+.complete-btn {
+  margin-top: 6px; font-size: 11px; font-weight: 800;
+  color: var(--sky2); border: 1.5px solid var(--sky);
+  background: #fff; border-radius: 20px; padding: 3px 10px; cursor: pointer;
+}
+.complete-btn:active { background: var(--sky2); color: #fff; }
 
-  [data-cat="bible"] { --cat-c: #8b5e3c; --cat-l: #fdf5ed; }
-  .bb-verse { font-style: italic; font-size: 13px; color: #8b5e3c; background: #fdf5ed; border-left: 3px solid #8b5e3c; padding: 8px 12px; border-radius: 0 8px 8px 0; margin-bottom: 10px; }
-  .bb-prayer { font-size: 13px; color: #6b5e4e; background: #fdf5ed; border-radius: 8px; padding: 10px 14px; margin-top: 10px; font-style: italic; }
+/* ── QUOTES SECTION ── */
+.quotes-section { margin: 8px 12px; }
+.quote-frame {
+  background: #fff; border-radius: 14px;
+  box-shadow: 0 1px 4px rgba(0,0,0,.06); overflow: hidden;
+}
+.quote-item { padding: 14px 16px; border-bottom: 1px solid var(--line); }
+.quote-item:last-child { border-bottom: none; }
+.quote-label { font-size: 10px; font-weight: 900; letter-spacing: 1.5px; text-transform: uppercase; color: var(--sky2); margin-bottom: 4px; }
+.quote-text { font-size: 14px; font-weight: 700; color: var(--ink); line-height: 1.5; }
+.quote-sub { font-size: 12px; color: var(--muted); margin-top: 3px; line-height: 1.4; }
+.quotes-loading { padding: 20px; text-align: center; color: var(--muted); font-size: 13px; font-weight: 700; }
+
+/* ── MENU SECTION ── */
+.menu-section { margin: 8px 12px 24px; }
+.menu-frame-wrap {
+  background: #fff; border-radius: 14px;
+  box-shadow: 0 1px 4px rgba(0,0,0,.06); overflow: hidden;
+}
+.embed-frame { width: 100%; border: none; height: 440px; display: block; }
+
+/* ── TOAST ── */
+.toast-wrap { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); z-index: 999; pointer-events: none; }
+.toast {
+  background: var(--sky2); color: #fff; padding: 10px 20px;
+  border-radius: 20px; font-size: 13px; font-weight: 800;
+  margin-top: 6px; animation: toastIn .3s ease;
+  box-shadow: 0 4px 16px rgba(74,168,204,.35);
+}
+@keyframes toastIn { from { opacity:0; transform:translateY(10px); } to { opacity:1; transform:none; } }
 </style>
 </head>
 <body>
 
+<!-- HERO -->
 <div class="hero">
-  <div class="hero-name">Oliver</div>
-  <div class="hero-sub">Today's Hub · <span id="hero-date"></span></div>
-  <div class="hero-badge" id="hero-badge">🧒 Loading…</div>
-</div>
-
-<nav class="hub-nav">
-  <button class="hub-tab active" data-tab="tasks"   onclick="showTab('tasks')">📋 Tasks</button>
-  <button class="hub-tab"        data-tab="routine" onclick="showTab('routine')">🌅 Routine</button>
-  <button class="hub-tab"        data-tab="menu"    onclick="showTab('menu')">🍽️ Menu</button>
-  <button class="hub-tab"        data-tab="fi"      onclick="showTab('fi')">📚 FI Study</button>
-  <button class="hub-tab"        data-tab="skills"  onclick="showTab('skills')">💡 Skills</button>
-  <button class="hub-tab"        data-tab="bible"   onclick="showTab('bible')">✝️ Bible</button>
-</nav>
-
-<!-- ══ TASKS ══ -->
-<div class="hub-panel active" id="tab-tasks">
-  <div class="progress-bar-wrap">
-    <div class="section-label" style="padding-bottom:6px">Progress</div>
-    <div class="progress-label">
-      <span id="prog-text">— of — done</span>
-      <span id="prog-pct">—%</span>
-    </div>
-    <div class="progress-track"><div class="progress-fill" id="prog-fill" style="width:0%"></div></div>
+  <div class="hero-avatar">🧒</div>
+  <div class="hero-info">
+    <div class="hero-name">Oliver</div>
+    <div class="hero-date" id="hero-date"></div>
   </div>
-  <div class="section-label">📋 Open Tasks</div>
-  <div class="task-list" id="taskList"><div style="padding:20px;text-align:center;color:var(--muted);font-weight:700;">Loading from sheet…</div></div>
+  <div class="hero-badge" id="hero-badge">Loading…</div>
 </div>
 
-<!-- ══ ROUTINE ══ -->
-<div class="hub-panel" id="tab-routine">
-  <div class="routine-wrap">
-    <div style="padding:4px 0 18px">
-      <div style="font-family:'Nunito',sans-serif;font-size:20px;font-weight:900;color:#1f2933">Daily Routine ☀️</div>
-      <div style="font-size:13px;color:#888;margin-top:2px">Oliver's school-day rhythm</div>
-    </div>
-    <div class="routine-slot"><div class="r-time">7:30</div><div class="r-icon">⏰</div><div><div class="r-label">Wake Up + Get Ready</div><div class="r-detail">Get dressed, brush teeth, make bed. Ready by 8:00.</div></div></div>
-    <div class="routine-slot"><div class="r-time">8:00</div><div class="r-icon">🥣</div><div><div class="r-label">Breakfast</div><div class="r-detail">Eat, put dishes in the kitchen.</div></div></div>
-    <div class="routine-slot"><div class="r-time">8:30</div><div class="r-icon">⚡</div><div><div class="r-label">Brain Activation Circuit (5 min)</div><div class="r-detail">Cross-body march → Pattern sprint → Box breathing. See Skills tab for full routine.</div></div></div>
-    <div class="routine-slot"><div class="r-time">9:00</div><div class="r-icon">📚</div><div><div class="r-label">Morning Block 1 — Français / Math</div><div class="r-detail">50 min focused work. Timer on. 2-min movement break every 15 min.</div></div></div>
-    <div class="routine-slot"><div class="r-time">10:00</div><div class="r-icon">🌿</div><div><div class="r-label">Break (15 min)</div><div class="r-detail">Outside or move your body. Screen-free. Drink water.</div></div></div>
-    <div class="routine-slot"><div class="r-time">10:15</div><div class="r-icon">🔬</div><div><div class="r-label">Morning Block 2 — Science / Social Studies</div><div class="r-detail">50 min. Ask for help if stuck more than 3 min.</div></div></div>
-    <div class="routine-slot"><div class="r-time">12:00</div><div class="r-icon">🥗</div><div><div class="r-label">Lunch</div><div class="r-detail">Eat, put dishes away.</div></div></div>
-    <div class="routine-slot"><div class="r-time">12:30</div><div class="r-icon">🏃</div><div><div class="r-label">Outdoor / Free Time</div><div class="r-detail">30–60 min movement. Screens off this block.</div></div></div>
-    <div class="routine-slot"><div class="r-time">1:30</div><div class="r-icon">📝</div><div><div class="r-label">Afternoon Work Block</div><div class="r-detail">English LA, Health, projects, open tasks from task list.</div></div></div>
-    <div class="routine-slot"><div class="r-time">3:30</div><div class="r-icon">🎮</div><div><div class="r-label">Screen / Free Time</div><div class="r-detail">After all tasks are done and checked.</div></div></div>
-    <div class="routine-slot"><div class="r-time">5:30</div><div class="r-icon">🍽️</div><div><div class="r-label">Dinner</div><div class="r-detail">Table together, screens off.</div></div></div>
-    <div class="routine-slot"><div class="r-time">7:00</div><div class="r-icon">🛁</div><div><div class="r-label">Evening Routine</div><div class="r-detail">Shower, pack bag, lay out clothes, brush teeth.</div></div></div>
-    <div class="routine-slot"><div class="r-time">8:00</div><div class="r-icon">📖</div><div><div class="r-label">Reading (20 min)</div><div class="r-detail">French or English. In bed, lights on.</div></div></div>
-    <div class="routine-slot" style="border:none"><div class="r-time">8:30</div><div class="r-icon">🌙</div><div><div class="r-label">Lights Out</div><div class="r-detail">Screens off. Good night! 🌙</div></div></div>
+<!-- PROGRESS -->
+<div class="progress-wrap">
+  <div class="prog-row">
+    <span id="prog-text">— of — done</span>
+    <span id="prog-pct">—%</span>
   </div>
+  <div class="prog-track"><div class="prog-fill" id="prog-fill" style="width:0%"></div></div>
 </div>
 
-<!-- ══ MENU ══ -->
-<div class="hub-panel" id="tab-menu">
-  <iframe class="embed-frame" src="menu.html" title="Weekly Menu"></iframe>
-</div>
+<!-- SCHEDULE + TASKS -->
+<div class="sec-label">☀️ Today's Schedule</div>
+<div class="schedule">
 
-<!-- ══ FI STUDY GUIDE ══ -->
-<div class="hub-panel" id="tab-fi">
-  <div class="fi-wrap">
-    <div class="fi-toggle-bar">
-      <div style="flex:1">
-        <div style="font-family:'Nunito',sans-serif;font-size:16px;font-weight:900;color:#1f2933">Guide d'étude — Année 6 · FI</div>
-        <div style="font-size:12px;color:#888;margin-top:2px">Alberta French Immersion · Grade 6 · Révision complète de l'année</div>
-      </div>
-      <label style="display:flex;align-items:center;gap:8px;cursor:pointer">
-        <button class="fi-toggle" id="en-toggle" onclick="toggleEnglish()" aria-label="Show English hints"></button>
-        🇬🇧 English hints
-      </label>
+  <div class="sched-slot" id="slot-730">
+    <div class="s-time">7:30</div>
+    <div class="s-icon">⏰</div>
+    <div class="s-body">
+      <div class="s-label">Wake Up + Get Ready</div>
+      <div class="s-detail">Get dressed, brush teeth, make bed. Ready by 8:00.</div>
     </div>
+  </div>
 
-    <!-- ══ FRANÇAIS ══ -->
-    <div class="subject-card s-fr">
-      <div class="subj-tag" style="color:var(--sc)">#1 · Français — Arts du langage</div>
-      <div class="subj-title">Lecture, écriture, grammaire et communication orale</div>
-
-      <div class="fi-unit-title">📖 Unité A — Stratégies de lecture</div>
-      <div class="subj-body">Les <strong>7 stratégies de lecture</strong> clés : prédire, faire des liens, poser des questions, visualiser, inférer, déterminer l'idée principale, synthétiser. En 6e année, tu lis des textes variés : narratifs (histoires, romans), informatifs (articles, rapports), poétiques (poèmes, chansons) et persuasifs (lettres d'opinion, publicités).</div>
-      <div class="en-hint">7 reading strategies: Predict (guess what happens), Connect (text-to-self, text-to-text, text-to-world), Question (ask while reading), Visualize (picture it), Infer (read between the lines), Determine importance (main idea vs. detail), Synthesize (new understanding). Text types: narrative tells a story; informational gives facts; poetry uses rhythm/imagery; persuasive tries to change your mind.</div>
-      <div class="vocab-row">
-        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">prédire</span>
-        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">inférence</span>
-        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">synthèse</span>
-        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">texte narratif</span>
-        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">texte informatif</span>
-        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">texte persuasif</span>
-        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">idée principale</span>
-      </div>
-      <div class="q-label">Questions — Lecture</div>
-      <div class="q-item">1. Quelle est la différence entre une <em>inférence</em> et une <em>prédiction</em> ?</div>
-      <div class="q-item">2. Nomme les 7 stratégies de lecture.</div>
-      <div class="q-item">3. Quel est le but d'un texte persuasif ? Comment le reconnais-tu ?</div>
-      <div class="en-hint">1) Prediction = before reading, you guess. Inference = during/after reading, you use clues + your knowledge. 2) Predict, Connect, Question, Visualize, Infer, Determine importance, Synthesize. 3) A persuasive text tries to change your opinion — look for opinion words, arguments, and calls to action.</div>
-
-      <div class="fi-unit-title">✏️ Unité B — Processus d'écriture</div>
-      <div class="subj-body">Le processus d'écriture en 5 étapes : <strong>1) Remue-méninges</strong> → <strong>2) Brouillon</strong> → <strong>3) Révision</strong> (idées, organisation) → <strong>4) Correction</strong> (grammaire, orthographe) → <strong>5) Publication</strong>. Types de textes : narratif, informatif, persuasif, descriptif, réflexif.</div>
-      <div class="en-hint">Writing process: 1) Pre-write/brainstorm, 2) Draft (just get ideas down), 3) Revise (improve IDEAS and structure — not just fixing spelling), 4) Edit/proofread (fix grammar, spelling, punctuation), 5) Publish/share. Key difference: revise = big picture (ideas/structure); edit = small picture (errors). Narrative: tells a story. Informational: teaches facts. Persuasive: argues a position. Descriptive: paints a picture with words.</div>
-      <div class="vocab-row">
-        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">remue-méninges</span>
-        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">brouillon</span>
-        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">révision</span>
-        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">correction</span>
-        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">publication</span>
-        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">paragraphe</span>
-      </div>
-      <div class="q-label">Questions — Écriture</div>
-      <div class="q-item">1. Quelles sont les 5 étapes du processus d'écriture ?</div>
-      <div class="q-item">2. Quelle est la différence entre « réviser » et « corriger » un texte ?</div>
-      <div class="q-item">3. Écris une phrase d'introduction pour un texte persuasif sur le recyclage.</div>
-      <div class="en-hint">1) Pre-write, Draft, Revise, Edit, Publish. 2) Revise = improve ideas and structure; Edit = fix surface errors (spelling, grammar, punctuation). 3) Example: "Le recyclage est essentiel pour protéger notre planète et assurer un avenir sain pour les générations futures."</div>
-
-      <div class="fi-unit-title">📝 Unité C — Grammaire et orthographe</div>
-      <div class="subj-body">Concepts clés de grammaire 6e : <strong>accord sujet-verbe</strong>, <strong>accord adjectif-nom</strong> (genre + nombre), <strong>temps de verbe</strong> (présent, passé composé, imparfait, futur simple), <strong>ponctuation</strong>, <strong>homophones</strong> (a/à, on/ont, ou/où, ses/ces, son/sont, ce/se, la/l'a).</div>
-      <div class="en-hint">Subject-verb agreement: verb matches subject in person and number — "Les enfants jouent" (plural). Adjective agreement: match noun in gender AND number — "une belle fleur" (fem. sing.), "de belles fleurs" (fem. pl.). Verb tenses: présent = now; passé composé = completed past (j'ai mangé); imparfait = ongoing/repeated past (je mangeais); futur simple = future (je mangerai). Homophones: a (avoir) vs. à (preposition); ont (avoir, they have) vs. on (pronoun, one/we).</div>
-      <div class="vocab-row">
-        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">accord sujet-verbe</span>
-        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">accord adjectif-nom</span>
-        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">passé composé</span>
-        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">imparfait</span>
-        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">futur simple</span>
-        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">homophone</span>
-      </div>
-      <div class="q-label">Questions — Grammaire</div>
-      <div class="q-item">1. Conjugue « manger » au passé composé : je, tu, elle, nous, ils.</div>
-      <div class="q-item">2. Accorde les adjectifs : « Les filles sont (beau / grand). »</div>
-      <div class="q-item">3. Choisis le bon homophone : « Il ___ (a/à) mangé sa pomme ___ (a/à) midi. »</div>
-      <div class="q-item">4. Quelle est la différence entre le passé composé et l'imparfait ? Donne un exemple de chacun.</div>
-      <div class="en-hint">1) j'ai mangé, tu as mangé, elle a mangé, nous avons mangé, ils ont mangé. 2) belles, grandes (fem. plural). 3) "Il a mangé sa pomme à midi." 4) Passé composé = completed action ("J'ai mangé une pomme hier."); Imparfait = ongoing/habitual past ("Je mangeais une pomme chaque soir.").</div>
-
-      <div class="fi-unit-title">🗣️ Unité D — Communication orale et médias</div>
-      <div class="subj-body">La communication orale comprend : les <strong>exposés oraux</strong> (introduction — développement — conclusion), la <strong>discussion</strong> (écoute active, tours de parole), le <strong>débat</strong> (défendre une position avec des arguments), et l'<strong>analyse des médias</strong> (reconnaître les techniques de persuasion : appel émotionnel, célébrités, répétition).</div>
-      <div class="en-hint">Oral presentation structure: intro (hook + topic), body (3 main points), conclusion (summary + closing). Debate: state position → give reasons + evidence → address counter-arguments. Media analysis: identify audience, purpose, and techniques — emotional appeal, celebrity endorsement, repetition, scarcity, bandwagon.</div>
-      <div class="vocab-row">
-        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">exposé oral</span>
-        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">écoute active</span>
-        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">débat</span>
-        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">argument</span>
-        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">analyse des médias</span>
-      </div>
-      <div class="q-label">Questions — Oral &amp; Médias</div>
-      <div class="q-item">1. Quelles sont les 3 parties d'un bon exposé oral ?</div>
-      <div class="q-item">2. Nomme deux techniques de persuasion utilisées dans les publicités.</div>
-      <div class="q-item">3. Comment se préparer pour un débat ? Donne trois stratégies.</div>
-      <div class="en-hint">1) Introduction (hook + topic), Body (3 points), Conclusion (summary + closing). 2) Any two: emotional appeal, celebrity endorsement, repetition, scarcity, bandwagon. 3) Research your topic, know counter-arguments, prepare evidence, practice out loud, anticipate questions.</div>
+  <div class="sched-slot" id="slot-800">
+    <div class="s-time">8:00</div>
+    <div class="s-icon">🥣</div>
+    <div class="s-body">
+      <div class="s-label">Breakfast</div>
+      <div class="s-detail">Eat, put dishes in the kitchen.</div>
     </div>
+  </div>
 
-    <!-- ══ ENGLISH LA ══ -->
-    <div class="subject-card s-en">
-      <div class="subj-tag" style="color:var(--sc)">#2 · English Language Arts</div>
-      <div class="subj-title">Reading, Writing, Language &amp; Representing</div>
-
-      <div class="fi-unit-title">📚 Unit A — Reading &amp; Comprehension</div>
-      <div class="subj-body">Grade 6 reading focuses on <strong>reading across genres</strong>: fiction (novels, short stories), non-fiction (biographies, articles), poetry, and drama. Key skills: making inferences, identifying theme vs. main idea, analyzing character development, comparing texts, and evaluating author's purpose.</div>
-      <div class="en-hint">Theme = the big message (e.g. "be yourself," "courage matters"). Main idea = what a specific paragraph is about. Author's purpose: to inform (gives facts), to persuade (argues a view), to entertain (tells a story). 1st person POV: narrator uses "I/we." 3rd person: narrator uses "he/she/they." Character development: protagonist changes through conflict; flat characters don't change.</div>
-      <div class="vocab-row">
-        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">theme</span>
-        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">main idea</span>
-        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">inference</span>
-        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">protagonist / antagonist</span>
-        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">author's purpose</span>
-        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">point of view</span>
-      </div>
-      <div class="q-label">Questions — Reading</div>
-      <div class="q-item">1. What is the difference between theme and main idea?</div>
-      <div class="q-item">2. What are the three main author's purposes? Give an example of each.</div>
-      <div class="q-item">3. What is 1st person vs. 3rd person point of view? How can you tell?</div>
-      <div class="q-item">4. How does a protagonist change from beginning to end of a story? Why is this important?</div>
-
-      <div class="fi-unit-title">✍️ Unit B — Writing Forms &amp; Structure</div>
-      <div class="subj-body"><strong>Narrative writing</strong>: engaging opening, developed plot (exposition, rising action, climax, falling action, resolution), vivid characters, sensory details, dialogue. <strong>Expository writing</strong>: clear thesis, organized body paragraphs (topic sentence + details + concluding sentence), transitions. <strong>Persuasive writing</strong>: strong claim, 3 supporting reasons with evidence, counter-argument + rebuttal, call to action. <strong>Descriptive writing</strong>: five senses, show-don't-tell, figurative language.</div>
-      <div class="en-hint">Paragraph structure: Topic Sentence → 2–3 Supporting Details → Concluding Sentence. Transitions: to add (furthermore, in addition), to contrast (however, on the other hand), to conclude (therefore, in conclusion). Narrative arc: exposition → rising action → climax → falling action → resolution. Show don't tell: instead of "She was scared," write "Her hands trembled as she reached for the door handle."</div>
-      <div class="vocab-row">
-        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">thesis statement</span>
-        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">topic sentence</span>
-        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">transition</span>
-        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">climax</span>
-        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">counter-argument</span>
-        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">rebuttal</span>
-        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">evidence</span>
-      </div>
-      <div class="q-label">Questions — Writing</div>
-      <div class="q-item">1. What are the five parts of a narrative arc?</div>
-      <div class="q-item">2. What is a thesis statement? Write one about school uniforms.</div>
-      <div class="q-item">3. What is a counter-argument and why include it in a persuasive essay?</div>
-      <div class="q-item">4. Rewrite using "show don't tell": "He was really happy."</div>
-
-      <div class="fi-unit-title">🔤 Unit C — Literary Devices</div>
-      <div class="subj-body">Key literary devices for Grade 6: <strong>Simile</strong> (comparison using "like" or "as"), <strong>Metaphor</strong> (direct comparison), <strong>Personification</strong> (human traits to non-human things), <strong>Alliteration</strong> (repeated consonant sounds), <strong>Onomatopoeia</strong> (words that sound like what they mean), <strong>Hyperbole</strong> (extreme exaggeration), <strong>Foreshadowing</strong> (hints of future events), <strong>Imagery</strong> (vivid sensory description), <strong>Symbolism</strong> (object represents a bigger idea).</div>
-      <div class="en-hint">Simile: "Her smile was like sunshine." Metaphor: "He is a shining star." Personification: "The wind whispered secrets." Alliteration: "Peter Piper picked a peck." Onomatopoeia: buzz, crash, sizzle. Hyperbole: "I've told you a million times!" Foreshadowing: "Little did she know, the key would save her life." Symbolism: a dove = peace; a storm = conflict or change. Flashback = scene from the PAST inserted into present story.</div>
-      <div class="vocab-row">
-        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">simile</span>
-        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">metaphor</span>
-        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">personification</span>
-        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">alliteration</span>
-        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">onomatopoeia</span>
-        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">hyperbole</span>
-        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">foreshadowing</span>
-        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">symbolism</span>
-      </div>
-      <div class="q-label">Questions — Literary Devices</div>
-      <div class="q-item">1. Identify the device: "The stars danced across the midnight sky."</div>
-      <div class="q-item">2. Write your own simile AND metaphor about school.</div>
-      <div class="q-item">3. What is the difference between foreshadowing and a flashback?</div>
-      <div class="q-item">4. Find the hyperbole: "I have so much homework I could build a house out of it."</div>
-
-      <div class="fi-unit-title">🧠 Unit D — Word Study &amp; Vocabulary</div>
-      <div class="subj-body"><strong>Prefixes and suffixes</strong> (un-, re-, pre-, -tion, -ful, -less, -ment), <strong>root words</strong>, <strong>context clues</strong> (using surrounding text), <strong>connotation vs. denotation</strong> (emotional vs. dictionary meaning), <strong>synonyms and antonyms</strong>.</div>
-      <div class="en-hint">Prefixes: un- (not), re- (again), pre- (before), mis- (wrong), inter- (between). Suffixes: -tion (action), -ful (having), -less (without), -ment (result). Context clue types: definition ("X, which means..."), example ("such as"), contrast ("unlike X, Y is..."). Denotation = dictionary definition. Connotation = feelings the word brings ("home" vs. "shack" — both mean shelter, very different feelings).</div>
-      <div class="vocab-row">
-        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">prefix / suffix</span>
-        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">root word</span>
-        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">context clue</span>
-        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">connotation</span>
-        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">denotation</span>
-        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">synonym / antonym</span>
-      </div>
-      <div class="q-label">Questions — Word Study</div>
-      <div class="q-item">1. What does the prefix "un-" mean? Give two examples.</div>
-      <div class="q-item">2. What is the difference between connotation and denotation?</div>
-      <div class="q-item">3. Use context clues: "The thief absconded with the jewels, fleeing so quickly that no one could catch him." What does "abscond" mean?</div>
+  <div class="sched-slot" id="slot-830">
+    <div class="s-time">8:30</div>
+    <div class="s-icon">⚡</div>
+    <div class="s-body">
+      <div class="s-label">Brain Activation (5 min)</div>
+      <div class="s-detail">Cross-body march → Pattern sprint → Box breathing.</div>
     </div>
+  </div>
 
-    <!-- ══ MATH ══ -->
-    <div class="subject-card s-math">
-      <div class="subj-tag" style="color:var(--sc)">#3 · Mathématiques 6</div>
-      <div class="subj-title">Nombres, algèbre, géométrie, statistiques et probabilités</div>
-
-      <div class="fi-unit-title">🔢 Unité A — Nombres et opérations</div>
-      <div class="subj-body"><strong>Grands nombres</strong> jusqu'au million. <strong>Fractions</strong> : équivalentes, impropres, nombres mixtes, addition/soustraction avec PPCD. <strong>Décimaux</strong> : jusqu'aux millièmes, opérations (+, −, ×, ÷). <strong>Pourcentages</strong> : convertir fractions ↔ décimaux ↔ %, trouver un % d'un nombre. <strong>Entiers</strong> : nombres négatifs, droite numérique, addition/soustraction.</div>
-      <div class="en-hint">Fractions with unlike denominators: find the LCD. Example: ½ + ⅓ → LCD = 6 → 3/6 + 2/6 = 5/6. Mixed to improper: 2¾ = (2×4+3)/4 = 11/4. Converting: ¾ = 0.75 = 75%. Finding % of number: 30% of 80 = 0.30 × 80 = 24. Integers on number line: -3 + 5 = 2 (move 5 right from -3). Subtracting negatives: -3 − (-2) = -3 + 2 = -1.</div>
-      <div class="vocab-row">
-        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">fraction équivalente</span>
-        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">PPCD</span>
-        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">nombre mixte</span>
-        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">pourcentage</span>
-        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">entier</span>
-        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">droite numérique</span>
-      </div>
-      <div class="q-label">Questions — Nombres</div>
-      <div class="q-item">1. Convertis ⅝ en décimal et en pourcentage.</div>
-      <div class="q-item">2. Calcule : ⅓ + ¼ = ?</div>
-      <div class="q-item">3. Convertis 2¾ en fraction impropre.</div>
-      <div class="q-item">4. Calcule : −4 + 7 = ? et −3 − 5 = ?</div>
-      <div class="q-item">5. Trouve 40% de 75.</div>
-      <div class="en-hint">1) ⅝ = 0.625 = 62.5%. 2) LCD=12 → 4/12 + 3/12 = 7/12. 3) 11/4. 4) 3 ; −8. 5) 0.40 × 75 = 30.</div>
-
-      <div class="fi-unit-title">🔣 Unité B — Ratio, taux et proportions</div>
-      <div class="subj-body">Un <strong>ratio</strong> compare deux quantités (3:4). Un <strong>taux</strong> compare deux quantités d'unités différentes (60 km/h). Une <strong>proportion</strong> dit que deux ratios sont égaux (2/3 = 4/6). Résoudre avec la <strong>multiplication croisée</strong>. La <strong>mise à l'échelle</strong> agrandit ou réduit selon un facteur.</div>
-      <div class="en-hint">Proportion: 2/3 = x/9 → cross-multiply: 3x = 18, x = 6. Scale: if 1 cm = 10 km, then 5 cm = 50 km. Unit rate: cost per one item (e.g., $2.50 per apple — divide total cost by quantity). Ratio as fraction: 3 red out of 7 total = 3/7.</div>
-      <div class="vocab-row">
-        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">ratio</span>
-        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">taux</span>
-        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">proportion</span>
-        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">mise à l'échelle</span>
-        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">multiplication croisée</span>
-      </div>
-      <div class="q-label">Questions — Ratio &amp; Proportions</div>
-      <div class="q-item">1. Résous : 3/4 = x/12.</div>
-      <div class="q-item">2. Une voiture roule à 90 km/h. Combien de km en 2,5 heures ?</div>
-      <div class="q-item">3. Échelle 1:50 000. Une route de 3 cm sur la carte = combien de km ?</div>
-      <div class="en-hint">1) 4x = 36, x = 9. 2) 90 × 2.5 = 225 km. 3) 3 × 50 000 = 150 000 cm = 1.5 km.</div>
-
-      <div class="fi-unit-title">🔡 Unité C — Algèbre et expressions</div>
-      <div class="subj-body"><strong>Variables et expressions</strong> (3n + 5). <strong>Équations</strong> (3n + 5 = 20) : isoler la variable avec des opérations inverses. <strong>Ordre des opérations — PEDMAS</strong> : Parenthèses, Exposants, Division/Multiplication, Addition/Soustraction.</div>
-      <div class="en-hint">BEDMAS/PEDMAS: Brackets first, then Exponents, then Divide/Multiply left to right, then Add/Subtract left to right. Example: 3 + 4 × 2 = 3 + 8 = 11 (NOT 14!). Solving: 3n + 5 = 20 → subtract 5 → 3n = 15 → divide by 3 → n = 5. Check: 3(5) + 5 = 20 ✓. Expression has no = sign; equation does.</div>
-      <div class="vocab-row">
-        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">variable</span>
-        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">expression algébrique</span>
-        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">équation</span>
-        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">PEDMAS</span>
-        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">opération inverse</span>
-      </div>
-      <div class="q-label">Questions — Algèbre</div>
-      <div class="q-item">1. Résous pour n : 5n − 3 = 22</div>
-      <div class="q-item">2. Calcule avec PEDMAS : 2 + (8 − 3) × 4 ÷ 2</div>
-      <div class="q-item">3. Écris une équation : « J'ai 5 de plus que le double de mon âge = 19. »</div>
-      <div class="en-hint">1) 5n = 25, n = 5. 2) 2 + (5) × 4 ÷ 2 = 2 + 20 ÷ 2 = 2 + 10 = 12. 3) 2a + 5 = 19 → a = 7.</div>
-
-      <div class="fi-unit-title">📐 Unité D — Géométrie et mesures</div>
-      <div class="subj-body"><strong>Angles</strong> : aigu (&lt;90°), droit (90°), obtus (90°–180°). Triangle = 180°, quadrilatère = 360°. <strong>Aires</strong> : rectangle (l×w), triangle (½×b×h), parallélogramme (b×h), cercle (πr²). <strong>Volume</strong> : prisme (l×w×h), cylindre (πr²h). <strong>Transformations</strong> : translation, réflexion, rotation.</div>
-      <div class="en-hint">Area: Rectangle = l×w; Triangle = ½×b×h; Parallelogram = b×h; Circle = π×r². Circumference = 2πr. Volume: Rectangular prism = l×w×h; Cylinder = π×r²×h. Transformations: Translation = slide; Reflection = flip over a line; Rotation = turn around a point. Pentagon interior angles = 540°; Hexagon = 720°.</div>
-      <div class="vocab-row">
-        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">angle aigu / obtus</span>
-        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">périmètre / aire</span>
-        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">volume</span>
-        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">translation</span>
-        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">réflexion</span>
-        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">rotation</span>
-      </div>
-      <div class="q-label">Questions — Géométrie</div>
-      <div class="q-item">1. Calcule l'aire d'un triangle : base 8 cm, hauteur 5 cm.</div>
-      <div class="q-item">2. Cercle avec rayon 7 cm : calcule aire et circonférence (π ≈ 3.14).</div>
-      <div class="q-item">3. Prisme rectangulaire 4 cm × 6 cm × 3 cm. Quel est son volume ?</div>
-      <div class="q-item">4. Deux angles d'un triangle = 65° et 75°. Quel est le 3e ?</div>
-      <div class="en-hint">1) ½ × 8 × 5 = 20 cm². 2) Aire = 3.14 × 49 ≈ 153.86 cm²; Circonf. = 2 × 3.14 × 7 ≈ 43.96 cm. 3) 72 cm³. 4) 180 − 65 − 75 = 40°.</div>
-
-      <div class="fi-unit-title">📊 Unité E — Statistiques et probabilités</div>
-      <div class="subj-body"><strong>Statistiques</strong> : graphiques (barres, ligne, circulaire, tiges-et-feuilles). Mesures de tendance centrale : <strong>moyenne</strong> (somme ÷ n), <strong>médiane</strong> (valeur du milieu), <strong>mode</strong> (valeur la plus fréquente), <strong>étendue</strong> (max − min). <strong>Probabilité théorique</strong> vs. <strong>probabilité expérimentale</strong>, espace échantillonnal.</div>
-      <div class="en-hint">Mean = sum ÷ count. Median = middle value when sorted (average the two middle if even count). Mode = most frequent (can be multiple or none). Range = max − min. Theoretical probability = favourable outcomes ÷ total. P(even on a die) = 3/6 = ½. Experimental probability = what actually happened in trials. Sample space for 2 coin flips: HH, HT, TH, TT.</div>
-      <div class="vocab-row">
-        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">moyenne</span>
-        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">médiane</span>
-        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">mode</span>
-        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">étendue</span>
-        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">probabilité théorique</span>
-        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">probabilité expérimentale</span>
-        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">espace échantillonnal</span>
-      </div>
-      <div class="q-label">Questions — Stats &amp; Probabilité</div>
-      <div class="q-item">1. Données : 4, 7, 3, 9, 7, 2, 8. Calcule la moyenne, la médiane, le mode et l'étendue.</div>
-      <div class="q-item">2. Sac : 5 rouges, 3 bleus, 2 verts. P(rouge) = ?</div>
-      <div class="q-item">3. Quelle est la différence entre la probabilité théorique et expérimentale ?</div>
-      <div class="en-hint">1) Sorted: 2,3,4,7,7,8,9. Mean = 40/7 ≈ 5.7; Median = 7; Mode = 7; Range = 7. 2) 5/10 = ½ = 50%. 3) Theoretical = calculated from math; Experimental = measured from actual trials. They converge with more trials.</div>
+  <div class="sched-slot" id="slot-900">
+    <div class="s-time">9:00</div>
+    <div class="s-icon">📚</div>
+    <div class="s-body">
+      <div class="s-label">Morning Block 1 — Français / Math</div>
+      <div class="s-detail">50 min focused work. Timer on. 2-min movement break every 15 min.</div>
+      <div class="inline-tasks" id="tasks-lang-math"></div>
     </div>
+  </div>
 
-    <!-- ══ SCIENCE ══ -->
-    <div class="subject-card s-sci">
-      <div class="subj-tag" style="color:var(--sc)">#4 · Sciences 6</div>
-      <div class="subj-title">Électricité · Système solaire · Air &amp; Aérodynamique · Arbres</div>
-
-      <div class="fi-unit-title">⚡ Unité 1 — Électricité et circuits</div>
-      <div class="subj-body">L'<strong>électricité</strong> est le mouvement des électrons. <strong>Circuit en série</strong> : chemin unique — si un composant s'arrête, tout s'arrête. <strong>Circuit en parallèle</strong> : chemins séparés — si un s'arrête, les autres continuent. <strong>Conducteurs</strong> (cuivre, aluminium) laissent passer le courant. <strong>Isolants</strong> (caoutchouc, bois) le bloquent. <strong>Sécurité électrique</strong> : ne jamais insérer d'objets métalliques dans une prise ; tenir les appareils loin de l'eau.</div>
-      <div class="en-hint">Circuit components: battery (power), wires (conductors), switch (opens/closes), bulb (load). Series: one path, same current everywhere — one break = total failure. Parallel: current splits — one branch breaks, others stay on (why house lights are wired in parallel). Voltage (V) = "push" of electricity. Current (A) = flow of electrons. Resistance (Ω) = opposition. Static electricity: build-up of charges (rubbing balloon on hair).</div>
-      <div class="vocab-row">
-        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">circuit en série</span>
-        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">circuit en parallèle</span>
-        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">conducteur / isolant</span>
-        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">voltage</span>
-        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">courant électrique</span>
-        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">résistance</span>
-      </div>
-      <div class="q-label">Questions — Électricité</div>
-      <div class="q-item">1. Différence principale entre circuit en série et en parallèle ?</div>
-      <div class="q-item">2. Nomme trois conducteurs et trois isolants courants.</div>
-      <div class="q-item">3. Donne deux règles de sécurité électrique.</div>
-      <div class="q-item">4. Pourquoi les ampoules d'une maison sont-elles câblées en parallèle ?</div>
-      <div class="en-hint">1) Series: one path, one break = all off. Parallel: multiple paths, one break = others stay on. 2) Conductors: copper wire, aluminum foil, salt water. Insulators: rubber glove, wooden handle, plastic. 3) Never touch outlets with metal; keep electronics away from water; don't overload power bars. 4) In parallel, each bulb has its own circuit — turning off one doesn't affect others.</div>
-
-      <div class="fi-unit-title">🌌 Unité 2 — Le système solaire</div>
-      <div class="subj-body">Le <strong>système solaire</strong> : le Soleil au centre, 8 planètes en orbite. <strong>Planètes de la plus proche au plus loin</strong> : Mercure, Vénus, Terre, Mars (telluriques/rocheuses) ; Jupiter, Saturne, Uranus, Neptune (gazeuses/géantes). <strong>Phases de la Lune</strong> : nouvelle lune → croissant → premier quartier → gibbeuse croissante → pleine lune → … (cycle ≈ 29,5 jours). <strong>Éclipse solaire</strong> : Lune entre Soleil et Terre. <strong>Éclipse lunaire</strong> : Terre entre Soleil et Lune.</div>
-      <div class="en-hint">Mnemonic: "My Very Excellent Mother Just Served Us Nachos" = Mercury, Venus, Earth, Mars, Jupiter, Saturn, Uranus, Neptune. Terrestrial (rocky, smaller): Mercury, Venus, Earth, Mars. Gas giants (larger): Jupiter, Saturn, Uranus, Neptune. Solar eclipse: Moon blocks the Sun — only visible from certain spots. Lunar eclipse: Earth's shadow falls on Moon — visible from entire night side. Light-year = distance light travels in one year ≈ 9.46 trillion km.</div>
-      <div class="vocab-row">
-        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">planète tellurique</span>
-        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">planète gazeuse</span>
-        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">orbite</span>
-        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">phase de la Lune</span>
-        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">éclipse solaire / lunaire</span>
-        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">constellation</span>
-      </div>
-      <div class="q-label">Questions — Système solaire</div>
-      <div class="q-item">1. Nomme les 8 planètes dans l'ordre, du Soleil vers l'extérieur.</div>
-      <div class="q-item">2. Différence entre une éclipse solaire et lunaire ?</div>
-      <div class="q-item">3. Nomme 4 phases de la Lune dans l'ordre.</div>
-      <div class="q-item">4. Différence entre planète tellurique et planète gazeuse ?</div>
-      <div class="en-hint">1) Mercury, Venus, Earth, Mars, Jupiter, Saturn, Uranus, Neptune. 2) Solar: Moon between Earth and Sun, blocks sunlight. Lunar: Earth between Sun and Moon, Earth's shadow covers Moon. 3) New moon → crescent → first quarter → full moon. 4) Terrestrial: rocky, solid surface, smaller. Gas giants: mostly gas, much larger.</div>
-
-      <div class="fi-unit-title">🌬️ Unité 3 — L'air et l'aérodynamique</div>
-      <div class="subj-body">L'<strong>air</strong> est un mélange de gaz (azote 78%, oxygène 21%) ; il a une masse et une pression. Les <strong>4 forces du vol</strong> : <strong>portance</strong> (↑), <strong>poids/gravité</strong> (↓), <strong>poussée</strong> (→), <strong>traînée</strong> (←). Le <strong>principe de Bernoulli</strong> : l'air au-dessus d'une aile se déplace plus vite → pression plus basse → portance vers le haut. La <strong>forme aérodynamique</strong> réduit la traînée.</div>
-      <div class="en-hint">Bernoulli: faster-moving air = lower pressure → curved top of wing has faster air = lower pressure above; slower air below = higher pressure → wing is pushed UP. 4 forces: for flight, Lift > Weight AND Thrust > Drag. Streamlined shapes (teardrop, pointed nose) = less drag. Birds: asymmetric airfoil wing shape (curved top, flatter bottom). Demonstrated with a piece of paper: blow over the top → it rises (low pressure above).</div>
-      <div class="vocab-row">
-        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">portance</span>
-        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">traînée</span>
-        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">poussée</span>
-        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">poids / gravité</span>
-        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">principe de Bernoulli</span>
-        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">aérodynamique</span>
-      </div>
-      <div class="q-label">Questions — Aérodynamique</div>
-      <div class="q-item">1. Nomme les 4 forces qui agissent sur un avion en vol.</div>
-      <div class="q-item">2. Explique le principe de Bernoulli et comment il crée la portance.</div>
-      <div class="q-item">3. Pourquoi la forme aérodynamique est-elle importante ?</div>
-      <div class="q-item">4. Comment prouver que l'air a une masse ?</div>
-      <div class="en-hint">1) Lift (↑), Weight/Gravity (↓), Thrust (→), Drag (←). 2) Air moving over curved wing top moves faster → lower pressure; air below moves slower → higher pressure; difference pushes wing upward. 3) Reduces air resistance (drag) → uses less fuel, goes faster. 4) A flat tire weighs less than an inflated one; compressed air in a syringe resists being pushed in.</div>
-
-      <div class="fi-unit-title">🌲 Unité 4 — Les arbres et les forêts</div>
-      <div class="subj-body"><strong>Photosynthèse</strong> : eau + CO₂ + énergie solaire → glucose + oxygène. <strong>Transpiration</strong> : les arbres libèrent de la vapeur d'eau par les stomates des feuilles. <strong>Types de forêts</strong> : boréale (conifères, nord du Canada), tempérée (mixte, 4 saisons), tropicale (la plus de biodiversité). <strong>Rôles</strong> : habitat, absorption du CO₂, production d'O₂, régulation du cycle de l'eau. <strong>Impact humain</strong> : déforestation, reboisement, exploitation durable.</div>
-      <div class="en-hint">Photosynthesis: CO₂ + H₂O + sunlight → C₆H₁₂O₆ (glucose) + O₂. Happens in chloroplasts (green part) of leaves. Transpiration contributes to rainfall and the water cycle. Alberta forests = mostly boreal (spruce, pine, aspen). Deforestation → more CO₂ in atmosphere + less absorption = accelerates climate change + soil erosion + habitat loss. Sustainable forestry: selective cutting, replanting, protected areas.</div>
-      <div class="vocab-row">
-        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">photosynthèse</span>
-        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">chlorophylle</span>
-        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">transpiration</span>
-        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">forêt boréale</span>
-        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">déforestation</span>
-        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">reboisement</span>
-        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">écosystème</span>
-      </div>
-      <div class="q-label">Questions — Arbres &amp; forêts</div>
-      <div class="q-item">1. Écris l'équation de la photosynthèse en mots.</div>
-      <div class="q-item">2. Nomme les trois types de forêts et une caractéristique de chacun.</div>
-      <div class="q-item">3. Comment la déforestation affecte-t-elle le cycle du carbone ?</div>
-      <div class="q-item">4. Qu'est-ce que la transpiration ? Quel est son rôle dans le cycle de l'eau ?</div>
-      <div class="en-hint">1) Water + Carbon dioxide + sunlight → Glucose + Oxygen. 2) Boreal: cold, coniferous (spruce, pine), northern Canada. Temperate: four seasons, mixed trees. Tropical: warm, wet, most biodiverse. 3) Trees are carbon sinks. Cutting them releases CO₂ AND removes future absorption → greenhouse effect → climate change. 4) Trees release water vapour through stomata → contributes to cloud formation and rainfall (part of the water cycle).</div>
+  <div class="sched-slot" id="slot-1000">
+    <div class="s-time">10:00</div>
+    <div class="s-icon">🌿</div>
+    <div class="s-body">
+      <div class="s-label">Break (15 min)</div>
+      <div class="s-detail">Outside or move your body. Screen-free. Drink water.</div>
     </div>
+  </div>
 
-    <!-- ══ SOCIAL STUDIES ══ -->
-    <div class="subject-card s-ss">
-      <div class="subj-tag" style="color:var(--sc)">#5 · Sciences humaines 6</div>
-      <div class="subj-title">Le Canada — Identité, histoire, gouvernement et économie</div>
-
-      <div class="fi-unit-title">🗺️ Thème A — Géographie du Canada</div>
-      <div class="subj-body">Le Canada est divisé en <strong>7 régions géographiques</strong> : la <strong>Cordillère</strong> (C.-B., Rocheuses), les <strong>Plaines intérieures</strong> (prairies — Alberta, Saskatchewan, Manitoba), le <strong>Bouclier canadien</strong> (roche ancienne, forêts, mines), les <strong>Basses-terres des Grands Lacs</strong> (Ontario/Québec, zone la plus peuplée), les <strong>Appalaches</strong> (Maritimes), les <strong>Basses-terres arctiques</strong> et la <strong>région subarctique</strong>. Chaque région a ses ressources, son climat et sa population distinctifs.</div>
-      <div class="en-hint">7 regions: 1) Cordillera (BC mountains, mining, lumber, fish) 2) Interior Plains (flat prairies, oil, gas, wheat — Alberta is here) 3) Canadian Shield (ancient rock, hydroelectric, mining gold/nickel) 4) Great Lakes-St. Lawrence Lowlands (most populated — Toronto, Montreal, Ottawa; manufacturing) 5) Appalachian (fishing, tourism, old mountains) 6) Arctic Lowlands (tundra, permafrost, Inuit) 7) Hudson Bay Lowlands (wetlands, subarctic). Population density: highest in Lowlands, lowest in Arctic.</div>
-      <div class="vocab-row">
-        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">Cordillère</span>
-        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">Plaines intérieures</span>
-        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">Bouclier canadien</span>
-        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">densité de population</span>
-        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">ressources naturelles</span>
-        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">fuseau horaire</span>
-      </div>
-      <div class="q-label">Questions — Géographie</div>
-      <div class="q-item">1. Nomme les 7 régions géographiques du Canada.</div>
-      <div class="q-item">2. Dans quelle région se trouve l'Alberta ? Quelles sont ses ressources principales ?</div>
-      <div class="q-item">3. Pourquoi la région des Grands Lacs est-elle la plus densément peuplée ?</div>
-      <div class="en-hint">1) Cordillera, Interior Plains, Canadian Shield, Great Lakes-St. Lawrence Lowlands, Appalachian, Arctic Lowlands, Hudson Bay Lowlands. 2) Interior Plains. Resources: oil sands, natural gas, agriculture (cattle, canola), coal. 3) Fertile land, mild climate, access to waterways for trade, long history of industrialization — these attracted settlers and industry.</div>
-
-      <div class="fi-unit-title">🪶 Thème B — Peuples autochtones</div>
-      <div class="subj-body">Trois groupes reconnus : les <strong>Premières Nations</strong> (ex : Cri, Blackfoot, Ojibwe), les <strong>Métis</strong> (descendance mixte européenne et autochtone, Louis Riel), les <strong>Inuits</strong> (nord du Canada, Nunavut). Les <strong>traités</strong> sont des accords juridiques sur l'utilisation des terres. Les <strong>Pensionnats indiens</strong> (1870s–1990s) ont causé un traumatisme intergénérationnel. La <strong>réconciliation</strong> est le processus pour réparer ces relations.</div>
-      <div class="en-hint">First Nations: hundreds of distinct nations with own languages and cultures. Métis: mixed Indigenous-European heritage — Louis Riel was a famous Métis leader. Inuit: Arctic peoples; "Inuit" means "people" in Inuktitut. Treaties: legal agreements between Crown and Indigenous nations about land sharing — many were not honoured. Residential schools: forced Indigenous children away from families to assimilate → loss of language, culture, identity, lasting trauma. TRC (Truth and Reconciliation Commission) produced 94 Calls to Action. Orange Shirt Day = September 30.</div>
-      <div class="vocab-row">
-        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">Premières Nations</span>
-        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">Métis</span>
-        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">Inuits</span>
-        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">traité</span>
-        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">réconciliation</span>
-        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">pensionnat indien</span>
-        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">Commission Vérité et Réconciliation</span>
-      </div>
-      <div class="q-label">Questions — Peuples autochtones</div>
-      <div class="q-item">1. Nomme les trois groupes de peuples autochtones reconnus au Canada.</div>
-      <div class="q-item">2. Qu'est-ce qu'un traité ? Pourquoi sont-ils importants aujourd'hui ?</div>
-      <div class="q-item">3. Qu'est-ce que la réconciliation et pourquoi est-elle nécessaire ?</div>
-      <div class="en-hint">1) First Nations, Métis, Inuit. 2) A treaty is a legal agreement about land use and rights. Important today because Canada is still legally bound by them and many rights are being restored. 3) Reconciliation = the ongoing process of acknowledging harm done by residential schools and colonialism, restoring rights and culture, and building an equitable relationship between Indigenous and non-Indigenous Canadians.</div>
-
-      <div class="fi-unit-title">🍁 Thème C — La Confédération et l'histoire</div>
-      <div class="subj-body"><strong>Confédération (1867)</strong> : Ontario, Québec, Nouvelle-Écosse, Nouveau-Brunswick forment le Dominion du Canada. Raisons : défense, union économique, chemin de fer. Autres provinces : C.-B. (1871), Alberta/Saskatchewan (1905), Terre-Neuve (1949), Nunavut (territoire, 1999). Aujourd'hui : <strong>10 provinces + 3 territoires</strong>. <strong>Charte canadienne des droits et libertés (1982)</strong> garantit les droits fondamentaux.</div>
-      <div class="en-hint">Confederation timeline: 1867 (Ontario, Quebec, Nova Scotia, New Brunswick) → 1870 (Manitoba) → 1871 (BC — promised railway) → 1873 (PEI) → 1905 (Alberta, Saskatchewan) → 1949 (Newfoundland) → 1999 (Nunavut). Key figures: John A. Macdonald (1st PM), George-Étienne Cartier. Canadian Pacific Railway (1885) connected Canada coast-to-coast. Charter of Rights (1982) = added to the Constitution Act — cannot be taken away by government.</div>
-      <div class="vocab-row">
-        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">Confédération (1867)</span>
-        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">Dominion du Canada</span>
-        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">province / territoire</span>
-        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">Charte des droits (1982)</span>
-        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">Pères de la Confédération</span>
-      </div>
-      <div class="q-label">Questions — Confédération</div>
-      <div class="q-item">1. Quelles étaient les 4 premières provinces de la Confédération (1867) ?</div>
-      <div class="q-item">2. Nomme 3 raisons pour lesquelles les colonies ont voulu former le Canada.</div>
-      <div class="q-item">3. En quelle année l'Alberta est-elle devenue une province ? Combien de provinces/territoires au total ?</div>
-      <div class="q-item">4. Que garantit la Charte canadienne des droits et libertés ?</div>
-      <div class="en-hint">1) Ontario, Quebec, Nova Scotia, New Brunswick. 2) Defence from the US, economic union, build the railway, stronger central government. 3) Alberta = 1905. Total = 10 provinces + 3 territories = 13. 4) Fundamental freedoms (religion, expression), democratic rights (vote), mobility, legal rights (fair trial), equality (no discrimination), minority language rights.</div>
-
-      <div class="fi-unit-title">🏛️ Thème D — Gouvernement démocratique</div>
-      <div class="subj-body">Canada = <strong>démocratie parlementaire</strong> et <strong>monarchie constitutionnelle</strong>. <strong>Trois paliers</strong> : <strong>fédéral</strong> (Ottawa) — défense, immigration, lois nationales ; <strong>provincial</strong> (Edmonton, Alberta) — éducation, santé, routes ; <strong>municipal</strong> (votre ville) — parcs, bibliothèques, collecte des ordures. <strong>Parlement</strong> = Chambre des communes + Sénat + Gouverneur général.</div>
-      <div class="en-hint">Federal: army, immigration, criminal law, money, banking, First Nations. Provincial (Alberta): education, healthcare, property/civil rights, highways, natural resources. Municipal (your city): garbage, local roads, parks, libraries, fire department, building permits. How a bill becomes law: introduced in House of Commons → debated → voted → Senate → voted → Royal Assent (Governor General) → law. You vote for your local MP (Member of Parliament), not directly for the Prime Minister.</div>
-      <div class="vocab-row">
-        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">démocratie parlementaire</span>
-        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">palier fédéral</span>
-        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">palier provincial</span>
-        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">palier municipal</span>
-        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">Chambre des communes</span>
-        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">Sénat</span>
-        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">circonscription</span>
-      </div>
-      <div class="q-label">Questions — Gouvernement</div>
-      <div class="q-item">1. Nomme les 3 paliers et donne 2 responsabilités de chacun.</div>
-      <div class="q-item">2. Comment devient-on premier ministre du Canada ?</div>
-      <div class="q-item">3. Quel palier est responsable de l'éducation ? Capitale de l'Alberta ?</div>
-      <div class="q-item">4. Qu'est-ce qu'une circonscription électorale ?</div>
-      <div class="en-hint">1) Federal: defence, immigration. Provincial: education, healthcare. Municipal: parks, garbage collection. 2) Leader of party that wins the most seats in a federal election becomes PM. Canadians vote for their local MP — the party with most MPs forms the government. 3) Education = provincial. Alberta capital = Edmonton. 4) A geographic area that elects one representative (MP federally, MLA provincially) to Parliament or the Legislature.</div>
-
-      <div class="fi-unit-title">💰 Thème E — Économie canadienne</div>
-      <div class="subj-body"><strong>Secteurs économiques</strong> : <strong>primaire</strong> (extraire des ressources naturelles — agriculture, foresterie, pêche, mines, pétrole) ; <strong>secondaire</strong> (fabriquer — transformer les ressources brutes en produits) ; <strong>tertiaire</strong> (services — santé, éducation, commerce) ; <strong>quaternaire</strong> (information, technologie, recherche). Exportations canadiennes : pétrole, bois, blé, potasse. <strong>Interdépendance économique</strong> : les pays dépendent les uns des autres.</div>
-      <div class="en-hint">Primary = extracting raw resources (farmer grows wheat). Secondary = manufacturing (mill grinds wheat into flour). Tertiary = services (baker sells bread — not making a product, doing something for someone). Quaternary = knowledge-based (IT, research). Canada's top exports: oil/gas, vehicles, gold, wheat, lumber. Top trading partner = USA (CUSMA trade deal). Supply and demand: if supply goes up and demand stays the same → price drops. Alberta economy: heavily dependent on oil sands (primary sector).</div>
-      <div class="vocab-row">
-        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">secteur primaire</span>
-        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">secteur secondaire</span>
-        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">secteur tertiaire</span>
-        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">exportation / importation</span>
-        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">interdépendance</span>
-        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">offre et demande</span>
-      </div>
-      <div class="q-label">Questions — Économie</div>
-      <div class="q-item">1. Décris les 3 principaux secteurs économiques avec un exemple pour chacun.</div>
-      <div class="q-item">2. Nomme 3 exportations importantes du Canada.</div>
-      <div class="q-item">3. Qu'est-ce que l'interdépendance économique ? Donne un exemple.</div>
-      <div class="q-item">4. Si l'offre augmente mais la demande reste la même, qu'arrive-t-il au prix ?</div>
-      <div class="en-hint">1) Primary: farmer grows wheat. Secondary: mill grinds wheat into flour. Tertiary: baker sells bread in a store. 2) Oil, wheat, lumber, gold, vehicles. 3) Countries rely on each other — Canada exports oil to the US; imports smartphones from Asia. 4) Price goes DOWN — more competition for the same buyers forces sellers to lower prices.</div>
+  <div class="sched-slot" id="slot-1015">
+    <div class="s-time">10:15</div>
+    <div class="s-icon">🔬</div>
+    <div class="s-body">
+      <div class="s-label">Morning Block 2 — Science / Social Studies</div>
+      <div class="s-detail">50 min. Ask for help if stuck more than 3 min.</div>
+      <div class="inline-tasks" id="tasks-sci-ss"></div>
     </div>
+  </div>
 
-    <!-- ══ HEALTH ══ -->
-    <div class="subject-card s-hlth">
-      <div class="subj-tag" style="color:var(--sc)">#6 · Santé 6</div>
-      <div class="subj-title">Bien-être, relations, décisions et sécurité</div>
-
-      <div class="fi-unit-title">🧬 Unité A — Puberté et développement</div>
-      <div class="subj-body">La <strong>puberté</strong> est la transition de l'enfance à l'âge adulte, déclenchée par les <strong>hormones</strong>. <strong>Changements physiques communs</strong> : croissance rapide, poils, transpiration/odeurs, peau grasse/acné. <strong>Changements émotionnels</strong> : humeurs changeantes, besoin d'identité, nouvelles émotions intenses. <strong>Hygiène</strong> renforcée : douche régulière, déodorant, soins de la peau. Tout le monde vit la puberté différemment — c'est normal.</div>
-      <div class="en-hint">Puberty is triggered by the endocrine system releasing hormones (estrogen/progesterone or testosterone depending on biology). Everyone experiences puberty differently — some start as early as 8–9, others as late as 14–15. ALL of this is completely normal. Emotional changes: mood swings (hormones affecting the brain), developing a sense of identity, stronger friendships, possibly romantic feelings. Key message: changes are NORMAL and happen at different times for everyone.</div>
-      <div class="vocab-row">
-        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">puberté</span>
-        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">hormone</span>
-        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">croissance</span>
-        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">changements émotionnels</span>
-        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">hygiène personnelle</span>
-      </div>
-      <div class="q-label">Questions — Développement personnel</div>
-      <div class="q-item">1. Nomme 2 changements physiques qui arrivent pour tout le monde pendant la puberté.</div>
-      <div class="q-item">2. Quels changements émotionnels peut-on vivre ?</div>
-      <div class="q-item">3. Pourquoi l'hygiène est-elle plus importante pendant la puberté ?</div>
-      <div class="en-hint">1) Growth spurts, body hair, sweating/body odour, acne (any 2). 2) Mood swings, stronger emotions, developing identity, social pressure, romantic feelings. 3) Hormones activate sweat glands → more body odour → deodorant needed. Also increase oil production in skin → more acne risk → regular face washing helps.</div>
-
-      <div class="fi-unit-title">💛 Unité B — Relations saines</div>
-      <div class="subj-body">Une <strong>relation saine</strong> est basée sur le <strong>respect mutuel</strong>, la <strong>communication</strong>, la <strong>confiance</strong>, des <strong>limites claires</strong> et le soutien. Relations malsaines : contrôle, manipulation, pression, exclusion. <strong>Résolution de conflits</strong> : écouter activement, utiliser des <strong>messages-je</strong> (« Je me sens ___ quand ___ parce que ___ et j'ai besoin de ___ »), chercher une solution gagnant-gagnant.</div>
-      <div class="en-hint">Healthy relationship traits (HEART): Honesty, Equality, Accountability, Respect, Trust. Warning signs: controlling behaviour, jealousy/possessiveness, pressure to change, exclusion to isolate. I-messages: "I feel [emotion] when [situation] because [reason], and I need [request]." Consent: everyone has the right to say no — applies to physical space, possessions, activities. Peer pressure strategies: say no firmly, suggest an alternative, leave the situation.</div>
-      <div class="vocab-row">
-        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">relation saine</span>
-        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">respect mutuel</span>
-        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">limite personnelle</span>
-        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">message-je</span>
-        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">consentement</span>
-        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">intimidation / pression des pairs</span>
-      </div>
-      <div class="q-label">Questions — Relations</div>
-      <div class="q-item">1. Nomme 4 caractéristiques d'une relation saine.</div>
-      <div class="q-item">2. Qu'est-ce qu'un « message-je » ? Donne un exemple.</div>
-      <div class="q-item">3. Nomme 2 signes d'avertissement d'une relation malsaine.</div>
-      <div class="q-item">4. Qu'est-ce que la pression des pairs et comment y résister ?</div>
-      <div class="en-hint">1) Any 4: respect, trust, honesty, communication, equality, safe boundaries, support. 2) "I feel hurt when you ignore me at lunch because I think you're upset, and I need to know if something is wrong." 3) Controlling behaviour, jealousy, making you feel bad about yourself, pressure to change. 4) Peer pressure = being influenced to act because others are. Resist: say no firmly, suggest alternative, walk away, tell a trusted adult.</div>
-
-      <div class="fi-unit-title">🎯 Unité C — Prise de décisions et gestion du stress</div>
-      <div class="subj-body">Modèle en <strong>5 étapes</strong> : 1) Identifier le problème → 2) Lister les options → 3) Évaluer les conséquences → 4) Choisir → 5) Évaluer le résultat. <strong>Conséquences à court terme vs. à long terme</strong>. <strong>Gestion du stress</strong> : exercice physique, respiration profonde, parler à quelqu'un de confiance, journal personnel, limiter les écrans avant le coucher.</div>
-      <div class="en-hint">Decision-making: 1) Stop & define the problem. 2) Brainstorm all choices. 3) Evaluate short AND long-term consequences of each. 4) Choose and act. 5) Reflect — how did it go? Stress signs: headache, stomachache, trouble sleeping, irritability, difficulty concentrating. Healthy coping: physical activity (releases endorphins), deep breathing (activates calm nervous system), talking, journaling, sleep. Unhealthy coping: avoiding, bottling up, screen overuse.</div>
-      <div class="vocab-row">
-        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">prise de décision</span>
-        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">conséquence</span>
-        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">pensée critique</span>
-        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">gestion du stress</span>
-        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">stratégie d'adaptation</span>
-      </div>
-      <div class="q-label">Questions — Décisions &amp; Stress</div>
-      <div class="q-item">1. Décris les 5 étapes du modèle de prise de décision.</div>
-      <div class="q-item">2. Nomme 3 signes physiques de stress.</div>
-      <div class="q-item">3. Donne 2 stratégies saines pour gérer le stress.</div>
-      <div class="q-item">4. Différence entre conséquence à court terme et long terme ? Donne un exemple.</div>
-      <div class="en-hint">1) Identify problem → list options → evaluate consequences → choose → reflect. 2) Headaches, stomachache, trouble sleeping, tension, trouble concentrating. 3) Exercise, deep breathing, talking to someone, journaling, adequate sleep. 4) Short-term: happens right away ("stayed up late → tired tomorrow"). Long-term: happens over time ("never studied → failed the exam").</div>
-
-      <div class="fi-unit-title">💻 Unité D — Sécurité en ligne et littératie numérique</div>
-      <div class="subj-body"><strong>Sécurité en ligne</strong> : ne jamais partager d'informations personnelles (nom complet, adresse, école, mot de passe). Reconnaître l'<strong>hameçonnage</strong> (phishing). L'<strong>intimidation en ligne</strong> : ne pas répondre, garder les preuves, bloquer, signaler à un adulte. <strong>Empreinte numérique</strong> : tout ce que tu publies reste permanent. <strong>Analyse critique des médias</strong> : qui a créé ce message, pour qui, et dans quel but ?</div>
-      <div class="en-hint">Digital footprint: everything you post, search, or share creates a permanent trail — even "deleted" posts can be screenshotted. Cyberbullying steps: don't respond (may escalate), screenshot for evidence, block, tell a trusted adult. Phishing signs: urgent language, misspelled addresses, too-good-to-be-true offers. Media literacy questions: Who made this? Why? For what audience? Is it fact or opinion? What's left out? What emotions does it trigger and why?</div>
-      <div class="vocab-row">
-        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">empreinte numérique</span>
-        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">intimidation en ligne</span>
-        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">hameçonnage</span>
-        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">confidentialité</span>
-        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">littératie numérique</span>
-        <span class="vocab-chip" style="background:var(--sl);color:var(--sc)">analyse des médias</span>
-      </div>
-      <div class="q-label">Questions — Sécurité en ligne</div>
-      <div class="q-item">1. Nomme 3 informations à ne JAMAIS partager en ligne.</div>
-      <div class="q-item">2. Que faire si tu es victime d'intimidation en ligne ?</div>
-      <div class="q-item">3. Qu'est-ce que l'empreinte numérique et pourquoi est-elle permanente ?</div>
-      <div class="q-item">4. Donne 2 questions à poser pour analyser un message médiatique de façon critique.</div>
-      <div class="en-hint">1) Full name, home address, school name, passwords, phone number. 2) Don't respond, screenshot evidence, block the person, tell a trusted adult (parent, teacher, counsellor). 3) Everything posted creates a trail — even deleted posts can be saved, cached, or screenshotted. 4) Any 2: Who made this? Why? For what audience? Is it fact or opinion? What is left out? What emotions does it trigger?</div>
+  <div class="sched-slot" id="slot-1200">
+    <div class="s-time">12:00</div>
+    <div class="s-icon">🥗</div>
+    <div class="s-body">
+      <div class="s-label">Lunch</div>
+      <div class="s-detail">Eat, put dishes away.</div>
     </div>
+  </div>
 
+  <div class="sched-slot" id="slot-1230">
+    <div class="s-time">12:30</div>
+    <div class="s-icon">🏃</div>
+    <div class="s-body">
+      <div class="s-label">Outdoor / Free Time</div>
+      <div class="s-detail">30–60 min movement. Screens off this block.</div>
+      <div class="inline-tasks" id="tasks-sidequest"></div>
+    </div>
+  </div>
+
+  <div class="sched-slot" id="slot-1330">
+    <div class="s-time">1:30</div>
+    <div class="s-icon">📝</div>
+    <div class="s-body">
+      <div class="s-label">Afternoon Work Block</div>
+      <div class="s-detail">English LA, Health, projects, remaining open tasks.</div>
+      <div class="inline-tasks" id="tasks-afternoon"></div>
+    </div>
+  </div>
+
+  <div class="sched-slot" id="slot-1530">
+    <div class="s-time">3:30</div>
+    <div class="s-icon">🎮</div>
+    <div class="s-body">
+      <div class="s-label">Screen / Free Time</div>
+      <div class="s-detail">After all tasks are done and checked.</div>
+    </div>
+  </div>
+
+  <div class="sched-slot" id="slot-1730">
+    <div class="s-time">5:30</div>
+    <div class="s-icon">🍽️</div>
+    <div class="s-body">
+      <div class="s-label">Dinner</div>
+      <div class="s-detail">Table together, screens off.</div>
+    </div>
+  </div>
+
+  <div class="sched-slot" id="slot-1900">
+    <div class="s-time">7:00</div>
+    <div class="s-icon">🛁</div>
+    <div class="s-body">
+      <div class="s-label">Evening Routine</div>
+      <div class="s-detail">Shower, pack bag, lay out clothes, brush teeth.</div>
+      <div class="inline-tasks" id="tasks-wellness"></div>
+    </div>
+  </div>
+
+  <div class="sched-slot" id="slot-2000">
+    <div class="s-time">8:00</div>
+    <div class="s-icon">📖</div>
+    <div class="s-body">
+      <div class="s-label">Reading (20 min)</div>
+      <div class="s-detail">French or English. In bed, lights on.</div>
+    </div>
+  </div>
+
+  <div class="sched-slot" id="slot-2030">
+    <div class="s-time">8:30</div>
+    <div class="s-icon">🌙</div>
+    <div class="s-body">
+      <div class="s-label">Lights Out</div>
+      <div class="s-detail">Screens off. Good night! 🌙</div>
+    </div>
+  </div>
+
+</div><!-- /schedule -->
+
+<!-- DAILY QUOTES -->
+<div class="sec-label">✨ Daily Quotes</div>
+<div class="quotes-section">
+  <div class="quote-frame" id="quotes-container">
+    <div class="quotes-loading">Loading today's quotes…</div>
   </div>
 </div>
 
-<!-- ══ SKILLS ══ -->
-<div class="hub-panel" id="tab-skills">
-  <div class="skills-wrap">
-
-    <!-- Brain Activation -->
-    <div class="skills-h2">⚡ Brain Activation Circuit</div>
-    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:12px;margin-bottom:16px">
-      <div style="background:white;border-radius:12px;padding:16px;box-shadow:0 2px 8px rgba(0,0,0,.06)"><div style="font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:1.5px;color:#e8650a;margin-bottom:6px">1 min · Move</div><div style="font-family:'Nunito',sans-serif;font-weight:800;font-size:15px;margin-bottom:6px">Cross-Body Wakeup</div><div style="font-size:13px;color:#6b7280;line-height:1.5">Right elbow → left knee, then left → right. Both brain hemispheres activate at once.</div></div>
-      <div style="background:white;border-radius:12px;padding:16px;box-shadow:0 2px 8px rgba(0,0,0,.06)"><div style="font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:1.5px;color:#5b9bd5;margin-bottom:6px">2 min · Think</div><div style="font-family:'Nunito',sans-serif;font-weight:800;font-size:15px;margin-bottom:6px">Pattern Sprint</div><div style="font-size:13px;color:#6b7280;line-height:1.5">Name 3 things that go together + 1 that doesn't. Say the rule out loud.</div></div>
-      <div style="background:white;border-radius:12px;padding:16px;box-shadow:0 2px 8px rgba(0,0,0,.06)"><div style="font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:1.5px;color:#52c4a0;margin-bottom:6px">2 min · Reset</div><div style="font-family:'Nunito',sans-serif;font-weight:800;font-size:15px;margin-bottom:6px">Box Breathing</div><div style="font-size:13px;color:#6b7280;line-height:1.5">In 4, hold 4, out 4, hold 4. Repeat until shoulders drop.</div></div>
-    </div>
-
-    <!-- Superflex -->
-    <div class="skills-h2">🦸 Superflex Social Thinking</div>
-    <div style="font-size:13px;color:#6b7280;margin:-8px 0 14px;line-height:1.5">Superflex is your flexible thinking superpower. Unthinkables are the brain patterns that make thinking inflexible. You can spot them and choose Superflex instead.</div>
-    <div class="sf-card" style="--sc:#7b2fbe"><div class="sf-name">Rock Brain</div><div class="sf-think">Brain locks onto one idea and won't change, even when it makes sense to.</div><div class="sf-strategy"><strong>Superflex move:</strong> "There might be another way. Let me think of 2 other options before I decide."</div></div>
-    <div class="sf-card" style="--sc:#e8650a"><div class="sf-name">Mean Jean / Destroyer</div><div class="sf-think">Wants to say mean things or wreck things when frustrated.</div><div class="sf-strategy"><strong>Superflex move:</strong> Notice the urge. Use STOP skill. Ask: "What will this cost me later?"</div></div>
-    <div class="sf-card" style="--sc:#5b9bd5"><div class="sf-name">Space Invader</div><div class="sf-think">Gets too close to people or takes up too much of a group's space/time.</div><div class="sf-strategy"><strong>Superflex move:</strong> Check the room — am I taking more than my share? Give others space to share.</div></div>
-    <div class="sf-card" style="--sc:#f07060"><div class="sf-name">Body Snatcher</div><div class="sf-think">Body wanders away from the group even when mind wants to stay.</div><div class="sf-strategy"><strong>Superflex move:</strong> Anchor — two feet on floor, eyes on speaker, hands doing something quiet.</div></div>
-    <div class="sf-card" style="--sc:#52c4a0"><div class="sf-name">Worry Wall</div><div class="sf-think">Worries stack up until they block everything else.</div><div class="sf-strategy"><strong>Superflex move:</strong> "Is this a small problem, medium problem, or big problem?" Scale the reaction to the size.</div></div>
-    <div class="sf-card" style="--sc:#c9a800"><div class="sf-name">Un-Wonderer</div><div class="sf-think">Doesn't think about how actions affect others — not because you don't care, but because your brain wasn't looking.</div><div class="sf-strategy"><strong>Superflex move:</strong> Before acting, quick scan: "How might this land for the other person?"</div></div>
-
-    <!-- Brain Brave -->
-    <div class="skills-h2">🧠 Brain Brave Lessons</div>
-    <div id="bb-lessons-oliver"></div>
-
-  </div>
-</div>
-
-<!-- ══ BIBLE ══ -->
-<div class="hub-panel" id="tab-bible">
-  <div class="skills-wrap">
-    <div style="padding:4px 0 16px">
-      <div style="font-family:'Nunito',sans-serif;font-size:20px;font-weight:900;color:#8b5e3c">✝️ Bible Study</div>
-      <div style="font-size:13px;color:#888;margin-top:2px">15-minute sessions · faith, character, and life</div>
-    </div>
-    <div id="bible-cards" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:12px"></div>
+<!-- MENU -->
+<div class="sec-label">🍽️ Weekly Menu</div>
+<div class="menu-section">
+  <div class="menu-frame-wrap">
+    <iframe class="embed-frame" src="menu.html" title="Weekly Menu"></iframe>
   </div>
 </div>
 
 <div class="toast-wrap" id="toasts"></div>
 
 <script>
-document.getElementById('hero-date').textContent = new Date().toLocaleDateString('en-CA', { month: 'long', day: 'numeric', year: 'numeric' });
-const TODAY_KEY = new Date().toISOString().slice(0, 10);
+/* ── DATES & TIME ── */
+const now = new Date();
+document.getElementById('hero-date').textContent = now.toLocaleDateString('en-CA', { weekday:'long', month:'long', day:'numeric', year:'numeric' });
+const TODAY = now.toISOString().slice(0,10);
+const HOUR = now.getHours() + now.getMinutes()/60;
 
-function showTab(name) {
-  document.querySelectorAll('.hub-tab').forEach(t => t.classList.toggle('active', t.dataset.tab === name));
-  document.querySelectorAll('.hub-panel').forEach(p => p.classList.toggle('active', p.id === 'tab-' + name));
-}
-
-function toggleEnglish() {
-  const btn = document.getElementById('en-toggle');
-  btn.classList.toggle('on');
-  document.body.classList.toggle('show-en', btn.classList.contains('on'));
-}
-
-/* Brain Brave */
-const BB_LESSONS = [
-  { cat:"brain",   icon:"✖️",  title:"Move to Think",           subtitle:"Cross-body movement wakes both brain hemispheres",    intro:"Cross-body movements activate both brain hemispheres simultaneously — proven to improve focus, coordination, and readiness to learn.", agenda:[{label:"Body Check",desc:"Rate your brain switch-on level 1–10. Wiggly? Sluggish? Buzzing?"},{label:"Brain Science",desc:"Left hemisphere handles words/logic; right handles spatial thinking/creativity. Cross-body = both sides fire at once (bilateral integration)."},{label:"Cross-Body Moves",desc:"30 sec each: right elbow→left knee, left elbow→right knee, figure-8 in air, alternate shoulder pats. Rate your focus after."},{label:"Try a Task",desc:"Start a piece of schoolwork immediately after. Does it feel easier to begin?"},{label:"Your Circuit",desc:"Pick your top cross-body move + one thinking spark + box breathing. Run this circuit every morning before school."}], script:"'Bilateral integration — when you touch your right elbow to your left knee — forces both sides of your brain to coordinate simultaneously. Scientists confirmed this improves working memory and focus. It's the fastest, cheapest brain upgrade available.'" },
-  { cat:"brain",   icon:"🔄",  title:"Brain Breaks That Work",  subtitle:"Strategic resets that restore focus mid-task",        intro:"The prefrontal cortex — the part that handles sustained focus — needs micro-resets. Not all breaks are equal.", agenda:[{label:"Why Brains Blur",desc:"Focused attention degrades after 15–20 min. Scrolling your phone doesn't restore it — it just redirects it to easier stimulation."},{label:"Break Science",desc:"Physical movement, nature exposure, and free creative doodling actually allow the default mode network to consolidate and recover."},{label:"Break Testing",desc:"Test 4 types: Physical (10 jumping jacks), Nature (look outside 2 min), Creative (doodle), Phone. Which makes returning to work easiest?"},{label:"Your Break Menu",desc:"Design 3 approved 2-min breaks. Work 15 min → break 2 min → return. Phone = off-limits mid-task."}], script:"'When you scroll a screen during a break, your attentional resources are still being consumed — just by something easier. Physical or nature breaks let your brain's focus systems actually recover. That's not a feeling — that's neuroscience.'" },
-  { cat:"adhd",    icon:"🚀",  title:"Your Brain is a Rocket",  subtitle:"Understanding ADHD as a different wiring, not a flaw", intro:"Before any strategy works, you need an accurate model of how your brain actually works — free from shame or misunderstanding.", agenda:[{label:"The Facts",desc:"ADHD brains have differences in dopamine regulation and prefrontal cortex development. This affects initiation, sustained attention, and time perception — not intelligence or character."},{label:"Rocket Model",desc:"Enormous processing power + engines that don't always accept input commands. The 'steering' (executive function) develops later — not less."},{label:"Strengths",desc:"Hyperfocus, pattern recognition, creativity, crisis competence, high energy. Many successful people identify with ADHD traits."},{label:"Honest Challenges",desc:"Initiation, transitions, time blindness, emotional regulation under frustration. These are real — and they are workable."}], script:"'ADHD is not a deficit of attention — it's inconsistent regulation of attention. You can focus for hours on things that interest you. The challenge is that your brain doesn't accept external commands about what to focus on as easily as neurotypical brains. That's a wiring difference, not a willpower problem.'" },
-  { cat:"adhd",    icon:"⏱️",  title:"Time Blindness",          subtitle:"Why time feels invisible and how to make it visible",  intro:"ADHD brains experience time differently — there's NOW and there's NOT NOW. Without external time cues, the future doesn't feel real.", agenda:[{label:"The Experience",desc:"You start something interesting, look up, and 90 min has passed. Or: a deadline is 'tomorrow' and it doesn't feel urgent until it becomes today."},{label:"Why It Happens",desc:"Time perception requires the prefrontal cortex to simulate the future. When executive function is dysregulated, this simulation is less reliable."},{label:"Make Time Visible",desc:"Visual timers (Time Timer app), time-stamped sticky note plans, alarm chains with labeled reminders, time anchors tied to routines."},{label:"One System",desc:"Pick ONE hard transition. Build a visual timer + 2-alarm chain just for that. Master one before adding another."}], script:"'Time blindness is not about caring or not caring. Your brain's internal clock runs differently. External cues aren't a crutch — they're a prosthetic for a genuine neurological difference. Using them is smart, not weak.'" },
-  { cat:"anger",   icon:"🧯",  title:"STOP Before You Pop",     subtitle:"A 4-step DBT skill to interrupt the anger-action pipeline", intro:"When anger peaks, the prefrontal cortex goes partially offline. STOP is designed to buy enough time for it to come back online.", agenda:[{label:"STOP Steps",desc:"S = Stop — freeze completely, nothing moves. T = Take one breath — full inhale, full exhale. O = Observe — what am I thinking? Feeling? Wanting to do? P = Proceed — choose, not react."},{label:"Why It Works",desc:"The amygdala triggers within 100ms. The prefrontal cortex takes 300–500ms to respond. STOP creates that gap."},{label:"Role Play",desc:"Act out a genuinely frustrating scenario. Practice STOP — narrate each step out loud as you do it."},{label:"Code Word",desc:"Agree on a private signal a trusted adult can use to cue STOP when you're escalating. Practice it in calm so it fires in storm."}], script:"'When you're at a 9 out of 10, the executive part of your brain is partially offline. STOP isn't asking you to control your emotion — it's asking you to pause long enough for your thinking brain to come back. You can't think your way out of a flood. You can interrupt the pipeline long enough to move to safer ground.'" },
-  { cat:"anxiety", icon:"🔬",  title:"The What-If Detective",   subtitle:"Testing anxious thoughts like a scientist",            intro:"Anxious brains generate 'what-if' scenarios that feel like facts. This lesson teaches you to look AT thoughts rather than FROM them.", agenda:[{label:"Thoughts ≠ Facts",desc:"Your brain generates thousands of thoughts daily. Anxious brains specialize in threat-prediction — useful in genuine danger, exhausting when misfiring."},{label:"Detective Questions",desc:"1. What is the evidence FOR this thought? 2. What is the evidence AGAINST it? 3. What would I tell a friend thinking this? 4. What's the most realistic outcome?"},{label:"Case Study",desc:"Take one real worry. Work through all four detective questions. Write the original thought and the realistic verdict."},{label:"Cognitive Defusion",desc:"Practice 'I am having the thought that ___' instead of just 'I think ___.' Creates distance from the thought."}], script:"'Your brain is a prediction machine — and anxious brains overproduce threat predictions. The detective's job is not to dismiss worry but to test it. A thought is a hypothesis, not a fact, until it has evidence. Let's apply the scientific method to your brain's worst-case scenarios.'" },
-  { cat:"doing",   icon:"🏔️",  title:"Opposite Action",         subtitle:"DBT's most powerful skill for avoidance",             intro:"Opposite Action is a core DBT technique: when a feeling urges avoidance or withdrawal — doing the opposite deliberately breaks the emotional-behaviour loop.", agenda:[{label:"The Loop",desc:"Anxiety → avoid → anxiety reinforced. Doing → avoid → task grows larger in your mind. Opposite Action interrupts the loop."},{label:"Action Urges",desc:"Every emotion has an urge. Anxiety = hide/escape. Shame = disappear/lash out. Sadness = withdraw. Identify your urge FIRST."},{label:"Practice",desc:"Anxious about a test → urge to avoid → Opposite: study 5 min, then reassess. Feel stupid at reading → urge to quit → Opposite: read one paragraph."},{label:"Your Target",desc:"What have you been avoiding this week? Design the smallest possible opposite action step you can do TODAY."}], script:"'Every time you avoid something, your amygdala logs it as dangerous. The avoidance provides relief, which reinforces the avoidance, which makes the thing scarier. Opposite Action reverses this: each small act of facing something teaches your brain: that is manageable. The relief comes AFTER, not before.'" },
-  { cat:"alateen", icon:"🏠",  title:"It's Not Your Fault",     subtitle:"The 3 C's — foundational Alateen truth",              intro:"Children in families affected by addiction often carry unconscious guilt or responsibility. The 3 C's directly address this.", agenda:[{label:"The 3 C's",desc:"You didn't CAUSE it. You can't CONTROL it. You can't CURE it. Say each one slowly. Let them land."},{label:"Why Kids Believe They Caused It",desc:"Believing you caused something gives a feeling of control — if it's my fault, maybe I can fix it. The belief is protective but false."},{label:"Letter Exercise",desc:"Write a short letter to yourself beginning: 'Dear [name], this is not your fault because…' Private — for you only."},{label:"Return to the 3 C's",desc:"These sentences become a reset tool. The guilty feelings will return. So will the 3 C's."}], script:"'I want to be direct with you: no child's behaviour causes addiction. Not being difficult, not being easy, not being perfect. Addiction is a disease of the adult brain's reward and regulation systems. No child has the power to cause it — or the power to cure it. That is not an opinion. That is a medical fact.'" },
-  { cat:"alateen", icon:"🔦",  title:"My Circle of Control",    subtitle:"Redirecting energy to what is actually yours",        intro:"Spending emotional energy trying to control the uncontrollable creates chronic stress and helplessness. Refocusing on what IS within your control builds agency.", agenda:[{label:"Three Circles",desc:"Inner = things I control: my words, my choices, my reactions, my effort. Middle = I can influence: my communication, asking for help. Outer = I cannot control: other people's choices, addiction, adult decisions."},{label:"Sort Your Worries",desc:"Take things you've been anxious about. Place each in a circle. Some feel uncomfortable to let go of — that's okay, do it anyway."},{label:"Energy Audit",desc:"How much energy do you spend in each circle? What would it feel like to redirect outer-circle energy inward?"},{label:"Reclaim Your Inner Circle",desc:"Name one thing in your inner circle you can act on today."}], script:"'The things you spend the most energy trying to control — are they in your inner circle? When we try to control what we can't, we exhaust ourselves and feel helpless when it doesn't work. Redirecting that energy inward doesn't mean giving up. It means choosing where your power actually lives.'" },
-  { cat:"alateen", icon:"🌱",  title:"Detachment with Love",    subtitle:"Loving someone without being controlled by their choices", intro:"Detachment is Alateen's most misunderstood and most important concept. It is not coldness — it is a boundary that protects both people.", agenda:[{label:"What Detachment Is NOT",desc:"Not: giving up, not caring, abandoning someone, pretending things are fine. Those are all forms of emotional shutdown."},{label:"What Detachment IS",desc:"I love you AND your storm is yours. I can care about what happens to you AND choose not to live inside your chaos."},{label:"The Bubble",desc:"Your emotional space is like a bubble. Love, connection, and kindness travel through it. Chaos, blame, and adult-sized problems stay outside."},{label:"Practice",desc:"When you notice yourself absorbed in someone else's emotional weather: name it, breathe, return to your inner circle."}], script:"'When someone in your family is in crisis, it's natural to feel it as if it were yours. That's empathy. But there's a difference between feeling compassion for someone and letting their storm become your storm. Detachment with love says: I see you. I care about you. And I am still here, in my own life, on solid ground.'" },
+/* Highlight current schedule slot */
+const SLOTS = [
+  ['slot-730',  7.5,  8],
+  ['slot-800',  8,    8.5],
+  ['slot-830',  8.5,  9],
+  ['slot-900',  9,   10],
+  ['slot-1000', 10,  10.25],
+  ['slot-1015', 10.25,12],
+  ['slot-1200', 12,  12.5],
+  ['slot-1230', 12.5,13.5],
+  ['slot-1330', 13.5,15.5],
+  ['slot-1530', 15.5,17.5],
+  ['slot-1730', 17.5,19],
+  ['slot-1900', 19,  20],
+  ['slot-2000', 20,  20.5],
+  ['slot-2030', 20.5,24],
 ];
+SLOTS.forEach(([id,s,e])=>{ if(HOUR>=s&&HOUR<e) document.getElementById(id)?.classList.add('active-now'); });
 
-const CAT_LABELS = { bpd:'💜 Emotions', adhd:'💙 ADHD Focus', anxiety:'💚 Anxiety', anger:'🔥 Anger Management', doing:'⭐ Hard Stuff', alateen:'🌊 Alateen', brain:'🧠 Brain Activation', superflex:'🦸 Superflex' };
-
-function renderBrainBrave(containerId, lessons) {
-  document.getElementById(containerId).innerHTML = lessons.map((l, i) => `
-    <div class="bb-card" data-cat="${l.cat}" onclick="toggleBB('${containerId}', ${i})">
-      <div class="bb-header">
-        <div class="bb-icon">${l.icon}</div>
-        <div class="bb-meta">
-          <div class="bb-cat-label">${CAT_LABELS[l.cat]||l.cat}</div>
-          <div class="bb-title">${l.title}</div>
-          <div class="bb-sub">${l.subtitle}</div>
-        </div>
-        <div id="bbo-${containerId}-${i}" style="font-size:18px;color:#ccc;transition:transform .2s;flex-shrink:0">↓</div>
-      </div>
-      <div class="bb-body">
-        <div class="bb-intro">${l.intro}</div>
-        <div style="font-size:11px;font-weight:900;letter-spacing:1.5px;text-transform:uppercase;color:var(--cat-c);margin:10px 0 6px">Lesson Steps</div>
-        ${l.agenda.map((a,n)=>`<div class="bb-step"><div class="bb-num">${n+1}</div><div><strong>${a.label}:</strong> <span style="color:#6b7280">${a.desc}</span></div></div>`).join('')}
-        <div style="font-size:11px;font-weight:900;letter-spacing:1.5px;text-transform:uppercase;color:var(--cat-c);margin:12px 0 4px">Script Starter</div>
-        <div class="bb-script">${l.script}</div>
-      </div>
-    </div>`).join('');
-}
-
-function toggleBB(containerId, i) {
-  const cards = document.querySelectorAll(`#${containerId} .bb-card`);
-  const wasOpen = cards[i].classList.contains('open');
-  cards.forEach((c,j) => { c.classList.remove('open'); const a = document.getElementById(`bbo-${containerId}-${j}`); if(a) a.style.transform = ''; });
-  if (!wasOpen) { cards[i].classList.add('open'); const a = document.getElementById(`bbo-${containerId}-${i}`); if(a) a.style.transform = 'rotate(180deg)'; }
-}
-
-renderBrainBrave('bb-lessons-oliver', BB_LESSONS);
-
-/* ── Bible Study ── */
-const BB_BIBLE = [
-  {
-    icon: "✝️",
-    title: "Who Is God?",
-    subtitle: "Creation, identity, and why you matter",
-    verse: "In the beginning God created the heavens and the earth. — Genesis 1:1",
-    intro: "Before anything existed, God was there. Understanding who God is helps us understand who WE are — made on purpose, with purpose.",
-    agenda: [
-      { label: "Open Question", desc: "If you could ask God one question right now, what would it be? No wrong answers." },
-      { label: "Creation Story", desc: "God spoke the world into existence — light, sky, land, creatures, and finally people. He called it all 'very good.' That includes you." },
-      { label: "What God Is Like", desc: "Explore three big ideas: God is Creator (made everything), God is personal (knows your name), God is love (1 John 4:8). Which one means the most to you right now?" },
-      { label: "You Are Not an Accident", desc: "Psalm 139:13-14 says God knit you together and you are 'fearfully and wonderfully made.' What does it feel like to know you were made on purpose?" },
-      { label: "Response", desc: "Draw or write one thing about yourself that you think God sees as good — even if you forget it sometimes." }
-    ],
-    prayer: "God, I don't always understand everything about You, but I want to know You better. Thank You for making me on purpose. Help me remember that I matter to You. Amen."
-  },
-  {
-    icon: "🐑",
-    title: "The Good Shepherd",
-    subtitle: "Psalm 23 — safety, belonging, and being known",
-    verse: "The Lord is my shepherd, I lack nothing. — Psalm 23:1",
-    intro: "A shepherd in Bible times knew every single sheep by name — their personalities, their fears, their habits. Psalm 23 says God knows YOU like that.",
-    agenda: [
-      { label: "Read It Together", desc: "Read Psalm 23 slowly, one verse at a time. Notice what images come to mind — green pastures, still waters, a dark valley, a table." },
-      { label: "What Does a Shepherd Do?", desc: "Guides, protects, feeds, finds the lost ones, stays with them in danger. Which of those do you most need right now?" },
-      { label: "The Dark Valley", desc: "Verse 4 says 'even though I walk through the darkest valley, I will fear no evil — for You are with me.' What is a 'dark valley' that feels real in your life?" },
-      { label: "The Table", desc: "God prepares a table for you even when enemies are nearby — that means provision and dignity in hard circumstances. What does that mean to you?" },
-      { label: "Surely and All the Days", desc: "The last verse says goodness and mercy will follow you 'all the days of your life.' Not some days — all days. How does that land?" }
-    ],
-    prayer: "God, I want You to be my shepherd. When I'm scared or lost or in a dark place, remind me that You are right there with me. Thank You for knowing me. Amen."
-  },
-  {
-    icon: "🪨",
-    title: "David and Goliath",
-    subtitle: "Courage when things feel too big to face",
-    verse: "The battle is the Lord's. — 1 Samuel 17:47",
-    intro: "David was a kid facing a giant soldier everyone else was too scared to fight. His secret wasn't muscles — it was knowing who was on his side.",
-    agenda: [
-      { label: "Set the Scene", desc: "The Israelite army froze for 40 days while Goliath mocked them. Everyone except one teenager who ran errands for his brothers. Why do you think David wasn't afraid?" },
-      { label: "Your Goliaths", desc: "What feels 'giant' in your life right now — something scary, overwhelming, or too big? Name it. You don't have to fight it alone." },
-      { label: "David's Secret", desc: "He said: 'You come against me with sword and spear — I come in the name of the Lord.' His confidence wasn't in himself. It was in God. What's the difference?" },
-      { label: "Five Smooth Stones", desc: "David picked up five stones — he was prepared AND trusting. Faith doesn't mean doing nothing. What's one practical step AND one prayer you could bring to your giant?" },
-      { label: "The Outcome", desc: "David ran TOWARD Goliath. Not away. What would it look like for you to take one step toward something you've been avoiding?" }
-    ],
-    prayer: "God, some things in my life feel too big for me. Help me remember that You are bigger than any giant I face. Give me the courage to take the next step. Amen."
-  },
-  {
-    icon: "🏠",
-    title: "The Prodigal Son",
-    subtitle: "Grace, coming home, and a Father who runs",
-    verse: "While he was still a long way off, his father saw him and was filled with compassion — he ran to his son. — Luke 15:20",
-    intro: "This is maybe Jesus's most famous story. It's about a kid who walked away from everything good — and what happened when he came back.",
-    agenda: [
-      { label: "The Story", desc: "The younger son demanded his inheritance early (basically saying 'I wish you were dead'), blew it all, hit rock bottom feeding pigs. Then he came to his senses." },
-      { label: "Coming to Your Senses", desc: "The son 'came to himself' and decided to go home. Have you ever had a moment of realizing you went the wrong direction? What did that feel like?" },
-      { label: "The Father Ran", desc: "In Jesus's day, a dignified father NEVER ran — it was embarrassing. But this father ran. What does that tell you about how God feels about you coming back to Him?" },
-      { label: "The Party", desc: "The father threw a party — best robe, ring, celebration. Not a lecture. Not 'I told you so.' What do you think about that reaction?" },
-      { label: "The Older Brother", desc: "The older brother was angry and refused to go in. Is there anyone you've been like the older brother toward — someone you think doesn't deserve grace?" }
-    ],
-    prayer: "God, thank You that You don't wait for me to get it all together before You love me. When I mess up and come back to You, help me believe You're actually happy to see me. Amen."
-  },
-  {
-    icon: "⛰️",
-    title: "The Sermon on the Mount",
-    subtitle: "The Beatitudes — who is truly blessed",
-    verse: "Blessed are the pure in heart, for they will see God. — Matthew 5:8",
-    intro: "Jesus sat down on a hillside and flipped everything the world says about success upside down. The Beatitudes describe what a truly good life looks like.",
-    agenda: [
-      { label: "What Does 'Blessed' Mean?", desc: "Not just 'happy' — it means deeply well, flourishing, living in the right direction. Jesus says people who seem weak or sad can actually be blessed." },
-      { label: "Meek, Merciful, Pure", desc: "Pick any three Beatitudes (Matthew 5:3-11). What does each one mean in plain words? Why would that person be called blessed?" },
-      { label: "Upside-Down Kingdom", desc: "The world says: be strong, win, get yours, look out for yourself. Jesus says: be humble, give mercy, make peace. Which is harder? Which is better?" },
-      { label: "Salt and Light", desc: "Right after the Beatitudes, Jesus calls his followers 'salt of the earth' and 'light of the world.' What does that mean for how you live at school, at home, with friends?" },
-      { label: "One to Live", desc: "Which Beatitude do you most want to grow in this week? What would that look like in a real moment on a real day?" }
-    ],
-    prayer: "Jesus, thank You for showing us what a truly good life looks like. Help me care about the things You care about — being humble, pure in heart, and a peacemaker. Amen."
-  },
-  {
-    icon: "🎨",
-    title: "Joseph and His Brothers",
-    subtitle: "Forgiveness and trusting God's plan in the dark",
-    verse: "You intended to harm me, but God intended it for good. — Genesis 50:20",
-    intro: "Joseph's story is one of the most dramatic in the Bible — betrayal, slavery, prison, and then an incredible reversal. The whole time, God had a plan.",
-    agenda: [
-      { label: "The Story Arc", desc: "Joseph was his dad's favourite, got a special coat, his brothers hated him, sold him into slavery, he ended up in an Egyptian prison — then became second-in-command of Egypt. All in one story." },
-      { label: "The Pit", desc: "Joseph sat in a pit while his brothers ate lunch and decided what to do with him. Has there been a time you felt thrown away or rejected by someone you trusted?" },
-      { label: "Faithful in Prison", desc: "Even in prison, Joseph kept doing his best. Why do you think he didn't give up? What kept him going?" },
-      { label: "Forgiveness That Cost Something", desc: "When Joseph revealed himself to his brothers, he wept and forgave them. Forgiveness doesn't mean pretending it didn't happen — it means choosing not to stay in bitterness. What's the difference?" },
-      { label: "God Meant It for Good", desc: "'You meant evil — God meant good.' Is there something hard in your life that you wonder if God could use for something good? Talk about it." }
-    ],
-    prayer: "God, help me trust You even when things are going wrong and I can't see the bigger picture. Give me the strength to forgive people who have hurt me, just like Joseph did. Amen."
-  },
-  {
-    icon: "🌊",
-    title: "Jesus Calms the Storm",
-    subtitle: "Peace in chaos — faith over fear",
-    verse: "He got up, rebuked the wind and said to the waves, 'Quiet! Be still!' Then the wind died down and it was completely calm. — Mark 4:39",
-    intro: "The disciples were experienced fishermen — and they were terrified. Jesus was asleep in the boat. This story is about more than weather.",
-    agenda: [
-      { label: "Set the Scene", desc: "Middle of the lake, sudden violent storm, boat filling with water, Jesus asleep on a cushion. The disciples wake Him in panic: 'Don't You care that we're drowning?'" },
-      { label: "Your Storms", desc: "What does a 'storm' look like in your life — something that feels out of control, scary, overwhelming? Name one." },
-      { label: "Where Is Jesus in the Storm?", desc: "He was IN the boat with them the whole time. Not watching from shore — in the boat. What does it mean to you that Jesus is WITH you in your hard things?" },
-      { label: "'Peace, Be Still'", desc: "He spoke to the storm and it obeyed. He can speak to your anxiety, your fear, your chaos. What would it look like to hand your storm to Him instead of managing it alone?" },
-      { label: "After the Storm", desc: "The disciples were more amazed by what He did than relieved the storm was over. 'Who is this man?' they asked. What does this story teach you about who Jesus is?" }
-    ],
-    prayer: "Jesus, there are storms in my life that scare me. Help me remember that You are right here in the boat with me. Speak peace into the things that feel out of control. Amen."
-  },
-  {
-    icon: "🤝",
-    title: "The Good Samaritan",
-    subtitle: "Loving your neighbour — even the unexpected one",
-    verse: "Love your neighbour as yourself. — Luke 10:27",
-    intro: "When someone asked Jesus 'Who is my neighbour?', He told a story that completely redefined the question — and the answer.",
-    agenda: [
-      { label: "The Story", desc: "A man is beaten and left for dead. Two religious leaders cross the road to avoid him. A Samaritan — an outsider that Jews looked down on — stops, bandages him, pays for his care." },
-      { label: "Why the Samaritan?", desc: "Jesus made the HERO someone the audience would have expected to be the villain. Why do you think He did that? What point was He making?" },
-      { label: "Who Did You Cross the Road For?", desc: "When have you walked past someone who needed help because it was inconvenient or awkward? No judgment — be honest." },
-      { label: "Loving Is a Verb", desc: "The Samaritan didn't just feel compassion — he acted on it. He got his hands dirty. He spent his own money. What's the difference between feeling sorry for someone and actually loving them?" },
-      { label: "Go and Do Likewise", desc: "Jesus ends with: 'Go and do the same.' Who is ONE person in your world right now that you could show unexpected kindness to this week?" }
-    ],
-    prayer: "Jesus, help me not just walk past people who need help. Give me eyes to see who needs kindness and the courage to actually do something about it. Amen."
-  },
-  {
-    icon: "🦁",
-    title: "Daniel in the Lions' Den",
-    subtitle: "Standing firm when it costs something",
-    verse: "My God sent His angel and shut the mouths of the lions. — Daniel 6:22",
-    intro: "Daniel was told he would be thrown to lions if he kept praying. He prayed anyway — three times a day, windows open, just like always.",
-    agenda: [
-      { label: "The Setup", desc: "Daniel was so faithful and excellent at his work that his enemies could only find one weakness: his faith. So they made faith illegal. What does that tell you about Daniel's character?" },
-      { label: "The Choice", desc: "Daniel knew the law, knew the consequence, and chose to pray anyway. What do you think went through his mind in that moment?" },
-      { label: "Standing Firm at School", desc: "You probably won't be thrown to lions, but there are times when following God or doing what's right costs something. What does 'standing firm' look like in your real life?" },
-      { label: "The Lions' Den Night", desc: "The king couldn't sleep. He ran to the den at dawn. What does that tell you about the effect Daniel's faith had on the people around him?" },
-      { label: "The Outcome", desc: "Daniel came out without a scratch. But even if he hadn't — what do you think his attitude would have been? Is faithfulness only worth it if it works out?" }
-    ],
-    prayer: "God, give me the courage to do what's right even when it's hard or unpopular. Help me be someone whose faith is visible and steady, like Daniel's was. Amen."
-  },
-  {
-    icon: "💛",
-    title: "Ruth and Naomi",
-    subtitle: "Loyalty, kindness, and sticking with people",
-    verse: "Where you go I will go, and where you stay I will stay. — Ruth 1:16",
-    intro: "Ruth was a young woman who had every reason to leave. Her husband was dead, her mother-in-law was heartbroken and heading home to a foreign country. Ruth stayed anyway.",
-    agenda: [
-      { label: "The Story", desc: "Naomi lost her husband and both sons. She told her daughters-in-law to go home and start over. Orpah left. Ruth refused — and said some of the most beautiful words in the Bible." },
-      { label: "Why Did Ruth Stay?", desc: "Ruth had nothing to gain and everything to lose by staying with Naomi. Why do you think she did it? What does that kind of loyalty come from?" },
-      { label: "Loyal to the Unlucky", desc: "Naomi told people to call her 'Mara' meaning bitter, because life had been so hard. She wasn't easy to be around. Ruth stayed anyway. Who in your life might be hard to love right now — and worth loving anyway?" },
-      { label: "Kindness That Notices", desc: "Boaz noticed Ruth's faithfulness and showed her extra kindness. Acts of loyalty get seen, even when we think no one is watching. How does that change how you act when no one's looking?" },
-      { label: "Hesed", desc: "The Hebrew word 'hesed' means steadfast loving-kindness — the kind that doesn't quit. It's used for Ruth AND for God. What would it look like to show hesed to someone this week?" }
-    ],
-    prayer: "God, help me be the kind of friend who stays. Give me the kind of loyal, steady love that Ruth showed — and that You show to me every single day. Amen."
-  },
-  {
-    icon: "⚔️",
-    title: "The Armour of God",
-    subtitle: "Ephesians 6 — knowing your spiritual tools",
-    verse: "Put on the full armour of God, so that you can take your stand. — Ephesians 6:11",
-    intro: "Paul wrote this from prison to people facing real opposition. He described spiritual protection using armour that Roman soldiers wore every day.",
-    agenda: [
-      { label: "Why Armour?", desc: "A soldier doesn't put on armour after the battle starts. You prepare before. What are the 'battles' in your day — temptations, negative thoughts, hard relationships?" },
-      { label: "Piece by Piece", desc: "Belt of Truth (knowing what's true), Breastplate of Righteousness (doing what's right), Shoes of Peace (ready to share good news), Shield of Faith (blocking doubts and lies), Helmet of Salvation (protecting your mind), Sword of the Spirit (God's Word). Pick two that feel most relevant to you right now." },
-      { label: "The Shield of Faith", desc: "Paul says faith 'extinguishes all the flaming arrows of the evil one.' What are the 'arrows' that most often hit you — lies you believe about yourself, fears, temptations?" },
-      { label: "The Sword", desc: "The only offensive weapon — God's Word. When Jesus was tempted in the desert, He quoted Scripture. What verse or truth could you use when you're under pressure?" },
-      { label: "Dress Every Morning", desc: "Putting on armour is a daily choice, not a one-time thing. What would it look like to do a quick 'armour check' each morning before you start your day?" }
-    ],
-    prayer: "God, help me not go into my day unprepared. Remind me who I am, what's true, and that You have equipped me for anything I'll face today. I put on Your armour now. Amen."
-  },
-  {
-    icon: "🌍",
-    title: "The Great Commission",
-    subtitle: "Your purpose — being a light in the world",
-    verse: "Go and make disciples of all nations… And surely I am with you always, to the very end of the age. — Matthew 28:19–20",
-    intro: "The last words Jesus said before ascending to heaven were a mission statement — for every follower, including you. This is about purpose.",
-    agenda: [
-      { label: "Jesus's Last Words", desc: "He didn't say 'stay safe.' He said 'go.' Before you ask where to go or what to say — notice the last promise: 'I am with you always.' Why does that matter?" },
-      { label: "What Is a Disciple?", desc: "A disciple is someone who learns from Jesus AND helps others learn too. You don't have to have it all figured out. You just have to be on the journey yourself and bring others with you." },
-      { label: "Your World Right Now", desc: "Your 'nations' right now are your school, your neighbourhood, your team, your family. Who in your world doesn't know they are loved by God?" },
-      { label: "Being a Light", desc: "Matthew 5:14 says 'You are the light of the world.' Light doesn't shout — it just shines. What does it look like to let your faith shine naturally without forcing it on people?" },
-      { label: "One Step of Purpose", desc: "You don't need to preach a sermon. What's one small thing you could do this week that reflects Jesus — an act of kindness, a word of encouragement, just showing up for someone?" }
-    ],
-    prayer: "Jesus, thank You for giving me a purpose bigger than just getting through the day. Help me be a light where I am right now — with the people You've placed around me. I'm with You. Amen."
-  }
-];
-
-function renderBible() {
-  document.getElementById('bible-cards').innerHTML = BB_BIBLE.map((l, i) => `
-    <div class="bb-card" data-cat="bible" onclick="toggleBible(${i})">
-      <div class="bb-top" style="display:flex;align-items:center;gap:12px;padding:14px 16px">
-        <div class="bb-icon">${l.icon}</div>
-        <div class="bb-info" style="flex:1">
-          <div class="bb-cat-label">✝️ Bible Study</div>
-          <div class="bb-title">${l.title}</div>
-          <div class="bb-sub">${l.subtitle}</div>
-        </div>
-        <div id="bib-arr-${i}" class="bb-arr" style="font-size:18px;color:#ccc;transition:transform .2s;flex-shrink:0">▼</div>
-      </div>
-      <div class="bb-body">
-        <div class="bb-verse">📖 ${l.verse}</div>
-        <div class="bb-intro">${l.intro}</div>
-        <div class="bb-agenda">${l.agenda.map(a => `<div class="bb-step"><strong>${a.label}</strong> — ${a.desc}</div>`).join('')}</div>
-        <div class="bb-prayer">🙏 ${l.prayer}</div>
-      </div>
-    </div>`).join('');
-}
-
-function toggleBible(i) {
-  const cards = document.querySelectorAll('#bible-cards .bb-card');
-  const wasOpen = cards[i].classList.contains('open');
-  cards.forEach((c, j) => { c.classList.remove('open'); const a = document.getElementById('bib-arr-'+j); if(a) a.style.transform=''; });
-  if (!wasOpen) { cards[i].classList.add('open'); const a = document.getElementById('bib-arr-'+i); if(a) a.style.transform='rotate(180deg)'; }
-}
-renderBible();
-
-/* ── Sheet / Tasks ── */
+/* ── SHEET CONFIG ── */
 const SHEET_ID  = '1GZv91Npf9i0y6AtCQcjYUyiYrDq3aqQ3zSNE2QGAxfE';
 const SHEET_GID = '0';
 const PERSON    = 'Oliver';
-const STORE_KEY = `sf_oliver_done_${TODAY_KEY}`;
+const STORE_KEY = `oliver_done_${TODAY}`;
 
-let TASKS = [], done = {};
+let TASKS = [];
+let done = {};
 try { done = JSON.parse(localStorage.getItem(STORE_KEY)||'{}'); } catch(e){}
-function save() { localStorage.setItem(STORE_KEY, JSON.stringify(done)); }
+function saveDone() { localStorage.setItem(STORE_KEY, JSON.stringify(done)); }
 
+/* ── CSV FETCH ── */
 function parseCSV(raw){
   const rows=[]; let i=0,n=raw.length;
-  while(i<n){const row=[];while(i<n&&raw[i]!=='\n'&&raw[i]!=='\r'){if(raw[i]==='"'){let c='';i++;while(i<n){if(raw[i]==='"'&&raw[i+1]==='"'){c+='"';i+=2;}else if(raw[i]==='"'){i++;break;}else c+=raw[i++];}row.push(c.trim());if(raw[i]===',')i++;}else{let c='';while(i<n&&raw[i]!==','&&raw[i]!=='\n'&&raw[i]!=='\r')c+=raw[i++];row.push(c.trim());if(raw[i]===',')i++;}}while(raw[i]==='\n'||raw[i]==='\r')i++;if(row.some(c=>c))rows.push(row);}
+  while(i<n){
+    const row=[];
+    while(i<n&&raw[i]!=='\n'&&raw[i]!=='\r'){
+      if(raw[i]==='"'){let c='';i++;while(i<n){if(raw[i]==='"'&&raw[i+1]==='"'){c+='"';i+=2;}else if(raw[i]==='"'){i++;break;}else c+=raw[i++];}row.push(c.trim());if(raw[i]===',')i++;}
+      else{let c='';while(i<n&&raw[i]!==','&&raw[i]!=='\n'&&raw[i]!=='\r')c+=raw[i++];row.push(c.trim());if(raw[i]===',')i++;}
+    }
+    while(raw[i]==='\n'||raw[i]==='\r')i++;
+    if(row.some(c=>c))rows.push(row);
+  }
   return rows;
 }
 
 async function loadSheet(){
   const url=`https://docs.google.com/spreadsheets/d/${SHEET_ID}/export?format=csv&gid=${SHEET_GID}`;
-  try{const r=await fetch(url,{cache:'no-store'});if(!r.ok)throw 0;const t=await r.text();if(!t.trim())throw 0;return parseCSV(t);}
-  catch{return loadGviz();}
+  try{ const r=await fetch(url,{cache:'no-store'}); if(!r.ok)throw 0; const t=await r.text(); if(!t.trim())throw 0; return parseCSV(t); }
+  catch{ return loadGviz(); }
 }
 
 function loadGviz(){
   return new Promise((res,rej)=>{
-    const cb=`_sf_cb_${Date.now()}`,s=document.createElement('script'),t=setTimeout(()=>{s.remove();delete window[cb];rej();},12000);
-    window[cb]=p=>{clearTimeout(t);s.remove();delete window[cb];if(!p||p.status==='error'){rej();return;}
+    const cb=`_cb_${Date.now()}`,s=document.createElement('script'),t=setTimeout(()=>{s.remove();delete window[cb];rej();},12000);
+    window[cb]=p=>{
+      clearTimeout(t);s.remove();delete window[cb];
+      if(!p||p.status==='error'){rej();return;}
       const hdrs=(p.table.cols||[]).map((c,i)=>c.label||`Col${i}`);
       const rows=(p.table.rows||[]).map(r=>(r.c||[]).map(cell=>cell?(cell.f!=null?String(cell.f):String(cell.v??'')):''));
-      res([hdrs,...rows]);};
+      res([hdrs,...rows]);
+    };
     s.onerror=()=>{clearTimeout(t);s.remove();rej();};
     s.src=`https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?gid=${SHEET_GID}&tqx=responseHandler:${cb}`;
     document.head.append(s);
@@ -1026,60 +386,171 @@ function loadGviz(){
 }
 
 const YES=new Set(['yes','true','1','✓','✅']);
-function isOpen(row,iDone,iComp){const d=(row[iDone]||'').toLowerCase().trim(),c=(row[iComp]||'').trim();if(YES.has(d))return false;if(c&&/\d{4}/.test(c))return false;return true;}
+function isOpen(row,iDone,iComp){
+  const d=(row[iDone]||'').toLowerCase().trim();
+  const c=(row[iComp]||'').trim();
+  if(YES.has(d))return false;
+  if(c&&/\d{4}/.test(c))return false;
+  return true;
+}
 
 function buildTasks(rows){
   if(rows.length<2)return[];
-  const h=rows[0].map(x=>x.toLowerCase().trim()),col=kw=>h.findIndex(c=>c.includes(kw));
-  const iResp=col('responsible')!==-1?col('responsible'):2,iCat=col('side quest')!==-1?col('side quest'):(col('category')!==-1?col('category'):3);
-  const iEst=col('est')!==-1?col('est'):4,iTitle=col('task name')!==-1?col('task name'):5,iDesc=col('description')!==-1?col('description'):6;
-  const iDate=col('date assigned')!==-1?col('date assigned'):9,iComp=col('date completed')!==-1?col('date completed'):10,iDone=col('isdone')!==-1?col('isdone'):11;
-  const get=(r,i)=>(i>=0&&i<r.length?r[i]:'').trim(),today=new Date().toISOString().slice(0,10);
-  return rows.slice(1).filter(r=>get(r,iResp)===PERSON&&isOpen(r,iDone,iComp))
-    .map((r,idx)=>({id:get(r,0)||String(idx),title:get(r,iTitle),category:get(r,iCat),estTime:get(r,iEst),desc:get(r,iDesc),dateAssigned:get(r,iDate),priority:get(r,iDate)?(get(r,iDate)<=today?1:2):3}))
-    .filter(t=>t.title).sort((a,b)=>a.priority-b.priority||(a.dateAssigned||'').localeCompare(b.dateAssigned||''));
+  const h=rows[0].map(x=>x.toLowerCase().trim());
+  const col=kw=>h.findIndex(c=>c.includes(kw));
+  const iResp=col('responsible'), iCat=col('category'), iEst=col('est'),
+        iTitle=col('task name'), iDesc=col('description'), iWs=col('worksheet'),
+        iDate=col('date assigned'), iComp=col('date completed'), iDone=col('isdone');
+  const get=(r,i)=>(i>=0&&i<r.length?r[i]:'').trim();
+  return rows.slice(1)
+    .filter(r=>get(r,iResp)===PERSON&&isOpen(r,iDone,iComp))
+    .map((r,idx)=>({
+      id: get(r,0)||String(idx),
+      title: get(r,iTitle),
+      category: get(r,iCat),
+      estTime: get(r,iEst),
+      desc: get(r,iDesc),
+      worksheet: get(r,iWs),
+      dateAssigned: get(r,iDate),
+      overdue: get(r,iDate) && get(r,iDate) < TODAY,
+    }))
+    .filter(t=>t.title);
 }
 
-function updateProgress(){
-  const total=TASKS.length,n=Object.keys(done).length,pct=total?Math.round(n/total*100):0;
-  document.getElementById('prog-text').textContent=`${n} of ${total} done`;
-  document.getElementById('prog-pct').textContent=pct+'%';
-  document.getElementById('prog-fill').style.width=pct+'%';
-  document.getElementById('hero-badge').textContent=`🧒 ${total} tasks assigned`;
-}
-
+/* ── RENDER HELPERS ── */
 function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
 
-function render(){
-  const list=document.getElementById('taskList');
-  if(!TASKS.length){list.innerHTML='<div style="padding:32px;text-align:center;color:var(--muted);font-weight:700;">🎉 No open tasks!</div>';updateProgress();return;}
-  list.innerHTML=TASKS.map((t,i)=>{
-    const isDone=!!done[t.id];
-    return `<div class="task-card${isDone?' done':''}" style="animation-delay:${i*.04}s">
-      <div class="task-top"><div class="task-title">${esc(t.title)}</div></div>
-      <div class="task-tags">
-        ${t.category?`<span class="tag tag-cat">📌 ${esc(t.category)}</span>`:''}
-        ${t.estTime?`<span class="tag tag-time">⏱ ${esc(t.estTime)}</span>`:''}
-        <span class="tag ${isDone?'tag-done':'tag-open'}">${isDone?'✓ Done':'○ Open'}</span>
-      </div>
-      ${t.desc?`<div class="task-desc">${esc(t.desc)}</div>`:''}
-      <div class="task-foot">
-        <span class="date-hint">${t.dateAssigned?'📅 '+t.dateAssigned:''}</span>
-        <button class="complete-btn${isDone?' done-btn':''}" onclick="${isDone?'':`complete(${JSON.stringify(t.id)})`}">
-          ${isDone?'✓ Done':'+ Complete'}
-        </button>
+function taskHTML(t){
+  const isDone = !!done[t.id];
+  const wsLines = t.worksheet ? t.worksheet.split('\n').filter(l=>l.trim()) : [];
+  return `
+    <div class="itask" id="itask-${esc(t.id)}">
+      <div class="itask-check${isDone?' done':''}" onclick="toggleDone('${esc(t.id)}')">${isDone?'✓':''}</div>
+      <div class="itask-body">
+        <div class="itask-title${isDone?' done':''}">${esc(t.title)}</div>
+        <div class="itask-tags">
+          ${t.category?`<span class="itag">${esc(t.category)}</span>`:''}
+          ${t.estTime?`<span class="itag">⏱ ${esc(t.estTime)} min</span>`:''}
+          ${t.overdue&&!isDone?`<span class="itag overdue">⚠ Overdue</span>`:''}
+        </div>
+        ${t.desc?`<div class="itask-desc">${esc(t.desc).slice(0,120)}${t.desc.length>120?'…':''}</div>`:''}
+        ${wsLines.length?`<span class="itask-expand" onclick="toggleWs('ws-${esc(t.id)}')">📋 Worksheet questions</span>
+        <div class="itask-full" id="ws-${esc(t.id)}">${wsLines.map(l=>`<div style="margin-bottom:4px">${esc(l)}</div>`).join('')}</div>`:''}
+        ${!isDone?`<button class="complete-btn" onclick="toggleDone('${esc(t.id)}')">✓ Mark done</button>`:''}
       </div>
     </div>`;
-  }).join('');
-  updateProgress();
 }
 
-function complete(id){done[id]=true;save();render();toast('⭐ Awesome work, Oliver!');}
-function toast(msg){const el=document.createElement('div');el.className='toast';el.textContent=msg;document.getElementById('toasts').appendChild(el);setTimeout(()=>el.remove(),3000);}
+function toggleWs(id){
+  const el=document.getElementById(id);
+  if(el) el.classList.toggle('open');
+}
+
+function toggleDone(id){
+  done[id] = !done[id];
+  if(!done[id]) delete done[id];
+  saveDone();
+  renderTasks();
+  if(done[id]) toast('⭐ Great work, Oliver!');
+}
+
+function toast(msg){
+  const el=document.createElement('div');
+  el.className='toast';el.textContent=msg;
+  document.getElementById('toasts').appendChild(el);
+  setTimeout(()=>el.remove(),3000);
+}
+
+/* ── SLOT ROUTING ── */
+// Route tasks to schedule slots by category
+function routeTask(t){
+  const cat = (t.category||'').toLowerCase().trim();
+  if(cat==='wellness') return 'tasks-wellness';
+  if(cat==='side quest') return 'tasks-sidequest';
+  if(cat==='language'||cat==='math') return 'tasks-lang-math';
+  if(cat==='science'||cat==='social studies') return 'tasks-sci-ss';
+  return 'tasks-afternoon'; // art, other
+}
+
+function renderTasks(){
+  const slots = ['tasks-lang-math','tasks-sci-ss','tasks-sidequest','tasks-afternoon','tasks-wellness'];
+  const buckets = {};
+  slots.forEach(s=>{ buckets[s]=[]; });
+
+  TASKS.forEach(t=>{ const slot=routeTask(t); buckets[slot].push(t); });
+
+  slots.forEach(slotId=>{
+    const el=document.getElementById(slotId);
+    if(!el)return;
+    const tasks=buckets[slotId];
+    if(!tasks.length){
+      el.innerHTML='<div class="no-tasks">No tasks here today 🎉</div>';
+      return;
+    }
+    el.innerHTML = tasks.map(taskHTML).join('');
+  });
+
+  // Progress
+  const total=TASKS.length, n=Object.keys(done).filter(k=>TASKS.find(t=>t.id===k)).length;
+  const pct=total?Math.round(n/total*100):0;
+  document.getElementById('prog-text').textContent=`${n} of ${total} tasks done`;
+  document.getElementById('prog-pct').textContent=pct+'%';
+  document.getElementById('prog-fill').style.width=pct+'%';
+  document.getElementById('hero-badge').textContent=`${total} tasks · ${pct}% done`;
+}
 
 (async()=>{
-  try{const rows=await loadSheet();TASKS=buildTasks(rows);render();}
-  catch(e){document.getElementById('taskList').innerHTML=`<div style="padding:20px;text-align:center;color:var(--muted);font-weight:700;">Could not load sheet — check connection.</div>`;document.getElementById('hero-badge').textContent='🧒 Offline';}
+  try{
+    const rows=await loadSheet();
+    TASKS=buildTasks(rows);
+    renderTasks();
+  } catch(e){
+    document.getElementById('hero-badge').textContent='⚠ Offline';
+    ['tasks-lang-math','tasks-sci-ss','tasks-sidequest','tasks-afternoon','tasks-wellness']
+      .forEach(id=>{ const el=document.getElementById(id); if(el) el.innerHTML='<div class="no-tasks">Could not load tasks.</div>'; });
+  }
+})();
+
+/* ── DAILY QUOTES ── */
+const Q_SHEET_ID  = '1VVWZBG3fXLWBFCnRDLo76kUQrNyPcBBdY6mCiiwJr50';
+const Q_SHEET_GID = '0';
+
+function normalizeDate(v){
+  if(!v)return'';
+  const str=String(v).trim();
+  const iso=str.match(/^(\d{4}-\d{2}-\d{2})/);if(iso)return iso[1];
+  const mdy=str.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/);if(mdy)return`${mdy[3]}-${mdy[1].padStart(2,'0')}-${mdy[2].padStart(2,'0')}`;
+  const MONTHS={january:'01',february:'02',march:'03',april:'04',may:'05',june:'06',july:'07',august:'08',september:'09',october:'10',november:'11',december:'12'};
+  const mlong=str.match(/^([A-Za-z]+)\s+(\d{1,2}),?\s+(\d{4})$/);
+  if(mlong){const mo=MONTHS[mlong[1].toLowerCase()];if(mo)return`${mlong[3]}-${mo}-${mlong[2].padStart(2,'0')}`;}
+  return str.substring(0,10);
+}
+
+(async()=>{
+  try{
+    const url=`https://docs.google.com/spreadsheets/d/${Q_SHEET_ID}/export?format=csv&gid=${Q_SHEET_GID}`;
+    const r=await fetch(url,{cache:'no-store'});
+    if(!r.ok)throw 0;
+    const rows=parseCSV(await r.text());
+    if(rows.length<2)throw 0;
+    const hdrs=rows[0].map(x=>x.toLowerCase().trim());
+    const iDate=hdrs.findIndex(h=>h.includes('date'));
+    const iSection=hdrs.findIndex(h=>h.includes('section')||h.includes('label')||h.includes('title'));
+    const iContent=hdrs.findIndex(h=>h.includes('content')||h.includes('text')||h.includes('body')||h.includes('quote'));
+    const todayRows=rows.slice(1).filter(r=>normalizeDate(r[iDate])===TODAY);
+    const container=document.getElementById('quotes-container');
+    if(!todayRows.length){
+      container.innerHTML='<div class="quotes-loading">No quotes for today yet.</div>';
+      return;
+    }
+    container.innerHTML=todayRows.map(r=>`
+      <div class="quote-item">
+        ${iSection>=0&&r[iSection]?`<div class="quote-label">${esc(r[iSection])}</div>`:''}
+        <div class="quote-text">${esc(iContent>=0?r[iContent]:r[1]||'')}</div>
+      </div>`).join('');
+  } catch(e){
+    document.getElementById('quotes-container').innerHTML='<div class="quotes-loading">Quotes unavailable.</div>';
+  }
 })();
 </script>
 </body>

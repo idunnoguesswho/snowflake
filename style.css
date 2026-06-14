@@ -4037,3 +4037,124 @@ code {
   font-size: 0.82em;
   color: #C084FC;
 }
+
+
+/* ===== FROM: oliver.html / logan.html (schedule + inline tasks) ===== */
+
+/* Schedule page layout */
+.schedule-page {
+  margin: 0;
+  background: var(--bg, #fff8ee);
+  font-family: 'Nunito', sans-serif;
+}
+
+/* Hero variants */
+.hero-oliver { background: linear-gradient(135deg, #7ec8e3 0%, #4aa8cc 100%); }
+.hero-logan  { background: linear-gradient(135deg, #4aaa55 0%, #2e8b3a 100%); }
+.hero-row    { display: flex; align-items: center; gap: 14px; padding: 22px 20px 18px; }
+.hero-avatar { font-size: 36px; flex-shrink: 0; }
+.hero-info   { flex: 1; }
+.hero-title  {
+  font-family: 'Baloo 2', cursive;
+  font-size: 24px; font-weight: 800; color: #fff; line-height: 1.1;
+}
+.hero-date   { font-size: 13px; color: rgba(255,255,255,.8); margin-top: 2px; }
+.hero-pill   {
+  background: rgba(255,255,255,.25); border: 1.5px solid rgba(255,255,255,.45);
+  border-radius: 20px; padding: 5px 12px;
+  font-size: 12px; font-weight: 800; color: #fff; white-space: nowrap;
+}
+
+/* Progress bar (schedule page variant) */
+.prog-wrap  { background: #fff; padding: 14px 16px 12px; border-bottom: 1px solid #e8eef2; }
+.prog-row   { display: flex; justify-content: space-between; font-size: 12px; font-weight: 800; color: var(--muted); margin-bottom: 6px; }
+.prog-track { height: 8px; background: #e8eef2; border-radius: 99px; overflow: hidden; }
+.prog-fill  { height: 100%; border-radius: 99px; transition: width .5s ease; }
+.prog-fill-oliver { background: linear-gradient(90deg, #7ec8e3, #4aa8cc); }
+.prog-fill-logan  { background: linear-gradient(90deg, #4aaa55, #2e8b3a); }
+
+/* Section label */
+.sched-section-label {
+  font-size: 10px; font-weight: 900; letter-spacing: 2px; text-transform: uppercase;
+  padding: 18px 16px 8px;
+}
+.sched-section-label-oliver { color: #4aa8cc; }
+.sched-section-label-logan  { color: #2e8b3a; }
+
+/* Schedule slot cards */
+.sched-wrap  { padding: 0 12px 8px; }
+.sched-slot  {
+  display: flex; gap: 12px; background: #fff;
+  border-radius: 14px; padding: 13px 14px; margin-bottom: 8px;
+  box-shadow: 0 1px 4px rgba(0,0,0,.06);
+}
+.sched-slot.active-now-oliver { border-left: 4px solid #4aa8cc; }
+.sched-slot.active-now-logan  { border-left: 4px solid #2e8b3a; }
+.s-time  { min-width: 46px; font-size: 12px; font-weight: 800; padding-top: 2px; }
+.s-time-oliver { color: #4aa8cc; }
+.s-time-logan  { color: #2e8b3a; }
+.s-icon  { font-size: 20px; flex-shrink: 0; width: 26px; text-align: center; }
+.s-body  { flex: 1; min-width: 0; }
+.s-label { font-size: 14px; font-weight: 900; color: #1f2933; }
+.s-detail{ font-size: 12px; color: var(--muted); margin-top: 2px; line-height: 1.5; }
+
+/* Inline task list inside a schedule slot */
+.inline-tasks { margin-top: 10px; border-top: 1px solid #e8eef2; padding-top: 8px; }
+
+.itask           { display: flex; align-items: flex-start; gap: 10px; padding: 8px 0; border-bottom: 1px solid #f5f5f5; }
+.itask:last-child{ border-bottom: none; }
+
+.itask-check {
+  width: 22px; height: 22px; border-radius: 50%; background: #fff;
+  flex-shrink: 0; cursor: pointer; margin-top: 1px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 12px; transition: all .2s;
+}
+.itask-check-oliver       { border: 2px solid #7ec8e3; }
+.itask-check-oliver.done  { background: #4aa8cc; border-color: #4aa8cc; color: #fff; }
+.itask-check-logan        { border: 2px solid #4aaa55; }
+.itask-check-logan.done   { background: #2e8b3a; border-color: #2e8b3a; color: #fff; }
+
+.itask-body  { flex: 1; min-width: 0; }
+.itask-title { font-size: 13px; font-weight: 800; color: #1f2933; }
+.itask-title.done { text-decoration: line-through; color: var(--muted); }
+
+.itask-tags { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 4px; }
+.itag        { font-size: 10px; font-weight: 700; padding: 2px 7px; border-radius: 10px; }
+.itag-oliver { background: #e8f4fb; color: #4aa8cc; }
+.itag-logan  { background: #e6f5e8; color: #2e8b3a; }
+.itag-overdue{ background: #fde8e8; color: #c0392b; }
+
+.itask-desc   { font-size: 11px; color: var(--muted); margin-top: 3px; line-height: 1.4; }
+.itask-expand { font-size: 11px; font-weight: 700; cursor: pointer; margin-top: 3px; display: inline-block; }
+.itask-expand-oliver { color: #4aa8cc; }
+.itask-expand-logan  { color: #2e8b3a; }
+.itask-full   { display: none; border-radius: 8px; padding: 8px 10px; margin-top: 6px; font-size: 12px; color: #374151; line-height: 1.6; }
+.itask-full.open { display: block; }
+.itask-full-oliver { background: #f0f8fc; }
+.itask-full-logan  { background: #f0f8f0; }
+
+.no-tasks { font-size: 12px; color: var(--muted); font-style: italic; padding: 6px 0; }
+
+.itask-complete-btn {
+  margin-top: 6px; font-size: 11px; font-weight: 800;
+  border-radius: 20px; padding: 3px 10px; cursor: pointer; background: #fff;
+}
+.itask-complete-btn-oliver { color: #4aa8cc; border: 1.5px solid #7ec8e3; }
+.itask-complete-btn-logan  { color: #2e8b3a; border: 1.5px solid #4aaa55; }
+
+/* Quotes section */
+.quotes-wrap        { margin: 8px 12px; }
+.quotes-frame       { background: #fff; border-radius: 14px; box-shadow: 0 1px 4px rgba(0,0,0,.06); overflow: hidden; }
+.quote-entry        { padding: 14px 16px; border-bottom: 1px solid #e8eef2; }
+.quote-entry:last-child { border-bottom: none; }
+.quote-entry-label  { font-size: 10px; font-weight: 900; letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 4px; }
+.quote-entry-label-oliver { color: #4aa8cc; }
+.quote-entry-label-logan  { color: #2e8b3a; }
+.quote-entry-text   { font-size: 14px; font-weight: 700; color: #1f2933; line-height: 1.5; }
+.quotes-placeholder { padding: 20px; text-align: center; color: var(--muted); font-size: 13px; font-weight: 700; }
+
+/* Menu section */
+.menu-wrap       { margin: 8px 12px 24px; }
+.menu-frame-wrap { background: #fff; border-radius: 14px; box-shadow: 0 1px 4px rgba(0,0,0,.06); overflow: hidden; }
+.menu-embed      { width: 100%; border: none; height: 440px; display: block; }

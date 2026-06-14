@@ -6,162 +6,36 @@
 <title>Oliver · Today</title>
 <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Baloo+2:wght@400;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
-<style>
-:root {
-  --sky:    #7ec8e3;
-  --sky2:   #4aa8cc;
-  --ink:    #1f2933;
-  --muted:  #6b7280;
-  --soft:   #f4f8fb;
-  --line:   #e8eef2;
-  --done:   #d1fae5;
-  --done2:  #059669;
-}
-
-* { box-sizing: border-box; }
-body { margin: 0; background: var(--soft); font-family: 'Nunito', sans-serif; color: var(--ink); }
-
-/* ── HERO ── */
-.hero {
-  background: linear-gradient(135deg, var(--sky) 0%, var(--sky2) 100%);
-  padding: 22px 20px 18px;
-  display: flex; align-items: center; gap: 14px;
-}
-.hero-avatar { font-size: 36px; flex-shrink: 0; }
-.hero-info { flex: 1; }
-.hero-name { font-family: 'Baloo 2', sans-serif; font-size: 24px; font-weight: 800; color: #fff; line-height: 1.1; }
-.hero-date { font-size: 13px; color: rgba(255,255,255,.8); margin-top: 2px; }
-.hero-badge {
-  background: rgba(255,255,255,.25); border: 1.5px solid rgba(255,255,255,.45);
-  border-radius: 20px; padding: 5px 12px;
-  font-size: 12px; font-weight: 800; color: #fff; white-space: nowrap;
-}
-
-/* ── PROGRESS ── */
-.progress-wrap { background: #fff; padding: 14px 16px 12px; border-bottom: 1px solid var(--line); }
-.prog-row { display: flex; justify-content: space-between; font-size: 12px; font-weight: 800; color: var(--muted); margin-bottom: 6px; }
-.prog-track { height: 8px; background: var(--line); border-radius: 99px; overflow: hidden; }
-.prog-fill { height: 100%; background: linear-gradient(90deg, var(--sky), var(--sky2)); border-radius: 99px; transition: width .5s ease; }
-
-/* ── SECTION LABEL ── */
-.sec-label {
-  font-size: 10px; font-weight: 900; letter-spacing: 2px; text-transform: uppercase;
-  color: var(--sky2); padding: 18px 16px 8px; background: var(--soft);
-}
-
-/* ── SCHEDULE BLOCK ── */
-.schedule { padding: 0 12px 8px; }
-.sched-slot {
-  display: flex; gap: 12px; background: #fff;
-  border-radius: 14px; padding: 13px 14px; margin-bottom: 8px;
-  box-shadow: 0 1px 4px rgba(0,0,0,.06);
-}
-.sched-slot.active-now { border-left: 4px solid var(--sky2); }
-.s-time { min-width: 46px; font-size: 12px; font-weight: 800; color: var(--sky2); padding-top: 2px; }
-.s-icon { font-size: 20px; flex-shrink: 0; width: 26px; text-align: center; }
-.s-body { flex: 1; min-width: 0; }
-.s-label { font-size: 14px; font-weight: 900; color: var(--ink); }
-.s-detail { font-size: 12px; color: var(--muted); margin-top: 2px; line-height: 1.5; }
-
-/* Inline task list inside schedule */
-.inline-tasks { margin-top: 10px; border-top: 1px solid var(--line); padding-top: 8px; }
-.itask {
-  display: flex; align-items: flex-start; gap: 10px;
-  padding: 8px 0; border-bottom: 1px solid #f5f5f5;
-}
-.itask:last-child { border-bottom: none; }
-.itask-check {
-  width: 22px; height: 22px; border-radius: 50%;
-  border: 2px solid var(--sky); background: #fff;
-  flex-shrink: 0; cursor: pointer; margin-top: 1px;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 12px; transition: all .2s;
-}
-.itask-check.done { background: var(--sky2); border-color: var(--sky2); color: #fff; }
-.itask-body { flex: 1; min-width: 0; }
-.itask-title { font-size: 13px; font-weight: 800; color: var(--ink); }
-.itask-title.done { text-decoration: line-through; color: var(--muted); }
-.itask-tags { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 4px; }
-.itag {
-  font-size: 10px; font-weight: 700; padding: 2px 7px; border-radius: 10px;
-  background: #e8f4fb; color: var(--sky2);
-}
-.itag.overdue { background: #fde8e8; color: #c0392b; }
-.itask-desc { font-size: 11px; color: var(--muted); margin-top: 3px; line-height: 1.4; }
-.no-tasks { font-size: 12px; color: var(--muted); font-style: italic; padding: 6px 0; }
-
-/* task expand */
-.itask-expand { font-size: 11px; color: var(--sky2); font-weight: 700; cursor: pointer; margin-top: 3px; display: inline-block; }
-.itask-full { display: none; background: #f0f8fc; border-radius: 8px; padding: 8px 10px; margin-top: 6px; font-size: 12px; color: #374151; line-height: 1.6; }
-.itask-full.open { display: block; }
-
-/* complete button */
-.complete-btn {
-  margin-top: 6px; font-size: 11px; font-weight: 800;
-  color: var(--sky2); border: 1.5px solid var(--sky);
-  background: #fff; border-radius: 20px; padding: 3px 10px; cursor: pointer;
-}
-.complete-btn:active { background: var(--sky2); color: #fff; }
-
-/* ── QUOTES SECTION ── */
-.quotes-section { margin: 8px 12px; }
-.quote-frame {
-  background: #fff; border-radius: 14px;
-  box-shadow: 0 1px 4px rgba(0,0,0,.06); overflow: hidden;
-}
-.quote-item { padding: 14px 16px; border-bottom: 1px solid var(--line); }
-.quote-item:last-child { border-bottom: none; }
-.quote-label { font-size: 10px; font-weight: 900; letter-spacing: 1.5px; text-transform: uppercase; color: var(--sky2); margin-bottom: 4px; }
-.quote-text { font-size: 14px; font-weight: 700; color: var(--ink); line-height: 1.5; }
-.quote-sub { font-size: 12px; color: var(--muted); margin-top: 3px; line-height: 1.4; }
-.quotes-loading { padding: 20px; text-align: center; color: var(--muted); font-size: 13px; font-weight: 700; }
-
-/* ── MENU SECTION ── */
-.menu-section { margin: 8px 12px 24px; }
-.menu-frame-wrap {
-  background: #fff; border-radius: 14px;
-  box-shadow: 0 1px 4px rgba(0,0,0,.06); overflow: hidden;
-}
-.embed-frame { width: 100%; border: none; height: 440px; display: block; }
-
-/* ── TOAST ── */
-.toast-wrap { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); z-index: 999; pointer-events: none; }
-.toast {
-  background: var(--sky2); color: #fff; padding: 10px 20px;
-  border-radius: 20px; font-size: 13px; font-weight: 800;
-  margin-top: 6px; animation: toastIn .3s ease;
-  box-shadow: 0 4px 16px rgba(74,168,204,.35);
-}
-@keyframes toastIn { from { opacity:0; transform:translateY(10px); } to { opacity:1; transform:none; } }
-</style>
 </head>
-<body>
+<body class="schedule-page">
 
 <!-- HERO -->
-<div class="hero">
+<div class="hero hero-oliver hero-row">
   <div class="hero-avatar">🧒</div>
   <div class="hero-info">
-    <div class="hero-name">Oliver</div>
+    <div class="hero-title" id="hero-name">Oliver</div>
     <div class="hero-date" id="hero-date"></div>
   </div>
-  <div class="hero-badge" id="hero-badge">Loading…</div>
+  <div class="hero-pill" id="hero-badge">Loading…</div>
 </div>
 
 <!-- PROGRESS -->
-<div class="progress-wrap">
+<div class="prog-wrap">
   <div class="prog-row">
     <span id="prog-text">— of — done</span>
     <span id="prog-pct">—%</span>
   </div>
-  <div class="prog-track"><div class="prog-fill" id="prog-fill" style="width:0%"></div></div>
+  <div class="prog-track">
+    <div class="prog-fill prog-fill-oliver" id="prog-fill" style="width:0%"></div>
+  </div>
 </div>
 
-<!-- SCHEDULE + TASKS -->
-<div class="sec-label">☀️ Today's Schedule</div>
-<div class="schedule">
+<!-- SCHEDULE -->
+<div class="sched-section-label sched-section-label-oliver">☀️ Today's Schedule</div>
+<div class="sched-wrap">
 
   <div class="sched-slot" id="slot-730">
-    <div class="s-time">7:30</div>
+    <div class="s-time s-time-oliver">7:30</div>
     <div class="s-icon">⏰</div>
     <div class="s-body">
       <div class="s-label">Wake Up + Get Ready</div>
@@ -170,7 +44,7 @@ body { margin: 0; background: var(--soft); font-family: 'Nunito', sans-serif; co
   </div>
 
   <div class="sched-slot" id="slot-800">
-    <div class="s-time">8:00</div>
+    <div class="s-time s-time-oliver">8:00</div>
     <div class="s-icon">🥣</div>
     <div class="s-body">
       <div class="s-label">Breakfast</div>
@@ -179,7 +53,7 @@ body { margin: 0; background: var(--soft); font-family: 'Nunito', sans-serif; co
   </div>
 
   <div class="sched-slot" id="slot-830">
-    <div class="s-time">8:30</div>
+    <div class="s-time s-time-oliver">8:30</div>
     <div class="s-icon">⚡</div>
     <div class="s-body">
       <div class="s-label">Brain Activation (5 min)</div>
@@ -188,7 +62,7 @@ body { margin: 0; background: var(--soft); font-family: 'Nunito', sans-serif; co
   </div>
 
   <div class="sched-slot" id="slot-900">
-    <div class="s-time">9:00</div>
+    <div class="s-time s-time-oliver">9:00</div>
     <div class="s-icon">📚</div>
     <div class="s-body">
       <div class="s-label">Morning Block 1 — Français / Math</div>
@@ -198,7 +72,7 @@ body { margin: 0; background: var(--soft); font-family: 'Nunito', sans-serif; co
   </div>
 
   <div class="sched-slot" id="slot-1000">
-    <div class="s-time">10:00</div>
+    <div class="s-time s-time-oliver">10:00</div>
     <div class="s-icon">🌿</div>
     <div class="s-body">
       <div class="s-label">Break (15 min)</div>
@@ -207,7 +81,7 @@ body { margin: 0; background: var(--soft); font-family: 'Nunito', sans-serif; co
   </div>
 
   <div class="sched-slot" id="slot-1015">
-    <div class="s-time">10:15</div>
+    <div class="s-time s-time-oliver">10:15</div>
     <div class="s-icon">🔬</div>
     <div class="s-body">
       <div class="s-label">Morning Block 2 — Science / Social Studies</div>
@@ -217,7 +91,7 @@ body { margin: 0; background: var(--soft); font-family: 'Nunito', sans-serif; co
   </div>
 
   <div class="sched-slot" id="slot-1200">
-    <div class="s-time">12:00</div>
+    <div class="s-time s-time-oliver">12:00</div>
     <div class="s-icon">🥗</div>
     <div class="s-body">
       <div class="s-label">Lunch</div>
@@ -226,7 +100,7 @@ body { margin: 0; background: var(--soft); font-family: 'Nunito', sans-serif; co
   </div>
 
   <div class="sched-slot" id="slot-1230">
-    <div class="s-time">12:30</div>
+    <div class="s-time s-time-oliver">12:30</div>
     <div class="s-icon">🏃</div>
     <div class="s-body">
       <div class="s-label">Outdoor / Free Time</div>
@@ -236,7 +110,7 @@ body { margin: 0; background: var(--soft); font-family: 'Nunito', sans-serif; co
   </div>
 
   <div class="sched-slot" id="slot-1330">
-    <div class="s-time">1:30</div>
+    <div class="s-time s-time-oliver">1:30</div>
     <div class="s-icon">📝</div>
     <div class="s-body">
       <div class="s-label">Afternoon Work Block</div>
@@ -246,7 +120,7 @@ body { margin: 0; background: var(--soft); font-family: 'Nunito', sans-serif; co
   </div>
 
   <div class="sched-slot" id="slot-1530">
-    <div class="s-time">3:30</div>
+    <div class="s-time s-time-oliver">3:30</div>
     <div class="s-icon">🎮</div>
     <div class="s-body">
       <div class="s-label">Screen / Free Time</div>
@@ -255,7 +129,7 @@ body { margin: 0; background: var(--soft); font-family: 'Nunito', sans-serif; co
   </div>
 
   <div class="sched-slot" id="slot-1730">
-    <div class="s-time">5:30</div>
+    <div class="s-time s-time-oliver">5:30</div>
     <div class="s-icon">🍽️</div>
     <div class="s-body">
       <div class="s-label">Dinner</div>
@@ -264,7 +138,7 @@ body { margin: 0; background: var(--soft); font-family: 'Nunito', sans-serif; co
   </div>
 
   <div class="sched-slot" id="slot-1900">
-    <div class="s-time">7:00</div>
+    <div class="s-time s-time-oliver">7:00</div>
     <div class="s-icon">🛁</div>
     <div class="s-body">
       <div class="s-label">Evening Routine</div>
@@ -274,7 +148,7 @@ body { margin: 0; background: var(--soft); font-family: 'Nunito', sans-serif; co
   </div>
 
   <div class="sched-slot" id="slot-2000">
-    <div class="s-time">8:00</div>
+    <div class="s-time s-time-oliver">8:00</div>
     <div class="s-icon">📖</div>
     <div class="s-body">
       <div class="s-label">Reading (20 min)</div>
@@ -283,7 +157,7 @@ body { margin: 0; background: var(--soft); font-family: 'Nunito', sans-serif; co
   </div>
 
   <div class="sched-slot" id="slot-2030">
-    <div class="s-time">8:30</div>
+    <div class="s-time s-time-oliver">8:30</div>
     <div class="s-icon">🌙</div>
     <div class="s-body">
       <div class="s-label">Lights Out</div>
@@ -291,64 +165,47 @@ body { margin: 0; background: var(--soft); font-family: 'Nunito', sans-serif; co
     </div>
   </div>
 
-</div><!-- /schedule -->
+</div>
 
-<!-- DAILY QUOTES -->
-<div class="sec-label">✨ Daily Quotes</div>
-<div class="quotes-section">
-  <div class="quote-frame" id="quotes-container">
-    <div class="quotes-loading">Loading today's quotes…</div>
+<!-- QUOTES -->
+<div class="sched-section-label sched-section-label-oliver">✨ Daily Quotes</div>
+<div class="quotes-wrap">
+  <div class="quotes-frame" id="quotes-container">
+    <div class="quotes-placeholder">Loading today's quotes…</div>
   </div>
 </div>
 
 <!-- MENU -->
-<div class="sec-label">🍽️ Weekly Menu</div>
-<div class="menu-section">
+<div class="sched-section-label sched-section-label-oliver">🍽️ Weekly Menu</div>
+<div class="menu-wrap">
   <div class="menu-frame-wrap">
-    <iframe class="embed-frame" src="menu.html" title="Weekly Menu"></iframe>
+    <iframe class="menu-embed" src="menu.html" title="Weekly Menu"></iframe>
   </div>
 </div>
 
 <div class="toast-wrap" id="toasts"></div>
 
 <script>
-/* ── DATES & TIME ── */
+const P = 'oliver';
 const now = new Date();
-document.getElementById('hero-date').textContent = now.toLocaleDateString('en-CA', { weekday:'long', month:'long', day:'numeric', year:'numeric' });
+document.getElementById('hero-date').textContent = now.toLocaleDateString('en-CA',{weekday:'long',month:'long',day:'numeric',year:'numeric'});
 const TODAY = now.toISOString().slice(0,10);
-const HOUR = now.getHours() + now.getMinutes()/60;
+const HOUR  = now.getHours() + now.getMinutes()/60;
 
-/* Highlight current schedule slot */
-const SLOTS = [
-  ['slot-730',  7.5,  8],
-  ['slot-800',  8,    8.5],
-  ['slot-830',  8.5,  9],
-  ['slot-900',  9,   10],
-  ['slot-1000', 10,  10.25],
-  ['slot-1015', 10.25,12],
-  ['slot-1200', 12,  12.5],
-  ['slot-1230', 12.5,13.5],
-  ['slot-1330', 13.5,15.5],
-  ['slot-1530', 15.5,17.5],
-  ['slot-1730', 17.5,19],
-  ['slot-1900', 19,  20],
-  ['slot-2000', 20,  20.5],
-  ['slot-2030', 20.5,24],
-];
-SLOTS.forEach(([id,s,e])=>{ if(HOUR>=s&&HOUR<e) document.getElementById(id)?.classList.add('active-now'); });
+[['slot-730',7.5,8],['slot-800',8,8.5],['slot-830',8.5,9],['slot-900',9,10],
+ ['slot-1000',10,10.25],['slot-1015',10.25,12],['slot-1200',12,12.5],
+ ['slot-1230',12.5,13.5],['slot-1330',13.5,15.5],['slot-1530',15.5,17.5],
+ ['slot-1730',17.5,19],['slot-1900',19,20],['slot-2000',20,20.5],['slot-2030',20.5,24]
+].forEach(([id,s,e])=>{ if(HOUR>=s&&HOUR<e) document.getElementById(id)?.classList.add(`active-now-${P}`); });
 
-/* ── SHEET CONFIG ── */
 const SHEET_ID  = '1GZv91Npf9i0y6AtCQcjYUyiYrDq3aqQ3zSNE2QGAxfE';
 const SHEET_GID = '0';
 const PERSON    = 'Oliver';
-const STORE_KEY = `oliver_done_${TODAY}`;
+const STORE_KEY = `${P}_done_${TODAY}`;
+let TASKS=[], done={};
+try{ done=JSON.parse(localStorage.getItem(STORE_KEY)||'{}'); }catch(e){}
+function saveDone(){ localStorage.setItem(STORE_KEY,JSON.stringify(done)); }
 
-let TASKS = [];
-let done = {};
-try { done = JSON.parse(localStorage.getItem(STORE_KEY)||'{}'); } catch(e){}
-function saveDone() { localStorage.setItem(STORE_KEY, JSON.stringify(done)); }
-
-/* ── CSV FETCH ── */
 function parseCSV(raw){
   const rows=[]; let i=0,n=raw.length;
   while(i<n){
@@ -364,135 +221,81 @@ function parseCSV(raw){
 }
 
 async function loadSheet(){
-  const url=`https://docs.google.com/spreadsheets/d/${SHEET_ID}/export?format=csv&gid=${SHEET_GID}`;
-  try{ const r=await fetch(url,{cache:'no-store'}); if(!r.ok)throw 0; const t=await r.text(); if(!t.trim())throw 0; return parseCSV(t); }
-  catch{ return loadGviz(); }
-}
-
-function loadGviz(){
-  return new Promise((res,rej)=>{
+  try{ const r=await fetch(`https://docs.google.com/spreadsheets/d/${SHEET_ID}/export?format=csv&gid=${SHEET_GID}`,{cache:'no-store'}); if(!r.ok)throw 0; const t=await r.text(); if(!t.trim())throw 0; return parseCSV(t); }
+  catch{ return new Promise((res,rej)=>{
     const cb=`_cb_${Date.now()}`,s=document.createElement('script'),t=setTimeout(()=>{s.remove();delete window[cb];rej();},12000);
-    window[cb]=p=>{
-      clearTimeout(t);s.remove();delete window[cb];
-      if(!p||p.status==='error'){rej();return;}
-      const hdrs=(p.table.cols||[]).map((c,i)=>c.label||`Col${i}`);
-      const rows=(p.table.rows||[]).map(r=>(r.c||[]).map(cell=>cell?(cell.f!=null?String(cell.f):String(cell.v??'')):''));
-      res([hdrs,...rows]);
-    };
+    window[cb]=p=>{clearTimeout(t);s.remove();delete window[cb];if(!p||p.status==='error'){rej();return;}
+      res([(p.table.cols||[]).map((c,i)=>c.label||`Col${i}`),...(p.table.rows||[]).map(r=>(r.c||[]).map(cell=>cell?(cell.f!=null?String(cell.f):String(cell.v??'')):''))]);};
     s.onerror=()=>{clearTimeout(t);s.remove();rej();};
     s.src=`https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?gid=${SHEET_GID}&tqx=responseHandler:${cb}`;
     document.head.append(s);
-  });
+  }); }
 }
 
 const YES=new Set(['yes','true','1','✓','✅']);
-function isOpen(row,iDone,iComp){
-  const d=(row[iDone]||'').toLowerCase().trim();
-  const c=(row[iComp]||'').trim();
-  if(YES.has(d))return false;
-  if(c&&/\d{4}/.test(c))return false;
-  return true;
-}
+function isOpen(r,iD,iC){ return !YES.has((r[iD]||'').toLowerCase().trim())&&!((r[iC]||'').trim()&&/\d{4}/.test(r[iC])); }
 
 function buildTasks(rows){
   if(rows.length<2)return[];
-  const h=rows[0].map(x=>x.toLowerCase().trim());
-  const col=kw=>h.findIndex(c=>c.includes(kw));
-  const iResp=col('responsible'), iCat=col('category'), iEst=col('est'),
-        iTitle=col('task name'), iDesc=col('description'), iWs=col('worksheet'),
-        iDate=col('date assigned'), iComp=col('date completed'), iDone=col('isdone');
+  const h=rows[0].map(x=>x.toLowerCase().trim()),col=kw=>h.findIndex(c=>c.includes(kw));
+  const iR=col('responsible'),iC=col('category'),iE=col('est'),iT=col('task name'),iD=col('description'),iW=col('worksheet'),iDA=col('date assigned'),iDC=col('date completed'),iDN=col('isdone');
   const get=(r,i)=>(i>=0&&i<r.length?r[i]:'').trim();
-  return rows.slice(1)
-    .filter(r=>get(r,iResp)===PERSON&&isOpen(r,iDone,iComp))
-    .map((r,idx)=>({
-      id: get(r,0)||String(idx),
-      title: get(r,iTitle),
-      category: get(r,iCat),
-      estTime: get(r,iEst),
-      desc: get(r,iDesc),
-      worksheet: get(r,iWs),
-      dateAssigned: get(r,iDate),
-      overdue: get(r,iDate) && get(r,iDate) < TODAY,
-    }))
+  return rows.slice(1).filter(r=>get(r,iR)===PERSON&&isOpen(r,iDN,iDC))
+    .map((r,idx)=>({id:get(r,0)||String(idx),title:get(r,iT),category:get(r,iC),estTime:get(r,iE),desc:get(r,iD),worksheet:get(r,iW),dateAssigned:get(r,iDA),overdue:get(r,iDA)&&get(r,iDA)<TODAY}))
     .filter(t=>t.title);
 }
 
-/* ── RENDER HELPERS ── */
-function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+function esc(s){ return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
 
 function taskHTML(t){
-  const isDone = !!done[t.id];
-  const wsLines = t.worksheet ? t.worksheet.split('\n').filter(l=>l.trim()) : [];
-  return `
-    <div class="itask" id="itask-${esc(t.id)}">
-      <div class="itask-check${isDone?' done':''}" onclick="toggleDone('${esc(t.id)}')">${isDone?'✓':''}</div>
-      <div class="itask-body">
-        <div class="itask-title${isDone?' done':''}">${esc(t.title)}</div>
-        <div class="itask-tags">
-          ${t.category?`<span class="itag">${esc(t.category)}</span>`:''}
-          ${t.estTime?`<span class="itag">⏱ ${esc(t.estTime)} min</span>`:''}
-          ${t.overdue&&!isDone?`<span class="itag overdue">⚠ Overdue</span>`:''}
-        </div>
-        ${t.desc?`<div class="itask-desc">${esc(t.desc).slice(0,120)}${t.desc.length>120?'…':''}</div>`:''}
-        ${wsLines.length?`<span class="itask-expand" onclick="toggleWs('ws-${esc(t.id)}')">📋 Worksheet questions</span>
-        <div class="itask-full" id="ws-${esc(t.id)}">${wsLines.map(l=>`<div style="margin-bottom:4px">${esc(l)}</div>`).join('')}</div>`:''}
-        ${!isDone?`<button class="complete-btn" onclick="toggleDone('${esc(t.id)}')">✓ Mark done</button>`:''}
+  const isDone=!!done[t.id], ws=t.worksheet?t.worksheet.split('\n').filter(l=>l.trim()):[];
+  return `<div class="itask" id="itask-${esc(t.id)}">
+    <div class="itask-check itask-check-${P}${isDone?' done':''}" onclick="toggleDone('${esc(t.id)}')">${isDone?'✓':''}</div>
+    <div class="itask-body">
+      <div class="itask-title${isDone?' done':''}">${esc(t.title)}</div>
+      <div class="itask-tags">
+        ${t.category?`<span class="itag itag-${P}">${esc(t.category)}</span>`:''}
+        ${t.estTime?`<span class="itag itag-${P}">⏱ ${esc(t.estTime)} min</span>`:''}
+        ${t.overdue&&!isDone?`<span class="itag itag-overdue">⚠ Overdue</span>`:''}
       </div>
-    </div>`;
+      ${t.desc?`<div class="itask-desc">${esc(t.desc).slice(0,120)}${t.desc.length>120?'…':''}</div>`:''}
+      ${ws.length?`<span class="itask-expand itask-expand-${P}" onclick="toggleWs('ws-${esc(t.id)}')">📋 Worksheet questions</span>
+      <div class="itask-full itask-full-${P}" id="ws-${esc(t.id)}">${ws.map(l=>`<div style="margin-bottom:4px">${esc(l)}</div>`).join('')}</div>`:''}
+      ${!isDone?`<button class="itask-complete-btn itask-complete-btn-${P}" onclick="toggleDone('${esc(t.id)}')">✓ Mark done</button>`:''}
+    </div>
+  </div>`;
 }
 
-function toggleWs(id){
-  const el=document.getElementById(id);
-  if(el) el.classList.toggle('open');
-}
-
+function toggleWs(id){ document.getElementById(id)?.classList.toggle('open'); }
 function toggleDone(id){
-  done[id] = !done[id];
-  if(!done[id]) delete done[id];
-  saveDone();
-  renderTasks();
+  done[id]=!done[id]; if(!done[id])delete done[id];
+  saveDone(); renderTasks();
   if(done[id]) toast('⭐ Great work, Oliver!');
 }
-
 function toast(msg){
-  const el=document.createElement('div');
-  el.className='toast';el.textContent=msg;
-  document.getElementById('toasts').appendChild(el);
-  setTimeout(()=>el.remove(),3000);
+  const el=document.createElement('div'); el.className='toast'; el.textContent=msg;
+  document.getElementById('toasts').appendChild(el); setTimeout(()=>el.remove(),3000);
 }
 
-/* ── SLOT ROUTING ── */
-// Route tasks to schedule slots by category
 function routeTask(t){
-  const cat = (t.category||'').toLowerCase().trim();
-  if(cat==='wellness') return 'tasks-wellness';
-  if(cat==='side quest') return 'tasks-sidequest';
-  if(cat==='language'||cat==='math') return 'tasks-lang-math';
-  if(cat==='science'||cat==='social studies') return 'tasks-sci-ss';
-  return 'tasks-afternoon'; // art, other
+  const c=(t.category||'').toLowerCase().trim();
+  if(c==='wellness')return'tasks-wellness';
+  if(c==='side quest')return'tasks-sidequest';
+  if(c==='language'||c==='math')return'tasks-lang-math';
+  if(c==='science'||c==='social studies')return'tasks-sci-ss';
+  return'tasks-afternoon';
 }
 
 function renderTasks(){
-  const slots = ['tasks-lang-math','tasks-sci-ss','tasks-sidequest','tasks-afternoon','tasks-wellness'];
-  const buckets = {};
-  slots.forEach(s=>{ buckets[s]=[]; });
-
-  TASKS.forEach(t=>{ const slot=routeTask(t); buckets[slot].push(t); });
-
-  slots.forEach(slotId=>{
-    const el=document.getElementById(slotId);
-    if(!el)return;
-    const tasks=buckets[slotId];
-    if(!tasks.length){
-      el.innerHTML='<div class="no-tasks">No tasks here today 🎉</div>';
-      return;
-    }
-    el.innerHTML = tasks.map(taskHTML).join('');
+  const slots=['tasks-lang-math','tasks-sci-ss','tasks-sidequest','tasks-afternoon','tasks-wellness'];
+  const buckets={}; slots.forEach(s=>{buckets[s]=[];});
+  TASKS.forEach(t=>buckets[routeTask(t)].push(t));
+  slots.forEach(id=>{
+    const el=document.getElementById(id); if(!el)return;
+    const ts=buckets[id];
+    el.innerHTML=ts.length?ts.map(taskHTML).join(''):'<div class="no-tasks">No tasks here today 🎉</div>';
   });
-
-  // Progress
-  const total=TASKS.length, n=Object.keys(done).filter(k=>TASKS.find(t=>t.id===k)).length;
-  const pct=total?Math.round(n/total*100):0;
+  const total=TASKS.length, n=Object.keys(done).filter(k=>TASKS.find(t=>t.id===k)).length, pct=total?Math.round(n/total*100):0;
   document.getElementById('prog-text').textContent=`${n} of ${total} tasks done`;
   document.getElementById('prog-pct').textContent=pct+'%';
   document.getElementById('prog-fill').style.width=pct+'%';
@@ -500,57 +303,34 @@ function renderTasks(){
 }
 
 (async()=>{
-  try{
-    const rows=await loadSheet();
-    TASKS=buildTasks(rows);
-    renderTasks();
-  } catch(e){
+  try{ TASKS=buildTasks(await loadSheet()); renderTasks(); }
+  catch(e){
     document.getElementById('hero-badge').textContent='⚠ Offline';
     ['tasks-lang-math','tasks-sci-ss','tasks-sidequest','tasks-afternoon','tasks-wellness']
-      .forEach(id=>{ const el=document.getElementById(id); if(el) el.innerHTML='<div class="no-tasks">Could not load tasks.</div>'; });
+      .forEach(id=>{ const el=document.getElementById(id); if(el)el.innerHTML='<div class="no-tasks">Could not load tasks.</div>'; });
   }
 })();
 
-/* ── DAILY QUOTES ── */
-const Q_SHEET_ID  = '1VVWZBG3fXLWBFCnRDLo76kUQrNyPcBBdY6mCiiwJr50';
-const Q_SHEET_GID = '0';
-
+/* ── QUOTES ── */
 function normalizeDate(v){
-  if(!v)return'';
-  const str=String(v).trim();
-  const iso=str.match(/^(\d{4}-\d{2}-\d{2})/);if(iso)return iso[1];
-  const mdy=str.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/);if(mdy)return`${mdy[3]}-${mdy[1].padStart(2,'0')}-${mdy[2].padStart(2,'0')}`;
-  const MONTHS={january:'01',february:'02',march:'03',april:'04',may:'05',june:'06',july:'07',august:'08',september:'09',october:'10',november:'11',december:'12'};
-  const mlong=str.match(/^([A-Za-z]+)\s+(\d{1,2}),?\s+(\d{4})$/);
-  if(mlong){const mo=MONTHS[mlong[1].toLowerCase()];if(mo)return`${mlong[3]}-${mo}-${mlong[2].padStart(2,'0')}`;}
-  return str.substring(0,10);
+  if(!v)return''; const s=String(v).trim();
+  const iso=s.match(/^(\d{4}-\d{2}-\d{2})/); if(iso)return iso[1];
+  const mdy=s.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/); if(mdy)return`${mdy[3]}-${mdy[1].padStart(2,'0')}-${mdy[2].padStart(2,'0')}`;
+  const M={january:'01',february:'02',march:'03',april:'04',may:'05',june:'06',july:'07',august:'08',september:'09',october:'10',november:'11',december:'12'};
+  const ml=s.match(/^([A-Za-z]+)\s+(\d{1,2}),?\s+(\d{4})$/); if(ml){const mo=M[ml[1].toLowerCase()];if(mo)return`${ml[3]}-${mo}-${ml[2].padStart(2,'0')}`;}
+  return s.substring(0,10);
 }
 
 (async()=>{
   try{
-    const url=`https://docs.google.com/spreadsheets/d/${Q_SHEET_ID}/export?format=csv&gid=${Q_SHEET_GID}`;
-    const r=await fetch(url,{cache:'no-store'});
-    if(!r.ok)throw 0;
-    const rows=parseCSV(await r.text());
+    const rows=parseCSV(await(await fetch(`https://docs.google.com/spreadsheets/d/1VVWZBG3fXLWBFCnRDLo76kUQrNyPcBBdY6mCiiwJr50/export?format=csv&gid=0`,{cache:'no-store'})).text());
     if(rows.length<2)throw 0;
-    const hdrs=rows[0].map(x=>x.toLowerCase().trim());
-    const iDate=hdrs.findIndex(h=>h.includes('date'));
-    const iSection=hdrs.findIndex(h=>h.includes('section')||h.includes('label')||h.includes('title'));
-    const iContent=hdrs.findIndex(h=>h.includes('content')||h.includes('text')||h.includes('body')||h.includes('quote'));
-    const todayRows=rows.slice(1).filter(r=>normalizeDate(r[iDate])===TODAY);
-    const container=document.getElementById('quotes-container');
-    if(!todayRows.length){
-      container.innerHTML='<div class="quotes-loading">No quotes for today yet.</div>';
-      return;
-    }
-    container.innerHTML=todayRows.map(r=>`
-      <div class="quote-item">
-        ${iSection>=0&&r[iSection]?`<div class="quote-label">${esc(r[iSection])}</div>`:''}
-        <div class="quote-text">${esc(iContent>=0?r[iContent]:r[1]||'')}</div>
-      </div>`).join('');
-  } catch(e){
-    document.getElementById('quotes-container').innerHTML='<div class="quotes-loading">Quotes unavailable.</div>';
-  }
+    const h=rows[0].map(x=>x.toLowerCase().trim());
+    const iDate=h.findIndex(c=>c.includes('date')), iSec=h.findIndex(c=>c.includes('section')||c.includes('label')||c.includes('title')), iCon=h.findIndex(c=>c.includes('content')||c.includes('text')||c.includes('body')||c.includes('quote'));
+    const todays=rows.slice(1).filter(r=>normalizeDate(r[iDate])===TODAY);
+    const c=document.getElementById('quotes-container');
+    c.innerHTML=todays.length?todays.map(r=>`<div class="quote-entry">${iSec>=0&&r[iSec]?`<div class="quote-entry-label quote-entry-label-${P}">${esc(r[iSec])}</div>`:''}<div class="quote-entry-text">${esc(iCon>=0?r[iCon]:r[1]||'')}</div></div>`).join(''):'<div class="quotes-placeholder">No quotes for today yet.</div>';
+  }catch(e){ document.getElementById('quotes-container').innerHTML='<div class="quotes-placeholder">Quotes unavailable.</div>'; }
 })();
 </script>
 </body>

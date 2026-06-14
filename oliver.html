@@ -279,10 +279,13 @@ function toast(msg){
 
 function routeTask(t){
   const c=(t.category||'').toLowerCase().trim();
+  const title=(t.title||'').toLowerCase();
   if(c==='wellness')return'tasks-wellness';
+  if(c==='side quest'&&(title.includes('bible')||title.includes('church')))return'tasks-wellness';
   if(c==='side quest')return'tasks-sidequest';
   if(c==='language'||c==='math')return'tasks-lang-math';
   if(c==='science'||c==='social studies')return'tasks-sci-ss';
+  if(c==='art')return'tasks-afternoon';
   return'tasks-afternoon';
 }
 

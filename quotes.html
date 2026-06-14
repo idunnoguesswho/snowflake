@@ -196,13 +196,22 @@ function formatDisplayDate(iso) {
 
 function normalizeDate(v) {
   if (!v) return "";
-  // Apps Script Date objects serialise as ISO strings
   if (typeof v === "string") {
-    const m = v.match(/^(\d{4}-\d{2}-\d{2})/);
-    if (m) return m[1];
-    // m/d/yyyy
-    const s = v.trim().match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/);
-    if (s) return `${s[3]}-${s[1].padStart(2,"0")}-${s[2].padStart(2,"0")}`;
+    const str = v.trim();
+    // YYYY-MM-DD
+    const iso = str.match(/^(\d{4}-\d{2}-\d{2})/);
+    if (iso) return iso[1];
+    // M/D/YYYY
+    const mdy = str.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/);
+    if (mdy) return `${mdy[3]}-${mdy[1].padStart(2,"0")}-${mdy[2].padStart(2,"0")}`;
+    // "June 14, 2026" or "June 14 2026"
+    const MONTHS = {january:"01",february:"02",march:"03",april:"04",may:"05",june:"06",
+                    july:"07",august:"08",september:"09",october:"10",november:"11",december:"12"};
+    const mlong = str.match(/^([A-Za-z]+)\s+(\d{1,2}),?\s+(\d{4})$/);
+    if (mlong) {
+      const mo = MONTHS[mlong[1].toLowerCase()];
+      if (mo) return `${mlong[3]}-${mo}-${mlong[2].padStart(2,"0")}`;
+    }
   }
   return String(v).trim().substring(0, 10);
 }

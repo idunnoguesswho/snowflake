@@ -49,9 +49,9 @@
   <div class="sched-slot" id="slot-900">
     <div class="s-time s-time-logan">9:00</div><div class="s-icon">📚</div>
     <div class="s-body">
-      <div class="s-label">Morning Block 1 — Français / Math</div>
-      <div class="s-detail">45 min focused work. 2-min movement break every 15 min. Timer on.</div>
-      <div class="inline-tasks" id="tasks-lang-math"></div>
+      <div class="s-label">Morning Block 1 — Science, Social Studies &amp; Wellness</div>
+      <div class="s-detail">One task each: Science · Social Studies · Wellness.</div>
+      <div class="inline-tasks" id="tasks-block2"></div>
     </div>
   </div>
 
@@ -63,9 +63,9 @@
   <div class="sched-slot" id="slot-1015">
     <div class="s-time s-time-logan">10:15</div><div class="s-icon">🔬</div>
     <div class="s-body">
-      <div class="s-label">Morning Block 2 — Sciences / Social Studies</div>
-      <div class="s-detail">45 min. Ask for help if stuck more than 3 min — don't guess.</div>
-      <div class="inline-tasks" id="tasks-sci-ss"></div>
+      <div class="s-label">Morning Block 2 — Math, Language &amp; Art</div>
+      <div class="s-detail">One task each: Math · Language · Art.</div>
+      <div class="inline-tasks" id="tasks-block1"></div>
     </div>
   </div>
 
@@ -87,7 +87,7 @@
     <div class="s-time s-time-logan">1:30</div><div class="s-icon">🎯</div>
     <div class="s-body">
       <div class="s-label">Mission Block</div>
-      <div class="s-detail">One mission or badge challenge — chosen just for you today. <a href="badges.html" style="font-weight:800">View all badges →</a></div>
+      <div class="s-detail">One mission + two side quests. <a href="badges.html" style="font-weight:800">View all badges →</a></div>
       <div class="inline-tasks" id="tasks-mission"></div>
     </div>
   </div>
@@ -231,33 +231,63 @@ function toast(msg){
   document.getElementById('toasts').appendChild(el); setTimeout(()=>el.remove(),3000);
 }
 
-function routeTask(t){
-  const c=(t.category||'').toLowerCase().trim();
-  const title=(t.title||'').toLowerCase();
-  if(c==='wellness')return'tasks-wellness';
-  if(c==='side quest'&&(title.includes('bible')||title.includes('church')))return'tasks-wellness';
-  if(c==='side quest')return'tasks-sidequest';
-  if(c==='language'||c==='math')return'tasks-lang-math';
-  if(c==='science'||c==='social studies')return'tasks-sci-ss';
-  if(c==='art')return'tasks-afternoon';
-  return'tasks-afternoon';
+
+
+function pickOne(tasks, cat){
+  // Pick one open task matching category, prefer assigned today or overdue
+  const matches = tasks.filter(t=>(t.category||'').toLowerCase().trim()===cat);
+  if(!matches.length) return null;
+  const priority = matches.find(t=>t.dateAssigned===TODAY) || matches.find(t=>t.overdue) || matches[0];
+  return priority;
 }
 
 function renderTasks(){
-  const slots=['tasks-lang-math','tasks-sci-ss','tasks-sidequest','tasks-mission','tasks-wellness'];
-  const LEARN_LIMIT=3; // cap per learning block
-  const buckets={}; slots.forEach(s=>{buckets[s]=[];});
-  TASKS.forEach(t=>buckets[routeTask(t)].push(t));
-  slots.forEach(id=>{
-    const el=document.getElementById(id); if(!el)return;
-    let ts=buckets[id];
-    const isLearning=id==='tasks-lang-math'||id==='tasks-sci-ss';
-    const overflow=isLearning&&ts.length>LEARN_LIMIT?ts.length-LEARN_LIMIT:0;
-    if(isLearning)ts=ts.slice(0,LEARN_LIMIT);
-    let html=ts.length?ts.map(taskHTML).join(''):'<div class="no-tasks">No tasks here today 🎉</div>';
-    if(overflow)html+=`<div class="no-tasks">+${overflow} more — see Afternoon block</div>`;
-    el.innerHTML=html;
-  });
+  // Block 1 (9:00): one Science, one Social Studies, one Wellness
+  const b1cats = ['science','social studies','wellness'];
+  // Block 2 (10:15): one Math, one Language, one Art
+  const b2cats = ['math','language','art'];
+  // Mission block: handled by pickMission()
+  // Side quests: inline-tasks in sidequest slot
+  // Evening wellness: wellness tasks
+
+  const picked = new Set();
+
+  function grab(cats, slotId){
+    const el = document.getElementById(slotId); if(!el) return;
+    const chosen = [];
+    for(const cat of cats){
+      const t = TASKS.filter(t=>!picked.has(t.id)).find(t=>(t.category||'').toLowerCase().trim()===cat);
+      if(t){ chosen.push(t); picked.add(t.id); }
+    }
+    el.innerHTML = chosen.length
+      ? chosen.map(taskHTML).join('')
+      : '<div class="no-tasks">No tasks here today 🎉</div>';
+  }
+
+  // Side quests (up to 2)
+  function grabSideQuests(slotId, limit){
+    const el = document.getElementById(slotId); if(!el) return;
+    const sqs = TASKS.filter(t=>!picked.has(t.id)&&(t.category||'').toLowerCase().trim()==='side quest').slice(0,limit);
+    sqs.forEach(t=>picked.add(t.id));
+    el.innerHTML = sqs.length
+      ? sqs.map(taskHTML).join('')
+      : '<div class="no-tasks">No side quests today 🎉</div>';
+  }
+
+  // Wellness (evening)
+  function grabWellness(slotId){
+    const el = document.getElementById(slotId); if(!el) return;
+    const ws = TASKS.filter(t=>!picked.has(t.id)&&(t.category||'').toLowerCase().trim()==='wellness').slice(0,3);
+    ws.forEach(t=>picked.add(t.id));
+    el.innerHTML = ws.length
+      ? ws.map(taskHTML).join('')
+      : '<div class="no-tasks">No wellness tasks today 🎉</div>';
+  }
+
+  grab(b1cats, 'tasks-block1');
+  grab(b2cats, 'tasks-block2');
+  grabSideQuests('tasks-sidequest', 2);
+  grabWellness('tasks-wellness');
   const total=TASKS.length, n=Object.keys(done).filter(k=>TASKS.find(t=>t.id===k)).length, pct=total?Math.round(n/total*100):0;
   document.getElementById('prog-text').textContent=`${n} of ${total} tasks done`;
   document.getElementById('prog-pct').textContent=pct+'%';
@@ -342,7 +372,7 @@ function toggleMission(id){
   try{ TASKS=buildTasks(await loadSheet()); renderTasks(); await loadBadges(); pickMission(); }
   catch(e){
     document.getElementById('hero-badge').textContent='⚠ Offline';
-    ['tasks-lang-math','tasks-sci-ss','tasks-sidequest','tasks-mission','tasks-wellness']
+    ['tasks-block1','tasks-block2','tasks-sidequest','tasks-mission','tasks-wellness']
       .forEach(id=>{ const el=document.getElementById(id); if(el)el.innerHTML='<div class="no-tasks">Could not load tasks.</div>'; });
   }
 })();

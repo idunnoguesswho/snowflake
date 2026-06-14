@@ -38,7 +38,7 @@
 
   <div class="sched-slot" id="slot-800">
     <div class="s-time s-time-logan">8:00</div><div class="s-icon">🥣</div>
-    <div class="s-body"><div class="s-label">Breakfast</div><div class="s-detail">Eat, put dishes in the kitchen. Take lunch bag out of backpack.</div></div>
+    <div class="s-body"><div class="s-label">Breakfast</div><div id="meal-breakfast"></div><div class="s-detail">Eat, put dishes in the kitchen. Take lunch bag out of backpack.</div></div>
   </div>
 
   <div class="sched-slot" id="slot-830">
@@ -71,7 +71,7 @@
 
   <div class="sched-slot" id="slot-1200">
     <div class="s-time s-time-logan">12:00</div><div class="s-icon">🥗</div>
-    <div class="s-body"><div class="s-label">Lunch</div><div class="s-detail">Eat lunch. Put dishes in the kitchen. Empty lunch bag.</div></div>
+    <div class="s-body"><div class="s-label">Lunch</div><div id="meal-lunch"></div><div class="s-detail">Eat lunch. Put dishes in the kitchen. Empty lunch bag.</div></div>
   </div>
 
   <div class="sched-slot" id="slot-1230">
@@ -99,7 +99,7 @@
 
   <div class="sched-slot" id="slot-1730">
     <div class="s-time s-time-logan">5:30</div><div class="s-icon">🍽️</div>
-    <div class="s-body"><div class="s-label">Dinner</div><div class="s-detail">Table together, screens off. Empty dishwasher on your day.</div></div>
+    <div class="s-body"><div class="s-label">Dinner</div><div id="meal-supper"></div><div class="s-detail">Table together, screens off. Empty dishwasher on your day.</div></div>
   </div>
 
   <div class="sched-slot" id="slot-1900">
@@ -127,13 +127,6 @@
 <div class="quotes-wrap">
   <div class="quotes-frame" id="quotes-container">
     <div class="quotes-placeholder">Loading today's quotes…</div>
-  </div>
-</div>
-
-<div class="sched-section-label sched-section-label-logan">🍽️ Weekly Menu</div>
-<div class="menu-wrap">
-  <div class="menu-frame-wrap">
-    <iframe class="menu-embed" src="menu.html" title="Weekly Menu"></iframe>
   </div>
 </div>
 
@@ -369,7 +362,7 @@ function toggleMission(id){
 }
 
 (async()=>{
-  try{ TASKS=buildTasks(await loadSheet()); renderTasks(); await loadBadges(); pickMission(); }
+  try{ TASKS=buildTasks(await loadSheet()); renderTasks(); await loadBadges(); pickMission(); await loadMenuForSchedule(); }
   catch(e){
     document.getElementById('hero-badge').textContent='⚠ Offline';
     ['tasks-block1','tasks-block2','tasks-sidequest','tasks-mission','tasks-wellness']
@@ -397,6 +390,55 @@ function normalizeDate(v){
     c.innerHTML=todays.length?todays.map(r=>`<div class="quote-entry">${iSec>=0&&r[iSec]?`<div class="quote-entry-label quote-entry-label-${P}">${esc(r[iSec])}</div>`:''}<div class="quote-entry-text">${esc(iCon>=0?r[iCon]:r[1]||'')}</div></div>`).join(''):'<div class="quotes-placeholder">No quotes for today yet.</div>';
   }catch(e){ document.getElementById('quotes-container').innerHTML='<div class="quotes-placeholder">Quotes unavailable.</div>'; }
 })();
+
+/* ── MENU ── */
+const MENU_SHEET_ID   = '11A5NsScePEbtN9dujN3tILb_Q2TU5tsf6I0MbT11kDY';
+const MENU_SHEET_NAME = 'Menu';
+
+function mealTypeKey(t){
+  const s=(t||'').toLowerCase();
+  if(s.includes('breakfast'))return'breakfast';
+  if(s.includes('lunch'))return'lunch';
+  if(s.includes('supper')||s.includes('dinner'))return'supper';
+  if(s.includes('snack'))return'snack';
+  return'other';
+}
+
+function normMenuDate(raw){
+  if(!raw)return'';
+  if(/^\d{4}-\d{2}-\d{2}$/.test(raw))return raw;
+  const m=raw.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/);
+  if(m)return`${m[3]}-${m[1].padStart(2,'0')}-${m[2].padStart(2,'0')}`;
+  return raw;
+}
+
+async function loadMenuForSchedule(){
+  try{
+    const url=`https://docs.google.com/spreadsheets/d/${MENU_SHEET_ID}/export?format=csv&sheet=${encodeURIComponent(MENU_SHEET_NAME)}`;
+    const r=await fetch(url,{cache:'no-store'}); if(!r.ok)throw 0;
+    const rows=parseCSV(await r.text()); if(rows.length<2)throw 0;
+    const h=rows[0].map(x=>x.toLowerCase().trim());
+    const col=kw=>h.findIndex(c=>c.includes(kw));
+    const iDate=col('date'), iType=col('meal type')!==-1?col('meal type'):col('type'),
+          iName=col('recipe')!==-1?col('recipe'):(col('name')!==-1?col('name'):2);
+    const get=(r,i)=>(i>=0&&i<r.length?r[i]:'').trim();
+    const meals=rows.slice(1)
+      .map(r=>({date:normMenuDate(get(r,iDate)),type:get(r,iType),name:get(r,iName)}))
+      .filter(m=>m.date===TODAY&&m.name);
+    const byType={};
+    meals.forEach(m=>{const k=mealTypeKey(m.type);if(!byType[k])byType[k]=[];byType[k].push(m);});
+    injectMeal('meal-breakfast', byType['breakfast'], '🌅');
+    injectMeal('meal-lunch',     byType['lunch'],     '🥗');
+    injectMeal('meal-supper',    byType['supper'],    '🍽️');
+  }catch(e){ /* silent — fallback text stays */ }
+}
+
+function injectMeal(elId, meals, emoji){
+  const el=document.getElementById(elId); if(!el)return;
+  if(!meals||!meals.length){ el.textContent=''; return; }
+  el.innerHTML=meals.map(m=>`<span class="meal-pill">${emoji} ${esc(m.name)}</span>`).join(' ');
+}
+
 </script>
 </body>
 </html>

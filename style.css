@@ -4158,3 +4158,22 @@ code {
 .menu-wrap       { margin: 8px 12px 24px; }
 .menu-frame-wrap { background: #fff; border-radius: 14px; box-shadow: 0 1px 4px rgba(0,0,0,.06); overflow: hidden; }
 .menu-embed      { width: 100%; border: none; height: 440px; display: block; }
+
+
+/* ===== FROM: oliver.html / logan.html (inline meal pills) ===== */
+.meal-pill {
+  display: inline-block;
+  background: rgba(255,255,255,.15);
+  border: 1px solid rgba(255,255,255,.25);
+  border-radius: 20px;
+  padding: 2px 10px;
+  font-size: 11px;
+  font-weight: 800;
+  margin-top: 4px;
+  color: var(--muted);
+}
+.sched-slot .meal-pill {
+  color: var(--ink);
+  background: #f0f8fb;
+  border-color: #cce8f4;
+}

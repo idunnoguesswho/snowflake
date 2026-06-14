@@ -84,11 +84,11 @@
   </div>
 
   <div class="sched-slot" id="slot-1330">
-    <div class="s-time s-time-logan">1:30</div><div class="s-icon">📝</div>
+    <div class="s-time s-time-logan">1:30</div><div class="s-icon">🎯</div>
     <div class="s-body">
-      <div class="s-label">Afternoon Work + Chores</div>
-      <div class="s-detail">Tasks from task list, worksheets, projects. Chores before screens.</div>
-      <div class="inline-tasks" id="tasks-afternoon"></div>
+      <div class="s-label">Mission Block</div>
+      <div class="s-detail">One mission or badge challenge — chosen just for you today. <a href="badges.html" style="font-weight:800">View all badges →</a></div>
+      <div class="inline-tasks" id="tasks-mission"></div>
     </div>
   </div>
 
@@ -244,13 +244,19 @@ function routeTask(t){
 }
 
 function renderTasks(){
-  const slots=['tasks-lang-math','tasks-sci-ss','tasks-sidequest','tasks-afternoon','tasks-wellness'];
+  const slots=['tasks-lang-math','tasks-sci-ss','tasks-sidequest','tasks-mission','tasks-wellness'];
+  const LEARN_LIMIT=3; // cap per learning block
   const buckets={}; slots.forEach(s=>{buckets[s]=[];});
   TASKS.forEach(t=>buckets[routeTask(t)].push(t));
   slots.forEach(id=>{
     const el=document.getElementById(id); if(!el)return;
-    const ts=buckets[id];
-    el.innerHTML=ts.length?ts.map(taskHTML).join(''):'<div class="no-tasks">No tasks here today 🎉</div>';
+    let ts=buckets[id];
+    const isLearning=id==='tasks-lang-math'||id==='tasks-sci-ss';
+    const overflow=isLearning&&ts.length>LEARN_LIMIT?ts.length-LEARN_LIMIT:0;
+    if(isLearning)ts=ts.slice(0,LEARN_LIMIT);
+    let html=ts.length?ts.map(taskHTML).join(''):'<div class="no-tasks">No tasks here today 🎉</div>';
+    if(overflow)html+=`<div class="no-tasks">+${overflow} more — see Afternoon block</div>`;
+    el.innerHTML=html;
   });
   const total=TASKS.length, n=Object.keys(done).filter(k=>TASKS.find(t=>t.id===k)).length, pct=total?Math.round(n/total*100):0;
   document.getElementById('prog-text').textContent=`${n} of ${total} tasks done`;
@@ -259,11 +265,84 @@ function renderTasks(){
   document.getElementById('hero-badge').textContent=`${total} tasks · ${pct}% done`;
 }
 
+/* ── MISSION BLOCK ── */
+const MISSION_CATS = new Set(['mission','wellbeing','faith','recovery','ncso']);
+let BADGES_DATA = [];
+
+async function loadBadges(){
+  try{
+    const r = await fetch('badges.html',{cache:'no-store'});
+    const txt = await r.text();
+    const m = txt.match(/const BADGES = (\[[\s\S]*?\]);/);
+    if(!m) return;
+    BADGES_DATA = Function('"use strict";return '+m[1])();
+  } catch(e){ BADGES_DATA = []; }
+}
+
+const MISSION_KEY = `${P}_missions`;
+function getMissionsDone(){ try{ return JSON.parse(localStorage.getItem(MISSION_KEY)||'[]'); }catch(e){return[];} }
+function markMissionDone(id){ const d=getMissionsDone(); if(!d.includes(id)){d.push(id);localStorage.setItem(MISSION_KEY,JSON.stringify(d));} }
+
+function pickMission(){
+  const el = document.getElementById('tasks-mission');
+  if(!el) return;
+  const done = getMissionsDone();
+  // Also pull unfinished tasks in mission-type categories
+  const openTasks = TASKS.filter(t=>{
+    const c=(t.category||'').toLowerCase().trim();
+    return ['mission','wellbeing','faith'].includes(c) && !done[t.id];
+  });
+  // And unfinished badges
+  const earnedBadges = getMissionsDone();
+  const openBadges = BADGES_DATA.filter(b=>MISSION_CATS.has(b.cat)&&!earnedBadges.includes(b.id));
+  // Pick one task or one badge randomly
+  const pool = [...openTasks, ...openBadges.map(b=>({_badge:true,...b}))];
+  if(!pool.length){
+    el.innerHTML='<div class="no-tasks">🏆 All missions complete! Amazing work.</div>';
+    return;
+  }
+  // Seed by date so it stays stable all day
+  const seed = parseInt(TODAY.replace(/-/g,'')) % pool.length;
+  const pick = pool[seed % pool.length];
+  if(pick._badge){
+    el.innerHTML = missionBadgeHTML(pick);
+  } else {
+    el.innerHTML = taskHTML(pick);
+  }
+}
+
+function missionBadgeHTML(b){
+  const isDone = getMissionsDone().includes(b.id);
+  const steps = (b.steps||[]).slice(0,3).map((s,i)=>`<div style="margin-bottom:4px"><strong>${i+1}.</strong> ${esc(s)}</div>`).join('');
+  return `<div class="itask">
+    <div class="itask-check itask-check-${P}${isDone?' done':''}" onclick="toggleMission('${esc(b.id)}')">${isDone?'✓':''}</div>
+    <div class="itask-body">
+      <div class="itask-title${isDone?' done':''}">${b.icon||'🎯'} ${esc(b.name)}</div>
+      <div class="itask-tags"><span class="itag itag-${P}">Badge Mission</span><span class="itag itag-${P}">${esc(b.cat)}</span></div>
+      <div class="itask-desc">${esc(b.goal||'')}</div>
+      ${steps?`<span class="itask-expand itask-expand-${P}" onclick="toggleWs('bws-${esc(b.id)}')">📋 Steps</span>
+      <div class="itask-full itask-full-${P}" id="bws-${esc(b.id)}">${steps}</div>`:''}
+      ${!isDone?`<button class="itask-complete-btn itask-complete-btn-${P}" onclick="toggleMission('${esc(b.id)}')">🏅 Mark complete</button>`:''}
+    </div>
+  </div>`;
+}
+
+function toggleMission(id){
+  const done = getMissionsDone();
+  if(done.includes(id)){
+    const nd=done.filter(x=>x!==id); localStorage.setItem(MISSION_KEY,JSON.stringify(nd));
+  } else {
+    done.push(id); localStorage.setItem(MISSION_KEY,JSON.stringify(done));
+    toast('🏅 Mission complete!');
+  }
+  pickMission();
+}
+
 (async()=>{
-  try{ TASKS=buildTasks(await loadSheet()); renderTasks(); }
+  try{ TASKS=buildTasks(await loadSheet()); renderTasks(); await loadBadges(); pickMission(); }
   catch(e){
     document.getElementById('hero-badge').textContent='⚠ Offline';
-    ['tasks-lang-math','tasks-sci-ss','tasks-sidequest','tasks-afternoon','tasks-wellness']
+    ['tasks-lang-math','tasks-sci-ss','tasks-sidequest','tasks-mission','tasks-wellness']
       .forEach(id=>{ const el=document.getElementById(id); if(el)el.innerHTML='<div class="no-tasks">Could not load tasks.</div>'; });
   }
 })();

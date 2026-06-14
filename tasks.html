@@ -595,7 +595,7 @@ async function doComplete(key) {
   const today = todayIsoDate();
   const nextTask = nextTaskInCategory(t);
 
-  // Optimistically update UI immediately — don't wait on the network
+  // 1. Optimistically update UI immediately
   t.isDone = true;
   t.isAssigned = false;
   t.completedDate = today;
@@ -611,45 +611,27 @@ async function doComplete(key) {
   }
   burst();
 
-  // Write to Google Sheet in the background
-  // Apps Script web apps require no-cors mode from the browser —
-  // we can't read the response but the POST still lands and updates the sheet.
+  // 2. Write to sheet via GET with URL params — works cross-origin, no CORS preflight
   const endpoint = sheetEndpoint();
   if(!endpoint) return;
 
-  const body = JSON.stringify({
+  const params = new URLSearchParams({
+    action: 'complete',
     rowNumber: t.rowNumber,
-    completedDate: today,
-    assignNextRowNumber: nextTask ? nextTask.rowNumber : null,
-    assignedDate: today
+    completedDate: today
   });
+  if(nextTask) {
+    params.set('assignNextRowNumber', nextTask.rowNumber);
+    params.set('assignedDate', today);
+  }
 
   try {
-    // Try a normal fetch first (works when Apps Script CORS is configured)
-    const res = await fetch(endpoint, {
-      method: 'POST',
-      headers: { 'Content-Type': 'text/plain' },   // text/plain avoids preflight
-      body
-    });
-    // Apps Script returns a redirect to a login page on auth errors — catch that
-    const text = await res.text();
-    let parsed;
-    try { parsed = JSON.parse(text); } catch(e) { parsed = null; }
-    if(parsed && parsed.ok === false) {
-      toast(`⚠️ Sheet write: ${parsed.error || 'unknown error'}`);
-    }
-  } catch(fetchErr) {
-    // CORS blocked — fall back to no-cors (fire-and-forget; response unreadable but write lands)
-    try {
-      await fetch(endpoint, {
-        method: 'POST',
-        mode: 'no-cors',
-        headers: { 'Content-Type': 'text/plain' },
-        body
-      });
-    } catch(noCorsErr) {
-      toast(`⚠️ Could not reach sheet: ${noCorsErr.message}`);
-    }
+    const res = await fetch(`${endpoint}?${params}`);
+    if(!res.ok) throw new Error(`HTTP ${res.status}`);
+    const payload = await res.json();
+    if(payload.ok === false) toast(`⚠️ Sheet: ${payload.error || 'unknown error'}`);
+  } catch(err) {
+    toast(`⚠️ Could not write to sheet: ${err.message}`);
   }
 }
 

@@ -28,6 +28,9 @@
   </div>
 </div>
 
+<div class="sched-section-label sched-section-label-logan">🏆 Leaderboard</div>
+<div class="lb-card" id="leaderboard-card"></div>
+
 <div class="sched-section-label sched-section-label-logan">☀️ Today's Schedule</div>
 <div class="sched-wrap">
 
@@ -441,6 +444,72 @@ function injectMeal(elId, meals, emoji){
   el.innerHTML=meals.map(m=>`<span class="meal-pill">${emoji} ${esc(m.name)}</span>`).join(' ');
 }
 
+
+/* -- LEADERBOARD -- */
+const LB_PEOPLE = [
+  {key:'oliver', emoji:'🧒', label:'Oliver'},
+  {key:'logan',  emoji:'🌱', label:'Logan'},
+  {key:'mom',    emoji:'👩', label:'Mom'},
+];
+
+function getPoints(person){
+  const key = person + '_done_' + TODAY;
+  try{ const d = JSON.parse(localStorage.getItem(key)||'{}'); return Object.keys(d).length * 2; }catch(e){return 0;}
+}
+function getBadgeCount(person){
+  try{ const e = JSON.parse(localStorage.getItem('sf_badges_'+person)||'[]'); return Array.isArray(e)?e.length:0; }catch(e){return 0;}
+}
+function renderLeaderboard(){
+  const el = document.getElementById('leaderboard-card'); if(!el) return;
+  const scores = LB_PEOPLE.map(p=>({...p, pts:getPoints(p.key), badges:getBadgeCount(p.key)}))
+    .sort((a,b)=>b.pts-a.pts||b.badges-a.badges);
+  const medals = ['🥇','🥈','🥉'];
+  el.innerHTML = scores.map((p,i)=>{
+    const isYou = p.key==='logan';
+    return `<div class="lb-row${isYou?' lb-you-logan':''}">
+      <div class="lb-rank">${medals[i]||'·'}</div>
+      <div class="lb-avatar">${p.emoji}</div>
+      <div class="lb-info">
+        <div class="lb-name">${p.label}${isYou?' (you)':''}</div>
+        <div class="lb-meta">${p.badges} badge${p.badges!==1?'s':''}</div>
+      </div>
+      <div class="lb-pts">${p.pts} pts</div>
+    </div>`;
+  }).join('');
+}
+
+/* -- CALENDAR EVENTS -- */
+const TODAY_EVENTS = [{"summary": "Church", "start": "10:00", "end": "11:30", "location": "Fort Saskatchewan Community Church"}, {"summary": "Reux and Remis birthday", "start": "12:00", "end": "15:00", "location": "9009-96 street fort saskatchewan", "description": "Bring bathing suit, towel and gift"}];
+function injectCalendarEvents(){
+  TODAY_EVENTS.forEach(ev=>{
+    const [h,m] = ev.start.split(':').map(Number);
+    const evH = h + m/60;
+    const slotMap = [
+      [7.5,8,'slot-730'],[8,8.5,'slot-800'],[8.5,9,'slot-830'],
+      [9,10,'slot-900'],[10,10.25,'slot-1000'],[10.25,12,'slot-1015'],
+      [12,12.5,'slot-1200'],[12.5,13.5,'slot-1230'],[13.5,15.5,'slot-1330'],
+      [15.5,17.5,'slot-1530'],[17.5,19,'slot-1730'],[19,20,'slot-1900'],
+    ];
+    let target = null;
+    for(const [s,e,id] of slotMap){ if(evH>=s&&evH<e){target=id;break;} }
+    if(!target) return;
+    const slotEl = document.getElementById(target); if(!slotEl) return;
+    const body = slotEl.querySelector('.s-body'); if(!body) return;
+    const chip = document.createElement('div');
+    chip.className = 'cal-event';
+    chip.innerHTML = `<div class="cal-event-time">${ev.start}–${ev.end}</div>
+      <div class="cal-event-body">
+        <div class="cal-event-title">📅 ${esc(ev.summary)}</div>
+        ${ev.location?`<div class="cal-event-loc">📍 ${esc(ev.location)}</div>`:''}
+        ${ev.description?`<div class="cal-event-note">${esc(ev.description)}</div>`:''}
+      </div>`;
+    body.appendChild(chip);
+  });
+}
+
+
+injectCalendarEvents();
+renderLeaderboard();
 </script>
 </body>
 </html>

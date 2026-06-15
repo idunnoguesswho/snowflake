@@ -243,7 +243,8 @@ function parseCSVQuotes(raw, today) {
   while (i < n) {
     const row = [];
     while (i < n && raw[i] !== "
-" && raw[i] !== "") {
+" && raw[i] !== "
+") {
       if (raw[i] === '"') {
         let c = ""; i++;
         while (i < n) {
@@ -255,12 +256,14 @@ function parseCSVQuotes(raw, today) {
       } else {
         let c = "";
         while (i < n && raw[i] !== "," && raw[i] !== "
-" && raw[i] !== "") c += raw[i++];
+" && raw[i] !== "
+") c += raw[i++];
         row.push(c.trim()); if (raw[i] === ",") i++;
       }
     }
     while (raw[i] === "
-" || raw[i] === "") i++;
+" || raw[i] === "
+") i++;
     if (row.some(c => c)) rows.push(row);
   }
   if (rows.length < 2) throw new Error("Sheet has no data rows");
@@ -369,19 +372,19 @@ async function init() {
     </div>`;
   document.getElementById("sources-footer").style.display = "none";
 
-  // Try Apps Script first, fall back to gviz/tq
+  // Try CSV export first (most reliable — no auth, no script needed)
   let quotes;
   try {
-    quotes = await fetchFromAppsScript(today);
-  } catch (appsScriptErr) {
-    console.warn("Apps Script fetch failed, trying gviz fallback:", appsScriptErr.message);
+    quotes = await fetchFromSheet(today);
+  } catch (csvErr) {
+    console.warn("CSV fetch failed, trying Apps Script:", csvErr.message);
     try {
-      quotes = await fetchFromSheet(today);
-    } catch (csvErr) {
+      quotes = await fetchFromAppsScript(today);
+    } catch (appsScriptErr) {
       try {
         quotes = await fetchFromSheetGviz(today);
       } catch (gvizErr) {
-        renderError(`Could not load quotes.\n\nApps Script: ${appsScriptErr.message}\nCSV: ${csvErr.message}\nGviz: ${gvizErr.message}`);
+        renderError(`Could not load quotes.\n\nCSV: ${csvErr.message}\nApps Script: ${appsScriptErr.message}\nGviz: ${gvizErr.message}`);
         return;
       }
     }

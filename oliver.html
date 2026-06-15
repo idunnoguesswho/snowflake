@@ -408,7 +408,7 @@ function toggleMission(id){
 }
 
 (async()=>{
-  try{ TASKS=buildTasks(await loadSheet()); renderTasks(); await loadBadges(); pickMission(); await loadMenuForSchedule(); }
+  try{ TASKS=buildTasks(await loadSheet()); renderTasks(); await loadBadges(); pickMission(); await loadMenuForSchedule(); await loadCalendarEvents(); await loadLeaderboardPoints(); }
   catch(e){
     document.getElementById('hero-badge').textContent='⚠ Offline';
     ['tasks-block1','tasks-block2','tasks-sidequest','tasks-mission','tasks-wellness']
@@ -489,44 +489,27 @@ function injectMeal(elId, meals, emoji){
 }
 
 
-/* -- LEADERBOARD -- */
-const LB_PEOPLE = [
-  {key:'oliver', emoji:'🧒', label:'Oliver'},
-  {key:'logan',  emoji:'🌱', label:'Logan'},
-  {key:'mom',    emoji:'👩', label:'Mom'},
-];
 
-function getPoints(person){
-  const key = person + '_done_' + TODAY;
-  try{ const d = JSON.parse(localStorage.getItem(key)||'{}'); return Object.keys(d).length * 2; }catch(e){return 0;}
-}
-function getBadgeCount(person){
-  try{ const e = JSON.parse(localStorage.getItem('sf_badges_'+person)||'[]'); return Array.isArray(e)?e.length:0; }catch(e){return 0;}
-}
-function renderLeaderboard(){
-  const el = document.getElementById('leaderboard-card'); if(!el) return;
-  const scores = LB_PEOPLE.map(p=>({...p, pts:getPoints(p.key), badges:getBadgeCount(p.key)}))
-    .sort((a,b)=>b.pts-a.pts||b.badges-a.badges);
-  const medals = ['🥇','🥈','🥉'];
-  el.innerHTML = scores.map((p,i)=>{
-    const isYou = p.key==='oliver';
-    return `<div class="lb-row${isYou?' lb-you':''}">
-      <div class="lb-rank">${medals[i]||'·'}</div>
-      <div class="lb-avatar">${p.emoji}</div>
-      <div class="lb-info">
-        <div class="lb-name">${p.label}${isYou?' (you)':''}</div>
-        <div class="lb-meta">${p.badges} badge${p.badges!==1?'s':''}</div>
-      </div>
-      <div class="lb-pts">${p.pts} pts</div>
-    </div>`;
-  }).join('');
+/* -- CALENDAR EVENTS (live from Apps Script) -- */
+async function loadCalendarEvents(){
+  try{
+    const url = APPS_SCRIPT_URL + '?tab=calendar&person=oliver&date=' + TODAY;
+    const r = await fetch(url, {cache:'no-store'});
+    if(!r.ok) throw new Error('HTTP '+r.status);
+    const data = await r.json();
+    if(!data.ok || !data.events) throw new Error(data.error||'No events');
+    injectCalendarEvents(data.events);
+  }catch(e){
+    // silent — baked-in events still show if script unreachable
+    injectCalendarEvents(TODAY_EVENTS);
+  }
 }
 
-/* -- CALENDAR EVENTS -- */
-const TODAY_EVENTS = [{"summary": "Church", "start": "10:00", "end": "11:30", "location": "Fort Saskatchewan Community Church"}];
-function injectCalendarEvents(){
-  TODAY_EVENTS.forEach(ev=>{
-    const [h,m] = ev.start.split(':').map(Number);
+function injectCalendarEvents(events){
+  // Clear any previously injected chips first
+  document.querySelectorAll('.cal-event').forEach(el=>el.remove());
+  (events||[]).forEach(ev=>{
+    const [h,m] = (ev.start||'0:0').split(':').map(Number);
     const evH = h + m/60;
     const slotMap = [
       [7.5,8,'slot-730'],[8,8.5,'slot-800'],[8.5,9,'slot-830'],
@@ -541,7 +524,7 @@ function injectCalendarEvents(){
     const body = slotEl.querySelector('.s-body'); if(!body) return;
     const chip = document.createElement('div');
     chip.className = 'cal-event';
-    chip.innerHTML = `<div class="cal-event-time">${ev.start}–${ev.end}</div>
+    chip.innerHTML = `<div class="cal-event-time">${esc(ev.start)}–${esc(ev.end)}</div>
       <div class="cal-event-body">
         <div class="cal-event-title">📅 ${esc(ev.summary)}</div>
         ${ev.location?`<div class="cal-event-loc">📍 ${esc(ev.location)}</div>`:''}
@@ -551,9 +534,56 @@ function injectCalendarEvents(){
   });
 }
 
+/* -- LEADERBOARD (live points from Apps Script) -- */
+async function loadLeaderboardPoints(){
+  try{
+    const url = APPS_SCRIPT_URL + '?tab=points';
+    const r = await fetch(url, {cache:'no-store'});
+    if(!r.ok) throw new Error('HTTP '+r.status);
+    const data = await r.json();
+    if(!data.ok || !data.points) throw new Error(data.error||'No points');
+    renderLeaderboard(data.points);
+  }catch(e){
+    renderLeaderboard({});
+  }
+}
 
-injectCalendarEvents();
-renderLeaderboard();
+const LB_PEOPLE = [
+  {key:'Oliver', emoji:'🧒', label:'Oliver'},
+  {key:'Logan',  emoji:'🌱', label:'Logan'},
+  {key:'Mom',    emoji:'👩', label:'Mom'},
+];
+
+function getBadgeCount(person){
+  try{ const e=JSON.parse(localStorage.getItem('sf_badges_'+person.toLowerCase())||'[]'); return Array.isArray(e)?e.length:0; }catch(e){return 0;}
+}
+
+function renderLeaderboard(sheetPoints){
+  const el = document.getElementById('leaderboard-card'); if(!el) return;
+  const scores = LB_PEOPLE.map(p=>({
+    ...p,
+    pts: (sheetPoints&&sheetPoints[p.key])||0,
+    badges: getBadgeCount(p.key),
+  })).sort((a,b)=>b.pts-a.pts||b.badges-a.badges);
+  const medals=['🥇','🥈','🥉'];
+  el.innerHTML = scores.map((p,i)=>{
+    const isYou = p.key.toLowerCase()===P;
+    return `<div class="lb-row${isYou?' lb-you':''}">
+      <div class="lb-rank">${medals[i]||'·'}</div>
+      <div class="lb-avatar">${p.emoji}</div>
+      <div class="lb-info">
+        <div class="lb-name">${esc(p.label)}${isYou?' <span style=\"font-size:10px;opacity:.7\">(you)</span>':''}</div>
+        <div class="lb-meta">${p.badges} badge${p.badges!==1?'s':''}</div>
+      </div>
+      <div class="lb-pts">${p.pts.toLocaleString()} pts</div>
+    </div>`;
+  }).join('');
+}
+
+// init
+await loadCalendarEvents();
+await loadLeaderboardPoints();
+
 </script>
 </body>
 </html>

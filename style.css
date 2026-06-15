@@ -4223,3 +4223,5 @@ code {
 .cal-event-title { font-size: 13px; font-weight: 900; color: #9a3412; }
 .cal-event-loc { font-size: 11px; color: #c2410c; margin-top: 2px; }
 .cal-event-note { font-size: 11px; color: #c2410c; margin-top: 2px; font-style: italic; }
+
+.lb-you-mom { background: linear-gradient(135deg,#f3e8ff,#e9d5ff); }

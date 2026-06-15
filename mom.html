@@ -1014,5 +1014,76 @@ function toast(msg){ const el=document.createElement('div'); el.className='toast
 
 render();
 </script>
+
+<script>
+/* ── Mom: Calendar + Leaderboard via Apps Script ── */
+const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxrNaM1VxinXBWPJcd5zskwl00prHu7zASZF8uhzDnZXfH70LezRfbb4-qNJLnr7_0Z/exec';
+const TODAY = new Date().toISOString().slice(0,10);
+const HOUR  = new Date().getHours() + new Date().getMinutes()/60;
+
+function esc(s){ return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+/* ── Calendar ── */
+async function loadMomCalendar(){
+  try{
+    const r = await fetch(APPS_SCRIPT_URL+'?tab=calendar&person=mom&date='+TODAY, {cache:'no-store'});
+    const data = await r.json();
+    if(data.ok && data.events) renderMomCalendar(data.events);
+  }catch(e){}
+}
+
+function renderMomCalendar(events){
+  const el = document.getElementById('mom-cal-events');
+  if(!el||!events.length)return;
+  el.innerHTML = events.map(ev=>`
+    <div class="cal-event">
+      <div class="cal-event-time">${esc(ev.start)}–${esc(ev.end)}</div>
+      <div class="cal-event-body">
+        <div class="cal-event-title">📅 ${esc(ev.summary)}</div>
+        ${ev.location?`<div class="cal-event-loc">📍 ${esc(ev.location)}</div>`:''}
+        ${ev.description?`<div class="cal-event-note">${esc(ev.description)}</div>`:''}
+      </div>
+    </div>`).join('');
+}
+
+/* ── Leaderboard ── */
+const LB_PEOPLE = [
+  {key:'Oliver', emoji:'🧒', label:'Oliver'},
+  {key:'Logan',  emoji:'🌱', label:'Logan'},
+  {key:'Mom',    emoji:'👩', label:'Mom'},
+];
+function getBadgeCount(person){
+  try{ const e=JSON.parse(localStorage.getItem('sf_badges_'+person.toLowerCase())||'[]'); return Array.isArray(e)?e.length:0; }catch(e){return 0;}
+}
+async function loadMomLeaderboard(){
+  try{
+    const r = await fetch(APPS_SCRIPT_URL+'?tab=points', {cache:'no-store'});
+    const data = await r.json();
+    renderLeaderboard(data.ok?data.points:{});
+  }catch(e){ renderLeaderboard({}); }
+}
+function renderLeaderboard(pts){
+  const el = document.getElementById('mom-leaderboard'); if(!el) return;
+  const scores = LB_PEOPLE.map(p=>(({...p, pts:(pts&&pts[p.key])||0, badges:getBadgeCount(p.key)})))
+    .sort((a,b)=>b.pts-a.pts||b.badges-a.badges);
+  const medals=['🥇','🥈','🥉'];
+  el.innerHTML = scores.map((p,i)=>{
+    const isYou = p.key==='Mom';
+    return `<div class="lb-row${isYou?' lb-you-mom':''}">
+      <div class="lb-rank">${medals[i]||'·'}</div>
+      <div class="lb-avatar">${p.emoji}</div>
+      <div class="lb-info">
+        <div class="lb-name">${esc(p.label)}${isYou?' <span style=\"font-size:10px;opacity:.7\">(you)</span>':''}</div>
+        <div class="lb-meta">${p.badges} badge${p.badges!==1?'s':''}</div>
+      </div>
+      <div class="lb-pts">${p.pts.toLocaleString()} pts</div>
+    </div>`;
+  }).join('');
+}
+
+loadMomCalendar();
+loadMomLeaderboard();
+</script>
+
 </body>
 </html>

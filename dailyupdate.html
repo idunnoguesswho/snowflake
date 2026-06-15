@@ -1,216 +1,244 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Daily Dashboard — Friday, June 12, 2026</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Daily Update – June 15, 2026 | Snowflake</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Baloo+2:wght@400;600;700;800&display=swap" rel="stylesheet">
 <style>
   :root {
-    --bg:#f4f5f7;--card:#fff;--text:#111827;--muted:#6b7280;--border:#e5e7eb;
-    --work:#378ADD;--work-l:#dbeafe;--errand:#1D9E75;--errand-l:#d1fae5;
-    --family:#D4537E;--family-l:#fce7f3;--task:#BA7517;--task-l:#fef3c7;
-    --carnival:#7C3AED;--carnival-l:#ede9fe;
-    --r:10px;
-    font-family:'Segoe UI',system-ui,sans-serif;
+    --bg: #f7f3ff;
+    --card: #ffffff;
+    --border: #e0d9f5;
+    --text: #2d2250;
+    --muted: #7b6fa0;
+    --accent: #7c3aed;
+    --work: #378ADD;
+    --family: #D4537E;
+    --task: #BA7517;
+    --errand: #1D9E75;
+    --personal: #9333ea;
+    --urgent: #dc2626;
   }
-  *{box-sizing:border-box;margin:0;padding:0}
-  body{background:var(--bg);color:var(--text);padding:20px;min-height:100vh}
-  h1{font-size:1.15rem;font-weight:800;margin-bottom:3px}
-  .sub{color:var(--muted);font-size:.82rem;margin-bottom:18px}
-  .carnival-banner{background:linear-gradient(135deg,#7C3AED,#EC4899);color:#fff;border-radius:var(--r);padding:10px 16px;margin-bottom:16px;font-weight:700;font-size:.88rem;display:flex;align-items:center;gap:8px}
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Nunito', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
 
-  /* METRICS */
-  .metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:20px}
-  .metric{background:var(--card);border-radius:var(--r);padding:14px 16px;border:1px solid var(--border)}
-  .mv{font-size:1.8rem;font-weight:900;line-height:1}
-  .ml{font-size:.7rem;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;margin-top:4px}
+  .hero {
+    background: linear-gradient(135deg, #7c3aed 0%, #a855f7 50%, #ec4899 100%);
+    color: white; padding: 28px 20px 22px; text-align: center;
+  }
+  .hero-date { font-size: 0.85rem; letter-spacing: 2px; text-transform: uppercase; opacity: 0.85; margin-bottom: 4px; }
+  .hero-title { font-family: 'Baloo 2', sans-serif; font-size: 1.9rem; font-weight: 800; }
+  .hero-sub { font-size: 0.9rem; opacity: 0.8; margin-top: 4px; }
 
-  /* GRID */
-  .grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
-  @media(max-width:680px){.metrics{grid-template-columns:1fr 1fr}.grid{grid-template-columns:1fr}}
+  .stats-row {
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px;
+    padding: 16px 16px 0;
+  }
+  .stat-card {
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: 14px; padding: 14px 10px; text-align: center;
+  }
+  .stat-num { font-family: 'Baloo 2', sans-serif; font-size: 1.8rem; font-weight: 800; color: var(--accent); line-height: 1; }
+  .stat-num.urgent { color: var(--urgent); }
+  .stat-lbl { font-size: 0.7rem; color: var(--muted); margin-top: 3px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; }
 
-  .panel{background:var(--card);border-radius:var(--r);border:1px solid var(--border);padding:16px}
-  .pt{font-size:.75rem;font-weight:800;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin-bottom:12px}
+  .section { padding: 16px 16px 0; }
+  .section-title {
+    font-family: 'Baloo 2', sans-serif; font-size: 1rem; font-weight: 700;
+    color: var(--accent); margin-bottom: 10px; display: flex; align-items: center; gap: 6px;
+  }
 
-  /* TIMELINE */
-  .tl{display:flex;align-items:flex-start;gap:10px;padding:7px 0;border-bottom:1px solid var(--border)}
-  .tl:last-child{border-bottom:none}
-  .tt{font-size:.7rem;color:var(--muted);min-width:46px;margin-top:2px}
-  .td{width:9px;height:9px;border-radius:50%;margin-top:4px;flex-shrink:0}
-  .tc{flex:1}
-  .tn{font-size:.83rem;font-weight:600}
-  .ts{font-size:.7rem;color:var(--muted);margin-top:1px}
-  .badge{display:inline-block;font-size:.63rem;font-weight:700;padding:1px 6px;border-radius:99px;margin-left:5px;vertical-align:middle}
-  .bw{background:var(--work-l);color:var(--work)}
-  .bt{background:var(--task-l);color:var(--task)}
-  .bf{background:var(--family-l);color:var(--family)}
-  .be{background:var(--errand-l);color:var(--errand)}
-  .bc{background:var(--carnival-l);color:var(--carnival)}
+  .alert-banner {
+    background: #fef2f2; border: 1px solid #fecaca; border-radius: 14px;
+    padding: 12px 16px; display: flex; gap: 10px; align-items: flex-start;
+    font-size: 0.87rem;
+  }
+  .alert-icon { font-size: 1.1rem; flex-shrink: 0; }
+  .alert-text { line-height: 1.5; color: #991b1b; }
+  .alert-text strong { color: #7f1d1d; }
 
-  /* RIGHT */
-  .rcol{display:flex;flex-direction:column;gap:16px}
+  .timeline { display: flex; flex-direction: column; gap: 0; }
+  .tl-item {
+    display: flex; align-items: flex-start; gap: 12px;
+    padding: 10px 14px; background: var(--card);
+    border: 1px solid var(--border);
+    border-bottom: none;
+  }
+  .tl-item:first-child { border-radius: 14px 14px 0 0; }
+  .tl-item:last-child { border-radius: 0 0 14px 14px; border-bottom: 1px solid var(--border); }
+  .tl-item:only-child { border-radius: 14px; border-bottom: 1px solid var(--border); }
+  .tl-item.all-day { background: #fefce8; border-color: #fde68a; }
+  .tl-time { font-size: 0.72rem; color: var(--muted); font-weight: 700; min-width: 48px; padding-top: 2px; }
+  .tl-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; margin-top: 5px; }
+  .tl-body { flex: 1; }
+  .tl-title { font-size: 0.88rem; font-weight: 700; line-height: 1.3; }
+  .tl-sub { font-size: 0.75rem; color: var(--muted); margin-top: 1px; }
+  .badge {
+    display: inline-block; font-size: 0.65rem; font-weight: 700;
+    padding: 1px 7px; border-radius: 20px; margin-left: 6px;
+    text-transform: uppercase; letter-spacing: 0.4px; vertical-align: middle;
+  }
+  .badge-work     { background: #dbeafe; color: #1d4ed8; }
+  .badge-family   { background: #fce7f3; color: #be185d; }
+  .badge-task     { background: #fef3c7; color: #92400e; }
+  .badge-errand   { background: #d1fae5; color: #065f46; }
+  .badge-personal { background: #f3e8ff; color: #6b21a8; }
+  .badge-urgent   { background: #fee2e2; color: #991b1b; }
 
-  /* BARS */
-  .br{display:flex;align-items:center;gap:8px;margin-bottom:8px}
-  .bl{font-size:.7rem;width:54px;color:var(--muted)}
-  .btr{flex:1;background:var(--bg);border-radius:4px;height:13px;overflow:hidden}
-  .bf2{height:100%;border-radius:4px}
-  .bv{font-size:.68rem;color:var(--muted);width:26px;text-align:right}
+  .dot-work     { background: var(--work); }
+  .dot-family   { background: var(--family); }
+  .dot-task     { background: var(--task); }
+  .dot-errand   { background: var(--errand); }
+  .dot-personal { background: var(--personal); }
+  .dot-urgent   { background: var(--urgent); }
 
-  /* INBOX */
-  .ir{display:flex;align-items:center;gap:8px;padding:7px 0;border-bottom:1px solid var(--border)}
-  .ir:last-child{border-bottom:none}
-  .ud{width:7px;height:7px;border-radius:50%;background:#ef4444;flex-shrink:0}
-  .rd{width:7px;height:7px;border-radius:50%;flex-shrink:0}
-  .isn{font-size:.74rem;font-weight:700;min-width:80px}
-  .isub{font-size:.7rem;color:var(--muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex:1}
+  .note-card {
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: 14px; padding: 14px 16px;
+    font-size: 0.87rem; line-height: 1.6; color: var(--text);
+  }
+  .note-card p + p { margin-top: 8px; }
 
-  /* TASKS */
-  .tr2{display:flex;gap:8px;align-items:flex-start;padding:6px 0;border-bottom:1px solid var(--border)}
-  .tr2:last-child{border-bottom:none}
-  .tb{width:8px;height:8px;border-radius:2px;background:var(--task);margin-top:4px;flex-shrink:0}
-  .tx{font-size:.79rem}
-  .tm{font-size:.68rem;color:var(--muted);margin-left:auto;white-space:nowrap}
+  .spacer { height: 20px; }
+  .footer {
+    text-align: center; font-size: 0.72rem; color: var(--muted);
+    padding: 18px 16px 28px;
+  }
+  a { color: var(--accent); text-decoration: none; }
 </style>
 </head>
 <body>
 
-<h1>📋 Daily Dashboard</h1>
-<p class="sub">Friday, June 12, 2026 &nbsp;·&nbsp; Fort Saskatchewan / Bruderheim, AB &nbsp;·&nbsp; 6:00 AM</p>
-
-<div class="carnival-banner">🎡 Bruderheim Carnival starts today — runs Jun 12–14! Don't forget to take the boys.</div>
-
-<div class="metrics">
-  <div class="metric"><div class="mv" style="color:var(--family)">2</div><div class="ml">1:1 Meetings</div></div>
-  <div class="metric"><div class="mv" style="color:var(--task)">8</div><div class="ml">Tasks Scheduled</div></div>
-  <div class="metric"><div class="mv" style="color:var(--errand)">1</div><div class="ml">Inbox Today</div></div>
-  <div class="metric"><div class="mv" style="color:var(--carnival)">🎡</div><div class="ml">Carnival Weekend</div></div>
+<div class="hero">
+  <div class="hero-date">Monday · June 15, 2026</div>
+  <div class="hero-title">📋 Daily Update</div>
+  <div class="hero-sub">Snowflake · Katie Snow</div>
 </div>
 
-<div class="grid">
-
-  <!-- TIMELINE -->
-  <div class="panel">
-    <div class="pt">Today's Timeline</div>
-
-    <div class="tl">
-      <span class="tt">7:30</span><span class="td" style="background:var(--task)"></span>
-      <div class="tc"><span class="tn">💰 Financial Logging</span><span class="badge bt">Task</span>
-      <div class="ts">30 min · GodsEye / receipt logging</div></div>
-    </div>
-
-    <div class="tl">
-      <span class="tt">8:00</span><span class="td" style="background:var(--task)"></span>
-      <div class="tc"><span class="tn">🔴 Secor Audit (carry-over day 2)</span><span class="badge bt">Task</span>
-      <div class="ts">Rescheduled from Jun 10 → 11 → 12. Do this first!</div></div>
-    </div>
-
-    <div class="tl">
-      <span class="tt">8:15</span><span class="td" style="background:var(--errand)"></span>
-      <div class="tc"><span class="tn">🧹 Clean the Vacuum (carry-over)</span><span class="badge be">Errand</span></div>
-    </div>
-
-    <div class="tl">
-      <span class="tt">8:30</span><span class="td" style="background:var(--family)"></span>
-      <div class="tc"><span class="tn">▶️ YouTube link (carry-over)</span><span class="badge bf">Family</span>
-      <div class="ts">youtu.be/O2k_qwZA8HU</div></div>
-    </div>
-
-    <div class="tl">
-      <span class="tt">8:45</span><span class="td" style="background:var(--task)"></span>
-      <div class="tc"><span class="tn">📚 NCSO 02 — Health & Safety Basics (carry-over)</span><span class="badge bt">Task</span>
-      <div class="ts">Policy, hazard control, training, emergency response</div></div>
-    </div>
-
-    <div class="tl">
-      <span class="tt">9:00</span><span class="td" style="background:var(--task)"></span>
-      <div class="tc"><span class="tn">📚 NCSO 04 — Legislation & Due Diligence</span><span class="badge bt">Task</span>
-      <div class="ts">Employer/supervisor/worker duties · Write due diligence proof</div></div>
-    </div>
-
-    <div class="tl">
-      <span class="tt">2:00</span><span class="td" style="background:var(--errand)"></span>
-      <div class="tc"><span class="tn">📅 New Event</span><span class="badge be">Errand</span>
-      <div class="ts">2:00 – 3:00 PM</div></div>
-    </div>
-
-    <div class="tl">
-      <span class="tt">4:30</span><span class="td" style="background:var(--family)"></span>
-      <div class="tc"><span class="tn">🍩 Churros Recipe — Preppy Kitchen (carry-over)</span><span class="badge bf">Family</span>
-      <div class="ts">Air fryer churros · 15 min reminder</div></div>
-    </div>
-
-    <div class="tl">
-      <span class="tt">4:30</span><span class="td" style="background:var(--family)"></span>
-      <div class="tc"><span class="tn">🍳 Cooking / Dinner</span><span class="badge bf">Family</span>
-      <div class="ts">4:30 – 6:00 PM</div></div>
-    </div>
-
-    <div class="tl">
-      <span class="tt">5:00</span><span class="td" style="background:var(--family)"></span>
-      <div class="tc"><span class="tn">🥚 Supper: Breakfast-for-Supper Egg Wraps</span><span class="badge bf">Family</span>
-      <div class="ts">5:00 – 6:00 PM · Meal plan</div></div>
-    </div>
-
-    <div class="tl">
-      <span class="tt">6:00</span><span class="td" style="background:var(--family)"></span>
-      <div class="tc"><span class="tn">💬 1:1 with Logan</span><span class="badge bf">Family</span>
-      <div class="ts">6:00 – 6:30 PM · Meet link</div></div>
-    </div>
-
-    <div class="tl">
-      <span class="tt">6:30</span><span class="td" style="background:var(--family)"></span>
-      <div class="tc"><span class="tn">🧘 Mom's Reset</span><span class="badge bf">Family</span>
-      <div class="ts">6:30 – 7:00 PM</div></div>
-    </div>
-
-    <div class="tl">
-      <span class="tt">7:00</span><span class="td" style="background:var(--family)"></span>
-      <div class="tc"><span class="tn">💬 1:1 Time with Oliver</span><span class="badge bf">Family</span>
-      <div class="ts">7:00 – 7:30 PM · Meet link</div></div>
-    </div>
-
-    <div class="tl">
-      <span class="tt">7:30</span><span class="td" style="background:var(--errand)"></span>
-      <div class="tc"><span class="tn">😎 Decompress</span><span class="badge be">Errand</span>
-      <div class="ts">Reclaim · 15 min wind-down buffer</div></div>
-    </div>
-
+<div class="stats-row">
+  <div class="stat-card">
+    <div class="stat-num">8</div>
+    <div class="stat-lbl">Events</div>
   </div>
+  <div class="stat-card">
+    <div class="stat-num urgent">1</div>
+    <div class="stat-lbl">Due Today</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-num">2</div>
+    <div class="stat-lbl">Kids 1:1s</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-num">~5h</div>
+    <div class="stat-lbl">Free Time</div>
+  </div>
+</div>
 
-  <!-- RIGHT -->
-  <div class="rcol">
+<!-- Urgent alert -->
+<div class="section">
+  <div class="alert-banner">
+    <div class="alert-icon">🚨</div>
+    <div class="alert-text"><strong>Due Today:</strong> ✅ Do the SECOR Audit — this is an all-day task with a mid-June deadline. Don't let it slip past today.</div>
+  </div>
+</div>
 
-    <div class="panel">
-      <div class="pt">Time Breakdown</div>
-      <div class="br"><span class="bl">Family</span><div class="btr"><div class="bf2" style="width:55%;background:var(--family)"></div></div><span class="bv">~3.5h</span></div>
-      <div class="br"><span class="bl">Tasks</span><div class="btr"><div class="bf2" style="width:32%;background:var(--task)"></div></div><span class="bv">~2h</span></div>
-      <div class="br"><span class="bl">Errands</span><div class="btr"><div class="bf2" style="width:20%;background:var(--errand)"></div></div><span class="bv">~1h</span></div>
-      <div class="br"><span class="bl">Carnival</span><div class="btr"><div class="bf2" style="width:12%;background:var(--carnival)"></div></div><span class="bv">TBD</span></div>
-    </div>
+<!-- Timeline -->
+<div class="section">
+  <div class="section-title">🕐 Today's Timeline</div>
+  <div class="timeline">
 
-    <div class="panel">
-      <div class="pt">Priority Tasks</div>
-      <div class="tr2"><div class="tb"></div><span class="tx">🔴 Secor Audit — DO NOT roll again!</span><span class="tm">8:00 AM</span></div>
-      <div class="tr2"><div class="tb"></div><span class="tx">📚 NCSO 02 carry-over (health & safety basics)</span><span class="tm">8:45 AM</span></div>
-      <div class="tr2"><div class="tb"></div><span class="tx">📚 NCSO 04 — Legislation & due diligence</span><span class="tm">9:00 AM</span></div>
-      <div class="tr2"><div class="tb"></div><span class="tx">💰 Financial logging (GodsEye receipts)</span><span class="tm">7:30 AM</span></div>
-      <div class="tr2"><div class="tb"></div><span class="tx">🧹 Clean the vacuum (carry-over x2)</span><span class="tm">8:15 AM</span></div>
-      <div class="tr2"><div class="tb"></div><span class="tx">🥚 Dinner: Breakfast-for-Supper Egg Wraps</span><span class="tm">5:00 PM</span></div>
-      <div class="tr2"><div class="tb"></div><span class="tx">🎡 Carnival! Check hours + plan with boys</span><span class="tm">Anytime</span></div>
-    </div>
-
-    <div class="panel">
-      <div class="pt">Inbox Today</div>
-      <div class="ir">
-        <div class="rd"></div>
-        <span class="isn">Duolingo</span>
-        <span class="isub">Dan K's not giving up on you — extend your Friend Streak! (Do a Math lesson)</span>
+    <div class="tl-item all-day">
+      <div class="tl-time">All Day</div>
+      <div class="tl-dot dot-urgent"></div>
+      <div class="tl-body">
+        <div class="tl-title">✅ Do the SECOR Audit<span class="badge badge-urgent">Urgent</span></div>
+        <div class="tl-sub">Mid-June deadline · DSHC / DS Home Computing</div>
       </div>
-      <div style="font-size:.71rem;color:var(--muted);margin-top:8px">0 unread — inbox clear 🎉</div>
+    </div>
+
+    <div class="tl-item">
+      <div class="tl-time">8:00 AM</div>
+      <div class="tl-dot dot-work"></div>
+      <div class="tl-body">
+        <div class="tl-title">💰 Financial Logging<span class="badge badge-work">Admin</span></div>
+        <div class="tl-sub">30 min · GodsEye 4_Logging tab</div>
+      </div>
+    </div>
+
+    <div class="tl-item">
+      <div class="tl-time">9:00 AM</div>
+      <div class="tl-dot dot-task"></div>
+      <div class="tl-body">
+        <div class="tl-title">📚 NCSO Study – Module 05<span class="badge badge-task">Study</span></div>
+        <div class="tl-sub">Worker rights &amp; responsibilities · 1 hr</div>
+      </div>
+    </div>
+
+    <div class="tl-item">
+      <div class="tl-time">4:30 PM</div>
+      <div class="tl-dot dot-family"></div>
+      <div class="tl-body">
+        <div class="tl-title">🍳 Cooking / Dinner<span class="badge badge-family">Family</span></div>
+        <div class="tl-sub">1.5 hrs</div>
+      </div>
+    </div>
+
+    <div class="tl-item">
+      <div class="tl-time">5:00 PM</div>
+      <div class="tl-dot dot-errand"></div>
+      <div class="tl-body">
+        <div class="tl-title">🍽️ Supper: Pulled Pork Rice Bowls<span class="badge badge-errand">Meal</span></div>
+        <div class="tl-sub">1 hr</div>
+      </div>
+    </div>
+
+    <div class="tl-item">
+      <div class="tl-time">6:00 PM</div>
+      <div class="tl-dot dot-family"></div>
+      <div class="tl-body">
+        <div class="tl-title">💙 1:1 with Logan<span class="badge badge-family">Family</span></div>
+        <div class="tl-sub">30 min · organizer: Logan</div>
+      </div>
+    </div>
+
+    <div class="tl-item">
+      <div class="tl-time">6:30 PM</div>
+      <div class="tl-dot dot-personal"></div>
+      <div class="tl-body">
+        <div class="tl-title">🌙 Mom's Reset<span class="badge badge-personal">Personal</span></div>
+        <div class="tl-sub">30 min · decompress &amp; recharge</div>
+      </div>
+    </div>
+
+    <div class="tl-item">
+      <div class="tl-time">7:00 PM</div>
+      <div class="tl-dot dot-family"></div>
+      <div class="tl-body">
+        <div class="tl-title">💛 1:1 Time with Oliver<span class="badge badge-family">Family</span></div>
+        <div class="tl-sub">30 min · organizer: Oliver</div>
+      </div>
     </div>
 
   </div>
+</div>
+
+<!-- Notes -->
+<div class="section">
+  <div class="section-title">📝 Notes &amp; Heads-Up</div>
+  <div class="note-card">
+    <p>🚨 <strong>SECOR audit is due today</strong> — mid-June deadline means this can't roll to tomorrow. Block time before the afternoon kitchen block to make meaningful progress or complete it.</p>
+    <p>📚 NCSO Module 05 this morning covers <em>worker rights to know, participate, and refuse unsafe work</em> — directly relevant to SECOR audit content, so the sequence is helpful.</p>
+    <p>💰 Financial logging at 8 AM is a quick 30 min — good way to start the day with something concrete before diving into study and audit work.</p>
+    <p>🍽️ Dinner overlap again: Cooking/dinner starts at 4:30 and Pulled Pork Rice Bowls are logged at 5:00 — treat as one 1.5 hr kitchen block ending ~6 PM.</p>
+    <p>👦 Same evening rhythm as tomorrow: Logan 1:1 → Mom's Reset → Oliver 1:1. Steady, protected routine.</p>
+  </div>
+</div>
+
+<div class="spacer"></div>
+<div class="footer">
+  Generated by Claude · Snowflake Daily Update ·
+  <a href="https://github.com/idunnoguesswho/snowflake">idunnoguesswho/snowflake</a>
 </div>
 
 </body>

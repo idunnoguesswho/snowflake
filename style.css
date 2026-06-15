@@ -1827,6 +1827,15 @@ tr:hover td { background: #fbfffb; }
 .xp-fill  { height: 100%; border-radius: 99px; transition: width .6s ease; }
 .xp-hint  { font-size: .62rem; color: var(--muted); text-align: right; font-weight: 700; }
 
+.cat-bar-wrap { margin: 10px 0 5px; }
+.cat-bar { height: 10px; border-radius: 99px; display: flex; overflow: hidden; background: var(--border); }
+.cat-seg { height: 100%; transition: width .5s ease; }
+.cat-legend { display: flex; flex-direction: column; gap: 3px; margin-bottom: 8px; }
+.cat-leg-item { display: flex; align-items: center; gap: 5px; font-size: .6rem; font-weight: 700; }
+.cat-leg-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+.cat-leg-name { flex: 1; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.cat-leg-pts { color: var(--ink); font-weight: 800; }
+
 .mini-stats { display: flex; justify-content: space-around; margin-top: 10px; padding-top: 10px; border-top: 1.5px solid var(--border); }
 .mini-stat  { text-align: center; }
 .mini-val   { font-size: .9rem; font-weight: 900; }

@@ -955,7 +955,18 @@ function toggleSession(sid, lessonId) {
   // Celebration
   if (completed[sid]) {
     const lesson = LESSONS.find(l => l.id === lessonId);
+    const session = lesson ? lesson.sessions.find(s => s.id === sid) : null;
     const nowAllDone = lessonDone(lesson);
+
+    // Write to shared activity log
+    try {
+      const log = JSON.parse(localStorage.getItem('sf_activity_log') || '[]');
+      const sessionTitle = session ? session.title : sid;
+      const lessonTitle = lesson ? lesson.title : `Lesson ${lessonId}`;
+      log.push({ type: 'fi_study', icon: '📚', title: `${lessonTitle} — ${sessionTitle}`, person: 'Oliver', pts: 0, date: new Date().toISOString().slice(0, 10) });
+      localStorage.setItem('sf_activity_log', JSON.stringify(log));
+    } catch(e) {}
+
     if (nowAllDone && !wasComplete) {
       celebrate(`🎉 Leçon ${lessonId} complétée! Excellent travail!`);
     } else {

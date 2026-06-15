@@ -346,22 +346,45 @@ function buildFromRows(rows) {
 
 function buildPlayers() {
   const P = {};
-  const en = n => { if(!P[n]) P[n]={name:n, pts:0, done:0, total:0}; };
+  const en = n => { if(!P[n]) P[n]={name:n, pts:0, done:0, total:0, cats:{}}; };
 
   G.tasks.forEach(t => {
     if(!t.person) return;
     en(t.person); P[t.person].total++;
-    if(t.sheetDone) { P[t.person].pts += t.pts; P[t.person].done++; }
+    if(t.sheetDone) {
+      P[t.person].pts += t.pts; P[t.person].done++;
+      const cat = t.topic || 'Uncategorized';
+      P[t.person].cats[cat] = (P[t.person].cats[cat] || 0) + t.pts;
+    }
   });
 
   // local completions
   Object.entries(G.completions).forEach(([key, info]) => {
     en(info.person);
     const task = G.tasks.find(t=>t.key===key);
-    if(!task||!task.sheetDone) { P[info.person].pts += info.pts; P[info.person].done++; }
+    if(!task||!task.sheetDone) {
+      P[info.person].pts += info.pts; P[info.person].done++;
+      const cat = info.topic || 'Uncategorized';
+      P[info.person].cats[cat] = (P[info.person].cats[cat] || 0) + info.pts;
+    }
   });
 
   G.players = P;
+}
+
+function catChart(p) {
+  const cats = Object.entries(p.cats || {}).sort((a,b) => b[1]-a[1]);
+  if(!cats.length || p.pts === 0) return '';
+  const segs = cats.map(([name, pts]) => {
+    const pct = (pts / p.pts * 100).toFixed(1);
+    const col = categoryColor(name);
+    return `<div class="cat-seg" style="width:${pct}%;background:${col}" title="${x(name)}: ${pts}pt"></div>`;
+  }).join('');
+  const legend = cats.map(([name, pts]) => {
+    const col = categoryColor(name);
+    return `<div class="cat-leg-item"><span class="cat-leg-dot" style="background:${col}"></span><span class="cat-leg-name">${x(name)}</span><span class="cat-leg-pts">${pts}pt</span></div>`;
+  }).join('');
+  return `<div class="cat-bar-wrap"><div class="cat-bar">${segs}</div></div><div class="cat-legend">${legend}</div>`;
 }
 
 /* ── Render leaderboard ── */
@@ -391,6 +414,7 @@ function renderLB() {
       <div class="pts-label">Quest Points</div>
       <div class="xp-track"><div class="xp-fill" style="width:${pct}%;background:${col}"></div></div>
       <div class="xp-hint">${p.pts % LV_PTS}/${LV_PTS} → Lv ${lv+1}</div>
+      ${catChart(p)}
       <div class="mini-stats">
         <div class="mini-stat"><div class="mini-val">${p.done}</div><div class="mini-lbl">Done</div></div>
         <div class="mini-stat"><div class="mini-val">${p.total}</div><div class="mini-lbl">Total</div></div>
@@ -722,11 +746,17 @@ function completePendingTask() {
 function renderActivity() {
   const sec = document.getElementById('activitySection');
   const el  = document.getElementById('activityList');
-  if(!G.activity.length) { sec.style.display='none'; return; }
+  let sharedLog = [];
+  try { sharedLog = JSON.parse(localStorage.getItem('sf_activity_log') || '[]'); } catch(e) {}
+  const all = [...G.activity.map(a => ({ ...a, type: 'task' })), ...sharedLog];
+  if(!all.length) { sec.style.display='none'; return; }
   sec.style.display = 'block';
-  el.innerHTML = [...G.activity].reverse().slice(0,10).map(a=>
-    `<div class="activity-row"><div class="a-dot"></div><div class="a-text"><strong>${x(a.person)}</strong> completed "${x(a.title)}"</div><div class="a-pts">+${a.pts}pt</div></div>`
-  ).join('');
+  el.innerHTML = [...all].reverse().slice(0, 15).map(a => {
+    const label = a.type === 'badge' ? 'earned badge' : a.type === 'mission' ? 'completed mission' : a.type === 'fi_study' ? 'completed FI study' : a.type === 'skill' ? 'completed skill lesson' : a.type === 'bible' ? 'completed Bible lesson' : 'completed';
+    const icon = a.type === 'badge' ? '🏅' : a.type === 'mission' ? '⚡' : a.type === 'fi_study' ? '📚' : a.type === 'skill' ? '💡' : a.type === 'bible' ? '✝️' : '';
+    const pts = a.pts > 0 ? `<div class="a-pts">+${a.pts}pt</div>` : `<div class="a-pts">${icon}</div>`;
+    return `<div class="activity-row"><div class="a-dot"></div><div class="a-text"><strong>${x(a.person)}</strong> ${label} "${x(a.title)}"</div>${pts}</div>`;
+  }).join('');
 }
 
 /* ── Sync ── */

@@ -976,6 +976,12 @@ function toggleMission(id) {
     toast('Mission unchecked.');
   } else {
     done.push(id);
+    try {
+      const m = MISSIONS.find(m => m.id === id);
+      const log = JSON.parse(localStorage.getItem('sf_activity_log') || '[]');
+      log.push({ type: 'mission', icon: m ? m.icon : '⚡', title: m ? m.title : id, person: 'Family', pts: 0, date: new Date().toISOString().slice(0, 10) });
+      localStorage.setItem('sf_activity_log', JSON.stringify(log));
+    } catch(e) {}
     toast('⚡ Mission complete! Great work!');
   }
   save();

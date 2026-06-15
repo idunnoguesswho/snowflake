@@ -1285,6 +1285,11 @@ function toggleEarn() {
     toast('Removed for '+USERS[currentUser].label+'.');
   } else {
     userData[currentUser].push(id);
+    try {
+      const log = JSON.parse(localStorage.getItem('sf_activity_log') || '[]');
+      log.push({ type: 'badge', icon: modalBadge.icon, title: modalBadge.name, person: USERS[currentUser].label, pts: 0, date: new Date().toISOString().slice(0, 10) });
+      localStorage.setItem('sf_activity_log', JSON.stringify(log));
+    } catch(e) {}
     celebrate();
     toast('🎉 '+USERS[currentUser].label+' earned: '+modalBadge.name+'!');
   }

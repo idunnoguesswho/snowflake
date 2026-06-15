@@ -384,7 +384,9 @@ function normalizeDate(v){
     const rows=parseCSV(await(await fetch(`https://docs.google.com/spreadsheets/d/1VVWZBG3fXLWBFCnRDLo76kUQrNyPcBBdY6mCiiwJr50/export?format=csv&gid=0`,{cache:'no-store'})).text());
     if(rows.length<2)throw 0;
     const h=rows[0].map(x=>x.toLowerCase().trim());
-    const iDate=h.findIndex(c=>c.includes('date')), iSec=h.findIndex(c=>c.includes('section')||c.includes('label')||c.includes('title')), iCon=h.findIndex(c=>c.includes('content')||c.includes('text')||c.includes('body')||c.includes('quote'));
+    const iDate=h.findIndex(c=>c.includes('date'));
+    const iSec=h.findIndex(c=>c.includes('source')||c.includes('section')||c.includes('label')||c.includes('title'));
+    const iCon=h.findIndex(c=>c.includes('description')||c.includes('content')||c.includes('text')||c.includes('body')||c.includes('quote'));
     const todays=rows.slice(1).filter(r=>normalizeDate(r[iDate])===TODAY);
     const c=document.getElementById('quotes-container');
     c.innerHTML=todays.length?todays.map(r=>`<div class="quote-entry">${iSec>=0&&r[iSec]?`<div class="quote-entry-label quote-entry-label-${P}">${esc(r[iSec])}</div>`:''}<div class="quote-entry-text">${esc(iCon>=0?r[iCon]:r[1]||'')}</div></div>`).join(''):'<div class="quotes-placeholder">No quotes for today yet.</div>';

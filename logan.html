@@ -3,915 +3,161 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Logan | Snowflake</title>
+<title>Logan · Today</title>
 <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Baloo+2:wght@400;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
-<style>
-  :root { --accent: #6bcb77; --accent2: #4aaa55; }
-  .hero { background: linear-gradient(135deg, #6bcb77 0%, #4aaa55 100%); }
-  .hero::after { content: '👦'; }
-  .tag-cat { background: #6bcb7733; color: #2a6b35; border: 1px solid #6bcb77; }
-  .progress-fill { background: linear-gradient(90deg, #6bcb77, #4aaa55); }
-
-  .hub-nav { background: white; border-bottom: 2px solid #eee; display: flex; overflow-x: auto; padding: 0 12px; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 8px rgba(0,0,0,.06); }
-  .hub-tab { flex-shrink: 0; padding: 14px 16px; border: none; background: transparent; font-family: 'Nunito', sans-serif; font-size: 13px; font-weight: 700; color: #888; cursor: pointer; border-bottom: 3px solid transparent; transition: all 0.2s; white-space: nowrap; }
-  .hub-tab:hover { color: #4aaa55; }
-  .hub-tab.active { color: #4aaa55; border-bottom-color: #4aaa55; }
-  .hub-panel { display: none; }
-  .hub-panel.active { display: block; animation: panelIn .18s ease; }
-  @keyframes panelIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: none; } }
-
-  .embed-frame { width: 100%; border: none; height: 82vh; display: block; }
-
-  /* Routine */
-  .routine-wrap { max-width: 640px; margin: 0 auto; padding: 16px 16px 40px; }
-  .routine-slot { display: flex; gap: 14px; padding: 12px 0; border-bottom: 1px solid #f0f0f0; align-items: flex-start; }
-  .r-time { min-width: 64px; font-size: 12px; font-weight: 700; color: #999; padding-top: 2px; }
-  .r-icon { font-size: 18px; flex-shrink: 0; width: 28px; text-align: center; }
-  .r-label { font-family: 'Nunito', sans-serif; font-size: 14px; font-weight: 800; color: #1f2933; }
-  .r-detail { font-size: 12px; color: #6b7280; margin-top: 2px; line-height: 1.45; }
-
-  /* Learn */
-  .learn-wrap { max-width: 760px; margin: 0 auto; padding: 16px 16px 40px; }
-  .learn-h2 { font-family: 'Nunito', sans-serif; font-size: 18px; font-weight: 900; color: #1f2933; margin: 28px 0 12px; display: flex; align-items: center; gap: 8px; }
-  .learn-h2:first-child { margin-top: 0; }
-
-  /* Brain Brave cards */
-  .bb-card { background: white; border-radius: 14px; margin-bottom: 10px; box-shadow: 0 2px 8px rgba(0,0,0,.06); overflow: hidden; border: 2px solid transparent; transition: border-color 0.2s; cursor: pointer; }
-  .bb-card.open { border-color: var(--cat-c, #6bcb77); }
-  .bb-header { display: flex; align-items: center; gap: 12px; padding: 14px 16px; }
-  .bb-icon { width: 40px; height: 40px; border-radius: 10px; background: var(--cat-l, #e8f8ea); display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; }
-  .bb-meta { flex: 1; }
-  .bb-cat-label { font-size: 10px; font-weight: 800; letter-spacing: 1.2px; text-transform: uppercase; color: var(--cat-c, #4aaa55); }
-  .bb-title { font-family: 'Nunito', sans-serif; font-size: 14px; font-weight: 800; color: #1f2933; }
-  .bb-sub { font-size: 11px; color: #888; }
-  .bb-body { display: none; padding: 0 16px 16px; border-top: 1px solid #f0f0f0; }
-  .bb-card.open .bb-body { display: block; }
-  .bb-intro { font-size: 13px; color: #6b7280; line-height: 1.6; padding-top: 12px; margin-bottom: 12px; }
-  .bb-step { display: flex; gap: 10px; font-size: 13px; line-height: 1.5; margin-bottom: 8px; color: #1f2933; }
-  .bb-num { width: 20px; height: 20px; border-radius: 50%; background: var(--cat-l, #e8f8ea); color: var(--cat-c, #4aaa55); font-size: 10px; font-weight: 800; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 1px; font-family: 'Nunito', sans-serif; }
-  .bb-script { background: #f8f6ff; border-left: 3px solid var(--cat-c, #6bcb77); border-radius: 0 8px 8px 0; padding: 10px 12px; font-size: 12px; font-style: italic; line-height: 1.6; margin-top: 10px; }
-  [data-cat="bpd"]     { --cat-c: #9b7fd4; --cat-l: #ede8f9; }
-  [data-cat="adhd"]    { --cat-c: #5b9bd5; --cat-l: #e3effa; }
-  [data-cat="anxiety"] { --cat-c: #52c4a0; --cat-l: #e1f5ee; }
-  [data-cat="anger"]   { --cat-c: #f07060; --cat-l: #fdecea; }
-  [data-cat="doing"]   { --cat-c: #c9a800; --cat-l: #fef7d5; }
-  [data-cat="alateen"] { --cat-c: #2abfbf; --cat-l: #dff7f7; }
-  [data-cat="brain"]   { --cat-c: #e8650a; --cat-l: #fdeede; }
-  [data-cat="mood"]    { --cat-c: #7b68c8; --cat-l: #eeebfa; }
-
-  /* SS units */
-  .ss-unit { background: white; border-radius: 14px; padding: 18px; margin-bottom: 14px; box-shadow: 0 2px 8px rgba(0,0,0,.06); }
-  .ss-tag { font-size: 10px; font-weight: 800; letter-spacing: 1.5px; text-transform: uppercase; color: #4aaa55; margin-bottom: 4px; }
-  .ss-title { font-family: 'Nunito', sans-serif; font-size: 16px; font-weight: 900; color: #1f2933; margin-bottom: 8px; }
-  .ss-body { font-size: 13px; line-height: 1.7; color: #374151; }
-  .ss-vocab { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
-  .ss-chip { background: #e8f8ea; color: #2a6b35; font-size: 11px; font-weight: 700; padding: 3px 10px; border-radius: 20px; }
-  .ss-ql { font-weight: 700; font-size: 11px; color: #888; text-transform: uppercase; letter-spacing: 1px; margin: 12px 0 6px; }
-  .ss-q { font-size: 13px; color: #1f2933; padding: 7px 0; border-bottom: 1px solid #f0f0f0; }
-  .ss-q:last-child { border-bottom: none; }
-
-  .study-h2 { font-family: 'Nunito', sans-serif; font-size: 16px; font-weight: 900; color: #1f2933; margin: 24px 0 10px; padding: 6px 12px; background: #e8f8ea; border-radius: 8px; border-left: 3px solid #4aaa55; }
-  .study-wrap-g4 { max-width: 760px; margin: 0 auto; padding: 16px 16px 40px; }
-  .ss-ans { font-size: 12px; color: #2a6b35; background: #e8f8ea; border-radius: 6px; padding: 6px 10px; margin-top: 4px; font-style: italic; display: none; }
-  .ss-q-wrap { padding: 7px 0; border-bottom: 1px solid #f0f0f0; }
-  .ss-q-wrap:last-child { border-bottom: none; }
-  .ss-q-wrap .ss-q { border-bottom: none; padding: 0; }
-
-  .en-hint { display: none; background: #e8f8ea; border-left: 3px solid #4aaa55; border-radius: 0 8px 8px 0; padding: 8px 12px; font-size: 12px; color: #1a5c25; line-height: 1.55; margin: 6px 0 4px; }
-  body.show-en .en-hint { display: block; }
-  .fi-toggle-bar { display: flex; align-items: center; gap: 12px; background: white; border-radius: 12px; padding: 12px 16px; margin-bottom: 16px; box-shadow: 0 2px 8px rgba(0,0,0,.06); }
-  .fi-toggle { width: 40px; height: 22px; background: #ccc; border-radius: 11px; position: relative; transition: background .2s; cursor: pointer; border: none; flex-shrink: 0; }
-  .fi-toggle.on { background: #4aaa55; }
-  .fi-toggle::after { content:''; position: absolute; top: 3px; left: 3px; width: 16px; height: 16px; background: white; border-radius: 50%; transition: left .2s; }
-  .fi-toggle.on::after { left: 21px; }
-
-  [data-cat="bible"] { --cat-c: #8b5e3c; --cat-l: #fdf5ed; }
-  .bb-verse { font-style: italic; font-size: 13px; color: #8b5e3c; background: #fdf5ed; border-left: 3px solid #8b5e3c; padding: 8px 12px; border-radius: 0 8px 8px 0; margin-bottom: 10px; }
-  .bb-prayer { font-size: 13px; color: #6b5e4e; background: #fdf5ed; border-radius: 8px; padding: 10px 14px; margin-top: 10px; font-style: italic; }
-
-  /* Quick tools */
-  .tool-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: 12px; margin-bottom: 16px; }
-  .tool-card { background: white; border-radius: 12px; padding: 16px; box-shadow: 0 2px 8px rgba(0,0,0,.06); }
-  .tool-badge { font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 6px; }
-  .tool-name { font-family: 'Nunito', sans-serif; font-weight: 800; font-size: 15px; margin-bottom: 6px; }
-  .tool-desc { font-size: 13px; color: #6b7280; line-height: 1.5; }
-</style>
 </head>
-<body>
+<body class="schedule-page">
 
-<div class="hero">
-  <div class="hero-name">Logan</div>
-  <div class="hero-sub">Today's Hub · <span id="hero-date"></span></div>
-  <div class="hero-badge" id="hero-badge">👦 Loading…</div>
-</div>
-
-<nav class="hub-nav">
-  <button class="hub-tab active" data-tab="tasks"   onclick="showTab('tasks')">📋 Tasks</button>
-  <button class="hub-tab"        data-tab="routine" onclick="showTab('routine')">🌅 Routine</button>
-  <button class="hub-tab"        data-tab="menu"    onclick="showTab('menu')">🍽️ Menu</button>
-  <button class="hub-tab"        data-tab="learn"   onclick="showTab('learn')">🧠 Learn</button>
-  <button class="hub-tab"        data-tab="study"   onclick="showTab('study')">📚 Study</button>
-  <button class="hub-tab"        data-tab="bible"   onclick="showTab('bible')">✝️ Bible</button>
-</nav>
-
-<!-- ══ TASKS ══ -->
-<div class="hub-panel active" id="tab-tasks">
-  <div class="progress-bar-wrap">
-    <div class="section-label" style="padding-bottom:6px">Progress</div>
-    <div class="progress-label">
-      <span id="prog-text">— of — done</span>
-      <span id="prog-pct">—%</span>
-    </div>
-    <div class="progress-track"><div class="progress-fill" id="prog-fill" style="width:0%"></div></div>
+<div class="hero hero-logan hero-row">
+  <div class="hero-avatar">🌱</div>
+  <div class="hero-info">
+    <div class="hero-title" id="hero-name">Logan</div>
+    <div class="hero-date" id="hero-date"></div>
   </div>
-  <div class="section-label">🧹 Today's Chores</div>
-  <div class="task-list" id="choreList"></div>
-  <div class="section-label">📋 Open Tasks</div>
-  <div class="task-list" id="taskList"><div style="padding:20px;text-align:center;color:var(--muted);font-weight:700;">Loading from sheet…</div></div>
+  <div class="hero-pill" id="hero-badge">Loading…</div>
 </div>
 
-<!-- ══ ROUTINE ══ -->
-<div class="hub-panel" id="tab-routine">
-  <div class="routine-wrap">
-    <div style="padding:4px 0 18px">
-      <div style="font-family:'Nunito',sans-serif;font-size:20px;font-weight:900;color:#1f2933">Daily Routine 🌤️</div>
-      <div style="font-size:13px;color:#888;margin-top:2px">Logan's school-day rhythm</div>
-    </div>
-    <div class="routine-slot"><div class="r-time">7:30</div><div class="r-icon">⏰</div><div><div class="r-label">Wake Up + Get Ready</div><div class="r-detail">Get dressed, brush teeth, make bed. Ready to go by 8:00.</div></div></div>
-    <div class="routine-slot"><div class="r-time">8:00</div><div class="r-icon">🥣</div><div><div class="r-label">Breakfast</div><div class="r-detail">Eat, put dishes in the kitchen. Take lunch bag out of backpack.</div></div></div>
-    <div class="routine-slot"><div class="r-time">8:30</div><div class="r-icon">⚡</div><div><div class="r-label">Brain Activation Circuit (5 min)</div><div class="r-detail">Cross-body march → Pattern sprint → Box breathing. See Learn tab for full routine.</div></div></div>
-    <div class="routine-slot"><div class="r-time">9:00</div><div class="r-icon">📚</div><div><div class="r-label">Morning Block 1 — Français / Math</div><div class="r-detail">45 min focused work. Take a 2-min movement break every 15 min. Timer on.</div></div></div>
-    <div class="routine-slot"><div class="r-time">10:00</div><div class="r-icon">🌿</div><div><div class="r-label">Break (15 min)</div><div class="r-detail">Go outside or move your body. Screen-free. Drink water.</div></div></div>
-    <div class="routine-slot"><div class="r-time">10:15</div><div class="r-icon">🔬</div><div><div class="r-label">Morning Block 2 — Sciences / Social Studies</div><div class="r-detail">45 min. Ask for help if stuck more than 3 min — don't guess.</div></div></div>
-    <div class="routine-slot"><div class="r-time">12:00</div><div class="r-icon">🥗</div><div><div class="r-label">Lunch</div><div class="r-detail">Eat lunch. Put dishes in the kitchen. Empty lunch bag.</div></div></div>
-    <div class="routine-slot"><div class="r-time">12:30</div><div class="r-icon">🏃</div><div><div class="r-label">Outdoor / Free Time</div><div class="r-detail">30–60 min movement. Screens off during this block.</div></div></div>
-    <div class="routine-slot"><div class="r-time">1:30</div><div class="r-icon">📝</div><div><div class="r-label">Afternoon Work + Chores</div><div class="r-detail">Tasks from task list, worksheets, projects. Chores before afternoon screens.</div></div></div>
-    <div class="routine-slot"><div class="r-time">3:30</div><div class="r-icon">🎮</div><div><div class="r-label">Screen / Free Time</div><div class="r-detail">After tasks and chores are done and checked.</div></div></div>
-    <div class="routine-slot"><div class="r-time">5:30</div><div class="r-icon">🍽️</div><div><div class="r-label">Dinner</div><div class="r-detail">Table together, screens off. Empty dishwasher on your day.</div></div></div>
-    <div class="routine-slot"><div class="r-time">7:00</div><div class="r-icon">🛁</div><div><div class="r-label">Evening Routine</div><div class="r-detail">Bath/shower, pack bag for tomorrow, lay out clothes, brush teeth.</div></div></div>
-    <div class="routine-slot"><div class="r-time">8:00</div><div class="r-icon">📖</div><div><div class="r-label">Reading Time (20 min)</div><div class="r-detail">French or English book, in bed with lights on.</div></div></div>
-    <div class="routine-slot" style="border:none"><div class="r-time">8:30</div><div class="r-icon">🌙</div><div><div class="r-label">Lights Out</div><div class="r-detail">Screens off. Good night! 🌙</div></div></div>
+<div class="prog-wrap">
+  <div class="prog-row">
+    <span id="prog-text">— of — done</span>
+    <span id="prog-pct">—%</span>
+  </div>
+  <div class="prog-track">
+    <div class="prog-fill prog-fill-logan" id="prog-fill" style="width:0%"></div>
   </div>
 </div>
 
-<!-- ══ MENU ══ -->
-<div class="hub-panel" id="tab-menu">
-  <iframe class="embed-frame" src="menu.html" title="Weekly Menu"></iframe>
-</div>
+<div class="sched-section-label sched-section-label-logan">🏆 Leaderboard</div>
+<div class="lb-card" id="leaderboard-card"></div>
 
-<!-- ══ LEARN ══ -->
-<div class="hub-panel" id="tab-learn">
-  <div class="learn-wrap">
+<div class="sched-section-label sched-section-label-logan">☀️ Today's Schedule</div>
+<div class="sched-wrap">
 
-    <!-- Brain Activation -->
-    <div class="learn-h2">⚡ Brain Activation Circuit</div>
-    <div class="tool-grid">
-      <div class="tool-card"><div class="tool-badge" style="color:#e8650a">1 min · Move</div><div class="tool-name">Cross-Body Wakeup</div><div class="tool-desc">Right elbow → left knee, then left elbow → right knee. Both brain halves fire at once.</div></div>
-      <div class="tool-card"><div class="tool-badge" style="color:#5b9bd5">2 min · Think</div><div class="tool-name">Pattern Sprint</div><div class="tool-desc">Name 3 things that go together + 1 that doesn't. Say the rule out loud.</div></div>
-      <div class="tool-card"><div class="tool-badge" style="color:#52c4a0">2 min · Reset</div><div class="tool-name">Box Breathing</div><div class="tool-desc">In 4, hold 4, out 4, hold 4. Repeat until shoulders drop.</div></div>
-    </div>
-
-    <!-- Anger Toolbox -->
-    <div class="learn-h2">🌋 Anger Toolbox</div>
-    <div style="background:white;border-radius:14px;padding:18px;box-shadow:0 2px 8px rgba(0,0,0,.06);margin-bottom:8px">
-      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px;margin-bottom:14px">
-        <div style="background:#fdecea;border-radius:10px;padding:12px;text-align:center"><div style="font-size:22px">🌡️</div><div style="font-family:'Nunito',sans-serif;font-weight:800;font-size:13px;margin:4px 0 2px">Level 1–2</div><div style="font-size:11px;color:#6b7280">Warm — I can talk. Use words.</div></div>
-        <div style="background:#fef7d5;border-radius:10px;padding:12px;text-align:center"><div style="font-size:22px">🔥</div><div style="font-family:'Nunito',sans-serif;font-weight:800;font-size:13px;margin:4px 0 2px">Level 3–4</div><div style="font-size:11px;color:#6b7280">Hot — Need space. Don't talk yet.</div></div>
-        <div style="background:#fff0f0;border-radius:10px;padding:12px;text-align:center"><div style="font-size:22px">🌋</div><div style="font-family:'Nunito',sans-serif;font-weight:800;font-size:13px;margin:4px 0 2px">Level 5</div><div style="font-size:11px;color:#6b7280">Too hot — Safe place, body tools only.</div></div>
-      </div>
-      <div style="font-size:13px;color:#374151;line-height:1.85">
-        <strong>Step 1 — Make Space:</strong> Feet on floor, unclench hands, step away<br>
-        <strong>Step 2 — Cool the Body:</strong> 5 slow breaths, cold water, press hands 10 sec<br>
-        <strong>Step 3 — Use Words:</strong> "I felt mad because ___. I need ___. I can try ___."
-      </div>
-    </div>
-
-    <!-- Brain Brave Lessons -->
-    <div class="learn-h2">🧠 Brain Brave Lessons</div>
-    <div id="bb-lessons"></div>
-
-    <!-- Grade 4 FI Social Studies -->
-    <div class="learn-h2">🍁 Sciences Humaines — Année 4</div>
-    <div style="font-size:12px;color:#888;margin:-8px 0 14px">Alberta Grade 4 FI Social Studies — L'Alberta : terre, histoires et peuples</div>
-
-    <div class="ss-unit">
-      <div class="ss-tag">Unité A</div>
-      <div class="ss-title">L'Alberta : un sens du pays</div>
-      <div class="ss-body">L'Alberta est une province canadienne dans l'Ouest du Canada. Elle a des régions géographiques très différentes : les <strong>Prairies</strong>, les <strong>Badlands</strong>, les <strong>Rocheuses</strong> et le <strong>bouclier boréal</strong>. La capitale est <strong>Edmonton</strong> et la plus grande ville est Calgary. Les rivières importantes incluent la rivière Saskatchewan du Nord et la rivière Athabasca.</div>
-      <div class="ss-vocab"><span class="ss-chip">province</span><span class="ss-chip">prairie</span><span class="ss-chip">Rocheuses</span><span class="ss-chip">Badlands</span><span class="ss-chip">capitale</span><span class="ss-chip">Edmonton</span><span class="ss-chip">rivière</span><span class="ss-chip">région</span></div>
-      <div class="ss-ql">Questions de compréhension</div>
-      <div class="ss-q">1. Nomme trois régions géographiques de l'Alberta.</div>
-      <div class="ss-q">2. Quelle est la capitale de l'Alberta ?</div>
-      <div class="ss-q">3. Pourquoi est-ce que les rivières sont importantes pour les communautés ?</div>
-      <div class="ss-q">4. Décris une différence entre les Prairies et les Rocheuses.</div>
-    </div>
-
-    <div class="ss-unit">
-      <div class="ss-tag">Unité B</div>
-      <div class="ss-title">Les peuples et les histoires de l'Alberta</div>
-      <div class="ss-body">Avant les colons européens, les <strong>Premières Nations</strong> vivaient en Alberta depuis des milliers d'années — les Cris, les Pieds-Noirs (Blackfoot), les Tsuu T'ina et bien d'autres. La <strong>traite des fourrures</strong> a commencé un contact entre les Autochtones et les Européens. Les <strong>Métis</strong> sont nés de ces unions. Plus tard, des immigrants de partout dans le monde ont bâti les premières villes de l'Alberta. L'Alberta est devenue une province en <strong>1905</strong>.</div>
-      <div class="ss-vocab"><span class="ss-chip">Premières Nations</span><span class="ss-chip">Autochtones</span><span class="ss-chip">Métis</span><span class="ss-chip">traite des fourrures</span><span class="ss-chip">colons</span><span class="ss-chip">traité</span><span class="ss-chip">1905</span><span class="ss-chip">immigrant</span></div>
-      <div class="ss-ql">Questions de compréhension</div>
-      <div class="ss-q">1. Qui étaient les premiers peuples à habiter l'Alberta ?</div>
-      <div class="ss-q">2. Qu'est-ce que la traite des fourrures ? Qui y participait ?</div>
-      <div class="ss-q">3. Qu'est-ce qu'un territoire de traité ? Pourquoi est-ce important aujourd'hui ?</div>
-      <div class="ss-q">4. Comment les immigrants ont-ils changé l'Alberta ?</div>
-    </div>
-
-    <div class="ss-unit">
-      <div class="ss-tag">Unité C</div>
-      <div class="ss-title">L'activité économique en Alberta</div>
-      <div class="ss-body">L'Alberta a une économie basée sur le <strong>pétrole et le gaz naturel</strong>, l'<strong>agriculture</strong> (blé, canola, bœuf) et l'exploitation forestière. Ces <strong>ressources naturelles</strong> créent des emplois et de la richesse. Les <strong>biens</strong> sont des choses fabriquées ou cultivées ; les <strong>services</strong> sont des actions faites pour les autres. Les communautés échangent des biens et des services.</div>
-      <div class="ss-vocab"><span class="ss-chip">ressource naturelle</span><span class="ss-chip">économie</span><span class="ss-chip">biens</span><span class="ss-chip">services</span><span class="ss-chip">agriculture</span><span class="ss-chip">pétrole</span><span class="ss-chip">emploi</span><span class="ss-chip">échange</span></div>
-      <div class="ss-ql">Questions de compréhension</div>
-      <div class="ss-q">1. Donne deux exemples de ressources naturelles importantes en Alberta.</div>
-      <div class="ss-q">2. Quelle est la différence entre un <em>bien</em> et un <em>service</em> ?</div>
-      <div class="ss-q">3. Comment l'agriculture contribue-t-elle à l'économie de l'Alberta ?</div>
-      <div class="ss-q">4. Pense à un défi lié à l'économie pétrolière. Comment pourrait-on y répondre ?</div>
-    </div>
-
-    <div class="ss-unit">
-      <div class="ss-tag">Unité D</div>
-      <div class="ss-title">La citoyenneté et la communauté</div>
-      <div class="ss-body">Un <strong>citoyen</strong> est membre d'une communauté — une ville, une province ou un pays. Les citoyens ont des <strong>droits</strong> (choses qu'ils peuvent faire ou recevoir) et des <strong>responsabilités</strong> (choses qu'ils doivent faire). En Alberta, nous sommes citoyens de notre école, de notre ville, de l'Alberta et du Canada. Les élections choisissent nos représentants au gouvernement.</div>
-      <div class="ss-vocab"><span class="ss-chip">citoyen</span><span class="ss-chip">droits</span><span class="ss-chip">responsabilités</span><span class="ss-chip">communauté</span><span class="ss-chip">gouvernement</span><span class="ss-chip">élection</span><span class="ss-chip">représentant</span></div>
-      <div class="ss-ql">Questions de compréhension</div>
-      <div class="ss-q">1. Qu'est-ce qu'un citoyen ? Donne un exemple de communauté.</div>
-      <div class="ss-q">2. Quelle est la différence entre un <em>droit</em> et une <em>responsabilité</em> ?</div>
-      <div class="ss-q">3. Nomme deux responsabilités que tu as comme citoyen de ton école.</div>
-      <div class="ss-q">4. Pourquoi est-ce important de voter lors des élections ?</div>
-    </div>
-
-  </div>
-</div>
-
-<!-- ══ STUDY ══ -->
-<div class="hub-panel" id="tab-study">
-<div class="study-wrap-g4">
-
-  <div class="fi-toggle-bar">
-    <div style="flex:1">
-      <div style="font-family:'Nunito',sans-serif;font-size:18px;font-weight:900;color:#1f2933">Guide d'étude — Année 4 · FI 📚</div>
-      <div style="font-size:12px;color:#888;margin-top:2px">Alberta Grade 4 French Immersion · Révision complète de l'année</div>
-    </div>
-    <label style="display:flex;align-items:center;gap:8px;cursor:pointer;font-family:'Nunito',sans-serif;font-size:13px;font-weight:700;color:#374151">
-      <button class="fi-toggle" id="en-toggle-study" onclick="toggleEnglish()" aria-label="Show English hints"></button>
-      🇨🇦 English hints
-    </label>
+  <div class="sched-slot" id="slot-730">
+    <div class="s-time s-time-logan">7:30</div><div class="s-icon">⏰</div>
+    <div class="s-body"><div class="s-label">Wake Up + Get Ready</div><div class="s-detail">Get dressed, brush teeth, make bed. Ready by 8:00.</div></div>
   </div>
 
-  <!-- ── SUBJECT 1: FRANÇAIS ── -->
-  <div class="ss-unit">
-    <div class="ss-tag">#1 · Français</div>
-    <div class="ss-title">Lecture, écriture et grammaire</div>
-
-    <div class="study-h2">📖 Stratégies de lecture</div>
-    <div class="ss-body">Il existe cinq stratégies de lecture importantes : <strong>prédire</strong> (deviner ce qui va arriver), <strong>faire des liens</strong> (connecter le texte à ta vie ou d'autres textes), <strong>visualiser</strong> (créer des images dans ta tête), <strong>poser des questions</strong> (se demander pourquoi ou comment), et <strong>inférer</strong> (comprendre ce qui n'est pas dit directement). Les types de textes incluent le texte <strong>narratif</strong> (raconte une histoire), le texte <strong>informatif</strong> (donne des informations), et le texte <strong>poétique</strong> (utilise des images et le rythme).</div>
-    <div class="en-hint">Reading strategies: Predict = guess what happens next before/during reading. Connect = link the text to your life (text-to-self), another book (text-to-text), or the world (text-to-world). Visualize = make a movie in your head. Question = ask "why?" and "how?" while reading. Infer = figure out what the author means even when it isn't directly stated — use clues + your brain. Text types: narrative tells a story (characters + plot); informational gives facts (teaches something real); poetry uses rhythm and images.</div>
-    <div class="ss-vocab"><span class="ss-chip">prédire</span><span class="ss-chip">inférer</span><span class="ss-chip">faire des liens</span><span class="ss-chip">texte narratif</span><span class="ss-chip">texte informatif</span><span class="ss-chip">idée principale</span></div>
-    <div class="ss-ql">Questions de compréhension</div>
-    <div class="ss-q-wrap"><div class="ss-q">1. Quelle est la différence entre <em>prédire</em> et <em>inférer</em> ?</div><div class="ss-ans">Prédire = deviner ce qui va arriver avant ou pendant la lecture. Inférer = comprendre une idée qui n'est pas écrite directement dans le texte, à partir des indices.</div></div>
-    <div class="ss-q-wrap"><div class="ss-q">2. Donne un exemple de la stratégie « faire des liens » avec un livre que tu connais.</div><div class="ss-ans">Réponse personnelle : ex. « Ce livre me rappelle quand j'ai déménagé, parce que le personnage se sent seul dans sa nouvelle école. »</div></div>
-    <div class="ss-q-wrap"><div class="ss-q">3. Quel type de texte raconterait l'histoire d'un enfant qui découvre un trésor ? Pourquoi ?</div><div class="ss-ans">Un texte narratif, parce qu'il raconte une histoire avec des personnages et une suite d'événements.</div></div>
-
-    <div class="study-h2">✏️ Processus d'écriture</div>
-    <div class="ss-body">Le processus d'écriture comporte cinq étapes : <strong>idées</strong> (remue-méninges), <strong>brouillon</strong> (première version), <strong>révision</strong> (améliorer le contenu), <strong>correction</strong> (vérifier l'orthographe et la grammaire), <strong>publication</strong> (version finale). La révision s'occupe du sens et des idées ; la correction s'occupe de la langue.</div>
-    <div class="en-hint">The 5 writing steps: 1) Ideas/brainstorm — list everything you might write about. 2) Draft — write your ideas in sentences (don't worry about mistakes yet). 3) Revise — improve your IDEAS and organization (add details, reorder, cut weak parts). 4) Edit/correct — fix spelling, grammar, and punctuation. 5) Publish — write or type your best final copy. Key difference: revising = making the CONTENT better; editing = fixing ERRORS.</div>
-    <div class="ss-vocab"><span class="ss-chip">remue-méninges</span><span class="ss-chip">brouillon</span><span class="ss-chip">révision</span><span class="ss-chip">correction</span></div>
-    <div class="ss-ql">Questions de compréhension</div>
-    <div class="ss-q-wrap"><div class="ss-q">1. Nomme les 5 étapes du processus d'écriture dans l'ordre.</div><div class="ss-ans">Idées → Brouillon → Révision → Correction → Publication.</div></div>
-    <div class="ss-q-wrap"><div class="ss-q">2. Quelle est la différence entre <em>réviser</em> et <em>corriger</em> ?</div><div class="ss-ans">Réviser = améliorer les idées, l'organisation et le contenu. Corriger = vérifier l'orthographe, la grammaire et la ponctuation.</div></div>
-    <div class="ss-q-wrap"><div class="ss-q">3. Pourquoi est-il important d'écrire un brouillon avant la version finale ?</div><div class="ss-ans">Le brouillon permet d'explorer ses idées sans pression. On peut changer, ajouter ou enlever des éléments avant de publier.</div></div>
-
-    <div class="study-h2">📝 Grammaire de base</div>
-    <div class="ss-body">Le <strong>nom commun</strong> désigne une chose ou une personne en général (ex. : chien, ville). Le <strong>nom propre</strong> désigne une personne, un lieu ou une chose spécifique et prend une majuscule (ex. : Alberta, Sophie). Le <strong>verbe</strong> indique une action ou un état. L'<strong>adjectif</strong> décrit un nom. L'<strong>accord sujet-verbe</strong> au présent : le verbe change selon la personne (je parle, il parle, nous parlons). Les phrases commencent par une majuscule et se terminent par un point, un point d'interrogation ou un point d'exclamation.</div>
-    <div class="en-hint">Common noun = names any general person, place, or thing (dog, city, river). Proper noun = names a specific person, place, or thing and always starts with a capital letter (Alberta, Sophie, Edmonton). Verb = action or state word (run, sleep, is). Adjective = describing word that tells more about a noun (black, tall, happy). Subject-verb agreement: the verb form must match who is doing it (I eat / she eats / we eat). Every French sentence starts with a capital letter and ends with a period (.), question mark (?), or exclamation point (!).</div>
-    <div class="ss-vocab"><span class="ss-chip">nom commun</span><span class="ss-chip">nom propre</span><span class="ss-chip">verbe</span><span class="ss-chip">adjectif</span><span class="ss-chip">accord</span></div>
-    <div class="ss-ql">Questions de compréhension</div>
-    <div class="ss-q-wrap"><div class="ss-q">1. Quelle est la différence entre un nom commun et un nom propre ? Donne un exemple de chaque.</div><div class="ss-ans">Nom commun : désigne une catégorie générale, ex. rivière. Nom propre : désigne quelque chose de spécifique avec majuscule, ex. Rivière Saskatchewan.</div></div>
-    <div class="ss-q-wrap"><div class="ss-q">2. Dans la phrase « Les chats noirs dorment », identifie le nom, l'adjectif et le verbe.</div><div class="ss-ans">Nom : chats. Adjectif : noirs. Verbe : dorment.</div></div>
-    <div class="ss-q-wrap"><div class="ss-q">3. Conjugue le verbe « manger » au présent avec : je, tu, il/elle, nous, vous, ils/elles.</div><div class="ss-ans">Je mange, tu manges, il/elle mange, nous mangeons, vous mangez, ils/elles mangent.</div></div>
-    <div class="ss-q-wrap"><div class="ss-q">4. Réécris cette phrase avec la bonne ponctuation et les majuscules : « mon ami logan habite à edmonton »</div><div class="ss-ans">Mon ami Logan habite à Edmonton.</div></div>
+  <div class="sched-slot" id="slot-800">
+    <div class="s-time s-time-logan">8:00</div><div class="s-icon">🥣</div>
+    <div class="s-body"><div class="s-label">Breakfast</div><div id="meal-breakfast"></div><div class="s-detail">Eat, put dishes in the kitchen. Take lunch bag out of backpack.</div></div>
   </div>
 
-  <!-- ── SUBJECT 2: ENGLISH LA ── -->
-  <div class="ss-unit">
-    <div class="ss-tag">#2 · English Language Arts</div>
-    <div class="ss-title">Reading, Writing &amp; Language</div>
-
-    <div class="study-h2">📚 Reading</div>
-    <div class="ss-body">The <strong>main idea</strong> is the most important point of a text; <strong>details</strong> support it. Making <strong>connections</strong> helps you understand: text-to-self (reminds me of my life), text-to-text (reminds me of another book), text-to-world (reminds me of something happening in the world). <strong>Retelling</strong> means summarizing a story using: somebody, wanted, but, so, then. <strong>Predicting</strong> means using clues to guess what happens next.</div>
-    <div class="en-hint">Quick recap: Main idea = the big point the whole paragraph is about. Details = the smaller facts that back it up. The "Somebody Wanted But So Then" method is a great retell shortcut: Somebody (character) Wanted (goal) But (problem) So (what they did) Then (how it ended).</div>
-    <div class="ss-vocab"><span class="ss-chip">main idea</span><span class="ss-chip">detail</span><span class="ss-chip">connection</span><span class="ss-chip">prediction</span><span class="ss-chip">retell</span></div>
-    <div class="ss-ql">Comprehension questions</div>
-    <div class="ss-q-wrap"><div class="ss-q">1. What is the difference between a main idea and a supporting detail?</div><div class="ss-ans">Main idea = the central message or topic. Detail = a fact or example that supports the main idea.</div></div>
-    <div class="ss-q-wrap"><div class="ss-q">2. Give an example of a text-to-self connection.</div><div class="ss-ans">Personal answer, e.g. "This story reminds me of when I moved to a new school and felt nervous, just like the main character."</div></div>
-    <div class="ss-q-wrap"><div class="ss-q">3. Use the "Somebody, Wanted, But, So, Then" frame to retell a book or movie you know.</div><div class="ss-ans">Personal answer, e.g. "Somebody: Harry Potter. Wanted: to defeat Voldemort. But: he didn't know the full truth. So: he kept learning and fighting. Then: he finally won."</div></div>
-
-    <div class="study-h2">✏️ Writing</div>
-    <div class="ss-body">A <strong>paragraph</strong> has three parts: a <strong>topic sentence</strong> (states the main idea), 2–3 <strong>detail sentences</strong> (support it with facts or examples), and a <strong>conclusion sentence</strong> (wraps it up). <strong>Narrative writing</strong> tells a story with a beginning, middle, and end. <strong>Informational writing</strong> teaches the reader about a topic. Literary devices: a <strong>simile</strong> compares using "like" or "as" (e.g. fast as lightning); <strong>alliteration</strong> repeats the same starting sound (e.g. silly snakes slither).</div>
-    <div class="en-hint">Paragraph formula: Topic sentence → Detail 1 → Detail 2 → Detail 3 → Conclusion sentence. Simile uses "like" or "as" — "as cold as ice." Personification gives human traits to things — "The wind whispered." Alliteration: same first sound in a row — "Peter Piper picked."</div>
-    <div class="ss-vocab"><span class="ss-chip">topic sentence</span><span class="ss-chip">detail</span><span class="ss-chip">conclusion</span><span class="ss-chip">simile</span><span class="ss-chip">alliteration</span></div>
-    <div class="ss-ql">Comprehension questions</div>
-    <div class="ss-q-wrap"><div class="ss-q">1. What are the three parts of a paragraph? Describe each one.</div><div class="ss-ans">Topic sentence: states the main idea. Detail sentences: give evidence, examples, or facts. Conclusion sentence: restates the main idea in a new way or wraps up.</div></div>
-    <div class="ss-q-wrap"><div class="ss-q">2. Write a simile that describes your favourite food.</div><div class="ss-ans">Personal answer, e.g. "Pizza tastes as amazing as a birthday party."</div></div>
-    <div class="ss-q-wrap"><div class="ss-q">3. What is the difference between narrative and informational writing?</div><div class="ss-ans">Narrative tells a story (with characters, plot, setting). Informational explains facts about a real topic to teach the reader.</div></div>
-
-    <div class="study-h2">🔤 Word Study</div>
-    <div class="ss-body"><strong>Compound words</strong> combine two words (e.g. sunflower = sun + flower). <strong>Prefixes</strong> are added to the beginning of a word and change its meaning: <em>un-</em> means not (unhappy), <em>re-</em> means again (redo). <strong>Suffixes</strong> are added to the end: <em>-ful</em> means full of (careful), <em>-less</em> means without (careless). <strong>Context clues</strong> are words around an unfamiliar word that help you guess its meaning. <strong>Synonyms</strong> are words with similar meanings; <strong>antonyms</strong> are opposites.</div>
-    <div class="en-hint">Prefix goes at the START and changes meaning: un-(not), re-(again), pre-(before), mis-(wrong). Suffix goes at the END: -ful (full of), -less (without), -ness (state of), -ment (result of). Context clues: look at the words AROUND an unknown word — the sentence often gives hints about meaning. Synonyms = same meaning (big/large). Antonyms = opposite meaning (big/small).</div>
-    <div class="ss-vocab"><span class="ss-chip">compound word</span><span class="ss-chip">prefix</span><span class="ss-chip">suffix</span><span class="ss-chip">synonym</span><span class="ss-chip">antonym</span></div>
-    <div class="ss-ql">Comprehension questions</div>
-    <div class="ss-q-wrap"><div class="ss-q">1. Break these compound words into their two parts: rainfall, notebook, backpack.</div><div class="ss-ans">rainfall = rain + fall; notebook = note + book; backpack = back + pack.</div></div>
-    <div class="ss-q-wrap"><div class="ss-q">2. Add a prefix (un- or re-) to make a new word: happy, build, lock, write.</div><div class="ss-ans">unhappy, rebuild, unlock, rewrite.</div></div>
-    <div class="ss-q-wrap"><div class="ss-q">3. Give a synonym and an antonym for the word "brave".</div><div class="ss-ans">Synonym: courageous, bold, fearless. Antonym: cowardly, timid, scared.</div></div>
+  <div class="sched-slot" id="slot-830">
+    <div class="s-time s-time-logan">8:30</div><div class="s-icon">⚡</div>
+    <div class="s-body"><div class="s-label">Brain Activation (5 min)</div><div class="s-detail">Cross-body march → Pattern sprint → Box breathing.</div></div>
   </div>
 
-  <!-- ── SUBJECT 3: MATHÉMATIQUES ── -->
-  <div class="ss-unit">
-    <div class="ss-tag">#3 · Mathématiques 4</div>
-    <div class="ss-title">Nombres, opérations, géométrie et mesures</div>
-
-    <div class="study-h2">🔢 Nombres jusqu'à 10 000</div>
-    <div class="ss-body">On peut lire, écrire, comparer et ordonner les nombres jusqu'à 10 000. La <strong>valeur de position</strong> indique ce que vaut chaque chiffre selon sa place : <strong>unités</strong> (1s), <strong>dizaines</strong> (10s), <strong>centaines</strong> (100s), <strong>milliers</strong> (1 000s). Ex. : dans 3 472, le 3 vaut 3 000, le 4 vaut 400, le 7 vaut 70, le 2 vaut 2. Pour comparer, on utilise &lt; (moins que), &gt; (plus que) et = (égal à).</div>
-    <div class="en-hint">Place value tells you what each digit is WORTH based on its position. In 3,472: 3 is in the thousands place = 3,000; 4 is in the hundreds place = 400; 7 is in the tens place = 70; 2 is in the ones place = 2. To compare numbers: start at the largest place value and work right until you find a difference. Expanded form: 3,472 = 3,000 + 400 + 70 + 2.</div>
-    <div class="ss-vocab"><span class="ss-chip">valeur de position</span><span class="ss-chip">unité</span><span class="ss-chip">dizaine</span><span class="ss-chip">centaine</span><span class="ss-chip">millier</span><span class="ss-chip">comparer</span><span class="ss-chip">ordonner</span></div>
-    <div class="ss-ql">Questions de compréhension</div>
-    <div class="ss-q-wrap"><div class="ss-q">1. Dans le nombre 6 853, quelle est la valeur du chiffre 8 ?</div><div class="ss-ans">Le 8 est à la position des centaines, donc sa valeur est 800.</div></div>
-    <div class="ss-q-wrap"><div class="ss-q">2. Écris le nombre 4 206 en lettres.</div><div class="ss-ans">Quatre mille deux cent six.</div></div>
-    <div class="ss-q-wrap"><div class="ss-q">3. Mets ces nombres en ordre croissant : 3 401, 3 014, 3 140, 3 410.</div><div class="ss-ans">3 014 &lt; 3 140 &lt; 3 401 &lt; 3 410.</div></div>
-    <div class="ss-q-wrap"><div class="ss-q">4. Vrai ou faux : 7 099 &gt; 7 100. Explique.</div><div class="ss-ans">Faux. 7 099 est moins que 7 100 car 7 099 &lt; 7 100.</div></div>
-
-    <div class="study-h2">➕ Addition et soustraction</div>
-    <div class="ss-body">L'<strong>addition</strong> combine des nombres ; la <strong>soustraction</strong> en enlève. Pour les grands nombres, on utilise les algorithmes standard avec <strong>retenue</strong> (addition) et <strong>emprunt</strong> (soustraction). L'<strong>estimation</strong> consiste à <strong>arrondir</strong> un nombre à la dizaine ou à la centaine la plus proche avant de calculer. Arrondir à la dizaine : si l'unité ≥ 5, on arrondit à la hausse ; si &lt; 5, à la baisse.</div>
-    <div class="en-hint">Standard algorithm for addition: line up place values, add right to left, carry (regroup) when a column adds up to 10 or more. Standard algorithm for subtraction: line up place values, subtract right to left, borrow (regroup) when the top digit is smaller. Estimating: round each number to the nearest 10 or 100 first, then add/subtract — gives you a quick ballpark answer to check your work.</div>
-    <div class="ss-vocab"><span class="ss-chip">addition</span><span class="ss-chip">soustraction</span><span class="ss-chip">retenue</span><span class="ss-chip">emprunt</span><span class="ss-chip">arrondir</span><span class="ss-chip">estimation</span></div>
-    <div class="ss-ql">Questions de compréhension</div>
-    <div class="ss-q-wrap"><div class="ss-q">1. Calcule : 3 487 + 2 356 = ?</div><div class="ss-ans">3 487 + 2 356 = 5 843.</div></div>
-    <div class="ss-q-wrap"><div class="ss-q">2. Calcule : 6 204 − 1 738 = ?</div><div class="ss-ans">6 204 − 1 738 = 4 466.</div></div>
-    <div class="ss-q-wrap"><div class="ss-q">3. Arrondis 3 672 à la centaine la plus proche. Puis estime 3 672 + 1 245.</div><div class="ss-ans">3 672 arrondi = 3 700 ; 1 245 arrondi = 1 200. Estimation : 3 700 + 1 200 = 4 900.</div></div>
-
-    <div class="study-h2">✖️ Multiplication et division</div>
-    <div class="ss-body">La <strong>multiplication</strong> est une addition répétée. Les <strong>tables de multiplication</strong> de 1 à 9 × 1 à 9 doivent être mémorisées. La <strong>propriété de distribution</strong> permet de décomposer : 6 × 7 = 6 × (5 + 2) = 30 + 12 = 42. La <strong>division</strong> partage un nombre en groupes égaux. Le <strong>reste</strong> est ce qui reste après une division. Ex. : 23 ÷ 4 = 5 reste 3.</div>
-    <div class="en-hint">Multiplication = adding equal groups (3 × 4 = 3 groups of 4 = 12). Know your times tables up to 9 × 9! Division = splitting into equal groups (12 ÷ 4 = 3, because 4 groups of 3 = 12). Multiplication and division are inverses — they undo each other (3 × 4 = 12, so 12 ÷ 4 = 3). A remainder is what's left over when a number doesn't divide evenly (13 ÷ 4 = 3 remainder 1).</div>
-    <div class="ss-vocab"><span class="ss-chip">multiplication</span><span class="ss-chip">division</span><span class="ss-chip">facteur</span><span class="ss-chip">produit</span><span class="ss-chip">quotient</span><span class="ss-chip">reste</span></div>
-    <div class="ss-ql">Questions de compréhension</div>
-    <div class="ss-q-wrap"><div class="ss-q">1. Calcule : 7 × 8 = ? Et 9 × 6 = ?</div><div class="ss-ans">7 × 8 = 56 ; 9 × 6 = 54.</div></div>
-    <div class="ss-q-wrap"><div class="ss-q">2. Calcule : 48 ÷ 6 = ? Et 35 ÷ 4 = ? (avec reste)</div><div class="ss-ans">48 ÷ 6 = 8 ; 35 ÷ 4 = 8 reste 3.</div></div>
-    <div class="ss-q-wrap"><div class="ss-q">3. Utilise la distribution pour calculer 8 × 7 en décomposant 7.</div><div class="ss-ans">8 × 7 = 8 × (5 + 2) = 40 + 16 = 56.</div></div>
-    <div class="ss-q-wrap"><div class="ss-q">4. Si tu partages 29 biscuits également entre 5 amis, combien chacun reçoit-il ? Reste ?</div><div class="ss-ans">29 ÷ 5 = 5 reste 4. Chaque ami reçoit 5 biscuits et il en reste 4.</div></div>
-
-    <div class="study-h2">½ Fractions</div>
-    <div class="ss-body">Une <strong>fraction</strong> représente une partie d'un tout divisé en parties <strong>égales</strong>. Le <strong>numérateur</strong> (en haut) indique le nombre de parties prises ; le <strong>dénominateur</strong> (en bas) indique le nombre total de parties. Fractions de base : ½, ⅓, ¼, ⅕. Les <strong>fractions équivalentes</strong> représentent la même quantité : ½ = 2/4 = 3/6.</div>
-    <div class="en-hint">A fraction shows part of a whole. The bottom number (denominator) = total equal parts. The top number (numerator) = how many parts you have. ½ = 1 out of 2 equal parts. Equivalent fractions are different fractions that show the same amount: ½ = 2/4 = 3/6. To check if fractions are equivalent, multiply/divide both top and bottom by the same number.</div>
-    <div class="ss-vocab"><span class="ss-chip">numérateur</span><span class="ss-chip">dénominateur</span><span class="ss-chip">fraction équivalente</span><span class="ss-chip">parties égales</span></div>
-    <div class="ss-ql">Questions de compréhension</div>
-    <div class="ss-q-wrap"><div class="ss-q">1. Dans la fraction 3/8, qu'est-ce que le numérateur et le dénominateur signifient ?</div><div class="ss-ans">Numérateur 3 = 3 parties prises. Dénominateur 8 = le tout est divisé en 8 parties égales.</div></div>
-    <div class="ss-q-wrap"><div class="ss-q">2. Est-ce que 2/4 est équivalente à ½ ? Explique comment le savoir.</div><div class="ss-ans">Oui. Si tu divises 2 et 4 par 2, tu obtiens ½. Ou : 2 sur 4 parties = exactement la moitié.</div></div>
-    <div class="ss-q-wrap"><div class="ss-q">3. Une pizza est divisée en 6 morceaux égaux. Tu en manges 2. Quelle fraction de la pizza as-tu mangée ?</div><div class="ss-ans">2/6, ce qui équivaut à 1/3.</div></div>
-
-    <div class="study-h2">📐 Géométrie et mesures</div>
-    <div class="ss-body">Formes 2D : <strong>carré</strong> (4 côtés égaux, 4 angles droits), <strong>rectangle</strong> (4 angles droits), <strong>triangle</strong> (3 côtés), <strong>cercle</strong>, <strong>pentagone</strong> (5 côtés), <strong>hexagone</strong> (6 côtés). Types d'<strong>angles</strong> : droit (90°), aigu (&lt; 90°), obtus (&gt; 90°). Le <strong>périmètre</strong> = somme de tous les côtés. Unités de mesure : longueur (cm, m, km), masse (g, kg), capacité (mL, L).</div>
-    <div class="en-hint">2D shapes (flat): triangle (3 sides), quadrilateral (4 sides — includes square, rectangle, rhombus), pentagon (5 sides), hexagon (6 sides), circle (no sides). Angles: right angle = exactly 90° (like a corner of a square ⊾). Acute angle = less than 90° (sharp/pointy). Obtuse angle = more than 90° but less than 180° (wide/open). Perimeter = distance all the way around a shape (add all sides). Measurement: cm (centimetres) for small lengths; m (metres) for bigger lengths; km for long distances; g (grams) and kg for mass; mL and L for liquid volume.</div>
-    <div class="ss-vocab"><span class="ss-chip">périmètre</span><span class="ss-chip">angle droit</span><span class="ss-chip">angle aigu</span><span class="ss-chip">angle obtus</span><span class="ss-chip">côté</span><span class="ss-chip">sommet</span></div>
-    <div class="ss-ql">Questions de compréhension</div>
-    <div class="ss-q-wrap"><div class="ss-q">1. Calcule le périmètre d'un rectangle de 8 cm de longueur et 5 cm de largeur.</div><div class="ss-ans">Périmètre = 8 + 8 + 5 + 5 = 26 cm.</div></div>
-    <div class="ss-q-wrap"><div class="ss-q">2. Nomme une forme à 6 côtés et une forme avec un angle obtus.</div><div class="ss-ans">6 côtés = hexagone. Forme avec angle obtus : triangle obtus, ou tout quadrilatère avec un angle &gt; 90°.</div></div>
-    <div class="ss-q-wrap"><div class="ss-q">3. Lequel est plus grand : 2 kg ou 1 500 g ? Explique.</div><div class="ss-ans">2 kg = 2 000 g, donc 2 kg est plus grand que 1 500 g.</div></div>
-    <div class="ss-q-wrap"><div class="ss-q">4. Quelle est la différence entre un angle droit et un angle aigu ?</div><div class="ss-ans">Angle droit = exactement 90°. Angle aigu = moins de 90° (plus petit qu'un angle droit).</div></div>
+  <div class="sched-slot" id="slot-900">
+    <div class="s-time s-time-logan">9:00</div><div class="s-icon">📚</div>
+    <div class="s-body">
+      <div class="s-label">Morning Block 1 — Science, Social Studies &amp; Wellness</div>
+      <div class="s-detail">One task each: Science · Social Studies · Wellness.</div>
+      <div class="inline-tasks" id="tasks-block2"></div>
+    </div>
   </div>
 
-  <!-- ── SUBJECT 4: SCIENCES ── -->
-  <div class="ss-unit">
-    <div class="ss-tag">#4 · Sciences 4</div>
-    <div class="ss-title">Habitats, plantes, lumière et machines simples</div>
-
-    <div class="study-h2">🦁 Habitats et animaux</div>
-    <div class="ss-body">Un <strong>habitat</strong> est l'endroit où un organisme vit et trouve sa nourriture, son eau et son abri. Types d'habitats : prairie, forêt, étang, arctique. Les <strong>adaptations</strong> permettent aux animaux de survivre dans leur habitat : <strong>camouflage</strong> (se camoufler), <strong>hibernation</strong> (dormir l'hiver), <strong>migration</strong> (voyager vers un nouveau lieu). La <strong>chaîne alimentaire</strong> montre qui mange qui : <strong>producteur</strong> (plante) → <strong>consommateur primaire</strong> (herbivore) → <strong>consommateur secondaire</strong> (carnivore).</div>
-    <div class="en-hint">Habitat = the place where an animal lives and gets everything it needs (food, water, shelter, space). Types of habitats: prairie (grassland), forest, pond, arctic (frozen). Adaptations = special features that help an animal survive in its habitat (a polar bear's white fur = camouflage in snow). Food chain: Producer (plant) → Primary consumer (plant-eater) → Secondary consumer (meat-eater). Predator = hunts other animals. Prey = gets hunted.</div>
-    <div class="ss-vocab"><span class="ss-chip">habitat</span><span class="ss-chip">adaptation</span><span class="ss-chip">chaîne alimentaire</span><span class="ss-chip">producteur</span><span class="ss-chip">consommateur</span><span class="ss-chip">prédateur</span><span class="ss-chip">proie</span></div>
-    <div class="ss-ql">Questions de compréhension</div>
-    <div class="ss-q-wrap"><div class="ss-q">1. Qu'est-ce qu'un habitat ? Nomme deux habitats différents.</div><div class="ss-ans">Un habitat est l'endroit où vit un organisme et où il trouve tout ce dont il a besoin. Ex. : forêt, prairie, étang, arctique.</div></div>
-    <div class="ss-q-wrap"><div class="ss-q">2. Quelle est la différence entre la migration et l'hibernation ?</div><div class="ss-ans">Migration = l'animal voyage vers un autre endroit pour survivre (ex. oiseaux au sud l'hiver). Hibernation = l'animal dort tout l'hiver dans son habitat (ex. ours).</div></div>
-    <div class="ss-q-wrap"><div class="ss-q">3. Dans cette chaîne alimentaire : herbe → lapin → renard, quel est le producteur ? Le prédateur ?</div><div class="ss-ans">Producteur = herbe. Prédateur = renard. Le lapin est la proie du renard.</div></div>
-    <div class="ss-q-wrap"><div class="ss-q">4. Comment le camouflage aide-t-il un animal à survivre ? Donne un exemple.</div><div class="ss-ans">Le camouflage permet à l'animal de se fondre dans son environnement pour éviter les prédateurs. Ex. : le caméléon change de couleur ; la chouette est brune comme l'écorce.</div></div>
-
-    <div class="study-h2">🌱 Les plantes</div>
-    <div class="ss-body">Les parties d'une plante : <strong>racines</strong> (absorbent eau et minéraux), <strong>tige</strong> (transporte l'eau), <strong>feuilles</strong> (font la photosynthèse), <strong>fleur</strong> (reproduction), <strong>fruit</strong> (protège la graine), <strong>graine</strong> (nouvelle plante). La <strong>photosynthèse</strong> : eau + lumière solaire → nourriture (glucose) + oxygène. La <strong>pollinisation</strong> se fait par les abeilles ou le vent. Le cycle de vie : graine → germination → plante → fleur → graine.</div>
-    <div class="en-hint">Parts of a plant: roots (soak up water + minerals from soil), stem (carries water and nutrients up), leaves (make food using sunlight), flower (makes seeds), fruit (protects seeds), seeds (grow into new plants). Photosynthesis = how plants make their own food: they use water (from roots), carbon dioxide (from air), and sunlight energy → they make glucose (sugar) + release oxygen. Plant life cycle: seed → germination (sprouts) → seedling → mature plant → flower → seeds → repeat!</div>
-    <div class="ss-vocab"><span class="ss-chip">photosynthèse</span><span class="ss-chip">germination</span><span class="ss-chip">pollinisation</span><span class="ss-chip">chlorophylle</span><span class="ss-chip">cycle de vie</span></div>
-    <div class="ss-ql">Questions de compréhension</div>
-    <div class="ss-q-wrap"><div class="ss-q">1. Nomme les 6 parties d'une plante et décris le rôle d'une d'entre elles.</div><div class="ss-ans">Racines, tige, feuilles, fleur, fruit, graine. Ex. : les racines absorbent l'eau et les minéraux du sol.</div></div>
-    <div class="ss-q-wrap"><div class="ss-q">2. Explique la photosynthèse avec une équation simple.</div><div class="ss-ans">Eau + lumière solaire → glucose (nourriture) + oxygène. La chlorophylle dans les feuilles capture la lumière.</div></div>
-    <div class="ss-q-wrap"><div class="ss-q">3. Qu'est-ce que la pollinisation et pourquoi est-elle importante ?</div><div class="ss-ans">La pollinisation transfère le pollen d'une fleur à une autre (par abeilles ou vent), ce qui permet la reproduction des plantes et la formation de graines.</div></div>
-    <div class="ss-q-wrap"><div class="ss-q">4. Décris le cycle de vie d'une plante en 4 étapes.</div><div class="ss-ans">Graine → germination (la graine pousse) → plante mature → fleur + pollinisation → production de nouvelles graines.</div></div>
-
-    <div class="study-h2">💡 Lumière et ombres</div>
-    <div class="ss-body">La <strong>lumière voyage en ligne droite</strong>. Sources naturelles : soleil, feu, éclairs. Sources artificielles : ampoules, lampes de poche. Les objets sont : <strong>transparents</strong> (laissent passer toute la lumière — verre), <strong>translucides</strong> (laissent passer une partie — papier de soie), <strong>opaques</strong> (bloquent la lumière — mur). La <strong>réflexion</strong> se produit quand la lumière rebondit sur une surface (miroir). Les <strong>ombres</strong> se forment quand un objet opaque bloque la lumière.</div>
-    <div class="en-hint">Light travels in straight lines. Natural light sources: sun, fire, stars. Artificial (man-made) light: light bulb, flashlight, phone screen. Materials: transparent = light passes through completely (glass, clear plastic — you can see through it). Translucent = some light passes through, but blurry (frosted glass, tissue paper). Opaque = no light passes through (wood, metal, your hand). Shadow: formed when an opaque object blocks light. The shadow is on the OPPOSITE side from the light source. Reflection: light bounces off a shiny surface (mirror).</div>
-    <div class="ss-vocab"><span class="ss-chip">source lumineuse</span><span class="ss-chip">opaque</span><span class="ss-chip">translucide</span><span class="ss-chip">transparent</span><span class="ss-chip">réflexion</span><span class="ss-chip">ombre</span></div>
-    <div class="ss-ql">Questions de compréhension</div>
-    <div class="ss-q-wrap"><div class="ss-q">1. Quelle est la différence entre un objet transparent et un objet opaque ? Donne un exemple de chaque.</div><div class="ss-ans">Transparent : laisse passer toute la lumière, ex. verre à fenêtre. Opaque : bloque toute la lumière, ex. mur en brique.</div></div>
-    <div class="ss-q-wrap"><div class="ss-q">2. Pourquoi les ombres changent-elles de taille selon la position de la source lumineuse ?</div><div class="ss-ans">Quand la source est proche, l'ombre est grande. Quand elle est loin ou directement au-dessus, l'ombre est petite. L'angle de la lumière détermine la taille de l'ombre.</div></div>
-    <div class="ss-q-wrap"><div class="ss-q">3. Donne un exemple de réflexion lumineuse dans la vie quotidienne.</div><div class="ss-ans">Ex. : un miroir reflète ton image ; une surface d'eau calme reflète le ciel ; un rétroviseur reflète la route.</div></div>
-    <div class="ss-q-wrap"><div class="ss-q">4. Nomme deux sources de lumière naturelles et deux sources artificielles.</div><div class="ss-ans">Naturelles : soleil, éclairs, feu, lucioles. Artificielles : ampoule électrique, lampe de poche, écran de téléphone, bougie.</div></div>
-
-    <div class="study-h2">⚙️ Machines simples</div>
-    <div class="ss-body">Une <strong>machine simple</strong> est un outil qui réduit la force nécessaire ou change la direction d'une force. Il y en a 6 types : <strong>levier</strong> (bascule, ouvre-boîte), <strong>roue et axe</strong> (volant, poignée de porte), <strong>poulie</strong> (drapeau sur un mât), <strong>plan incliné</strong> (rampe), <strong>coin</strong> (hache, couteau), <strong>vis</strong> (boulon). L'<strong>effort</strong> est la force appliquée ; la <strong>charge</strong> est ce que l'on déplace.</div>
-    <div class="en-hint">Simple machines make work easier by reducing the force needed OR changing the direction of force. 6 types: 1) Lever (seesaw, crowbar) — a bar that pivots on a fulcrum. 2) Wheel and axle (doorknob, steering wheel) — wheel attached to a rod. 3) Pulley (flagpole, window blinds) — rope over a wheel. 4) Inclined plane (ramp, slide) — a slanted surface. 5) Wedge (knife, axe) — two inclined planes joined. 6) Screw (jar lid, screw bolt) — an inclined plane wrapped in a spiral.</div>
-    <div class="ss-vocab"><span class="ss-chip">machine simple</span><span class="ss-chip">levier</span><span class="ss-chip">plan incliné</span><span class="ss-chip">poulie</span><span class="ss-chip">effort</span><span class="ss-chip">charge</span></div>
-    <div class="ss-ql">Questions de compréhension</div>
-    <div class="ss-q-wrap"><div class="ss-q">1. Nomme les 6 types de machines simples avec un exemple de chaque.</div><div class="ss-ans">Levier = bascule ; Roue et axe = volant de voiture ; Poulie = drapeau sur mât ; Plan incliné = rampe pour fauteuil roulant ; Coin = hache ; Vis = boulon.</div></div>
-    <div class="ss-q-wrap"><div class="ss-q">2. Comment un plan incliné rend-il le travail plus facile ?</div><div class="ss-ans">Un plan incliné (rampe) permet de monter une charge avec moins de force, en étalant l'effort sur une plus longue distance.</div></div>
-    <div class="ss-q-wrap"><div class="ss-q">3. Donne deux exemples de machines simples que tu utilises à la maison.</div><div class="ss-ans">Réponses possibles : poignée de porte (roue et axe), escalier (plan incliné), ciseaux (levier + coin), tiroir (roue et axe), robinet (roue et axe).</div></div>
+  <div class="sched-slot" id="slot-1000">
+    <div class="s-time s-time-logan">10:00</div><div class="s-icon">🌿</div>
+    <div class="s-body"><div class="s-label">Break (15 min)</div><div class="s-detail">Go outside or move your body. Screen-free. Drink water.</div></div>
   </div>
 
-  <!-- ── SUBJECT 5: SCIENCES HUMAINES ── -->
-  <div class="ss-unit">
-    <div class="ss-tag">#5 · Sciences humaines 4</div>
-    <div class="ss-title">L'Alberta : terre, histoires et peuples</div>
-
-    <div class="study-h2">🗺️ Unité A — L'Alberta : un sens du pays</div>
-    <div class="ss-body">L'Alberta est une province de l'Ouest du Canada. Ses régions géographiques : les <strong>Prairies</strong> (plaines agricoles), les <strong>Badlands</strong> (formations rocheuses et dinosaures), les <strong>Rocheuses</strong> (montagnes), et le <strong>bouclier boréal</strong> (forêts du nord). La capitale est <strong>Edmonton</strong> ; la plus grande ville est Calgary. Les rivières importantes : Saskatchewan du Nord, Athabasca, Bow. L'Alberta est enclavée — elle n'a pas de frontière avec l'océan.</div>
-    <div class="en-hint">Alberta is a province in western Canada. It has 4 main geographic regions: Prairies (flat farmland in the south and centre), Badlands (dry, eroded landscape with hoodoos — near Drumheller), Rocky Mountains (dramatic mountain range in the west), and Boreal Shield (forests and lakes in the north). Capital city = Edmonton (north). Largest city = Calgary (south). Major rivers: North Saskatchewan, Athabasca, Bow.</div>
-    <div class="ss-vocab"><span class="ss-chip">province</span><span class="ss-chip">prairie</span><span class="ss-chip">Rocheuses</span><span class="ss-chip">Badlands</span><span class="ss-chip">capitale</span><span class="ss-chip">Edmonton</span><span class="ss-chip">rivière</span><span class="ss-chip">région</span></div>
-    <div class="ss-ql">Questions de compréhension</div>
-    <div class="ss-q-wrap"><div class="ss-q">1. Nomme trois régions géographiques de l'Alberta et décris-en une.</div><div class="ss-ans">Prairies, Badlands, Rocheuses, bouclier boréal. Ex. : les Prairies sont de vastes plaines plates utilisées pour l'agriculture (blé, canola).</div></div>
-    <div class="ss-q-wrap"><div class="ss-q">2. Quelle est la capitale de l'Alberta ? Quelle est la plus grande ville ?</div><div class="ss-ans">Capitale = Edmonton. Plus grande ville = Calgary.</div></div>
-    <div class="ss-q-wrap"><div class="ss-q">3. Pourquoi les rivières sont-elles importantes pour les communautés albertaines ?</div><div class="ss-ans">Les rivières fournissent de l'eau potable, soutiennent l'agriculture, permettent les transports et constituent des habitats pour la faune.</div></div>
-    <div class="ss-q-wrap"><div class="ss-q">4. Décris une différence entre les Prairies et les Rocheuses.</div><div class="ss-ans">Les Prairies sont plates et utilisées pour l'agriculture ; les Rocheuses sont des montagnes élevées utilisées pour le tourisme et les sports d'hiver.</div></div>
-    <div class="ss-q-wrap"><div class="ss-q">5. Que signifie qu'une province est « enclavée » ?</div><div class="ss-ans">Cela signifie qu'elle n'a pas de frontière avec un océan. L'Alberta est entourée seulement par d'autres provinces et des territoires (et les États-Unis au sud).</div></div>
-
-    <div class="study-h2">📜 Unité B — Les peuples et les histoires de l'Alberta</div>
-    <div class="ss-body">Les <strong>Premières Nations</strong> vivaient en Alberta depuis des milliers d'années avant les Européens — notamment les Cris, les Pieds-Noirs (Blackfoot), les Tsuu T'ina. La <strong>traite des fourrures</strong> a établi un contact entre Autochtones et Européens. Les <strong>Métis</strong> ont une culture mixte européenne et autochtone. Des <strong>traités</strong> ont été signés entre les nations autochtones et le gouvernement canadien. Des immigrants du monde entier ont bâti les premières villes. L'Alberta est devenue une province en <strong>1905</strong>.</div>
-    <div class="en-hint">Indigenous peoples lived in Alberta for thousands of years before European contact. Main groups in Alberta: Cree (Nehiyaw), Blackfoot Confederacy (Siksika, Kainai, Piikani), Tsuu T'ina, Nakoda, Métis. The fur trade (1600s–1800s) brought European traders into contact with Indigenous nations — Indigenous people traded furs for European goods. Treaties = formal agreements between the Crown and Indigenous nations about land sharing and rights (most of Alberta was covered by Treaties 6, 7, and 8). Alberta became a province on September 1, 1905.</div>
-    <div class="ss-vocab"><span class="ss-chip">Premières Nations</span><span class="ss-chip">Autochtones</span><span class="ss-chip">Métis</span><span class="ss-chip">traite des fourrures</span><span class="ss-chip">traité</span><span class="ss-chip">colons</span><span class="ss-chip">1905</span><span class="ss-chip">immigrant</span></div>
-    <div class="ss-ql">Questions de compréhension</div>
-    <div class="ss-q-wrap"><div class="ss-q">1. Qui étaient les premiers peuples à habiter l'Alberta ? Nomme deux nations.</div><div class="ss-ans">Les Premières Nations. Ex. : les Cris et les Pieds-Noirs (Blackfoot).</div></div>
-    <div class="ss-q-wrap"><div class="ss-q">2. Qu'est-ce que la traite des fourrures ? Qui y participait ?</div><div class="ss-ans">C'était l'échange de fourrures d'animaux (castor, etc.) contre des outils et des marchandises. Les Autochtones et les compagnies européennes (comme la Compagnie de la Baie d'Hudson) y participaient.</div></div>
-    <div class="ss-q-wrap"><div class="ss-q">3. Qu'est-ce qu'un traité ? Pourquoi sont-ils importants aujourd'hui ?</div><div class="ss-ans">Un traité est un accord officiel entre nations. Les traités ont défini les droits des peuples autochtones sur leurs terres. Ils sont encore légalement valides aujourd'hui.</div></div>
-    <div class="ss-q-wrap"><div class="ss-q">4. Comment les immigrants ont-ils contribué à bâtir l'Alberta ?</div><div class="ss-ans">Ils ont apporté leurs cultures, langues, savoir-faire agricoles et artisanaux. Ils ont bâti des fermes, des villages et des villes qui ont formé la province.</div></div>
-    <div class="ss-q-wrap"><div class="ss-q">5. En quelle année l'Alberta est-elle devenue une province ? Que s'est-il passé à ce moment ?</div><div class="ss-ans">En 1905. L'Alberta et la Saskatchewan sont officiellement devenues des provinces canadiennes le 1er septembre 1905.</div></div>
-
-    <div class="study-h2">💼 Unité C — L'activité économique en Alberta</div>
-    <div class="ss-body">L'économie de l'Alberta repose sur le <strong>pétrole et le gaz naturel</strong>, l'<strong>agriculture</strong> (blé, canola, bœuf) et l'<strong>exploitation forestière</strong>. Ces <strong>ressources naturelles</strong> créent des emplois. Les <strong>biens</strong> sont des objets fabriqués ou cultivés ; les <strong>services</strong> sont des actions réalisées pour d'autres (enseignant, médecin). Les communautés dépendent les unes des autres par les <strong>échanges</strong>. L'économie peut changer selon les prix mondiaux du pétrole.</div>
-    <div class="en-hint">Alberta's economy runs on natural resources. Goods = things you can touch and hold (wheat, oil, a car, a loaf of bread). Services = things people DO for others (teaching, driving a bus, cutting hair, selling groceries). Alberta's key resources: oil sands (tar sands near Fort McMurray) = biggest Canadian export; natural gas; agriculture (cattle ranching, canola, wheat). Challenge: when oil prices drop, many Albertans lose jobs — the economy needs to diversify (add other industries like technology and tourism).</div>
-    <div class="ss-vocab"><span class="ss-chip">ressource naturelle</span><span class="ss-chip">économie</span><span class="ss-chip">biens</span><span class="ss-chip">services</span><span class="ss-chip">agriculture</span><span class="ss-chip">pétrole</span><span class="ss-chip">emploi</span><span class="ss-chip">échange</span></div>
-    <div class="ss-ql">Questions de compréhension</div>
-    <div class="ss-q-wrap"><div class="ss-q">1. Donne deux exemples de ressources naturelles importantes en Alberta.</div><div class="ss-ans">Pétrole, gaz naturel, bois, blé, canola, bœuf.</div></div>
-    <div class="ss-q-wrap"><div class="ss-q">2. Quelle est la différence entre un bien et un service ? Donne un exemple de chaque.</div><div class="ss-ans">Bien = objet physique fabriqué ou cultivé, ex. pain, voiture. Service = action faite pour quelqu'un, ex. couper les cheveux, enseigner.</div></div>
-    <div class="ss-q-wrap"><div class="ss-q">3. Comment l'agriculture contribue-t-elle à l'économie albertaine ?</div><div class="ss-ans">L'agriculture produit des biens alimentaires (blé, canola, bœuf) qui sont vendus au Canada et exportés dans le monde entier, créant des emplois et des revenus.</div></div>
-    <div class="ss-q-wrap"><div class="ss-q">4. Pense à un défi lié à l'économie pétrolière. Comment y répondre ?</div><div class="ss-ans">Défi : quand le prix du pétrole baisse, les gens perdent leurs emplois. Solution : diversifier l'économie avec d'autres industries comme les énergies renouvelables ou le tourisme.</div></div>
-    <div class="ss-q-wrap"><div class="ss-q">5. Pourquoi les communautés dépendent-elles les unes des autres ?</div><div class="ss-ans">Parce qu'aucune communauté ne peut tout produire elle-même. Elles échangent des biens et services selon leurs ressources et leurs spécialités.</div></div>
-
-    <div class="study-h2">🗳️ Unité D — La citoyenneté et la communauté</div>
-    <div class="ss-body">Un <strong>citoyen</strong> est membre d'une communauté. Les citoyens ont des <strong>droits</strong> (choses qu'ils peuvent faire ou recevoir) et des <strong>responsabilités</strong> (choses qu'ils doivent faire). Nous sommes citoyens de notre école, ville, province et pays. Le <strong>gouvernement</strong> fait des lois et offre des services. Les citoyens participent aux <strong>élections</strong> pour choisir leurs <strong>représentants</strong>. La participation citoyenne (voter, aider les autres, respecter les règles) renforce la communauté.</div>
-    <div class="en-hint">A citizen belongs to a community and has both rights AND responsibilities. Rights = things you are entitled to (right to education, to be safe, to be treated fairly). Responsibilities = things you must do (follow rules, respect others, take care of shared spaces). In Alberta you belong to multiple communities at once: your class, your school, your city/town, Alberta (province), and Canada. Elections = how we choose our representatives in government. Your school has rules because communities need structure to be safe and fair for everyone.</div>
-    <div class="ss-vocab"><span class="ss-chip">citoyen</span><span class="ss-chip">droits</span><span class="ss-chip">responsabilités</span><span class="ss-chip">communauté</span><span class="ss-chip">gouvernement</span><span class="ss-chip">élection</span><span class="ss-chip">représentant</span><span class="ss-chip">participation</span></div>
-    <div class="ss-ql">Questions de compréhension</div>
-    <div class="ss-q-wrap"><div class="ss-q">1. Qu'est-ce qu'un citoyen ? Donne un exemple de communauté dont tu fais partie.</div><div class="ss-ans">Un citoyen est un membre reconnu d'une communauté. Ex. : tu es citoyen de ton école, de ta ville, de l'Alberta, du Canada.</div></div>
-    <div class="ss-q-wrap"><div class="ss-q">2. Quelle est la différence entre un droit et une responsabilité ? Donne un exemple de chaque.</div><div class="ss-ans">Droit = quelque chose que tu peux faire ou recevoir, ex. aller à l'école. Responsabilité = quelque chose que tu dois faire, ex. respecter les règles de l'école.</div></div>
-    <div class="ss-q-wrap"><div class="ss-q">3. Nomme deux responsabilités que tu as comme citoyen de ton école.</div><div class="ss-ans">Ex. : respecter les autres élèves, suivre les règles de sécurité, participer en classe, ramasser ses déchets.</div></div>
-    <div class="ss-q-wrap"><div class="ss-q">4. Pourquoi est-ce important de voter lors des élections ?</div><div class="ss-ans">Voter permet aux citoyens de choisir des représentants qui prendront des décisions pour la communauté. Sans participation, les décisions peuvent ne pas refléter les besoins de tous.</div></div>
-    <div class="ss-q-wrap"><div class="ss-q">5. Comment peut-on participer à la vie citoyenne à l'école ou dans sa communauté ?</div><div class="ss-ans">Exemples : aider un voisin, participer à un conseil d'élèves, ramasser des déchets dans le parc, respecter les règles, soutenir un camarade en difficulté.</div></div>
+  <div class="sched-slot" id="slot-1015">
+    <div class="s-time s-time-logan">10:15</div><div class="s-icon">🔬</div>
+    <div class="s-body">
+      <div class="s-label">Morning Block 2 — Math, Language &amp; Art</div>
+      <div class="s-detail">One task each: Math · Language · Art.</div>
+      <div class="inline-tasks" id="tasks-block1"></div>
+    </div>
   </div>
 
-  <!-- ── SUBJECT 6: SANTÉ ── -->
-  <div class="ss-unit">
-    <div class="ss-tag">#6 · Santé 4</div>
-    <div class="ss-title">Santé personnelle, émotions et sécurité</div>
+  <div class="sched-slot" id="slot-1200">
+    <div class="s-time s-time-logan">12:00</div><div class="s-icon">🥗</div>
+    <div class="s-body"><div class="s-label">Lunch</div><div id="meal-lunch"></div><div class="s-detail">Eat lunch. Put dishes in the kitchen. Empty lunch bag.</div></div>
+  </div>
 
-    <div class="study-h2">🥦 Santé personnelle</div>
-    <div class="ss-body">Une <strong>alimentation saine</strong> comprend les 4 groupes alimentaires : légumes et fruits, grains entiers, protéines (viande, légumineuses, noix), produits laitiers. Les enfants devraient faire au moins <strong>60 minutes d'exercice</strong> par jour et dormir environ <strong>10–11 heures</strong> par nuit. L'<strong>hygiène</strong> quotidienne inclut : se laver les mains avant de manger et après les toilettes, se brosser les dents deux fois par jour, prendre une douche régulièrement.</div>
-    <div class="en-hint">Healthy eating: try to eat from all 4 food groups every day — vegetables and fruits (half your plate), grains (bread, rice, pasta), proteins (meat, beans, eggs, nuts), dairy (milk, yogurt, cheese). Physical activity: kids need at least 60 minutes of moderate-to-vigorous activity every day. Sleep: Grade 4 students need 9–11 hours per night — sleep helps your brain consolidate memory and helps your body grow. Handwashing: 20 seconds with soap, especially before eating and after the bathroom — this is the #1 way to prevent spreading illness.</div>
-    <div class="ss-vocab"><span class="ss-chip">alimentation</span><span class="ss-chip">groupe alimentaire</span><span class="ss-chip">hygiène</span><span class="ss-chip">exercice</span><span class="ss-chip">sommeil</span></div>
-    <div class="ss-ql">Questions de compréhension</div>
-    <div class="ss-q-wrap"><div class="ss-q">1. Nomme les 4 groupes alimentaires. Donne un exemple de chaque.</div><div class="ss-ans">Légumes et fruits (ex. pomme, brocoli) ; Grains (ex. pain, riz) ; Protéines (ex. poulet, lentilles) ; Produits laitiers (ex. lait, fromage).</div></div>
-    <div class="ss-q-wrap"><div class="ss-q">2. Combien de minutes d'exercice physique un enfant devrait-il faire chaque jour ? Donne deux exemples d'exercice.</div><div class="ss-ans">60 minutes. Ex. : courir, jouer au soccer, nager, faire du vélo, danser.</div></div>
-    <div class="ss-q-wrap"><div class="ss-q">3. Pourquoi est-il important de se laver les mains ? Quand le faire ?</div><div class="ss-ans">Laver les mains élimine les microbes et prévient les maladies. Se laver : avant de manger, après les toilettes, après avoir toussé/éternué, après avoir touché des animaux.</div></div>
+  <div class="sched-slot" id="slot-1230">
+    <div class="s-time s-time-logan">12:30</div><div class="s-icon">🏃</div>
+    <div class="s-body">
+      <div class="s-label">Outdoor / Free Time</div>
+      <div class="s-detail">30–60 min movement. Screens off this block.</div>
+      <div class="inline-tasks" id="tasks-sidequest"></div>
+    </div>
+  </div>
 
-    <div class="study-h2">💚 Émotions et bien-être</div>
-    <div class="ss-body">Les émotions de base : <strong>joie</strong>, <strong>tristesse</strong>, <strong>colère</strong>, <strong>peur</strong>, <strong>surprise</strong>, <strong>dégoût</strong>. Il est important de <strong>nommer</strong> ses émotions pour mieux les gérer. Stratégies pour gérer les émotions difficiles : <strong>respiration profonde</strong>, <strong>parler à quelqu'un de confiance</strong>, <strong>prendre une pause</strong>, faire de l'exercice. Il y a une différence entre un <strong>sentiment</strong> (ce qu'on ressent) et une <strong>action</strong> (ce qu'on fait) — on peut choisir ses actions même quand les émotions sont intenses.</div>
-    <div class="en-hint">6 basic emotions everyone experiences: joy, sadness, anger, fear, surprise, disgust. All feelings are valid — but feelings and ACTIONS are different. You can FEEL angry without hitting someone. Coping strategies: deep breathing (breathe in slowly for 4 counts, out for 4 — this calms your nervous system), talking to a trusted person (sharing feelings reduces their power), taking a break (walk away to cool down before responding). Self-regulation = managing your own emotions and behaviour — a skill you can practice and get better at!</div>
-    <div class="ss-vocab"><span class="ss-chip">émotion</span><span class="ss-chip">bien-être</span><span class="ss-chip">stratégie</span><span class="ss-chip">respect de soi</span></div>
-    <div class="ss-ql">Questions de compréhension</div>
-    <div class="ss-q-wrap"><div class="ss-q">1. Nomme 4 émotions de base. Comment peut-on les reconnaître chez quelqu'un d'autre ?</div><div class="ss-ans">Joie, tristesse, colère, peur. On peut les reconnaître par les expressions du visage, la posture du corps, le ton de la voix.</div></div>
-    <div class="ss-q-wrap"><div class="ss-q">2. Quelle est la différence entre un sentiment et une action ? Pourquoi est-ce important ?</div><div class="ss-ans">Sentiment = ce qu'on ressent (ex. colère). Action = ce qu'on choisit de faire (ex. crier ou se calmer). On ne contrôle pas toujours ses émotions, mais on peut choisir ses actions.</div></div>
-    <div class="ss-q-wrap"><div class="ss-q">3. Nomme deux stratégies pour gérer la colère ou l'anxiété.</div><div class="ss-ans">Respiration profonde (ex. respiration en boîte), se retirer dans un espace calme, parler à quelqu'un de confiance, faire de l'exercice, écrire ses pensées.</div></div>
+  <div class="sched-slot" id="slot-1330">
+    <div class="s-time s-time-logan">1:30</div><div class="s-icon">🎯</div>
+    <div class="s-body">
+      <div class="s-label">Mission Block</div>
+      <div class="s-detail">One mission + two side quests. <a href="badges.html" style="font-weight:800">View all badges →</a></div>
+      <div class="inline-tasks" id="tasks-mission"></div>
+    </div>
+  </div>
 
-    <div class="study-h2">🛡️ Sécurité personnelle</div>
-    <div class="ss-body">Règles de sécurité importantes : <strong>en ligne</strong> — ne jamais partager ton nom complet, adresse, numéro de téléphone ou photos avec des inconnus ; <strong>dans la rue</strong> — regarder des deux côtés, traverser aux passages piétons, respecter les signaux ; <strong>avec des inconnus</strong> — ne pas aller seul avec quelqu'un qu'on ne connaît pas. Une <strong>personne de confiance</strong> est un adulte à qui tu peux parler si tu as peur ou si tu es en danger. Tu as le droit de dire <strong>NON</strong> si quelque chose te met mal à l'aise.</div>
-    <div class="en-hint">Online safety rules: NEVER share your full name, home address, school name, phone number, or passwords with anyone online. If something online feels wrong or uncomfortable, tell a trusted adult immediately. Road safety: always look left-right-left before crossing, use crosswalks, make eye contact with drivers. Trusted adults = people in your life you can go to if you feel unsafe or worried (parent/guardian, teacher, school counsellor, relative). Your body belongs to you — you have the right to say NO to any touch that makes you uncomfortable, and to tell a trusted adult about it.</div>
-    <div class="ss-vocab"><span class="ss-chip">sécurité</span><span class="ss-chip">personne de confiance</span><span class="ss-chip">limite</span><span class="ss-chip">danger</span></div>
-    <div class="ss-ql">Questions de compréhension</div>
-    <div class="ss-q-wrap"><div class="ss-q">1. Nomme deux règles de sécurité à respecter en ligne.</div><div class="ss-ans">Ne jamais partager son adresse ou numéro de téléphone ; ne pas envoyer de photos à des inconnus ; ne pas accepter de rencontrer en personne quelqu'un connu seulement en ligne ; dire à un adulte si quelque chose en ligne te met mal à l'aise.</div></div>
-    <div class="ss-q-wrap"><div class="ss-q">2. Qu'est-ce qu'une « personne de confiance » ? Donne deux exemples.</div><div class="ss-ans">Un adulte à qui tu peux parler honnêtement si tu te sens en danger ou si quelque chose ne va pas. Ex. : un parent, un enseignant, un conseiller scolaire, un grand-parent.</div></div>
-    <div class="ss-q-wrap"><div class="ss-q">3. Si un inconnu t'offre un cadeau et te demande de garder le secret, que dois-tu faire ?</div><div class="ss-ans">Refuser, s'éloigner rapidement et en parler immédiatement à une personne de confiance. Les adultes bienveillants ne demandent pas aux enfants de garder des secrets.</div></div>
+  <div class="sched-slot" id="slot-1530">
+    <div class="s-time s-time-logan">3:30</div><div class="s-icon">🎮</div>
+    <div class="s-body"><div class="s-label">Screen / Free Time</div><div class="s-detail">After tasks and chores are done and checked.</div></div>
+  </div>
+
+  <div class="sched-slot" id="slot-1730">
+    <div class="s-time s-time-logan">5:30</div><div class="s-icon">🍽️</div>
+    <div class="s-body"><div class="s-label">Dinner</div><div id="meal-supper"></div><div class="s-detail">Table together, screens off. Empty dishwasher on your day.</div></div>
+  </div>
+
+  <div class="sched-slot" id="slot-1900">
+    <div class="s-time s-time-logan">7:00</div><div class="s-icon">🛁</div>
+    <div class="s-body">
+      <div class="s-label">Evening Routine</div>
+      <div class="s-detail">Bath/shower, pack bag, lay out clothes, brush teeth.</div>
+      <div class="inline-tasks" id="tasks-wellness"></div>
+    </div>
+  </div>
+
+  <div class="sched-slot" id="slot-2000">
+    <div class="s-time s-time-logan">8:00</div><div class="s-icon">📖</div>
+    <div class="s-body"><div class="s-label">Reading Time (20 min)</div><div class="s-detail">French or English book, in bed with lights on.</div></div>
+  </div>
+
+  <div class="sched-slot" id="slot-2030">
+    <div class="s-time s-time-logan">8:30</div><div class="s-icon">🌙</div>
+    <div class="s-body"><div class="s-label">Lights Out</div><div class="s-detail">Screens off. Good night! 🌙</div></div>
   </div>
 
 </div>
-</div>
 
-<!-- ══ BIBLE ══ -->
-<div class="hub-panel" id="tab-bible">
-  <div class="skills-wrap">
-    <div style="padding:4px 0 16px">
-      <div style="font-family:'Nunito',sans-serif;font-size:20px;font-weight:900;color:#4aaa55">✝️ Bible Study</div>
-      <div style="font-size:13px;color:#888;margin-top:2px">15-minute sessions · faith, character, and life</div>
-    </div>
-    <div id="bible-cards" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:12px"></div>
+<div class="sched-section-label sched-section-label-logan">✨ Daily Quotes</div>
+<div class="quotes-wrap">
+  <div class="quotes-frame" id="quotes-container">
+    <div class="quotes-placeholder">Loading today's quotes…</div>
   </div>
 </div>
 
 <div class="toast-wrap" id="toasts"></div>
 
 <script>
-/* ── Date ── */
-document.getElementById('hero-date').textContent = new Date().toLocaleDateString('en-CA', { month: 'long', day: 'numeric', year: 'numeric' });
-const TODAY_KEY = new Date().toISOString().slice(0, 10);
+const P = 'logan';
+const now = new Date();
+document.getElementById('hero-date').textContent = now.toLocaleDateString('en-CA',{weekday:'long',month:'long',day:'numeric',year:'numeric'});
+const TODAY = now.toISOString().slice(0,10);
+const HOUR  = now.getHours() + now.getMinutes()/60;
 
-/* ── English hints toggle ── */
-function toggleEnglish() {
-  document.body.classList.toggle('show-en');
-  document.getElementById('en-toggle-study').classList.toggle('on');
-}
+[['slot-730',7.5,8],['slot-800',8,8.5],['slot-830',8.5,9],['slot-900',9,10],
+ ['slot-1000',10,10.25],['slot-1015',10.25,12],['slot-1200',12,12.5],
+ ['slot-1230',12.5,13.5],['slot-1330',13.5,15.5],['slot-1530',15.5,17.5],
+ ['slot-1730',17.5,19],['slot-1900',19,20],['slot-2000',20,20.5],['slot-2030',20.5,24]
+].forEach(([id,s,e])=>{ if(HOUR>=s&&HOUR<e) document.getElementById(id)?.classList.add(`active-now-${P}`); });
 
-/* ── Tab Switching ── */
-function showTab(name) {
-  document.querySelectorAll('.hub-tab').forEach(t => t.classList.toggle('active', t.dataset.tab === name));
-  document.querySelectorAll('.hub-panel').forEach(p => p.classList.toggle('active', p.id === 'tab-' + name));
-}
-
-/* ── Brain Brave ── */
-const BB_LESSONS = [
-  { cat:"brain",   icon:"✖️",  title:"Move to Think",          subtitle:"Cross-body movement wakes both brain hemispheres",    intro:"Cross-body moves activate both brain hemispheres at once — improving focus and readiness to learn.", agenda:[{label:"Body Check",desc:"Rate your brain 1–10. Wiggly? Sleepy? Buzzing?"},{label:"Brain Science",desc:"Left side handles words/logic; right handles pictures/creativity. Cross-body = BOTH sides wake up."},{label:"Cross-Body Moves",desc:"30 sec each: right elbow→left knee, left elbow→right knee, figure-8 in air. Rate your switch-on level."},{label:"Try a Task",desc:"Do a small task right after. Does it feel easier than before?"},{label:"Closing",desc:"'My body activates my brain. Moving is not a distraction — it's the warm-up.'"}], script:"'Did you know when you touch your right elbow to your left knee, BOTH sides of your brain fire up at once? Scientists call it bilateral integration. We just call it the fastest brain warm-up there is.'" },
-  { cat:"brain",   icon:"⚡",  title:"The 5-Minute Circuit",    subtitle:"Build your own Move / Think / Reset warmup",          intro:"Design your personalized pre-focus circuit — movement, thinking spark, calm reset. Use it daily before schoolwork.", agenda:[{label:"Why a Circuit?",desc:"Athletes warm up. Singers warm up. Your brain needs a warm-up too!"},{label:"Step 1 — Move",desc:"Try: jumping jacks, balance walk counting backward from 20, or cross-body march. Pick your favourite."},{label:"Step 2 — Think",desc:"Name 5 words starting with a letter in 30 sec. OR: 3 things + 1 that doesn't fit, explain the rule."},{label:"Step 3 — Reset",desc:"Box breathing — in 4, hold 4, out 4, hold 4. Then say: 'I am ready. My first task is ___.'"}], script:"'When you do the same warm-up routine every day before learning, your brain starts to recognize the pattern and switches on faster and faster. It's like a signal: study time is coming, wake up!'" },
-  { cat:"brain",   icon:"🔄",  title:"Brain Breaks That Work",  subtitle:"Resets that restore focus without losing momentum",   intro:"Not all brain breaks are equal — phone scrolling doesn't restore focus, but a 2-min movement break does.", agenda:[{label:"Why Brains Blur",desc:"Brains can only focus deeply for 10–20 min before needing a micro-reset. That's biology, not weakness."},{label:"Break Testing",desc:"Try: physical (jump), nature (look outside), creative (doodle), phone. Which made it easiest to return?"},{label:"The Break Rule",desc:"10–15 min work → 2-min movement break → back to work. Phone breaks = off-limits mid-task."}], script:"'When you scroll a phone on a break, your brain doesn't rest — it just switches stimulation. Movement or nature actually recover your focus centers. Let's find which breaks work for YOU.'" },
-  { cat:"anger",   icon:"🌋",  title:"The Anger Volcano",       subtitle:"How anger builds before it erupts",                   intro:"Anger never comes from nowhere. This lesson teaches you to notice the build before it erupts.", agenda:[{label:"Volcano Model",desc:"Trigger → Rumble (thoughts start) → Steam (body heats) → Eruption. Warning signs always came first!"},{label:"Your Warning Signs",desc:"What does anger feel like in YOUR body? Clenched fists? Hot face? Tight jaw? Label these on your volcano."},{label:"Interrupt It",desc:"When I notice steam, I will ___. (Walk away, hold ice, do push-ups.) Choose 2 strategies."}], script:"'Anger doesn't erupt from nowhere. It builds like a volcano. We're going to become experts at feeling the rumble EARLY, so you have time to choose what happens next.'" },
-  { cat:"anger",   icon:"🧯",  title:"STOP Before You Pop",     subtitle:"A 4-step anger pause that actually works",            intro:"The STOP skill interrupts the anger-to-action pipeline before you do something you'll regret.", agenda:[{label:"STOP Steps",desc:"S = Stop (freeze completely). T = Take a breath (one slow full breath). O = Observe (what am I thinking/feeling/wanting to do?). P = Proceed (choose wisely)."},{label:"Role Play",desc:"Act out a frustrating scenario. Practice STOP together — say each step out loud as you do it."},{label:"Code Word",desc:"Decide on a private code word a trusted adult can use to cue STOP (e.g. 'pineapple'). Practice it now."}], script:"'When you're really angry, your thinking brain goes offline. STOP is a way to hit pause long enough for your thinking brain to come back. It takes practice in CALM so it works in STORM.'" },
-  { cat:"adhd",    icon:"🚀",  title:"Your Brain is a Rocket",  subtitle:"Understanding how your brain works — without shame",  intro:"Before strategies work, you need to understand WHY your brain works differently — and that it's a superpower.", agenda:[{label:"Brain Quiz",desc:"True or false: ADHD kids are lazy. (FALSE!) They're often trying harder than most people know. (TRUE!)"},{label:"Rocket Explanation",desc:"The ADHD brain = incredible engines + steering still being built. Super powerful! Sometimes hard to aim."},{label:"Strengths List",desc:"What are you AMAZING at? Creativity, energy, big ideas, noticing things others miss, humor, hyperfocus."},{label:"Honest Challenges",desc:"Write 1–2 things that are hard. 'My brain sometimes struggles with ___ and that's okay. I'm learning.'"}], script:"'The real truth: you can pay INCREDIBLE attention to things that interest you. The challenge is your brain doesn't take orders about WHAT to focus on easily. That's not laziness. That's just how rockets work before they learn to steer.'" },
-  { cat:"adhd",    icon:"⏱️",  title:"Time Blindness",          subtitle:"Why time feels invisible and what to do about it",    intro:"Many ADHD brains experience 'time blindness' — they genuinely can't feel time passing. These tools make time visible.", agenda:[{label:"Experiment",desc:"Set a hidden timer for 1 minute. Guess when it's up. Was it longer or shorter than you thought?"},{label:"Time Blindness",desc:"ADHD brains have two times: NOW and NOT NOW. If it's not NOW, it basically doesn't exist yet."},{label:"Make Time Visible",desc:"Visual timers, sticky note countdowns, phone alarms with labels, time anchors like 'after breakfast = bag check'."},{label:"Build One System",desc:"Pick ONE hard transition (e.g. getting off screens). Design a visual timer + alarm plan just for that."}], script:"'Your brain experiences time differently — it's not that you don't care. Your brain literally doesn't feel time ticking. So we're going to make time VISIBLE, like turning on a light.'" },
-  { cat:"anxiety", icon:"🌿",  title:"Box Breathing",           subtitle:"The breathing trick that calms your nervous system",  intro:"Box breathing activates the parasympathetic nervous system — evidence-based, works within 2–3 minutes.", agenda:[{label:"Why It Works",desc:"Slow breathing sends a signal to your brain: 'No danger. Safe.' It overrides the alarm system."},{label:"Learn Box Breathing",desc:"Draw a square. IN for 4 (trace up). HOLD for 4 (right). OUT for 4 (down). HOLD for 4 (left). 4–5 rounds."},{label:"Worry Practice",desc:"Think of a mild worry (3/10). Do box breathing while holding it in mind. Did the body feeling shift?"}], script:"'Your nervous system has an on switch (alarm) and an off switch (calm). You can flip the off switch yourself using your breath. Slow breathing literally changes your brain chemistry.'" },
-  { cat:"doing",   icon:"🐢",  title:"Tiny Turtle Steps",       subtitle:"Breaking hard things into one tiny first step",       intro:"You get stuck not because you're lazy but because the task feels too big. Find the tiny first step.", agenda:[{label:"The Wall Feeling",desc:"That wall feeling is real — nervous system saying 'too much.' Make the task so small your brain can't say no."},{label:"Tiny Steps",desc:"Not 'clean room' — just 'pick up 3 things.' Not 'do homework' — just 'open the notebook.'"},{label:"The 2-Min Door",desc:"Any task has a 2-minute door. Once started, the brain often keeps going. Do it together right now."}], script:"'Your brain isn't saying NO to the task. It's saying: I don't know HOW to start. We find the first turtle step. Turtles don't rush. They just keep moving forward.'" },
-  { cat:"doing",   icon:"🏔️",  title:"Opposite Action",         subtitle:"DBT's most powerful skill for avoidance",            intro:"When a feeling urges you to avoid or give up — deliberately doing the opposite breaks the cycle.", agenda:[{label:"Opposite Action",desc:"Every feeling has an action urge. Anxiety says HIDE. Sadness says STAY IN BED. Opposite Action = do the opposite ON PURPOSE."},{label:"Practice",desc:"Anxious about a test → urge to avoid studying → Opposite: study 5 min. Feel stupid → throw the book → Opposite: read one sentence."},{label:"Your Mountain",desc:"What's one thing you've been avoiding this week? Design the SMALLEST possible opposite action step for TODAY."}], script:"'Avoidance makes the scary thing feel BIGGER. Every time you avoid, your brain logs: that must be REALLY dangerous. Opposite Action tricks your brain in reverse — every time you face something even a little, your brain learns: I can handle that.'" },
-  { cat:"alateen", icon:"🏠",  title:"It's Not Your Fault",     subtitle:"You didn't cause it, can't control it, can't cure it", intro:"The most important truth for kids in families touched by addiction: what happens at home is not your fault.", agenda:[{label:"The 3 C's",desc:"You didn't CAUSE it. You can't CONTROL it. You can't CURE it. Say all three slowly."},{label:"Where It Lands",desc:"When you hear that, what do you feel? Relief? Sadness? Disbelief? All feelings are valid here."},{label:"Letter Exercise",desc:"Write a short letter to yourself: 'Dear [name], This is not your fault because…' Just for you."}], script:"'A lot of kids secretly believe it's their fault — if they were just better, things would change. I want to tell you: no child's behaviour causes addiction. And no child's behaviour can cure it. That is the truth.'" },
-  { cat:"alateen", icon:"🔦",  title:"My Circle of Control",    subtitle:"Focus energy on what you can actually change",        intro:"Kids in chaotic homes often spend enormous energy trying to control things outside their power. Refocus on what IS yours.", agenda:[{label:"Three Circles",desc:"Inner = things I control (my words, choices, reactions). Middle = I can influence. Outer = I cannot control."},{label:"Sort It Out",desc:"Take your worries. Decide which circle each belongs in. Some will be hard — do them together."},{label:"Energy Question",desc:"When you spend energy on the outer circle, how does it feel? (Exhausted, helpless.) The inner circle is always yours."}], script:"'When something feels out of control at home, it's natural to try to fix it — even things that aren't yours to fix. That's exhausting. Today we're drawing a map of what actually belongs to you.'" },
-  { cat:"alateen", icon:"🌱",  title:"Detachment with Love",    subtitle:"How to love someone without losing yourself",         intro:"Detachment doesn't mean not caring. It means: I love you AND I don't let your choices run my life.", agenda:[{label:"What Is Detaching",desc:"I love you AND your storm is yours. I don't have to be in it. That's not selfish — it's healthy."},{label:"The Bubble",desc:"Imagine a clear bubble around you. Love travels through it. Chaos and adult problems stay outside."},{label:"What Goes In/Out",desc:"What do you want through your bubble (love, joy, connection)? What stays outside (yelling, blame, adult stress)?"}], script:"'When someone at home is really upset, you start to feel that way too — even if nothing happened to YOU. Alateen calls this being caught in someone else's storm. Detachment means you stop letting someone else's weather decide what YOUR day feels like.'" },
-  { cat:"alateen", icon:"🧳",  title:"Feelings Aren't Secrets", subtitle:"Finding safe people to tell the truth to",            intro:"Kids in families with addiction often carry a 'don't talk, don't trust, don't feel' rule. You have permission to feel AND talk — to the right people.", agenda:[{label:"Safe People Map",desc:"Draw a star. Write your name in the middle. On each point: someone safe to talk to (adult, friend, counsellor, relative)."},{label:"What To Say",desc:"Practice: 'Things at home are hard right now and I'm feeling ___. Can I talk to you?' Role-play saying it."},{label:"Closing",desc:"You deserve people who can hold your feelings. Feelings are not secrets. You are not alone."}], script:"'Your feelings are not secrets. They don't need to stay locked inside you. Part of today is finding WHO you can share them with safely.'" },
-
-  /* ── CBT for Dysthymia ── */
-  { cat:"mood", icon:"🌧️", title:"What Is Low Mood?", subtitle:"Understanding dysthymia in plain words",
-    intro:"Sometimes a grey feeling sticks around for a long time — not a huge sadness, just a flat, tired, 'meh' feeling most days. That has a name, and it is not your fault. Understanding it is the first step.",
-    agenda:[
-      {label:"What It Feels Like",desc:"Low mood (dysthymia) can feel like: tired even after sleeping, hard to get excited about things you used to like, thinking 'what's the point?', feeling a bit empty or grey inside. It is different from just having a bad day."},
-      {label:"Your Brain on Low Mood",desc:"When mood stays low, the brain gets used to seeing everything through a grey filter. It starts noticing problems more than good things — not because bad things are happening, but because the filter is on."},
-      {label:"It Is NOT",desc:"Not laziness. Not weakness. Not 'just in your head' (it is in your brain chemistry — that is real). Not something you chose. Not permanent."},
-      {label:"Name It to Tame It",desc:"Write or say: 'Right now I am feeling ___. This feeling is called low mood. It will not last forever. I can learn tools to feel better.'"},
-      {label:"Who Can Help",desc:"A trusted adult, a counsellor, or a doctor can help. You do not have to figure this out alone."}
-    ],
-    script:"'That flat, grey, low-energy feeling that sticks around — it is real, and it has a name. We call it persistent low mood or dysthymia. The important thing to know right now is: it is not your fault, and there are real tools that make it better. That is what we are going to learn together.'"
-  },
-
-  { cat:"mood", icon:"🔺", title:"The CBT Triangle", subtitle:"How thoughts, feelings, and actions connect",
-    intro:"CBT (Cognitive Behavioural Therapy) is based on one big idea: your thoughts, feelings, and actions are all connected. Change one and the others shift too.",
-    agenda:[
-      {label:"Draw the Triangle",desc:"Three corners: THOUGHTS (what I tell myself) → FEELINGS (what I feel in my body and heart) → ACTIONS (what I do). Each corner affects the other two."},
-      {label:"A Low Mood Example",desc:"Thought: 'Nobody wants to play with me.' → Feeling: sad, lonely, heavy. → Action: stay in my room, don't try. → Which makes the thought feel MORE true. It is a loop."},
-      {label:"The Good News",desc:"Because they are connected, you can jump in ANYWHERE and break the loop. Change the thought, OR change the action — and the feeling shifts."},
-      {label:"Try It",desc:"Think of a time you felt really low. What was the thought? What did you do? Now: what is one small thing you could change — a thought OR an action — that might have helped?"},
-      {label:"Practice",desc:"This week, when you notice a low feeling, ask: 'What thought am I having right now? What am I doing or not doing?'"}
-    ],
-    script:"'Imagine a triangle. Thoughts at the top, feelings on one side, actions on the other. When your mood is low, thoughts go dark, feelings go heavy, and you stop doing things — which makes the thoughts darker. But here is the thing: you can step into the triangle anywhere. Change the thought, or change the action — and the whole triangle shifts.'"
-  },
-
-  { cat:"mood", icon:"🔍", title:"Catching Unhelpful Thoughts", subtitle:"Spotting the thought traps that keep mood low",
-    intro:"Low mood comes with a set of sneaky thought patterns called cognitive distortions. They feel true — but they are the grey filter talking, not the full picture.",
-    agenda:[
-      {label:"All-or-Nothing",desc:"Seeing only extremes: 'I failed ONE question so I am terrible at math.' Reality: most things are in the middle — not all good, not all bad."},
-      {label:"Mind Reading",desc:"'They didn't wave back so they must hate me.' Reality: you cannot read minds — there are a hundred other explanations."},
-      {label:"Catastrophising",desc:"'I made one mistake and now everything is ruined forever.' Reality: most mistakes are fixable and not permanent."},
-      {label:"Filtering",desc:"Only noticing the bad stuff and filtering out the good: 'Yes, three nice things happened, but one bad thing did, so today was terrible.'"},
-      {label:"Personalising",desc:"'My friend is in a bad mood — it must be something I did.' Reality: other people's moods are usually about THEM, not you."},
-      {label:"Thought Trap Hunt",desc:"Over the next day, try to catch ONE thought trap. Write it down: 'I noticed a ___ trap. The thought was: ___.' That is it — just notice it."}
-    ],
-    script:"'Low mood has a bag of tricks — thought patterns that feel completely true but are actually the grey filter distorting reality. Learning to NAME them is like turning the lights on. You do not have to fix the thought yet — just spot it: Oh, there is a Mind Reading trap. There is Catastrophising. Just naming it puts a little distance between you and the thought.'"
-  },
-
-  { cat:"mood", icon:"⚖️", title:"Challenging Unhelpful Thoughts", subtitle:"CBT thought testing — the evidence game",
-    intro:"Once you can spot an unhelpful thought, the next step is testing it. Not forcing positive thinking — just asking: is this actually true?",
-    agenda:[
-      {label:"The 3 Questions",desc:"When you catch a grey thought, ask: 1) What is the evidence FOR this thought? 2) What is the evidence AGAINST it? 3) What would I say to a friend who had this thought?"},
-      {label:"Example",desc:"Thought: 'No one likes me.' Evidence for: 'Jake didn't talk to me today.' Evidence against: 'Sam asked me to play last week. My teacher said I'm kind. My dog is always happy to see me.' Balanced thought: 'Some days feel lonely. I do have people who care about me.'"},
-      {label:"Balanced Thought",desc:"A balanced thought is not fake-positive. It is more accurate. 'Things are hard AND I have handled hard things before.' 'This hurts AND it will not last forever.'"},
-      {label:"Practice",desc:"Write one grey thought you have had recently. Run it through the 3 questions. Write a balanced version. How does the balanced version feel in your body compared to the original?"},
-      {label:"The Thought Journal",desc:"Keep a small notebook. Thought → Evidence for/against → Balanced version. Even once a week makes a difference."}
-    ],
-    script:"'We are not trying to think positive — we are trying to think accurately. The grey filter exaggerates the bad and erases the good. The 3 questions are like recalibrating a scale that has been tilted. You are not lying to yourself — you are just getting the full picture.'"
-  },
-
-  { cat:"mood", icon:"🚀", title:"Behavioural Activation", subtitle:"Do first, feel better second",
-    intro:"Low mood tells you to stay still and wait until you feel better before doing things. But it works the OPPOSITE way — you do things first, and feeling better follows the action.",
-    agenda:[
-      {label:"The Low Mood Trap",desc:"Low mood → 'I don't feel like doing anything' → stay in bed/on couch → feel worse → even less motivation → repeat. Action breaks the loop."},
-      {label:"Activity = Medicine",desc:"Physical movement, connecting with people, doing something creative or productive — these are not rewards for feeling better. They ARE what creates feeling better."},
-      {label:"Your Activity Menu",desc:"List 10 things that used to bring you joy OR small things you know are good for you (outside time, drawing, building, shooting hoops, cooking, walking the dog). These are your activation tools."},
-      {label:"Tiny Wins",desc:"Start small. 'I will go outside for 5 minutes.' 'I will do one thing from my list.' You do not have to feel like it. Do it first. Notice if your mood shifts — even 10% better counts."},
-      {label:"Schedule One Thing",desc:"Pick ONE activity from your menu for tomorrow. Write it down. Do it. Then write how you felt before and after (even a number from 1–10)."}
-    ],
-    script:"'Low mood says: I will do things once I feel better. But the research is clear — you WILL NOT feel better first. Doing comes first, feeling follows. It feels backwards, but every time you do something even when you do not feel like it, you are sending your brain a signal: I can still do things. I am not stuck. And the brain starts to believe it.'"
-  },
-
-  { cat:"mood", icon:"📊", title:"Mood Monitoring", subtitle:"Tracking patterns so you can understand your mood",
-    intro:"You cannot change what you cannot see. Mood monitoring helps you notice patterns — what helps, what makes things harder, and that mood is not permanent.",
-    agenda:[
-      {label:"The Mood Scale",desc:"Rate your mood 1–10 each day: 1–3 = very low (grey, heavy, stuck), 4–6 = okay/mixed, 7–10 = good/energised. Write one word that describes it."},
-      {label:"What To Track",desc:"Each day: mood rating, one thing that happened, one thought you noticed, one thing you did. Takes 2 minutes. Over a week you see patterns."},
-      {label:"Triggers and Lifters",desc:"A trigger makes mood drop (conflict, bad sleep, boring day, hunger). A lifter makes mood rise (movement, connection, success, sunlight, good food). Find YOUR list."},
-      {label:"The Most Important Thing",desc:"Mood goes up and down — even for people with low mood. There will be 6s and 7s. Noticing them proves the grey feeling is not ALWAYS there and is not permanent."},
-      {label:"Build Your Chart",desc:"Use a simple notebook or your phone. This week: log your mood each evening before bed. Just the number and one word. Bring it back next session."}
-    ],
-    script:"'Mood feels like it is always the same when you are in a low patch — like it has always been this way and always will be. But when you start tracking it, you see: Tuesday was a 4, Wednesday was a 6, Friday was a 7. The grey filter makes every day seem identical. The chart shows you the truth — and the truth is that mood moves. You have more 6s and 7s than the filter lets you see.'"
-  },
-
-  { cat:"mood", icon:"🌱", title:"Building a Joy Practice", subtitle:"Growing good feelings on purpose",
-    intro:"CBT for low mood is not just fixing the bad — it is actively growing the good. Small daily practices rewire the brain toward noticing and creating positive experiences.",
-    agenda:[
-      {label:"3 Good Things",desc:"Every night, write down 3 things that went okay or better today. They can be tiny: 'My lunch was good. The sun was warm. I finished my worksheet.' Over time, this retrains your brain to scan for good."},
-      {label:"Savouring",desc:"When something good happens — even small — pause and stay with it for 20–30 seconds. Notice it in your body. This is called savouring, and it makes good experiences stick better in memory."},
-      {label:"Connection Time",desc:"Time with a person you feel safe with is one of the most powerful mood lifters there is. Schedule it. Even 10 minutes of real connection (no screens, just being together) counts."},
-      {label:"Your Strengths",desc:"Write 5 things you are good at — not just school things, anything. Being funny, loyal, creative, good at noticing details, kind to animals. Low mood hides your strengths. This is the antidote."},
-      {label:"Your Joy Plan",desc:"Combine everything: 1 activation activity, 3 good things journal, one connection moment. Pick the smallest version of each. This is your daily joy plan."}
-    ],
-    script:"'The brain is like a garden. Low mood is what grows when nothing is planted — not because you are bad, but because the soil needs tending. Three Good Things, savouring, connection, knowing your strengths — these are the seeds. You plant them every day, even when the sky is grey, and eventually the garden grows back. Not all at once. Slowly. But it grows.'"
-  },
-];
-
-const CAT_LABELS = { bpd:'💜 Emotions', adhd:'💙 Focus', anxiety:'💚 Worry', anger:'🔥 Anger', doing:'⭐ Hard Stuff', alateen:'🌊 Alateen', brain:'🧠 Brain Activation', mood:'🌧️ Low Mood' };
-
-function renderBrainBrave() {
-  document.getElementById('bb-lessons').innerHTML = BB_LESSONS.map((l, i) => `
-    <div class="bb-card" data-cat="${l.cat}" onclick="toggleBB(${i})">
-      <div class="bb-header">
-        <div class="bb-icon">${l.icon}</div>
-        <div class="bb-meta">
-          <div class="bb-cat-label">${CAT_LABELS[l.cat]||l.cat}</div>
-          <div class="bb-title">${l.title}</div>
-          <div class="bb-sub">${l.subtitle}</div>
-        </div>
-        <div id="bb-arr-${i}" style="font-size:18px;color:#ccc;transition:transform .2s;flex-shrink:0">↓</div>
-      </div>
-      <div class="bb-body">
-        <div class="bb-intro">${l.intro}</div>
-        <div style="font-size:11px;font-weight:900;letter-spacing:1.5px;text-transform:uppercase;color:var(--cat-c);margin:10px 0 6px">Lesson Steps</div>
-        ${l.agenda.map((a,n)=>`<div class="bb-step"><div class="bb-num">${n+1}</div><div><strong>${a.label}</strong><br><span style="color:#6b7280">${a.desc}</span></div></div>`).join('')}
-        <div style="font-size:11px;font-weight:900;letter-spacing:1.5px;text-transform:uppercase;color:var(--cat-c);margin:12px 0 4px">Script Starter</div>
-        <div class="bb-script">${l.script}</div>
-      </div>
-    </div>`).join('');
-}
-
-function toggleBB(i) {
-  const cards = document.querySelectorAll('.bb-card');
-  const wasOpen = cards[i].classList.contains('open');
-  cards.forEach((c,j) => { c.classList.remove('open'); const a = document.getElementById('bb-arr-'+j); if(a) a.style.transform=''; });
-  if (!wasOpen) { cards[i].classList.add('open'); const a = document.getElementById('bb-arr-'+i); if(a) a.style.transform='rotate(180deg)'; }
-}
-
-renderBrainBrave();
-
-/* ── Bible Study ── */
-const BB_BIBLE = [
-  {
-    icon: "✝️",
-    title: "Who Is God?",
-    subtitle: "Creation, identity, and why you matter",
-    verse: "In the beginning God created the heavens and the earth. — Genesis 1:1",
-    intro: "Before anything existed, God was there. Understanding who God is helps us understand who WE are — made on purpose, with purpose.",
-    agenda: [
-      { label: "Open Question", desc: "If you could ask God one question right now, what would it be? No wrong answers." },
-      { label: "Creation Story", desc: "God spoke the world into existence — light, sky, land, creatures, and finally people. He called it all 'very good.' That includes you." },
-      { label: "What God Is Like", desc: "Explore three big ideas: God is Creator (made everything), God is personal (knows your name), God is love (1 John 4:8). Which one means the most to you right now?" },
-      { label: "You Are Not an Accident", desc: "Psalm 139:13-14 says God knit you together and you are 'fearfully and wonderfully made.' What does it feel like to know you were made on purpose?" },
-      { label: "Response", desc: "Draw or write one thing about yourself that you think God sees as good — even if you forget it sometimes." }
-    ],
-    prayer: "God, I don't always understand everything about You, but I want to know You better. Thank You for making me on purpose. Help me remember that I matter to You. Amen."
-  },
-  {
-    icon: "🐑",
-    title: "The Good Shepherd",
-    subtitle: "Psalm 23 — safety, belonging, and being known",
-    verse: "The Lord is my shepherd, I lack nothing. — Psalm 23:1",
-    intro: "A shepherd in Bible times knew every single sheep by name — their personalities, their fears, their habits. Psalm 23 says God knows YOU like that.",
-    agenda: [
-      { label: "Read It Together", desc: "Read Psalm 23 slowly, one verse at a time. Notice what images come to mind — green pastures, still waters, a dark valley, a table." },
-      { label: "What Does a Shepherd Do?", desc: "Guides, protects, feeds, finds the lost ones, stays with them in danger. Which of those do you most need right now?" },
-      { label: "The Dark Valley", desc: "Verse 4 says 'even though I walk through the darkest valley, I will fear no evil — for You are with me.' What is a 'dark valley' that feels real in your life?" },
-      { label: "The Table", desc: "God prepares a table for you even when enemies are nearby — that means provision and dignity in hard circumstances. What does that mean to you?" },
-      { label: "Surely and All the Days", desc: "The last verse says goodness and mercy will follow you 'all the days of your life.' Not some days — all days. How does that land?" }
-    ],
-    prayer: "God, I want You to be my shepherd. When I'm scared or lost or in a dark place, remind me that You are right there with me. Thank You for knowing me. Amen."
-  },
-  {
-    icon: "🪨",
-    title: "David and Goliath",
-    subtitle: "Courage when things feel too big to face",
-    verse: "The battle is the Lord's. — 1 Samuel 17:47",
-    intro: "David was a kid facing a giant soldier everyone else was too scared to fight. His secret wasn't muscles — it was knowing who was on his side.",
-    agenda: [
-      { label: "Set the Scene", desc: "The Israelite army froze for 40 days while Goliath mocked them. Everyone except one teenager who ran errands for his brothers. Why do you think David wasn't afraid?" },
-      { label: "Your Goliaths", desc: "What feels 'giant' in your life right now — something scary, overwhelming, or too big? Name it. You don't have to fight it alone." },
-      { label: "David's Secret", desc: "He said: 'You come against me with sword and spear — I come in the name of the Lord.' His confidence wasn't in himself. It was in God. What's the difference?" },
-      { label: "Five Smooth Stones", desc: "David picked up five stones — he was prepared AND trusting. Faith doesn't mean doing nothing. What's one practical step AND one prayer you could bring to your giant?" },
-      { label: "The Outcome", desc: "David ran TOWARD Goliath. Not away. What would it look like for you to take one step toward something you've been avoiding?" }
-    ],
-    prayer: "God, some things in my life feel too big for me. Help me remember that You are bigger than any giant I face. Give me the courage to take the next step. Amen."
-  },
-  {
-    icon: "🏠",
-    title: "The Prodigal Son",
-    subtitle: "Grace, coming home, and a Father who runs",
-    verse: "While he was still a long way off, his father saw him and was filled with compassion — he ran to his son. — Luke 15:20",
-    intro: "This is maybe Jesus's most famous story. It's about a kid who walked away from everything good — and what happened when he came back.",
-    agenda: [
-      { label: "The Story", desc: "The younger son demanded his inheritance early (basically saying 'I wish you were dead'), blew it all, hit rock bottom feeding pigs. Then he came to his senses." },
-      { label: "Coming to Your Senses", desc: "The son 'came to himself' and decided to go home. Have you ever had a moment of realizing you went the wrong direction? What did that feel like?" },
-      { label: "The Father Ran", desc: "In Jesus's day, a dignified father NEVER ran — it was embarrassing. But this father ran. What does that tell you about how God feels about you coming back to Him?" },
-      { label: "The Party", desc: "The father threw a party — best robe, ring, celebration. Not a lecture. Not 'I told you so.' What do you think about that reaction?" },
-      { label: "The Older Brother", desc: "The older brother was angry and refused to go in. Is there anyone you've been like the older brother toward — someone you think doesn't deserve grace?" }
-    ],
-    prayer: "God, thank You that You don't wait for me to get it all together before You love me. When I mess up and come back to You, help me believe You're actually happy to see me. Amen."
-  },
-  {
-    icon: "⛰️",
-    title: "The Sermon on the Mount",
-    subtitle: "The Beatitudes — who is truly blessed",
-    verse: "Blessed are the pure in heart, for they will see God. — Matthew 5:8",
-    intro: "Jesus sat down on a hillside and flipped everything the world says about success upside down. The Beatitudes describe what a truly good life looks like.",
-    agenda: [
-      { label: "What Does 'Blessed' Mean?", desc: "Not just 'happy' — it means deeply well, flourishing, living in the right direction. Jesus says people who seem weak or sad can actually be blessed." },
-      { label: "Meek, Merciful, Pure", desc: "Pick any three Beatitudes (Matthew 5:3-11). What does each one mean in plain words? Why would that person be called blessed?" },
-      { label: "Upside-Down Kingdom", desc: "The world says: be strong, win, get yours, look out for yourself. Jesus says: be humble, give mercy, make peace. Which is harder? Which is better?" },
-      { label: "Salt and Light", desc: "Right after the Beatitudes, Jesus calls his followers 'salt of the earth' and 'light of the world.' What does that mean for how you live at school, at home, with friends?" },
-      { label: "One to Live", desc: "Which Beatitude do you most want to grow in this week? What would that look like in a real moment on a real day?" }
-    ],
-    prayer: "Jesus, thank You for showing us what a truly good life looks like. Help me care about the things You care about — being humble, pure in heart, and a peacemaker. Amen."
-  },
-  {
-    icon: "🎨",
-    title: "Joseph and His Brothers",
-    subtitle: "Forgiveness and trusting God's plan in the dark",
-    verse: "You intended to harm me, but God intended it for good. — Genesis 50:20",
-    intro: "Joseph's story is one of the most dramatic in the Bible — betrayal, slavery, prison, and then an incredible reversal. The whole time, God had a plan.",
-    agenda: [
-      { label: "The Story Arc", desc: "Joseph was his dad's favourite, got a special coat, his brothers hated him, sold him into slavery, he ended up in an Egyptian prison — then became second-in-command of Egypt. All in one story." },
-      { label: "The Pit", desc: "Joseph sat in a pit while his brothers ate lunch and decided what to do with him. Has there been a time you felt thrown away or rejected by someone you trusted?" },
-      { label: "Faithful in Prison", desc: "Even in prison, Joseph kept doing his best. Why do you think he didn't give up? What kept him going?" },
-      { label: "Forgiveness That Cost Something", desc: "When Joseph revealed himself to his brothers, he wept and forgave them. Forgiveness doesn't mean pretending it didn't happen — it means choosing not to stay in bitterness. What's the difference?" },
-      { label: "God Meant It for Good", desc: "'You meant evil — God meant good.' Is there something hard in your life that you wonder if God could use for something good? Talk about it." }
-    ],
-    prayer: "God, help me trust You even when things are going wrong and I can't see the bigger picture. Give me the strength to forgive people who have hurt me, just like Joseph did. Amen."
-  },
-  {
-    icon: "🌊",
-    title: "Jesus Calms the Storm",
-    subtitle: "Peace in chaos — faith over fear",
-    verse: "He got up, rebuked the wind and said to the waves, 'Quiet! Be still!' Then the wind died down and it was completely calm. — Mark 4:39",
-    intro: "The disciples were experienced fishermen — and they were terrified. Jesus was asleep in the boat. This story is about more than weather.",
-    agenda: [
-      { label: "Set the Scene", desc: "Middle of the lake, sudden violent storm, boat filling with water, Jesus asleep on a cushion. The disciples wake Him in panic: 'Don't You care that we're drowning?'" },
-      { label: "Your Storms", desc: "What does a 'storm' look like in your life — something that feels out of control, scary, overwhelming? Name one." },
-      { label: "Where Is Jesus in the Storm?", desc: "He was IN the boat with them the whole time. Not watching from shore — in the boat. What does it mean to you that Jesus is WITH you in your hard things?" },
-      { label: "'Peace, Be Still'", desc: "He spoke to the storm and it obeyed. He can speak to your anxiety, your fear, your chaos. What would it look like to hand your storm to Him instead of managing it alone?" },
-      { label: "After the Storm", desc: "The disciples were more amazed by what He did than relieved the storm was over. 'Who is this man?' they asked. What does this story teach you about who Jesus is?" }
-    ],
-    prayer: "Jesus, there are storms in my life that scare me. Help me remember that You are right here in the boat with me. Speak peace into the things that feel out of control. Amen."
-  },
-  {
-    icon: "🤝",
-    title: "The Good Samaritan",
-    subtitle: "Loving your neighbour — even the unexpected one",
-    verse: "Love your neighbour as yourself. — Luke 10:27",
-    intro: "When someone asked Jesus 'Who is my neighbour?', He told a story that completely redefined the question — and the answer.",
-    agenda: [
-      { label: "The Story", desc: "A man is beaten and left for dead. Two religious leaders cross the road to avoid him. A Samaritan — an outsider that Jews looked down on — stops, bandages him, pays for his care." },
-      { label: "Why the Samaritan?", desc: "Jesus made the HERO someone the audience would have expected to be the villain. Why do you think He did that? What point was He making?" },
-      { label: "Who Did You Cross the Road For?", desc: "When have you walked past someone who needed help because it was inconvenient or awkward? No judgment — be honest." },
-      { label: "Loving Is a Verb", desc: "The Samaritan didn't just feel compassion — he acted on it. He got his hands dirty. He spent his own money. What's the difference between feeling sorry for someone and actually loving them?" },
-      { label: "Go and Do Likewise", desc: "Jesus ends with: 'Go and do the same.' Who is ONE person in your world right now that you could show unexpected kindness to this week?" }
-    ],
-    prayer: "Jesus, help me not just walk past people who need help. Give me eyes to see who needs kindness and the courage to actually do something about it. Amen."
-  },
-  {
-    icon: "🦁",
-    title: "Daniel in the Lions' Den",
-    subtitle: "Standing firm when it costs something",
-    verse: "My God sent His angel and shut the mouths of the lions. — Daniel 6:22",
-    intro: "Daniel was told he would be thrown to lions if he kept praying. He prayed anyway — three times a day, windows open, just like always.",
-    agenda: [
-      { label: "The Setup", desc: "Daniel was so faithful and excellent at his work that his enemies could only find one weakness: his faith. So they made faith illegal. What does that tell you about Daniel's character?" },
-      { label: "The Choice", desc: "Daniel knew the law, knew the consequence, and chose to pray anyway. What do you think went through his mind in that moment?" },
-      { label: "Standing Firm at School", desc: "You probably won't be thrown to lions, but there are times when following God or doing what's right costs something. What does 'standing firm' look like in your real life?" },
-      { label: "The Lions' Den Night", desc: "The king couldn't sleep. He ran to the den at dawn. What does that tell you about the effect Daniel's faith had on the people around him?" },
-      { label: "The Outcome", desc: "Daniel came out without a scratch. But even if he hadn't — what do you think his attitude would have been? Is faithfulness only worth it if it works out?" }
-    ],
-    prayer: "God, give me the courage to do what's right even when it's hard or unpopular. Help me be someone whose faith is visible and steady, like Daniel's was. Amen."
-  },
-  {
-    icon: "💛",
-    title: "Ruth and Naomi",
-    subtitle: "Loyalty, kindness, and sticking with people",
-    verse: "Where you go I will go, and where you stay I will stay. — Ruth 1:16",
-    intro: "Ruth was a young woman who had every reason to leave. Her husband was dead, her mother-in-law was heartbroken and heading home to a foreign country. Ruth stayed anyway.",
-    agenda: [
-      { label: "The Story", desc: "Naomi lost her husband and both sons. She told her daughters-in-law to go home and start over. Orpah left. Ruth refused — and said some of the most beautiful words in the Bible." },
-      { label: "Why Did Ruth Stay?", desc: "Ruth had nothing to gain and everything to lose by staying with Naomi. Why do you think she did it? What does that kind of loyalty come from?" },
-      { label: "Loyal to the Unlucky", desc: "Naomi told people to call her 'Mara' meaning bitter, because life had been so hard. She wasn't easy to be around. Ruth stayed anyway. Who in your life might be hard to love right now — and worth loving anyway?" },
-      { label: "Kindness That Notices", desc: "Boaz noticed Ruth's faithfulness and showed her extra kindness. Acts of loyalty get seen, even when we think no one is watching. How does that change how you act when no one's looking?" },
-      { label: "Hesed", desc: "The Hebrew word 'hesed' means steadfast loving-kindness — the kind that doesn't quit. It's used for Ruth AND for God. What would it look like to show hesed to someone this week?" }
-    ],
-    prayer: "God, help me be the kind of friend who stays. Give me the kind of loyal, steady love that Ruth showed — and that You show to me every single day. Amen."
-  },
-  {
-    icon: "⚔️",
-    title: "The Armour of God",
-    subtitle: "Ephesians 6 — knowing your spiritual tools",
-    verse: "Put on the full armour of God, so that you can take your stand. — Ephesians 6:11",
-    intro: "Paul wrote this from prison to people facing real opposition. He described spiritual protection using armour that Roman soldiers wore every day.",
-    agenda: [
-      { label: "Why Armour?", desc: "A soldier doesn't put on armour after the battle starts. You prepare before. What are the 'battles' in your day — temptations, negative thoughts, hard relationships?" },
-      { label: "Piece by Piece", desc: "Belt of Truth (knowing what's true), Breastplate of Righteousness (doing what's right), Shoes of Peace (ready to share good news), Shield of Faith (blocking doubts and lies), Helmet of Salvation (protecting your mind), Sword of the Spirit (God's Word). Pick two that feel most relevant to you right now." },
-      { label: "The Shield of Faith", desc: "Paul says faith 'extinguishes all the flaming arrows of the evil one.' What are the 'arrows' that most often hit you — lies you believe about yourself, fears, temptations?" },
-      { label: "The Sword", desc: "The only offensive weapon — God's Word. When Jesus was tempted in the desert, He quoted Scripture. What verse or truth could you use when you're under pressure?" },
-      { label: "Dress Every Morning", desc: "Putting on armour is a daily choice, not a one-time thing. What would it look like to do a quick 'armour check' each morning before you start your day?" }
-    ],
-    prayer: "God, help me not go into my day unprepared. Remind me who I am, what's true, and that You have equipped me for anything I'll face today. I put on Your armour now. Amen."
-  },
-  {
-    icon: "🌍",
-    title: "The Great Commission",
-    subtitle: "Your purpose — being a light in the world",
-    verse: "Go and make disciples of all nations… And surely I am with you always, to the very end of the age. — Matthew 28:19–20",
-    intro: "The last words Jesus said before ascending to heaven were a mission statement — for every follower, including you. This is about purpose.",
-    agenda: [
-      { label: "Jesus's Last Words", desc: "He didn't say 'stay safe.' He said 'go.' Before you ask where to go or what to say — notice the last promise: 'I am with you always.' Why does that matter?" },
-      { label: "What Is a Disciple?", desc: "A disciple is someone who learns from Jesus AND helps others learn too. You don't have to have it all figured out. You just have to be on the journey yourself and bring others with you." },
-      { label: "Your World Right Now", desc: "Your 'nations' right now are your school, your neighbourhood, your team, your family. Who in your world doesn't know they are loved by God?" },
-      { label: "Being a Light", desc: "Matthew 5:14 says 'You are the light of the world.' Light doesn't shout — it just shines. What does it look like to let your faith shine naturally without forcing it on people?" },
-      { label: "One Step of Purpose", desc: "You don't need to preach a sermon. What's one small thing you could do this week that reflects Jesus — an act of kindness, a word of encouragement, just showing up for someone?" }
-    ],
-    prayer: "Jesus, thank You for giving me a purpose bigger than just getting through the day. Help me be a light where I am right now — with the people You've placed around me. I'm with You. Amen."
-  }
-];
-
-function renderBible() {
-  document.getElementById('bible-cards').innerHTML = BB_BIBLE.map((l, i) => `
-    <div class="bb-card" data-cat="bible" onclick="toggleBible(${i})">
-      <div class="bb-top" style="display:flex;align-items:center;gap:12px;padding:14px 16px">
-        <div class="bb-icon">${l.icon}</div>
-        <div class="bb-info" style="flex:1">
-          <div class="bb-cat-label">✝️ Bible Study</div>
-          <div class="bb-title">${l.title}</div>
-          <div class="bb-sub">${l.subtitle}</div>
-        </div>
-        <div id="bib-arr-${i}" class="bb-arr" style="font-size:18px;color:#ccc;transition:transform .2s;flex-shrink:0">▼</div>
-      </div>
-      <div class="bb-body">
-        <div class="bb-verse">📖 ${l.verse}</div>
-        <div class="bb-intro">${l.intro}</div>
-        <div class="bb-agenda">${l.agenda.map(a => `<div class="bb-step"><strong>${a.label}</strong> — ${a.desc}</div>`).join('')}</div>
-        <div class="bb-prayer">🙏 ${l.prayer}</div>
-      </div>
-    </div>`).join('');
-}
-
-function toggleBible(i) {
-  const cards = document.querySelectorAll('#bible-cards .bb-card');
-  const wasOpen = cards[i].classList.contains('open');
-  cards.forEach((c, j) => { c.classList.remove('open'); const a = document.getElementById('bib-arr-'+j); if(a) a.style.transform=''; });
-  if (!wasOpen) { cards[i].classList.add('open'); const a = document.getElementById('bib-arr-'+i); if(a) a.style.transform='rotate(180deg)'; }
-}
-renderBible();
-
-/* ── Sheet / Tasks ── */
-const SHEET_ID  = '11A5NsScePEbtN9dujN3tILb_Q2TU5tsf6I0MbT11kDY';
-const SHEET_GID = '553696854';
+const SHEET_ID  = '1GZv91Npf9i0y6AtCQcjYUyiYrDq3aqQ3zSNE2QGAxfE';
+const SHEET_GID = '0';
 const PERSON    = 'Logan';
-const STORE_KEY = `sf_logan_done_${TODAY_KEY}`;
+const STORE_KEY = `${P}_done_${TODAY}`;
+let TASKS=[], done={};
+try{ done=JSON.parse(localStorage.getItem(STORE_KEY)||'{}'); }catch(e){}
+function saveDone(){ localStorage.setItem(STORE_KEY,JSON.stringify(done)); }
 
-const NEW_CHORES = [
-  { id:'chore_sweep', title:'Sweep Bedroom',              category:'Chores', estTime:'5 min',  desc:'Sweep the bedroom floor clean.',                       dateAssigned: TODAY_KEY },
-  { id:'chore_wipe',  title:'Wipe Beside Table',           category:'Chores', estTime:'5 min',  desc:'Wipe down your bedside table.',                        dateAssigned: TODAY_KEY },
-  { id:'chore_lunch', title:'Take Lunch Dishes Out of Bag',category:'Chores', estTime:'2 min',  desc:'Empty your lunch bag and put dishes in the kitchen.',  dateAssigned: TODAY_KEY },
-  { id:'chore_dish',  title:'Empty Dishwasher',            category:'Chores', estTime:'10 min', desc:'Unload the dishwasher and put everything away.',        dateAssigned: TODAY_KEY },
-];
-
-let TASKS = [], done = {};
-try { done = JSON.parse(localStorage.getItem(STORE_KEY)||'{}'); } catch(e){}
-function save() { localStorage.setItem(STORE_KEY, JSON.stringify(done)); }
-
-function parseCSV(raw) {
-  const rows=[]; let i=0, n=raw.length;
+function parseCSV(raw){
+  const rows=[]; let i=0,n=raw.length;
   while(i<n){
     const row=[];
     while(i<n&&raw[i]!=='\n'&&raw[i]!=='\r'){
@@ -925,91 +171,375 @@ function parseCSV(raw) {
 }
 
 async function loadSheet(){
-  const url=`https://docs.google.com/spreadsheets/d/${SHEET_ID}/export?format=csv&gid=${SHEET_GID}`;
-  try{ const r=await fetch(url,{cache:'no-store'}); if(!r.ok)throw 0; const t=await r.text(); if(!t.trim())throw 0; return parseCSV(t); }
-  catch{ return loadGviz(); }
-}
-
-function loadGviz(){
-  return new Promise((res,rej)=>{
-    const cb=`_sf_cb_${Date.now()}`,s=document.createElement('script'),t=setTimeout(()=>{s.remove();delete window[cb];rej();},12000);
+  try{ const r=await fetch(`https://docs.google.com/spreadsheets/d/${SHEET_ID}/export?format=csv&gid=${SHEET_GID}`,{cache:'no-store'}); if(!r.ok)throw 0; const t=await r.text(); if(!t.trim())throw 0; return parseCSV(t); }
+  catch{ return new Promise((res,rej)=>{
+    const cb=`_cb_${Date.now()}`,s=document.createElement('script'),t=setTimeout(()=>{s.remove();delete window[cb];rej();},12000);
     window[cb]=p=>{clearTimeout(t);s.remove();delete window[cb];if(!p||p.status==='error'){rej();return;}
-      const hdrs=(p.table.cols||[]).map((c,i)=>c.label||`Col${i}`);
-      const rows=(p.table.rows||[]).map(r=>(r.c||[]).map(cell=>cell?(cell.f!=null?String(cell.f):String(cell.v??'')):''));
-      res([hdrs,...rows]);};
+      res([(p.table.cols||[]).map((c,i)=>c.label||`Col${i}`),...(p.table.rows||[]).map(r=>(r.c||[]).map(cell=>cell?(cell.f!=null?String(cell.f):String(cell.v??'')):''))]);};
     s.onerror=()=>{clearTimeout(t);s.remove();rej();};
     s.src=`https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?gid=${SHEET_GID}&tqx=responseHandler:${cb}`;
     document.head.append(s);
-  });
+  }); }
 }
 
 const YES=new Set(['yes','true','1','✓','✅']);
-function isOpen(row,iDone,iComp){ const d=(row[iDone]||'').toLowerCase().trim(),c=(row[iComp]||'').trim(); if(YES.has(d))return false; if(c&&/\d{4}/.test(c))return false; return true; }
+function isOpen(r,iD,iC){ return !YES.has((r[iD]||'').toLowerCase().trim())&&!((r[iC]||'').trim()&&/\d{4}/.test(r[iC])); }
 
 function buildTasks(rows){
   if(rows.length<2)return[];
   const h=rows[0].map(x=>x.toLowerCase().trim()),col=kw=>h.findIndex(c=>c.includes(kw));
-  const iResp=col('responsible')!==-1?col('responsible'):2,iCat=col('side quest')!==-1?col('side quest'):(col('category')!==-1?col('category'):3);
-  const iEst=col('est')!==-1?col('est'):4,iTitle=col('task name')!==-1?col('task name'):5,iDesc=col('description')!==-1?col('description'):6;
-  const iDate=col('date assigned')!==-1?col('date assigned'):9,iComp=col('date completed')!==-1?col('date completed'):10,iDone=col('isdone')!==-1?col('isdone'):11;
-  const get=(r,i)=>(i>=0&&i<r.length?r[i]:'').trim(),today=new Date().toISOString().slice(0,10);
-  return rows.slice(1).filter(r=>get(r,iResp)===PERSON&&isOpen(r,iDone,iComp))
-    .map((r,idx)=>({id:get(r,0)||String(idx),title:get(r,iTitle),category:get(r,iCat),estTime:get(r,iEst),desc:get(r,iDesc),dateAssigned:get(r,iDate),priority:get(r,iDate)?(get(r,iDate)<=today?1:2):3}))
-    .filter(t=>t.title).sort((a,b)=>a.priority-b.priority||(a.dateAssigned||'').localeCompare(b.dateAssigned||''));
+  const iR=col('responsible'),iC=col('category'),iE=col('est'),iT=col('task name'),iD=col('description'),iW=col('worksheet'),iDA=col('date assigned'),iDC=col('date completed'),iDN=col('isdone');
+  const get=(r,i)=>(i>=0&&i<r.length?r[i]:'').trim();
+  return rows.slice(1).filter(r=>get(r,iR)===PERSON&&isOpen(r,iDN,iDC))
+    .map((r,idx)=>({id:get(r,0)||String(idx),title:get(r,iT),category:get(r,iC),estTime:get(r,iE),desc:get(r,iD),worksheet:get(r,iW),dateAssigned:get(r,iDA),overdue:get(r,iDA)&&get(r,iDA)<TODAY}))
+    .filter(t=>t.title);
 }
 
-function updateProgress(){
-  const total=NEW_CHORES.length+TASKS.length,n=Object.keys(done).length,pct=total?Math.round(n/total*100):0;
-  document.getElementById('prog-text').textContent=`${n} of ${total} done`;
-  document.getElementById('prog-pct').textContent=pct+'%';
-  document.getElementById('prog-fill').style.width=pct+'%';
-  document.getElementById('hero-badge').textContent=`👦 ${total} tasks assigned`;
-}
+function esc(s){ return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
 
-function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
-
-function renderList(container,tasks){
-  if(!tasks.length){container.innerHTML='';return;}
-  container.innerHTML=tasks.map((t,i)=>{
-    const isDone=!!done[t.id];
-    return `<div class="task-card${isDone?' done':''}" style="animation-delay:${i*.04}s">
-      <div class="task-top"><div class="task-title">${esc(t.title)}</div></div>
-      <div class="task-tags">
-        ${t.category?`<span class="tag tag-cat">📌 ${esc(t.category)}</span>`:''}
-        ${t.estTime?`<span class="tag tag-time">⏱ ${esc(t.estTime)}</span>`:''}
-        <span class="tag ${isDone?'tag-done':'tag-open'}">${isDone?'✓ Done':'○ Open'}</span>
+function taskHTML(t){
+  const isDone=!!done[t.id], ws=t.worksheet?t.worksheet.split('\n').filter(l=>l.trim()):[];
+  return `<div class="itask" id="itask-${esc(t.id)}">
+    <div class="itask-check itask-check-${P}${isDone?' done':''}" onclick="toggleDone('${esc(t.id)}')">${isDone?'✓':''}</div>
+    <div class="itask-body">
+      <div class="itask-title${isDone?' done':''}">${esc(t.title)}</div>
+      <div class="itask-tags">
+        ${t.category?`<span class="itag itag-${P}">${esc(t.category)}</span>`:''}
+        ${t.estTime?`<span class="itag itag-${P}">⏱ ${esc(t.estTime)} min</span>`:''}
+        ${t.overdue&&!isDone?`<span class="itag itag-overdue">⚠ Overdue</span>`:''}
       </div>
-      ${t.desc?`<div class="task-desc">${esc(t.desc)}</div>`:''}
-      <div class="task-foot">
-        <span class="date-hint">${t.dateAssigned?'📅 '+t.dateAssigned:''}</span>
-        <button class="complete-btn${isDone?' done-btn':''}" onclick="${isDone?'':`complete(${JSON.stringify(t.id)})`}">
-          ${isDone?'✓ Done':'+ Complete'}
-        </button>
-      </div>
-    </div>`;
-  }).join('');
+      ${t.desc?`<div class="itask-desc">${esc(t.desc).slice(0,120)}${t.desc.length>120?'…':''}</div>`:''}
+      ${ws.length?`<span class="itask-expand itask-expand-${P}" onclick="toggleWs('ws-${esc(t.id)}')">📋 Worksheet questions</span>
+      <div class="itask-full itask-full-${P}" id="ws-${esc(t.id)}">${ws.map(l=>`<div style="margin-bottom:4px">${esc(l)}</div>`).join('')}</div>`:''}
+      ${!isDone?`<button class="itask-complete-btn itask-complete-btn-${P}" onclick="toggleDone('${esc(t.id)}')">✓ Mark done</button>`:''}
+    </div>
+  </div>`;
 }
 
-function render(){
-  renderList(document.getElementById('choreList'), NEW_CHORES);
-  const tl=document.getElementById('taskList');
-  if(!TASKS.length) tl.innerHTML='<div style="padding:20px;text-align:center;color:var(--muted);font-weight:700;">🎉 No open sheet tasks!</div>';
-  else renderList(tl, TASKS);
-  updateProgress();
+function toggleWs(id){ document.getElementById(id)?.classList.toggle('open'); }
+function toggleDone(id){
+  done[id]=!done[id]; if(!done[id])delete done[id];
+  saveDone(); renderTasks();
+  if(done[id]) toast('⭐ Amazing, Logan!');
 }
-
-function complete(id){ done[id]=true; save(); render(); toast('🌟 Great job, Logan!'); }
-
 function toast(msg){
   const el=document.createElement('div'); el.className='toast'; el.textContent=msg;
   document.getElementById('toasts').appendChild(el); setTimeout(()=>el.remove(),3000);
 }
 
-renderList(document.getElementById('choreList'), NEW_CHORES);
+
+
+function pickOne(tasks, cat){
+  // Pick one open task matching category, prefer assigned today or overdue
+  const matches = tasks.filter(t=>(t.category||'').toLowerCase().trim()===cat);
+  if(!matches.length) return null;
+  const priority = matches.find(t=>t.dateAssigned===TODAY) || matches.find(t=>t.overdue) || matches[0];
+  return priority;
+}
+
+function renderTasks(){
+  // Block 1 (9:00): one Science, one Social Studies, one Wellness
+  const b1cats = ['science','social studies','wellness'];
+  // Block 2 (10:15): one Math, one Language, one Art
+  const b2cats = ['math','language','art'];
+  // Mission block: handled by pickMission()
+  // Side quests: inline-tasks in sidequest slot
+  // Evening wellness: wellness tasks
+
+  const picked = new Set();
+
+  function grab(cats, slotId){
+    const el = document.getElementById(slotId); if(!el) return;
+    const chosen = [];
+    for(const cat of cats){
+      const t = TASKS.filter(t=>!picked.has(t.id)).find(t=>(t.category||'').toLowerCase().trim()===cat);
+      if(t){ chosen.push(t); picked.add(t.id); }
+    }
+    el.innerHTML = chosen.length
+      ? chosen.map(taskHTML).join('')
+      : '<div class="no-tasks">No tasks here today 🎉</div>';
+  }
+
+  // Side quests (up to 2)
+  function grabSideQuests(slotId, limit){
+    const el = document.getElementById(slotId); if(!el) return;
+    const sqs = TASKS.filter(t=>!picked.has(t.id)&&(t.category||'').toLowerCase().trim()==='side quest').slice(0,limit);
+    sqs.forEach(t=>picked.add(t.id));
+    el.innerHTML = sqs.length
+      ? sqs.map(taskHTML).join('')
+      : '<div class="no-tasks">No side quests today 🎉</div>';
+  }
+
+  // Wellness (evening)
+  function grabWellness(slotId){
+    const el = document.getElementById(slotId); if(!el) return;
+    const ws = TASKS.filter(t=>!picked.has(t.id)&&(t.category||'').toLowerCase().trim()==='wellness').slice(0,3);
+    ws.forEach(t=>picked.add(t.id));
+    el.innerHTML = ws.length
+      ? ws.map(taskHTML).join('')
+      : '<div class="no-tasks">No wellness tasks today 🎉</div>';
+  }
+
+  grab(b1cats, 'tasks-block1');
+  grab(b2cats, 'tasks-block2');
+  grabSideQuests('tasks-sidequest', 2);
+  grabWellness('tasks-wellness');
+  const total=TASKS.length, n=Object.keys(done).filter(k=>TASKS.find(t=>t.id===k)).length, pct=total?Math.round(n/total*100):0;
+  document.getElementById('prog-text').textContent=`${n} of ${total} tasks done`;
+  document.getElementById('prog-pct').textContent=pct+'%';
+  document.getElementById('prog-fill').style.width=pct+'%';
+  document.getElementById('hero-badge').textContent=`${total} tasks · ${pct}% done`;
+}
+
+/* ── MISSION BLOCK ── */
+const MISSION_CATS = new Set(['mission','wellbeing','faith','recovery','ncso']);
+let BADGES_DATA = [];
+
+async function loadBadges(){
+  try{
+    const r = await fetch('badges.html',{cache:'no-store'});
+    const txt = await r.text();
+    const m = txt.match(/const BADGES = (\[[\s\S]*?\]);/);
+    if(!m) return;
+    BADGES_DATA = Function('"use strict";return '+m[1])();
+  } catch(e){ BADGES_DATA = []; }
+}
+
+const MISSION_KEY = `${P}_missions`;
+function getMissionsDone(){ try{ return JSON.parse(localStorage.getItem(MISSION_KEY)||'[]'); }catch(e){return[];} }
+function markMissionDone(id){ const d=getMissionsDone(); if(!d.includes(id)){d.push(id);localStorage.setItem(MISSION_KEY,JSON.stringify(d));} }
+
+function pickMission(){
+  const el = document.getElementById('tasks-mission');
+  if(!el) return;
+  const done = getMissionsDone();
+  // Also pull unfinished tasks in mission-type categories
+  const openTasks = TASKS.filter(t=>{
+    const c=(t.category||'').toLowerCase().trim();
+    return ['mission','wellbeing','faith'].includes(c) && !done[t.id];
+  });
+  // And unfinished badges
+  const earnedBadges = getMissionsDone();
+  const openBadges = BADGES_DATA.filter(b=>MISSION_CATS.has(b.cat)&&!earnedBadges.includes(b.id));
+  // Pick one task or one badge randomly
+  const pool = [...openTasks, ...openBadges.map(b=>({_badge:true,...b}))];
+  if(!pool.length){
+    el.innerHTML='<div class="no-tasks">🏆 All missions complete! Amazing work.</div>';
+    return;
+  }
+  // Seed by date so it stays stable all day
+  const seed = parseInt(TODAY.replace(/-/g,'')) % pool.length;
+  const pick = pool[seed % pool.length];
+  if(pick._badge){
+    el.innerHTML = missionBadgeHTML(pick);
+  } else {
+    el.innerHTML = taskHTML(pick);
+  }
+}
+
+function missionBadgeHTML(b){
+  const isDone = getMissionsDone().includes(b.id);
+  const steps = (b.steps||[]).slice(0,3).map((s,i)=>`<div style="margin-bottom:4px"><strong>${i+1}.</strong> ${esc(s)}</div>`).join('');
+  return `<div class="itask">
+    <div class="itask-check itask-check-${P}${isDone?' done':''}" onclick="toggleMission('${esc(b.id)}')">${isDone?'✓':''}</div>
+    <div class="itask-body">
+      <div class="itask-title${isDone?' done':''}">${b.icon||'🎯'} ${esc(b.name)}</div>
+      <div class="itask-tags"><span class="itag itag-${P}">Badge Mission</span><span class="itag itag-${P}">${esc(b.cat)}</span></div>
+      <div class="itask-desc">${esc(b.goal||'')}</div>
+      ${steps?`<span class="itask-expand itask-expand-${P}" onclick="toggleWs('bws-${esc(b.id)}')">📋 Steps</span>
+      <div class="itask-full itask-full-${P}" id="bws-${esc(b.id)}">${steps}</div>`:''}
+      ${!isDone?`<button class="itask-complete-btn itask-complete-btn-${P}" onclick="toggleMission('${esc(b.id)}')">🏅 Mark complete</button>`:''}
+    </div>
+  </div>`;
+}
+
+function toggleMission(id){
+  const done = getMissionsDone();
+  if(done.includes(id)){
+    const nd=done.filter(x=>x!==id); localStorage.setItem(MISSION_KEY,JSON.stringify(nd));
+  } else {
+    done.push(id); localStorage.setItem(MISSION_KEY,JSON.stringify(done));
+    toast('🏅 Mission complete!');
+  }
+  pickMission();
+}
+
 (async()=>{
-  try{ const rows=await loadSheet(); TASKS=buildTasks(rows); render(); }
-  catch(e){ document.getElementById('taskList').innerHTML='<div style="padding:20px;text-align:center;color:var(--muted);font-weight:700;">Could not load sheet.</div>'; updateProgress(); }
+  try{ const _rows=await loadSheet(); window._allTaskRows=_rows; TASKS=buildTasks(_rows); renderTasks(); await loadBadges(); pickMission(); await loadMenuForSchedule(); await loadCalendarEvents(); await loadLeaderboardPoints(); }
+  catch(e){
+    document.getElementById('hero-badge').textContent='⚠ Offline';
+    ['tasks-block1','tasks-block2','tasks-sidequest','tasks-mission','tasks-wellness']
+      .forEach(id=>{ const el=document.getElementById(id); if(el)el.innerHTML='<div class="no-tasks">Could not load tasks.</div>'; });
+  }
 })();
+
+function normalizeDate(v){
+  if(!v)return''; const s=String(v).trim();
+  const iso=s.match(/^(\d{4}-\d{2}-\d{2})/); if(iso)return iso[1];
+  const mdy=s.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/); if(mdy)return`${mdy[3]}-${mdy[1].padStart(2,'0')}-${mdy[2].padStart(2,'0')}`;
+  const M={january:'01',february:'02',march:'03',april:'04',may:'05',june:'06',july:'07',august:'08',september:'09',october:'10',november:'11',december:'12'};
+  const ml=s.match(/^([A-Za-z]+)\s+(\d{1,2}),?\s+(\d{4})$/); if(ml){const mo=M[ml[1].toLowerCase()];if(mo)return`${ml[3]}-${mo}-${ml[2].padStart(2,'0')}`;}
+  return s.substring(0,10);
+}
+
+(async()=>{
+  try{
+    const rows=parseCSV(await(await fetch(`https://docs.google.com/spreadsheets/d/1VVWZBG3fXLWBFCnRDLo76kUQrNyPcBBdY6mCiiwJr50/export?format=csv&gid=0`,{cache:'no-store'})).text());
+    if(rows.length<2)throw 0;
+    const h=rows[0].map(x=>x.toLowerCase().trim());
+    const iDate=h.findIndex(c=>c.includes('date'));
+    const iSec=h.findIndex(c=>c.includes('source')||c.includes('section')||c.includes('label')||c.includes('title'));
+    const iCon=h.findIndex(c=>c.includes('description')||c.includes('content')||c.includes('text')||c.includes('body')||c.includes('quote'));
+    const todays=rows.slice(1).filter(r=>normalizeDate(r[iDate])===TODAY);
+    const c=document.getElementById('quotes-container');
+    c.innerHTML=todays.length?todays.map(r=>`<div class="quote-entry">${iSec>=0&&r[iSec]?`<div class="quote-entry-label quote-entry-label-${P}">${esc(r[iSec])}</div>`:''}<div class="quote-entry-text">${esc(iCon>=0?r[iCon]:r[1]||'')}</div></div>`).join(''):'<div class="quotes-placeholder">No quotes for today yet.</div>';
+  }catch(e){ document.getElementById('quotes-container').innerHTML='<div class="quotes-placeholder">Quotes unavailable.</div>'; }
+})();
+
+/* ── MENU ── */
+const MENU_SHEET_ID   = '1618K5slLb0A7o1FsDfB1r2zj85fklPLrE2TdJd47CLc';
+const MENU_SHEET_NAME = 'Menu';
+
+function mealTypeKey(t){
+  const s=(t||'').toLowerCase();
+  if(s.includes('breakfast'))return'breakfast';
+  if(s.includes('lunch'))return'lunch';
+  if(s.includes('supper')||s.includes('dinner'))return'supper';
+  if(s.includes('snack'))return'snack';
+  return'other';
+}
+
+function normMenuDate(raw){
+  if(!raw)return'';
+  if(/^\d{4}-\d{2}-\d{2}$/.test(raw))return raw;
+  const m=raw.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/);
+  if(m)return`${m[3]}-${m[1].padStart(2,'0')}-${m[2].padStart(2,'0')}`;
+  return raw;
+}
+
+async function loadMenuForSchedule(){
+  try{
+    const url=`https://docs.google.com/spreadsheets/d/${MENU_SHEET_ID}/export?format=csv&sheet=${encodeURIComponent(MENU_SHEET_NAME)}`;
+    const r=await fetch(url,{cache:'no-store'}); if(!r.ok)throw 0;
+    const rows=parseCSV(await r.text()); if(rows.length<2)throw 0;
+    const h=rows[0].map(x=>x.toLowerCase().trim());
+    const col=kw=>h.findIndex(c=>c.includes(kw));
+    const iDate=col('date'), iType=col('meal type')!==-1?col('meal type'):col('type'),
+          iName=col('recipe')!==-1?col('recipe'):(col('name')!==-1?col('name'):2);
+    const get=(r,i)=>(i>=0&&i<r.length?r[i]:'').trim();
+    const meals=rows.slice(1)
+      .map(r=>({date:normMenuDate(get(r,iDate)),type:get(r,iType),name:get(r,iName)}))
+      .filter(m=>m.date===TODAY&&m.name);
+    const byType={};
+    meals.forEach(m=>{const k=mealTypeKey(m.type);if(!byType[k])byType[k]=[];byType[k].push(m);});
+    injectMeal('meal-breakfast', byType['breakfast'], '🌅');
+    injectMeal('meal-lunch',     byType['lunch'],     '🥗');
+    injectMeal('meal-supper',    byType['supper'],    '🍽️');
+  }catch(e){ /* silent — fallback text stays */ }
+}
+
+function injectMeal(elId, meals, emoji){
+  const el=document.getElementById(elId); if(!el)return;
+  if(!meals||!meals.length){ el.textContent=''; return; }
+  el.innerHTML=meals.map(m=>`<span class="meal-pill">${emoji} ${esc(m.name)}</span>`).join(' ');
+}
+
+
+
+/* -- CALENDAR EVENTS (live from Apps Script) -- */
+async function loadCalendarEvents(){
+  try{
+    const url = APPS_SCRIPT_URL + '?tab=calendar&person=logan&date=' + TODAY;
+    const r = await fetch(url, {cache:'no-store'});
+    if(!r.ok) throw new Error('HTTP '+r.status);
+    const data = await r.json();
+    if(!data.ok || !data.events) throw new Error(data.error||'No events');
+    injectCalendarEvents(data.events);
+  }catch(e){
+    // silent — baked-in events still show if script unreachable
+    injectCalendarEvents(TODAY_EVENTS);
+  }
+}
+
+function injectCalendarEvents(events){
+  // Clear any previously injected chips first
+  document.querySelectorAll('.cal-event').forEach(el=>el.remove());
+  (events||[]).forEach(ev=>{
+    const [h,m] = (ev.start||'0:0').split(':').map(Number);
+    const evH = h + m/60;
+    const slotMap = [
+      [7.5,8,'slot-730'],[8,8.5,'slot-800'],[8.5,9,'slot-830'],
+      [9,10,'slot-900'],[10,10.25,'slot-1000'],[10.25,12,'slot-1015'],
+      [12,12.5,'slot-1200'],[12.5,13.5,'slot-1230'],[13.5,15.5,'slot-1330'],
+      [15.5,17.5,'slot-1530'],[17.5,19,'slot-1730'],[19,20,'slot-1900'],
+    ];
+    let target = null;
+    for(const [s,e,id] of slotMap){ if(evH>=s&&evH<e){target=id;break;} }
+    if(!target) return;
+    const slotEl = document.getElementById(target); if(!slotEl) return;
+    const body = slotEl.querySelector('.s-body'); if(!body) return;
+    const chip = document.createElement('div');
+    chip.className = 'cal-event';
+    chip.innerHTML = `<div class="cal-event-time">${esc(ev.start)}–${esc(ev.end)}</div>
+      <div class="cal-event-body">
+        <div class="cal-event-title">📅 ${esc(ev.summary)}</div>
+        ${ev.location?`<div class="cal-event-loc">📍 ${esc(ev.location)}</div>`:''}
+        ${ev.description?`<div class="cal-event-note">${esc(ev.description)}</div>`:''}
+      </div>`;
+    body.appendChild(chip);
+  });
+}
+
+/* -- LEADERBOARD (live points from Apps Script) -- */
+function renderLeaderboard(){
+  const el = document.getElementById('leaderboard-card'); if(!el) return;
+
+  // Points = sum of Points column on ALL_TASKS where isDone
+  const allRows = window._allTaskRows || [];
+  let totalPts = 0;
+  if(allRows.length > 1){
+    const h = allRows[0].map(x=>x.toLowerCase().trim());
+    const iResp = h.findIndex(c=>c.includes('responsible'));
+    const iPts  = h.findIndex(c=>c.includes('points'));
+    const iDone = h.findIndex(c=>c.includes('isdone'));
+    const iComp = h.findIndex(c=>c.includes('date completed'));
+    const YES = new Set(['yes','true','1','✓','✅']);
+    allRows.slice(1).forEach(r=>{
+      const resp = (r[iResp]||'').trim();
+      const done = YES.has((r[iDone]||'').toLowerCase().trim());
+      const comp = (r[iComp]||'').trim();
+      const pts  = Number(r[iPts]||0);
+      if(resp===PERSON && (done||(comp&&/\d{4}/.test(comp)))) totalPts += pts;
+    });
+  }
+
+  const badges = (() => {
+    try{ const e=JSON.parse(localStorage.getItem('sf_badges_'+P)||'[]'); return Array.isArray(e)?e.length:0; }catch(e){return 0;}
+  })();
+
+  const EMOJIS = {oliver:'🧒', logan:'🌱', mom:'👩'};
+  const emoji  = EMOJIS[P]||'⭐';
+
+  el.innerHTML = `
+    <div class="lb-row lb-you">
+      <div class="lb-rank" style="font-size:24px">${emoji}</div>
+      <div class="lb-info">
+        <div class="lb-name">${esc(PERSON)}</div>
+        <div class="lb-meta">${badges} badge${badges!==1?'s':''} earned</div>
+      </div>
+      <div>
+        <div class="lb-pts">${totalPts.toLocaleString()} pts</div>
+        <div class="lb-badges" style="font-size:10px;color:var(--muted);text-align:right">all time</div>
+      </div>
+    </div>`;
+}
+
+async function loadLeaderboardPoints(){ renderLeaderboard(); }
+
+// init
+await loadCalendarEvents();
+await loadLeaderboardPoints();
+
 </script>
 </body>
 </html>

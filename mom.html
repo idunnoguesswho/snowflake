@@ -1014,5 +1014,93 @@ function toast(msg){ const el=document.createElement('div'); el.className='toast
 
 render();
 </script>
+
+<script>
+/* ── Mom: Calendar + Leaderboard via Apps Script ── */
+const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxrNaM1VxinXBWPJcd5zskwl00prHu7zASZF8uhzDnZXfH70LezRfbb4-qNJLnr7_0Z/exec';
+const TODAY = new Date().toISOString().slice(0,10);
+const HOUR  = new Date().getHours() + new Date().getMinutes()/60;
+
+function esc(s){ return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+/* ── Calendar ── */
+async function loadMomCalendar(){
+  try{
+    const r = await fetch(APPS_SCRIPT_URL+'?tab=calendar&person=mom&date='+TODAY, {cache:'no-store'});
+    const data = await r.json();
+    if(data.ok && data.events) renderMomCalendar(data.events);
+  }catch(e){}
+}
+
+function renderMomCalendar(events){
+  const el = document.getElementById('mom-cal-events');
+  if(!el||!events.length)return;
+  el.innerHTML = events.map(ev=>`
+    <div class="cal-event">
+      <div class="cal-event-time">${esc(ev.start)}–${esc(ev.end)}</div>
+      <div class="cal-event-body">
+        <div class="cal-event-title">📅 ${esc(ev.summary)}</div>
+        ${ev.location?`<div class="cal-event-loc">📍 ${esc(ev.location)}</div>`:''}
+        ${ev.description?`<div class="cal-event-note">${esc(ev.description)}</div>`:''}
+      </div>
+    </div>`).join('');
+}
+
+/* ── Leaderboard ── */
+async function loadMomLeaderboard(){
+  // Fetch points from Tasks sheet directly
+  try{
+    const url = 'https://docs.google.com/spreadsheets/d/1GZv91Npf9i0y6AtCQcjYUyiYrDq3aqQ3zSNE2QGAxfE/export?format=csv&gid=0';
+    const r = await fetch(url, {cache:'no-store'});
+    const txt = await r.text();
+    const rows = txt.split('\n').map(l=>{
+      const out=[]; let i=0;
+      while(i<l.length){
+        if(l[i]==='"'){let c='';i++;while(i<l.length){if(l[i]==='"'&&l[i+1]==='"'){c+='"';i+=2;}else if(l[i]==='"'){i++;break;}else c+=l[i++];}out.push(c.trim());if(l[i]===',')i++;}
+        else{let c='';while(i<l.length&&l[i]!==',')c+=l[i++];out.push(c.trim());if(l[i]===',')i++;}
+      }
+      return out;
+    }).filter(r=>r.some(c=>c));
+    const h = rows[0].map(x=>x.toLowerCase().trim());
+    const iResp=h.findIndex(c=>c.includes('responsible'));
+    const iPts=h.findIndex(c=>c.includes('points'));
+    const iDone=h.findIndex(c=>c.includes('isdone'));
+    const iComp=h.findIndex(c=>c.includes('date completed'));
+    const YES=new Set(['yes','true','1','✓','✅']);
+    let totalPts=0;
+    rows.slice(1).forEach(r=>{
+      const resp=(r[iResp]||'').trim();
+      const done=YES.has((r[iDone]||'').toLowerCase().trim());
+      const comp=(r[iComp]||'').trim();
+      const pts=Number(r[iPts]||0);
+      if(resp==='Mom'&&(done||(comp&&/\d{4}/.test(comp)))) totalPts+=pts;
+    });
+    renderMomLeaderboard(totalPts);
+  }catch(e){ renderMomLeaderboard(0); }
+}
+
+function renderMomLeaderboard(totalPts){
+  const el = document.getElementById('mom-leaderboard'); if(!el) return;
+  const badges = (() => {
+    try{ const e=JSON.parse(localStorage.getItem('sf_badges_mom')||'[]'); return Array.isArray(e)?e.length:0; }catch(e){return 0;}
+  })();
+  el.innerHTML = `
+    <div class="lb-row lb-you-mom">
+      <div class="lb-rank" style="font-size:24px">👩</div>
+      <div class="lb-info">
+        <div class="lb-name">Mom</div>
+        <div class="lb-meta">${badges} badge${badges!==1?'s':''} earned</div>
+      </div>
+      <div>
+        <div class="lb-pts">${totalPts.toLocaleString()} pts</div>
+        <div class="lb-badges" style="font-size:10px;color:var(--muted);text-align:right">all time</div>
+      </div>
+    </div>`;
+}
+
+loadMomCalendar();
+loadMomLeaderboard();
+</script>
+
 </body>
 </html>

@@ -45,13 +45,13 @@
 </main>
 
 <script>
-  const SHEET_ID = "11A5NsScePEbtN9dujN3tILb_Q2TU5tsf6I0MbT11kDY";
+  const SHEET_ID = "18ck-AEpQTH3MIOYoSxNAx2nfYGjTjQsKNm0gWJr_z3Y";
   const SHEET_NAME = "hustle";
   const GVIZ_URL = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?sheet=${encodeURIComponent(SHEET_NAME)}`;
   const todayKey = toDateKey(new Date());
-  const preferredDateHeaders = ["logged", "date", "day", "scheduled", "start", "job date", "work date", "created", "added"];
-  const titleHeaders = ["personelle", "personnel", "position", "role", "job", "job name", "title", "task", "description", "service", "scope", "project"];
-  const subtitleHeaders = ["contractor", "customer", "client", "name", "company", "address", "location", "site"];
+  const preferredDateHeaders = ["logged", "date", "week", "day", "scheduled", "start", "job date", "work date", "created", "added"];
+  const titleHeaders = ["jm", "personelle", "personnel", "position", "role", "job", "job name", "title", "task", "description", "service", "scope", "project"];
+  const subtitleHeaders = ["contractor", "location", "customer", "client", "name", "company", "address", "site"];
   const chartMetrics = [
     { key: "Valid", labels: ["Valid"], countText: true },
     { key: "Applied", labels: ["Applied"] },

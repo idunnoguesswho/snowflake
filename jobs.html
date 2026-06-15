@@ -45,12 +45,12 @@
 </main>
 
 <script>
-  const SHEET_ID = "11A5NsScePEbtN9dujN3tILb_Q2TU5tsf6I0MbT11kDY";
+  const SHEET_ID = "18ck-AEpQTH3MIOYoSxNAx2nfYGjTjQsKNm0gWJr_z3Y";
   const SHEET_NAME = "Jobs";
   const GVIZ_URL = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?sheet=${encodeURIComponent(SHEET_NAME)}`;
   const todayKey = toDateKey(new Date());
   const preferredDateHeaders = ["logged", "date", "day", "scheduled", "start", "job date", "work date", "created", "added"];
-  const titleHeaders = ["personelle", "personnel", "position", "role", "job", "job name", "title", "task", "description", "service", "scope", "project"];
+  const titleHeaders = ["personelle", "personnel", "call", "position", "role", "job", "job name", "title", "task", "description", "service", "scope", "project"];
   const subtitleHeaders = ["contractor", "customer", "client", "name", "company", "address", "location", "site"];
   const chartMetrics = [
     { key: "Non", labels: ["Non"] },
@@ -101,7 +101,7 @@
       state.dateHeaders = findDateHeaders(state.headers, state.rows);
 
       const availableDates = getPastWeekDatesWithRows();
-      state.selectedDate = availableDates.includes(todayKey) ? todayKey : todayKey;
+      state.selectedDate = availableDates.length ? availableDates[0] : todayKey;
       render();
     } catch (error) {
       showError(error);
@@ -173,7 +173,7 @@
     elements.empty.hidden = filteredRows.length > 0;
     elements.empty.textContent = availableDates.length
       ? "No jobs found for this date."
-      : "No dated jobs found in the past week.";
+      : "No dated jobs found in the past 60 days.";
 
     elements.refresh.disabled = false;
     elements.refresh.textContent = "Refresh";
@@ -202,7 +202,7 @@
     if (!elements.filters.children.length) {
       const note = document.createElement("span");
       note.className = "summary";
-      note.textContent = "No available job dates found in the past week.";
+      note.textContent = "No available job dates found in the past 60 days.";
       elements.filters.append(note);
     }
   }
@@ -544,7 +544,7 @@
   }
 
   function getPastWeekKeys() {
-    return Array.from({ length: 7 }, (_, index) => {
+    return Array.from({ length: 60 }, (_, index) => {
       const date = new Date();
       date.setHours(0, 0, 0, 0);
       date.setDate(date.getDate() - index);

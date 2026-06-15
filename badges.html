@@ -25,6 +25,8 @@ body{font-family:'Nunito',sans-serif;background:linear-gradient(160deg,#fff8e1 0
 .user-btn.oliver.active .user-count{color:#3b82f6}
 .user-btn.logan.active{background:linear-gradient(135deg,#fef3c7,#fde68a);border-color:#f59e0b;color:#92400e}
 .user-btn.logan.active .user-count{color:#d97706}
+.user-btn.mom.active{background:linear-gradient(135deg,#f3e8ff,#e9d5ff);border-color:#a855f7;color:#6b21a8}
+.user-btn.mom.active .user-count{color:#a855f7}
 .user-btn:hover:not(.active){transform:translateY(-2px);box-shadow:0 4px 14px rgba(0,0,0,.1)}
 
 .stats-bar{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;padding:14px 24px;background:white;border-bottom:2px solid var(--line);box-shadow:0 4px 16px rgba(0,0,0,.06)}
@@ -50,6 +52,11 @@ body{font-family:'Nunito',sans-serif;background:linear-gradient(160deg,#fff8e1 0
 .cat-tab[data-cat="creative"].active{background:linear-gradient(135deg,#f06878,#fda085)}
 .cat-tab[data-cat="community"].active{background:linear-gradient(135deg,#a855f7,#d8b4fe)}
 .cat-tab[data-cat="adventure"].active{background:linear-gradient(135deg,#dc2626,#9f1239)}
+.cat-tab[data-cat="mission"].active{background:linear-gradient(135deg,#0ea5e9,#6366f1)}
+.cat-tab[data-cat="wellbeing"].active{background:linear-gradient(135deg,#fbbf24,#f59e0b);color:#7a4f00}
+.cat-tab[data-cat="faith"].active{background:linear-gradient(135deg,#10b981,#059669)}
+.cat-tab[data-cat="recovery"].active{background:linear-gradient(135deg,#a855f7,#7c3aed)}
+.cat-tab[data-cat="ncso"].active{background:linear-gradient(135deg,#f97316,#dc2626)}
 
 .badge-section{padding:6px 24px 60px;max-width:1200px;margin:0 auto}
 .cat-heading{font-family:'Baloo 2',cursive;font-size:1.4rem;font-weight:800;margin:22px 0 12px;display:flex;align-items:center;gap:8px}
@@ -68,6 +75,7 @@ body{font-family:'Nunito',sans-serif;background:linear-gradient(160deg,#fff8e1 0
 .earned-pip{width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.7rem;border:2px solid white;box-shadow:0 2px 6px rgba(0,0,0,.2);animation:popIn .3s cubic-bezier(.34,1.56,.64,1)}
 .earned-pip.pip-oliver{background:#3b82f6}
 .earned-pip.pip-logan{background:#f59e0b}
+.earned-pip.pip-mom{background:#a855f7}
 @keyframes popIn{from{transform:scale(0)}to{transform:scale(1)}}
 
 .badge-name{font-weight:800;font-size:.73rem;text-align:center;line-height:1.2;color:var(--ink);max-width:100px}
@@ -81,6 +89,11 @@ body{font-family:'Nunito',sans-serif;background:linear-gradient(160deg,#fff8e1 0
 .bc-creative{background:linear-gradient(135deg,#f06878,#fda085)}
 .bc-community{background:linear-gradient(135deg,#a855f7,#d8b4fe)}
 .bc-adventure{background:linear-gradient(135deg,#dc2626,#9f1239)}
+.bc-mission{background:linear-gradient(135deg,#0ea5e9,#6366f1)}
+.bc-wellbeing{background:linear-gradient(135deg,#fbbf24,#f59e0b)}
+.bc-faith{background:linear-gradient(135deg,#10b981,#059669)}
+.bc-recovery{background:linear-gradient(135deg,#a855f7,#7c3aed)}
+.bc-ncso{background:linear-gradient(135deg,#f97316,#dc2626)}
 
 .modal-backdrop{position:fixed;inset:0;background:rgba(15,23,42,.6);z-index:100;display:flex;align-items:center;justify-content:center;padding:20px;backdrop-filter:blur(4px);animation:fadeIn .15s ease}
 @keyframes fadeIn{from{opacity:0}to{opacity:1}}
@@ -108,6 +121,7 @@ body{font-family:'Nunito',sans-serif;background:linear-gradient(160deg,#fff8e1 0
 .earned-tag{display:flex;align-items:center;gap:5px;padding:5px 12px;border-radius:50px;font-size:.82rem;font-weight:800;border:2px solid transparent}
 .earned-tag.yes-oliver{background:#dbeafe;border-color:#3b82f6;color:#1e40af}
 .earned-tag.yes-logan{background:#fef3c7;border-color:#f59e0b;color:#92400e}
+.yes-mom{background:#f3e8ff;border-color:#a855f7;color:#6b21a8}
 .earned-tag.no{background:#f8f9fe;border-color:var(--line);color:var(--muted)}
 
 .earn-btn{width:100%;padding:12px;border-radius:50px;border:none;font-family:'Nunito',sans-serif;font-weight:900;font-size:.95rem;cursor:pointer;transition:transform .15s,box-shadow .15s;display:flex;align-items:center;justify-content:center;gap:7px}
@@ -117,6 +131,7 @@ body{font-family:'Nunito',sans-serif;background:linear-gradient(160deg,#fff8e1 0
 .earn-btn.is-earned:hover{background:#fee2e2;color:#dc2626}
 .earn-btn.oliver-active.not-earned{background:linear-gradient(135deg,#3b82f6,#06b6d4);box-shadow:0 4px 20px rgba(59,130,246,.4)}
 .earn-btn.logan-active.not-earned{background:linear-gradient(135deg,#f59e0b,#f97316);color:white;box-shadow:0 4px 20px rgba(245,158,11,.4)}
+.earn-btn.mom-active.not-earned{background:linear-gradient(135deg,#a855f7,#7c3aed);color:white;box-shadow:0 4px 20px rgba(168,85,247,.4)}
 
 .confetti-wrap{position:fixed;inset:0;pointer-events:none;z-index:200}
 .confetto{position:absolute;width:10px;height:10px;border-radius:2px;animation:fall 1.8s ease-in forwards}
@@ -138,18 +153,23 @@ body{font-family:'Nunito',sans-serif;background:linear-gradient(160deg,#fff8e1 0
   <button class="user-btn oliver active" id="btn-oliver" onclick="switchUser('oliver')">
     <span class="user-emoji">🧒</span>
     <span class="user-name">Oliver</span>
-    <span class="user-count" id="count-oliver">0 / 80</span>
+    <span class="user-count" id="count-oliver">0 / 106</span>
   </button>
   <button class="user-btn logan" id="btn-logan" onclick="switchUser('logan')">
-    <span class="user-emoji">👦</span>
+    <span class="user-emoji">🌱</span>
     <span class="user-name">Logan</span>
-    <span class="user-count" id="count-logan">0 / 80</span>
+    <span class="user-count" id="count-logan">0 / 106</span>
+  </button>
+  <button class="user-btn mom" id="btn-mom" onclick="switchUser('mom')">
+    <span class="user-emoji">👩</span>
+    <span class="user-name">Mom</span>
+    <span class="user-count" id="count-mom">0 / 106</span>
   </button>
 </div>
 
 <div class="stats-bar">
   <div class="stat-pill"><span class="num" id="earnedCount">0</span><span class="label">Earned</span></div>
-  <div class="stat-pill"><span class="num">80</span><span class="label">Total</span></div>
+  <div class="stat-pill"><span class="num">106</span><span class="label">Total</span></div>
   <div class="stat-pill"><span class="num" id="catCount">0</span><span class="label">Categories Done</span></div>
   <div class="stat-pill"><span class="num" id="pct">0%</span><span class="label">Complete</span></div>
 </div>
@@ -1008,19 +1028,165 @@ const BADGES = [
           'Celebrate their progress — make them feel proud of what they achieved.'],
    hints:['Never show frustration — encouragement always works better.','Speak at their level, not above it.'],
    bonus:'Teach them a skill they can then teach someone else, passing it on.'},
+
+  // MISSIONS (task-linked badges — kids & Mom)
+  {id:'m-alateen-01',cat:'mission',icon:'🌊',name:'Alateen Start',
+   goal:'Complete Alateen 01 — What this is for.',
+   steps:['Read or listen to the intro: Alateen is for young people affected by someone else\'s drinking.','Draw one hope for what you want to feel more of: calm, safety, honesty, or fun.'],
+   hints:['Do this one with a trusted adult.','Passing is always okay.'],
+   bonus:'Share one word that describes how you feel after.'},
+  {id:'m-alateen-complete',cat:'mission',icon:'💙',name:'Alateen Journey',
+   goal:'Complete all 15 Alateen lessons.',
+   steps:['Work through Alateen lessons 01–15 one at a time.','Check them off as you go in your task list.'],
+   hints:['Take your time — one per week is great.','Talk about it with a safe adult.'],
+   bonus:'Make your personal toolbox (Alateen 15).'},
+  {id:'m-bible-05',cat:'mission',icon:'✝️',name:'Faith Seeker',
+   goal:'Complete 5 Bible Study sessions.',
+   steps:['Choose 5 Bible Study tasks from your task list.','Read the passage, do the activity, and write or draw your response.'],
+   hints:['Any 5 count — mix it up.','There are no wrong answers.'],
+   bonus:'Share a favourite verse with someone you love.'},
+  {id:'m-bible-complete',cat:'mission',icon:'📖',name:'Scripture Explorer',
+   goal:'Complete all 15 Bible Study sessions.',
+   steps:['Work through all 15 Bible Study tasks.','Read, reflect, draw, write, or pray for each one.'],
+   hints:['Go at your own pace.','You can re-read favourites.'],
+   bonus:'Write a one-paragraph reflection on what you learned.'},
+  {id:'m-wellness-10',cat:'mission',icon:'🧘',name:'Wellness Warrior',
+   goal:'Complete 10 wellness tasks (breathing, mindfulness, movement, creative expression).',
+   steps:['Pick any 10 Wellness tasks from your task list.','Do each one fully — really try the activity.'],
+   hints:['Breathing, movement, music, and mindfulness all count.','Notice which ones help you most.'],
+   bonus:'Teach one wellness tool to a sibling or parent.'},
+  {id:'m-ncso-complete',cat:'mission',icon:'🦺',name:'NCSO Ready',
+   goal:'Complete all 24 NCSO study points.',
+   steps:['Work through NCSO study points 01–24 in order.','For each one, read, take notes, and mark done.'],
+   hints:['Treat each one like a real exam question.','Use flashcards for anything you miss.'],
+   bonus:'Write your top 3 weak areas and make a study plan for them.'},
+  {id:'m-ncso-10',cat:'mission',icon:'📋',name:'Safety Scholar',
+   goal:'Complete 10 NCSO study points.',
+   steps:['Complete any 10 NCSO study tasks from your task list.','Take notes as you go.'],
+   hints:['Start with the topics you find hardest.','Quiz yourself after each one.'],
+   bonus:'Explain one NCSO concept to someone else.'},
+  {id:'m-math-10',cat:'mission',icon:'🔢',name:'Math Mission',
+   goal:'Complete 10 math tasks from your task list.',
+   steps:['Find any 10 Math tasks in your task list.','Complete each one and show your work.'],
+   hints:['Double-check your answers.','Worksheet questions help you know if you understand.'],
+   bonus:'Create your own math word problem and solve it.'},
+  {id:'m-french-10',cat:'mission',icon:'🇫🇷',name:'Français Champion',
+   goal:'Complete 10 French language tasks.',
+   steps:['Pick any 10 Language tasks that involve French.','Speak out loud when you can — not just writing.'],
+   hints:['Mix reading, writing, and speaking tasks.','Mistakes are how you learn.'],
+   bonus:'Write a short paragraph entirely in French about your favourite day.'},
+  {id:'m-science-05',cat:'mission',icon:'🔬',name:'Science Explorer',
+   goal:'Complete 5 science tasks.',
+   steps:['Choose any 5 Science tasks from your task list.','Do the observation, drawing, or experiment fully.'],
+   hints:['Take your time with each step.','Real science means writing down what actually happened.'],
+   bonus:'Design your own simple experiment about something you\'re curious about.'},
+  {id:'m-sidequests-20',cat:'mission',icon:'⚔️',name:'Quest Master',
+   goal:'Complete 20 Side Quest chore tasks.',
+   steps:['Complete any 20 Side Quest tasks from your task list.','Each one counts — kitchen, laundry, living room, anywhere.'],
+   hints:['Doing it right matters more than doing it fast.','Ask if you\'re not sure how.'],
+   bonus:'Take before-and-after photos of one completed chore zone.'},
+  {id:'m-recovery-10',cat:'mission',icon:'💜',name:'Recovery Work',
+   goal:'Complete 10 recovery wellness tasks (Al-Anon, RCA, or Family & Friends).',
+   steps:['Complete any 10 Wellness tasks from the Mom task list.','Reflect honestly after each one.'],
+   hints:['These are for you — not for anyone else.','Even the hard ones count.'],
+   bonus:'Write a one-sentence intention for the week.'},
+
+  // WELLBEING BADGES (kids)
+  {id:'wb1',cat:'wellbeing',icon:'🌬️',name:'Calm Keeper',
+   goal:'Practice 5 different breathing or calming exercises.',
+   steps:['Try Box Breathing (4-4-4-4).','Try 4-7-8 Breathing.','Try Belly Breathing.','Try Flower and Candle.','Try Star Breathing.'],
+   hints:['Do each one slowly — rushing defeats the purpose.','Notice which one helps you feel calmer.'],
+   bonus:'Teach one breathing technique to a family member.'},
+  {id:'wb2',cat:'wellbeing',icon:'🧠',name:'Brain Brave',
+   goal:'Complete 5 Brain Brave or Alateen emotional learning tasks.',
+   steps:['Pick any 5 Wellness tasks from the Brain Brave or Alateen series.','Do each one fully — read, draw, or discuss.'],
+   hints:['These count even if they feel hard to talk about.','You can always say "pass" and come back.'],
+   bonus:'Name one thing you learned about yourself.'},
+  {id:'wb3',cat:'wellbeing',icon:'🌿',name:'Mindful Mover',
+   goal:'Complete 5 movement or cross-body brain activation tasks.',
+   steps:['Cross Crawl — march in place, elbow to opposite knee.','Brain Buttons — press below collarbone 30 sec each side.','Figure 8 Eyes — trace sideways 8 with thumb, eyes follow.','Lazy 8 Drawing — draw large sideways 8, both hands.','Juggling Practice — one then two balls, focus on trying.'],
+   hints:['Do them before schoolwork for best results.','5 minutes of movement = better focus for 30 minutes.'],
+   bonus:'Build your own morning activation circuit and do it 5 days in a row.'},
+  {id:'wb4',cat:'wellbeing',icon:'💛',name:'Connection Star',
+   goal:'Complete 5 connection or play wellness tasks.',
+   steps:['Two Truths and a Wish — share with the family.','Rose, Bud, Thorn — share one good, one hard, one to look forward to.','Compliment Circle — give each person one genuine compliment.','Question Jar — pull a question and let everyone answer.','Outdoor Play Challenge — 20 min outside, everyone laughs once.'],
+   hints:['These work best when everyone participates.','Put your phone away while you do them.'],
+   bonus:'Invent your own family connection activity and run it.'},
+
+  // FAITH BADGES
+  {id:'f1',cat:'faith',icon:'🙏',name:'Prayer Starter',
+   goal:'Complete 3 Bible Study sessions.',
+   steps:['Pick any 3 Bible Study tasks from your task list.','Read the passage aloud if you can.','Write or draw your response to the reflection question.'],
+   hints:['There are no wrong answers.','You can revisit any session as many times as you want.'],
+   bonus:'Memorize one verse from the sessions you completed.'},
+  {id:'f2',cat:'faith',icon:'✝️',name:'Word Seeker',
+   goal:'Complete all 15 Bible Study sessions.',
+   steps:['Work through all 15 Bible Study sessions one at a time.','For each one: read, reflect, respond (draw, write, or pray).'],
+   hints:['Go at your own pace — one per week is fine.','Share your favourite with someone.'],
+   bonus:'Write a short letter to God about what you learned.'},
+  {id:'f3',cat:'faith',icon:'🌟',name:'Living It Out',
+   goal:'Complete 3 Alateen lessons AND 3 Bible Study sessions.',
+   steps:['Complete any 3 Alateen lessons (01–15).','Complete any 3 Bible Study sessions.','Notice where the ideas overlap.'],
+   hints:['Both are about honesty, courage, and caring for yourself.','You can do them in any order.'],
+   bonus:'Find one idea that shows up in both — write or draw it.'},
+
+  // RECOVERY BADGES (Mom)
+  {id:'r1',cat:'recovery',icon:'💜',name:'One Day At a Time',
+   goal:'Complete 5 recovery wellness tasks.',
+   steps:['Choose any 5 Wellness tasks from your task list.','Be honest in each reflection — these are for you.','Notice what shifts when you follow through.'],
+   hints:['Even 5 minutes of honest reflection counts.','You\'re doing this for yourself, not for anyone else.'],
+   bonus:'Write one thing you\'re releasing for the next 24 hours.'},
+  {id:'r2',cat:'recovery',icon:'🌱',name:'Steady Ground',
+   goal:'Complete all 15 recovery wellness tasks.',
+   steps:['Work through all 15 recovery Wellness tasks.','Take each one seriously — not just check-boxes.','Let yourself feel the hard ones.'],
+   hints:['There\'s no timeline — do them when you have real space.','Some will hit harder than others. That\'s the point.'],
+   bonus:'Write a one-page reflection on what you\'ve learned about yourself this season.'},
+  {id:'r3',cat:'recovery',icon:'🤝',name:'Coupleship Work',
+   goal:'Complete 5 coupleship or boundary wellness tasks.',
+   steps:['Morning Serenity Check.','Three-Column Boundary Note.','One Kind, Clear Request.','Pause Before Helping.','Repair Without Over-Owning.'],
+   hints:['These are relational skills, not grades.','Progress looks like noticing, not perfection.'],
+   bonus:'Have one honest, short conversation using what you\'ve practiced.'},
+
+  // NCSO BADGES (Mom)
+  {id:'n1',cat:'ncso',icon:'🦺',name:'Foundation Built',
+   goal:'Complete NCSO study points 01–08.',
+   steps:['NCSO 01 — Exam map and weak spots.','NCSO 02 — Health and safety program basics.','NCSO 03 — Internal responsibility system.','NCSO 04 — Legislation and due diligence.','NCSO 05 — Worker rights.','NCSO 06 — Hazard identification.','NCSO 07 — Risk assessment ranking.','NCSO 08 — Hierarchy of controls.'],
+   hints:['Take notes in your own words.','Weak spots from NCSO 01 should shape your study priority.'],
+   bonus:'Quiz yourself on all 8 topics before moving to the next block.'},
+  {id:'n2',cat:'ncso',icon:'📋',name:'Field Ready',
+   goal:'Complete NCSO study points 09–16.',
+   steps:['NCSO 09 — Safe work practices.','NCSO 10 — FLHA/JHA walkthrough.','NCSO 11 — Site inspections.','NCSO 12 — Incident investigation.','NCSO 13 — Root cause vs direct cause.','NCSO 14 — Corrective actions.','NCSO 15 — WHMIS and SDS.','NCSO 16 — PPE selection and limits.'],
+   hints:['Draw the investigation flow from memory.','Practise matching PPE to hazard types.'],
+   bonus:'Write a complete mock FLHA for a real task you do at work.'},
+  {id:'n3',cat:'ncso',icon:'📊',name:'Exam Confident',
+   goal:'Complete NCSO study points 17–24.',
+   steps:['NCSO 17 — Occupational hygiene.','NCSO 18 — Emergency preparedness.','NCSO 19 — Training and orientations.','NCSO 20 — Toolbox talks.','NCSO 21 — Preventive maintenance.','NCSO 22 — Auditing and COR evidence.','NCSO 23 — Records and safety statistics.','NCSO 24 — Practice questions and recall.'],
+   hints:['Calculate an incident rate from scratch.','Do NCSO 24 last as a full review pass.'],
+   bonus:'Score yourself on 20 practice questions and note every miss.'},
+  {id:'n4',cat:'ncso',icon:'🏆',name:'NCSO Certified',
+   goal:'Complete all 24 NCSO study points.',
+   steps:['Complete study points 01–24 in full.','Review your weak spots one final time.','Take a mock exam under closed-book conditions.'],
+   hints:['75% is the typical pass mark.','If you miss one, write the correct answer and why immediately.'],
+   bonus:'Book your exam date.'},
 ];
 
 const CAT_LABELS = {
   life:'🏠 Life Skills & Chores', nature:'🌿 Nature & Outdoors',
   learning:'🧠 Learning & Curiosity', kitchen:'🧑‍🍳 Kitchen & Food',
   clean:'🧹 Clean & Tidy', creative:'🎨 Creativity & Expression',
-  community:'👫 Community & Friendship', adventure:'⚔️ Adventure & Challenges'
+  community:'👫 Community & Friendship', adventure:'⚔️ Adventure & Challenges',
+  mission:'🎯 Missions', wellbeing:'💛 Wellbeing', faith:'✝️ Faith',
+  recovery:'💜 Recovery', ncso:'🦺 Safety Certification'
 };
-const CAT_ORDER = ['life','nature','learning','kitchen','clean','creative','community','adventure'];
-const USERS = { oliver:{emoji:'🧒',label:'Oliver'}, logan:{emoji:'👦',label:'Logan'} };
+const CAT_ORDER = ['life','nature','learning','kitchen','clean','creative','community','adventure','mission','wellbeing','faith','recovery','ncso'];
+const USERS = {
+  oliver:{ emoji:'🧒', label:'Oliver', color:'#3b82f6', bg:'linear-gradient(135deg,#dbeafe,#bfdbfe)' },
+  logan:{ emoji:'🌱', label:'Logan', color:'#f59e0b', bg:'linear-gradient(135deg,#fef3c7,#fde68a)' },
+  mom:{ emoji:'👩', label:'Mom', color:'#a855f7', bg:'linear-gradient(135deg,#f3e8ff,#e9d5ff)' }
+};
 
 let currentUser = localStorage.getItem('sf_badges_user') || 'oliver';
-let userData = { oliver: loadEarned('oliver'), logan: loadEarned('logan') };
+let userData = { oliver: loadEarned('oliver'), logan: loadEarned('logan'), mom: loadEarned('mom') };
 
 function loadEarned(u) { try { return JSON.parse(localStorage.getItem('sf_badges_'+u)||'[]'); } catch(e) { return []; } }
 function saveEarned(u) { try { localStorage.setItem('sf_badges_'+u, JSON.stringify(userData[u])); } catch(e) {} }
@@ -1041,16 +1207,16 @@ function switchUser(u) {
 
 function updateStats() {
   const n = userData[currentUser].length;
-  const pctVal = Math.round(n/80*100);
+  const pctVal = Math.round(n/106*100);
   document.getElementById('earnedCount').textContent = n;
   document.getElementById('pct').textContent = pctVal+'%';
-  document.getElementById('pctLabel').textContent = n+' / 80';
+  document.getElementById('pctLabel').textContent = n+' / 106';
   document.getElementById('progressFill').style.width = pctVal+'%';
   document.getElementById('progressName').textContent = USERS[currentUser].label+'\'s Progress';
   const catDone = CAT_ORDER.filter(cat => BADGES.filter(b=>b.cat===cat).every(b=>isEarned(b.id))).length;
   document.getElementById('catCount').textContent = catDone;
-  ['oliver','logan'].forEach(u => {
-    document.getElementById('count-'+u).textContent = userData[u].length+' / 80';
+  ['oliver','logan','mom'].forEach(u => {
+    document.getElementById('count-'+u).textContent = userData[u].length+' / 106';
   });
 }
 
@@ -1064,9 +1230,11 @@ function renderBadges() {
         const cur = isEarned(b.id);
         const oliv = isEarnedBy(b.id,'oliver');
         const log  = isEarnedBy(b.id,'logan');
+        const mom  = isEarnedBy(b.id,'mom');
         let pips = '';
         if (oliv) pips += '<div class="earned-pip pip-oliver">🧒</div>';
-        if (log)  pips += '<div class="earned-pip pip-logan">👦</div>';
+        if (log)  pips += '<div class="earned-pip pip-logan">🌱</div>';
+        if (mom)  pips += '<div class="earned-pip pip-mom">👩</div>';
         const inds = (oliv||log) ? '<div class="earned-indicators">'+pips+'</div>' : '';
         return '<div class="badge-card '+(cur?'earned':'locked')+'" onclick="openModal(\''+b.id+'\')">' +
           '<div class="badge-circle bc-'+b.cat+'">'+b.icon+inds+'</div>' +
@@ -1096,9 +1264,11 @@ function refreshEarnBtn() {
   const b = modalBadge;
   const oliv = isEarnedBy(b.id,'oliver');
   const log  = isEarnedBy(b.id,'logan');
+  const momE = isEarnedBy(b.id,'mom');
   document.getElementById('mEarnedStatus').innerHTML =
     '<div class="earned-tag '+(oliv?'yes-oliver':'no')+'">🧒 Oliver '+(oliv?'✓':'–')+'</div>'+
-    '<div class="earned-tag '+(log?'yes-logan':'no')+'">👦 Logan '+(log?'✓':'–')+'</div>';
+    '<div class="earned-tag '+(log?'yes-logan':'no')+'">🌱 Logan '+(log?'✓':'–')+'</div>'+
+    '<div class="earned-tag '+(momE?'yes-mom':'no')+'">👩 Mom '+(momE?'✓':'–')+'</div>';
   const earned = isEarned(b.id);
   const btn = document.getElementById('earnBtn');
   btn.className = 'earn-btn '+currentUser+'-active '+(earned?'is-earned':'not-earned');

@@ -1047,38 +1047,55 @@ function renderMomCalendar(events){
 }
 
 /* ── Leaderboard ── */
-const LB_PEOPLE = [
-  {key:'Oliver', emoji:'🧒', label:'Oliver'},
-  {key:'Logan',  emoji:'🌱', label:'Logan'},
-  {key:'Mom',    emoji:'👩', label:'Mom'},
-];
-function getBadgeCount(person){
-  try{ const e=JSON.parse(localStorage.getItem('sf_badges_'+person.toLowerCase())||'[]'); return Array.isArray(e)?e.length:0; }catch(e){return 0;}
-}
 async function loadMomLeaderboard(){
+  // Fetch points from Tasks sheet directly
   try{
-    const r = await fetch(APPS_SCRIPT_URL+'?tab=points', {cache:'no-store'});
-    const data = await r.json();
-    renderLeaderboard(data.ok?data.points:{});
-  }catch(e){ renderLeaderboard({}); }
+    const url = 'https://docs.google.com/spreadsheets/d/1GZv91Npf9i0y6AtCQcjYUyiYrDq3aqQ3zSNE2QGAxfE/export?format=csv&gid=0';
+    const r = await fetch(url, {cache:'no-store'});
+    const txt = await r.text();
+    const rows = txt.split('\n').map(l=>{
+      const out=[]; let i=0;
+      while(i<l.length){
+        if(l[i]==='"'){let c='';i++;while(i<l.length){if(l[i]==='"'&&l[i+1]==='"'){c+='"';i+=2;}else if(l[i]==='"'){i++;break;}else c+=l[i++];}out.push(c.trim());if(l[i]===',')i++;}
+        else{let c='';while(i<l.length&&l[i]!==',')c+=l[i++];out.push(c.trim());if(l[i]===',')i++;}
+      }
+      return out;
+    }).filter(r=>r.some(c=>c));
+    const h = rows[0].map(x=>x.toLowerCase().trim());
+    const iResp=h.findIndex(c=>c.includes('responsible'));
+    const iPts=h.findIndex(c=>c.includes('points'));
+    const iDone=h.findIndex(c=>c.includes('isdone'));
+    const iComp=h.findIndex(c=>c.includes('date completed'));
+    const YES=new Set(['yes','true','1','✓','✅']);
+    let totalPts=0;
+    rows.slice(1).forEach(r=>{
+      const resp=(r[iResp]||'').trim();
+      const done=YES.has((r[iDone]||'').toLowerCase().trim());
+      const comp=(r[iComp]||'').trim();
+      const pts=Number(r[iPts]||0);
+      if(resp==='Mom'&&(done||(comp&&/\d{4}/.test(comp)))) totalPts+=pts;
+    });
+    renderMomLeaderboard(totalPts);
+  }catch(e){ renderMomLeaderboard(0); }
 }
-function renderLeaderboard(pts){
+
+function renderMomLeaderboard(totalPts){
   const el = document.getElementById('mom-leaderboard'); if(!el) return;
-  const scores = LB_PEOPLE.map(p=>(({...p, pts:(pts&&pts[p.key])||0, badges:getBadgeCount(p.key)})))
-    .sort((a,b)=>b.pts-a.pts||b.badges-a.badges);
-  const medals=['🥇','🥈','🥉'];
-  el.innerHTML = scores.map((p,i)=>{
-    const isYou = p.key==='Mom';
-    return `<div class="lb-row${isYou?' lb-you-mom':''}">
-      <div class="lb-rank">${medals[i]||'·'}</div>
-      <div class="lb-avatar">${p.emoji}</div>
+  const badges = (() => {
+    try{ const e=JSON.parse(localStorage.getItem('sf_badges_mom')||'[]'); return Array.isArray(e)?e.length:0; }catch(e){return 0;}
+  })();
+  el.innerHTML = `
+    <div class="lb-row lb-you-mom">
+      <div class="lb-rank" style="font-size:24px">👩</div>
       <div class="lb-info">
-        <div class="lb-name">${esc(p.label)}${isYou?' <span style=\"font-size:10px;opacity:.7\">(you)</span>':''}</div>
-        <div class="lb-meta">${p.badges} badge${p.badges!==1?'s':''}</div>
+        <div class="lb-name">Mom</div>
+        <div class="lb-meta">${badges} badge${badges!==1?'s':''} earned</div>
       </div>
-      <div class="lb-pts">${p.pts.toLocaleString()} pts</div>
+      <div>
+        <div class="lb-pts">${totalPts.toLocaleString()} pts</div>
+        <div class="lb-badges" style="font-size:10px;color:var(--muted);text-align:right">all time</div>
+      </div>
     </div>`;
-  }).join('');
 }
 
 loadMomCalendar();

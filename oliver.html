@@ -408,7 +408,7 @@ function toggleMission(id){
 }
 
 (async()=>{
-  try{ TASKS=buildTasks(await loadSheet()); renderTasks(); await loadBadges(); pickMission(); await loadMenuForSchedule(); await loadCalendarEvents(); await loadLeaderboardPoints(); }
+  try{ const _rows=await loadSheet(); window._allTaskRows=_rows; TASKS=buildTasks(_rows); renderTasks(); await loadBadges(); pickMission(); await loadMenuForSchedule(); await loadCalendarEvents(); await loadLeaderboardPoints(); }
   catch(e){
     document.getElementById('hero-badge').textContent='⚠ Offline';
     ['tasks-block1','tasks-block2','tasks-sidequest','tasks-mission','tasks-wellness']
@@ -535,50 +535,50 @@ function injectCalendarEvents(events){
 }
 
 /* -- LEADERBOARD (live points from Apps Script) -- */
-async function loadLeaderboardPoints(){
-  try{
-    const url = APPS_SCRIPT_URL + '?tab=points';
-    const r = await fetch(url, {cache:'no-store'});
-    if(!r.ok) throw new Error('HTTP '+r.status);
-    const data = await r.json();
-    if(!data.ok || !data.points) throw new Error(data.error||'No points');
-    renderLeaderboard(data.points);
-  }catch(e){
-    renderLeaderboard({});
-  }
-}
-
-const LB_PEOPLE = [
-  {key:'Oliver', emoji:'🧒', label:'Oliver'},
-  {key:'Logan',  emoji:'🌱', label:'Logan'},
-  {key:'Mom',    emoji:'👩', label:'Mom'},
-];
-
-function getBadgeCount(person){
-  try{ const e=JSON.parse(localStorage.getItem('sf_badges_'+person.toLowerCase())||'[]'); return Array.isArray(e)?e.length:0; }catch(e){return 0;}
-}
-
-function renderLeaderboard(sheetPoints){
+function renderLeaderboard(){
   const el = document.getElementById('leaderboard-card'); if(!el) return;
-  const scores = LB_PEOPLE.map(p=>({
-    ...p,
-    pts: (sheetPoints&&sheetPoints[p.key])||0,
-    badges: getBadgeCount(p.key),
-  })).sort((a,b)=>b.pts-a.pts||b.badges-a.badges);
-  const medals=['🥇','🥈','🥉'];
-  el.innerHTML = scores.map((p,i)=>{
-    const isYou = p.key.toLowerCase()===P;
-    return `<div class="lb-row${isYou?' lb-you':''}">
-      <div class="lb-rank">${medals[i]||'·'}</div>
-      <div class="lb-avatar">${p.emoji}</div>
+
+  // Points = sum of Points column on ALL_TASKS where isDone
+  const allRows = window._allTaskRows || [];
+  let totalPts = 0;
+  if(allRows.length > 1){
+    const h = allRows[0].map(x=>x.toLowerCase().trim());
+    const iResp = h.findIndex(c=>c.includes('responsible'));
+    const iPts  = h.findIndex(c=>c.includes('points'));
+    const iDone = h.findIndex(c=>c.includes('isdone'));
+    const iComp = h.findIndex(c=>c.includes('date completed'));
+    const YES = new Set(['yes','true','1','✓','✅']);
+    allRows.slice(1).forEach(r=>{
+      const resp = (r[iResp]||'').trim();
+      const done = YES.has((r[iDone]||'').toLowerCase().trim());
+      const comp = (r[iComp]||'').trim();
+      const pts  = Number(r[iPts]||0);
+      if(resp===PERSON && (done||(comp&&/\d{4}/.test(comp)))) totalPts += pts;
+    });
+  }
+
+  const badges = (() => {
+    try{ const e=JSON.parse(localStorage.getItem('sf_badges_'+P)||'[]'); return Array.isArray(e)?e.length:0; }catch(e){return 0;}
+  })();
+
+  const EMOJIS = {oliver:'🧒', logan:'🌱', mom:'👩'};
+  const emoji  = EMOJIS[P]||'⭐';
+
+  el.innerHTML = `
+    <div class="lb-row lb-you">
+      <div class="lb-rank" style="font-size:24px">${emoji}</div>
       <div class="lb-info">
-        <div class="lb-name">${esc(p.label)}${isYou?' <span style=\"font-size:10px;opacity:.7\">(you)</span>':''}</div>
-        <div class="lb-meta">${p.badges} badge${p.badges!==1?'s':''}</div>
+        <div class="lb-name">${esc(PERSON)}</div>
+        <div class="lb-meta">${badges} badge${badges!==1?'s':''} earned</div>
       </div>
-      <div class="lb-pts">${p.pts.toLocaleString()} pts</div>
+      <div>
+        <div class="lb-pts">${totalPts.toLocaleString()} pts</div>
+        <div class="lb-badges" style="font-size:10px;color:var(--muted);text-align:right">all time</div>
+      </div>
     </div>`;
-  }).join('');
 }
+
+async function loadLeaderboardPoints(){ renderLeaderboard(); }
 
 // init
 await loadCalendarEvents();

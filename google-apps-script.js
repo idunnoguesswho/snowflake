@@ -1,5 +1,6 @@
 // ─── Sheet config ─────────────────────────────────────────────────────────────
 const SHEET_ID    = "1GZv91Npf9i0y6AtCQcjYUyiYrDq3aqQ3zSNE2QGAxfE"; // Tasks
+const JOBS_SHEET_ID = "18ck-AEpQTH3MIOYoSxNAx2nfYGjTjQsKNm0gWJr_z3Y"; // Jobs + Hustles
 const SHEET_NAME  = "Tasks";
 const QUOTES_SHEET_ID  = "1VVWZBG3fXLWBFCnRDLo76kUQrNyPcBBdY6mCiiwJr50";
 const MENU_SHEET_ID    = "1618K5slLb0A7o1FsDfB1r2zj85fklPLrE2TdJd47CLc";
@@ -54,13 +55,29 @@ function doGet(e) {
   return output({ ok: false, error: "Unknown tab: " + tab });
 }
 
-// ─── doPost (backward compat) ─────────────────────────────────────────────────
+// ─── doPost ──────────────────────────────────────────────────────────────────
 function doPost(event) {
-  const payload              = JSON.parse((event && event.postData && event.postData.contents) || "{}");
-  const rowNumber            = Number(payload.rowNumber);
-  const assignNextRowNumber  = Number(payload.assignNextRowNumber || 0);
-  const completedDate        = payload.completedDate || formatDate(new Date());
-  const assignedDate         = payload.assignedDate  || completedDate;
+  const payload = JSON.parse((event && event.postData && event.postData.contents) || "{}");
+
+  // Append rows to any sheet
+  if (payload.tab === "appendjobs" || payload.tab === "appendrows") {
+    try {
+      const ss    = SpreadsheetApp.openById(payload.sheetId || JOBS_SHEET_ID);
+      const sheet = ss.getSheetByName(payload.sheetName || "Jobs") || ss.getSheets()[0];
+      const rows  = payload.rows || [];
+      if (!rows.length) return output({ ok: false, error: "No rows provided" });
+      rows.forEach(row => sheet.appendRow(row));
+      return output({ ok: true, appended: rows.length });
+    } catch(err) {
+      return output({ ok: false, error: err.message });
+    }
+  }
+
+  // Backward compat: complete a task
+  const rowNumber           = Number(payload.rowNumber);
+  const assignNextRowNumber = Number(payload.assignNextRowNumber || 0);
+  const completedDate       = payload.completedDate || formatDate(new Date());
+  const assignedDate        = payload.assignedDate  || completedDate;
   if (!rowNumber || rowNumber < 2) return output({ ok: false, error: "Missing rowNumber." });
   const sheet = getSheet();
   const map   = getColumnMap(sheet);

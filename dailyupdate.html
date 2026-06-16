@@ -1,245 +1,122 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Daily Update – June 15, 2026 | Snowflake</title>
-<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Baloo+2:wght@400;600;700;800&display=swap" rel="stylesheet">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Daily Update – June 16, 2026</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
 <style>
-  :root {
-    --bg: #f7f3ff;
-    --card: #ffffff;
-    --border: #e0d9f5;
-    --text: #2d2250;
-    --muted: #7b6fa0;
-    --accent: #7c3aed;
-    --work: #378ADD;
-    --family: #D4537E;
-    --task: #BA7517;
-    --errand: #1D9E75;
-    --personal: #9333ea;
-    --urgent: #dc2626;
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #f5f4f0; color: #1a1a18; padding: 1.5rem; min-height: 100vh; }
+  h2.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; }
+  .page-title { font-size: 18px; font-weight: 500; color: #1a1a18; margin-bottom: 1.5rem; }
+  .page-title span { font-size: 14px; font-weight: 400; color: #5f5e5a; margin-left: 8px; }
+  .cat-work { color: #185FA5; }
+  .cat-task { color: #854F0B; }
+  .cat-family { color: #993556; }
+  .cat-errand { color: #0F6E56; }
+  .dot { width: 9px; height: 9px; border-radius: 50%; display: inline-block; flex-shrink: 0; margin-top: 4px; }
+  .dot-work { background: #378ADD; }
+  .dot-task { background: #BA7517; }
+  .dot-family { background: #D4537E; }
+  .dot-errand { background: #1D9E75; }
+  .pill { font-size: 11px; padding: 2px 8px; border-radius: 20px; font-weight: 500; }
+  .pill-work { background: #E6F1FB; color: #185FA5; }
+  .pill-task { background: #FAEEDA; color: #854F0B; }
+  .pill-family { background: #FBEAF0; color: #993556; }
+  .pill-errand { background: #E1F5EE; color: #0F6E56; }
+  .row { display: flex; gap: 10px; align-items: flex-start; padding: 9px 0; border-bottom: 0.5px solid rgba(0,0,0,0.12); }
+  .row:last-child { border-bottom: none; }
+  .time-label { font-size: 12px; color: #5f5e5a; min-width: 54px; padding-top: 3px; }
+  .ev-title { font-size: 14px; color: #1a1a18; font-weight: 500; }
+  .ev-sub { font-size: 12px; color: #5f5e5a; margin-top: 2px; }
+  .metric-card { background: #eceae3; border-radius: 8px; padding: 14px 16px; }
+  .metric-label { font-size: 12px; color: #5f5e5a; margin-bottom: 4px; }
+  .metric-val { font-size: 22px; font-weight: 500; color: #1a1a18; }
+  .section-head { font-size: 12px; font-weight: 500; color: #5f5e5a; text-transform: uppercase; letter-spacing: 0.04em; margin: 0 0 10px; }
+  .email-row { display: flex; align-items: flex-start; gap: 10px; padding: 8px 0; border-bottom: 0.5px solid rgba(0,0,0,0.12); }
+  .email-row:last-child { border-bottom: none; }
+  .card { background: #fff; border-radius: 12px; border: 0.5px solid rgba(0,0,0,0.12); padding: 1rem 1.25rem; }
+  @media (max-width: 600px) {
+    .main-grid { grid-template-columns: 1fr !important; }
   }
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  body { font-family: 'Nunito', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
-
-  .hero {
-    background: linear-gradient(135deg, #7c3aed 0%, #a855f7 50%, #ec4899 100%);
-    color: white; padding: 28px 20px 22px; text-align: center;
-  }
-  .hero-date { font-size: 0.85rem; letter-spacing: 2px; text-transform: uppercase; opacity: 0.85; margin-bottom: 4px; }
-  .hero-title { font-family: 'Baloo 2', sans-serif; font-size: 1.9rem; font-weight: 800; }
-  .hero-sub { font-size: 0.9rem; opacity: 0.8; margin-top: 4px; }
-
-  .stats-row {
-    display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px;
-    padding: 16px 16px 0;
-  }
-  .stat-card {
-    background: var(--card); border: 1px solid var(--border);
-    border-radius: 14px; padding: 14px 10px; text-align: center;
-  }
-  .stat-num { font-family: 'Baloo 2', sans-serif; font-size: 1.8rem; font-weight: 800; color: var(--accent); line-height: 1; }
-  .stat-num.urgent { color: var(--urgent); }
-  .stat-lbl { font-size: 0.7rem; color: var(--muted); margin-top: 3px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; }
-
-  .section { padding: 16px 16px 0; }
-  .section-title {
-    font-family: 'Baloo 2', sans-serif; font-size: 1rem; font-weight: 700;
-    color: var(--accent); margin-bottom: 10px; display: flex; align-items: center; gap: 6px;
-  }
-
-  .alert-banner {
-    background: #fef2f2; border: 1px solid #fecaca; border-radius: 14px;
-    padding: 12px 16px; display: flex; gap: 10px; align-items: flex-start;
-    font-size: 0.87rem;
-  }
-  .alert-icon { font-size: 1.1rem; flex-shrink: 0; }
-  .alert-text { line-height: 1.5; color: #991b1b; }
-  .alert-text strong { color: #7f1d1d; }
-
-  .timeline { display: flex; flex-direction: column; gap: 0; }
-  .tl-item {
-    display: flex; align-items: flex-start; gap: 12px;
-    padding: 10px 14px; background: var(--card);
-    border: 1px solid var(--border);
-    border-bottom: none;
-  }
-  .tl-item:first-child { border-radius: 14px 14px 0 0; }
-  .tl-item:last-child { border-radius: 0 0 14px 14px; border-bottom: 1px solid var(--border); }
-  .tl-item:only-child { border-radius: 14px; border-bottom: 1px solid var(--border); }
-  .tl-item.all-day { background: #fefce8; border-color: #fde68a; }
-  .tl-time { font-size: 0.72rem; color: var(--muted); font-weight: 700; min-width: 48px; padding-top: 2px; }
-  .tl-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; margin-top: 5px; }
-  .tl-body { flex: 1; }
-  .tl-title { font-size: 0.88rem; font-weight: 700; line-height: 1.3; }
-  .tl-sub { font-size: 0.75rem; color: var(--muted); margin-top: 1px; }
-  .badge {
-    display: inline-block; font-size: 0.65rem; font-weight: 700;
-    padding: 1px 7px; border-radius: 20px; margin-left: 6px;
-    text-transform: uppercase; letter-spacing: 0.4px; vertical-align: middle;
-  }
-  .badge-work     { background: #dbeafe; color: #1d4ed8; }
-  .badge-family   { background: #fce7f3; color: #be185d; }
-  .badge-task     { background: #fef3c7; color: #92400e; }
-  .badge-errand   { background: #d1fae5; color: #065f46; }
-  .badge-personal { background: #f3e8ff; color: #6b21a8; }
-  .badge-urgent   { background: #fee2e2; color: #991b1b; }
-
-  .dot-work     { background: var(--work); }
-  .dot-family   { background: var(--family); }
-  .dot-task     { background: var(--task); }
-  .dot-errand   { background: var(--errand); }
-  .dot-personal { background: var(--personal); }
-  .dot-urgent   { background: var(--urgent); }
-
-  .note-card {
-    background: var(--card); border: 1px solid var(--border);
-    border-radius: 14px; padding: 14px 16px;
-    font-size: 0.87rem; line-height: 1.6; color: var(--text);
-  }
-  .note-card p + p { margin-top: 8px; }
-
-  .spacer { height: 20px; }
-  .footer {
-    text-align: center; font-size: 0.72rem; color: var(--muted);
-    padding: 18px 16px 28px;
-  }
-  a { color: var(--accent); text-decoration: none; }
 </style>
 </head>
 <body>
+<h2 class="sr-only">Daily dashboard for Tuesday June 16, 2026 — 10 calendar events, 2 inbox emails, 0 unread.</h2>
+<p class="page-title">Daily update <span>Tuesday, June 16 2026</span></p>
 
-<div class="hero">
-  <div class="hero-date">Monday · June 15, 2026</div>
-  <div class="hero-title">📋 Daily Update</div>
-  <div class="hero-sub">Snowflake · Katie Snow</div>
+<div style="display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin-bottom:1.5rem;">
+  <div class="metric-card"><div class="metric-label"><i class="ti ti-calendar" aria-hidden="true"></i> Meetings</div><div class="metric-val">2</div></div>
+  <div class="metric-card"><div class="metric-label"><i class="ti ti-check" aria-hidden="true"></i> Tasks</div><div class="metric-val">4</div></div>
+  <div class="metric-card"><div class="metric-label"><i class="ti ti-mail" aria-hidden="true"></i> Unread</div><div class="metric-val">0</div></div>
+  <div class="metric-card"><div class="metric-label"><i class="ti ti-heart" aria-hidden="true"></i> Family blocks</div><div class="metric-val">3</div></div>
 </div>
 
-<div class="stats-row">
-  <div class="stat-card">
-    <div class="stat-num">8</div>
-    <div class="stat-lbl">Events</div>
+<div class="main-grid" style="display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);gap:1.5rem;">
+
+  <div class="card">
+    <p class="section-head">Timeline</p>
+    <div>
+      <div class="row"><span class="time-label">8:15 AM</span><span class="dot dot-task"></span><div><div class="ev-title">NCSO 05 – Worker rights <span class="pill pill-task">Task</span></div><div class="ev-sub">15 min · Rights to know, participate, refuse unsafe work</div></div></div>
+      <div class="row"><span class="time-label">8:30 AM</span><span class="dot dot-task"></span><div><div class="ev-title">YouTube video on Claude <span class="pill pill-task">Task</span></div><div class="ev-sub">45 min</div></div></div>
+      <div class="row"><span class="time-label">9:15 AM</span><span class="dot dot-task"></span><div><div class="ev-title">Bible Study 02 – Who God Says You Are <span class="pill pill-task">Task</span></div><div class="ev-sub">15 min · Ephesians 2:10 &amp; 1 Peter 2:9</div></div></div>
+      <div class="row"><span class="time-label">11:30 AM</span><span class="dot dot-errand"></span><div><div class="ev-title">Finger bone gloves <span class="pill pill-errand">Errand</span></div><div class="ev-sub">2 hrs · Laser engraving on bike gloves</div></div></div>
+      <div class="row"><span class="time-label">2:00 PM</span><span class="dot dot-work"></span><div><div class="ev-title">Construction TMs <span class="pill pill-work">Work</span></div><div class="ev-sub">2 hrs · Build task models for construction</div></div></div>
+      <div class="row"><span class="time-label">4:30 PM</span><span class="dot dot-family"></span><div><div class="ev-title">Cooking / dinner <span class="pill pill-family">Family</span></div><div class="ev-sub">1.5 hrs · Sheet Pan Sausage, Potatoes &amp; Veg</div></div></div>
+      <div class="row"><span class="time-label">6:00 PM</span><span class="dot dot-family"></span><div><div class="ev-title">1:1 with Logan <span class="pill pill-family">Family</span></div><div class="ev-sub">30 min</div></div></div>
+      <div class="row"><span class="time-label">6:30 PM</span><span class="dot dot-family"></span><div><div class="ev-title">Moms reset <span class="pill pill-family">Family</span></div><div class="ev-sub">30 min</div></div></div>
+      <div class="row"><span class="time-label">7:00 PM</span><span class="dot dot-family"></span><div><div class="ev-title">1:1 Time with Oliver <span class="pill pill-family">Family</span></div><div class="ev-sub">30 min</div></div></div>
+      <div class="row"><span class="time-label">7:30 PM</span><span class="dot dot-errand"></span><div><div class="ev-title">Decompress <span class="pill pill-errand">Errand</span></div><div class="ev-sub">15 min · Protected by Reclaim</div></div></div>
+    </div>
   </div>
-  <div class="stat-card">
-    <div class="stat-num urgent">1</div>
-    <div class="stat-lbl">Due Today</div>
+
+  <div style="display:flex;flex-direction:column;gap:1.5rem;">
+    <div class="card">
+      <p class="section-head">Time breakdown</p>
+      <div style="position:relative;height:160px;">
+        <canvas id="timeChart" role="img" aria-label="Horizontal bar chart: Work 2h, Tasks 1.25h, Family 2.5h, Errand 2.25h">Work 2h, Tasks 1.25h, Family 2.5h, Errand 2.25h</canvas>
+      </div>
+      <div style="display:flex;flex-wrap:wrap;gap:12px;margin-top:10px;font-size:12px;color:#5f5e5a;">
+        <span style="display:flex;align-items:center;gap:4px;"><span style="width:10px;height:10px;border-radius:2px;background:#378ADD;"></span>Work 2h</span>
+        <span style="display:flex;align-items:center;gap:4px;"><span style="width:10px;height:10px;border-radius:2px;background:#BA7517;"></span>Tasks 1.25h</span>
+        <span style="display:flex;align-items:center;gap:4px;"><span style="width:10px;height:10px;border-radius:2px;background:#D4537E;"></span>Family 2.5h</span>
+        <span style="display:flex;align-items:center;gap:4px;"><span style="width:10px;height:10px;border-radius:2px;background:#1D9E75;"></span>Errand 2.25h</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <p class="section-head">Inbox</p>
+      <div class="email-row">
+        <span style="font-size:10px;color:#5f5e5a;min-width:28px;padding-top:2px;">Sun</span>
+        <div><div style="font-size:13px;font-weight:500;">Pinecone Research</div><div style="font-size:12px;color:#5f5e5a;">Action Required: New Mobile App</div></div>
+      </div>
+      <div class="email-row">
+        <span style="font-size:10px;color:#5f5e5a;min-width:28px;padding-top:2px;">Sun</span>
+        <div><div style="font-size:13px;font-weight:500;">Western FG</div><div style="font-size:12px;color:#5f5e5a;">Premium Financing Terms update</div></div>
+      </div>
+    </div>
   </div>
-  <div class="stat-card">
-    <div class="stat-num">2</div>
-    <div class="stat-lbl">Kids 1:1s</div>
-  </div>
-  <div class="stat-card">
-    <div class="stat-num">~5h</div>
-    <div class="stat-lbl">Free Time</div>
-  </div>
+
 </div>
 
-<!-- Urgent alert -->
-<div class="section">
-  <div class="alert-banner">
-    <div class="alert-icon">🚨</div>
-    <div class="alert-text"><strong>Due Today:</strong> ✅ Do the SECOR Audit — this is an all-day task with a mid-June deadline. Don't let it slip past today.</div>
-  </div>
-</div>
-
-<!-- Timeline -->
-<div class="section">
-  <div class="section-title">🕐 Today's Timeline</div>
-  <div class="timeline">
-
-    <div class="tl-item all-day">
-      <div class="tl-time">All Day</div>
-      <div class="tl-dot dot-urgent"></div>
-      <div class="tl-body">
-        <div class="tl-title">✅ Do the SECOR Audit<span class="badge badge-urgent">Urgent</span></div>
-        <div class="tl-sub">Mid-June deadline · DSHC / DS Home Computing</div>
-      </div>
-    </div>
-
-    <div class="tl-item">
-      <div class="tl-time">8:00 AM</div>
-      <div class="tl-dot dot-work"></div>
-      <div class="tl-body">
-        <div class="tl-title">💰 Financial Logging<span class="badge badge-work">Admin</span></div>
-        <div class="tl-sub">30 min · GodsEye 4_Logging tab</div>
-      </div>
-    </div>
-
-    <div class="tl-item">
-      <div class="tl-time">9:00 AM</div>
-      <div class="tl-dot dot-task"></div>
-      <div class="tl-body">
-        <div class="tl-title">📚 NCSO Study – Module 05<span class="badge badge-task">Study</span></div>
-        <div class="tl-sub">Worker rights &amp; responsibilities · 1 hr</div>
-      </div>
-    </div>
-
-    <div class="tl-item">
-      <div class="tl-time">4:30 PM</div>
-      <div class="tl-dot dot-family"></div>
-      <div class="tl-body">
-        <div class="tl-title">🍳 Cooking / Dinner<span class="badge badge-family">Family</span></div>
-        <div class="tl-sub">1.5 hrs</div>
-      </div>
-    </div>
-
-    <div class="tl-item">
-      <div class="tl-time">5:00 PM</div>
-      <div class="tl-dot dot-errand"></div>
-      <div class="tl-body">
-        <div class="tl-title">🍽️ Supper: Pulled Pork Rice Bowls<span class="badge badge-errand">Meal</span></div>
-        <div class="tl-sub">1 hr</div>
-      </div>
-    </div>
-
-    <div class="tl-item">
-      <div class="tl-time">6:00 PM</div>
-      <div class="tl-dot dot-family"></div>
-      <div class="tl-body">
-        <div class="tl-title">💙 1:1 with Logan<span class="badge badge-family">Family</span></div>
-        <div class="tl-sub">30 min · organizer: Logan</div>
-      </div>
-    </div>
-
-    <div class="tl-item">
-      <div class="tl-time">6:30 PM</div>
-      <div class="tl-dot dot-personal"></div>
-      <div class="tl-body">
-        <div class="tl-title">🌙 Mom's Reset<span class="badge badge-personal">Personal</span></div>
-        <div class="tl-sub">30 min · decompress &amp; recharge</div>
-      </div>
-    </div>
-
-    <div class="tl-item">
-      <div class="tl-time">7:00 PM</div>
-      <div class="tl-dot dot-family"></div>
-      <div class="tl-body">
-        <div class="tl-title">💛 1:1 Time with Oliver<span class="badge badge-family">Family</span></div>
-        <div class="tl-sub">30 min · organizer: Oliver</div>
-      </div>
-    </div>
-
-  </div>
-</div>
-
-<!-- Notes -->
-<div class="section">
-  <div class="section-title">📝 Notes &amp; Heads-Up</div>
-  <div class="note-card">
-    <p>🚨 <strong>SECOR audit is due today</strong> — mid-June deadline means this can't roll to tomorrow. Block time before the afternoon kitchen block to make meaningful progress or complete it.</p>
-    <p>📚 NCSO Module 05 this morning covers <em>worker rights to know, participate, and refuse unsafe work</em> — directly relevant to SECOR audit content, so the sequence is helpful.</p>
-    <p>💰 Financial logging at 8 AM is a quick 30 min — good way to start the day with something concrete before diving into study and audit work.</p>
-    <p>🍽️ Dinner overlap again: Cooking/dinner starts at 4:30 and Pulled Pork Rice Bowls are logged at 5:00 — treat as one 1.5 hr kitchen block ending ~6 PM.</p>
-    <p>👦 Same evening rhythm as tomorrow: Logan 1:1 → Mom's Reset → Oliver 1:1. Steady, protected routine.</p>
-  </div>
-</div>
-
-<div class="spacer"></div>
-<div class="footer">
-  Generated by Claude · Snowflake Daily Update ·
-  <a href="https://github.com/idunnoguesswho/snowflake">idunnoguesswho/snowflake</a>
-</div>
-
+<script>
+new Chart(document.getElementById('timeChart'), {
+  type: 'bar',
+  data: {
+    labels: ['Work','Tasks','Family','Errand'],
+    datasets: [{ data: [2, 1.25, 2.5, 2.25], backgroundColor: ['#378ADD','#BA7517','#D4537E','#1D9E75'], borderRadius: 4 }]
+  },
+  options: {
+    indexAxis: 'y', responsive: true, maintainAspectRatio: false,
+    plugins: { legend: { display: false } },
+    scales: {
+      x: { grid: { color: 'rgba(0,0,0,0.06)' }, ticks: { callback: v => v + 'h', font: { size: 11 } }, border: { display: false } },
+      y: { grid: { display: false }, ticks: { font: { size: 12 } }, border: { display: false } }
+    }
+  }
+});
+</script>
 </body>
 </html>

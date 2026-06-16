@@ -86,6 +86,7 @@
   <button class="hub-tab"        data-tab="bills"   onclick="showTab('bills')">💰 Bills</button>
   <button class="hub-tab"        data-tab="hustles" onclick="showTab('hustles')">💼 Hustles</button>
   <button class="hub-tab"        data-tab="menu"    onclick="showTab('menu')">🍽️ Menu</button>
+  <button class="hub-tab"        data-tab="cal"     onclick="showTab('cal')">📅 Calendar</button>
 </nav>
 
 <!-- ══ TASKS ══ -->
@@ -920,6 +921,13 @@
 <!-- ══ MENU ══ -->
 <div class="hub-panel" id="tab-menu">
   <iframe class="embed-frame" src="menu.html" title="Weekly Menu"></iframe>
+</div>
+
+<!-- ══ CALENDAR ══ -->
+<div class="hub-panel" id="tab-cal">
+  <iframe class="embed-frame" style="height:100vh"
+    src="https://calendar.google.com/calendar/embed?src=katie.snow%40versysgroup.com&ctz=America%2FEdmonton&mode=WEEK&showTitle=0&showNav=1&showDate=1&showPrint=0&showTabs=1&showCalendars=1"
+    title="Google Calendar" frameborder="0" scrolling="no" allowfullscreen></iframe>
 </div>
 
 <div class="toast-wrap" id="toasts"></div>

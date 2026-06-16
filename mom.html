@@ -565,92 +565,145 @@ function closeResource() {
   document.getElementById('resource-overlay').style.display = 'none';
 }
 
-/* ── Bills data ── */
-const BILLS = [
-  { name:'Rent',           amount:1650, due:'2026-06-01', cat:'Housing',      status:'overdue'  },
-  { name:'Phone (Family)', amount: 185, due:'2026-06-10', cat:'Utilities',    status:'overdue'  },
-  { name:'Internet',       amount:  85, due:'2026-06-15', cat:'Utilities',    status:'due-soon' },
-  { name:'Car Insurance',  amount: 245, due:'2026-06-20', cat:'Insurance',    status:'upcoming' },
-  { name:'Storage Unit',   amount:  95, due:'2026-06-25', cat:'Housing',      status:'upcoming' },
-  { name:'Amazon Prime',   amount:  12, due:'2026-06-28', cat:'Subscriptions',status:'upcoming' },
-];
+const TODAY_ISO = new Date().toISOString().slice(0,10);
 
-/* ── Dashboard Bills widget ── */
-function renderDashBills() {
+function parseCSV(txt) {
+  const rows = []; let i = 0, n = txt.length;
+  while (i < n) {
+    const row = [];
+    while (i < n && txt[i] !== '\n' && txt[i] !== '\r') {
+      if (txt[i] === '"') {
+        let c = ''; i++;
+        while (i < n) { if (txt[i] === '"' && txt[i+1] === '"') { c += '"'; i += 2; } else if (txt[i] === '"') { i++; break; } else c += txt[i++]; }
+        row.push(c.trim()); if (txt[i] === ',') i++;
+      } else {
+        let c = ''; while (i < n && txt[i] !== ',' && txt[i] !== '\n' && txt[i] !== '\r') c += txt[i++];
+        row.push(c.trim()); if (txt[i] === ',') i++;
+      }
+    }
+    while (txt[i] === '\n' || txt[i] === '\r') i++;
+    if (row.some(c => c)) rows.push(row);
+  }
+  return rows;
+}
+
+/* ── Bills from sheet ── */
+async function loadDashBills() {
   const el = document.getElementById('dash-bills');
-  const top = BILLS.slice(0, 5);
-  el.innerHTML = top.map(b => `
-    <div style="display:flex;justify-content:space-between;align-items:center;padding:6px 0;border-bottom:1px solid var(--border);font-size:0.82rem">
-      <span style="font-weight:700">${b.name}</span>
-      <span style="color:var(--accent);font-weight:800">$${b.amount}</span>
-    </div>`).join('') +
-    `<div style="text-align:right;margin-top:8px"><a href="money.html" target="_blank" style="font-size:0.75rem;color:var(--muted)">Full log →</a></div>`;
+  try {
+    const url = 'https://docs.google.com/spreadsheets/d/11A5NsScePEbtN9dujN3tILb_Q2TU5tsf6I0MbT11kDY/export?format=csv&gid=1103141659';
+    const txt = await fetch(url, { cache:'no-store' }).then(r => r.text());
+    if (txt.trimStart().startsWith('<')) throw new Error('not public');
+    const rows = parseCSV(txt);
+    const h = rows[0].map(x => x.toLowerCase().trim());
+    const fi = k => h.findIndex(c => c.includes(k));
+    const iName = fi('name') !== -1 ? fi('name') : fi('bill');
+    const iAmt  = fi('amount') !== -1 ? fi('amount') : fi('cost');
+    const iDue  = fi('due');
+    const iStat = fi('status');
+    const get = (r, i) => i >= 0 ? (r[i] || '').trim() : '';
+    const bills = rows.slice(1).map(r => ({
+      name:   get(r, iName),
+      amount: get(r, iAmt),
+      due:    get(r, iDue),
+      status: get(r, iStat).toLowerCase()
+    })).filter(b => b.name);
 
-  // Update stat card
-  const dueSoon = BILLS.filter(b => b.status === 'overdue' || b.status === 'due-soon').length;
-  document.getElementById('stat-bills').textContent = dueSoon;
+    const dueSoon = bills.filter(b => b.status.includes('overdue') || b.status.includes('due') || b.status.includes('soon')).length;
+    document.getElementById('stat-bills').textContent = dueSoon || bills.length;
+
+    el.innerHTML = bills.slice(0, 6).map(b => {
+      const isOverdue = b.status.includes('overdue');
+      const color = isOverdue ? '#dc2626' : 'var(--accent)';
+      return `<div style="display:flex;justify-content:space-between;align-items:center;padding:6px 0;border-bottom:1px solid var(--border);font-size:0.82rem">
+        <span style="font-weight:700">${esc(b.name)}${b.due ? `<span style="font-weight:400;color:var(--muted);margin-left:5px;font-size:0.72rem">${esc(b.due)}</span>` : ''}</span>
+        <span style="color:${color};font-weight:800">${b.amount.startsWith('$') ? '' : '$'}${esc(b.amount)}</span>
+      </div>`;
+    }).join('') + `<div style="text-align:right;margin-top:8px"><a onclick="openResource('bills')" href="#" style="font-size:0.75rem;color:var(--muted);cursor:pointer">Full log →</a></div>`;
+  } catch(e) {
+    el.innerHTML = '<div style="color:var(--muted);font-size:0.8rem">Could not load bills.</div>';
+  }
 }
 
-/* ── Tasks data ── */
-const TASKS_DATA = [
-  { id:6,  title:"Dentist Appointments",   category:"Admin",       estTime:"",       desc:"Book annual checkup appointments for Oliver and Logan before school ends June 27.", dateAssigned:"2026-06-04" },
-  { id:19, title:"NCSO 02 — H&S Program",  category:"NCSO Study",  estTime:"15 min", desc:"Name the core pieces of a construction H&S program.", dateAssigned:"2026-06-04" },
-  { id:23, title:"NCSO 06 — Hazard ID",    category:"NCSO Study",  estTime:"15 min", desc:"Compare formal inspections, FLHA/JHA, worker observations, incident trends.", dateAssigned:"2026-06-04" },
-  { id:25, title:"NCSO 08 — Controls",     category:"NCSO Study",  estTime:"15 min", desc:"Put controls in order: elimination, substitution, engineering, administrative, PPE.", dateAssigned:"2026-06-04" },
-  { id:32, title:"NCSO 15 — WHMIS",        category:"NCSO Study",  estTime:"15 min", desc:"Review WHMIS pictograms, labels, and SDS sections.", dateAssigned:"2026-06-04" },
-];
-
-const TASK_KEY = 'sf_mom_tasks_2026-06-04';
-let done = {};
-try { done = JSON.parse(localStorage.getItem(TASK_KEY) || '{}'); } catch(e) {}
-function saveTasks() { localStorage.setItem(TASK_KEY, JSON.stringify(done)); }
-
-/* ── Dashboard Tasks widget ── */
-function renderDashTasks() {
+/* ── Tasks from sheet ── */
+async function loadDashTasks() {
   const el = document.getElementById('dash-tasks');
-  el.innerHTML = TASKS_DATA.map(t => {
-    const isDone = !!done[t.id];
-    return `<div class="dash-task-item" style="${isDone ? 'opacity:0.5;text-decoration:line-through' : ''}">
-      <div class="dash-task-name">${t.title}</div>
-      <div class="dash-task-cat">${t.category}</div>
-    </div>`;
-  }).join('');
+  try {
+    const url = 'https://docs.google.com/spreadsheets/d/1GZv91Npf9i0y6AtCQcjYUyiYrDq3aqQ3zSNE2QGAxfE/export?format=csv&gid=0';
+    const txt = await fetch(url, { cache:'no-store' }).then(r => r.text());
+    if (txt.trimStart().startsWith('<')) throw new Error('not public');
+    const rows = parseCSV(txt);
+    const h = rows[0].map(x => x.toLowerCase().trim());
+    const fi = kws => { for(const k of kws){ const i=h.findIndex(c=>c.includes(k)); if(i>=0)return i; } return -1; };
+    const iTitle = fi(['task name','task','title','action']);
+    const iResp  = fi(['responsible','assign','owner','person','who']);
+    const iCat   = fi(['category','topic','cat','type','tag']);
+    const iDone  = fi(['isdone','is done','done']);
+    const YES    = new Set(['yes','true','1','✓','✅']);
+    const get    = (r, i) => i >= 0 ? (r[i] || '').trim() : '';
 
-  const pending = TASKS_DATA.filter(t => !done[t.id]).length;
-  document.getElementById('stat-tasks').textContent = pending;
+    const tasks = rows.slice(1)
+      .filter(r => (get(r, iResp) || '').toLowerCase().includes('mom') || (get(r, iResp) || '').toLowerCase().includes('katie'))
+      .filter(r => !YES.has(get(r, iDone).toLowerCase()))
+      .map(r => ({ title: get(r, iTitle), cat: get(r, iCat) }))
+      .filter(t => t.title);
+
+    document.getElementById('stat-tasks').textContent = tasks.length;
+
+    if (!tasks.length) { el.innerHTML = '<div style="color:var(--muted);font-size:0.8rem">All tasks complete! 🎉</div>'; return; }
+    el.innerHTML = tasks.map(t => `
+      <div class="dash-task-item">
+        <div class="dash-task-name">${esc(t.title)}</div>
+        ${t.cat ? `<div class="dash-task-cat">${esc(t.cat)}</div>` : ''}
+      </div>`).join('');
+  } catch(e) {
+    el.innerHTML = '<div style="color:var(--muted);font-size:0.8rem">Could not load tasks.</div>';
+  }
 }
 
-/* ── Quotes fetch ── */
-function loadDashQuotes() {
-  const QUOTES_SHEET = '1VVWZBG3fXLWBFCnRDLo76kUQrNyPcBBdY6mCiiwJr50';
-  const url = `https://docs.google.com/spreadsheets/d/${QUOTES_SHEET}/export?format=csv&gid=0`;
-  fetch(url, { cache: 'no-store' })
-    .then(r => r.text())
-    .then(txt => {
-      const rows = txt.trim().split('\n').slice(1).map(l => {
-        const out = []; let i = 0;
-        while (i < l.length) {
-          if (l[i] === '"') { let c = ''; i++; while (i < l.length) { if (l[i] === '"' && l[i+1] === '"') { c += '"'; i += 2; } else if (l[i] === '"') { i++; break; } else c += l[i++]; } out.push(c.trim()); if (l[i] === ',') i++; }
-          else { let c = ''; while (i < l.length && l[i] !== ',') c += l[i++]; out.push(c.trim()); if (l[i] === ',') i++; }
-        }
-        return out;
-      }).filter(r => r.some(c => c));
-      const quotes = rows.slice(0, 3);
-      const el = document.getElementById('dash-quotes');
-      if (!quotes.length) { el.innerHTML = '<div style="color:var(--muted);font-size:0.82rem">No quotes today.</div>'; return; }
-      el.innerHTML = quotes.map(r => {
-        const source = r[0] || '';
-        const text = r[1] || r[2] || '';
-        return `<div style="background:var(--card);border:1px solid var(--border);border-radius:14px;padding:14px;min-width:220px;max-width:260px;flex-shrink:0;font-size:0.82rem;line-height:1.6">
-          <div style="font-weight:800;color:var(--accent);font-size:0.72rem;margin-bottom:6px;text-transform:uppercase;letter-spacing:0.5px">${source}</div>
-          <div>${text}</div>
-        </div>`;
-      }).join('');
-    })
-    .catch(() => {
-      document.getElementById('dash-quotes').innerHTML = '<div style="color:var(--muted);font-size:0.82rem">Quotes unavailable.</div>';
-    });
+/* ── Quotes from sheet, filtered to today with cycling fallback ── */
+async function loadDashQuotes() {
+  const el = document.getElementById('dash-quotes');
+  try {
+    const url = 'https://docs.google.com/spreadsheets/d/1VVWZBG3fXLWBFCnRDLo76kUQrNyPcBBdY6mCiiwJr50/export?format=csv&gid=0';
+    const txt = await fetch(url, { cache:'no-store' }).then(r => r.text());
+    if (txt.trimStart().startsWith('<')) throw new Error('not public');
+    const rows = parseCSV(txt);
+    const h = rows[0].map(x => x.toLowerCase().trim());
+    const iDate = h.findIndex(c => c.includes('date'));
+    const iSrc  = h.findIndex(c => c.includes('source'));
+    const iDesc = h.findIndex(c => c.includes('desc') || c.includes('quote') || c.includes('text'));
+    const get   = (r, i) => i >= 0 ? (r[i] || '').trim() : '';
+    function normDate(s) {
+      if (!s) return '';
+      if (/^\d{4}-\d{2}-\d{2}$/.test(s)) return s;
+      const m = s.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/);
+      if (m) return `${m[3]}-${m[1].padStart(2,'0')}-${m[2].padStart(2,'0')}`;
+      return s.slice(0,10);
+    }
+    const all = rows.slice(1).map(r => ({
+      date: normDate(get(r, iDate)), source: get(r, iSrc), text: get(r, iDesc)
+    })).filter(q => q.text);
+
+    let quotes = all.filter(q => q.date === TODAY_ISO);
+    if (!quotes.length && all.length) {
+      const day = Math.floor((new Date(TODAY_ISO) - new Date(TODAY_ISO.slice(0,4)+'-01-01')) / 86400000);
+      const start = (day * 3) % all.length;
+      quotes = [all[(start) % all.length], all[(start+1) % all.length], all[(start+2) % all.length]];
+    }
+    quotes = quotes.slice(0, 3);
+
+    el.innerHTML = quotes.map(q => `
+      <div style="background:var(--card);border:1px solid var(--border);border-radius:14px;padding:14px;min-width:220px;max-width:280px;flex-shrink:0;font-size:0.82rem;line-height:1.6">
+        <div style="font-weight:800;color:var(--accent);font-size:0.72rem;margin-bottom:6px;text-transform:uppercase;letter-spacing:0.5px">${esc(q.source)}</div>
+        <div>${esc(q.text)}</div>
+      </div>`).join('');
+  } catch(e) {
+    el.innerHTML = '<div style="color:var(--muted);font-size:0.8rem">Quotes unavailable.</div>';
+  }
 }
+
+function esc(s) { return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
 
 function toast(msg) {
   const el = document.createElement('div'); el.className = 'toast'; el.textContent = msg;
@@ -658,8 +711,8 @@ function toast(msg) {
 }
 
 // Init
-renderDashBills();
-renderDashTasks();
+loadDashBills();
+loadDashTasks();
 loadDashQuotes();
 </script>
 

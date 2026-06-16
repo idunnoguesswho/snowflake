@@ -7,53 +7,63 @@
 <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Baloo+2:wght@400;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
 <style>
-  :root { --accent: #ff6b6b; --accent2: #ffb347; }
-  .hero { background: linear-gradient(135deg, #ff6b6b 0%, #ffb347 100%); }
+  :root {
+    --bg: #f7f3ff; --card: #ffffff; --border: #e0d9f5;
+    --text: #2d2250; --muted: #7b6fa0; --accent: #7c3aed;
+  }
+  body { background: var(--bg); }
+  .hero { background: linear-gradient(135deg, #7c3aed 0%, #a855f7 60%, #ec4899 100%); padding: 20px 18px 18px; }
   .hero::after { content: '🧑‍💼'; }
-  .tag-cat  { background: #ff6b6b22; color: #8b2222; border: 1px solid #ff6b6b77; }
-  .progress-fill { background: linear-gradient(90deg, #ff6b6b, #ffb347); }
+  .hero-date { font-size: 0.78rem; font-weight: 700; opacity: 0.8; color: #fff; letter-spacing: 0.5px; margin-bottom: 4px; }
+  .hero-title { font-family: 'Baloo 2', sans-serif; font-size: 1.5rem; font-weight: 800; color: #fff; line-height: 1.2; }
+  .hero-sub { font-size: 0.82rem; color: rgba(255,255,255,0.8); margin-top: 2px; }
 
-  .hub-nav { background: white; border-bottom: 2px solid #eee; display: flex; overflow-x: auto; padding: 0 12px; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 8px rgba(0,0,0,.06); }
-  .hub-tab { flex-shrink: 0; padding: 13px 13px; border: none; background: transparent; font-family: 'Nunito', sans-serif; font-size: 13px; font-weight: 700; color: #888; cursor: pointer; border-bottom: 3px solid transparent; transition: all 0.2s; white-space: nowrap; }
-  .hub-tab:hover { color: #e05555; }
-  .hub-tab.active { color: #e05555; border-bottom-color: #ff6b6b; }
-  .hub-panel { display: none; }
-  .hub-panel.active { display: block; animation: panelIn .18s ease; }
-  @keyframes panelIn { from { opacity:0; transform:translateY(4px); } to { opacity:1; transform:none; } }
+  /* Stats row */
+  .stats-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; padding: 14px 16px 0; }
+  .stat-card { background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 12px 14px; }
+  .stat-label { font-size: 0.7rem; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px; }
+  .stat-value { font-family: 'Baloo 2', sans-serif; font-size: 1.4rem; font-weight: 800; color: var(--accent); line-height: 1; }
 
-  .embed-frame { width: 100%; border: none; height: 82vh; display: block; }
+  /* Main grid */
+  .dash-grid { display: grid; grid-template-columns: 1fr 300px; gap: 14px; padding: 14px 16px; min-height: 0; }
+  .dash-cal { background: var(--card); border: 1px solid var(--border); border-radius: 16px; overflow: hidden; min-height: 500px; }
+  .dash-side { display: flex; flex-direction: column; gap: 14px; }
+  .widget { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 16px; }
+  .widget-title { font-family: 'Baloo 2', sans-serif; font-size: 0.95rem; font-weight: 700; color: var(--accent); margin-bottom: 10px; }
+
+  /* Quotes strip */
+  .quotes-strip { padding: 0 16px 20px; }
+  .resource-row { display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 10px; padding: 0 16px 20px; }
+  .resource-card { background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 14px 10px; text-align: center; text-decoration: none; color: var(--text); font-size: 0.8rem; font-weight: 700; transition: box-shadow .15s; cursor: pointer; }
+  .resource-card:hover { box-shadow: 0 4px 16px rgba(124,58,237,.15); }
+  .resource-card .rc-icon { font-size: 1.6rem; display: block; margin-bottom: 5px; }
+
+  /* Task list in widget */
+  .dash-task-item { display: flex; align-items: flex-start; gap: 8px; padding: 6px 0; border-bottom: 1px solid var(--border); font-size: 0.8rem; }
+  .dash-task-item:last-child { border-bottom: none; }
+  .dash-task-name { flex: 1; font-weight: 700; color: var(--text); line-height: 1.4; }
+  .dash-task-cat { font-size: 0.68rem; font-weight: 700; padding: 2px 7px; border-radius: 20px; background: #ede8f9; color: var(--accent); white-space: nowrap; flex-shrink: 0; }
+
+  /* Resource overlay */
+  #resource-overlay { display: none; position: fixed; inset: 0; background: rgba(45,34,80,.6); z-index: 1000; flex-direction: column; }
+  .overlay-inner { background: var(--card); flex: 1; overflow-y: auto; margin: 20px; border-radius: 20px; padding: 20px; }
+  .overlay-close-btn { float: right; background: var(--accent); color: #fff; border: none; border-radius: 20px; padding: 6px 16px; font-weight: 700; cursor: pointer; font-family: 'Nunito', sans-serif; font-size: 0.9rem; }
+
+  /* Preserved study/content styles */
   .study-wrap  { max-width: 780px; margin: 0 auto; padding: 16px 16px 40px; }
-
-  /* Study module cards */
-  .mod-card { background: white; border-radius: 14px; padding: 20px; margin-bottom: 14px; box-shadow: 0 2px 8px rgba(0,0,0,.06); border-left: 4px solid var(--mc, #ff6b6b); }
-  .mod-tag   { font-size: 10px; font-weight: 800; letter-spacing: 1.5px; text-transform: uppercase; color: var(--mc, #ff6b6b); margin-bottom: 4px; }
+  .embed-frame { width: 100%; border: none; height: 80vh; display: block; }
+  .mod-card { background: white; border-radius: 14px; padding: 20px; margin-bottom: 14px; box-shadow: 0 2px 8px rgba(0,0,0,.06); border-left: 4px solid var(--mc, #7c3aed); }
+  .mod-tag   { font-size: 10px; font-weight: 800; letter-spacing: 1.5px; text-transform: uppercase; color: var(--mc, #7c3aed); margin-bottom: 4px; }
   .mod-title { font-family: 'Nunito', sans-serif; font-size: 16px; font-weight: 900; color: #1f2933; margin-bottom: 8px; }
   .mod-body  { font-size: 13px; line-height: 1.75; color: #374151; }
   .mod-body strong { color: #1f2933; }
   .mod-body ul { margin: 8px 0 0 16px; padding: 0; }
   .mod-body li { margin-bottom: 4px; }
   .vocab-row { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
-  .vocab-chip { font-size: 11px; font-weight: 700; padding: 3px 10px; border-radius: 20px; background: var(--cl, #fff0f0); color: var(--mc, #c04040); }
+  .vocab-chip { font-size: 11px; font-weight: 700; padding: 3px 10px; border-radius: 20px; background: var(--cl, #ede8f9); color: var(--mc, #7c3aed); }
   .q-label { font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; color: #888; margin: 12px 0 6px; }
   .q-item  { font-size: 13px; color: #1f2933; padding: 7px 0; border-bottom: 1px solid #f5f5f5; }
   .q-item:last-child { border-bottom: none; }
-
-  /* Bills summary */
-  .bills-wrap { max-width: 700px; margin: 0 auto; padding: 16px 16px 40px; }
-  .bill-card  { background: white; border-radius: 12px; padding: 16px; margin-bottom: 10px; box-shadow: 0 2px 8px rgba(0,0,0,.06); display: flex; align-items: center; gap: 14px; border-left: 4px solid var(--bc, #ccc); }
-  .bill-card.overdue   { --bc: #f07060; }
-  .bill-card.due-soon  { --bc: #f7c948; }
-  .bill-card.upcoming  { --bc: #52c4a0; }
-  .bill-amount { font-family: 'Nunito', sans-serif; font-size: 18px; font-weight: 900; color: var(--bc, #888); min-width: 80px; }
-  .bill-meta   { flex: 1; }
-  .bill-name   { font-family: 'Nunito', sans-serif; font-size: 14px; font-weight: 800; color: #1f2933; }
-  .bill-detail { font-size: 12px; color: #888; margin-top: 2px; }
-  .bill-badge  { font-size: 11px; font-weight: 700; padding: 3px 9px; border-radius: 20px; white-space: nowrap; }
-  .badge-overdue  { background: #fdecea; color: #c04040; }
-  .badge-soon     { background: #fef7d5; color: #8b6000; }
-  .badge-upcoming { background: #e1f5ee; color: #1a6b4a; }
-
-  /* Alateen cards */
   .al-card { background: white; border-radius: 14px; margin-bottom: 10px; box-shadow: 0 2px 8px rgba(0,0,0,.06); overflow: hidden; border: 2px solid transparent; cursor: pointer; transition: border-color .2s; }
   .al-card.open { border-color: #2abfbf; }
   .al-header { display: flex; align-items: center; gap: 12px; padding: 14px 16px; }
@@ -68,995 +78,599 @@
   .al-step   { font-size: 13px; color: #1f2933; padding: 6px 0; border-bottom: 1px solid #f5f5f5; line-height: 1.5; }
   .al-step:last-child { border-bottom: none; }
   .al-affirmation { background: #dff7f7; border-radius: 10px; padding: 12px; font-size: 13px; font-style: italic; color: #1a5f6a; margin-top: 10px; line-height: 1.6; }
+  .tag-cat  { background: #ede8f977; color: #5b21b6; border: 1px solid #7c3aed44; }
+  .progress-fill { background: linear-gradient(90deg, #7c3aed, #a855f7); }
+  .progress-bar-wrap { padding: 14px 16px 4px; }
+  .progress-label { display: flex; justify-content: space-between; font-size: 12px; font-weight: 700; color: var(--muted); margin-bottom: 4px; }
+  .progress-track { height: 8px; background: var(--border); border-radius: 4px; overflow: hidden; }
+
+  @media (max-width: 640px) {
+    .dash-grid { grid-template-columns: 1fr; }
+    .stats-row { grid-template-columns: repeat(2, 1fr); }
+  }
 </style>
 </head>
 <body>
 
+<!-- HERO -->
 <div class="hero">
-  <div class="hero-name">Mom</div>
-  <div class="hero-sub">Today's Hub · <span id="hero-date"></span></div>
-  <div class="hero-badge" id="hero-badge">🧑‍💼 Loading…</div>
+  <div class="hero-date" id="hero-date"></div>
+  <div class="hero-title">Katie · Daily Dashboard</div>
+  <div class="hero-sub">Snowflake · Mom</div>
 </div>
 
-<nav class="hub-nav">
-  <button class="hub-tab active" data-tab="tasks"   onclick="showTab('tasks')">📋 Tasks</button>
-  <button class="hub-tab"        data-tab="ncso"    onclick="showTab('ncso')">🦺 NCSO</button>
-  <button class="hub-tab"        data-tab="pmp"     onclick="showTab('pmp')">📊 PMP</button>
-  <button class="hub-tab"        data-tab="alateen" onclick="showTab('alateen')">🌊 Recovery</button>
-  <button class="hub-tab"        data-tab="bills"   onclick="showTab('bills')">💰 Bills</button>
-  <button class="hub-tab"        data-tab="hustles" onclick="showTab('hustles')">💼 Hustles</button>
-  <button class="hub-tab"        data-tab="menu"    onclick="showTab('menu')">🍽️ Menu</button>
-  <button class="hub-tab"        data-tab="cal"     onclick="showTab('cal')">📅 Calendar</button>
-</nav>
-
-<!-- ══ TASKS ══ -->
-<div class="hub-panel active" id="tab-tasks">
-  <div class="progress-bar-wrap">
-    <div class="section-label" style="padding-bottom:6px">Progress</div>
-    <div class="progress-label">
-      <span id="prog-text">0 of 5 done</span>
-      <span id="prog-pct">0%</span>
-    </div>
-    <div class="progress-track"><div class="progress-fill" id="prog-fill" style="width:0%"></div></div>
+<!-- STATS ROW -->
+<div class="stats-row">
+  <div class="stat-card">
+    <div class="stat-label">Tasks Pending</div>
+    <div class="stat-value" id="stat-tasks">–</div>
   </div>
-  <div class="section-label">📋 Today's Quest List</div>
-  <div class="task-list" id="taskList"></div>
-</div>
-
-<!-- ══ NCSO STUDY ══ -->
-<div class="hub-panel" id="tab-ncso">
-  <div class="study-wrap">
-    <div style="padding:4px 0 16px">
-      <div style="font-family:'Nunito',sans-serif;font-size:20px;font-weight:900;color:#1f2933">NCSO Study Guide 🦺</div>
-      <div style="font-size:13px;color:#888;margin-top:2px">National Construction Safety Officer — Alberta / BC curriculum</div>
-    </div>
-
-    <div class="mod-card" style="--mc:#e05555;--cl:#fff0f0">
-      <div class="mod-tag">Module 01</div>
-      <div class="mod-title">Legal Framework for OHS in Construction</div>
-      <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px">
-        <span style="background:#fff0f0;color:#c04040;font-size:11px;font-weight:800;padding:3px 10px;border-radius:20px">⏱ 15 min session</span>
-        <span style="background:#e3effa;color:#1a4f7a;font-size:11px;font-weight:700;padding:3px 10px;border-radius:20px">📖 Read → 🧠 Recall → ✏️ Apply</span>
-      </div>
-      <div class="mod-body">
-        <strong>Legislative Hierarchy — Act &gt; Regulation &gt; Code</strong><br>
-        Construction safety in Alberta sits on three layers. Think of them as a pyramid: the <strong>OHS Act</strong> is the law passed by the Legislature — it sets out rights, duties, and enforcement powers. The <strong>OHS Regulation</strong> fills in administrative details (forms, procedures, committee requirements). The <strong>OHS Code</strong> is the technical rulebook — it specifies exactly how you must control specific hazards (fall protection heights, scaffolding, confined space procedures). If there's a conflict, the Act wins.
-        <ul>
-          <li><strong>OHS Act</strong>: creates the Internal Responsibility System (IRS). Everyone — from owner to new worker — shares responsibility. No one can contract out of OHS duties.</li>
-          <li><strong>OHS Regulation</strong>: sets administrative requirements like Joint Work Site Health and Safety Committee (JWSHSC) composition and meeting frequency.</li>
-          <li><strong>OHS Code</strong>: 41 parts with specific technical standards. E.g., Part 9 = Fall Protection, Part 40 = Confined Spaces.</li>
-        </ul>
-        <strong>Prime Contractor</strong><br>
-        Required on any worksite with two or more employers working at the same time. The Prime Contractor is designated in writing and is responsible for coordinating all OHS activities on site. On a construction project this is usually the general contractor. If no Prime Contractor is designated, every employer at the site is jointly responsible.
-        <ul>
-          <li>Must have a safety program that covers all workers on site — including subcontractors.</li>
-          <li>Can be held liable for OHS violations even if the violation was committed by a sub's worker.</li>
-        </ul>
-        <strong>Key Roles and Duties</strong><br>
-        <ul>
-          <li><strong>Owner</strong>: ensures the worksite is safe to work at; must inform employers of known hazards.</li>
-          <li><strong>Employer</strong>: hazard identification, training, supervision, PPE provision, incident investigation. Must ensure workers are <em>competent</em> (trained, experienced, and qualified).</li>
-          <li><strong>Supervisor</strong>: must be competent; must know the OHS rules for the work they supervise; must ensure workers follow rules.</li>
-          <li><strong>Worker</strong>: work safely; use PPE; report hazards; participate in training.</li>
-        </ul>
-        <strong>Three Worker Rights (know these cold)</strong><br>
-        <ul>
-          <li><strong>Right to Know</strong>: workers must be informed of all hazards. Includes WHMIS training, site orientation, FLHA results.</li>
-          <li><strong>Right to Participate</strong>: workers can join the Joint Work Site Health and Safety Committee (JWSHSC). Required when 20+ workers are at a worksite for 90+ days.</li>
-          <li><strong>Right to Refuse</strong>: a worker can refuse work they believe presents an imminent danger to themselves or others. The worker reports to the supervisor → supervisor investigates → if unresolved, an OHS officer is called. The worker cannot be penalized for a legitimate refusal.</li>
-        </ul>
-        <strong>Due Diligence — Your Legal Defence</strong><br>
-        An employer charged with an OHS violation can defend themselves by proving they exercised due diligence — meaning they took every reasonable precaution. This requires: documented hazard assessments, written procedures, training records, supervision, and timely corrective actions. "I didn't know" is not due diligence. Documentation is everything.
-        <strong>Enforcement Mechanisms</strong><br>
-        <ul>
-          <li><strong>Inspection</strong>: OHS officers can enter any worksite without notice, inspect anything, interview anyone.</li>
-          <li><strong>Order</strong>: officer can issue compliance orders with deadlines.</li>
-          <li><strong>Stop-Work Order</strong>: immediate work stoppage when imminent danger exists. Work cannot resume until hazard is corrected and officer lifts the order.</li>
-          <li><strong>Prosecution</strong>: fines up to <strong>$500,000 per violation per day</strong> in Alberta. Directors and officers of corporations can be personally charged. Repeat offenders face larger penalties.</li>
-        </ul>
-        <strong>Mnemonic: "PERL" for worker rights</strong> — <em>Participate, know (E as in Education), Refuse, Lives saved</em>
-      </div>
-      <div class="vocab-row">
-        <span class="vocab-chip">OHS Act</span><span class="vocab-chip">OHS Code</span><span class="vocab-chip">Prime Contractor</span><span class="vocab-chip">due diligence</span><span class="vocab-chip">right to refuse</span><span class="vocab-chip">competent worker</span><span class="vocab-chip">IRS</span><span class="vocab-chip">JWSHSC</span><span class="vocab-chip">stop-work order</span>
-      </div>
-      <div class="q-label">Review Questions</div>
-      <div class="q-item">1. What are the three documents that form Alberta's OHS legislative framework?</div>
-      <div class="q-item">2. When is a Prime Contractor required on a worksite?</div>
-      <div class="q-item">3. What does "due diligence" mean for an employer facing an OHS charge?</div>
-      <div class="q-item">4. Name and explain the three worker rights under OHS legislation.</div>
-      <div class="q-item">5. What is the Internal Responsibility System (IRS) and who does it apply to?</div>
-      <div class="q-item">6. When is a Joint Work Site Health and Safety Committee required? Who sits on it?</div>
-      <div class="q-item">7. An OHS officer arrives at your site and issues a stop-work order. What does this mean and what must you do?</div>
-      <div class="q-item">8. A worker refuses a task saying it's dangerous. You disagree. Walk through the right to refuse process step by step.</div>
-      <div class="q-item">9. SCENARIO: Your company is charged with an OHS violation after a worker injury. What evidence would you gather to mount a due diligence defence?</div>
-      <div class="q-item">10. What is the maximum fine per violation per day in Alberta? Who can be personally charged?</div>
-      <div class="q-label" style="margin-top:16px">Answer Key</div>
-      <div class="q-item" style="color:#666;font-style:italic">Cover the answers below and write your own first — then check.</div>
-      <div class="q-item"><strong>1.</strong> OHS Act, OHS Regulation, OHS Code. Act = rights/duties; Regulation = admin requirements; Code = technical standards.</div>
-      <div class="q-item"><strong>2.</strong> When two or more employers work at the same worksite simultaneously. Designated in writing.</div>
-      <div class="q-item"><strong>3.</strong> Taking every reasonable precaution to prevent injury — documented hazard assessments, training, supervision, corrective action. It is an affirmative legal defence.</div>
-      <div class="q-item"><strong>4.</strong> Right to Know (hazard information), Right to Participate (OHS committee), Right to Refuse (imminent danger). No reprisal allowed.</div>
-      <div class="q-item"><strong>5.</strong> IRS = everyone at the worksite (owner → employer → supervisor → worker) shares OHS responsibility at their level. No one is exempt.</div>
-      <div class="q-item"><strong>6.</strong> 20+ workers on site for 90+ consecutive days. At least 50% worker representatives, elected by workers. Management appoints employer reps.</div>
-      <div class="q-item"><strong>7.</strong> All work on the affected area must stop immediately. Document the order. Correct the hazard. Notify the officer. Do not resume until the order is lifted in writing.</div>
-      <div class="q-item"><strong>8.</strong> Worker reports to supervisor → supervisor investigates and either corrects or confirms work is safe → if worker still refuses, OHS officer is called → officer investigates and makes a ruling → worker must comply with officer's decision.</div>
-      <div class="q-item"><strong>9.</strong> Training records, signed FLHA/JHAs, inspection logs, orientation records, corrective action logs, safety meetings minutes, equipment maintenance records.</div>
-      <div class="q-item"><strong>10.</strong> Up to $500,000 per violation per day. Directors and officers of the corporation can be personally prosecuted.</div>
-      <div style="background:#fef7d5;border-radius:10px;padding:12px;margin-top:14px;font-size:12px;color:#8b6000">
-        <strong>🔗 Exam Connection:</strong> The NCSO exam tests your ability to identify who is responsible under the IRS, when a Prime Contractor is required, and the exact steps of the right to refuse. Expect scenario questions where you must identify the correct role and duty. Know the Act/Regulation/Code hierarchy — it appears in multiple choice and application questions.
-      </div>
-    </div>
-
-    <div class="mod-card" style="--mc:#e07830;--cl:#fff3ea">
-      <div class="mod-tag">Module 02</div>
-      <div class="mod-title">Health &amp; Safety Program Basics</div>
-      <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px">
-        <span style="background:#fff0f0;color:#c04040;font-size:11px;font-weight:800;padding:3px 10px;border-radius:20px">⏱ 15 min session</span>
-        <span style="background:#e3effa;color:#1a4f7a;font-size:11px;font-weight:700;padding:3px 10px;border-radius:20px">📖 Read → 🧠 Recall → ✏️ Apply</span>
-      </div>
-      <div class="mod-body">
-        <strong>Nine Core Elements of a Construction H&amp;S Program</strong><br>
-        Mnemonic: <em>"Please Remember Hazards Train Inspectors In Emergency Records Promptly"</em> (Policy, Roles, Hazard ID, Training, Inspections, Incident investigation, Emergency response, Records, Program review)
-        <ul>
-          <li><strong>1. Policy</strong>: a written statement of the employer's commitment to safety. Must be signed by the most senior person (CEO or president) — not just the safety manager. The signature signals that safety is a company value, not just a department function. Must be posted, reviewed annually, and communicated to all workers.</li>
-          <li><strong>2. Roles &amp; Responsibilities</strong>: every person's OHS duties are defined in writing — from owner down to worker. Prevents the "that's not my job" defence. Supervisors must understand they are legally accountable.</li>
-          <li><strong>3. Hazard Identification &amp; Control</strong>: formal systems to find and control hazards before injuries occur. Includes FLHA (task-level), JHA (job-level), inspections (site-level), and incident investigation (post-event).</li>
-          <li><strong>4. Training &amp; Competency</strong>: workers must be trained before performing a task. Training must be documented (date, content, trainer, worker signature). Competency = trained + experienced + capable. New worker orientation is mandatory on first day — covers emergency procedures, hazards, rights, reporting.</li>
-          <li><strong>5. Inspections</strong>: both scheduled (monthly safety walks) and unannounced. Use a checklist. Document findings. Assign corrective actions with deadlines and responsible persons. Close out all findings.</li>
-          <li><strong>6. Incident Investigation</strong>: all incidents must be investigated — near misses, first-aid cases, medical-aid cases, lost-time injuries, and fatalities. Serious injuries/fatalities must be reported to OHS within <strong>48 hours</strong>. Root cause analysis, not blame assignment. Corrective actions prevent recurrence.</li>
-          <li><strong>7. Emergency Response</strong>: written plan covering fire, spill, injury, severe weather. Includes: assembly points, first-aid locations, emergency contacts, evacuation procedures, communication plan. Drills are required — document them.</li>
-          <li><strong>8. Records &amp; Statistics</strong>: maintain FLHA logs, training records, inspection reports, incident investigation reports, meeting minutes, equipment inspection records. Calculate injury rates (TRIR, LTIR) to track program performance.</li>
-          <li><strong>9. Program Review</strong>: evaluate the entire program at least annually. Use leading and lagging indicators. Compare against industry benchmarks. Update after any serious incident.</li>
-        </ul>
-        <strong>FLHA vs. JHA — Know the Difference</strong><br>
-        <ul>
-          <li><strong>FLHA (Field-Level Hazard Assessment)</strong>: done by the crew at the actual work location before each shift or when conditions change. Takes 5–15 minutes. Worker-driven. All workers on the task must sign it. If a new hazard appears mid-task, stop work and redo the FLHA.</li>
-          <li><strong>JHA / JSA (Job Hazard Analysis / Job Safety Analysis)</strong>: a detailed written document prepared in advance (often in the office), breaking a job into sequential steps and identifying hazards and controls for each step. More thorough than FLHA. Used for high-hazard tasks or new work processes. Supervisor typically leads it.</li>
-        </ul>
-        <strong>What Makes a "Competent Supervisor"?</strong><br>
-        Under Alberta OHS legislation, a competent supervisor must: (1) know the OHS regulations that apply to the work, (2) be experienced in the type of work being supervised, and (3) be qualified to supervise safely. Simply having a supervisor title is not enough — they need demonstrated knowledge and experience. Safety officers often test this in audits.
-        <strong>Leading vs. Lagging Indicators</strong><br>
-        <ul>
-          <li><strong>Lagging indicators</strong>: measure past failures. Examples: lost-time injury rate, TRIR (total recordable injury rate), number of fatalities. They tell you what already went wrong.</li>
-          <li><strong>Leading indicators</strong>: measure proactive safety activities. Examples: number of FLHAs completed, inspection completion rate, near-miss reports submitted, % of workers with current training. They predict future performance.</li>
-        </ul>
-        A strong safety program uses BOTH — leading indicators to prevent incidents, lagging indicators to measure outcome trends.
-      </div>
-      <div class="vocab-row">
-        <span class="vocab-chip">safety policy</span><span class="vocab-chip">FLHA</span><span class="vocab-chip">JHA</span><span class="vocab-chip">leading indicator</span><span class="vocab-chip">lagging indicator</span><span class="vocab-chip">lost-time injury</span><span class="vocab-chip">TRIR</span><span class="vocab-chip">competent supervisor</span><span class="vocab-chip">new worker orientation</span>
-      </div>
-      <div class="q-label">Review Questions</div>
-      <div class="q-item">1. Name all nine core elements of a construction H&amp;S program.</div>
-      <div class="q-item">2. What is the difference between a leading indicator and a lagging indicator? Give one example of each.</div>
-      <div class="q-item">3. Why must senior management sign the safety policy?</div>
-      <div class="q-item">4. What is the difference between a FLHA and a JHA? When would you use each?</div>
-      <div class="q-item">5. A serious injury occurs on your site. What are your reporting obligations and within what timeframe?</div>
-      <div class="q-item">6. What three criteria define a "competent supervisor" under Alberta OHS?</div>
-      <div class="q-item">7. Your site inspection finds a guardrail missing at the edge of a 5-metre elevated platform. Walk through the proper response using the H&amp;S program elements.</div>
-      <div class="q-item">8. SCENARIO: Your TRIR has been flat for two years but near-miss reports have tripled. Is your safety program getting worse or better? Explain.</div>
-      <div class="q-item">9. What must happen during a new worker orientation on their first day?</div>
-      <div class="q-item">10. How often must the H&amp;S program be formally reviewed? What triggers an off-cycle review?</div>
-      <div class="q-label" style="margin-top:16px">Answer Key</div>
-      <div class="q-item" style="color:#666;font-style:italic">Cover answers and write yours first.</div>
-      <div class="q-item"><strong>1.</strong> Policy; Roles &amp; Responsibilities; Hazard ID &amp; Control; Training &amp; Competency; Inspections; Incident Investigation; Emergency Response; Records &amp; Statistics; Program Review.</div>
-      <div class="q-item"><strong>2.</strong> Leading = proactive (e.g., FLHA completion rate). Lagging = reactive (e.g., lost-time injury rate).</div>
-      <div class="q-item"><strong>3.</strong> It demonstrates that the highest level of management is accountable — not just the safety department. Sets the culture tone and legal commitment.</div>
-      <div class="q-item"><strong>4.</strong> FLHA = field, before each shift, by the crew, 5–15 min, covers current conditions. JHA = detailed step-by-step, prepared in advance, used for high-hazard or new tasks, supervisor-led.</div>
-      <div class="q-item"><strong>5.</strong> Report to OHS within 48 hours for serious injuries, fatalities, or dangerous incidents. Preserve the scene. Do not disturb until authorized by OHS officer.</div>
-      <div class="q-item"><strong>6.</strong> Knows applicable OHS regulations; is experienced in the type of work; is qualified to supervise safely.</div>
-      <div class="q-item"><strong>7.</strong> Stop work near hazard. Barricade the area. Correct the hazard (install guardrail). Document in inspection log. Issue corrective action. Follow up to close out. Review why it was missing.</div>
-      <div class="q-item"><strong>8.</strong> Getting BETTER. More near-miss reports = stronger reporting culture = hazards caught before injuries. Flat TRIR alone would suggest complacency.</div>
-      <div class="q-item"><strong>9.</strong> Emergency procedures, worksite hazards and controls, worker rights, incident reporting, PPE requirements, site rules. Worker signs off on completion.</div>
-      <div class="q-item"><strong>10.</strong> At least annually. Triggered off-cycle by a serious injury/fatality, significant change to scope or site, audit finding, or regulatory change.</div>
-      <div style="background:#fef7d5;border-radius:10px;padding:12px;margin-top:14px;font-size:12px;color:#8b6000">
-        <strong>🔗 Exam Connection:</strong> Module 02 is heavily tested — expect questions on all nine program elements, the FLHA vs. JHA distinction, and the 48-hour reporting requirement. Scenario questions frequently ask you to identify which program element is failing when an incident occurs.
-      </div>
-    </div>
-
-    <div class="mod-card" style="--mc:#c9a800;--cl:#fef7d5">
-      <div class="mod-tag">Module 06</div>
-      <div class="mod-title">Hazard Identification Methods</div>
-      <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px">
-        <span style="background:#fff0f0;color:#c04040;font-size:11px;font-weight:800;padding:3px 10px;border-radius:20px">⏱ 15 min session</span>
-        <span style="background:#e3effa;color:#1a4f7a;font-size:11px;font-weight:700;padding:3px 10px;border-radius:20px">📖 Read → 🧠 Recall → ✏️ Apply</span>
-      </div>
-      <div class="mod-body">
-        <strong>Hazard vs. Risk — The Foundational Distinction</strong><br>
-        A <strong>hazard</strong> is anything with the potential to cause harm (e.g., an unguarded floor opening). A <strong>risk</strong> is the likelihood and severity of harm actually occurring from that hazard. Hazard identification finds hazards. Risk assessment evaluates them. You cannot control what you haven't identified.
-        <strong>Risk Matrix: Likelihood × Consequence = Risk Level</strong><br>
-        Rate likelihood (1–5: rare → almost certain) and consequence (1–5: negligible → catastrophic). Multiply them. High scores (15–25) require immediate controls. Medium (8–12) require planned controls. Low (1–6) = acceptable with monitoring. Always document your matrix ratings.
-        <strong>FLHA — Field-Level Hazard Assessment</strong><br>
-        <ul>
-          <li><strong>When</strong>: before each shift and whenever site conditions change (weather, new equipment, new crew, task change).</li>
-          <li><strong>Who</strong>: every worker who will perform the task. The crew — not just the supervisor — walks the work area, identifies hazards, and signs the FLHA form. All signatures are required before work begins.</li>
-          <li><strong>What to do mid-task</strong>: if a new hazard is identified (e.g., a gas line is unexpectedly hit), STOP WORK immediately, reassess the hazard, implement new controls, update the FLHA, re-sign, then resume. Never work around an unaddressed new hazard.</li>
-          <li><strong>Documentation</strong>: FLHAs must be retained on site and available for OHS officer review. They are legal documents and evidence of due diligence.</li>
-        </ul>
-        <strong>JHA — Job Hazard Analysis (Step-by-Step Process)</strong><br>
-        <ol style="margin:8px 0 0 16px;padding:0">
-          <li style="margin-bottom:4px">Select the job to analyze (high-hazard, new, or after an incident)</li>
-          <li style="margin-bottom:4px">Break the job into sequential steps (typically 6–15 steps)</li>
-          <li style="margin-bottom:4px">Identify hazards at each step — ask "what could go wrong here?"</li>
-          <li style="margin-bottom:4px">Apply the hierarchy of controls to each identified hazard</li>
-          <li style="margin-bottom:4px">Document and communicate the JHA to all workers on the task</li>
-          <li style="margin-bottom:4px">Review and update after any incident or change to the job</li>
-        </ol>
-        <strong>Five Hazard Identification Methods</strong><br>
-        <ul>
-          <li><strong>Formal inspections</strong>: scheduled walkthroughs using checklists. Unannounced inspections catch real conditions. Document every finding, assign corrective actions, and verify completion.</li>
-          <li><strong>FLHA</strong>: task-level, field-based, before each shift. (See above.)</li>
-          <li><strong>JHA/JSA</strong>: job-level, step-by-step, prepared in advance. (See above.)</li>
-          <li><strong>Near-miss reporting</strong>: a near miss is an unplanned event with NO injury but the potential for one. Heinrich's Triangle: for every fatality there are ~30 serious injuries, ~300 minor injuries, and ~3,000 near misses. Reporting near misses prevents future fatalities.</li>
-          <li><strong>Incident trend analysis</strong>: track types, times, locations, and trades of incidents over months. If 60% of hand injuries occur on Mondays during concrete forming, you have actionable intelligence. Target that crew, that task, that day.</li>
-        </ul>
-        <strong>Hierarchy of Controls Connection</strong><br>
-        Hazard identification feeds directly into the hierarchy of controls. You can't select the right control level without knowing the hazard type, likelihood, and consequence. The risk matrix determines how urgently you need to act and at what control level.
-        <strong>Memory Aid: "FIJNT"</strong> — <em>FLHA, Inspections, JHA, Near-miss, Trend analysis</em>
-      </div>
-      <div class="vocab-row">
-        <span class="vocab-chip">FLHA</span><span class="vocab-chip">JHA/JSA</span><span class="vocab-chip">near miss</span><span class="vocab-chip">inspection</span><span class="vocab-chip">trend analysis</span><span class="vocab-chip">pre-job planning</span><span class="vocab-chip">risk matrix</span><span class="vocab-chip">hazard vs. risk</span><span class="vocab-chip">Heinrich's Triangle</span>
-      </div>
-      <div class="q-label">Review Questions</div>
-      <div class="q-item">1. When must a FLHA be completed? Who completes it?</div>
-      <div class="q-item">2. How does a JHA differ from a FLHA?</div>
-      <div class="q-item">3. Why is near-miss reporting critical for a safety program?</div>
-      <div class="q-item">4. Give an example of how incident trend analysis prevented a future injury.</div>
-      <div class="q-item">5. What is the difference between a hazard and a risk? Give a construction example of each.</div>
-      <div class="q-item">6. Explain the risk matrix. A task has a likelihood of 3 and consequence of 4. What is the risk level and what does that require?</div>
-      <div class="q-item">7. List the six steps of a JHA in order.</div>
-      <div class="q-item">8. SCENARIO: Midway through a concrete pour, the crew notices an overhead power line closer than expected due to a survey error. What must they do?</div>
-      <div class="q-item">9. What is Heinrich's Triangle and why does it matter for safety programs?</div>
-      <div class="q-item">10. Your site has had 12 near-miss reports in 6 months — 9 of them involving mobile equipment backing up in the laydown yard between 6–8 AM. What hazard identification technique revealed this pattern and what should you do next?</div>
-      <div class="q-label" style="margin-top:16px">Answer Key</div>
-      <div class="q-item" style="color:#666;font-style:italic">Cover answers and write yours first.</div>
-      <div class="q-item"><strong>1.</strong> Before each shift and whenever work conditions change. Completed by every worker who will perform the task — all must sign before work begins.</div>
-      <div class="q-item"><strong>2.</strong> JHA = detailed step-by-step document prepared in advance, supervisor-led, for high-hazard or new tasks. FLHA = field-level, before each shift, by the crew, based on current conditions.</div>
-      <div class="q-item"><strong>3.</strong> Near misses are free lessons — they show where the next injury will happen. Heinrich's Triangle shows that thousands of near misses precede fatalities. Investigating them breaks the chain.</div>
-      <div class="q-item"><strong>4.</strong> E.g., trend analysis shows 8 of 10 hand lacerations happen during rebar tying on Monday mornings. Targeted glove training + task redesign for that crew reduces rate to zero.</div>
-      <div class="q-item"><strong>5.</strong> Hazard = condition with potential for harm (unguarded floor opening). Risk = likelihood × consequence (workers walk near it daily, 6-metre drop = high risk).</div>
-      <div class="q-item"><strong>6.</strong> Risk = 3 × 4 = 12. Medium-high risk. Planned corrective action required — implement controls before resuming or continuing the task.</div>
-      <div class="q-item"><strong>7.</strong> (1) Select job. (2) Break into steps. (3) Identify hazards per step. (4) Apply hierarchy of controls. (5) Document and communicate. (6) Review and update.</div>
-      <div class="q-item"><strong>8.</strong> STOP WORK immediately. Secure area. Inform supervisor. Contact Alberta 1-Call / utility owner to confirm location. Update the FLHA. Implement setback controls. Do not resume until hazard is controlled and FLHA is re-signed.</div>
-      <div class="q-item"><strong>9.</strong> For every fatality there are ~30 serious injuries, ~300 minor injuries, and ~3,000 near misses. Reporting and investigating near misses is the best prevention strategy — attack the base of the triangle.</div>
-      <div class="q-item"><strong>10.</strong> Incident trend analysis (near-miss pattern by time and location). Next step: targeted FLHA for laydown yard during those hours, spotter requirement, exclusion zone, backing alarms.</div>
-      <div style="background:#fef7d5;border-radius:10px;padding:12px;margin-top:14px;font-size:12px;color:#8b6000">
-        <strong>🔗 Exam Connection:</strong> Module 06 questions focus on WHEN and WHO for FLHAs, the step-by-step JHA process, and the hazard vs. risk distinction. Expect a scenario where you must identify the correct hazard identification method for a given situation, or describe what to do when a new hazard appears mid-task.
-      </div>
-    </div>
-
-    <div class="mod-card" style="--mc:#52c4a0;--cl:#e1f5ee">
-      <div class="mod-tag">Module 08</div>
-      <div class="mod-title">Hierarchy of Controls</div>
-      <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px">
-        <span style="background:#fff0f0;color:#c04040;font-size:11px;font-weight:800;padding:3px 10px;border-radius:20px">⏱ 15 min session</span>
-        <span style="background:#e3effa;color:#1a4f7a;font-size:11px;font-weight:700;padding:3px 10px;border-radius:20px">📖 Read → 🧠 Recall → ✏️ Apply</span>
-      </div>
-      <div class="mod-body">
-        <strong>The Hierarchy — Most to Least Effective</strong><br>
-        Mnemonic: <em>"Every Safety Engineer Adores PPE"</em> (Elimination, Substitution, Engineering, Administrative, PPE). The higher up you go, the more permanent and reliable the protection — because it doesn't depend on human behaviour.
-        <ul>
-          <li><strong>1. Elimination</strong>: physically remove the hazard so it no longer exists. The most effective because there is nothing left to cause harm. Examples: (a) pre-fabricate components at ground level so workers don't need to work at height; (b) use pre-cut lumber to eliminate table saw hazard; (c) schedule underground utility work before surface traffic begins to eliminate struck-by risk. Ask: "Can we redesign the job so this hazard doesn't exist?"</li>
-          <li><strong>2. Substitution</strong>: replace a hazardous material or process with a less hazardous one. Examples: (a) water-based paint instead of solvent-based paint (reduces VOC exposure); (b) battery-powered tools instead of gas-powered in confined spaces (eliminates CO hazard); (c) lighter precast panels instead of poured-in-place to reduce manual handling injury. Key: the substitute must be genuinely less hazardous — not just different.</li>
-          <li><strong>3. Engineering Controls</strong>: physical modifications to the worksite or equipment that create a barrier between the worker and the hazard. Examples: (a) guardrails and toe boards at floor openings (fall hazard); (b) local exhaust ventilation in spray painting booth (chemical hazard); (c) machine guards on rotating equipment (caught-in hazard); (d) concrete barriers between traffic and workers (struck-by hazard). Engineering controls are passive — they work even if the worker forgets. Highly reliable.</li>
-          <li><strong>4. Administrative Controls</strong>: change HOW work is done through procedures, training, scheduling, and permits. Examples: (a) hot work permit system (fire hazard); (b) rotate workers on vibrating equipment to limit exposure time (vibration hazard); (c) two-person rule for confined space entry; (d) training and safe work procedures for chemical handling; (e) signage and barricades directing traffic. Administrative controls DEPEND on human compliance — less reliable than engineering. Must be enforced.</li>
-          <li><strong>5. PPE (Personal Protective Equipment)</strong>: equipment worn by the worker to reduce exposure to residual hazard AFTER all other controls have been applied. Examples: (a) full-body harness + lanyard (fall arrest, last line after guardrails fail); (b) hard hat (falling objects); (c) N95 respirator (silica dust after ventilation is in place); (d) cut-resistant gloves (hand lacerations); (e) hearing protection (noise above 85 dB after engineering controls). PPE fails due to: improper fit, inadequate training, non-compliance, damage/wear, wrong type selected.</li>
-        </ul>
-        <strong>Why PPE Fails</strong><br>
-        PPE is worker-dependent. It fails when: (1) the wrong type is selected, (2) it doesn't fit properly, (3) the worker removes it momentarily, (4) it is damaged and not replaced, (5) the worker is not trained on correct use and donning/doffing. A guardrail never calls in sick. PPE does.
-        <strong>Residual Risk and Defence in Depth</strong><br>
-        <ul>
-          <li><strong>Residual risk</strong>: the risk that remains AFTER controls are applied. No control eliminates risk to zero. Residual risk is documented and accepted (or triggers additional layers).</li>
-          <li><strong>Defence in depth</strong>: applying multiple control layers simultaneously for high-risk tasks. Example for fall hazard: elimination (work at grade) + engineering (guardrail) + administrative (rescue plan) + PPE (harness). If one layer fails, the next catches the hazard. Construction sites use this because single controls are rarely enough for the Fatal Four.</li>
-        </ul>
-        <strong>Documenting Control Selection</strong><br>
-        Your JHA or FLHA should document: (1) the hazard identified, (2) which control level was selected, (3) WHY a higher-level control was not feasible (if applicable), and (4) residual risk after controls. Auditors look for documented justification — "we couldn't eliminate it because the task requires height work" is acceptable if written.
-      </div>
-      <div class="vocab-row">
-        <span class="vocab-chip">elimination</span><span class="vocab-chip">substitution</span><span class="vocab-chip">engineering control</span><span class="vocab-chip">administrative control</span><span class="vocab-chip">PPE</span><span class="vocab-chip">defence in depth</span><span class="vocab-chip">residual risk</span>
-      </div>
-      <div class="q-label">Review Questions</div>
-      <div class="q-item">1. List the 5 levels of the hierarchy of controls in order (most to least preferred).</div>
-      <div class="q-item">2. For a fall hazard: give one example of each control level.</div>
-      <div class="q-item">3. Why is PPE considered the last resort rather than the first response?</div>
-      <div class="q-item">4. What is "defence in depth" and why is it used on construction sites?</div>
-      <div class="q-item">5. Give 3 examples of engineering controls on a construction site (not fall-related).</div>
-      <div class="q-item">6. What is residual risk? How is it documented?</div>
-      <div class="q-item">7. Name 4 reasons why PPE fails in practice.</div>
-      <div class="q-item">8. SCENARIO: Workers are cutting concrete slabs with a gas-powered saw indoors, generating silica dust and CO. Apply the hierarchy — suggest one control at each level.</div>
-      <div class="q-item">9. An auditor asks why you chose administrative controls instead of engineering controls for a chemical handling task. What must your documentation show?</div>
-      <div class="q-item">10. SCENARIO: A supervisor says "just make sure everyone wears their respirator" as the only silica control. What is wrong with this approach and what should be done instead?</div>
-      <div class="q-label" style="margin-top:16px">Answer Key</div>
-      <div class="q-item" style="color:#666;font-style:italic">Cover answers and write yours first.</div>
-      <div class="q-item"><strong>1.</strong> Elimination → Substitution → Engineering Controls → Administrative Controls → PPE.</div>
-      <div class="q-item"><strong>2.</strong> Elimination: do all work at ground level. Substitution: use lighter components to reduce working height. Engineering: install guardrails/toe boards. Administrative: fall protection plan, rescue training. PPE: full-body harness + shock-absorbing lanyard.</div>
-      <div class="q-item"><strong>3.</strong> PPE relies entirely on human behaviour — fit, compliance, training, maintenance. It is the last barrier before injury. Higher controls are passive and don't depend on the worker remembering to act.</div>
-      <div class="q-item"><strong>4.</strong> Multiple control layers applied simultaneously so if one fails another catches the hazard. Used on construction sites because single controls are insufficient for high-consequence tasks like the Fatal Four.</div>
-      <div class="q-item"><strong>5.</strong> Any 3 of: machine guards on rotating equipment; local exhaust ventilation in paint booths; interlocked safety gates on equipment; concrete barriers between traffic and workers; trench shoring/shielding.</div>
-      <div class="q-item"><strong>6.</strong> Risk remaining after controls are applied. Documented in the JHA/FLHA with the control selected and the justification for any residual exposure that is accepted.</div>
-      <div class="q-item"><strong>7.</strong> Wrong type selected; improper fit; worker removes it briefly; damaged and not replaced; inadequate training on use; wrong donning/doffing procedure.</div>
-      <div class="q-item"><strong>8.</strong> Elimination: do cutting outdoors. Substitution: use electric saw instead of gas (eliminates CO). Engineering: local exhaust ventilation + wet cutting attachment. Administrative: SWP, rotation schedule, restricted area. PPE: N95 for silica, CO monitor.</div>
-      <div class="q-item"><strong>9.</strong> Documentation must show that an engineering control was evaluated and why it was not feasible (e.g., cost, space, portability of work). The administrative control selected must be described in detail with enforcement mechanism.</div>
-      <div class="q-item"><strong>10.</strong> Respirator alone is PPE — last resort. Must first evaluate: wet cutting (engineering), outdoor/ventilated work area (engineering), restricted dust zone (admin), task rotation (admin). Respirator then supplements these — it cannot be the only control for a known serious hazard like silica.</div>
-      <div style="background:#fef7d5;border-radius:10px;padding:12px;margin-top:14px;font-size:12px;color:#8b6000">
-        <strong>🔗 Exam Connection:</strong> The hierarchy of controls is one of the most tested topics in the NCSO exam. Expect questions asking you to rank controls, identify why a supervisor's response is inadequate (usually they jump to PPE), and apply the hierarchy to specific site scenarios. Always justify going lower in the hierarchy.
-      </div>
-    </div>
-
-    <div class="mod-card" style="--mc:#5b9bd5;--cl:#e3effa">
-      <div class="mod-tag">Module 15</div>
-      <div class="mod-title">WHMIS &amp; Safety Data Sheets (SDS)</div>
-      <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px">
-        <span style="background:#fff0f0;color:#c04040;font-size:11px;font-weight:800;padding:3px 10px;border-radius:20px">⏱ 15 min session</span>
-        <span style="background:#e3effa;color:#1a4f7a;font-size:11px;font-weight:700;padding:3px 10px;border-radius:20px">📖 Read → 🧠 Recall → ✏️ Apply</span>
-      </div>
-      <div class="mod-body">
-        <strong>WHMIS 2015 — The Big Picture</strong><br>
-        WHMIS 2015 aligns Canada with the <strong>Globally Harmonized System (GHS)</strong> — the international standard for chemical hazard communication. Every hazardous product used in a workplace must have a compliant label and an SDS. Workers must be trained before using any hazardous product. Training must be documented.
-        <strong>The 6 Required Label Elements</strong><br>
-        <ol style="margin:8px 0 0 16px;padding:0">
-          <li style="margin-bottom:3px"><strong>Product identifier</strong> (the product name)</li>
-          <li style="margin-bottom:3px"><strong>Pictogram(s)</strong> (hazard symbols in red diamond border)</li>
-          <li style="margin-bottom:3px"><strong>Signal word</strong> (DANGER or WARNING)</li>
-          <li style="margin-bottom:3px"><strong>Hazard statement(s)</strong> (describes the nature of the hazard: e.g., "Causes serious eye damage")</li>
-          <li style="margin-bottom:3px"><strong>Precautionary statement(s)</strong> (what to do: e.g., "Wear eye protection, wash hands after use")</li>
-          <li style="margin-bottom:3px"><strong>Supplier information</strong> (name and address of Canadian supplier)</li>
-        </ol>
-        <strong>Signal Words</strong>: DANGER = more severe hazard category. WARNING = less severe. Both require attention but DANGER products need more rigorous controls.
-        <strong>All 9 WHMIS Pictograms</strong><br>
-        <ul>
-          <li>🔥 <strong>Flame</strong>: flammable gases, liquids, solids, aerosols, self-reactives, pyrophorics</li>
-          <li>🔥⭕ <strong>Flame over circle</strong>: oxidizing gases, liquids, solids — can cause or intensify fire</li>
-          <li>💥 <strong>Exploding bomb</strong>: explosives, self-reactives, organic peroxides</li>
-          <li>💀 <strong>Skull and crossbones</strong>: acute toxicity (fatal or toxic if swallowed/inhaled/skin contact)</li>
-          <li>❗ <strong>Exclamation mark</strong>: less severe health hazards — skin/eye irritation, skin sensitizer, narcotic effects</li>
-          <li>🫁 <strong>Health hazard (torso with starburst)</strong>: carcinogen, reproductive toxin, respiratory sensitizer, STOT, aspiration hazard</li>
-          <li>🧪 <strong>Corrosion</strong>: skin corrosion, eye damage, corrosive to metals</li>
-          <li>🫧 <strong>Gas cylinder</strong>: gases under pressure (compressed, liquefied, dissolved, refrigerated liquefied)</li>
-          <li>🌿 <strong>Environment</strong>: aquatic toxicity (acute or chronic) — voluntary in Canada but used by many suppliers</li>
-        </ul>
-        <em>Biohazardous materials</em> use a separate biohazard symbol (three interlocking circles) and are regulated under both WHMIS and federal biological safety standards.
-        <strong>All 16 SDS Sections — What's in Each</strong><br>
-        <ul>
-          <li><strong>1. Identification</strong>: product name, use, supplier contact, emergency phone</li>
-          <li><strong>2. Hazard identification</strong>: classification, label elements, other hazards</li>
-          <li><strong>3. Composition</strong>: ingredients and CAS numbers</li>
-          <li><strong>4. First-aid measures</strong>: by exposure route (inhalation, skin, eye, ingestion)</li>
-          <li><strong>5. Fire-fighting measures</strong>: extinguisher types, explosion hazards</li>
-          <li><strong>6. Accidental release measures</strong>: spill response, containment, clean-up procedures</li>
-          <li><strong>7. Handling and storage</strong>: safe use practices, storage temperature, incompatibles</li>
-          <li><strong>8. Exposure controls / PPE</strong>: OELs/TLVs, engineering controls, respiratory/hand/eye protection required</li>
-          <li><strong>9. Physical and chemical properties</strong>: flash point, boiling point, odour, pH, vapour pressure</li>
-          <li><strong>10. Stability and reactivity</strong>: conditions to avoid, incompatible materials</li>
-          <li><strong>11. Toxicological information</strong>: LD50, exposure effects by route, carcinogenicity</li>
-          <li><strong>12. Ecological information</strong>: environmental fate, aquatic toxicity</li>
-          <li><strong>13. Disposal considerations</strong>: waste disposal methods, regulatory requirements</li>
-          <li><strong>14. Transport information</strong>: UN number, shipping name, packing group (TDG)</li>
-          <li><strong>15. Regulatory information</strong>: other regulations that apply</li>
-          <li><strong>16. Other information</strong>: revision date, changes from previous version</li>
-        </ul>
-        <em>Memory shortcut for exam-tested sections</em>: "4 helps you survive it, 6 cleans it up, 8 protects you from it, 14 moves it."
-        <strong>Exposure Limits</strong><br>
-        <ul>
-          <li><strong>OEL (Occupational Exposure Limit)</strong>: Alberta's legal limit for airborne exposure. Set in OHS Code.</li>
-          <li><strong>TLV (Threshold Limit Value)</strong>: ACGIH recommended values, often referenced in SDS Section 8. Not legally binding but widely used.</li>
-          <li><strong>TWA (Time-Weighted Average)</strong>: average over 8-hour shift. <strong>STEL (Short-Term Exposure Limit)</strong>: 15-minute peak limit.</li>
-        </ul>
-        <strong>Spill Response</strong>: Consult SDS Section 6. General steps: (1) alert others/evacuate area, (2) don appropriate PPE per Section 8, (3) contain spill (absorbents, berms), (4) prevent entry to drains/waterways, (5) clean up per instructions, (6) dispose per Section 13, (7) report per environmental regulations.
-        <strong>Training Documentation Requirements</strong><br>
-        Employers must document: (1) which products workers are trained on, (2) date of training, (3) trainer name, (4) worker signature. Training must be renewed when a new hazardous product is introduced or when the SDS is significantly revised.
-      </div>
-      <div class="vocab-row">
-        <span class="vocab-chip">WHMIS 2015</span><span class="vocab-chip">GHS</span><span class="vocab-chip">SDS</span><span class="vocab-chip">pictogram</span><span class="vocab-chip">signal word</span><span class="vocab-chip">hazard statement</span><span class="vocab-chip">precautionary statement</span><span class="vocab-chip">OEL</span><span class="vocab-chip">TLV</span><span class="vocab-chip">biohazard</span>
-      </div>
-      <div class="q-label">Review Questions</div>
-      <div class="q-item">1. Name the 6 required elements of a WHMIS label.</div>
-      <div class="q-item">2. Which SDS sections cover: First Aid? PPE? Storage? Spill response?</div>
-      <div class="q-item">3. What is the difference between DANGER and WARNING as signal words?</div>
-      <div class="q-item">4. Pick one WHMIS pictogram — describe it and explain what hazard category it represents.</div>
-      <div class="q-item">5. A worker is splashed with an unknown chemical. Which SDS section do you consult first?</div>
-      <div class="q-item">6. What is the difference between an OEL and a TLV? Which one is legally binding in Alberta?</div>
-      <div class="q-item">7. Name all 9 WHMIS 2015 pictograms.</div>
-      <div class="q-item">8. What are the steps for responding to a chemical spill on site?</div>
-      <div class="q-item">9. SCENARIO: A new sub brings a solvent onto your site. What are your obligations as the Prime Contractor before workers use it?</div>
-      <div class="q-item">10. What must WHMIS training documentation include?</div>
-      <div class="q-label" style="margin-top:16px">Answer Key</div>
-      <div class="q-item" style="color:#666;font-style:italic">Cover answers and write yours first.</div>
-      <div class="q-item"><strong>1.</strong> Product identifier; pictogram(s); signal word; hazard statement(s); precautionary statement(s); supplier information.</div>
-      <div class="q-item"><strong>2.</strong> First Aid = Section 4; PPE/Exposure Controls = Section 8; Storage = Section 7; Spill response = Section 6.</div>
-      <div class="q-item"><strong>3.</strong> DANGER = more severe hazard (higher hazard category). WARNING = less severe. Both require protective action, but DANGER products require more rigorous controls and PPE.</div>
-      <div class="q-item"><strong>4.</strong> Any correct example, e.g.: Skull and crossbones = acute toxicity (fatal if swallowed/inhaled/skin contact). Flame = flammable liquids/gases/solids.</div>
-      <div class="q-item"><strong>5.</strong> Section 4 (First-Aid Measures) — broken down by exposure route: skin, eyes, inhalation, ingestion.</div>
-      <div class="q-item"><strong>6.</strong> OEL = Alberta's legally enforceable limit (OHS Code). TLV = ACGIH recommendation, widely referenced but not legally binding. Use OEL for compliance; use TLV as a best-practice guide.</div>
-      <div class="q-item"><strong>7.</strong> Flame; Flame over circle (oxidizer); Exploding bomb; Skull &amp; crossbones; Exclamation mark; Health hazard (torso); Corrosion; Gas cylinder; Environment.</div>
-      <div class="q-item"><strong>8.</strong> Alert/evacuate; don PPE per SDS Section 8; contain spill; prevent drain entry; clean up per Section 6; dispose per Section 13; report to supervisor and environmental authorities if required.</div>
-      <div class="q-item"><strong>9.</strong> Obtain the SDS. Verify it is WHMIS 2015 compliant (has all 16 sections). Ensure the container is properly labelled. Train any worker who will use or work near the product before use begins. Document the training.</div>
-      <div class="q-item"><strong>10.</strong> Products covered; date of training; trainer's name; worker signature. Must be updated when a new product is introduced or SDS is revised.</div>
-      <div style="background:#fef7d5;border-radius:10px;padding:12px;margin-top:14px;font-size:12px;color:#8b6000">
-        <strong>🔗 Exam Connection:</strong> WHMIS questions appear throughout the NCSO exam. You must know all 6 label elements, which SDS sections answer which emergency questions (especially 4, 6, 8), and all 9 pictograms by name and hazard class. Scenario questions often involve spill response or a worker asking where to find specific information.
-      </div>
-    </div>
-
-    <div class="mod-card" style="--mc:#9b7fd4;--cl:#ede8f9">
-      <div class="mod-tag">Module 10–12</div>
-      <div class="mod-title">Construction Hazards: Falls, Struck-By, Electrical, Confined Space</div>
-      <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px">
-        <span style="background:#fff0f0;color:#c04040;font-size:11px;font-weight:800;padding:3px 10px;border-radius:20px">⏱ 15 min session</span>
-        <span style="background:#e3effa;color:#1a4f7a;font-size:11px;font-weight:700;padding:3px 10px;border-radius:20px">📖 Read → 🧠 Recall → ✏️ Apply</span>
-      </div>
-      <div class="mod-body">
-        <strong>The Fatal Four — #1 Killers in Construction</strong><br>
-        Falls, Struck-By, Caught-In/Between, and Electrocution account for over 60% of construction fatalities. Know them, own them.
-        <strong>1. Falls — #1 Cause of Construction Fatalities</strong><br>
-        Fall protection is mandatory in Alberta when workers are exposed to a fall of <strong>3 metres (10 ft) or more</strong> for most construction tasks. Some tasks (e.g., steel erection, roofing) have lower thresholds.
-        <ul>
-          <li><strong>Travel restraint</strong>: prevents the worker from reaching the fall edge. Lanyard length limits how far the worker can travel. Simplest form — but requires a proper anchor point.</li>
-          <li><strong>Fall arrest</strong>: allows movement to the edge but stops the fall after it begins. Requires: rated anchor point (min. 22 kN), full-body harness, shock-absorbing lanyard or PFAS. The worker WILL fall some distance — clearance below must be calculated (fall distance + deceleration + safety margin).</li>
-          <li><strong>Safety nets</strong>: passive system — catches a falling worker. Must be installed within 6 m below the work surface. Inspected before each shift.</li>
-          <li><strong>Guardrails</strong>: engineering control. Top rail at 1.07 m (42 in), mid-rail, toe board. Most preferred after elimination.</li>
-          <li><strong>Fall protection plan</strong>: required when conventional fall protection (guardrails, PFAS) is not practicable. Must be site-specific and signed by a competent person.</li>
-          <li><strong>Scaffolding</strong>: must be erected, altered, and dismantled under direct supervision of a competent person. Inspected before each use. Rated for intended load. Guardrails on all open sides above 3 m.</li>
-        </ul>
-        <strong>2. Struck-By</strong><br>
-        Falling objects, swinging crane loads, reversing equipment, and projectiles. Controls: hard hats (CSA Z94.1), tool tethers at height, exclusion zones under crane picks, spotters for reversing equipment, orange vests (hi-vis) near traffic, overhead protection (catch platforms). Barricade a radius equal to the height of work above.
-        <strong>3. Caught-In / Between — LOTO (Lockout/Tagout)</strong><br>
-        LOTO prevents the unexpected release of stored energy (electrical, mechanical, hydraulic, pneumatic, gravitational, thermal, chemical). The 8-step LOTO procedure:
-        <ol style="margin:8px 0 0 16px;padding:0">
-          <li style="margin-bottom:3px">Notify affected workers</li>
-          <li style="margin-bottom:3px">Identify all energy sources</li>
-          <li style="margin-bottom:3px">Shut down the equipment using normal stopping procedure</li>
-          <li style="margin-bottom:3px">Isolate energy sources (disconnect switches, valves closed)</li>
-          <li style="margin-bottom:3px">Apply locks and tags — each worker applies their OWN lock</li>
-          <li style="margin-bottom:3px">Release / restrain stored energy (bleed pressure, block gravity)</li>
-          <li style="margin-bottom:3px">Verify zero energy state (try to start — press start button)</li>
-          <li style="margin-bottom:3px">Perform work safely</li>
-        </ol>
-        Re-energize in reverse order. Never remove another worker's lock.
-        <strong>Trenching and Excavation — Soil Classification</strong><br>
-        <ul>
-          <li><strong>Type A soil</strong>: cohesive, stable (stiff clay). Max slope for unshored trench: 3:4 (53°). Lowest risk.</li>
-          <li><strong>Type B soil</strong>: medium stability (angular gravel, previously disturbed soil). Max slope: 1:1 (45°).</li>
-          <li><strong>Type C soil</strong>: least stable (granular, submerged, cracked). Max slope: 1½:1 (34°). Highest risk — shoring or shielding often required.</li>
-        </ul>
-        Trenches deeper than 1.5 m require a safety system (sloping, shoring, or shielding). Inspect after rain, frost, or vibration events.
-        <strong>4. Electrical Hazards</strong><br>
-        <ul>
-          <li><strong>Overhead power lines</strong>: minimum setback in Alberta — <strong>7 metres</strong> for lines up to 750 V; larger setbacks for higher voltages. Contact the utility owner before working within the limit of approach. Never assume a line is de-energized.</li>
-          <li><strong>Underground utilities</strong>: call Alberta 1-Call (Dig Safe) at least 3 days before digging. Wait for locates. Hand-dig within 1 m of locate marks.</li>
-          <li><strong>Temporary wiring</strong>: use GFCIs (Ground Fault Circuit Interrupters) on all temporary power on construction sites. Inspect cords daily — no damaged insulation. Extension cords are not permanent wiring.</li>
-        </ul>
-        <strong>5. Confined Space</strong><br>
-        A confined space: large enough to enter, not designed for continuous occupancy, limited entry/exit. A <strong>permit-required confined space</strong> has one or more: hazardous atmosphere, engulfment hazard, internal configuration hazard, or other serious safety/health hazard.
-        <ul>
-          <li><strong>Atmospheric testing order</strong>: (1) <strong>Oxygen</strong> first (19.5–23% = acceptable range), then (2) <strong>flammable/explosive gases</strong> (&lt;10% LEL acceptable), then (3) <strong>toxic gases</strong> (CO, H₂S, etc. below OEL). Test BEFORE entry and continuously during work.</li>
-          <li><strong>5 requirements for permit-required CS entry</strong>: (1) entry permit issued; (2) atmospheric testing complete; (3) isolation from hazardous energy; (4) trained attendant at entry point at all times; (5) rescue plan in place and rescue team on standby.</li>
-          <li><strong>Hot work permits</strong>: required for welding, cutting, grinding near flammable materials. Includes: fire watch during work AND 30–60 minutes after. Fire extinguisher on hand. Remove or protect combustibles within 10 m.</li>
-        </ul>
-      </div>
-      <div class="vocab-row">
-        <span class="vocab-chip">Fatal Four</span><span class="vocab-chip">fall arrest</span><span class="vocab-chip">travel restraint</span><span class="vocab-chip">LOTO</span><span class="vocab-chip">confined space</span><span class="vocab-chip">entry permit</span><span class="vocab-chip">GFCI</span><span class="vocab-chip">exclusion zone</span><span class="vocab-chip">Type A/B/C soil</span><span class="vocab-chip">hot work permit</span>
-      </div>
-      <div class="q-label">Review Questions</div>
-      <div class="q-item">1. What are the Fatal Four? Which is the most common cause of construction fatalities?</div>
-      <div class="q-item">2. At what height does fall protection become mandatory in Alberta for most tasks?</div>
-      <div class="q-item">3. What are the five requirements for entering a permit-required confined space?</div>
-      <div class="q-item">4. List the 8 steps of a LOTO procedure in order.</div>
-      <div class="q-item">5. What is the difference between travel restraint and fall arrest? When would you use each?</div>
-      <div class="q-item">6. What is the minimum setback from an overhead power line up to 750V in Alberta?</div>
-      <div class="q-item">7. What is the correct order for atmospheric testing in a confined space, and what are the acceptable ranges?</div>
-      <div class="q-item">8. A trench is 2.5 m deep in Type C soil. What safety system is required?</div>
-      <div class="q-item">9. SCENARIO: A welder is about to start cutting steel inside a building near a storage room with cardboard boxes. What controls are required?</div>
-      <div class="q-item">10. SCENARIO: A worker enters a manhole to repair a sewer line without testing the atmosphere. Carbon monoxide levels are 300 ppm. What should have happened and what do you do now?</div>
-      <div class="q-label" style="margin-top:16px">Answer Key</div>
-      <div class="q-item" style="color:#666;font-style:italic">Cover answers and write yours first.</div>
-      <div class="q-item"><strong>1.</strong> Falls, Struck-By, Caught-In/Between, Electrocution. Falls are #1.</div>
-      <div class="q-item"><strong>2.</strong> 3 metres (approximately 10 feet) for most construction tasks.</div>
-      <div class="q-item"><strong>3.</strong> (1) Entry permit issued; (2) atmospheric testing complete; (3) energy isolation; (4) trained attendant at entry point; (5) rescue plan with standby rescue team.</div>
-      <div class="q-item"><strong>4.</strong> Notify workers → Identify energy sources → Normal shutdown → Isolate energy → Apply locks/tags → Release stored energy → Verify zero energy → Perform work.</div>
-      <div class="q-item"><strong>5.</strong> Travel restraint = prevents reaching fall edge (no fall occurs). Fall arrest = allows movement but arrests the fall after it begins. Use travel restraint when a fixed anchor and short working radius allow; fall arrest when workers need more movement range near an edge.</div>
-      <div class="q-item"><strong>6.</strong> 7 metres minimum. Contact the utility owner for a line safety plan before working within the limit of approach.</div>
-      <div class="q-item"><strong>7.</strong> (1) Oxygen (acceptable: 19.5–23%); (2) Flammable/explosive gas (acceptable: &lt;10% LEL); (3) Toxic gases such as CO and H₂S (must be below OEL). Test before entry and continuously.</div>
-      <div class="q-item"><strong>8.</strong> Type C soil at 2.5 m depth requires a protective system — shoring (timber or hydraulic), shielding (trench box), or sloping at 1½:1. Sloping alone may not be practical at that depth in an urban setting.</div>
-      <div class="q-item"><strong>9.</strong> Hot work permit required. Remove or protect combustibles within 10 m. Fire extinguisher on hand. Fire watch during work and minimum 30 minutes after completion. Check SDS for any coatings on the steel. Ventilation for welding fumes.</div>
-      <div class="q-item"><strong>10.</strong> Should have: tested atmosphere in order (O₂ → flammable → toxic), issued entry permit, ensured attendant was present, had rescue plan ready. Now: do NOT enter to rescue without proper equipment (non-entry rescue preferred — rope/retrieval line). Call 911. Activate rescue plan. Do not create additional victims.</div>
-      <div style="background:#fef7d5;border-radius:10px;padding:12px;margin-top:14px;font-size:12px;color:#8b6000">
-        <strong>🔗 Exam Connection:</strong> Modules 10–12 are heavily scenario-based on the NCSO exam. Expect detailed questions on LOTO steps, the atmospheric testing order for confined spaces, fall protection trigger heights, soil classification for excavations, and the overhead line setback distance. Memorize the 8 LOTO steps and the 5 confined space entry requirements.
-      </div>
-    </div>
-
+  <div class="stat-card">
+    <div class="stat-label">Bills Due Soon</div>
+    <div class="stat-value" id="stat-bills">–</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-label">NCSO Exam</div>
+    <div class="stat-value" id="stat-ncso">~3 wks</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-label">Days Streak</div>
+    <div class="stat-value" id="stat-streak">Day 1</div>
   </div>
 </div>
 
-<!-- ══ PMP STUDY ══ -->
-<div class="hub-panel" id="tab-pmp">
-  <div class="study-wrap">
-    <div style="padding:4px 0 16px">
-      <div style="font-family:'Nunito',sans-serif;font-size:20px;font-weight:900;color:#1f2933">PMP Study Guide 📊</div>
-      <div style="font-size:13px;color:#888;margin-top:2px">Project Management Professional — PMI PMBOK 7th Edition + Agile Hybrid</div>
+<!-- MAIN GRID -->
+<div class="dash-grid">
+  <!-- Calendar -->
+  <div class="dash-cal">
+    <iframe
+      src="https://calendar.google.com/calendar/embed?src=katie.snow%40versysgroup.com&ctz=America%2FEdmonton&mode=WEEK&showTitle=0&showNav=1&showDate=1&showPrint=0&showTabs=1&showCalendars=1"
+      style="width:100%;height:100%;min-height:500px;border:0" frameborder="0"></iframe>
+  </div>
+
+  <!-- Side column -->
+  <div class="dash-side">
+    <!-- Tasks widget -->
+    <div class="widget" id="tasks-widget">
+      <div class="widget-title">📋 Tasks</div>
+      <div id="dash-tasks">Loading…</div>
     </div>
 
-    <div class="mod-card" style="--mc:#ff6b6b;--cl:#fff0f0">
-      <div class="mod-tag">Domain 1</div>
-      <div class="mod-title">People — Leading &amp; Managing Project Teams</div>
-      <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px">
-        <span style="background:#fff0f0;color:#c04040;font-size:11px;font-weight:800;padding:3px 10px;border-radius:20px">⏱ 15 min session</span>
-        <span style="background:#e3effa;color:#1a4f7a;font-size:11px;font-weight:700;padding:3px 10px;border-radius:20px">📖 Read → 🧠 Recall → ✏️ Apply</span>
-      </div>
-      <div class="mod-body">
-        <strong>Tuckman's 5 Team Development Stages</strong><br>
-        Mnemonic: <em>"Forming Storms the Norm — Perform, then Adjourn"</em>
-        <ul>
-          <li><strong>Forming</strong>: team meets, roles unclear, everyone polite. PM role: set direction, establish ground rules, clarify goals and expectations.</li>
-          <li><strong>Storming</strong>: conflict emerges — personality clashes, disagreements on approach, competition for roles. Normal and necessary. PM role: facilitate conflict resolution, coach through disagreements, don't suppress conflict.</li>
-          <li><strong>Norming</strong>: team establishes norms, trust builds, collaboration improves. Roles clarify. PM role: step back, encourage ownership, celebrate progress.</li>
-          <li><strong>Performing</strong>: team is high-functioning, self-directed, interdependent. PM role: remove obstacles (servant leadership), delegate, shield team from distractions.</li>
-          <li><strong>Adjourning</strong>: project ends, team disbands. PM role: celebrate wins, conduct lessons learned, support team transitions. Can trigger grief-like responses.</li>
-        </ul>
-        <strong>Conflict Resolution — Thomas-Kilmann Model</strong><br>
-        Ranked most to least preferred on the PMP exam:
-        <ol style="margin:8px 0 0 16px;padding:0">
-          <li style="margin-bottom:3px"><strong>Collaborate / Problem-solve</strong>: both parties work together to find a win-win solution. Best long-term outcome. Time-intensive. PMP exam almost always prefers this.</li>
-          <li style="margin-bottom:3px"><strong>Compromise / Reconcile</strong>: both give something up. Useful when time is limited and both parties have valid needs. "Lose-lose light."</li>
-          <li style="margin-bottom:3px"><strong>Accommodate / Smooth</strong>: one party yields to keep the peace. Preserves relationship short-term but may breed resentment. Use when you're wrong or the issue is minor.</li>
-          <li style="margin-bottom:3px"><strong>Avoid / Withdraw</strong>: postpone or sidestep the issue. Useful only when the issue will resolve itself or you need time to cool down. Does not resolve anything.</li>
-          <li style="margin-bottom:3px"><strong>Force / Direct</strong>: one party imposes their will. Fastest but damages relationships. Use only in emergencies or when you have authority and time is critical.</li>
-        </ol>
-        <strong>RACI Matrix</strong><br>
-        <ul>
-          <li><strong>R — Responsible</strong>: does the work.</li>
-          <li><strong>A — Accountable</strong>: owns the outcome; signs off. Only ONE person per task.</li>
-          <li><strong>C — Consulted</strong>: provides input; two-way communication.</li>
-          <li><strong>I — Informed</strong>: receives updates; one-way communication.</li>
-        </ul>
-        Use RACI to prevent confusion on who decides, who does, and who just needs to know.
-        <strong>Motivation Theories</strong><br>
-        <ul>
-          <li><strong>Maslow's Hierarchy</strong>: physiological → safety → social → esteem → self-actualization. People are motivated by their unmet needs.</li>
-          <li><strong>Herzberg's Two-Factor</strong>: hygiene factors (salary, job security, work conditions) prevent dissatisfaction but don't motivate. Motivators (achievement, recognition, growth) drive engagement.</li>
-          <li><strong>McGregor's Theory X</strong>: workers are lazy, need control and threats. Theory Y: workers are self-motivated, seek responsibility. Modern PMs use Theory Y.</li>
-          <li><strong>McClelland's Needs</strong>: achievement (drives to excel), affiliation (needs relationships), power (wants influence). Tailor your approach to the team member's dominant need.</li>
-        </ul>
-        <strong>Virtual Team Challenges and Solutions</strong><br>
-        Challenges: time zones, cultural differences, communication gaps, isolation, accountability. Solutions: clear communication plan, regular video check-ins, shared collaboration tools (Jira, Confluence, Teams), overlap hours for real-time communication, explicit norms documented in team charter.
-        <strong>360-Degree Feedback vs. Coaching vs. Mentoring</strong><br>
-        <ul>
-          <li><strong>360-degree feedback</strong>: performance input collected from peers, direct reports, supervisors, and self. Provides a full picture — reduces blind spots.</li>
-          <li><strong>Coaching</strong>: PM helps team member improve a specific skill or behaviour through guided questions. Short-term, performance-focused.</li>
-          <li><strong>Mentoring</strong>: experienced person provides long-term guidance and career development. Relationship-based, broader scope than coaching.</li>
-        </ul>
-        <strong>Emotional Intelligence (EI)</strong>: self-awareness (know your triggers), self-regulation (manage your reactions), motivation (internal drive), empathy (understand others' feelings), social skills (build relationships). High EI = more effective conflict resolution and stakeholder management.
-        <strong>Resource Management Plan</strong>: documents how team members will be acquired, managed, and released. Includes: roles and responsibilities, team charter, training plans, rewards and recognition system. Created during planning, updated throughout.
-      </div>
-      <div class="vocab-row">
-        <span class="vocab-chip">servant leadership</span><span class="vocab-chip">Tuckman stages</span><span class="vocab-chip">conflict resolution</span><span class="vocab-chip">EI</span><span class="vocab-chip">Theory X/Y</span><span class="vocab-chip">stakeholder</span><span class="vocab-chip">RACI</span><span class="vocab-chip">360-degree feedback</span><span class="vocab-chip">Thomas-Kilmann</span>
-      </div>
-      <div class="q-label">Practice Questions</div>
-      <div class="q-item">1. List Tuckman's 5 team development stages. What happens at Storming?</div>
-      <div class="q-item">2. What is the most preferred conflict resolution technique and why?</div>
-      <div class="q-item">3. How does servant leadership differ from traditional command-and-control?</div>
-      <div class="q-item">4. A team member is underperforming. Which motivation theory informs your response? What do you do?</div>
-      <div class="q-item">5. What does RACI stand for? How many people can be Accountable for a single task?</div>
-      <div class="q-item">6. Your team has just entered Storming. Two developers are arguing about the technical approach. What do you do first?</div>
-      <div class="q-item">7. What is the difference between coaching and mentoring?</div>
-      <div class="q-item">8. Explain Herzberg's Two-Factor theory. How does it differ from Maslow's?</div>
-      <div class="q-item">9. SCENARIO: A senior developer is technically excellent but constantly dismisses junior team members' ideas. Which EI component is lacking? What do you do?</div>
-      <div class="q-item">10. Your team is fully remote across three time zones. Name three specific actions to keep team cohesion and accountability.</div>
-      <div class="q-label" style="margin-top:16px">Answer Key</div>
-      <div class="q-item" style="color:#666;font-style:italic">Cover answers and write yours first.</div>
-      <div class="q-item"><strong>1.</strong> Forming → Storming → Norming → Performing → Adjourning. Storming = conflict and disagreement as team members assert their views and compete for roles. Normal and necessary — the PM facilitates through it.</div>
-      <div class="q-item"><strong>2.</strong> Collaborate/Problem-solve — because it produces a win-win outcome, addresses root cause, and preserves relationships. It is the most sustainable solution.</div>
-      <div class="q-item"><strong>3.</strong> Servant leadership: PM removes obstacles, enables the team, asks "how can I help?" Command-and-control: PM directs, assigns, monitors, uses authority. Agile strongly favours servant leadership.</div>
-      <div class="q-item"><strong>4.</strong> Multiple theories apply. Herzberg: check if a hygiene factor (unclear expectations, recognition gap) is causing dissatisfaction first. McClelland: understand their dominant need. Then coach through a 1:1 conversation before escalating.</div>
-      <div class="q-item"><strong>5.</strong> Responsible, Accountable, Consulted, Informed. Only ONE person can be Accountable per task — multiple Accountable creates confusion and avoidance.</div>
-      <div class="q-item"><strong>6.</strong> Facilitate a collaborative discussion — bring both perspectives out, find common ground, focus on what's best for the project. Use the Collaborate technique. Do not force a decision yet.</div>
-      <div class="q-item"><strong>7.</strong> Coaching = short-term, skill/behaviour improvement, PM guides with questions. Mentoring = long-term, career development, relationship-based, broader than one skill.</div>
-      <div class="q-item"><strong>8.</strong> Herzberg: hygiene factors (salary, environment) prevent unhappiness but don't motivate. Motivators (achievement, recognition) drive performance. Maslow: focuses on a hierarchy of needs — lower needs must be met before higher ones motivate. Herzberg is about job design; Maslow is about need states.</div>
-      <div class="q-item"><strong>9.</strong> Empathy is lacking (inability to appreciate others' perspectives). Actions: private coaching conversation about impact on team psychological safety; 360-degree feedback; team agreement on inclusive behaviour norms.</div>
-      <div class="q-item"><strong>10.</strong> Any 3 of: establish overlapping core hours; weekly video standups; shared team charter with communication norms; collaboration tools (Jira/Slack/Teams); pair programming or buddy system; explicit recognition of contributions; virtual team-building activities.</div>
-      <div style="background:#fef7d5;border-radius:10px;padding:12px;margin-top:14px;font-size:12px;color:#8b6000">
-        <strong>🔗 Exam Connection:</strong> Domain 1 (People) is ~42% of the PMP exam. Expect scenario questions where you must choose the best leadership action. The exam almost always prefers Collaborate over Force, coaching over discipline, and servant leadership over command-and-control. Know all 5 Tuckman stages and the RACI matrix cold.
-      </div>
+    <!-- Bills widget -->
+    <div class="widget">
+      <div class="widget-title">💰 Bills</div>
+      <div id="dash-bills"></div>
     </div>
-
-    <div class="mod-card" style="--mc:#f07060;--cl:#fdecea">
-      <div class="mod-tag">Domain 2</div>
-      <div class="mod-title">Process — Managing Project Work</div>
-      <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px">
-        <span style="background:#fff0f0;color:#c04040;font-size:11px;font-weight:800;padding:3px 10px;border-radius:20px">⏱ 15 min session</span>
-        <span style="background:#e3effa;color:#1a4f7a;font-size:11px;font-weight:700;padding:3px 10px;border-radius:20px">📖 Read → 🧠 Recall → ✏️ Apply</span>
-      </div>
-      <div class="mod-body">
-        <strong>Project Lifecycle and Planning</strong><br>
-        <ul>
-          <li><strong>Project charter</strong>: authorizes the project and formally names the PM. Issued by the sponsor. Contains: project purpose, high-level scope, budget, timeline, key stakeholders, PM authority level. Without a charter, the PM has no formal authority.</li>
-          <li><strong>Rolling wave planning</strong>: near-term work is planned in detail; future work is planned at a high level and refined as more information becomes available. Used in both predictive and agile approaches. Accounts for uncertainty.</li>
-          <li><strong>WBS (Work Breakdown Structure)</strong>: hierarchical decomposition of project scope into deliverables and work packages. The <strong>100% rule</strong>: the WBS must capture 100% of project scope — nothing inside, nothing outside. Work packages are the lowest level — small enough to estimate and assign. The <strong>WBS Dictionary</strong> documents each element: description, owner, acceptance criteria, resource requirements, estimated cost/duration.</li>
-        </ul>
-        <strong>Network Diagram and Critical Path</strong><br>
-        <ul>
-          <li><strong>AON (Activity on Node)</strong>: boxes represent activities, arrows represent dependencies. PMP exam standard.</li>
-          <li><strong>Critical Path</strong>: the longest path through the network from start to finish. It determines the minimum project duration. Zero float on all critical path activities.</li>
-          <li><strong>Float (Slack)</strong>: how long a non-critical activity can be delayed without delaying the project. Total float = LS − ES or LF − EF. Free float = how long an activity can delay without delaying the next activity.</li>
-          <li><strong>Crashing</strong>: add resources to critical path activities to shorten duration. Increases cost. Best to crash the cheapest activities first.</li>
-          <li><strong>Fast-tracking</strong>: overlap activities that were planned sequentially. Increases risk. No cost increase. Use when schedule is tight and activities can partially overlap.</li>
-        </ul>
-        <strong>3-Point Estimating (PERT)</strong><br>
-        <ul>
-          <li><strong>Formula</strong>: Expected Duration = (Optimistic + 4 × Most Likely + Pessimistic) ÷ 6</li>
-          <li>Example: O=4 days, M=6 days, P=14 days → E = (4 + 24 + 14) / 6 = <strong>7 days</strong></li>
-          <li>Standard deviation = (P − O) / 6. Used in Monte Carlo simulation to model schedule risk.</li>
-        </ul>
-        <strong>EVM Formulas — Know All of These</strong><br>
-        <ul>
-          <li><strong>SV (Schedule Variance)</strong> = EV − PV. Negative = behind schedule.</li>
-          <li><strong>CV (Cost Variance)</strong> = EV − AC. Negative = over budget.</li>
-          <li><strong>SPI (Schedule Performance Index)</strong> = EV / PV. &lt;1 = behind.</li>
-          <li><strong>CPI (Cost Performance Index)</strong> = EV / AC. &lt;1 = over budget.</li>
-          <li><strong>EAC (Estimate at Completion)</strong> = BAC / CPI. Forecasted total cost if current CPI continues.</li>
-          <li><strong>ETC (Estimate to Complete)</strong> = EAC − AC. How much more you'll spend.</li>
-          <li><strong>TCPI (To-Complete Performance Index)</strong> = (BAC − EV) / (BAC − AC). The CPI you must achieve on remaining work to hit the original budget. &gt;1 = harder than current performance.</li>
-          <li><strong>VAC (Variance at Completion)</strong> = BAC − EAC. Projected surplus or deficit at project end.</li>
-        </ul>
-        <em>Memory trick</em>: "EV comes first in every formula — it's what you actually earned."
-        <strong>Risk Management</strong><br>
-        <ul>
-          <li><strong>Risk register</strong>: living document containing: risk description, probability, impact, risk score, owner, response strategy, trigger, status. Updated throughout the project.</li>
-          <li><strong>Issue log</strong>: tracks problems that have ALREADY occurred (risks that materialized). Risk register = potential future events. Issue log = current problems.</li>
-          <li><strong>Risk probability/impact matrix</strong>: plot each risk on a grid (probability on one axis, impact on the other). High-probability + high-impact risks get active responses. Low-low risks are accepted/monitored.</li>
-          <li><strong>Threat responses</strong>: Avoid (eliminate the risk), Transfer (shift impact to third party — insurance, contracts), Mitigate (reduce probability or impact), Accept (acknowledge and monitor; passive = do nothing, active = set aside contingency reserve).</li>
-          <li><strong>Opportunity responses</strong>: Exploit (make it happen), Share (partner with someone who can capture it), Enhance (increase probability/impact), Accept.</li>
-          <li><strong>Monte Carlo simulation</strong>: runs thousands of scenarios using probability distributions for duration/cost estimates. Outputs a probability curve — e.g., "80% chance project completes within 120 days."</li>
-        </ul>
-        <strong>Lessons Learned</strong>: captured throughout the project (not just at close). Added to the organizational process assets repository. Used by future projects. Include: what worked, what didn't, root causes, recommendations.
-      </div>
-      <div class="vocab-row">
-        <span class="vocab-chip">project charter</span><span class="vocab-chip">WBS</span><span class="vocab-chip">critical path</span><span class="vocab-chip">float</span><span class="vocab-chip">EVM</span><span class="vocab-chip">SPI/CPI</span><span class="vocab-chip">EAC/ETC/TCPI</span><span class="vocab-chip">risk register</span><span class="vocab-chip">change control</span><span class="vocab-chip">PERT</span><span class="vocab-chip">crashing</span><span class="vocab-chip">fast-tracking</span>
-      </div>
-      <div class="q-label">Practice Questions</div>
-      <div class="q-item">1. EV = $80K, PV = $100K, AC = $90K. Calculate SV, CV, SPI, CPI. Interpret the results.</div>
-      <div class="q-item">2. What is the 100% rule in WBS? Why does it matter?</div>
-      <div class="q-item">3. What is float (slack) on the critical path? What happens if a critical path task is delayed?</div>
-      <div class="q-item">4. Name the four responses to a negative risk (threat). Give a construction example for each.</div>
-      <div class="q-item">5. BAC = $200K, EV = $120K, AC = $150K. Calculate EAC, ETC, TCPI, and VAC.</div>
-      <div class="q-item">6. What is the difference between crashing and fast-tracking? When would you use each?</div>
-      <div class="q-item">7. A task has O=2 days, ML=5 days, P=14 days. What is the PERT expected duration?</div>
-      <div class="q-item">8. What is the difference between a risk register and an issue log?</div>
-      <div class="q-item">9. SCENARIO: Your CPI is 0.85 and SPI is 0.92. The sponsor asks for a forecast. What does EAC tell them and how do you calculate it if BAC = $500K?</div>
-      <div class="q-item">10. What is rolling wave planning and when is it appropriate?</div>
-      <div class="q-label" style="margin-top:16px">Answer Key</div>
-      <div class="q-item" style="color:#666;font-style:italic">Cover answers and write yours first — especially the EVM math.</div>
-      <div class="q-item"><strong>1.</strong> SV = 80−100 = −$20K (behind schedule). CV = 80−90 = −$10K (over budget). SPI = 80/100 = 0.80. CPI = 80/90 = 0.89. Project is both behind schedule and over budget.</div>
-      <div class="q-item"><strong>2.</strong> The WBS must capture ALL project work — 100% of scope, no more, no less. Prevents scope gaps and unauthorized work. Everything that needs to be done must appear somewhere in the WBS.</div>
-      <div class="q-item"><strong>3.</strong> Float = how long a non-critical task can slip before it affects the project end date. Critical path has zero float. Any delay to a critical path task delays the entire project by the same amount.</div>
-      <div class="q-item"><strong>4.</strong> Avoid = redesign to eliminate the risk (change the foundation type to avoid soil instability). Transfer = buy insurance or add a liability clause to the subcontract. Mitigate = additional soil testing and reinforcement (reduces impact). Accept = document it and monitor (minor weather delay risk).</div>
-      <div class="q-item"><strong>5.</strong> CPI = 120/150 = 0.80. EAC = 200/0.80 = $250K. ETC = 250−150 = $100K. VAC = 200−250 = −$50K (over budget at completion). TCPI = (200−120)/(200−150) = 80/50 = 1.60 (need to work at 160% efficiency — very difficult).</div>
-      <div class="q-item"><strong>6.</strong> Crashing = add resources to shorten duration; increases cost; use when you have budget slack. Fast-tracking = overlap sequential activities; increases risk; use when activities can safely overlap and budget is constrained.</div>
-      <div class="q-item"><strong>7.</strong> E = (2 + 4×5 + 14) / 6 = (2+20+14)/6 = 36/6 = <strong>6 days</strong>.</div>
-      <div class="q-item"><strong>8.</strong> Risk register = potential future events (not yet occurred). Issue log = problems that have already materialized and need active management. A risk that occurs becomes an issue.</div>
-      <div class="q-item"><strong>9.</strong> EAC = BAC / CPI = 500,000 / 0.85 = <strong>$588,235</strong>. Tell the sponsor: at current spending efficiency, the project is forecast to cost ~$588K — $88K over the original $500K budget. Also note the schedule is at 92% efficiency.</div>
-      <div class="q-item"><strong>10.</strong> Rolling wave planning = plan near-term work in detail, plan future work at a high level, refine as information becomes available. Appropriate when full requirements aren't known upfront — common in R&amp;D, technology projects, and early phases of large construction.</div>
-      <div style="background:#fef7d5;border-radius:10px;padding:12px;margin-top:14px;font-size:12px;color:#8b6000">
-        <strong>🔗 Exam Connection:</strong> Domain 2 (Process) is ~50% of the PMP exam content. EVM calculations appear on almost every exam — memorize all 8 formulas. Expect scenario questions on risk responses, network diagrams, and the difference between crashing and fast-tracking. The TCPI formula is frequently tested because it's counter-intuitive.
-      </div>
-    </div>
-
-    <div class="mod-card" style="--mc:#c9a800;--cl:#fef7d5">
-      <div class="mod-tag">Domain 3</div>
-      <div class="mod-title">Business Environment — Strategy &amp; Governance</div>
-      <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px">
-        <span style="background:#fff0f0;color:#c04040;font-size:11px;font-weight:800;padding:3px 10px;border-radius:20px">⏱ 15 min session</span>
-        <span style="background:#e3effa;color:#1a4f7a;font-size:11px;font-weight:700;padding:3px 10px;border-radius:20px">📖 Read → 🧠 Recall → ✏️ Apply</span>
-      </div>
-      <div class="mod-body">
-        <strong>Portfolio / Program / Project Hierarchy</strong><br>
-        <ul>
-          <li><strong>Portfolio</strong>: a collection of programs, projects, and operations managed together to achieve strategic objectives. Highest level. Prioritizes investment.</li>
-          <li><strong>Program</strong>: a group of related projects managed in a coordinated way to obtain benefits not available from managing them individually. E.g., a highway expansion program with multiple construction projects.</li>
-          <li><strong>Project</strong>: a temporary endeavour to create a unique product, service, or result. Defined start and end. A project is NOT ongoing operations.</li>
-        </ul>
-        <strong>Project Selection Tools</strong><br>
-        <ul>
-          <li><strong>NPV (Net Present Value)</strong>: present value of future cash inflows minus the initial investment. Higher NPV = better investment. Select the project with the highest NPV. If NPV &lt; 0, the project destroys value.</li>
-          <li><strong>ROI (Return on Investment)</strong>: (Net Benefit / Cost) × 100. Higher % = better return. Simple but doesn't account for time value of money.</li>
-          <li><strong>Payback Period</strong>: how long until the project recoups its investment. Shorter = better. Ignores cash flows after payback point and time value of money.</li>
-          <li><strong>IRR (Internal Rate of Return)</strong>: the discount rate that makes NPV = 0. If IRR &gt; cost of capital, the project is worthwhile. Higher IRR = better.</li>
-          <li><em>Exam tip</em>: when comparing projects, if one metric conflicts with another, NPV is generally considered the most reliable.</li>
-        </ul>
-        <strong>Benefits Management Plan</strong><br>
-        Documents: what benefits the project will deliver, how they will be measured, who is responsible for realizing them, and the timeline for realization. Benefits often extend BEYOND the project close date — the PM's job is to set up the measurement system, but operations/sponsors own realization after closeout.
-        <strong>Organizational Change Management — ADKAR Model</strong><br>
-        When a project delivers change to an organization, people must move through:
-        <ul>
-          <li><strong>A — Awareness</strong>: of the need for change</li>
-          <li><strong>D — Desire</strong>: to support and participate in the change</li>
-          <li><strong>K — Knowledge</strong>: of how to change</li>
-          <li><strong>A — Ability</strong>: to implement the change (skills, tools)</li>
-          <li><strong>R — Reinforcement</strong>: to sustain the change over time</li>
-        </ul>
-        If people are stuck at any ADKAR stage, address THAT stage — don't jump to training (K) if they don't yet have Desire (D).
-        <strong>Organizational Structures</strong><br>
-        <ul>
-          <li><strong>Functional</strong>: organized by department (IT, Finance, Engineering). PM has little to no authority. Resources are "borrowed" from functional managers.</li>
-          <li><strong>Matrix (Weak/Balanced/Strong)</strong>: PM shares authority with functional managers. Weak = FM dominates; Strong = PM dominates. Most common in large organizations.</li>
-          <li><strong>Projectized</strong>: organized around projects. PM has full authority over resources. Team members are dedicated to projects. Best PM authority — but resources are released when the project ends.</li>
-        </ul>
-        <strong>PMO Types</strong><br>
-        <ul>
-          <li><strong>Supportive</strong>: provides templates, training, best practices. Low control. Consultative role.</li>
-          <li><strong>Controlling</strong>: requires compliance with frameworks, tools, and governance. Moderate control.</li>
-          <li><strong>Directive</strong>: directly manages projects; assigns PMs. High control. PM reports to the PMO.</li>
-        </ul>
-        <strong>EEF vs. OPA</strong><br>
-        <ul>
-          <li><strong>Enterprise Environmental Factors (EEF)</strong>: external/internal conditions that influence but are NOT controlled by the project team. Examples: regulatory environment, market conditions, organizational culture, available technology, political climate.</li>
-          <li><strong>Organizational Process Assets (OPA)</strong>: plans, processes, policies, procedures, and knowledge bases owned by the organization. Examples: templates, lessons learned repository, historical data, process guidelines.</li>
-        </ul>
-        <strong>Stage Gate Reviews</strong>: formal reviews at the end of each project phase. Stakeholders evaluate progress against the business case. Possible outcomes: continue, modify, pause, or kill the project. Also called phase gate, kill point, or toll gate review.
-        <strong>PMI Code of Ethics — 4 Values</strong>: Responsibility, Respect, Fairness, Honesty. Each has mandatory standards (must do) and aspirational standards (strive to do). Violations of mandatory standards can result in PMI disciplinary action.
-      </div>
-      <div class="vocab-row">
-        <span class="vocab-chip">business case</span><span class="vocab-chip">benefits realization</span><span class="vocab-chip">PMO</span><span class="vocab-chip">organizational structure</span><span class="vocab-chip">tailoring</span><span class="vocab-chip">PMI Code of Ethics</span><span class="vocab-chip">NPV/IRR</span><span class="vocab-chip">ADKAR</span><span class="vocab-chip">EEF</span><span class="vocab-chip">OPA</span><span class="vocab-chip">stage gate</span>
-      </div>
-      <div class="q-label">Practice Questions</div>
-      <div class="q-item">1. What are the three main organizational structures? How does PM authority differ in each?</div>
-      <div class="q-item">2. What is the role of a PMO? Name all three types and describe the control level of each.</div>
-      <div class="q-item">3. What are the four values in the PMI Code of Ethics?</div>
-      <div class="q-item">4. When would you choose an Agile approach over a predictive one? What factors determine this?</div>
-      <div class="q-item">5. What is the difference between EEF and OPA? Give two examples of each.</div>
-      <div class="q-item">6. Project A has NPV = $120K and payback period of 2 years. Project B has NPV = $95K and payback period of 1 year. Which should you select and why?</div>
-      <div class="q-item">7. Explain the ADKAR model. A team is trained on new software but won't use it. Which ADKAR stage is failing?</div>
-      <div class="q-item">8. What is a stage gate review? What are the possible outcomes?</div>
-      <div class="q-item">9. SCENARIO: You are PM at a company that is functional. Your project needs a developer from the IT department for 3 weeks. Who do you negotiate with and what authority do you have?</div>
-      <div class="q-item">10. What is a benefits management plan, and who owns benefits realization after project close?</div>
-      <div class="q-label" style="margin-top:16px">Answer Key</div>
-      <div class="q-item" style="color:#666;font-style:italic">Cover answers and write yours first.</div>
-      <div class="q-item"><strong>1.</strong> Functional = PM has little/no authority, resources borrowed from departments. Matrix = shared authority between PM and functional managers. Projectized = PM has full authority, dedicated team.</div>
-      <div class="q-item"><strong>2.</strong> PMO standardizes project governance, provides support, and monitors compliance. Supportive = low control, provides templates. Controlling = requires compliance with standards. Directive = directly manages projects.</div>
-      <div class="q-item"><strong>3.</strong> Responsibility, Respect, Fairness, Honesty.</div>
-      <div class="q-item"><strong>4.</strong> Agile when: requirements are unclear/evolving, customer needs frequent feedback, high innovation, low regulatory constraints, team is experienced with agile. Predictive when: requirements are fixed, regulatory compliance needed, deliverable is well-understood.</div>
-      <div class="q-item"><strong>5.</strong> EEF = external/internal conditions you can't control: market conditions, org culture, regulatory requirements, technology availability. OPA = organizational assets you use: templates, lessons learned, historical cost data, SOPs.</div>
-      <div class="q-item"><strong>6.</strong> Select Project A. NPV is the most reliable measure — $120K &gt; $95K means more value created. Shorter payback (B) is useful context but doesn't override higher NPV if strategic fit is equal.</div>
-      <div class="q-item"><strong>7.</strong> ADKAR: Awareness → Desire → Knowledge → Ability → Reinforcement. If trained but not using = they have Knowledge but not Desire or Ability. Check if Desire is missing (resistance to change) or Ability (can't actually do it yet).</div>
-      <div class="q-item"><strong>8.</strong> Formal review at the end of a project phase. Stakeholders assess progress against the business case. Outcomes: proceed to next phase, modify scope/plan, pause pending decision, or terminate (kill) the project.</div>
-      <div class="q-item"><strong>9.</strong> Negotiate with the IT functional manager — they control resources in a functional structure. As PM, you have limited authority. You must influence, negotiate, and build a business case for why the resource is needed. Escalate to the sponsor if blocked.</div>
-      <div class="q-item"><strong>10.</strong> Documents what benefits will be delivered, how measured, who owns them, and timeline. After project close, the sponsor and/or operations own benefits realization. The PM sets up measurement mechanisms before handoff.</div>
-      <div style="background:#fef7d5;border-radius:10px;padding:12px;margin-top:14px;font-size:12px;color:#8b6000">
-        <strong>🔗 Exam Connection:</strong> Domain 3 (Business Environment) is ~8% of the PMP exam but dense with concepts. Know the PMO types cold (Supportive/Controlling/Directive), the three org structures and their PM authority levels, and the ADKAR model for change management. Project selection (NPV vs. IRR) appears in calculation questions.
-      </div>
-    </div>
-
-    <div class="mod-card" style="--mc:#52c4a0;--cl:#e1f5ee">
-      <div class="mod-tag">Agile / Hybrid</div>
-      <div class="mod-title">Scrum, Kanban &amp; Hybrid Approaches</div>
-      <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px">
-        <span style="background:#fff0f0;color:#c04040;font-size:11px;font-weight:800;padding:3px 10px;border-radius:20px">⏱ 15 min session</span>
-        <span style="background:#e3effa;color:#1a4f7a;font-size:11px;font-weight:700;padding:3px 10px;border-radius:20px">📖 Read → 🧠 Recall → ✏️ Apply</span>
-      </div>
-      <div class="mod-body">
-        <strong>The Agile Manifesto — 4 Values and 12 Principles</strong><br>
-        The Manifesto values the items on the LEFT more than the right (both sides have value):
-        <ul>
-          <li>Individuals and interactions <em>over</em> processes and tools</li>
-          <li>Working software <em>over</em> comprehensive documentation</li>
-          <li>Customer collaboration <em>over</em> contract negotiation</li>
-          <li>Responding to change <em>over</em> following a plan</li>
-        </ul>
-        Key principles (exam favorites): deliver working software frequently (weeks, not months); welcome changing requirements even late in development; business people and developers work together daily; the best architecture emerges from self-organizing teams; reflect and adjust regularly (retrospectives); simplicity — maximize the work NOT done; face-to-face conversation is the most efficient communication.
-        <strong>User Stories</strong><br>
-        Format: <em>"As a [type of user], I want [goal], so that [reason/benefit]."</em><br>
-        Example: "As a site supervisor, I want to log daily safety inspections from my phone, so that I don't have to carry paper forms."<br>
-        <ul>
-          <li><strong>Acceptance criteria</strong>: specific conditions that must be met for the story to be considered complete. Written from the user's perspective. Tested during Sprint Review.</li>
-          <li><strong>Definition of Done (DoD)</strong>: team-level checklist applied to EVERY story — e.g., coded, unit tested, peer reviewed, integrated, documentation updated. Ensures consistent quality. Reduces technical debt.</li>
-          <li><strong>Technical debt</strong>: shortcuts or incomplete work that creates future rework. Accumulates when teams skip the DoD. Must be managed — track it in the backlog and address it in future sprints.</li>
-        </ul>
-        <strong>Scrum Framework</strong><br>
-        <ul>
-          <li><strong>Product Owner</strong>: owns the Product Backlog; prioritizes work by business value; represents stakeholders; accepts or rejects completed work. One PO per team.</li>
-          <li><strong>Scrum Master</strong>: servant leader; removes impediments; coaches team on Scrum; facilitates events; protects team from external interruptions. Does NOT manage people.</li>
-          <li><strong>Development Team</strong>: self-organizing, cross-functional, 3–9 members; collectively owns delivery; no sub-teams or titles within the team.</li>
-          <li><strong>Sprint</strong>: time-boxed iteration of 1–4 weeks. Scope is locked once Sprint starts. Delivers a potentially shippable increment.</li>
-          <li><strong>Sprint burndown chart</strong>: tracks remaining work (story points or hours) over the sprint. Ideal line slopes down to zero. Above ideal = behind. Below ideal = ahead.</li>
-          <li><strong>Release planning</strong>: determines which features will be delivered across multiple sprints to meet a release goal. Uses velocity to forecast how many sprints are needed.</li>
-        </ul>
-        <strong>Kanban</strong><br>
-        Visualize all work on a board (To Do → In Progress → Done). Set WIP limits per column — no column can exceed its limit. This forces finishing before starting new work, reveals bottlenecks, and improves flow. No fixed sprints — work flows continuously. Measure cycle time and throughput.
-        <strong>Scaling Frameworks</strong><br>
-        <ul>
-          <li><strong>SAFe (Scaled Agile Framework)</strong>: organizes multiple agile teams into Agile Release Trains (ARTs). Works at portfolio, program, and team levels. Common in large enterprises.</li>
-          <li><strong>LeSS (Large-Scale Scrum)</strong>: applies Scrum principles to multiple teams working on one product. Simpler than SAFe. One Product Backlog, one Product Owner, multiple teams.</li>
-        </ul>
-        <strong>Hybrid Approaches</strong><br>
-        Combine predictive and agile based on project needs. Decision factors: regulatory requirements (predictive), requirements clarity (unclear → agile), team experience, stakeholder tolerance for ambiguity, contract type (fixed price favours predictive). Common pattern: predictive for planning and governance, agile for delivery sprints. Stakeholders engage more frequently in agile — sprint reviews replace quarterly status reports.
-        <strong>Stakeholder Engagement in Agile</strong>: stakeholders attend Sprint Reviews to see working product and give feedback. This replaces long approval cycles. Product Owner is the daily stakeholder proxy on the team.
-      </div>
-      <div class="vocab-row">
-        <span class="vocab-chip">Scrum</span><span class="vocab-chip">Sprint</span><span class="vocab-chip">Product Owner</span><span class="vocab-chip">Scrum Master</span><span class="vocab-chip">Kanban</span><span class="vocab-chip">WIP limit</span><span class="vocab-chip">velocity</span><span class="vocab-chip">Agile Manifesto</span><span class="vocab-chip">user story</span><span class="vocab-chip">Definition of Done</span><span class="vocab-chip">SAFe</span><span class="vocab-chip">technical debt</span>
-      </div>
-      <div class="q-label">Practice Questions</div>
-      <div class="q-item">1. Name the three Scrum roles and their primary responsibility.</div>
-      <div class="q-item">2. What happens in a Sprint Retrospective? Who attends?</div>
-      <div class="q-item">3. What is a WIP limit in Kanban? Why does limiting WIP improve flow?</div>
-      <div class="q-item">4. You're managing a project with clear, fixed requirements and a compliance deadline. Agile or predictive? Why?</div>
-      <div class="q-item">5. Write a user story for a construction safety officer who needs to log near-miss reports digitally.</div>
-      <div class="q-item">6. What is the difference between acceptance criteria and the Definition of Done?</div>
-      <div class="q-item">7. What are the 4 Agile Manifesto values? (Write them from memory.)</div>
-      <div class="q-item">8. Your team's Sprint burndown chart is consistently above the ideal line for three sprints. What does this indicate and what do you do?</div>
-      <div class="q-item">9. SCENARIO: A stakeholder calls you mid-sprint and says they need a new feature added immediately. What do you do?</div>
-      <div class="q-item">10. What is technical debt? How does the Definition of Done help manage it?</div>
-      <div class="q-label" style="margin-top:16px">Answer Key</div>
-      <div class="q-item" style="color:#666;font-style:italic">Cover answers and write yours first.</div>
-      <div class="q-item"><strong>1.</strong> Product Owner = owns backlog, prioritizes by value. Scrum Master = servant leader, removes impediments, coaches Scrum. Development Team = self-organizing, cross-functional, delivers the increment.</div>
-      <div class="q-item"><strong>2.</strong> Retrospective = team reflects on HOW they worked (process, collaboration, tools) and identifies improvements for the next sprint. Entire Scrum team attends (PO, SM, Dev Team). Stakeholders do NOT attend.</div>
-      <div class="q-item"><strong>3.</strong> WIP limit = maximum number of items allowed in a column at one time. Limiting WIP forces the team to finish work before starting new work, exposes bottlenecks, and reduces context-switching — all of which improve flow and reduce cycle time.</div>
-      <div class="q-item"><strong>4.</strong> Predictive. Fixed requirements, compliance deadline, and defined deliverable all favour a predictive (waterfall) approach. The constraints are known upfront and the cost of change is high.</div>
-      <div class="q-item"><strong>5.</strong> "As a safety officer, I want to submit near-miss reports from my mobile phone, so that I can document incidents immediately without returning to the site office."</div>
-      <div class="q-item"><strong>6.</strong> Acceptance criteria = specific conditions for ONE user story to be complete (story-level). Definition of Done = team-wide checklist applied to ALL stories (team-level standard for quality).</div>
-      <div class="q-item"><strong>7.</strong> (1) Individuals and interactions over processes and tools. (2) Working software over comprehensive documentation. (3) Customer collaboration over contract negotiation. (4) Responding to change over following a plan.</div>
-      <div class="q-item"><strong>8.</strong> Team is consistently taking on more work than they can complete in a sprint (overcommitting) or there are impediments slowing them down. Actions: facilitate a retrospective to identify root cause; adjust sprint planning to use actual velocity; Scrum Master investigates and removes impediments.</div>
-      <div class="q-item"><strong>9.</strong> Do not add to the current sprint — the sprint scope is locked. Direct the stakeholder to add the request to the Product Backlog. The Product Owner will prioritize it for a future sprint. Explain that this protects the team's ability to deliver on their current commitment.</div>
-      <div class="q-item"><strong>10.</strong> Technical debt = shortcuts or incomplete work that will require future rework (e.g., skipping tests, hardcoding values). The DoD prevents it by requiring that every story meets quality standards before being called done — reducing the accumulation of debt over time.</div>
-      <div style="background:#fef7d5;border-radius:10px;padding:12px;margin-top:14px;font-size:12px;color:#8b6000">
-        <strong>🔗 Exam Connection:</strong> The PMP exam is approximately 50% agile/hybrid content. User stories, the Definition of Done, Sprint events, and stakeholder engagement in agile are heavily tested. The most common exam trap is choosing to add work mid-sprint — always direct new requests to the Product Backlog. Know the difference between Sprint Review (show working product to stakeholders) and Sprint Retrospective (internal team process improvement).
-      </div>
-    </div>
-
   </div>
 </div>
 
-<!-- ══ RECOVERY ══ -->
-<div class="hub-panel" id="tab-alateen">
-  <iframe class="embed-frame" src="archive/alanon-4track.html" title="Recovery"></iframe>
+<!-- QUOTES STRIP -->
+<div class="quotes-strip">
+  <div class="widget-title" style="padding:0 0 10px">💬 Today's Quotes</div>
+  <div id="dash-quotes" style="display:flex;gap:12px;overflow-x:auto;padding-bottom:6px"></div>
 </div>
 
-<!-- ══ BILLS ══ -->
-<div class="hub-panel" id="tab-bills">
-  <iframe class="embed-frame" src="money.html" title="Money"></iframe>
+<!-- RESOURCE ROW -->
+<div style="padding:0 16px 6px;font-family:'Baloo 2',sans-serif;font-size:0.9rem;font-weight:700;color:var(--muted)">Study &amp; Resources</div>
+<div class="resource-row">
+  <div class="resource-card" onclick="openResource('ncso')">
+    <span class="rc-icon">🦺</span>NCSO Study
+  </div>
+  <div class="resource-card" onclick="openResource('pmp')">
+    <span class="rc-icon">📊</span>PMP Study
+  </div>
+  <div class="resource-card" onclick="openResource('alateen')">
+    <span class="rc-icon">🌊</span>Recovery
+  </div>
+  <div class="resource-card" onclick="openResource('hustles')">
+    <span class="rc-icon">💼</span>Hustles
+  </div>
+  <div class="resource-card" onclick="openResource('menu')">
+    <span class="rc-icon">🍽️</span>Menu
+  </div>
+  <div class="resource-card" onclick="openResource('bills')">
+    <span class="rc-icon">💳</span>Full Bills
+  </div>
 </div>
 
-<!-- ══ HUSTLES ══ -->
-<div class="hub-panel" id="tab-hustles">
-  <iframe class="embed-frame" src="hustles.html" title="Hustles"></iframe>
-</div>
+<!-- RESOURCE OVERLAY -->
+<div id="resource-overlay" style="display:none;position:fixed;inset:0;background:rgba(45,34,80,.6);z-index:1000;flex-direction:column">
+  <div class="overlay-inner">
+    <button class="overlay-close-btn" onclick="closeResource()">✕ Close</button>
 
-<!-- ══ MENU ══ -->
-<div class="hub-panel" id="tab-menu">
-  <iframe class="embed-frame" src="menu.html" title="Weekly Menu"></iframe>
-</div>
+    <!-- NCSO panel -->
+    <div id="res-ncso" class="res-panel" style="display:none">
+      <div class="study-wrap">
+        <div style="padding:4px 0 16px">
+          <div style="font-family:'Nunito',sans-serif;font-size:20px;font-weight:900;color:#1f2933">NCSO Study Guide 🦺</div>
+          <div style="font-size:13px;color:#888;margin-top:2px">National Construction Safety Officer — Alberta / BC curriculum</div>
+        </div>
 
-<!-- ══ CALENDAR ══ -->
-<div class="hub-panel" id="tab-cal">
-  <iframe class="embed-frame" style="height:100vh"
-    src="https://calendar.google.com/calendar/embed?src=katie.snow%40versysgroup.com&ctz=America%2FEdmonton&mode=WEEK&showTitle=0&showNav=1&showDate=1&showPrint=0&showTabs=1&showCalendars=1"
-    title="Google Calendar" frameborder="0" scrolling="no" allowfullscreen></iframe>
+        <div class="mod-card" style="--mc:#e05555;--cl:#fff0f0">
+          <div class="mod-tag">Module 01</div>
+          <div class="mod-title">Legal Framework for OHS in Construction</div>
+          <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px">
+            <span style="background:#fff0f0;color:#c04040;font-size:11px;font-weight:800;padding:3px 10px;border-radius:20px">⏱ 15 min session</span>
+            <span style="background:#e3effa;color:#1a4f7a;font-size:11px;font-weight:700;padding:3px 10px;border-radius:20px">📖 Read → 🧠 Recall → ✏️ Apply</span>
+          </div>
+          <div class="mod-body">
+            <strong>Legislative Hierarchy — Act &gt; Regulation &gt; Code</strong><br>
+            Construction safety in Alberta sits on three layers. Think of them as a pyramid: the <strong>OHS Act</strong> is the law passed by the Legislature — it sets out rights, duties, and enforcement powers. The <strong>OHS Regulation</strong> fills in administrative details (forms, procedures, committee requirements). The <strong>OHS Code</strong> is the technical rulebook — it specifies exactly how you must control specific hazards (fall protection heights, scaffolding, confined space procedures). If there's a conflict, the Act wins.
+            <ul>
+              <li><strong>OHS Act</strong>: creates the Internal Responsibility System (IRS). Everyone — from owner to new worker — shares responsibility. No one can contract out of OHS duties.</li>
+              <li><strong>OHS Regulation</strong>: sets administrative requirements like Joint Work Site Health and Safety Committee (JWSHSC) composition and meeting frequency.</li>
+              <li><strong>OHS Code</strong>: 41 parts with specific technical standards. E.g., Part 9 = Fall Protection, Part 40 = Confined Spaces.</li>
+            </ul>
+            <strong>Prime Contractor</strong><br>
+            Required on any worksite with two or more employers working at the same time. The Prime Contractor is designated in writing and is responsible for coordinating all OHS activities on site. On a construction project this is usually the general contractor. If no Prime Contractor is designated, every employer at the site is jointly responsible.
+            <ul>
+              <li>Must have a safety program that covers all workers on site — including subcontractors.</li>
+              <li>Can be held liable for OHS violations even if the violation was committed by a sub's worker.</li>
+            </ul>
+            <strong>Key Roles and Duties</strong><br>
+            <ul>
+              <li><strong>Owner</strong>: ensures the worksite is safe to work at; must inform employers of known hazards.</li>
+              <li><strong>Employer</strong>: hazard identification, training, supervision, PPE provision, incident investigation. Must ensure workers are <em>competent</em> (trained, experienced, and qualified).</li>
+              <li><strong>Supervisor</strong>: must be competent; must know the OHS rules for the work they supervise; must ensure workers follow rules.</li>
+              <li><strong>Worker</strong>: work safely; use PPE; report hazards; participate in training.</li>
+            </ul>
+            <strong>Three Worker Rights (know these cold)</strong><br>
+            <ul>
+              <li><strong>Right to Know</strong>: workers must be informed of all hazards. Includes WHMIS training, site orientation, FLHA results.</li>
+              <li><strong>Right to Participate</strong>: workers can join the Joint Work Site Health and Safety Committee (JWSHSC). Required when 20+ workers are at a worksite for 90+ days.</li>
+              <li><strong>Right to Refuse</strong>: a worker can refuse work they believe presents an imminent danger to themselves or others. The worker reports to the supervisor → supervisor investigates → if unresolved, an OHS officer is called. The worker cannot be penalized for a legitimate refusal.</li>
+            </ul>
+            <strong>Due Diligence — Your Legal Defence</strong><br>
+            An employer charged with an OHS violation can defend themselves by proving they exercised due diligence — meaning they took every reasonable precaution. This requires: documented hazard assessments, written procedures, training records, supervision, and timely corrective actions. "I didn't know" is not due diligence. Documentation is everything.
+            <strong>Enforcement Mechanisms</strong><br>
+            <ul>
+              <li><strong>Inspection</strong>: OHS officers can enter any worksite without notice, inspect anything, interview anyone.</li>
+              <li><strong>Order</strong>: officer can issue compliance orders with deadlines.</li>
+              <li><strong>Stop-Work Order</strong>: immediate work stoppage when imminent danger exists. Work cannot resume until hazard is corrected and officer lifts the order.</li>
+              <li><strong>Prosecution</strong>: fines up to <strong>$500,000 per violation per day</strong> in Alberta. Directors and officers of corporations can be personally charged. Repeat offenders face larger penalties.</li>
+            </ul>
+            <strong>Mnemonic: "PERL" for worker rights</strong> — <em>Participate, know (E as in Education), Refuse, Lives saved</em>
+          </div>
+          <div class="vocab-row">
+            <span class="vocab-chip">OHS Act</span><span class="vocab-chip">OHS Code</span><span class="vocab-chip">Prime Contractor</span><span class="vocab-chip">due diligence</span><span class="vocab-chip">right to refuse</span><span class="vocab-chip">competent worker</span><span class="vocab-chip">IRS</span><span class="vocab-chip">JWSHSC</span><span class="vocab-chip">stop-work order</span>
+          </div>
+          <div class="q-label">Review Questions</div>
+          <div class="q-item">1. What are the three documents that form Alberta's OHS legislative framework?</div>
+          <div class="q-item">2. When is a Prime Contractor required on a worksite?</div>
+          <div class="q-item">3. What does "due diligence" mean for an employer facing an OHS charge?</div>
+          <div class="q-item">4. Name and explain the three worker rights under OHS legislation.</div>
+          <div class="q-item">5. What is the Internal Responsibility System (IRS) and who does it apply to?</div>
+          <div class="q-item">6. When is a Joint Work Site Health and Safety Committee required? Who sits on it?</div>
+          <div class="q-item">7. An OHS officer arrives at your site and issues a stop-work order. What does this mean and what must you do?</div>
+          <div class="q-item">8. A worker refuses a task saying it's dangerous. You disagree. Walk through the right to refuse process step by step.</div>
+          <div class="q-item">9. SCENARIO: Your company is charged with an OHS violation after a worker injury. What evidence would you gather to mount a due diligence defence?</div>
+          <div class="q-item">10. What is the maximum fine per violation per day in Alberta? Who can be personally charged?</div>
+          <div class="q-label" style="margin-top:16px">Answer Key</div>
+          <div class="q-item" style="color:#666;font-style:italic">Cover the answers below and write your own first — then check.</div>
+          <div class="q-item"><strong>1.</strong> OHS Act, OHS Regulation, OHS Code. Act = rights/duties; Regulation = admin requirements; Code = technical standards.</div>
+          <div class="q-item"><strong>2.</strong> When two or more employers work at the same worksite simultaneously. Designated in writing.</div>
+          <div class="q-item"><strong>3.</strong> Taking every reasonable precaution to prevent injury — documented hazard assessments, training, supervision, corrective action. It is an affirmative legal defence.</div>
+          <div class="q-item"><strong>4.</strong> Right to Know (hazard information), Right to Participate (OHS committee), Right to Refuse (imminent danger). No reprisal allowed.</div>
+          <div class="q-item"><strong>5.</strong> IRS = everyone at the worksite (owner → employer → supervisor → worker) shares OHS responsibility at their level. No one is exempt.</div>
+          <div class="q-item"><strong>6.</strong> 20+ workers on site for 90+ consecutive days. At least 50% worker representatives, elected by workers. Management appoints employer reps.</div>
+          <div class="q-item"><strong>7.</strong> All work on the affected area must stop immediately. Document the order. Correct the hazard. Notify the officer. Do not resume until the order is lifted in writing.</div>
+          <div class="q-item"><strong>8.</strong> Worker reports to supervisor → supervisor investigates and either corrects or confirms work is safe → if worker still refuses, OHS officer is called → officer investigates and makes a ruling → worker must comply with officer's decision.</div>
+          <div class="q-item"><strong>9.</strong> Training records, signed FLHA/JHAs, inspection logs, orientation records, corrective action logs, safety meetings minutes, equipment maintenance records.</div>
+          <div class="q-item"><strong>10.</strong> Up to $500,000 per violation per day. Directors and officers of the corporation can be personally prosecuted.</div>
+          <div style="background:#fef7d5;border-radius:10px;padding:12px;margin-top:14px;font-size:12px;color:#8b6000">
+            <strong>🔗 Exam Connection:</strong> The NCSO exam tests your ability to identify who is responsible under the IRS, when a Prime Contractor is required, and the exact steps of the right to refuse. Expect scenario questions where you must identify the correct role and duty. Know the Act/Regulation/Code hierarchy — it appears in multiple choice and application questions.
+          </div>
+        </div>
+
+        <div class="mod-card" style="--mc:#e07830;--cl:#fff3ea">
+          <div class="mod-tag">Module 02</div>
+          <div class="mod-title">Health &amp; Safety Program Basics</div>
+          <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px">
+            <span style="background:#fff0f0;color:#c04040;font-size:11px;font-weight:800;padding:3px 10px;border-radius:20px">⏱ 15 min session</span>
+            <span style="background:#e3effa;color:#1a4f7a;font-size:11px;font-weight:700;padding:3px 10px;border-radius:20px">📖 Read → 🧠 Recall → ✏️ Apply</span>
+          </div>
+          <div class="mod-body">
+            <strong>Nine Core Elements of a Construction H&amp;S Program</strong><br>
+            Mnemonic: <em>"Please Remember Hazards Train Inspectors In Emergency Records Promptly"</em> (Policy, Roles, Hazard ID, Training, Inspections, Incident investigation, Emergency response, Records, Program review)
+            <ul>
+              <li><strong>1. Policy</strong>: a written statement of the employer's commitment to safety. Must be signed by the most senior person (CEO or president) — not just the safety manager. The signature signals that safety is a company value, not just a department function. Must be posted, reviewed annually, and communicated to all workers.</li>
+              <li><strong>2. Roles &amp; Responsibilities</strong>: every person's OHS duties are defined in writing — from owner down to worker. Prevents the "that's not my job" defence. Supervisors must understand they are legally accountable.</li>
+              <li><strong>3. Hazard Identification &amp; Control</strong>: formal systems to find and control hazards before injuries occur. Includes FLHA (task-level), JHA (job-level), inspections (site-level), and incident investigation (post-event).</li>
+              <li><strong>4. Training &amp; Competency</strong>: workers must be trained before performing a task. Training must be documented (date, content, trainer, worker signature). Competency = trained + experienced + capable. New worker orientation is mandatory on first day — covers emergency procedures, hazards, rights, reporting.</li>
+              <li><strong>5. Inspections</strong>: both scheduled (monthly safety walks) and unannounced. Use a checklist. Document findings. Assign corrective actions with deadlines and responsible persons. Close out all findings.</li>
+              <li><strong>6. Incident Investigation</strong>: all incidents must be investigated — near misses, first-aid cases, medical-aid cases, lost-time injuries, and fatalities. Serious injuries/fatalities must be reported to OHS within <strong>48 hours</strong>. Root cause analysis, not blame assignment. Corrective actions prevent recurrence.</li>
+              <li><strong>7. Emergency Response</strong>: written plan covering fire, spill, injury, severe weather. Includes: assembly points, first-aid locations, emergency contacts, evacuation procedures, communication plan. Drills are required — document them.</li>
+              <li><strong>8. Records &amp; Statistics</strong>: maintain FLHA logs, training records, inspection reports, incident investigation reports, meeting minutes, equipment inspection records. Calculate injury rates (TRIR, LTIR) to track program performance.</li>
+              <li><strong>9. Program Review</strong>: evaluate the entire program at least annually. Use leading and lagging indicators. Compare against industry benchmarks. Update after any serious incident.</li>
+            </ul>
+            <strong>FLHA vs. JHA — Know the Difference</strong><br>
+            <ul>
+              <li><strong>FLHA (Field-Level Hazard Assessment)</strong>: done by the crew at the actual work location before each shift or when conditions change. Takes 5–15 minutes. Worker-driven. All workers on the task must sign it. If a new hazard appears mid-task, stop work and redo the FLHA.</li>
+              <li><strong>JHA / JSA (Job Hazard Analysis / Job Safety Analysis)</strong>: a detailed written document prepared in advance (often in the office), breaking a job into sequential steps and identifying hazards and controls for each step. More thorough than FLHA. Used for high-hazard tasks or new work processes. Supervisor typically leads it.</li>
+            </ul>
+            <strong>What Makes a "Competent Supervisor"?</strong><br>
+            Under Alberta OHS legislation, a competent supervisor must: (1) know the OHS regulations that apply to the work, (2) be experienced in the type of work being supervised, and (3) be qualified to supervise safely. Simply having a supervisor title is not enough — they need demonstrated knowledge and experience. Safety officers often test this in audits.
+            <strong>Leading vs. Lagging Indicators</strong><br>
+            <ul>
+              <li><strong>Lagging indicators</strong>: measure past failures. Examples: lost-time injury rate, TRIR (total recordable injury rate), number of fatalities. They tell you what already went wrong.</li>
+              <li><strong>Leading indicators</strong>: measure proactive safety activities. Examples: number of FLHAs completed, inspection completion rate, near-miss reports submitted, % of workers with current training. They predict future performance.</li>
+            </ul>
+            A strong safety program uses BOTH — leading indicators to prevent incidents, lagging indicators to measure outcome trends.
+          </div>
+          <div class="vocab-row">
+            <span class="vocab-chip">safety policy</span><span class="vocab-chip">FLHA</span><span class="vocab-chip">JHA</span><span class="vocab-chip">leading indicator</span><span class="vocab-chip">lagging indicator</span><span class="vocab-chip">lost-time injury</span><span class="vocab-chip">TRIR</span><span class="vocab-chip">competent supervisor</span><span class="vocab-chip">new worker orientation</span>
+          </div>
+          <div class="q-label">Review Questions</div>
+          <div class="q-item">1. Name all nine core elements of a construction H&amp;S program.</div>
+          <div class="q-item">2. What is the difference between a leading indicator and a lagging indicator? Give one example of each.</div>
+          <div class="q-item">3. Why must senior management sign the safety policy?</div>
+          <div class="q-item">4. What is the difference between a FLHA and a JHA? When would you use each?</div>
+          <div class="q-item">5. A serious injury occurs on your site. What are your reporting obligations and within what timeframe?</div>
+          <div class="q-item">6. What three criteria define a "competent supervisor" under Alberta OHS?</div>
+          <div class="q-item">7. Your site inspection finds a guardrail missing at the edge of a 5-metre elevated platform. Walk through the proper response using the H&amp;S program elements.</div>
+          <div class="q-item">8. SCENARIO: Your TRIR has been flat for two years but near-miss reports have tripled. Is your safety program getting worse or better? Explain.</div>
+          <div class="q-item">9. What must happen during a new worker orientation on their first day?</div>
+          <div class="q-item">10. How often must the H&amp;S program be formally reviewed? What triggers an off-cycle review?</div>
+          <div class="q-label" style="margin-top:16px">Answer Key</div>
+          <div class="q-item" style="color:#666;font-style:italic">Cover answers and write yours first.</div>
+          <div class="q-item"><strong>1.</strong> Policy; Roles &amp; Responsibilities; Hazard ID &amp; Control; Training &amp; Competency; Inspections; Incident Investigation; Emergency Response; Records &amp; Statistics; Program Review.</div>
+          <div class="q-item"><strong>2.</strong> Leading = proactive (e.g., FLHA completion rate). Lagging = reactive (e.g., lost-time injury rate).</div>
+          <div class="q-item"><strong>3.</strong> It demonstrates that the highest level of management is accountable — not just the safety department. Sets the culture tone and legal commitment.</div>
+          <div class="q-item"><strong>4.</strong> FLHA = field, before each shift, by the crew, 5–15 min, covers current conditions. JHA = detailed step-by-step, prepared in advance, used for high-hazard or new tasks, supervisor-led.</div>
+          <div class="q-item"><strong>5.</strong> Report to OHS within 48 hours for serious injuries, fatalities, or dangerous incidents. Preserve the scene. Do not disturb until authorized by OHS officer.</div>
+          <div class="q-item"><strong>6.</strong> Knows applicable OHS regulations; is experienced in the type of work; is qualified to supervise safely.</div>
+          <div class="q-item"><strong>7.</strong> Stop work near hazard. Barricade the area. Correct the hazard (install guardrail). Document in inspection log. Issue corrective action. Follow up to close out. Review why it was missing.</div>
+          <div class="q-item"><strong>8.</strong> Getting BETTER. More near-miss reports = stronger reporting culture = hazards caught before injuries. Flat TRIR alone would suggest complacency.</div>
+          <div class="q-item"><strong>9.</strong> Emergency procedures, worksite hazards and controls, worker rights, incident reporting, PPE requirements, site rules. Worker signs off on completion.</div>
+          <div class="q-item"><strong>10.</strong> At least annually. Triggered off-cycle by a serious injury/fatality, significant change to scope or site, audit finding, or regulatory change.</div>
+          <div style="background:#fef7d5;border-radius:10px;padding:12px;margin-top:14px;font-size:12px;color:#8b6000">
+            <strong>🔗 Exam Connection:</strong> Module 02 is heavily tested — expect questions on all nine program elements, the FLHA vs. JHA distinction, and the 48-hour reporting requirement. Scenario questions frequently ask you to identify which program element is failing when an incident occurs.
+          </div>
+        </div>
+
+        <div class="mod-card" style="--mc:#c9a800;--cl:#fef7d5">
+          <div class="mod-tag">Module 06</div>
+          <div class="mod-title">Hazard Identification Methods</div>
+          <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px">
+            <span style="background:#fff0f0;color:#c04040;font-size:11px;font-weight:800;padding:3px 10px;border-radius:20px">⏱ 15 min session</span>
+            <span style="background:#e3effa;color:#1a4f7a;font-size:11px;font-weight:700;padding:3px 10px;border-radius:20px">📖 Read → 🧠 Recall → ✏️ Apply</span>
+          </div>
+          <div class="mod-body">
+            <strong>Hazard vs. Risk — The Foundational Distinction</strong><br>
+            A <strong>hazard</strong> is anything with the potential to cause harm (e.g., an unguarded floor opening). A <strong>risk</strong> is the likelihood and severity of harm actually occurring from that hazard. Hazard identification finds hazards. Risk assessment evaluates them. You cannot control what you haven't identified.
+            <strong>Risk Matrix: Likelihood × Consequence = Risk Level</strong><br>
+            Rate likelihood (1–5: rare → almost certain) and consequence (1–5: negligible → catastrophic). Multiply them. High scores (15–25) require immediate controls. Medium (8–12) require planned controls. Low (1–6) = acceptable with monitoring. Always document your matrix ratings.
+            <strong>FLHA — Field-Level Hazard Assessment</strong><br>
+            <ul>
+              <li><strong>When</strong>: before each shift and whenever site conditions change (weather, new equipment, new crew, task change).</li>
+              <li><strong>Who</strong>: every worker who will perform the task. The crew — not just the supervisor — walks the work area, identifies hazards, and signs the FLHA form. All signatures are required before work begins.</li>
+              <li><strong>What to do mid-task</strong>: if a new hazard is identified (e.g., a gas line is unexpectedly hit), STOP WORK immediately, reassess the hazard, implement new controls, update the FLHA, re-sign, then resume. Never work around an unaddressed new hazard.</li>
+              <li><strong>Documentation</strong>: FLHAs must be retained on site and available for OHS officer review. They are legal documents and evidence of due diligence.</li>
+            </ul>
+            <strong>JHA — Job Hazard Analysis (Step-by-Step Process)</strong><br>
+            <ol style="margin:8px 0 0 16px;padding:0">
+              <li style="margin-bottom:4px">Select the job to analyze (high-hazard, new, or after an incident)</li>
+              <li style="margin-bottom:4px">Break the job into sequential steps (typically 6–15 steps)</li>
+              <li style="margin-bottom:4px">Identify hazards at each step — ask "what could go wrong here?"</li>
+              <li style="margin-bottom:4px">Apply the hierarchy of controls to each identified hazard</li>
+              <li style="margin-bottom:4px">Document and communicate the JHA to all workers on the task</li>
+              <li style="margin-bottom:4px">Review and update after any incident or change to the job</li>
+            </ol>
+            <strong>Five Hazard Identification Methods</strong><br>
+            <ul>
+              <li><strong>Formal inspections</strong>: scheduled walkthroughs using checklists. Unannounced inspections catch real conditions. Document every finding, assign corrective actions, and verify completion.</li>
+              <li><strong>FLHA</strong>: task-level, field-based, before each shift. (See above.)</li>
+              <li><strong>JHA/JSA</strong>: job-level, step-by-step, prepared in advance. (See above.)</li>
+              <li><strong>Near-miss reporting</strong>: a near miss is an unplanned event with NO injury but the potential for one. Heinrich's Triangle: for every fatality there are ~30 serious injuries, ~300 minor injuries, and ~3,000 near misses. Reporting near misses prevents future fatalities.</li>
+              <li><strong>Incident trend analysis</strong>: track types, times, locations, and trades of incidents over months. If 60% of hand injuries occur on Mondays during concrete forming, you have actionable intelligence. Target that crew, that task, that day.</li>
+            </ul>
+            <strong>Memory Aid: "FIJNT"</strong> — <em>FLHA, Inspections, JHA, Near-miss, Trend analysis</em>
+          </div>
+          <div class="vocab-row">
+            <span class="vocab-chip">FLHA</span><span class="vocab-chip">JHA/JSA</span><span class="vocab-chip">near miss</span><span class="vocab-chip">inspection</span><span class="vocab-chip">trend analysis</span><span class="vocab-chip">risk matrix</span><span class="vocab-chip">hazard vs. risk</span><span class="vocab-chip">Heinrich's Triangle</span>
+          </div>
+          <div class="q-label">Review Questions</div>
+          <div class="q-item">1. When must a FLHA be completed? Who completes it?</div>
+          <div class="q-item">2. How does a JHA differ from a FLHA?</div>
+          <div class="q-item">3. Why is near-miss reporting critical for a safety program?</div>
+          <div class="q-item">4. What is the difference between a hazard and a risk? Give a construction example of each.</div>
+          <div class="q-item">5. List the six steps of a JHA in order.</div>
+          <div style="background:#fef7d5;border-radius:10px;padding:12px;margin-top:14px;font-size:12px;color:#8b6000">
+            <strong>🔗 Exam Connection:</strong> Module 06 questions focus on WHEN and WHO for FLHAs, the step-by-step JHA process, and the hazard vs. risk distinction. Expect a scenario where you must identify the correct hazard identification method for a given situation, or describe what to do when a new hazard appears mid-task.
+          </div>
+        </div>
+
+        <div class="mod-card" style="--mc:#52c4a0;--cl:#e1f5ee">
+          <div class="mod-tag">Module 08</div>
+          <div class="mod-title">Hierarchy of Controls</div>
+          <div class="mod-body">
+            <strong>The Hierarchy — Most to Least Effective</strong><br>
+            Mnemonic: <em>"Every Safety Engineer Adores PPE"</em> (Elimination, Substitution, Engineering, Administrative, PPE). The higher up you go, the more permanent and reliable the protection — because it doesn't depend on human behaviour.
+            <ul>
+              <li><strong>1. Elimination</strong>: physically remove the hazard. Most effective. Examples: prefab at ground level; pre-cut lumber.</li>
+              <li><strong>2. Substitution</strong>: replace hazardous material/process with less hazardous one. E.g., water-based paint instead of solvent-based.</li>
+              <li><strong>3. Engineering Controls</strong>: physical barriers. E.g., guardrails, exhaust ventilation, machine guards. Passive — work even if worker forgets.</li>
+              <li><strong>4. Administrative Controls</strong>: change HOW work is done. E.g., permits, rotation schedules, training, signage. Depend on human compliance.</li>
+              <li><strong>5. PPE</strong>: last resort — worn by worker to reduce residual exposure after all other controls applied. Harness, hard hat, respirator, gloves.</li>
+            </ul>
+            <strong>Defence in Depth</strong>: apply multiple layers simultaneously for high-risk tasks — if one layer fails, the next catches the hazard.
+          </div>
+          <div class="vocab-row">
+            <span class="vocab-chip">elimination</span><span class="vocab-chip">substitution</span><span class="vocab-chip">engineering control</span><span class="vocab-chip">administrative control</span><span class="vocab-chip">PPE</span><span class="vocab-chip">defence in depth</span><span class="vocab-chip">residual risk</span>
+          </div>
+          <div style="background:#fef7d5;border-radius:10px;padding:12px;margin-top:14px;font-size:12px;color:#8b6000">
+            <strong>🔗 Exam Connection:</strong> The hierarchy of controls is one of the most tested topics in the NCSO exam. Expect questions asking you to rank controls, identify why a supervisor's response is inadequate (usually they jump to PPE), and apply the hierarchy to specific site scenarios. Always justify going lower in the hierarchy.
+          </div>
+        </div>
+
+        <div class="mod-card" style="--mc:#5b9bd5;--cl:#e3effa">
+          <div class="mod-tag">Module 15</div>
+          <div class="mod-title">WHMIS &amp; Safety Data Sheets (SDS)</div>
+          <div class="mod-body">
+            <strong>WHMIS 2015 — The Big Picture</strong><br>
+            WHMIS 2015 aligns Canada with the <strong>Globally Harmonized System (GHS)</strong>. Every hazardous product must have a compliant label and SDS. Workers must be trained before using any hazardous product.
+            <strong>The 6 Required Label Elements</strong><br>
+            <ol style="margin:8px 0 0 16px;padding:0">
+              <li style="margin-bottom:3px"><strong>Product identifier</strong></li>
+              <li style="margin-bottom:3px"><strong>Pictogram(s)</strong></li>
+              <li style="margin-bottom:3px"><strong>Signal word</strong> (DANGER or WARNING)</li>
+              <li style="margin-bottom:3px"><strong>Hazard statement(s)</strong></li>
+              <li style="margin-bottom:3px"><strong>Precautionary statement(s)</strong></li>
+              <li style="margin-bottom:3px"><strong>Supplier information</strong></li>
+            </ol>
+            <strong>All 9 WHMIS Pictograms</strong>: Flame, Flame over circle (oxidizer), Exploding bomb, Skull &amp; crossbones, Exclamation mark, Health hazard (torso), Corrosion, Gas cylinder, Environment.<br>
+            <strong>SDS Key Sections</strong>: Section 4 = First Aid; Section 6 = Spill response; Section 7 = Storage; Section 8 = PPE/Exposure controls; Section 14 = Transport.<br>
+            <strong>Memory shortcut</strong>: "4 helps you survive it, 6 cleans it up, 8 protects you from it, 14 moves it."
+          </div>
+          <div class="vocab-row">
+            <span class="vocab-chip">WHMIS 2015</span><span class="vocab-chip">GHS</span><span class="vocab-chip">SDS</span><span class="vocab-chip">pictogram</span><span class="vocab-chip">signal word</span><span class="vocab-chip">OEL</span><span class="vocab-chip">TLV</span>
+          </div>
+          <div style="background:#fef7d5;border-radius:10px;padding:12px;margin-top:14px;font-size:12px;color:#8b6000">
+            <strong>🔗 Exam Connection:</strong> Know all 6 label elements, which SDS sections answer which emergency questions (especially 4, 6, 8), and all 9 pictograms by name and hazard class.
+          </div>
+        </div>
+
+        <div class="mod-card" style="--mc:#9b7fd4;--cl:#ede8f9">
+          <div class="mod-tag">Module 10–12</div>
+          <div class="mod-title">Construction Hazards: Falls, Struck-By, Electrical, Confined Space</div>
+          <div class="mod-body">
+            <strong>The Fatal Four</strong>: Falls, Struck-By, Caught-In/Between, Electrocution — over 60% of construction fatalities.<br>
+            <strong>Falls</strong>: Fall protection mandatory at <strong>3 metres</strong>. Types: travel restraint, fall arrest (min. 22 kN anchor), safety nets, guardrails (top rail 1.07 m).<br>
+            <strong>LOTO (8 steps)</strong>: Notify → Identify energy → Normal shutdown → Isolate → Apply locks/tags → Release stored energy → Verify zero energy → Perform work. Re-energize in reverse. Never remove another worker's lock.<br>
+            <strong>Confined Space</strong>: Atmospheric testing order: (1) Oxygen (19.5–23%), (2) Flammable gas (&lt;10% LEL), (3) Toxic gases. Five permit-required CS entry requirements: entry permit, atmospheric testing, energy isolation, trained attendant, rescue plan.<br>
+            <strong>Electrical</strong>: Overhead power lines — minimum <strong>7 metres</strong> setback for up to 750V. Call Alberta 1-Call before digging. GFCIs on all temporary power.<br>
+            <strong>Soil Types</strong>: Type A (stiff clay, lowest risk), Type B (medium), Type C (granular, highest risk). Trenches deeper than 1.5 m require a safety system.
+          </div>
+          <div class="vocab-row">
+            <span class="vocab-chip">Fatal Four</span><span class="vocab-chip">fall arrest</span><span class="vocab-chip">LOTO</span><span class="vocab-chip">confined space</span><span class="vocab-chip">GFCI</span><span class="vocab-chip">Type A/B/C soil</span><span class="vocab-chip">hot work permit</span>
+          </div>
+          <div style="background:#fef7d5;border-radius:10px;padding:12px;margin-top:14px;font-size:12px;color:#8b6000">
+            <strong>🔗 Exam Connection:</strong> Expect detailed questions on LOTO steps, the atmospheric testing order for confined spaces, fall protection trigger heights, soil classification for excavations, and the overhead line setback distance.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PMP panel -->
+    <div id="res-pmp" class="res-panel" style="display:none">
+      <div class="study-wrap">
+        <div style="padding:4px 0 16px">
+          <div style="font-family:'Nunito',sans-serif;font-size:20px;font-weight:900;color:#1f2933">PMP Study Guide 📊</div>
+          <div style="font-size:13px;color:#888;margin-top:2px">Project Management Professional — PMI PMBOK 7th Edition + Agile Hybrid</div>
+        </div>
+
+        <div class="mod-card" style="--mc:#ff6b6b;--cl:#fff0f0">
+          <div class="mod-tag">Domain 1</div>
+          <div class="mod-title">People — Leading &amp; Managing Project Teams</div>
+          <div class="mod-body">
+            <strong>Tuckman's 5 Team Development Stages</strong>: Forming → Storming → Norming → Performing → Adjourning.<br>
+            <strong>Conflict Resolution (most to least preferred)</strong>: Collaborate/Problem-solve → Compromise → Accommodate → Avoid → Force.<br>
+            <strong>RACI Matrix</strong>: Responsible (does work), Accountable (owns outcome — ONE person only), Consulted (input), Informed (updates).<br>
+            <strong>Motivation Theories</strong>: Maslow's Hierarchy, Herzberg's Two-Factor (hygiene vs. motivators), McGregor's Theory X/Y, McClelland's Needs.<br>
+            <strong>Emotional Intelligence</strong>: self-awareness, self-regulation, motivation, empathy, social skills.<br>
+            <strong>Key principle</strong>: The PMP exam almost always prefers Collaborate over Force, coaching over discipline, and servant leadership over command-and-control.
+          </div>
+          <div class="vocab-row">
+            <span class="vocab-chip">servant leadership</span><span class="vocab-chip">Tuckman stages</span><span class="vocab-chip">conflict resolution</span><span class="vocab-chip">EI</span><span class="vocab-chip">Theory X/Y</span><span class="vocab-chip">RACI</span><span class="vocab-chip">Thomas-Kilmann</span>
+          </div>
+        </div>
+
+        <div class="mod-card" style="--mc:#f07060;--cl:#fdecea">
+          <div class="mod-tag">Domain 2</div>
+          <div class="mod-title">Process — Managing Project Work</div>
+          <div class="mod-body">
+            <strong>EVM Formulas (memorize all)</strong>:<br>
+            SV = EV − PV | CV = EV − AC | SPI = EV/PV | CPI = EV/AC<br>
+            EAC = BAC/CPI | ETC = EAC − AC | TCPI = (BAC−EV)/(BAC−AC) | VAC = BAC − EAC<br>
+            <em>Trick: "EV comes first in every formula."</em><br>
+            <strong>Critical Path</strong>: longest path = minimum project duration. Zero float on critical activities. Float = LS−ES.<br>
+            <strong>Crashing</strong> = add resources (costs more). <strong>Fast-tracking</strong> = overlap activities (more risk, no cost increase).<br>
+            <strong>PERT</strong>: E = (O + 4M + P) / 6<br>
+            <strong>Risk Responses (threats)</strong>: Avoid, Transfer, Mitigate, Accept. (Opportunities: Exploit, Share, Enhance, Accept.)
+          </div>
+          <div class="vocab-row">
+            <span class="vocab-chip">WBS</span><span class="vocab-chip">critical path</span><span class="vocab-chip">float</span><span class="vocab-chip">EVM</span><span class="vocab-chip">SPI/CPI</span><span class="vocab-chip">EAC/ETC/TCPI</span><span class="vocab-chip">risk register</span><span class="vocab-chip">PERT</span><span class="vocab-chip">crashing</span>
+          </div>
+        </div>
+
+        <div class="mod-card" style="--mc:#c9a800;--cl:#fef7d5">
+          <div class="mod-tag">Domain 3</div>
+          <div class="mod-title">Business Environment — Strategy &amp; Governance</div>
+          <div class="mod-body">
+            <strong>Org Structures</strong>: Functional (PM low authority) → Matrix (shared) → Projectized (PM full authority).<br>
+            <strong>PMO Types</strong>: Supportive (low control), Controlling (moderate), Directive (high control — manages PMs).<br>
+            <strong>Project Selection</strong>: NPV (higher = better, most reliable), ROI, Payback period, IRR.<br>
+            <strong>ADKAR</strong>: Awareness → Desire → Knowledge → Ability → Reinforcement.<br>
+            <strong>PMI Code of Ethics</strong>: Responsibility, Respect, Fairness, Honesty.<br>
+            <strong>EEF vs. OPA</strong>: EEF = external conditions you can't control (market, regulations). OPA = organizational assets you use (templates, lessons learned).
+          </div>
+          <div class="vocab-row">
+            <span class="vocab-chip">PMO</span><span class="vocab-chip">organizational structure</span><span class="vocab-chip">NPV/IRR</span><span class="vocab-chip">ADKAR</span><span class="vocab-chip">EEF</span><span class="vocab-chip">OPA</span><span class="vocab-chip">stage gate</span>
+          </div>
+        </div>
+
+        <div class="mod-card" style="--mc:#52c4a0;--cl:#e1f5ee">
+          <div class="mod-tag">Agile / Hybrid</div>
+          <div class="mod-title">Scrum, Kanban &amp; Hybrid Approaches</div>
+          <div class="mod-body">
+            <strong>Agile Manifesto 4 Values</strong>: Individuals &amp; interactions over processes; Working software over documentation; Customer collaboration over contract negotiation; Responding to change over following a plan.<br>
+            <strong>Scrum Roles</strong>: Product Owner (owns backlog), Scrum Master (servant leader, removes impediments), Development Team (self-organizing, 3–9).<br>
+            <strong>Sprint</strong>: 1–4 week time-box. Scope locked once started. Delivers potentially shippable increment.<br>
+            <strong>Key exam trap</strong>: NEVER add work mid-sprint — direct new requests to the Product Backlog.<br>
+            <strong>Kanban</strong>: WIP limits force finishing before starting. No fixed sprints.<br>
+            <strong>Definition of Done</strong>: team-wide quality checklist applied to ALL stories — prevents technical debt.
+          </div>
+          <div class="vocab-row">
+            <span class="vocab-chip">Scrum</span><span class="vocab-chip">Sprint</span><span class="vocab-chip">Product Owner</span><span class="vocab-chip">Scrum Master</span><span class="vocab-chip">Kanban</span><span class="vocab-chip">WIP limit</span><span class="vocab-chip">user story</span><span class="vocab-chip">Definition of Done</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Recovery panel -->
+    <div id="res-alateen" class="res-panel" style="display:none">
+      <iframe class="embed-frame" src="archive/alanon-4track.html" title="Recovery"></iframe>
+    </div>
+
+    <!-- Hustles panel -->
+    <div id="res-hustles" class="res-panel" style="display:none">
+      <iframe class="embed-frame" src="hustles.html" title="Hustles"></iframe>
+    </div>
+
+    <!-- Menu panel -->
+    <div id="res-menu" class="res-panel" style="display:none">
+      <iframe class="embed-frame" src="menu.html" title="Weekly Menu"></iframe>
+    </div>
+
+    <!-- Bills panel -->
+    <div id="res-bills" class="res-panel" style="display:none">
+      <iframe class="embed-frame" src="money.html" title="Money"></iframe>
+    </div>
+  </div>
 </div>
 
 <div class="toast-wrap" id="toasts"></div>
 
 <script>
-document.getElementById('hero-date').textContent = new Date().toLocaleDateString('en-CA', { month: 'long', day: 'numeric', year: 'numeric' });
+// Hero date
+document.getElementById('hero-date').textContent = new Date().toLocaleDateString('en-CA', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' });
 
-function showTab(name) {
-  document.querySelectorAll('.hub-tab').forEach(t => t.classList.toggle('active', t.dataset.tab === name));
-  document.querySelectorAll('.hub-panel').forEach(p => p.classList.toggle('active', p.id === 'tab-' + name));
+// Overlay helpers
+function openResource(tab) {
+  document.getElementById('resource-overlay').style.display = 'flex';
+  document.querySelectorAll('.res-panel').forEach(p => p.style.display = 'none');
+  document.getElementById('res-' + tab).style.display = 'block';
+}
+function closeResource() {
+  document.getElementById('resource-overlay').style.display = 'none';
 }
 
-/* ── Bills Summary ── */
+/* ── Bills data ── */
 const BILLS = [
-  { name:'Rent',           amount:1650, due:'2026-06-01', cat:'Housing',   status:'overdue'  },
-  { name:'Phone (Family)', amount: 185, due:'2026-06-10', cat:'Utilities', status:'overdue'  },
-  { name:'Internet',       amount:  85, due:'2026-06-15', cat:'Utilities', status:'due-soon' },
-  { name:'Car Insurance',  amount: 245, due:'2026-06-20', cat:'Insurance', status:'upcoming' },
-  { name:'Storage Unit',   amount:  95, due:'2026-06-25', cat:'Housing',   status:'upcoming' },
-  { name:'Amazon Prime',   amount:  12, due:'2026-06-28', cat:'Subscriptions', status:'upcoming' },
+  { name:'Rent',           amount:1650, due:'2026-06-01', cat:'Housing',      status:'overdue'  },
+  { name:'Phone (Family)', amount: 185, due:'2026-06-10', cat:'Utilities',    status:'overdue'  },
+  { name:'Internet',       amount:  85, due:'2026-06-15', cat:'Utilities',    status:'due-soon' },
+  { name:'Car Insurance',  amount: 245, due:'2026-06-20', cat:'Insurance',    status:'upcoming' },
+  { name:'Storage Unit',   amount:  95, due:'2026-06-25', cat:'Housing',      status:'upcoming' },
+  { name:'Amazon Prime',   amount:  12, due:'2026-06-28', cat:'Subscriptions',status:'upcoming' },
 ];
 
-function renderBills() {
-  const today = new Date().toISOString().slice(0,10);
-  const sorted = BILLS.slice().sort((a,b) => a.due.localeCompare(b.due));
-  const total = sorted.reduce((s,b) => s + b.amount, 0);
-  document.getElementById('bills-summary').innerHTML = `
-    <div style="background:white;border-radius:12px;padding:14px 16px;margin-bottom:12px;box-shadow:0 2px 8px rgba(0,0,0,.06);display:flex;gap:16px;flex-wrap:wrap">
-      <div><div style="font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:1px;color:#888">Total Outstanding</div><div style="font-family:'Nunito',sans-serif;font-size:24px;font-weight:900;color:#1f2933">$${total.toFixed(2)}</div></div>
-      <div><div style="font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:1px;color:#888">Overdue</div><div style="font-family:'Nunito',sans-serif;font-size:24px;font-weight:900;color:#f07060">$${BILLS.filter(b=>b.status==='overdue').reduce((s,b)=>s+b.amount,0).toFixed(2)}</div></div>
-      <div><div style="font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:1px;color:#888">Due This Week</div><div style="font-family:'Nunito',sans-serif;font-size:24px;font-weight:900;color:#c9a800">$${BILLS.filter(b=>b.status==='due-soon').reduce((s,b)=>s+b.amount,0).toFixed(2)}</div></div>
-    </div>
-    ${sorted.map(b=>`
-      <div class="bill-card ${b.status}">
-        <div class="bill-amount">$${b.amount}</div>
-        <div class="bill-meta">
-          <div class="bill-name">${b.name}</div>
-          <div class="bill-detail">Due ${b.due} · ${b.cat}</div>
-        </div>
-        <span class="bill-badge badge-${b.status==='overdue'?'overdue':b.status==='due-soon'?'soon':'upcoming'}">${b.status==='overdue'?'⚠️ Overdue':b.status==='due-soon'?'⏰ Due soon':'✓ Upcoming'}</span>
-      </div>`).join('')}`;
+/* ── Dashboard Bills widget ── */
+function renderDashBills() {
+  const el = document.getElementById('dash-bills');
+  const top = BILLS.slice(0, 5);
+  el.innerHTML = top.map(b => `
+    <div style="display:flex;justify-content:space-between;align-items:center;padding:6px 0;border-bottom:1px solid var(--border);font-size:0.82rem">
+      <span style="font-weight:700">${b.name}</span>
+      <span style="color:var(--accent);font-weight:800">$${b.amount}</span>
+    </div>`).join('') +
+    `<div style="text-align:right;margin-top:8px"><a href="money.html" target="_blank" style="font-size:0.75rem;color:var(--muted)">Full log →</a></div>`;
+
+  // Update stat card
+  const dueSoon = BILLS.filter(b => b.status === 'overdue' || b.status === 'due-soon').length;
+  document.getElementById('stat-bills').textContent = dueSoon;
 }
 
-renderBills();
-
-/* ── Tasks ── */
+/* ── Tasks data ── */
 const TASKS_DATA = [
-  { id:6,  title:"Dentist Appointments",   category:"Admin",       estTime:"",      desc:"Book annual checkup appointments for Oliver and Logan before school ends June 27.", dateAssigned:"2026-06-04" },
-  { id:19, title:"NCSO 02 — Health & Safety Program Basics", category:"NCSO Study", estTime:"15 min", desc:"Name the core pieces of a construction H&S program: policy, roles, hazard control, training, inspections, investigations, emergency response, records, review.", dateAssigned:"2026-06-04" },
-  { id:23, title:"NCSO 06 — Hazard Identification Methods",  category:"NCSO Study", estTime:"15 min", desc:"Compare formal inspections, FLHA/JHA, worker observations, incident trends, and pre-job planning as ways to find hazards before work starts.", dateAssigned:"2026-06-04" },
-  { id:25, title:"NCSO 08 — Hierarchy of Controls",         category:"NCSO Study", estTime:"15 min", desc:"Put controls in order: elimination, substitution, engineering, administrative, PPE. Give one example for falls, silica/dust, and moving equipment.", dateAssigned:"2026-06-04" },
-  { id:32, title:"NCSO 15 — WHMIS and SDS",                 category:"NCSO Study", estTime:"15 min", desc:"Review WHMIS pictograms, labels, and SDS sections. Pick one product and find hazards, PPE, first aid, storage, and spill response.", dateAssigned:"2026-06-04" },
+  { id:6,  title:"Dentist Appointments",   category:"Admin",       estTime:"",       desc:"Book annual checkup appointments for Oliver and Logan before school ends June 27.", dateAssigned:"2026-06-04" },
+  { id:19, title:"NCSO 02 — H&S Program",  category:"NCSO Study",  estTime:"15 min", desc:"Name the core pieces of a construction H&S program.", dateAssigned:"2026-06-04" },
+  { id:23, title:"NCSO 06 — Hazard ID",    category:"NCSO Study",  estTime:"15 min", desc:"Compare formal inspections, FLHA/JHA, worker observations, incident trends.", dateAssigned:"2026-06-04" },
+  { id:25, title:"NCSO 08 — Controls",     category:"NCSO Study",  estTime:"15 min", desc:"Put controls in order: elimination, substitution, engineering, administrative, PPE.", dateAssigned:"2026-06-04" },
+  { id:32, title:"NCSO 15 — WHMIS",        category:"NCSO Study",  estTime:"15 min", desc:"Review WHMIS pictograms, labels, and SDS sections.", dateAssigned:"2026-06-04" },
 ];
 
-const KEY = 'sf_mom_tasks_2026-06-04';
+const TASK_KEY = 'sf_mom_tasks_2026-06-04';
 let done = {};
-try { done = JSON.parse(localStorage.getItem(KEY)||'{}'); } catch(e){}
-function save() { localStorage.setItem(KEY, JSON.stringify(done)); }
+try { done = JSON.parse(localStorage.getItem(TASK_KEY) || '{}'); } catch(e) {}
+function saveTasks() { localStorage.setItem(TASK_KEY, JSON.stringify(done)); }
 
-function updateProgress(){
-  const n=Object.keys(done).length, pct=Math.round(n/TASKS_DATA.length*100);
-  document.getElementById('prog-text').textContent=`${n} of ${TASKS_DATA.length} done`;
-  document.getElementById('prog-pct').textContent=pct+'%';
-  document.getElementById('prog-fill').style.width=pct+'%';
-  document.getElementById('hero-badge').textContent=`🧑‍💼 ${TASKS_DATA.length} tasks assigned`;
-}
-
-function render(){
-  document.getElementById('taskList').innerHTML=TASKS_DATA.map((t,i)=>{
-    const isDone=!!done[t.id];
-    return `<div class="task-card${isDone?' done':''}" style="animation-delay:${i*.06}s">
-      <div class="task-top"><div class="task-title">${t.title}</div></div>
-      <div class="task-tags">
-        <span class="tag tag-cat">📌 ${t.category}</span>
-        ${t.estTime?`<span class="tag tag-time">⏱ ${t.estTime}</span>`:''}
-        <span class="tag ${isDone?'tag-done':'tag-open'}">${isDone?'✓ Done':'○ Open'}</span>
-      </div>
-      <div class="task-desc">${t.desc}</div>
-      <div class="task-foot">
-        <span class="date-hint">📅 Assigned ${t.dateAssigned}</span>
-        <button class="complete-btn${isDone?' done-btn':''}" onclick="${isDone?'':`complete(${t.id})`}">
-          ${isDone?'✓ Done':'+ Complete'}
-        </button>
-      </div>
+/* ── Dashboard Tasks widget ── */
+function renderDashTasks() {
+  const el = document.getElementById('dash-tasks');
+  el.innerHTML = TASKS_DATA.map(t => {
+    const isDone = !!done[t.id];
+    return `<div class="dash-task-item" style="${isDone ? 'opacity:0.5;text-decoration:line-through' : ''}">
+      <div class="dash-task-name">${t.title}</div>
+      <div class="dash-task-cat">${t.category}</div>
     </div>`;
   }).join('');
-  updateProgress();
+
+  const pending = TASKS_DATA.filter(t => !done[t.id]).length;
+  document.getElementById('stat-tasks').textContent = pending;
 }
 
-function complete(id){ done[id]=true; save(); render(); toast('🎉 Task complete! Great work, Mom!'); }
-function toast(msg){ const el=document.createElement('div'); el.className='toast'; el.textContent=msg; document.getElementById('toasts').appendChild(el); setTimeout(()=>el.remove(),3000); }
+/* ── Quotes fetch ── */
+function loadDashQuotes() {
+  const QUOTES_SHEET = '1VVWZBG3fXLWBFCnRDLo76kUQrNyPcBBdY6mCiiwJr50';
+  const url = `https://docs.google.com/spreadsheets/d/${QUOTES_SHEET}/export?format=csv&gid=0`;
+  fetch(url, { cache: 'no-store' })
+    .then(r => r.text())
+    .then(txt => {
+      const rows = txt.trim().split('\n').slice(1).map(l => {
+        const out = []; let i = 0;
+        while (i < l.length) {
+          if (l[i] === '"') { let c = ''; i++; while (i < l.length) { if (l[i] === '"' && l[i+1] === '"') { c += '"'; i += 2; } else if (l[i] === '"') { i++; break; } else c += l[i++]; } out.push(c.trim()); if (l[i] === ',') i++; }
+          else { let c = ''; while (i < l.length && l[i] !== ',') c += l[i++]; out.push(c.trim()); if (l[i] === ',') i++; }
+        }
+        return out;
+      }).filter(r => r.some(c => c));
+      const quotes = rows.slice(0, 3);
+      const el = document.getElementById('dash-quotes');
+      if (!quotes.length) { el.innerHTML = '<div style="color:var(--muted);font-size:0.82rem">No quotes today.</div>'; return; }
+      el.innerHTML = quotes.map(r => {
+        const source = r[0] || '';
+        const text = r[1] || r[2] || '';
+        return `<div style="background:var(--card);border:1px solid var(--border);border-radius:14px;padding:14px;min-width:220px;max-width:260px;flex-shrink:0;font-size:0.82rem;line-height:1.6">
+          <div style="font-weight:800;color:var(--accent);font-size:0.72rem;margin-bottom:6px;text-transform:uppercase;letter-spacing:0.5px">${source}</div>
+          <div>${text}</div>
+        </div>`;
+      }).join('');
+    })
+    .catch(() => {
+      document.getElementById('dash-quotes').innerHTML = '<div style="color:var(--muted);font-size:0.82rem">Quotes unavailable.</div>';
+    });
+}
 
-render();
+function toast(msg) {
+  const el = document.createElement('div'); el.className = 'toast'; el.textContent = msg;
+  document.getElementById('toasts').appendChild(el); setTimeout(() => el.remove(), 3000);
+}
+
+// Init
+renderDashBills();
+renderDashTasks();
+loadDashQuotes();
 </script>
 
 <script>
-/* ── Mom: Calendar + Leaderboard via Apps Script ── */
+/* ── Apps Script / Leaderboard (preserved) ── */
 const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxrNaM1VxinXBWPJcd5zskwl00prHu7zASZF8uhzDnZXfH70LezRfbb4-qNJLnr7_0Z/exec';
 const TODAY = new Date().toISOString().slice(0,10);
-const HOUR  = new Date().getHours() + new Date().getMinutes()/60;
 
 function esc(s){ return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
 
-/* ── Calendar ── */
-async function loadMomCalendar(){
-  try{
-    const r = await fetch(APPS_SCRIPT_URL+'?tab=calendar&person=mom&date='+TODAY, {cache:'no-store'});
-    const data = await r.json();
-    if(data.ok && data.events) renderMomCalendar(data.events);
-  }catch(e){}
-}
-
-function renderMomCalendar(events){
-  const el = document.getElementById('mom-cal-events');
-  if(!el||!events.length)return;
-  el.innerHTML = events.map(ev=>`
-    <div class="cal-event">
-      <div class="cal-event-time">${esc(ev.start)}–${esc(ev.end)}</div>
-      <div class="cal-event-body">
-        <div class="cal-event-title">📅 ${esc(ev.summary)}</div>
-        ${ev.location?`<div class="cal-event-loc">📍 ${esc(ev.location)}</div>`:''}
-        ${ev.description?`<div class="cal-event-note">${esc(ev.description)}</div>`:''}
-      </div>
-    </div>`).join('');
-}
-
-/* ── Leaderboard ── */
 async function loadMomLeaderboard(){
-  // Fetch points from Tasks sheet directly
   try{
     const url = 'https://docs.google.com/spreadsheets/d/1GZv91Npf9i0y6AtCQcjYUyiYrDq3aqQ3zSNE2QGAxfE/export?format=csv&gid=0';
     const r = await fetch(url, {cache:'no-store'});
@@ -1078,35 +692,16 @@ async function loadMomLeaderboard(){
     let totalPts=0;
     rows.slice(1).forEach(r=>{
       const resp=(r[iResp]||'').trim();
-      const done=YES.has((r[iDone]||'').toLowerCase().trim());
+      const isDone=YES.has((r[iDone]||'').toLowerCase().trim());
       const comp=(r[iComp]||'').trim();
       const pts=Number(r[iPts]||0);
-      if(resp==='Mom'&&(done||(comp&&/\d{4}/.test(comp)))) totalPts+=pts;
+      if(resp==='Mom'&&(isDone||(comp&&/\d{4}/.test(comp)))) totalPts+=pts;
     });
-    renderMomLeaderboard(totalPts);
-  }catch(e){ renderMomLeaderboard(0); }
+    // Update streak stat with points
+    if (totalPts > 0) document.getElementById('stat-streak').textContent = totalPts + ' pts';
+  }catch(e){}
 }
 
-function renderMomLeaderboard(totalPts){
-  const el = document.getElementById('mom-leaderboard'); if(!el) return;
-  const badges = (() => {
-    try{ const e=JSON.parse(localStorage.getItem('sf_badges_mom')||'[]'); return Array.isArray(e)?e.length:0; }catch(e){return 0;}
-  })();
-  el.innerHTML = `
-    <div class="lb-row lb-you-mom">
-      <div class="lb-rank" style="font-size:24px">👩</div>
-      <div class="lb-info">
-        <div class="lb-name">Mom</div>
-        <div class="lb-meta">${badges} badge${badges!==1?'s':''} earned</div>
-      </div>
-      <div>
-        <div class="lb-pts">${totalPts.toLocaleString()} pts</div>
-        <div class="lb-badges" style="font-size:10px;color:var(--muted);text-align:right">all time</div>
-      </div>
-    </div>`;
-}
-
-loadMomCalendar();
 loadMomLeaderboard();
 </script>
 

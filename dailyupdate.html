@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Daily Update – June 16, 2026</title>
+<title>Daily Update – June 17, 2026</title>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
 <style>
@@ -12,10 +12,6 @@
   h2.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; }
   .page-title { font-size: 18px; font-weight: 500; color: #1a1a18; margin-bottom: 1.5rem; }
   .page-title span { font-size: 14px; font-weight: 400; color: #5f5e5a; margin-left: 8px; }
-  .cat-work { color: #185FA5; }
-  .cat-task { color: #854F0B; }
-  .cat-family { color: #993556; }
-  .cat-errand { color: #0F6E56; }
   .dot { width: 9px; height: 9px; border-radius: 50%; display: inline-block; flex-shrink: 0; margin-top: 4px; }
   .dot-work { background: #378ADD; }
   .dot-task { background: #BA7517; }
@@ -28,30 +24,41 @@
   .pill-errand { background: #E1F5EE; color: #0F6E56; }
   .row { display: flex; gap: 10px; align-items: flex-start; padding: 9px 0; border-bottom: 0.5px solid rgba(0,0,0,0.12); }
   .row:last-child { border-bottom: none; }
-  .time-label { font-size: 12px; color: #5f5e5a; min-width: 54px; padding-top: 3px; }
-  .ev-title { font-size: 14px; color: #1a1a18; font-weight: 500; }
+  .time-label { font-size: 12px; color: #5f5e5a; min-width: 54px; padding-top: 2px; }
+  .ev-title { font-size: 14px; font-weight: 500; line-height: 1.3; }
   .ev-sub { font-size: 12px; color: #5f5e5a; margin-top: 2px; }
+  .metric-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 10px; margin-bottom: 1.5rem; }
   .metric-card { background: #eceae3; border-radius: 8px; padding: 14px 16px; }
-  .metric-label { font-size: 12px; color: #5f5e5a; margin-bottom: 4px; }
-  .metric-val { font-size: 22px; font-weight: 500; color: #1a1a18; }
+  .metric-label { font-size: 11px; color: #5f5e5a; display: flex; align-items: center; gap: 5px; margin-bottom: 6px; }
+  .metric-val { font-size: 26px; font-weight: 600; }
   .section-head { font-size: 12px; font-weight: 500; color: #5f5e5a; text-transform: uppercase; letter-spacing: 0.04em; margin: 0 0 10px; }
-  .email-row { display: flex; align-items: flex-start; gap: 10px; padding: 8px 0; border-bottom: 0.5px solid rgba(0,0,0,0.12); }
-  .email-row:last-child { border-bottom: none; }
   .card { background: #fff; border-radius: 12px; border: 0.5px solid rgba(0,0,0,0.12); padding: 1rem 1.25rem; }
-  @media (max-width: 600px) {
+  .reminder-row { display: flex; gap: 8px; align-items: baseline; padding: 6px 0; border-bottom: 0.5px solid rgba(0,0,0,0.08); font-size: 13px; }
+  .reminder-row:last-child { border-bottom: none; }
+  .r-time { font-size: 11px; color: #5f5e5a; min-width: 54px; }
+  .r-tag { font-size: 10px; padding: 1px 6px; border-radius: 10px; font-weight: 600; background: #eceae3; color: #5f5e5a; flex-shrink: 0; }
+  .r-tag.work { background: #E6F1FB; color: #185FA5; }
+  .r-tag.house { background: #E8F5E9; color: #2E7D32; }
+  .r-tag.finance { background: #FFF3E0; color: #E65100; }
+  .r-tag.chore { background: #FCE4EC; color: #880E4F; }
+  canvas { max-width: 100%; }
+  @media (max-width: 640px) {
+    .metric-grid { grid-template-columns: repeat(2,1fr); }
     .main-grid { grid-template-columns: 1fr !important; }
   }
 </style>
 </head>
 <body>
-<h2 class="sr-only">Daily dashboard for Tuesday June 16, 2026 — 10 calendar events, 2 inbox emails, 0 unread.</h2>
-<p class="page-title">Daily update <span>Tuesday, June 16 2026</span></p>
 
-<div style="display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin-bottom:1.5rem;">
-  <div class="metric-card"><div class="metric-label"><i class="ti ti-calendar" aria-hidden="true"></i> Meetings</div><div class="metric-val">2</div></div>
-  <div class="metric-card"><div class="metric-label"><i class="ti ti-check" aria-hidden="true"></i> Tasks</div><div class="metric-val">4</div></div>
-  <div class="metric-card"><div class="metric-label"><i class="ti ti-mail" aria-hidden="true"></i> Unread</div><div class="metric-val">0</div></div>
-  <div class="metric-card"><div class="metric-label"><i class="ti ti-heart" aria-hidden="true"></i> Family blocks</div><div class="metric-val">3</div></div>
+<h2 class="sr-only">Daily dashboard for Wednesday June 17, 2026 — 9 calendar events, 8 reminders due.</h2>
+
+<div class="page-title">Wednesday, June 17 <span>Your day at a glance</span></div>
+
+<div class="metric-grid">
+  <div class="metric-card"><div class="metric-label"><i class="ti ti-calendar" aria-hidden="true"></i> Events</div><div class="metric-val">9</div></div>
+  <div class="metric-card"><div class="metric-label"><i class="ti ti-check" aria-hidden="true"></i> Tasks due</div><div class="metric-val">8</div></div>
+  <div class="metric-card"><div class="metric-label"><i class="ti ti-users" aria-hidden="true"></i> Family blocks</div><div class="metric-val">4</div></div>
+  <div class="metric-card"><div class="metric-label"><i class="ti ti-book" aria-hidden="true"></i> NCSO study</div><div class="metric-val">2</div></div>
 </div>
 
 <div class="main-grid" style="display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);gap:1.5rem;">
@@ -59,64 +66,81 @@
   <div class="card">
     <p class="section-head">Timeline</p>
     <div>
-      <div class="row"><span class="time-label">8:15 AM</span><span class="dot dot-task"></span><div><div class="ev-title">NCSO 05 – Worker rights <span class="pill pill-task">Task</span></div><div class="ev-sub">15 min · Rights to know, participate, refuse unsafe work</div></div></div>
-      <div class="row"><span class="time-label">8:30 AM</span><span class="dot dot-task"></span><div><div class="ev-title">YouTube video on Claude <span class="pill pill-task">Task</span></div><div class="ev-sub">45 min</div></div></div>
-      <div class="row"><span class="time-label">9:15 AM</span><span class="dot dot-task"></span><div><div class="ev-title">Bible Study 02 – Who God Says You Are <span class="pill pill-task">Task</span></div><div class="ev-sub">15 min · Ephesians 2:10 &amp; 1 Peter 2:9</div></div></div>
-      <div class="row"><span class="time-label">11:30 AM</span><span class="dot dot-errand"></span><div><div class="ev-title">Finger bone gloves <span class="pill pill-errand">Errand</span></div><div class="ev-sub">2 hrs · Laser engraving on bike gloves</div></div></div>
-      <div class="row"><span class="time-label">2:00 PM</span><span class="dot dot-work"></span><div><div class="ev-title">Construction TMs <span class="pill pill-work">Work</span></div><div class="ev-sub">2 hrs · Build task models for construction</div></div></div>
-      <div class="row"><span class="time-label">4:30 PM</span><span class="dot dot-family"></span><div><div class="ev-title">Cooking / dinner <span class="pill pill-family">Family</span></div><div class="ev-sub">1.5 hrs · Sheet Pan Sausage, Potatoes &amp; Veg</div></div></div>
-      <div class="row"><span class="time-label">6:00 PM</span><span class="dot dot-family"></span><div><div class="ev-title">1:1 with Logan <span class="pill pill-family">Family</span></div><div class="ev-sub">30 min</div></div></div>
-      <div class="row"><span class="time-label">6:30 PM</span><span class="dot dot-family"></span><div><div class="ev-title">Moms reset <span class="pill pill-family">Family</span></div><div class="ev-sub">30 min</div></div></div>
-      <div class="row"><span class="time-label">7:00 PM</span><span class="dot dot-family"></span><div><div class="ev-title">1:1 Time with Oliver <span class="pill pill-family">Family</span></div><div class="ev-sub">30 min</div></div></div>
-      <div class="row"><span class="time-label">7:30 PM</span><span class="dot dot-errand"></span><div><div class="ev-title">Decompress <span class="pill pill-errand">Errand</span></div><div class="ev-sub">15 min · Protected by Reclaim</div></div></div>
+      <div class="row"><span class="time-label">8:00 AM</span><span class="dot dot-work"></span><div><div class="ev-title">&#127959; DPR schedule update from Jason <span class="pill pill-work">Work</span></div><div class="ev-sub">Alarm · Update project log · PO ~$278K expected</div></div></div>
+      <div class="row"><span class="time-label">11:00 AM</span><span class="dot dot-errand"></span><div><div class="ev-title">#Snow: Bathrooms + Yard work <span class="pill pill-errand">House</span></div><div class="ev-sub">Reminder alarms due · FlyLady zones</div></div></div>
+      <div class="row"><span class="time-label">12:45 PM</span><span class="dot dot-task"></span><div><div class="ev-title">&#128222; Call mortgage guy <span class="pill pill-task">Task</span></div><div class="ev-sub">Reminder alarm · Kanban board</div></div></div>
+      <div class="row"><span class="time-label">1:30 PM</span><span class="dot dot-task"></span><div><div class="ev-title">NCSO 05 &#8211; Worker rights &amp; responsibilities <span class="pill pill-task">Study</span></div><div class="ev-sub">15 min · Rights to know, participate, refuse unsafe work</div></div></div>
+      <div class="row"><span class="time-label">1:45 PM</span><span class="dot dot-task"></span><div><div class="ev-title">&#128218; NCSO 06 &#8211; Hazard identification methods <span class="pill pill-task">Study</span></div><div class="ev-sub">1 hr · FLHA/JHA, formal inspections, pre-job planning</div></div></div>
+      <div class="row"><span class="time-label">2:45 PM</span><span class="dot dot-task"></span><div><div class="ev-title">YouTube video on Claude <span class="pill pill-task">Task</span></div><div class="ev-sub">45 min</div></div></div>
+      <div class="row"><span class="time-label">4:00 PM</span><span class="dot dot-task"></span><div><div class="ev-title">Bible Study 02 &#8211; Who God Says You Are <span class="pill pill-task">Faith</span></div><div class="ev-sub">15 min · Ephesians 2:10 &amp; 1 Peter 2:9</div></div></div>
+      <div class="row"><span class="time-label">4:30 PM</span><span class="dot dot-errand"></span><div><div class="ev-title">Oliver: Tidy Living Room <span class="pill pill-errand">Chore</span></div><div class="ev-sub">Oliver reminder alarm</div></div></div>
+      <div class="row"><span class="time-label">4:30 PM</span><span class="dot dot-family"></span><div><div class="ev-title">Cooking / Dinner <span class="pill pill-family">Family</span></div><div class="ev-sub">1.5 hrs · recurring</div></div></div>
+      <div class="row"><span class="time-label">6:00 PM</span><span class="dot dot-family"></span><div><div class="ev-title">1:1 with Logan <span class="pill pill-family">Family</span></div><div class="ev-sub">30 min · Google Meet</div></div></div>
+      <div class="row"><span class="time-label">6:30 PM</span><span class="dot dot-family"></span><div><div class="ev-title">Mom&#8217;s Reset <span class="pill pill-family">Family</span></div><div class="ev-sub">30 min · recurring</div></div></div>
+      <div class="row"><span class="time-label">7:00 PM</span><span class="dot dot-family"></span><div><div class="ev-title">1:1 Time with Oliver <span class="pill pill-family">Family</span></div><div class="ev-sub">30 min · Google Meet</div></div></div>
+      <div class="row"><span class="time-label">7:00 PM</span><span class="dot dot-errand"></span><div><div class="ev-title">#Snow: Garbages <span class="pill pill-errand">House</span></div><div class="ev-sub">Reminder alarm · weekly</div></div></div>
+      <div class="row"><span class="time-label">7:30 PM</span><span class="dot dot-errand"></span><div><div class="ev-title">&#128526; Decompress <span class="pill pill-errand">Rest</span></div><div class="ev-sub">15 min · Reclaim protected</div></div></div>
     </div>
   </div>
 
   <div style="display:flex;flex-direction:column;gap:1.5rem;">
+
     <div class="card">
       <p class="section-head">Time breakdown</p>
-      <div style="position:relative;height:160px;">
-        <canvas id="timeChart" role="img" aria-label="Horizontal bar chart: Work 2h, Tasks 1.25h, Family 2.5h, Errand 2.25h">Work 2h, Tasks 1.25h, Family 2.5h, Errand 2.25h</canvas>
-      </div>
-      <div style="display:flex;flex-wrap:wrap;gap:12px;margin-top:10px;font-size:12px;color:#5f5e5a;">
-        <span style="display:flex;align-items:center;gap:4px;"><span style="width:10px;height:10px;border-radius:2px;background:#378ADD;"></span>Work 2h</span>
-        <span style="display:flex;align-items:center;gap:4px;"><span style="width:10px;height:10px;border-radius:2px;background:#BA7517;"></span>Tasks 1.25h</span>
-        <span style="display:flex;align-items:center;gap:4px;"><span style="width:10px;height:10px;border-radius:2px;background:#D4537E;"></span>Family 2.5h</span>
-        <span style="display:flex;align-items:center;gap:4px;"><span style="width:10px;height:10px;border-radius:2px;background:#1D9E75;"></span>Errand 2.25h</span>
-      </div>
+      <canvas id="donut" height="170"></canvas>
     </div>
 
     <div class="card">
-      <p class="section-head">Inbox</p>
-      <div class="email-row">
-        <span style="font-size:10px;color:#5f5e5a;min-width:28px;padding-top:2px;">Sun</span>
-        <div><div style="font-size:13px;font-weight:500;">Pinecone Research</div><div style="font-size:12px;color:#5f5e5a;">Action Required: New Mobile App</div></div>
-      </div>
-      <div class="email-row">
-        <span style="font-size:10px;color:#5f5e5a;min-width:28px;padding-top:2px;">Sun</span>
-        <div><div style="font-size:13px;font-weight:500;">Western FG</div><div style="font-size:12px;color:#5f5e5a;">Premium Financing Terms update</div></div>
-      </div>
+      <p class="section-head">Reminders due today</p>
+      <div class="reminder-row"><span class="r-time">8:00 AM</span><span class="r-tag work">Work</span><span>DPR schedule update from Jason</span></div>
+      <div class="reminder-row"><span class="r-time">11:00 AM</span><span class="r-tag house">House</span><span>Bathrooms</span></div>
+      <div class="reminder-row"><span class="r-time">11:00 AM</span><span class="r-tag house">House</span><span>Yard work</span></div>
+      <div class="reminder-row"><span class="r-time">12:45 PM</span><span class="r-tag work">Work</span><span>Call mortgage guy</span></div>
+      <div class="reminder-row"><span class="r-time">4:30 PM</span><span class="r-tag chore">Chore</span><span>Oliver: Tidy Living Room</span></div>
+      <div class="reminder-row"><span class="r-time">7:00 PM</span><span class="r-tag house">House</span><span>Garbages</span></div>
+      <div class="reminder-row"><span class="r-time">All day</span><span class="r-tag">Kanban</span><span>Find leather switching thread</span></div>
+      <div class="reminder-row"><span class="r-time">All day</span><span class="r-tag">Kanban</span><span>Metal clipboard</span></div>
     </div>
-  </div>
 
+    <div class="card">
+      <p class="section-head">On the radar</p>
+      <div class="reminder-row"><span class="r-time">Jun 18</span><span class="r-tag finance">$</span><span>Blue Cross $415 due</span></div>
+      <div class="reminder-row"><span class="r-time">Jun 18</span><span class="r-tag house">House</span><span>Floors · UFA weed killer · Woolfolk doc rep update</span></div>
+      <div class="reminder-row"><span class="r-time">Jun 18</span><span class="r-tag">Order</span><span>Furnace filter · Dryer balls · Sausage · Freezer bags</span></div>
+      <div class="reminder-row"><span class="r-time">Jun 18</span><span class="r-tag">Misc</span><span>AppleCare kids' phones · Replace toothbrush</span></div>
+      <div class="reminder-row"><span class="r-time">Jun 19</span><span class="r-tag chore">Chore</span><span>Logan: Sweep · Spot Cleaning/Dusting</span></div>
+      <div class="reminder-row"><span class="r-time">Jun 19</span><span class="r-tag house">House</span><span>Kitchen · Pick up kids meds from school</span></div>
+      <div class="reminder-row"><span class="r-time">Jun 25</span><span class="r-tag finance">$</span><span>Apple $45 · AMA Jon $161 · Shelves for Oliver</span></div>
+      <div class="reminder-row"><span class="r-time">Jun 29</span><span class="r-tag work">Work</span><span>SECOR audit due</span></div>
+      <div class="reminder-row"><span class="r-time">Jul 2</span><span class="r-tag work">Work</span><span>Book NCSO exam · File nil payroll remittance</span></div>
+    </div>
+
+  </div>
 </div>
 
 <script>
-new Chart(document.getElementById('timeChart'), {
-  type: 'bar',
-  data: {
-    labels: ['Work','Tasks','Family','Errand'],
-    datasets: [{ data: [2, 1.25, 2.5, 2.25], backgroundColor: ['#378ADD','#BA7517','#D4537E','#1D9E75'], borderRadius: 4 }]
-  },
-  options: {
-    indexAxis: 'y', responsive: true, maintainAspectRatio: false,
-    plugins: { legend: { display: false } },
-    scales: {
-      x: { grid: { color: 'rgba(0,0,0,0.06)' }, ticks: { callback: v => v + 'h', font: { size: 11 } }, border: { display: false } },
-      y: { grid: { display: false }, ticks: { font: { size: 12 } }, border: { display: false } }
+(function(){
+  const ctx = document.getElementById('donut').getContext('2d');
+  new Chart(ctx, {
+    type: 'doughnut',
+    data: {
+      labels: ['Study/Faith','Work tasks','Family time','House/Errands','Rest'],
+      datasets:[{
+        data: [90, 90, 120, 90, 15],
+        backgroundColor: ['#BA7517','#378ADD','#D4537E','#1D9E75','#9E9E9E'],
+        borderWidth: 0,
+        hoverOffset: 4
+      }]
+    },
+    options: {
+      cutout: '65%',
+      plugins: {
+        legend: { position:'bottom', labels:{ font:{size:11}, padding:10 } },
+        tooltip: { callbacks: { label: (c) => ` ${c.label}: ${c.parsed} min` } }
+      }
     }
-  }
-});
+  });
+})();
 </script>
 </body>
 </html>

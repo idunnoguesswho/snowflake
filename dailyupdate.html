@@ -3,144 +3,360 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Daily Update – June 17, 2026</title>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<title>Daily Update — June 18, 2026</title>
 <style>
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #f5f4f0; color: #1a1a18; padding: 1.5rem; min-height: 100vh; }
-  h2.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; }
-  .page-title { font-size: 18px; font-weight: 500; color: #1a1a18; margin-bottom: 1.5rem; }
-  .page-title span { font-size: 14px; font-weight: 400; color: #5f5e5a; margin-left: 8px; }
-  .dot { width: 9px; height: 9px; border-radius: 50%; display: inline-block; flex-shrink: 0; margin-top: 4px; }
-  .dot-work { background: #378ADD; }
-  .dot-task { background: #BA7517; }
-  .dot-family { background: #D4537E; }
-  .dot-errand { background: #1D9E75; }
-  .pill { font-size: 11px; padding: 2px 8px; border-radius: 20px; font-weight: 500; }
-  .pill-work { background: #E6F1FB; color: #185FA5; }
-  .pill-task { background: #FAEEDA; color: #854F0B; }
-  .pill-family { background: #FBEAF0; color: #993556; }
-  .pill-errand { background: #E1F5EE; color: #0F6E56; }
-  .row { display: flex; gap: 10px; align-items: flex-start; padding: 9px 0; border-bottom: 0.5px solid rgba(0,0,0,0.12); }
-  .row:last-child { border-bottom: none; }
-  .time-label { font-size: 12px; color: #5f5e5a; min-width: 54px; padding-top: 2px; }
-  .ev-title { font-size: 14px; font-weight: 500; line-height: 1.3; }
-  .ev-sub { font-size: 12px; color: #5f5e5a; margin-top: 2px; }
-  .metric-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 10px; margin-bottom: 1.5rem; }
-  .metric-card { background: #eceae3; border-radius: 8px; padding: 14px 16px; }
-  .metric-label { font-size: 11px; color: #5f5e5a; display: flex; align-items: center; gap: 5px; margin-bottom: 6px; }
-  .metric-val { font-size: 26px; font-weight: 600; }
-  .section-head { font-size: 12px; font-weight: 500; color: #5f5e5a; text-transform: uppercase; letter-spacing: 0.04em; margin: 0 0 10px; }
-  .card { background: #fff; border-radius: 12px; border: 0.5px solid rgba(0,0,0,0.12); padding: 1rem 1.25rem; }
-  .reminder-row { display: flex; gap: 8px; align-items: baseline; padding: 6px 0; border-bottom: 0.5px solid rgba(0,0,0,0.08); font-size: 13px; }
-  .reminder-row:last-child { border-bottom: none; }
-  .r-time { font-size: 11px; color: #5f5e5a; min-width: 54px; }
-  .r-tag { font-size: 10px; padding: 1px 6px; border-radius: 10px; font-weight: 600; background: #eceae3; color: #5f5e5a; flex-shrink: 0; }
-  .r-tag.work { background: #E6F1FB; color: #185FA5; }
-  .r-tag.house { background: #E8F5E9; color: #2E7D32; }
-  .r-tag.finance { background: #FFF3E0; color: #E65100; }
-  .r-tag.chore { background: #FCE4EC; color: #880E4F; }
-  canvas { max-width: 100%; }
-  @media (max-width: 640px) {
-    .metric-grid { grid-template-columns: repeat(2,1fr); }
-    .main-grid { grid-template-columns: 1fr !important; }
+  :root {
+    --bg: #0d1117;
+    --surface: #161b22;
+    --surface2: #1c2128;
+    --border: #30363d;
+    --text: #e6edf3;
+    --muted: #7d8590;
+    --accent: #79c0ff;
+    --work: #58a6ff;
+    --work-bg: #0d2137;
+    --family: #f778ba;
+    --family-bg: #2d1127;
+    --errand: #3fb950;
+    --errand-bg: #0d2e16;
+    --study: #e3b341;
+    --study-bg: #2b1f0a;
+    --med: #bc8cff;
+    --med-bg: #1f1135;
+    --warn: #f0883e;
+    --warn-bg: #2b1800;
   }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: -apple-system, 'Segoe UI', system-ui, sans-serif;
+    min-height: 100vh;
+    padding: 1.5rem 1rem 3rem;
+    max-width: 700px;
+    margin: 0 auto;
+    font-size: 14px;
+    line-height: 1.5;
+  }
+
+  /* ── Header ── */
+  .header { margin-bottom: 1.5rem; padding-bottom: 1rem; border-bottom: 1px solid var(--border); }
+  .eyebrow { font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); margin-bottom: 4px; }
+  .date { font-size: 26px; font-weight: 700; line-height: 1.1; }
+  .subdate { font-size: 12px; color: var(--accent); margin-top: 3px; }
+
+  /* ── Stats ── */
+  .stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-bottom: 1.25rem; }
+  .stat { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 10px 8px; text-align: center; }
+  .stat-n { font-size: 22px; font-weight: 700; color: var(--accent); line-height: 1; }
+  .stat-l { font-size: 10px; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); margin-top: 3px; }
+
+  /* ── Alert ── */
+  .alert { background: var(--warn-bg); border: 1px solid var(--warn); border-left: 3px solid var(--warn); border-radius: 8px; padding: 10px 12px; margin-bottom: 1.25rem; font-size: 13px; }
+  .alert strong { color: var(--warn); }
+
+  /* ── Section ── */
+  .section-label { font-size: 10px; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); margin-bottom: 8px; padding-bottom: 5px; border-bottom: 1px solid var(--border); }
+
+  /* ── Timeline ── */
+  .section { margin-bottom: 1.5rem; }
+  .tl-item { display: flex; gap: 10px; align-items: flex-start; padding: 7px 0; border-bottom: 1px solid #1e252d; }
+  .tl-item:last-child { border-bottom: none; }
+  .tl-time { font-size: 11px; color: var(--muted); min-width: 54px; padding-top: 2px; font-variant-numeric: tabular-nums; }
+  .tl-dot { width: 8px; height: 8px; border-radius: 50%; margin-top: 4px; flex-shrink: 0; }
+  .d-work { background: var(--work); }
+  .d-family { background: var(--family); }
+  .d-errand { background: var(--errand); }
+  .d-study { background: var(--study); }
+  .d-med { background: var(--med); }
+  .d-muted { background: var(--muted); }
+  .tl-body { flex: 1; }
+  .tl-title { font-size: 13px; font-weight: 500; }
+  .tl-sub { font-size: 11px; color: var(--muted); margin-top: 2px; }
+  .tl-badge { font-size: 10px; text-transform: uppercase; letter-spacing: .06em; font-weight: 600; padding: 2px 7px; border-radius: 100px; flex-shrink: 0; align-self: flex-start; margin-top: 2px; }
+  .b-work { background: var(--work-bg); color: var(--work); }
+  .b-family { background: var(--family-bg); color: var(--family); }
+  .b-errand { background: var(--errand-bg); color: var(--errand); }
+  .b-study { background: var(--study-bg); color: var(--study); }
+  .b-med { background: var(--med-bg); color: var(--med); }
+  .b-muted { background: #1e252d; color: var(--muted); }
+
+  /* ── Jobs/Hustles ── */
+  .job-grid { display: flex; flex-direction: column; gap: 8px; }
+  .job-card { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 10px 12px; }
+  .job-header { display: flex; justify-content: space-between; align-items: flex-start; gap: 8px; }
+  .job-title { font-size: 13px; font-weight: 600; color: var(--text); }
+  .job-co { font-size: 11px; color: var(--muted); margin-top: 2px; }
+  .job-tag { font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: .06em; padding: 2px 7px; border-radius: 100px; flex-shrink: 0; }
+  .tag-match { background: #0d2e16; color: #3fb950; }
+  .tag-jon { background: #0d2137; color: #58a6ff; }
+  .tag-hustle { background: #2b1f0a; color: #e3b341; }
+  .job-desc { font-size: 11px; color: var(--muted); margin-top: 5px; line-height: 1.4; }
+  .job-link { font-size: 11px; color: var(--accent); text-decoration: none; margin-top: 4px; display: inline-block; }
+  .job-link:hover { text-decoration: underline; }
+
+  /* ── Note ── */
+  .note { background: var(--surface2); border: 1px solid var(--border); border-radius: 8px; padding: 10px 12px; font-size: 12px; color: var(--muted); margin-bottom: 1.5rem; }
+
+  /* ── Footer ── */
+  .footer { text-align: center; font-size: 11px; color: var(--muted); margin-top: 2rem; padding-top: 1rem; border-top: 1px solid var(--border); }
 </style>
 </head>
 <body>
 
-<h2 class="sr-only">Daily dashboard for Wednesday June 17, 2026 — 9 calendar events, 8 reminders due.</h2>
-
-<div class="page-title">Wednesday, June 17 <span>Your day at a glance</span></div>
-
-<div class="metric-grid">
-  <div class="metric-card"><div class="metric-label"><i class="ti ti-calendar" aria-hidden="true"></i> Events</div><div class="metric-val">9</div></div>
-  <div class="metric-card"><div class="metric-label"><i class="ti ti-check" aria-hidden="true"></i> Tasks due</div><div class="metric-val">8</div></div>
-  <div class="metric-card"><div class="metric-label"><i class="ti ti-users" aria-hidden="true"></i> Family blocks</div><div class="metric-val">4</div></div>
-  <div class="metric-card"><div class="metric-label"><i class="ti ti-book" aria-hidden="true"></i> NCSO study</div><div class="metric-val">2</div></div>
+<div class="header">
+  <div class="eyebrow">Snowflake · Daily Update</div>
+  <div class="date">June 18, 2026</div>
+  <div class="subdate">Thursday · Generated June 17 @ 9:17 PM MT</div>
 </div>
 
-<div class="main-grid" style="display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);gap:1.5rem;">
+<div class="stats">
+  <div class="stat"><div class="stat-n">3</div><div class="stat-l">Work hrs</div></div>
+  <div class="stat"><div class="stat-n">🐾</div><div class="stat-l">Vet Day</div></div>
+  <div class="stat"><div class="stat-n">🗑️</div><div class="stat-l">Garbage</div></div>
+  <div class="stat"><div class="stat-n">2</div><div class="stat-l">Kid 1:1s</div></div>
+</div>
 
-  <div class="card">
-    <p class="section-head">Timeline</p>
-    <div>
-      <div class="row"><span class="time-label">8:00 AM</span><span class="dot dot-work"></span><div><div class="ev-title">&#127959; DPR schedule update from Jason <span class="pill pill-work">Work</span></div><div class="ev-sub">Alarm · Update project log · PO ~$278K expected</div></div></div>
-      <div class="row"><span class="time-label">11:00 AM</span><span class="dot dot-errand"></span><div><div class="ev-title">#Snow: Bathrooms + Yard work <span class="pill pill-errand">House</span></div><div class="ev-sub">Reminder alarms due · FlyLady zones</div></div></div>
-      <div class="row"><span class="time-label">12:45 PM</span><span class="dot dot-task"></span><div><div class="ev-title">&#128222; Call mortgage guy <span class="pill pill-task">Task</span></div><div class="ev-sub">Reminder alarm · Kanban board</div></div></div>
-      <div class="row"><span class="time-label">1:30 PM</span><span class="dot dot-task"></span><div><div class="ev-title">NCSO 05 &#8211; Worker rights &amp; responsibilities <span class="pill pill-task">Study</span></div><div class="ev-sub">15 min · Rights to know, participate, refuse unsafe work</div></div></div>
-      <div class="row"><span class="time-label">1:45 PM</span><span class="dot dot-task"></span><div><div class="ev-title">&#128218; NCSO 06 &#8211; Hazard identification methods <span class="pill pill-task">Study</span></div><div class="ev-sub">1 hr · FLHA/JHA, formal inspections, pre-job planning</div></div></div>
-      <div class="row"><span class="time-label">2:45 PM</span><span class="dot dot-task"></span><div><div class="ev-title">YouTube video on Claude <span class="pill pill-task">Task</span></div><div class="ev-sub">45 min</div></div></div>
-      <div class="row"><span class="time-label">4:00 PM</span><span class="dot dot-task"></span><div><div class="ev-title">Bible Study 02 &#8211; Who God Says You Are <span class="pill pill-task">Faith</span></div><div class="ev-sub">15 min · Ephesians 2:10 &amp; 1 Peter 2:9</div></div></div>
-      <div class="row"><span class="time-label">4:30 PM</span><span class="dot dot-errand"></span><div><div class="ev-title">Oliver: Tidy Living Room <span class="pill pill-errand">Chore</span></div><div class="ev-sub">Oliver reminder alarm</div></div></div>
-      <div class="row"><span class="time-label">4:30 PM</span><span class="dot dot-family"></span><div><div class="ev-title">Cooking / Dinner <span class="pill pill-family">Family</span></div><div class="ev-sub">1.5 hrs · recurring</div></div></div>
-      <div class="row"><span class="time-label">6:00 PM</span><span class="dot dot-family"></span><div><div class="ev-title">1:1 with Logan <span class="pill pill-family">Family</span></div><div class="ev-sub">30 min · Google Meet</div></div></div>
-      <div class="row"><span class="time-label">6:30 PM</span><span class="dot dot-family"></span><div><div class="ev-title">Mom&#8217;s Reset <span class="pill pill-family">Family</span></div><div class="ev-sub">30 min · recurring</div></div></div>
-      <div class="row"><span class="time-label">7:00 PM</span><span class="dot dot-family"></span><div><div class="ev-title">1:1 Time with Oliver <span class="pill pill-family">Family</span></div><div class="ev-sub">30 min · Google Meet</div></div></div>
-      <div class="row"><span class="time-label">7:00 PM</span><span class="dot dot-errand"></span><div><div class="ev-title">#Snow: Garbages <span class="pill pill-errand">House</span></div><div class="ev-sub">Reminder alarm · weekly</div></div></div>
-      <div class="row"><span class="time-label">7:30 PM</span><span class="dot dot-errand"></span><div><div class="ev-title">&#128526; Decompress <span class="pill pill-errand">Rest</span></div><div class="ev-sub">15 min · Reclaim protected</div></div></div>
-    </div>
+<div class="alert">
+  <strong>⚠️ Action tonight:</strong> Put bins out before bed — Garbage Pick Up is tomorrow morning.
+</div>
+
+<!-- ═══════════ TOMORROW TIMELINE ═══════════ -->
+<div class="section">
+  <div class="section-label">Tomorrow · June 18 Timeline</div>
+  <div class="tl-item">
+    <span class="tl-time">All day</span>
+    <div class="tl-dot d-muted"></div>
+    <div class="tl-body"><div class="tl-title">🗑️ Garbage Pick Up</div><div class="tl-sub">Put bins out tonight</div></div>
+    <span class="tl-badge b-muted">Errand</span>
   </div>
+  <div class="tl-item">
+    <span class="tl-time">All day</span>
+    <div class="tl-dot d-muted"></div>
+    <div class="tl-body"><div class="tl-title">🐾 Heartland Fort Vet Appt</div><div class="tl-sub">Gmail reminder — confirmed</div></div>
+    <span class="tl-badge b-muted">Info</span>
+  </div>
+  <div class="tl-item">
+    <span class="tl-time">8:00 AM</span>
+    <div class="tl-dot d-work"></div>
+    <div class="tl-body"><div class="tl-title">🎯 Focus Time</div><div class="tl-sub">Reclaim · 2 hrs heads-down</div></div>
+    <span class="tl-badge b-work">Work</span>
+  </div>
+  <div class="tl-item">
+    <span class="tl-time">10:00 AM</span>
+    <div class="tl-dot d-work"></div>
+    <div class="tl-body"><div class="tl-title">🎯 Focus Time</div><div class="tl-sub">Reclaim · 1 hr continuation</div></div>
+    <span class="tl-badge b-work">Work</span>
+  </div>
+  <div class="tl-item">
+    <span class="tl-time">1:30 PM</span>
+    <div class="tl-dot d-med"></div>
+    <div class="tl-body"><div class="tl-title">🐾 Vet Vaccinations (Both Pets)</div><div class="tl-sub">Heartland Fort Veterinary Hospital · 1 hr</div></div>
+    <span class="tl-badge b-med">Med</span>
+  </div>
+  <div class="tl-item">
+    <span class="tl-time">4:30 PM</span>
+    <div class="tl-dot d-family"></div>
+    <div class="tl-body"><div class="tl-title">🍳 Cooking / Dinner</div><div class="tl-sub">1.5 hrs</div></div>
+    <span class="tl-badge b-family">Family</span>
+  </div>
+  <div class="tl-item">
+    <span class="tl-time">5:00 PM</span>
+    <div class="tl-dot d-family"></div>
+    <div class="tl-body"><div class="tl-title">🌮 Supper: Beef &amp; Cheese Quesadillas with Corn Salad</div></div>
+    <span class="tl-badge b-family">Family</span>
+  </div>
+  <div class="tl-item">
+    <span class="tl-time">6:00 PM</span>
+    <div class="tl-dot d-family"></div>
+    <div class="tl-body"><div class="tl-title">1:1 with Logan</div><div class="tl-sub">30 min · recurring</div></div>
+    <span class="tl-badge b-family">Family</span>
+  </div>
+  <div class="tl-item">
+    <span class="tl-time">6:30 PM</span>
+    <div class="tl-dot d-family"></div>
+    <div class="tl-body"><div class="tl-title">🌙 Mom's Reset</div><div class="tl-sub">30 min</div></div>
+    <span class="tl-badge b-family">Family</span>
+  </div>
+  <div class="tl-item">
+    <span class="tl-time">7:00 PM</span>
+    <div class="tl-dot d-family"></div>
+    <div class="tl-body"><div class="tl-title">1:1 Time with Oliver</div><div class="tl-sub">30 min · recurring</div></div>
+    <span class="tl-badge b-family">Family</span>
+  </div>
+  <div class="tl-item">
+    <span class="tl-time">7:30 PM</span>
+    <div class="tl-dot d-errand"></div>
+    <div class="tl-body"><div class="tl-title">😎 Decompress</div><div class="tl-sub">15 min · Reclaim buffer</div></div>
+    <span class="tl-badge b-errand">Buffer</span>
+  </div>
+</div>
 
-  <div style="display:flex;flex-direction:column;gap:1.5rem;">
+<!-- ═══════════ TODAY RECAP ═══════════ -->
+<div class="section">
+  <div class="section-label">Today · June 17 Recap — 19 events logged</div>
+  <div class="tl-item">
+    <span class="tl-time">2:00 PM</span>
+    <div class="tl-dot d-study"></div>
+    <div class="tl-body"><div class="tl-title">NCSO 05 · Worker rights &amp; responsibilities</div><div class="tl-sub">Rights to know, participate, refuse unsafe work</div></div>
+    <span class="tl-badge b-study">NCSO</span>
+  </div>
+  <div class="tl-item">
+    <span class="tl-time">3:15 PM</span>
+    <div class="tl-dot d-study"></div>
+    <div class="tl-body"><div class="tl-title">Bible Study 02 · Who God Says You Are</div><div class="tl-sub">Ephesians 2:10 · 1 Peter 2:9 · 3 identities</div></div>
+    <span class="tl-badge b-study">Faith</span>
+  </div>
+  <div class="tl-item">
+    <span class="tl-time">4:30 PM</span>
+    <div class="tl-dot d-family"></div>
+    <div class="tl-body"><div class="tl-title">🍗 Cooking + Honey Garlic Chicken Rice Bowls</div></div>
+    <span class="tl-badge b-family">Family</span>
+  </div>
+  <div class="tl-item">
+    <span class="tl-time">6:00 PM</span>
+    <div class="tl-dot d-family"></div>
+    <div class="tl-body"><div class="tl-title">1:1 with Logan · Mom's Reset · 1:1 with Oliver · Decompress</div></div>
+    <span class="tl-badge b-family">Family</span>
+  </div>
+  <div class="tl-item">
+    <span class="tl-time">8:53 PM</span>
+    <div class="tl-dot d-errand"></div>
+    <div class="tl-body"><div class="tl-title">🛁 Bedtime checklist created · Bath + Teeth + Meds (Oliver, Logan, Jon, Katie)</div></div>
+    <span class="tl-badge b-errand">Routine</span>
+  </div>
+</div>
 
-    <div class="card">
-      <p class="section-head">Time breakdown</p>
-      <canvas id="donut" height="170"></canvas>
+<!-- ═══════════ JOBS — KATIE ═══════════ -->
+<div class="section">
+  <div class="section-label">Jobs Scan · Katie — Document Control / SDx / ISO 9001</div>
+  <div class="job-grid">
+
+    <div class="job-card">
+      <div class="job-header">
+        <div><div class="job-title">Hexagon SDx/SPF Support Specialist</div><div class="job-co">AtkinsRéalis · Mississauga (Remote possible)</div></div>
+        <span class="job-tag tag-match">Strong Match</span>
+      </div>
+      <div class="job-desc">5+ yrs SDx schema mapping, workflows, user management. Supports SPF integrations, Hexagon support tickets, UAT, user training. Exactly your profile.</div>
+      <a class="job-link" href="https://careers.atkinsrealis.com/en/jobs/hexagon-smartplant-information-management-system-support-specialist-sdx-spf-r-136713" target="_blank">→ careers.atkinsrealis.com · R-136713</a>
     </div>
 
-    <div class="card">
-      <p class="section-head">Reminders due today</p>
-      <div class="reminder-row"><span class="r-time">8:00 AM</span><span class="r-tag work">Work</span><span>DPR schedule update from Jason</span></div>
-      <div class="reminder-row"><span class="r-time">11:00 AM</span><span class="r-tag house">House</span><span>Bathrooms</span></div>
-      <div class="reminder-row"><span class="r-time">11:00 AM</span><span class="r-tag house">House</span><span>Yard work</span></div>
-      <div class="reminder-row"><span class="r-time">12:45 PM</span><span class="r-tag work">Work</span><span>Call mortgage guy</span></div>
-      <div class="reminder-row"><span class="r-time">4:30 PM</span><span class="r-tag chore">Chore</span><span>Oliver: Tidy Living Room</span></div>
-      <div class="reminder-row"><span class="r-time">7:00 PM</span><span class="r-tag house">House</span><span>Garbages</span></div>
-      <div class="reminder-row"><span class="r-time">All day</span><span class="r-tag">Kanban</span><span>Find leather switching thread</span></div>
-      <div class="reminder-row"><span class="r-time">All day</span><span class="r-tag">Kanban</span><span>Metal clipboard</span></div>
+    <div class="job-card">
+      <div class="job-header">
+        <div><div class="job-title">Document Control Coordinator (Industrial)</div><div class="job-co">PCL Industrial Management Inc. · Edmonton, AB</div></div>
+        <span class="job-tag tag-match">Good Match</span>
+      </div>
+      <div class="job-desc">DC Coordinator role for industrial projects, Edmonton-based. Engineering doc management, QA/QC support. Local to you.</div>
+      <a class="job-link" href="https://www.ziprecruiter.com/Jobs/Document-Control-Management/--in-Alberta" target="_blank">→ ZipRecruiter · Alberta DC</a>
     </div>
 
-    <div class="card">
-      <p class="section-head">On the radar</p>
-      <div class="reminder-row"><span class="r-time">Jun 18</span><span class="r-tag finance">$</span><span>Blue Cross $415 due</span></div>
-      <div class="reminder-row"><span class="r-time">Jun 18</span><span class="r-tag house">House</span><span>Floors · UFA weed killer · Woolfolk doc rep update</span></div>
-      <div class="reminder-row"><span class="r-time">Jun 18</span><span class="r-tag">Order</span><span>Furnace filter · Dryer balls · Sausage · Freezer bags</span></div>
-      <div class="reminder-row"><span class="r-time">Jun 18</span><span class="r-tag">Misc</span><span>AppleCare kids' phones · Replace toothbrush</span></div>
-      <div class="reminder-row"><span class="r-time">Jun 19</span><span class="r-tag chore">Chore</span><span>Logan: Sweep · Spot Cleaning/Dusting</span></div>
-      <div class="reminder-row"><span class="r-time">Jun 19</span><span class="r-tag house">House</span><span>Kitchen · Pick up kids meds from school</span></div>
-      <div class="reminder-row"><span class="r-time">Jun 25</span><span class="r-tag finance">$</span><span>Apple $45 · AMA Jon $161 · Shelves for Oliver</span></div>
-      <div class="reminder-row"><span class="r-time">Jun 29</span><span class="r-tag work">Work</span><span>SECOR audit due</span></div>
-      <div class="reminder-row"><span class="r-time">Jul 2</span><span class="r-tag work">Work</span><span>Book NCSO exam · File nil payroll remittance</span></div>
+    <div class="job-card">
+      <div class="job-header">
+        <div><div class="job-title">QA/QC Coordinator — ISO 9001</div><div class="job-co">COLAS / Parsons · Edmonton, AB</div></div>
+        <span class="job-tag tag-match">Good Match</span>
+      </div>
+      <div class="job-desc">ISO 9001 + 14001 QMS experience required. External audit support, continuous improvement. Multiple Edmonton postings active.</div>
+      <a class="job-link" href="https://ca.indeed.com/Iso-9001-jobs-in-Alberta" target="_blank">→ Indeed CA · ISO 9001 Alberta</a>
+    </div>
+
+    <div class="job-card">
+      <div class="job-header">
+        <div><div class="job-title">Site Document Controller (Rotation)</div><div class="job-co">Various · Industrial Alberta sites</div></div>
+        <span class="job-tag tag-match">Watch</span>
+      </div>
+      <div class="job-desc">Hiring Document Controllers for upcoming industrial site projects — rotation/camp. DC, turnover, QA/QC admin. Good fit if open to camp.</div>
+      <a class="job-link" href="https://ca.indeed.com/q-site-document-control-l-alberta-jobs.html" target="_blank">→ Indeed CA · Site DC Alberta</a>
     </div>
 
   </div>
 </div>
 
-<script>
-(function(){
-  const ctx = document.getElementById('donut').getContext('2d');
-  new Chart(ctx, {
-    type: 'doughnut',
-    data: {
-      labels: ['Study/Faith','Work tasks','Family time','House/Errands','Rest'],
-      datasets:[{
-        data: [90, 90, 120, 90, 15],
-        backgroundColor: ['#BA7517','#378ADD','#D4537E','#1D9E75','#9E9E9E'],
-        borderWidth: 0,
-        hoverOffset: 4
-      }]
-    },
-    options: {
-      cutout: '65%',
-      plugins: {
-        legend: { position:'bottom', labels:{ font:{size:11}, padding:10 } },
-        tooltip: { callbacks: { label: (c) => ` ${c.label}: ${c.parsed} min` } }
-      }
-    }
-  });
-})();
-</script>
+<!-- ═══════════ JOBS — JON ═══════════ -->
+<div class="section">
+  <div class="section-label">Jobs Scan · Jon — Heat &amp; Frost Insulator Journeyman (Local 110)</div>
+  <div class="job-grid">
+
+    <div class="job-card">
+      <div class="job-header">
+        <div><div class="job-title">Local 110 Dispatch Board</div><div class="job-co">Insulators 110 · 9335-47 St, Edmonton</div></div>
+        <span class="job-tag tag-jon">Check Daily</span>
+      </div>
+      <div class="job-desc">Office hours Mon–Fri 8am–4:30pm. Call (780) 426-2874. Dispatch board is the primary channel for union journeyman placement.</div>
+      <a class="job-link" href="https://insulators110.com/dispatch/" target="_blank">→ insulators110.com/dispatch</a>
+    </div>
+
+    <div class="job-card">
+      <div class="job-header">
+        <div><div class="job-title">Journeyman Heat &amp; Frost Insulator — Edmonton Area</div><div class="job-co">AW-NRG Insulation Services Inc. · Edmonton, AB</div></div>
+        <span class="job-tag tag-jon">Active Posting</span>
+      </div>
+      <div class="job-desc">Leading Heat &amp; Frost company in AB, hiring green to journeyman. Competitive wages, extended medical/dental/vision, RRSP matching. Edmonton area + some out of town.</div>
+      <a class="job-link" href="https://ca.indeed.com/Insulator-jobs-in-Alberta" target="_blank">→ Indeed CA · Insulator Alberta</a>
+    </div>
+
+    <div class="job-card">
+      <div class="job-header">
+        <div><div class="job-title">Journeyman Insulator — Commercial</div><div class="job-co">Arpi's North / Tagg Collective · Edmonton</div></div>
+        <span class="job-tag tag-jon">Active Posting</span>
+      </div>
+      <div class="job-desc">Experienced journeyman insulator for commercial projects. Thermal &amp; mechanical insulation on piping, ductwork, tanks. Competitive pay + profit share.</div>
+      <a class="job-link" href="https://ca.indeed.com/q-insulators-l-alberta-jobs.html" target="_blank">→ Indeed CA · Insulators Alberta</a>
+    </div>
+
+    <div class="job-card">
+      <div class="job-header">
+        <div><div class="job-title">Firestopping Insulator</div><div class="job-co">AW-NRG · Various Edmonton sites</div></div>
+        <span class="job-tag tag-jon">Specialty</span>
+      </div>
+      <div class="job-desc">Experienced firestopping insulator for Edmonton area job sites. Specialized role — good for Red Seal journeyman looking for niche work.</div>
+      <a class="job-link" href="https://ca.indeed.com/q-insulators-l-alberta-jobs.html" target="_blank">→ Indeed CA · Insulators Alberta</a>
+    </div>
+
+  </div>
+</div>
+
+<!-- ═══════════ HUSTLES — KATIE ═══════════ -->
+<div class="section">
+  <div class="section-label">Hustles Scan · Snow Creative Solutions / DSHC</div>
+  <div class="job-grid">
+
+    <div class="job-card">
+      <div class="job-header">
+        <div><div class="job-title">ISO 9001 / QMS Documentation Consultant</div><div class="job-co">Upwork · Active demand, April–May 2026</div></div>
+        <span class="job-tag tag-hustle">Hot Right Now</span>
+      </div>
+      <div class="job-desc">Multiple active postings for ISO 9001:2015 implementation, SOP writing, audit prep. Liquid waste co, electrical contractors, labs — your oil &amp; gas + ISO background is a premium differentiator. Rate range: $50–$120/hr freelance.</div>
+      <a class="job-link" href="https://www.upwork.com/freelance-jobs/iso-9001/" target="_blank">→ Upwork · ISO 9001 Jobs</a>
+    </div>
+
+    <div class="job-card">
+      <div class="job-header">
+        <div><div class="job-title">Document Control Consultant / Specialist</div><div class="job-co">Upwork · Ongoing demand</div></div>
+        <span class="job-tag tag-hustle">Good Fit</span>
+      </div>
+      <div class="job-desc">Freelance DC work: PDF editing, EDMS setup, transmittal management, SharePoint. Your SDx + SAP + Acumatica stack is rare in this market. Consider packaging as a niche service offering.</div>
+      <a class="job-link" href="https://www.upwork.com/o/jobs/browse/skill/document-control/" target="_blank">→ Upwork · DC Freelance Jobs</a>
+    </div>
+
+    <div class="job-card">
+      <div class="job-header">
+        <div><div class="job-title">SDx / HxGN Consulting (Brownfield/Owner-Operator)</div><div class="job-co">Hexagon Partner Ecosystem — ProLytX, Brownfield Solutions</div></div>
+        <span class="job-tag tag-hustle">High Value</span>
+      </div>
+      <div class="job-desc">Hexagon's partner page shows active need for independent SDx2 implementation consultants. Your Owner/Operator background at WorleyParsons + MMR is exactly what brownfield partners look for. Consider outreach to ProLytX or Brownfield Solutions Ltd directly.</div>
+      <a class="job-link" href="https://aliresources.hexagon.com/asset-lifecycle-information-management/smartplant-foundation" target="_blank">→ Hexagon ALI Partners</a>
+    </div>
+
+  </div>
+</div>
+
+<div class="note">
+  ⚠️ Reminders app was unresponsive during tonight's review — Kanban board rollover skipped. Check Kanban manually for any overdue items before sleep.
+</div>
+
+<div class="footer">
+  Snowflake · idunnoguesswho · Katie Snow · Bedtime Review June 17, 2026 @ 9:17 PM MT
+</div>
+
 </body>
 </html>

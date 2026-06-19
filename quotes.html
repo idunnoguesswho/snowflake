@@ -7,142 +7,194 @@
 <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Baloo+2:wght@400;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
 <style>
-  .loading-wrap {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 3rem 1rem;
-    gap: 14px;
-    color: var(--muted);
-  }
-  .spinner {
-    width: 36px;
-    height: 36px;
-    border: 3px solid var(--line, #d8dee6);
-    border-top-color: var(--lavender, #c9b8ff);
-    border-radius: 50%;
-    animation: spin 0.75s linear infinite;
-  }
-  @keyframes spin { to { transform: rotate(360deg); } }
+/* ── Spinner / error ──────────────────────────────────────────── */
+.loading-wrap {
+  display: flex; flex-direction: column; align-items: center;
+  justify-content: center; padding: 3rem 1rem; gap: 14px; color: var(--muted);
+}
+.spinner {
+  width: 36px; height: 36px;
+  border: 3px solid var(--line, #d8dee6);
+  border-top-color: var(--lavender, #c9b8ff);
+  border-radius: 50%; animation: spin 0.75s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
 
-  .error-wrap {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 10px;
-    padding: 2.5rem 1rem;
-    color: var(--rose, #c35465);
-    text-align: center;
-  }
-  .error-icon { font-size: 2rem; }
-  .error-msg  { font-size: .9rem; font-weight: 700; max-width: 360px; line-height: 1.55; }
-  .retry-btn  {
-    margin-top: 6px;
-    padding: 8px 20px;
-    border-radius: 50px;
-    border: 0;
-    background: var(--lavender, #c9b8ff);
-    color: #3d2f7f;
-    font-family: inherit;
-    font-size: .85rem;
-    font-weight: 800;
-    cursor: pointer;
-  }
-  .retry-btn:hover { opacity: .85; }
+.error-wrap {
+  display: flex; flex-direction: column; align-items: center;
+  gap: 10px; padding: 2.5rem 1rem;
+  color: var(--rose, #c35465); text-align: center;
+}
+.error-icon { font-size: 2rem; }
+.error-msg  { font-size: .9rem; font-weight: 700; max-width: 360px; line-height: 1.55; }
+.retry-btn  {
+  margin-top: 6px; padding: 8px 20px; border-radius: 50px; border: 0;
+  background: var(--lavender, #c9b8ff); color: #3d2f7f;
+  font-family: inherit; font-size: .85rem; font-weight: 800; cursor: pointer;
+}
+.retry-btn:hover { opacity: .85; }
 
-  .no-quotes {
-    text-align: center;
-    padding: 2.5rem 1rem;
-    color: var(--muted);
-    font-weight: 700;
-    font-size: .95rem;
-  }
-  .no-quotes .nq-date {
-    display: block;
-    margin-top: 6px;
-    font-size: .8rem;
-    font-weight: 600;
-  }
+/* ── Date nav row ─────────────────────────────────────────────── */
+.date-nav {
+  display: flex; align-items: center; gap: 10px;
+  justify-content: center; flex-wrap: wrap;
+}
+.nav-btn {
+  background: none; border: 2px solid var(--line, #d8dee6);
+  border-radius: 50%; width: 32px; height: 32px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1rem; cursor: pointer; color: var(--ink, #1f2933);
+  transition: background .15s, border-color .15s;
+  flex-shrink: 0;
+}
+.nav-btn:hover { background: var(--lavender, #c9b8ff); border-color: var(--lavender, #c9b8ff); color: #3d2f7f; }
+.nav-btn:disabled { opacity: .3; cursor: default; }
 
-  /* section card matching quotes.css .q-section */
-  .section {
-    background: var(--card, #fff);
-    border-radius: 20px;
-    padding: 22px 26px;
-    margin-bottom: 16px;
-    box-shadow: 0 4px 18px rgba(0,0,0,.06);
-    animation: popIn .4s cubic-bezier(.34,1.56,.64,1) both;
-  }
-  .section-label {
-    font-family: 'Baloo 2', cursive;
-    font-size: 1.1rem;
-    font-weight: 800;
-    margin-bottom: 10px;
-    line-height: 1.2;
-  }
-  .section-body {
-    font-size: .95rem;
-    line-height: 1.75;
-    color: var(--ink, #1f2933);
-    white-space: pre-wrap;
-  }
-  .section-body p { margin-bottom: 10px; }
-  .section-body p:last-child { margin-bottom: 0; }
+/* ── Calendar ─────────────────────────────────────────────────── */
+.cal-toggle {
+  display: flex; align-items: center; gap: 6px;
+  background: none; border: none; cursor: pointer;
+  font-family: 'Baloo 2', cursive; font-size: .9rem; font-weight: 700;
+  color: var(--muted, #667085); padding: 6px 0; margin: 0 0 8px;
+  width: 100%;
+}
+.cal-toggle .cal-arrow { font-size: .7rem; transition: transform .2s; }
+.cal-toggle.open .cal-arrow { transform: rotate(90deg); }
 
-  /* colour themes per source type */
-  .s-stoic   { border-top: 4px solid #2D2A4A; }
-  .s-stoic   .section-label { color: #2D2A4A; }
-  .s-aa      { border-top: 4px solid #A8EDCA; }
-  .s-aa      .section-label { color: #148F77; }
-  .s-bible   { border-top: 4px solid #6BCB77; }
-  .s-bible   .section-label { color: #1E8449; }
-  .s-word    { border-top: 4px solid #7EC8E3; }
-  .s-word    .section-label { color: #2E86C1; }
-  .s-history { border-top: 4px solid #FFB347; }
-  .s-history .section-label { color: #D35400; }
-  .s-brit    { border-top: 4px solid #C9B8FF; }
-  .s-brit    .section-label { color: #7B68EE; }
-  .s-rca     { border-top: 4px solid #FF6B6B; }
-  .s-rca     .section-label { color: #c0392b; }
-  .s-prayer  { border-top: 4px solid #FFD166; }
-  .s-prayer  .section-label { color: #b8860b; }
-  .s-kids    { border-top: 4px solid #6BCB77; }
-  .s-kids    .section-label { color: #1E8449; }
-  .s-default { border-top: 4px solid var(--lavender, #c9b8ff); }
-  .s-default .section-label { color: #7B68EE; }
+.cal-wrap {
+  background: var(--card, #fff);
+  border-radius: 18px;
+  padding: 16px 18px 12px;
+  margin-bottom: 20px;
+  box-shadow: 0 4px 18px rgba(0,0,0,.06);
+}
+.cal-header {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 12px;
+}
+.cal-month-label {
+  font-family: 'Baloo 2', cursive; font-size: 1rem; font-weight: 800;
+  color: var(--ink, #1f2933);
+}
+.cal-nav {
+  background: none; border: none; cursor: pointer;
+  font-size: 1rem; color: var(--muted, #667085); padding: 4px 8px;
+  border-radius: 8px; transition: background .15s;
+}
+.cal-nav:hover { background: var(--bg, #f8fafc); color: var(--ink, #1f2933); }
 
-  .sources {
-    margin-top: 28px;
-    padding: 14px 18px;
-    background: #F8F5FF;
-    border-radius: 14px;
-    font-size: .8rem;
-    color: var(--muted, #667085);
-    font-weight: 600;
-  }
-  .sources strong {
-    color: var(--ink, #1f2933);
-    display: block;
-    margin-bottom: 6px;
-    font-family: 'Baloo 2', cursive;
-    font-size: .9rem;
-  }
-  .sources a { color: #7B68EE; text-decoration: none; }
-  .sources a:hover { text-decoration: underline; }
+.cal-grid {
+  display: grid; grid-template-columns: repeat(7, 1fr);
+  gap: 2px;
+}
+.cal-dow {
+  text-align: center; font-size: .72rem; font-weight: 800;
+  color: var(--muted, #667085); padding: 4px 0; letter-spacing: .03em;
+}
+.cal-day {
+  display: flex; flex-direction: column; align-items: center;
+  padding: 5px 2px 4px; border-radius: 10px; cursor: pointer;
+  transition: background .15s; position: relative; min-height: 38px;
+}
+.cal-day:hover:not(.cal-day--empty):not(.cal-day--future) {
+  background: #f0ecff;
+}
+.cal-day--empty { visibility: hidden; cursor: default; }
+.cal-day--future { opacity: .3; cursor: default; pointer-events: none; }
+.cal-day--today {
+  background: var(--lavender, #c9b8ff);
+}
+.cal-day--today .cal-day-num { color: #3d2f7f; }
+.cal-day--selected:not(.cal-day--today) {
+  background: #e8e3ff; border: 2px solid var(--lavender, #c9b8ff);
+}
+.cal-day-num {
+  font-size: .82rem; font-weight: 700; color: var(--ink, #1f2933); line-height: 1;
+}
+.cal-day--today .cal-day-num { font-weight: 900; }
+.cal-dot {
+  width: 5px; height: 5px; border-radius: 50%;
+  background: #7B68EE; margin-top: 3px;
+  display: block;
+}
+
+/* ── Quote sections ───────────────────────────────────────────── */
+.section {
+  background: var(--card, #fff); border-radius: 20px;
+  padding: 22px 26px; margin-bottom: 16px;
+  box-shadow: 0 4px 18px rgba(0,0,0,.06);
+  animation: popIn .4s cubic-bezier(.34,1.56,.64,1) both;
+}
+.section-label {
+  font-family: 'Baloo 2', cursive; font-size: 1.1rem; font-weight: 800;
+  margin-bottom: 10px; line-height: 1.2;
+}
+.section-body {
+  font-size: .95rem; line-height: 1.75;
+  color: var(--ink, #1f2933); white-space: pre-wrap;
+}
+
+.s-stoic   { border-top: 4px solid #2D2A4A; }
+.s-stoic   .section-label { color: #2D2A4A; }
+.s-aa      { border-top: 4px solid #A8EDCA; }
+.s-aa      .section-label { color: #148F77; }
+.s-bible   { border-top: 4px solid #6BCB77; }
+.s-bible   .section-label { color: #1E8449; }
+.s-word    { border-top: 4px solid #7EC8E3; }
+.s-word    .section-label { color: #2E86C1; }
+.s-history { border-top: 4px solid #FFB347; }
+.s-history .section-label { color: #D35400; }
+.s-brit    { border-top: 4px solid #C9B8FF; }
+.s-brit    .section-label { color: #7B68EE; }
+.s-rca     { border-top: 4px solid #FF6B6B; }
+.s-rca     .section-label { color: #c0392b; }
+.s-prayer  { border-top: 4px solid #FFD166; }
+.s-prayer  .section-label { color: #b8860b; }
+.s-default { border-top: 4px solid var(--lavender, #c9b8ff); }
+.s-default .section-label { color: #7B68EE; }
+
+.no-quotes {
+  text-align: center; padding: 2.5rem 1rem;
+  color: var(--muted); font-weight: 700; font-size: .95rem;
+}
+
+.sources {
+  margin-top: 28px; padding: 14px 18px;
+  background: #F8F5FF; border-radius: 14px;
+  font-size: .8rem; color: var(--muted, #667085); font-weight: 600;
+}
+.sources strong {
+  color: var(--ink, #1f2933); display: block; margin-bottom: 6px;
+  font-family: 'Baloo 2', cursive; font-size: .9rem;
+}
+.sources a { color: #7B68EE; text-decoration: none; }
+.sources a:hover { text-decoration: underline; }
 </style>
 </head>
 <body>
 
 <div class="page-header">
   <div class="page-title">Daily Quotes <em>*</em></div>
-  <div class="page-subtitle" id="page-date"></div>
+  <div class="date-nav">
+    <button class="nav-btn" id="prev-day" title="Previous day">&#8592;</button>
+    <div class="page-subtitle" id="page-date"></div>
+    <button class="nav-btn" id="next-day" title="Next day">&#8594;</button>
+  </div>
+</div>
+
+<div class="cal-wrap" id="cal-wrap" style="display:none">
+  <div class="cal-header">
+    <button class="cal-nav" id="cal-prev">&#8592;</button>
+    <div class="cal-month-label" id="cal-month-label"></div>
+    <button class="cal-nav" id="cal-next">&#8594;</button>
+  </div>
+  <div class="cal-grid" id="cal-grid"></div>
 </div>
 
 <div id="quotes-container">
   <div class="loading-wrap">
     <div class="spinner"></div>
-    <span>Loading today's quotes…</span>
+    <span>Loading quotes…</span>
   </div>
 </div>
 
@@ -153,205 +205,184 @@
 </div>
 
 <script>
-// ─── Config ───────────────────────────────────────────────────────────────────
-const APPS_SCRIPT_URL = window.SNOWFLAKE_CONFIG
-  ? window.SNOWFLAKE_CONFIG.appsScriptUrl
-  : "https://script.google.com/macros/s/AKfycbxrNaM1VxinXBWPJcd5zskwl00prHu7zASZF8uhzDnZXfH70LezRfbb4-qNJLnr7_0Z/exec";
-
+// ── Config ─────────────────────────────────────────────────────────────────────
 const SHEET_ID  = "1VVWZBG3fXLWBFCnRDLo76kUQrNyPcBBdY6mCiiwJr50";
 const SHEET_GID = "0";
 
-// Source keyword → CSS class mapping (checked case-insensitively)
 const SOURCE_CLASSES = [
-  [/stoic|marcus|aurelius|meditat/i,    "s-stoic"],
-  [/\baa\b|alcoholics|big.?book|daily.?reflect/i, "s-aa"],
-  [/bible|scripture|verse|proverb|psalm|john|corinth|roman|ephes/i, "s-bible"],
-  [/word.?of.?the.?day|webster|dictionary|vocab/i, "s-word"],
-  [/histor|on.?this.?day|britannica.*(hist|today)/i, "s-history"],
-  [/britannica|fact|trivia/i, "s-brit"],
-  [/rca|recovery.?coach|al.?anon|alanon|alateen|one.?day|courage/i, "s-rca"],
-  [/prayer|morning|serenity|gratitude/i, "s-prayer"],
-  [/kids|children|after.?school|question/i, "s-kids"],
+  [/stoic|marcus|aurelius|meditat/i,                      "s-stoic"],
+  [/\baa\b|alcoholics|big.?book|daily.?reflect/i,         "s-aa"],
+  [/bible|scripture|verse|proverb|psalm|john|peter|corinth|roman|ephes|jeremiah|isaiah|samuel|luke/i, "s-bible"],
+  [/word.?of.?the.?day|webster|dictionary|vocab/i,        "s-word"],
+  [/histor|on.?this.?day/i,                               "s-history"],
+  [/britannica|fact|trivia/i,                             "s-brit"],
+  [/rca|recovery.?coach|al.?anon|alanon|alateen/i,        "s-rca"],
+  [/prayer|morning|serenity|gratitude/i,                  "s-prayer"],
 ];
-
 function sourceClass(src) {
-  for (const [re, cls] of SOURCE_CLASSES) {
-    if (re.test(src)) return cls;
-  }
+  for (const [re, cls] of SOURCE_CLASSES) { if (re.test(src)) return cls; }
   return "s-default";
 }
 
-// ─── Date helpers ─────────────────────────────────────────────────────────────
+// ── Date helpers ───────────────────────────────────────────────────────────────
+const MONTHS = {january:"01",february:"02",march:"03",april:"04",may:"05",june:"06",
+                july:"07",august:"08",september:"09",october:"10",november:"11",december:"12"};
+const MONTH_NAMES = ["January","February","March","April","May","June",
+                     "July","August","September","October","November","December"];
+const DOW = ["Su","Mo","Tu","We","Th","Fr","Sa"];
+
 function todayISO() {
   const d = new Date();
-  const p = n => String(n).padStart(2, "0");
-  return `${d.getFullYear()}-${p(d.getMonth() + 1)}-${p(d.getDate())}`;
+  return `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`;
 }
-
-function formatDisplayDate(iso) {
-  return new Date(iso + "T12:00:00").toLocaleDateString("en-US", {
-    weekday: "long", year: "numeric", month: "long", day: "numeric"
-  });
+function pad(n) { return String(n).padStart(2,"0"); }
+function isoFromParts(y,m,d) { return `${y}-${pad(m)}-${pad(d)}`; }
+function formatDisplay(iso) {
+  return new Date(iso+"T12:00:00").toLocaleDateString("en-US",{weekday:"long",year:"numeric",month:"long",day:"numeric"});
 }
-
 function normalizeDate(v) {
   if (!v) return "";
-  if (typeof v === "string") {
-    const str = v.trim();
-    // YYYY-MM-DD
-    const iso = str.match(/^(\d{4}-\d{2}-\d{2})/);
-    if (iso) return iso[1];
-    // M/D/YYYY
-    const mdy = str.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/);
-    if (mdy) return `${mdy[3]}-${mdy[1].padStart(2,"0")}-${mdy[2].padStart(2,"0")}`;
-    // "June 14, 2026" or "June 14 2026"
-    const MONTHS = {january:"01",february:"02",march:"03",april:"04",may:"05",june:"06",
-                    july:"07",august:"08",september:"09",october:"10",november:"11",december:"12"};
-    const mlong = str.match(/^([A-Za-z]+)\s+(\d{1,2}),?\s+(\d{4})$/);
-    if (mlong) {
-      const mo = MONTHS[mlong[1].toLowerCase()];
-      if (mo) return `${mlong[3]}-${mo}-${mlong[2].padStart(2,"0")}`;
-    }
-  }
-  return String(v).trim().substring(0, 10);
+  const s = String(v).trim();
+  const iso = s.match(/^(\d{4}-\d{2}-\d{2})/); if (iso) return iso[1];
+  const mdy = s.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/);
+  if (mdy) return `${mdy[3]}-${pad(mdy[1])}-${pad(mdy[2])}`;
+  const mlong = s.match(/^([A-Za-z]+)\s+(\d{1,2}),?\s+(\d{4})$/);
+  if (mlong) { const mo=MONTHS[mlong[1].toLowerCase()]; if(mo) return `${mlong[3]}-${mo}-${pad(mlong[2])}`; }
+  return s.substring(0,10);
+}
+function addDays(iso, n) {
+  const d = new Date(iso+"T12:00:00"); d.setDate(d.getDate()+n);
+  return `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`;
 }
 
-// ─── Fetch via Apps Script (tab=quotes) ──────────────────────────────────────
-async function fetchFromAppsScript(today) {
-  const url = `${APPS_SCRIPT_URL}?tab=quotes&date=${today}`;
-  const res  = await fetch(url);
-  if (!res.ok) throw new Error(`HTTP ${res.status}`);
-  const data = await res.json();
-  // If the Apps Script returns { ok, quotes: [...] }
-  if (data && Array.isArray(data.quotes)) return data.quotes;
-  throw new Error("Unexpected response format from Apps Script");
-}
+// ── State ──────────────────────────────────────────────────────────────────────
+let allQuotes = {};   // { "2026-06-15": [{source,description}, ...] }
+let calViewYear, calViewMonth;  // calendar display month
+let selectedDate = "";
 
-// ─── Fallback 1: CSV export directly from the sheet ──────────────────────────
-async function fetchFromSheet(today) {
-  const url = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/export?format=csv&gid=${SHEET_GID}`;
-  const r = await fetch(url, { cache: "no-store" });
-  if (!r.ok) throw new Error(`CSV fetch HTTP ${r.status}`);
-  const txt = await r.text();
-  if (!txt.trim() || txt.trimStart().startsWith("<")) throw new Error("Sheet not public or returned HTML");
-  return parseCSVQuotes(txt, today);
-}
-
-function parseCSVQuotes(raw, today) {
-  // Simple CSV parser
-  const rows = []; let i = 0, n = raw.length;
-  while (i < n) {
-    const row = [];
-    while (i < n && raw[i] !== "
-" && raw[i] !== "
-") {
-      if (raw[i] === '"') {
-        let c = ""; i++;
-        while (i < n) {
-          if (raw[i] === '"' && raw[i+1] === '"') { c += '"'; i += 2; }
-          else if (raw[i] === '"') { i++; break; }
-          else c += raw[i++];
-        }
-        row.push(c.trim()); if (raw[i] === ",") i++;
-      } else {
-        let c = "";
-        while (i < n && raw[i] !== "," && raw[i] !== "
-" && raw[i] !== "
-") c += raw[i++];
-        row.push(c.trim()); if (raw[i] === ",") i++;
-      }
-    }
-    while (raw[i] === "
-" || raw[i] === "
-") i++;
-    if (row.some(c => c)) rows.push(row);
-  }
-  if (rows.length < 2) throw new Error("Sheet has no data rows");
-
-  const h = rows[0].map(x => x.toLowerCase().trim());
-  const dateIdx   = h.findIndex(c => c.includes("date"));
-  const sourceIdx = h.findIndex(c => c.includes("source"));
-  const descIdx   = h.findIndex(c => c.includes("description"));
-
-  if (dateIdx < 0 || sourceIdx < 0 || descIdx < 0)
-    throw new Error(`Expected Date, Source, Description columns — got: ${h.join(", ")}`);
-
-  const get = (r, i) => (i >= 0 && i < r.length ? r[i] : "").trim();
-
-  return rows.slice(1)
-    .filter(r => normalizeDate(get(r, dateIdx)) === today)
-    .map(r => ({
-      source:      get(r, sourceIdx),
-      description: get(r, descIdx),
-    }))
-    .filter(q => q.description);
-}
-
-// ─── Fallback 2: gviz/tq JSONP (kept as last resort) ─────────────────────────
-function fetchFromSheetGviz(today) {
+// ── Data loading ───────────────────────────────────────────────────────────────
+function loadAllFromGviz() {
   return new Promise((resolve, reject) => {
-    const cb    = `_qcb${Math.random().toString(36).slice(2)}`;
+    const cb = `_qcb${Math.random().toString(36).slice(2)}`;
     const script = document.createElement("script");
-    const timer  = setTimeout(() => { cleanup(); reject(new Error("Timed out")); }, 12000);
-
+    const timer = setTimeout(() => { cleanup(); reject(new Error("Timed out")); }, 15000);
     function cleanup() { clearTimeout(timer); delete window[cb]; script.remove(); }
-
     window[cb] = payload => {
       cleanup();
       if (!payload || payload.status === "error") {
         reject(new Error(payload?.errors?.[0]?.detailed_message || "Sheet error")); return;
       }
-      const cols = (payload.table.cols || []).map(c => (c.label || c.id || "").trim().toLowerCase());
-      const dateIdx   = cols.findIndex(c => c.includes("date"));
-      const sourceIdx = cols.findIndex(c => c.includes("source"));
-      const descIdx   = cols.findIndex(c => c.includes("description"));
-      if (dateIdx < 0 || sourceIdx < 0 || descIdx < 0) {
-        reject(new Error(`Columns not found: ${cols.join(", ")}`)); return;
-      }
-      const quotes = (payload.table.rows || [])
-        .map(r => (r.c || []).map(cell => cell ? String(cell.f ?? cell.v ?? "").trim() : ""))
-        .filter(row => normalizeDate(row[dateIdx]) === today)
-        .map(row => ({ source: row[sourceIdx], description: row[descIdx] }))
-        .filter(q => q.description);
-      resolve(quotes);
+      const cols = (payload.table.cols||[]).map(c=>(c.label||c.id||"").trim().toLowerCase());
+      const di = cols.findIndex(c=>c.includes("date"));
+      const si = cols.findIndex(c=>c.includes("source"));
+      const xi = cols.findIndex(c=>c.includes("description"));
+      if (di<0||si<0||xi<0) { reject(new Error("Missing columns: "+cols.join(", "))); return; }
+      const map = {};
+      (payload.table.rows||[]).forEach(r => {
+        const row = (r.c||[]).map(cell=>cell?String(cell.f??cell.v??"").trim():"");
+        const date = normalizeDate(row[di]);
+        if (!date) return;
+        if (!map[date]) map[date] = [];
+        const desc = row[xi];
+        if (desc) map[date].push({ source: row[si], description: desc });
+      });
+      resolve(map);
     };
-
     script.onerror = () => { cleanup(); reject(new Error("Script load failed")); };
     script.src = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?gid=${SHEET_GID}&tqx=responseHandler:${cb}`;
     document.head.append(script);
   });
 }
 
-// ─── Render ───────────────────────────────────────────────────────────────────
-function escHtml(s) {
-  return String(s)
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;");
+// ── Calendar ───────────────────────────────────────────────────────────────────
+function renderCalendar() {
+  const y = calViewYear, m = calViewMonth; // 1-based month
+  const today = todayISO();
+  document.getElementById("cal-month-label").textContent = `${MONTH_NAMES[m-1]} ${y}`;
+
+  const firstDay = new Date(y, m-1, 1).getDay(); // 0=Sun
+  const daysInMonth = new Date(y, m, 0).getDate();
+
+  let html = DOW.map(d=>`<div class="cal-dow">${d}</div>`).join("");
+
+  for (let i=0; i<firstDay; i++) html += `<div class="cal-day cal-day--empty"></div>`;
+
+  for (let d=1; d<=daysInMonth; d++) {
+    const iso = isoFromParts(y,m,d);
+    const isToday = iso === today;
+    const isSel = iso === selectedDate;
+    const isFuture = iso > today;
+    const hasDots = !isFuture && allQuotes[iso] && allQuotes[iso].length > 0;
+    let cls = "cal-day";
+    if (isFuture) cls += " cal-day--future";
+    if (isToday)  cls += " cal-day--today";
+    if (isSel && !isToday) cls += " cal-day--selected";
+    const dot = hasDots ? `<span class="cal-dot"></span>` : `<span style="margin-top:3px;height:5px;display:block"></span>`;
+    html += `<div class="${cls}" data-iso="${iso}">${isToday||isSel||hasDots?`<span class="cal-day-num">${d}</span>`:`<span class="cal-day-num">${d}</span>`}${dot}</div>`;
+  }
+
+  document.getElementById("cal-grid").innerHTML = html;
+
+  // Prev/next month disable logic
+  // Don't go before the earliest data date
+  const dates = Object.keys(allQuotes).sort();
+  const earliest = dates[0] || today;
+  const earliestDate = new Date(earliest+"T12:00:00");
+  const prevDisabled = (y === earliestDate.getFullYear() && m <= earliestDate.getMonth()+1);
+  document.getElementById("cal-prev").disabled = prevDisabled;
+  document.getElementById("cal-next").disabled = (y === new Date().getFullYear() && m >= new Date().getMonth()+1);
+
+  // Click handler
+  document.getElementById("cal-grid").querySelectorAll(".cal-day:not(.cal-day--empty):not(.cal-day--future)").forEach(el => {
+    el.addEventListener("click", () => goToDate(el.dataset.iso));
+  });
 }
 
-function renderQuotes(quotes, today) {
+// ── Navigation ─────────────────────────────────────────────────────────────────
+function goToDate(iso) {
+  selectedDate = iso;
+  const d = new Date(iso+"T12:00:00");
+  calViewYear  = d.getFullYear();
+  calViewMonth = d.getMonth()+1;
+  renderCalendar();
+  renderQuotesForDate(iso);
+  // Update URL hash without reloading
+  history.replaceState(null,"","#"+iso);
+  // Scroll to top of quotes
+  document.getElementById("quotes-container").scrollIntoView({behavior:"smooth",block:"start"});
+}
+
+// ── Render quotes ──────────────────────────────────────────────────────────────
+function escHtml(s) {
+  return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
+}
+
+function renderQuotesForDate(iso) {
+  document.getElementById("page-date").textContent = formatDisplay(iso);
+  document.title = "Daily Quotes — " + formatDisplay(iso);
+
+  const today = todayISO();
+  document.getElementById("next-day").disabled = iso >= today;
+
+  const quotes = allQuotes[iso] || [];
   const container = document.getElementById("quotes-container");
+
   if (!quotes.length) {
-    container.innerHTML = `
-      <div class="no-quotes">
-        No quotes found for today.
-        <span class="nq-date">${escHtml(formatDisplayDate(today))}</span>
-      </div>`;
+    container.innerHTML = `<div class="no-quotes">No quotes in the sheet for ${escHtml(formatDisplay(iso))}.</div>`;
+    document.getElementById("sources-footer").style.display = "none";
     return;
   }
-  container.innerHTML = quotes.map((q, i) => `
-    <div class="section ${sourceClass(q.source)}" style="animation-delay:${i * 0.05}s">
+
+  container.innerHTML = quotes.map((q,i) => `
+    <div class="section ${sourceClass(q.source)}" style="animation-delay:${i*0.05}s">
       <div class="section-label">${escHtml(q.source)}</div>
       <div class="section-body">${escHtml(q.description)}</div>
-    </div>`).join("\n");
+    </div>`).join("");
   document.getElementById("sources-footer").style.display = "";
 }
 
 function renderError(msg) {
-  const container = document.getElementById("quotes-container");
-  container.innerHTML = `
+  document.getElementById("quotes-container").innerHTML = `
     <div class="error-wrap">
       <div class="error-icon">⚠️</div>
       <div class="error-msg">${escHtml(msg)}</div>
@@ -359,46 +390,69 @@ function renderError(msg) {
     </div>`;
 }
 
-// ─── Init ─────────────────────────────────────────────────────────────────────
+// ── Init ───────────────────────────────────────────────────────────────────────
 async function init() {
   const today = todayISO();
-  document.getElementById("page-date").textContent = formatDisplayDate(today);
-  document.title = "Daily Quotes — " + formatDisplayDate(today);
 
-  document.getElementById("quotes-container").innerHTML = `
-    <div class="loading-wrap">
-      <div class="spinner"></div>
-      <span>Loading today's quotes…</span>
-    </div>`;
-  document.getElementById("sources-footer").style.display = "none";
+  // Determine starting date from URL hash or default to today
+  const hashDate = location.hash.replace("#","").match(/^\d{4}-\d{2}-\d{2}$/) ? location.hash.replace("#","") : null;
+  selectedDate = hashDate && hashDate <= today ? hashDate : today;
 
-  // Try CSV export first (most reliable — no auth, no script needed)
-  let quotes;
+  document.getElementById("page-date").textContent = formatDisplay(selectedDate);
+  document.getElementById("next-day").disabled = selectedDate >= today;
+
+  // Load all data
   try {
-    quotes = await fetchFromSheet(today);
-  } catch (csvErr) {
-    console.warn("CSV fetch failed, trying Apps Script:", csvErr.message);
-    try {
-      quotes = await fetchFromAppsScript(today);
-    } catch (appsScriptErr) {
-      try {
-        quotes = await fetchFromSheetGviz(today);
-      } catch (gvizErr) {
-        renderError(`Could not load quotes.\n\nCSV: ${csvErr.message}\nApps Script: ${appsScriptErr.message}\nGviz: ${gvizErr.message}`);
-        return;
-      }
-    }
+    allQuotes = await loadAllFromGviz();
+  } catch(e) {
+    renderError("Could not load quotes from the sheet: " + e.message);
+    return;
   }
 
-  renderQuotes(quotes, today);
+  // Build calendar view centered on selected date
+  const sd = new Date(selectedDate+"T12:00:00");
+  calViewYear  = sd.getFullYear();
+  calViewMonth = sd.getMonth()+1;
+
+  // Show calendar
+  document.getElementById("cal-wrap").style.display = "";
+  renderCalendar();
+
+  // Show quotes for selected date
+  renderQuotesForDate(selectedDate);
 }
 
-// Load config if available, then init
+// ── Wire up controls ───────────────────────────────────────────────────────────
+document.getElementById("prev-day").addEventListener("click", () => {
+  const prev = addDays(selectedDate, -1);
+  const dates = Object.keys(allQuotes).sort();
+  if (dates.length && prev < dates[0]) return;
+  goToDate(prev);
+});
+
+document.getElementById("next-day").addEventListener("click", () => {
+  const next = addDays(selectedDate, 1);
+  if (next > todayISO()) return;
+  goToDate(next);
+});
+
+document.getElementById("cal-prev").addEventListener("click", () => {
+  calViewMonth--;
+  if (calViewMonth < 1) { calViewMonth = 12; calViewYear--; }
+  renderCalendar();
+});
+
+document.getElementById("cal-next").addEventListener("click", () => {
+  calViewMonth++;
+  if (calViewMonth > 12) { calViewMonth = 1; calViewYear++; }
+  renderCalendar();
+});
+
+// Load config if not already present
 if (!window.SNOWFLAKE_CONFIG) {
   const cfg = document.createElement("script");
   cfg.src = "snowflake-config.js";
-  cfg.onload  = init;
-  cfg.onerror = init; // init anyway, will use hardcoded URL
+  cfg.onload = cfg.onerror = init;
   document.head.append(cfg);
 } else {
   init();

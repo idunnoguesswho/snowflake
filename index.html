@@ -1,83 +1,129 @@
-<!doctype html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Snowflake - Daily Family Hub</title>
-<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Baloo+2:wght@400;600;700;800&display=swap" rel="stylesheet">
-<style>
-:root { --ink:#1f2933; --muted:#667085; --line:#d8dee6; }
-*{box-sizing:border-box;margin:0;padding:0}
-html,body{width:100%;overflow-x:hidden}
-body{font-family:'Nunito',sans-serif;background:linear-gradient(160deg,#fff8e1 0%,#e8f4fd 50%,#f3e8ff 100%);min-height:100vh;color:var(--ink)}
-
-.site-header{background:linear-gradient(135deg,#ff6b9d,#ffa94d,#ffd43b,#69db7c,#4dabf7,#cc5de8);background-size:300% 300%;animation:rainbow 8s ease infinite;padding:28px 20px 22px;text-align:center}
-@keyframes rainbow{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
-.site-title{font-family:'Baloo 2',cursive;font-size:clamp(2rem,7vw,2.8rem);color:white;text-shadow:0 3px 0 rgba(0,0,0,.18)}
-.site-title em{font-style:normal}
-.site-date{color:rgba(255,255,255,.92);font-size:.95rem;margin-top:4px;font-weight:700}
-
-.nav-wrap{max-width:780px;margin:0 auto;padding:20px 16px 50px}
-.nav-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
-@media (min-width:560px){ .nav-grid{grid-template-columns:repeat(3,1fr)} }
-
-.nav-card{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;background:white;border:3px solid var(--line);border-radius:20px;padding:18px 10px;text-decoration:none;color:var(--ink);min-height:96px;box-shadow:0 4px 14px rgba(0,0,0,.05);transition:transform .15s, box-shadow .15s, border-color .15s;-webkit-tap-highlight-color:transparent}
-.nav-card:active{transform:scale(.96)}
-@media (hover:hover){
-  .nav-card:hover{transform:translateY(-2px);box-shadow:0 10px 24px rgba(0,0,0,.1)}
-}
-.nav-icon{font-size:1.9rem;line-height:1}
-.nav-label{font-weight:800;font-size:.88rem;text-align:center;line-height:1.2}
-
-.nav-card.c-blue:hover, .nav-card.c-blue:active{border-color:#4dabf7}
-.nav-card.c-pink:hover, .nav-card.c-pink:active{border-color:#ff6b9d}
-.nav-card.c-amber:hover, .nav-card.c-amber:active{border-color:#f59e0b}
-.nav-card.c-green:hover, .nav-card.c-green:active{border-color:#38d9a9}
-.nav-card.c-purple:hover, .nav-card.c-purple:active{border-color:#a855f7}
-
-.section-label{font-family:'Baloo 2',cursive;font-weight:800;font-size:1.05rem;margin:22px 2px 10px;color:var(--ink)}
-.section-label:first-child{margin-top:4px}
-</style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DS Home Computing Ltd</title>
+<link rel="stylesheet" href="styles-index.css">
 </head>
 <body>
 
-<header class="site-header">
-  <div class="site-title">Snowflake <em>*</em></div>
-  <div class="site-date" id="header-date">Daily family hub</div>
-</header>
-
-<div class="nav-wrap">
-
-  <div class="section-label">📋 Daily</div>
-  <div class="nav-grid">
-    <a class="nav-card c-blue" href="dailyupdate.html"><span class="nav-icon">📅</span><span class="nav-label">Daily Update</span></a>
-    <a class="nav-card c-purple" href="quotes.html"><span class="nav-icon">✨</span><span class="nav-label">Quotes</span></a>
-    <a class="nav-card c-green" href="tasks.html"><span class="nav-icon">✅</span><span class="nav-label">Tasks</span></a>
+<nav>
+  <img src="logo-navy.png" alt="DS Home Computing" class="nav-logo">
+  <div class="nav-links">
+    <a href="#about">About</a>
+    <a href="#services">Services</a>
+    <a href="#why">Why Us</a>
+    <a href="#contact">Contact</a>
+    <a href="doc-control.html" class="doc-btn">&#128194; Document Control</a>
   </div>
+</nav>
 
-  <div class="section-label">👨‍👩‍👧‍👦 Kids</div>
-  <div class="nav-grid">
-    <a class="nav-card c-blue" href="oliver.html"><span class="nav-icon">🧒</span><span class="nav-label">Oliver</span></a>
-    <a class="nav-card c-amber" href="logan.html"><span class="nav-icon">🌱</span><span class="nav-label">Logan</span></a>
-    <a class="nav-card c-pink" href="badges.html"><span class="nav-icon">🏅</span><span class="nav-label">Badges</span></a>
-    <a class="nav-card c-green" href="store.html"><span class="nav-icon">🎁</span><span class="nav-label">Store</span></a>
-    <a class="nav-card c-purple" href="missions.html"><span class="nav-icon">⚡</span><span class="nav-label">Missions</span></a>
+<section class="hero">
+  <img src="logo-navy.png" alt="DS Home Computing Ltd" class="hero-logo">
+  <p class="hero-meta">Edmonton, Alberta &middot; Est. 1996</p>
+  <h1>Making computers do what <em>You</em> want<br>when <em>You</em> want</h1>
+  <p class="hero-tagline">Family-operated enterprise delivering full-service computing solutions for nearly three decades. Real people, real answers &mdash; no hold music.</p>
+  <a href="#services" class="hero-cta">Explore What We Do</a>
+</section>
+
+<section class="about-bg" id="about">
+  <div class="container">
+    <div class="about-grid">
+      <div class="about-copy">
+        <div class="section-label">Who We Are</div>
+        <h2 class="section-title">A family business built on trust</h2>
+        <p>DS Home Computing Ltd is a family-owned and operated IT firm founded in 1996 in Edmonton, Alberta, with a branch office near Bruderheim, Alberta. For nearly 30 years we have delivered tailored computing solutions to individuals and businesses across the region.</p>
+        <p>Our guiding principle: <strong>exceptional customer service, driven by customer success.</strong> We are a one-stop shop for information technology &mdash; from strategic planning to hands-on hardware support &mdash; with face-to-face, real people who never leave you on hold for more than three minutes.</p>
+        <p>We believe technology should work for you, not the other way around.</p>
+      </div>
+      <div class="about-stats">
+        <div class="stat-card"><span class="stat-num">29+</span><span class="stat-label">Years in Business</span></div>
+        <div class="stat-card"><span class="stat-num">7</span><span class="stat-label">Core Service Areas</span></div>
+        <div class="stat-card"><span class="stat-num">2</span><span class="stat-label">Alberta Locations</span></div>
+        <div class="stat-card"><span class="stat-num">&lt;3min</span><span class="stat-label">Max Hold Time</span></div>
+      </div>
+    </div>
   </div>
+</section>
 
-  <div class="section-label">💼 Work & Money</div>
-  <div class="nav-grid">
-    <a class="nav-card c-blue" href="hustles.html"><span class="nav-icon">💼</span><span class="nav-label">Hustles</span></a>
-    <a class="nav-card c-green" href="jobs.html"><span class="nav-icon">🔎</span><span class="nav-label">Jobs</span></a>
-    <a class="nav-card c-amber" href="money.html"><span class="nav-icon">💰</span><span class="nav-label">Money</span></a>
-    <a class="nav-card c-pink" href="menu.html"><span class="nav-icon">🍽️</span><span class="nav-label">Menu</span></a>
+<section class="services-bg" id="services">
+  <div class="container">
+    <div class="section-label">What We Do</div>
+    <h2 class="section-title light">Services &amp; Products</h2>
+    <p class="section-sub light">Dynamic solutions yield dynamic pricing. Contact us to discuss what your project needs.</p>
+    <div class="services-grid">
+      <div class="svc-card"><span class="svc-icon">&#128202;</span><div class="svc-name">Efficiency Evaluation</div><div class="svc-desc">Assess and streamline your current workflows and technology stack for maximum productivity.</div></div>
+      <div class="svc-card"><span class="svc-icon">&#128506;</span><div class="svc-name">Strategic Planning</div><div class="svc-desc">Long-term IT roadmaps aligned with your business objectives and growth trajectory.</div></div>
+      <div class="svc-card"><span class="svc-icon">&#128190;</span><div class="svc-name">Software</div><div class="svc-desc">Custom application development, software consultation, installation, and licensing support.</div></div>
+      <div class="svc-card"><span class="svc-icon">&#127891;</span><div class="svc-name">Training</div><div class="svc-desc">Computer training, safety orientation, and certification programs tailored to your team.</div></div>
+      <div class="svc-card"><span class="svc-icon">&#128421;</span><div class="svc-name">Hardware</div><div class="svc-desc">Custom-built PC consulting, hardware installation, diagnostics, troubleshooting, and physical cleaning.</div></div>
+      <div class="svc-card"><span class="svc-icon">&#127760;</span><div class="svc-name">Networking</div><div class="svc-desc">Network design, setup, cloud configuration, VPN, and managed IT infrastructure.</div></div>
+      <div class="svc-card"><span class="svc-icon">&#127758;</span><div class="svc-name">Websites</div><div class="svc-desc">Website design, development, social media management, and digital presence services.</div></div>
+      <div class="svc-card"><span class="svc-icon">&#128274;</span><div class="svc-name">Remote Tech Support</div><div class="svc-desc">Phone, email, text, and VPN-based support &mdash; available when you need it.</div></div>
+      <div class="svc-card"><span class="svc-icon">&#129440;</span><div class="svc-name">PC Cleaning</div><div class="svc-desc">Virus removal, malware cleanup, and physical cleaning to keep your systems running clean.</div></div>
+      <div class="svc-card"><span class="svc-icon">&#128203;</span><div class="svc-name">Project Management</div><div class="svc-desc">End-to-end IT project coordination, digitalization, and quality management services.</div></div>
+      <div class="svc-card"><span class="svc-icon">&#128210;</span><div class="svc-name">Bookkeeping</div><div class="svc-desc">Wave and QuickBooks bookkeeping support for small and medium businesses.</div></div>
+      <div class="svc-card"><span class="svc-icon">&#128737;</span><div class="svc-name">Safety &amp; Compliance</div><div class="svc-desc">COR certification, Lock Out Tag Out, security system consultation, and safety orientation.</div></div>
+    </div>
   </div>
+</section>
 
-</div>
+<section id="why">
+  <div class="container">
+    <div class="section-label">Why Choose Us</div>
+    <h2 class="section-title">The DS Home difference</h2>
+    <p class="section-sub">We are not a call centre. We are your neighbours &mdash; and we take that seriously.</p>
+    <div class="why-grid">
+      <div class="why-card"><h3>Real People, Always</h3><p>Face-to-face service with actual technicians who know your name and your setup. No scripts, no bots.</p></div>
+      <div class="why-card"><h3>Under 3-Minute Hold Time</h3><p>We guarantee you will never wait on hold for more than three minutes. Your time matters to us.</p></div>
+      <div class="why-card"><h3>One-Stop IT Shop</h3><p>Hardware, software, networking, training, bookkeeping &mdash; we cover the full technology spectrum under one roof.</p></div>
+      <div class="why-card"><h3>29+ Years of Experience</h3><p>Founded in 1996, we have navigated every technology wave since the dial-up era. We know what lasts.</p></div>
+      <div class="why-card"><h3>Family Operated</h3><p>We are a family business, which means accountability, continuity, and genuine care for every client relationship.</p></div>
+      <div class="why-card"><h3>Dynamic Pricing</h3><p>No rigid rate cards. Dynamic solutions yield dynamic pricing &mdash; you pay for exactly what your project requires.</p></div>
+    </div>
+  </div>
+</section>
 
-<script>
-  const currentDate = new Date();
-  const dateOptions = { weekday: "long", month: "long", day: "numeric", year: "numeric" };
-  document.getElementById("header-date").textContent = currentDate.toLocaleDateString("en-CA", dateOptions);
-</script>
+<section class="contact-bg" id="contact">
+  <div class="container">
+    <div class="section-label">Get In Touch</div>
+    <h2 class="section-title light">Contact Us</h2>
+    <p class="section-sub light">Edmonton, Alberta &mdash; and near Bruderheim, Alberta. Reach out any time.</p>
+    <div class="contact-grid">
+      <div class="contact-card">
+        <h3>Katie Snow</h3>
+        <div class="role">Primary Contact</div>
+        <a href="tel:7807202683">&#128222; 780-720-2683</a>
+        <a href="mailto:Katie@DSHome.ca">&#9993; Katie@DSHome.ca</a>
+      </div>
+      <div class="contact-card">
+        <h3>Robyn Morales</h3>
+        <div class="role">Team Member</div>
+        <a href="tel:7802643734">&#128222; 780-264-3734</a>
+        <a href="mailto:Robyn.Morales@gmail.com">&#9993; Robyn.Morales@gmail.com</a>
+      </div>
+      <div class="contact-card">
+        <h3>Doug Senger</h3>
+        <div class="role">Team Member</div>
+        <a href="tel:7809407067">&#128222; 780-940-7067</a>
+        <a href="mailto:Doug.Senger@gmail.com">&#9993; Doug.Senger@gmail.com</a>
+      </div>
+      <div class="contact-card">
+        <h3>Internal Portal</h3>
+        <div class="role">Staff &amp; Admin</div>
+        <a href="doc-control.html">&#128194; Document Control System</a>
+        <a href="mailto:Katie@DSHome.ca">&#9993; Request Access</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <img src="logo-navy.png" alt="DS Home Computing" class="footer-logo"><br>
+  &copy; 2025 DS Home Computing Ltd &middot; Edmonton, Alberta &middot; Est. 1996<br>
+  <a href="https://www.dshome.ca" target="_blank">www.dshome.ca</a>
+</footer>
+
 </body>
 </html>

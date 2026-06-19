@@ -1,0 +1,430 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Reward Store</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Baloo+2:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root { --ink:#1f2933; --muted:#667085; --line:#d8dee6; }
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Nunito',sans-serif;background:linear-gradient(160deg,#fff8e1 0%,#e8f4fd 50%,#f3e8ff 100%);min-height:100vh;color:var(--ink)}
+
+.site-header{background:linear-gradient(135deg,#ff6b9d,#ffa94d,#ffd43b,#69db7c,#4dabf7,#cc5de8);background-size:300% 300%;animation:rainbow 8s ease infinite;padding:22px 24px 16px;text-align:center;position:relative}
+@keyframes rainbow{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
+.site-header h1{font-family:'Baloo 2',cursive;font-size:clamp(1.8rem,5vw,2.8rem);color:white;text-shadow:0 3px 0 rgba(0,0,0,.18)}
+.site-header p{color:rgba(255,255,255,.92);font-size:1rem;margin-top:2px;font-weight:700}
+.back-link{position:absolute;left:16px;top:18px;background:rgba(255,255,255,.25);border:2px solid rgba(255,255,255,.5);color:white;text-decoration:none;font-weight:800;font-size:.85rem;padding:5px 12px;border-radius:20px;backdrop-filter:blur(6px)}
+
+.user-switcher{display:flex;justify-content:center;gap:12px;padding:16px 24px 12px;background:white;border-bottom:2px solid var(--line)}
+.user-btn{display:flex;flex-direction:column;align-items:center;gap:3px;padding:10px 28px;border-radius:16px;border:3px solid transparent;background:#f8f9fe;font-family:'Nunito',sans-serif;cursor:pointer;transition:all .2s;min-width:130px}
+.user-btn .user-emoji{font-size:2rem;line-height:1}
+.user-btn .user-name{font-weight:900;font-size:.95rem}
+.user-btn .user-count{font-size:.78rem;font-weight:700;color:var(--muted)}
+.user-btn.oliver.active{background:linear-gradient(135deg,#dbeafe,#bfdbfe);border-color:#3b82f6;color:#1e40af}
+.user-btn.oliver.active .user-count{color:#3b82f6}
+.user-btn.logan.active{background:linear-gradient(135deg,#fef3c7,#fde68a);border-color:#f59e0b;color:#92400e}
+.user-btn.logan.active .user-count{color:#d97706}
+.user-btn:hover:not(.active){transform:translateY(-2px);box-shadow:0 4px 14px rgba(0,0,0,.1)}
+
+.balance-bar{max-width:700px;margin:18px auto 4px;padding:0 24px;text-align:center}
+.balance-card{background:white;border-radius:24px;border:3px solid var(--line);padding:18px 20px;box-shadow:0 8px 24px rgba(0,0,0,.06)}
+.balance-card.oliver{border-color:#3b82f6}
+.balance-card.logan{border-color:#f59e0b}
+.balance-num{font-family:'Baloo 2',cursive;font-size:clamp(2.2rem,8vw,3rem);font-weight:800;line-height:1}
+.balance-card.oliver .balance-num{color:#1e40af}
+.balance-card.logan .balance-num{color:#92400e}
+.balance-label{font-weight:800;color:var(--muted);font-size:.85rem;letter-spacing:.04em;text-transform:uppercase;margin-top:4px}
+.balance-sub{font-size:.8rem;color:var(--muted);font-weight:700;margin-top:8px}
+.balance-loading{font-size:.85rem;color:var(--muted);font-weight:700;margin-top:8px;display:flex;align-items:center;justify-content:center;gap:6px}
+.spin{width:14px;height:14px;border:2.5px solid var(--line);border-top-color:#4dabf7;border-radius:50%;animation:spin .7s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+.cat-tabs{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;padding:18px 24px 6px;max-width:900px;margin:0 auto}
+.cat-tab{display:flex;align-items:center;gap:5px;padding:7px 14px;border-radius:50px;border:2.5px solid transparent;background:white;font-family:'Nunito',sans-serif;font-weight:800;font-size:.85rem;cursor:pointer;transition:all .2s;box-shadow:0 2px 8px rgba(0,0,0,.06)}
+.cat-tab:hover{transform:translateY(-2px)}
+.cat-tab.active{color:white}
+.cat-tab[data-cat="all"].active{background:linear-gradient(135deg,#667eea,#764ba2)}
+.cat-tab[data-cat="screen"].active{background:linear-gradient(135deg,#4b9ef8,#7ed3f7)}
+.cat-tab[data-cat="treats"].active{background:linear-gradient(135deg,#f5a623,#f7dc6f);color:#7a4f00}
+.cat-tab[data-cat="privileges"].active{background:linear-gradient(135deg,#a855f7,#d8b4fe)}
+.cat-tab[data-cat="money"].active{background:linear-gradient(135deg,#14b8a6,#6ee7b7)}
+.cat-tab[data-cat="adventures"].active{background:linear-gradient(135deg,#ef4444,#f97316)}
+.cat-tab[data-cat="big"].active{background:linear-gradient(135deg,#f06878,#fda085)}
+
+.reward-section{padding:8px 24px 40px;max-width:1000px;margin:0 auto}
+.cat-heading{font-family:'Baloo 2',cursive;font-size:1.25rem;font-weight:800;margin:20px 0 12px;display:flex;align-items:center;gap:8px}
+.reward-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:14px}
+
+.reward-card{background:white;border-radius:20px;border:3px solid var(--line);padding:16px 14px;text-align:center;cursor:pointer;transition:all .2s;box-shadow:0 4px 14px rgba(0,0,0,.05)}
+.reward-card:hover{transform:translateY(-3px);box-shadow:0 10px 26px rgba(0,0,0,.1)}
+.reward-card.affordable{border-color:#69db7c}
+.reward-card.locked{opacity:.6}
+.reward-icon{font-size:2.4rem;margin-bottom:6px}
+.reward-name{font-weight:800;font-size:.88rem;line-height:1.25;margin-bottom:8px;min-height:2.4em}
+.reward-cost{display:inline-flex;align-items:center;gap:4px;background:#f8f9fe;border-radius:50px;padding:4px 12px;font-weight:900;font-size:.85rem;color:#4b9ef8}
+.reward-card.locked .reward-cost{color:var(--muted)}
+
+.history-section{max-width:700px;margin:10px auto 50px;padding:0 24px}
+.history-heading{font-family:'Baloo 2',cursive;font-size:1.15rem;font-weight:800;margin-bottom:10px;display:flex;align-items:center;gap:8px}
+.history-empty{color:var(--muted);font-weight:700;font-size:.85rem;text-align:center;padding:20px;background:white;border-radius:16px;border:2px dashed var(--line)}
+.history-row{display:flex;align-items:center;gap:10px;background:white;border-radius:14px;border:2px solid var(--line);padding:10px 14px;margin-bottom:8px}
+.history-icon{font-size:1.4rem}
+.history-info{flex:1}
+.history-name{font-weight:800;font-size:.88rem}
+.history-date{font-size:.75rem;color:var(--muted);font-weight:700}
+.history-cost{font-weight:900;color:#dc2626;font-size:.85rem}
+.history-undo{background:#f1f5f9;border:none;width:26px;height:26px;border-radius:50%;cursor:pointer;font-size:.8rem;color:var(--muted);flex-shrink:0}
+.history-undo:hover{background:#e2e8f0}
+
+.modal-backdrop{position:fixed;inset:0;background:rgba(15,23,42,.6);z-index:100;display:flex;align-items:center;justify-content:center;padding:20px;backdrop-filter:blur(4px);animation:fadeIn .15s ease}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+.modal-backdrop.hidden{display:none}
+.modal-box{background:white;border-radius:24px;max-width:380px;width:100%;padding:26px 26px 22px;box-shadow:0 24px 80px rgba(0,0,0,.25);animation:slideUp .25s cubic-bezier(.34,1.56,.64,1);position:relative;text-align:center}
+@keyframes slideUp{from{transform:translateY(40px) scale(.95);opacity:0}to{transform:translateY(0) scale(1);opacity:1}}
+.modal-close{position:absolute;right:16px;top:16px;background:#f1f5f9;border:none;width:32px;height:32px;border-radius:50%;font-size:1rem;cursor:pointer}
+.modal-close:hover{background:#e2e8f0}
+.modal-icon{font-size:3rem;margin:6px 0 8px}
+.modal-title{font-family:'Baloo 2',cursive;font-size:1.4rem;font-weight:800;margin-bottom:4px}
+.modal-cost{font-weight:900;color:#4b9ef8;font-size:1.05rem;margin-bottom:16px}
+.modal-msg{font-size:.85rem;color:var(--muted);font-weight:700;margin-bottom:14px}
+.redeem-btn{width:100%;padding:13px;border-radius:50px;border:none;font-family:'Nunito',sans-serif;font-weight:900;font-size:.95rem;cursor:pointer;transition:all .2s}
+.redeem-btn.go{background:linear-gradient(135deg,#69db7c,#38d9a9);color:white}
+.redeem-btn.go:hover{transform:scale(1.03)}
+.redeem-btn.no{background:#f1f5f9;color:var(--muted);cursor:not-allowed}
+
+#confettiWrap{position:fixed;inset:0;pointer-events:none;z-index:200;overflow:hidden}
+.confetto{position:absolute;top:-10px;animation:fall linear forwards}
+@keyframes fall{to{transform:translateY(110vh) rotate(540deg);opacity:.3}}
+#toastArea{position:fixed;bottom:18px;left:50%;transform:translateX(-50%);z-index:300;display:flex;flex-direction:column;gap:8px;align-items:center}
+.toast{background:#1f2933;color:white;padding:10px 18px;border-radius:50px;font-weight:800;font-size:.85rem;box-shadow:0 8px 20px rgba(0,0,0,.25);animation:toastIn .25s ease}
+@keyframes toastIn{from{transform:translateY(10px);opacity:0}to{transform:translateY(0);opacity:1}}
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <a href="index.html" class="back-link">← Home</a>
+  <h1>🎁 Reward Store</h1>
+  <p>Spend your earned points!</p>
+</header>
+
+<div class="user-switcher">
+  <button class="user-btn oliver" data-user="oliver" onclick="switchUser('oliver')">
+    <div class="user-emoji">🧒</div>
+    <div class="user-name">Oliver</div>
+    <div class="user-count" id="count-oliver">…</div>
+  </button>
+  <button class="user-btn logan" data-user="logan" onclick="switchUser('logan')">
+    <div class="user-emoji">🌱</div>
+    <div class="user-name">Logan</div>
+    <div class="user-count" id="count-logan">…</div>
+  </button>
+</div>
+
+<div class="balance-bar">
+  <div class="balance-card" id="balanceCard">
+    <div class="balance-num" id="balanceNum">—</div>
+    <div class="balance-label">points available</div>
+    <div class="balance-sub" id="balanceSub"></div>
+  </div>
+</div>
+
+<div class="cat-tabs" id="catTabs">
+  <button class="cat-tab active" data-cat="all">⭐ All</button>
+  <button class="cat-tab" data-cat="screen">🎮 Screen Time</button>
+  <button class="cat-tab" data-cat="treats">🍦 Treats</button>
+  <button class="cat-tab" data-cat="privileges">✨ Privileges</button>
+  <button class="cat-tab" data-cat="money">💰 Money</button>
+  <button class="cat-tab" data-cat="adventures">🎡 Adventures</button>
+  <button class="cat-tab" data-cat="big">🎁 Big Stuff</button>
+</div>
+
+<div class="reward-section" id="rewardSection"></div>
+
+<div class="history-section">
+  <div class="history-heading">📜 Redemption History</div>
+  <div id="historyList"></div>
+</div>
+
+<div class="modal-backdrop hidden" id="modal" onclick="closeModal(event)">
+  <div class="modal-box">
+    <button class="modal-close" onclick="hideModal()">✕</button>
+    <div class="modal-icon" id="mIcon"></div>
+    <div class="modal-title" id="mTitle"></div>
+    <div class="modal-cost" id="mCost"></div>
+    <div class="modal-msg" id="mMsg"></div>
+    <button class="redeem-btn" id="mBtn"></button>
+  </div>
+</div>
+
+<div id="confettiWrap"></div>
+<div id="toastArea"></div>
+
+<script>
+/* ───────────────────────────────────────────────────────────
+   REWARD CATALOG — edit freely! Each reward needs:
+   id (unique), name, icon, cost (points), cat (must match a
+   data-cat value above)
+   ─────────────────────────────────────────────────────────── */
+const REWARDS = [
+  // Screen Time
+  { id:'st1', name:'15 extra screen minutes', icon:'🎮', cost:15, cat:'screen' },
+  { id:'st2', name:'30 extra screen minutes', icon:'🎮', cost:25, cat:'screen' },
+  { id:'st3', name:'Pick the family movie night', icon:'🍿', cost:30, cat:'screen' },
+  { id:'st4', name:'New mobile game / app', icon:'📱', cost:60, cat:'screen' },
+
+  // Treats
+  { id:'tr1', name:'Pick dessert after supper', icon:'🍪', cost:10, cat:'treats' },
+  { id:'tr2', name:'Choose a snack at the store', icon:'🛒', cost:15, cat:'treats' },
+  { id:'tr3', name:'Bake treats together', icon:'🧁', cost:25, cat:'treats' },
+  { id:'tr4', name:'Trip for ice cream', icon:'🍦', cost:35, cat:'treats' },
+
+  // Privileges
+  { id:'pv1', name:'Stay up 30 min past bedtime', icon:'🌙', cost:20, cat:'privileges' },
+  { id:'pv2', name:'Skip one chore (your pick)', icon:'🙅', cost:25, cat:'privileges' },
+  { id:'pv3', name:'Pick the weekend activity', icon:'🗺️', cost:30, cat:'privileges' },
+  { id:'pv4', name:'Friend sleepover', icon:'🛏️', cost:80, cat:'privileges' },
+
+  // Money
+  { id:'mo1', name:'$2 cash', icon:'💵', cost:40, cat:'money' },
+  { id:'mo2', name:'$5 cash', icon:'💵', cost:90, cat:'money' },
+  { id:'mo3', name:'$10 cash', icon:'💵', cost:170, cat:'money' },
+
+  // Adventures
+  { id:'ad1', name:'Trip to the park of choice', icon:'🌳', cost:30, cat:'adventures' },
+  { id:'ad2', name:'Swimming trip', icon:'🏊', cost:45, cat:'adventures' },
+  { id:'ad3', name:'Bowling trip', icon:'🎳', cost:60, cat:'adventures' },
+  { id:'ad4', name:'Jurassic Forest / Prairie Gardens', icon:'🦕', cost:120, cat:'adventures' },
+
+  // Big Stuff
+  { id:'bg1', name:'Custom Cricut craft, just for you', icon:'✂️', cost:50, cat:'big' },
+  { id:'bg2', name:'New book or game of choice', icon:'📚', cost:90, cat:'big' },
+  { id:'bg3', name:'New Lego set', icon:'🧱', cost:200, cat:'big' },
+];
+
+const CAT_HEADINGS = { screen:'🎮 Screen Time', treats:'🍦 Treats', privileges:'✨ Privileges', money:'💰 Money', adventures:'🎡 Adventures', big:'🎁 Big Stuff' };
+const CAT_ORDER = ['screen','treats','privileges','money','adventures','big'];
+
+const USERS = { oliver:{label:'Oliver', sheetName:'Oliver'}, logan:{label:'Logan', sheetName:'Logan'} };
+let currentUser = localStorage.getItem('sf_store_user') || 'oliver';
+let activeFilter = 'all';
+let earnedPoints = { oliver:0, logan:0 };
+let loaded = false;
+let modalReward = null;
+
+/* ── Redemption log (local, per user) ── */
+function loadRedeemed(u) { try { return JSON.parse(localStorage.getItem('sf_store_redeemed_'+u)||'[]'); } catch(e) { return []; } }
+function saveRedeemed(u, log) { localStorage.setItem('sf_store_redeemed_'+u, JSON.stringify(log)); }
+function spentTotal(u) { return loadRedeemed(u).reduce((sum,r)=>sum+r.cost, 0); }
+function balance(u) { return Math.max(0, (earnedPoints[u]||0) - spentTotal(u)); }
+
+/* ── Sheet fetch (same source as oliver.html / logan.html) ── */
+const SHEET_ID  = '11A5NsScePEbtN9dujN3tILb_Q2TU5tsf6I0MbT11kDY';
+const SHEET_GID = '553696854';
+const YES = new Set(['yes','true','1','✓','✅']);
+
+function parseCSV(raw){
+  const rows=[]; let i=0,n=raw.length;
+  while(i<n){const row=[];while(i<n&&raw[i]!=='\n'&&raw[i]!=='\r'){if(raw[i]==='"'){let c='';i++;while(i<n){if(raw[i]==='"'&&raw[i+1]==='"'){c+='"';i+=2;}else if(raw[i]==='"'){i++;break;}else c+=raw[i++];}row.push(c.trim());if(raw[i]===',')i++;}else{let c='';while(i<n&&raw[i]!==','&&raw[i]!=='\n'&&raw[i]!=='\r')c+=raw[i++];row.push(c.trim());if(raw[i]===',')i++;}}while(raw[i]==='\n'||raw[i]==='\r')i++;if(row.some(c=>c))rows.push(row);}
+  return rows;
+}
+
+async function loadSheet(){
+  const url=`https://docs.google.com/spreadsheets/d/${SHEET_ID}/export?format=csv&gid=${SHEET_GID}`;
+  try{const r=await fetch(url,{cache:'no-store'});if(!r.ok)throw 0;const t=await r.text();if(!t.trim())throw 0;return parseCSV(t);}
+  catch{return loadGviz();}
+}
+
+function loadGviz(){
+  return new Promise((res,rej)=>{
+    const cb=`_sf_store_cb_${Date.now()}`,s=document.createElement('script'),t=setTimeout(()=>{s.remove();delete window[cb];rej();},12000);
+    window[cb]=p=>{clearTimeout(t);s.remove();delete window[cb];if(!p||p.status==='error'){rej();return;}
+      const hdrs=(p.table.cols||[]).map((c,i)=>c.label||`Col${i}`);
+      const rows=(p.table.rows||[]).map(r=>(r.c||[]).map(cell=>cell?(cell.f!=null?String(cell.f):String(cell.v??'')):''));
+      res([hdrs,...rows]);};
+    s.onerror=()=>{clearTimeout(t);s.remove();rej();};
+    s.src=`https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?gid=${SHEET_GID}&tqx=responseHandler:${cb}`;
+    document.head.append(s);
+  });
+}
+
+// Sums the Points column for every completed task, by Responsible person.
+function buildEarned(rows){
+  const totals = { oliver:0, logan:0 };
+  if (rows.length<2) return totals;
+  const h=rows[0].map(x=>x.toLowerCase().trim()), col=kw=>h.findIndex(c=>c.includes(kw));
+  const iResp = col('responsible')!==-1 ? col('responsible') : 2;
+  const iDone = col('isdone')!==-1 ? col('isdone') : 11;
+  const iPts  = col('points')!==-1 ? col('points') : 12;
+  const get=(r,i)=>(i>=0&&i<r.length?r[i]:'').trim();
+  rows.slice(1).forEach(r=>{
+    const resp = get(r,iResp);
+    const done = (get(r,iDone)||'').toLowerCase().trim();
+    if (!YES.has(done)) return;
+    const pts = parseFloat(get(r,iPts)) || 0;
+    if (resp==='Oliver') totals.oliver += pts;
+    else if (resp==='Logan') totals.logan += pts;
+  });
+  return totals;
+}
+
+/* ── Rendering ── */
+function switchUser(u){
+  currentUser = u;
+  localStorage.setItem('sf_store_user', u);
+  document.querySelectorAll('.user-btn').forEach(b=>b.classList.toggle('active', b.dataset.user===u));
+  document.getElementById('balanceCard').className = 'balance-card '+u;
+  refreshAll();
+}
+
+function refreshAll(){
+  updateBalance();
+  renderRewards();
+  renderHistory();
+}
+
+function updateBalance(){
+  document.getElementById('count-oliver').textContent = loaded ? balance('oliver')+' pts' : '…';
+  document.getElementById('count-logan').textContent = loaded ? balance('logan')+' pts' : '…';
+  if (!loaded){
+    document.getElementById('balanceNum').innerHTML = '<span class="balance-loading"><span class="spin"></span> loading…</span>';
+    document.getElementById('balanceSub').textContent = '';
+    return;
+  }
+  document.getElementById('balanceNum').textContent = balance(currentUser);
+  document.getElementById('balanceSub').textContent = `${earnedPoints[currentUser]||0} earned all-time · ${spentTotal(currentUser)} spent so far`;
+}
+
+function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+
+function renderRewards(){
+  const section = document.getElementById('rewardSection');
+  const cats = activeFilter==='all' ? CAT_ORDER : [activeFilter];
+  const bal = balance(currentUser);
+  section.innerHTML = cats.map(cat=>{
+    const items = REWARDS.filter(r=>r.cat===cat);
+    if (!items.length) return '';
+    return '<div class="cat-heading">'+CAT_HEADINGS[cat]+'</div><div class="reward-grid">'+
+      items.map(r=>{
+        const can = loaded && bal>=r.cost;
+        return '<div class="reward-card '+(can?'affordable':'locked')+'" onclick="openModal(\''+r.id+'\')">'+
+          '<div class="reward-icon">'+r.icon+'</div>'+
+          '<div class="reward-name">'+esc(r.name)+'</div>'+
+          '<div class="reward-cost">⭐ '+r.cost+'</div></div>';
+      }).join('') + '</div>';
+  }).join('');
+}
+
+function renderHistory(){
+  const log = loadRedeemed(currentUser).slice().reverse();
+  const list = document.getElementById('historyList');
+  if (!log.length){
+    list.innerHTML = '<div class="history-empty">No rewards redeemed yet — earn points and treat yourself!</div>';
+    return;
+  }
+  list.innerHTML = log.map(entry=>{
+    return '<div class="history-row">'+
+      '<div class="history-icon">'+entry.icon+'</div>'+
+      '<div class="history-info"><div class="history-name">'+esc(entry.name)+'</div>'+
+      '<div class="history-date">'+entry.date+'</div></div>'+
+      '<div class="history-cost">−'+entry.cost+'</div>'+
+      '<button class="history-undo" title="Undo this redemption" onclick="undoRedeem(\''+entry.uid+'\')">↺</button>'+
+      '</div>';
+  }).join('');
+}
+
+function openModal(id){
+  modalReward = REWARDS.find(r=>r.id===id);
+  if (!modalReward) return;
+  const can = loaded && balance(currentUser) >= modalReward.cost;
+  document.getElementById('mIcon').textContent = modalReward.icon;
+  document.getElementById('mTitle').textContent = modalReward.name;
+  document.getElementById('mCost').textContent = '⭐ '+modalReward.cost+' points';
+  const btn = document.getElementById('mBtn');
+  if (!loaded){
+    document.getElementById('mMsg').textContent = 'Still loading your points balance…';
+    btn.className='redeem-btn no'; btn.textContent='Please wait'; btn.onclick=null;
+  } else if (can){
+    document.getElementById('mMsg').textContent = 'Redeem this for '+USERS[currentUser].label+'?';
+    btn.className='redeem-btn go'; btn.textContent='🎉 Redeem Now'; btn.onclick=redeem;
+  } else {
+    const need = modalReward.cost - balance(currentUser);
+    document.getElementById('mMsg').textContent = 'Need '+need+' more point'+(need===1?'':'s')+' to redeem this.';
+    btn.className='redeem-btn no'; btn.textContent='Not enough points yet'; btn.onclick=null;
+  }
+  document.getElementById('modal').classList.remove('hidden');
+}
+
+function redeem(){
+  if (!modalReward) return;
+  const log = loadRedeemed(currentUser);
+  log.push({
+    uid: Date.now()+'_'+modalReward.id,
+    id: modalReward.id,
+    name: modalReward.name,
+    icon: modalReward.icon,
+    cost: modalReward.cost,
+    date: new Date().toLocaleDateString('en-CA', { weekday:'short', month:'short', day:'numeric' })
+  });
+  saveRedeemed(currentUser, log);
+  celebrate();
+  toast('🎉 Redeemed: '+modalReward.name+'!');
+  hideModal();
+  refreshAll();
+}
+
+function undoRedeem(uid){
+  const log = loadRedeemed(currentUser).filter(e=>e.uid!==uid);
+  saveRedeemed(currentUser, log);
+  toast('Redemption undone.');
+  refreshAll();
+}
+
+function hideModal(){ document.getElementById('modal').classList.add('hidden'); modalReward=null; }
+function closeModal(e){ if (e.target===document.getElementById('modal')) hideModal(); }
+
+function celebrate(){
+  const wrap = document.getElementById('confettiWrap');
+  const cols = ['#ff6b9d','#ffa94d','#ffd43b','#69db7c','#4dabf7','#cc5de8','#f06878'];
+  for (let i=0;i<60;i++){
+    const el=document.createElement('div'); el.className='confetto';
+    el.style.cssText='left:'+Math.random()*100+'%;background:'+cols[Math.floor(Math.random()*cols.length)]+';border-radius:'+(Math.random()>.5?'50%':'2px')+';width:'+(6+Math.random()*10)+'px;height:'+(6+Math.random()*10)+'px;animation-delay:'+Math.random()*.5+'s;animation-duration:'+(1.4+Math.random()*.8)+'s';
+    wrap.appendChild(el); setTimeout(()=>el.remove(),2400);
+  }
+}
+
+function toast(msg){
+  const area = document.getElementById('toastArea');
+  const el = document.createElement('div'); el.className='toast'; el.textContent=msg;
+  area.appendChild(el); setTimeout(()=>el.remove(),3200);
+}
+
+document.getElementById('catTabs').addEventListener('click', e=>{
+  const tab = e.target.closest('.cat-tab');
+  if (!tab) return;
+  document.querySelectorAll('.cat-tab').forEach(t=>t.classList.remove('active'));
+  tab.classList.add('active');
+  activeFilter = tab.dataset.cat;
+  renderRewards();
+});
+
+/* ── Init ── */
+document.querySelector('.user-btn[data-user="'+currentUser+'"]').classList.add('active');
+document.getElementById('balanceCard').className = 'balance-card '+currentUser;
+refreshAll();
+
+(async()=>{
+  try{
+    const rows = await loadSheet();
+    earnedPoints = buildEarned(rows);
+  } catch(e){
+    document.getElementById('balanceSub').textContent = 'Could not load points from the sheet — check connection.';
+  } finally {
+    loaded = true;
+    refreshAll();
+  }
+})();
+</script>
+</body>
+</html>

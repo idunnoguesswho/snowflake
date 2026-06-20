@@ -1,0 +1,1698 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>L'Agence du Savoir — Logan</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Baloo+2:wght@500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --navy: #0f1c35;
+  --navy-mid: #1a2e50;
+  --navy-light: #243c6b;
+  --gold: #e8a91a;
+  --gold-light: #f5cc60;
+  --green: #4aaa55;
+  --green-light: #6bcb77;
+  --cream: #fef9ee;
+  --cream-dark: #f5edd8;
+  --red: #e05252;
+  --text: #1f2933;
+  --muted: #6b7280;
+  --white: #ffffff;
+  --shadow: 0 4px 16px rgba(0,0,0,.15);
+  --radius: 16px;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'Nunito', sans-serif;
+  background: var(--navy);
+  color: var(--text);
+  min-height: 100vh;
+}
+
+/* ── Header ── */
+.agency-header {
+  background: linear-gradient(135deg, var(--navy) 0%, var(--navy-mid) 100%);
+  padding: 20px 16px 24px;
+  text-align: center;
+  position: relative;
+  border-bottom: 3px solid var(--gold);
+}
+.agency-badge {
+  font-size: 40px;
+  margin-bottom: 6px;
+  display: block;
+}
+.agency-title {
+  font-family: 'Baloo 2', sans-serif;
+  font-size: clamp(1.3rem, 5vw, 2rem);
+  font-weight: 800;
+  color: var(--gold);
+  letter-spacing: 1px;
+  line-height: 1.2;
+}
+.agency-sub {
+  font-size: 13px;
+  color: rgba(255,255,255,.65);
+  margin-top: 4px;
+}
+.agent-card {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: rgba(255,255,255,.08);
+  border: 1px solid rgba(232,169,26,.3);
+  border-radius: 30px;
+  padding: 8px 16px;
+  margin-top: 12px;
+  color: white;
+  font-size: 13px;
+  font-weight: 700;
+}
+.agent-card span { font-size: 18px; }
+
+/* ── Progress Bar ── */
+.progress-section {
+  background: var(--navy-mid);
+  padding: 14px 20px;
+  border-bottom: 1px solid rgba(255,255,255,.08);
+}
+.progress-label {
+  display: flex;
+  justify-content: space-between;
+  color: rgba(255,255,255,.7);
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+.progress-track {
+  height: 8px;
+  background: rgba(255,255,255,.1);
+  border-radius: 4px;
+  overflow: hidden;
+}
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--green), var(--gold));
+  border-radius: 4px;
+  transition: width .6s ease;
+}
+
+/* ── Subject tabs ── */
+.subject-tabs {
+  display: flex;
+  background: var(--navy-mid);
+  padding: 0 12px;
+  overflow-x: auto;
+  border-bottom: 2px solid rgba(255,255,255,.08);
+  gap: 4px;
+}
+.s-tab {
+  flex-shrink: 0;
+  padding: 12px 16px;
+  background: none;
+  border: none;
+  font-family: 'Nunito', sans-serif;
+  font-size: 13px;
+  font-weight: 800;
+  color: rgba(255,255,255,.5);
+  cursor: pointer;
+  border-bottom: 3px solid transparent;
+  transition: all .2s;
+  white-space: nowrap;
+}
+.s-tab:hover { color: rgba(255,255,255,.85); }
+.s-tab.active { color: var(--gold); border-bottom-color: var(--gold); }
+
+/* ── Case Grid ── */
+.cases-wrap {
+  padding: 16px 14px 40px;
+  max-width: 760px;
+  margin: 0 auto;
+}
+.section-heading {
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin: 20px 0 10px;
+  padding-left: 2px;
+}
+.case-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 12px;
+}
+
+/* ── Case Card ── */
+.case-card {
+  background: var(--navy-mid);
+  border: 2px solid rgba(232,169,26,.2);
+  border-radius: var(--radius);
+  cursor: pointer;
+  transition: all .2s;
+  overflow: hidden;
+  position: relative;
+}
+.case-card:hover { border-color: var(--gold); transform: translateY(-2px); box-shadow: var(--shadow); }
+.case-card.completed { border-color: var(--green); }
+.case-card.locked { opacity: .55; cursor: default; }
+.case-card.locked:hover { transform: none; border-color: rgba(232,169,26,.2); }
+
+.cc-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 16px 10px;
+}
+.cc-icon {
+  width: 46px;
+  height: 46px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  flex-shrink: 0;
+}
+.cc-icon.fla { background: rgba(91,155,213,.15); }
+.cc-icon.ss  { background: rgba(74,170,85,.15); }
+.cc-meta { flex: 1; min-width: 0; }
+.cc-code {
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  margin-bottom: 2px;
+}
+.cc-code.fla { color: #5b9bd5; }
+.cc-code.ss  { color: var(--green); }
+.cc-title {
+  font-family: 'Baloo 2', sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  color: white;
+  line-height: 1.3;
+}
+.cc-status {
+  font-size: 18px;
+  flex-shrink: 0;
+}
+.cc-body {
+  padding: 0 16px 14px;
+}
+.cc-desc {
+  font-size: 12px;
+  color: rgba(255,255,255,.6);
+  line-height: 1.55;
+}
+.cc-meta-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 10px;
+}
+.cc-pill {
+  font-size: 10px;
+  font-weight: 800;
+  padding: 3px 10px;
+  border-radius: 20px;
+  background: rgba(255,255,255,.08);
+  color: rgba(255,255,255,.6);
+}
+.cc-pill.fla { background: rgba(91,155,213,.15); color: #5b9bd5; }
+.cc-pill.ss  { background: rgba(74,170,85,.15);  color: var(--green-light); }
+.completed-badge {
+  display: none;
+  font-size: 10px;
+  font-weight: 800;
+  color: var(--green);
+  background: rgba(74,170,85,.12);
+  padding: 3px 10px;
+  border-radius: 20px;
+}
+.case-card.completed .completed-badge { display: inline; }
+
+/* ── Modal Overlay ── */
+.modal-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,.75);
+  z-index: 200;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+.modal-overlay.open { display: block; }
+
+.modal-box {
+  background: var(--cream);
+  max-width: 680px;
+  margin: 20px auto 40px;
+  border-radius: var(--radius);
+  overflow: hidden;
+  animation: modalIn .2s ease;
+}
+@keyframes modalIn {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: none; }
+}
+
+/* ── Dossier Header ── */
+.dossier-header {
+  background: var(--navy);
+  padding: 18px 20px 16px;
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+}
+.dossier-icon {
+  font-size: 32px;
+  flex-shrink: 0;
+}
+.dossier-meta { flex: 1; }
+.dossier-code {
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-bottom: 2px;
+}
+.dossier-code.fla { color: #5b9bd5; }
+.dossier-code.ss  { color: var(--green-light); }
+.dossier-title {
+  font-family: 'Baloo 2', sans-serif;
+  font-size: clamp(1rem, 4vw, 1.4rem);
+  font-weight: 800;
+  color: white;
+  line-height: 1.25;
+}
+.dossier-close {
+  background: rgba(255,255,255,.1);
+  border: none;
+  color: white;
+  font-size: 20px;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: background .15s;
+}
+.dossier-close:hover { background: rgba(255,255,255,.2); }
+
+/* ── Phase Indicator ── */
+.phase-bar {
+  background: var(--navy-mid);
+  display: flex;
+  align-items: center;
+  padding: 10px 20px;
+  gap: 8px;
+  border-bottom: 1px solid rgba(255,255,255,.08);
+}
+.phase-step {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  font-weight: 700;
+  color: rgba(255,255,255,.4);
+}
+.phase-step.active { color: var(--gold); }
+.phase-step.done   { color: var(--green); }
+.phase-dot {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: rgba(255,255,255,.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  font-weight: 800;
+  flex-shrink: 0;
+}
+.phase-step.active .phase-dot { background: var(--gold); color: var(--navy); }
+.phase-step.done   .phase-dot { background: var(--green); color: white; font-size: 11px; }
+.phase-line {
+  flex: 1;
+  height: 2px;
+  background: rgba(255,255,255,.1);
+}
+.phase-line.done { background: var(--green); }
+
+/* ── Reading Phase ── */
+.reading-phase { display: none; }
+.reading-phase.active { display: block; }
+
+.dossier-stamp {
+  background: var(--cream-dark);
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border-bottom: 2px dashed #d4c4a0;
+}
+.stamp-text {
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: #8b5e3c;
+}
+.stamp-time {
+  margin-left: auto;
+  font-size: 11px;
+  color: #8b5e3c;
+  font-weight: 700;
+}
+
+.reading-body {
+  padding: 20px 22px;
+  background: var(--cream);
+  font-size: 14px;
+  line-height: 1.75;
+  color: #2d2016;
+}
+.reading-body h3 {
+  font-family: 'Baloo 2', sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+  color: #0f1c35;
+  margin: 18px 0 6px;
+  border-left: 3px solid var(--gold);
+  padding-left: 10px;
+}
+.reading-body h3:first-child { margin-top: 0; }
+.reading-body p { margin-bottom: 10px; }
+.reading-body ul { padding-left: 20px; margin-bottom: 10px; }
+.reading-body ul li { margin-bottom: 5px; }
+.reading-body strong { color: #0f1c35; }
+.vocab-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 14px 0;
+}
+.vocab-chip {
+  background: var(--navy);
+  color: var(--gold);
+  font-size: 11px;
+  font-weight: 800;
+  padding: 3px 10px;
+  border-radius: 20px;
+}
+
+.reading-cta {
+  padding: 16px 20px;
+  background: var(--cream-dark);
+  border-top: 2px dashed #d4c4a0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+.reading-cta p {
+  font-size: 13px;
+  color: #5c4025;
+  font-weight: 700;
+}
+.btn-primary {
+  background: linear-gradient(135deg, var(--navy), var(--navy-mid));
+  color: var(--gold);
+  border: 2px solid var(--gold);
+  font-family: 'Nunito', sans-serif;
+  font-weight: 800;
+  font-size: 14px;
+  padding: 10px 22px;
+  border-radius: 30px;
+  cursor: pointer;
+  transition: all .15s;
+  white-space: nowrap;
+}
+.btn-primary:hover { background: var(--gold); color: var(--navy); }
+
+/* ── Worksheet Phase ── */
+.worksheet-phase { display: none; }
+.worksheet-phase.active { display: block; }
+
+.ws-header {
+  background: var(--cream-dark);
+  padding: 14px 20px;
+  border-bottom: 2px dashed #d4c4a0;
+}
+.ws-title {
+  font-family: 'Baloo 2', sans-serif;
+  font-size: 16px;
+  font-weight: 800;
+  color: var(--navy);
+  margin-bottom: 2px;
+}
+.ws-sub {
+  font-size: 12px;
+  color: #8b5e3c;
+}
+
+.ws-body {
+  padding: 20px 22px;
+  background: var(--cream);
+}
+
+.question-block {
+  margin-bottom: 22px;
+  padding-bottom: 18px;
+  border-bottom: 1px dashed #d4c4a0;
+}
+.question-block:last-child { border-bottom: none; margin-bottom: 0; }
+
+.q-label {
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 4px;
+}
+.q-label.mc  { color: #5b6ad5; }
+.q-label.fib { color: #b05a1a; }
+
+.q-text {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--navy);
+  line-height: 1.55;
+  margin-bottom: 12px;
+}
+
+/* Multiple Choice */
+.mc-options { display: flex; flex-direction: column; gap: 8px; }
+.mc-option {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: white;
+  border: 2px solid #e5e0d4;
+  border-radius: 10px;
+  padding: 10px 14px;
+  cursor: pointer;
+  transition: all .15s;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text);
+  text-align: left;
+  font-family: 'Nunito', sans-serif;
+  width: 100%;
+}
+.mc-option:hover { border-color: var(--navy); background: #f5f0e8; }
+.mc-option.selected { border-color: var(--navy); background: #eef0f8; }
+.mc-option.correct  { border-color: var(--green); background: #f0fdf4; color: #1a5c25; }
+.mc-option.wrong    { border-color: var(--red); background: #fff5f5; color: #7a1c1c; }
+.mc-option.reveal   { border-color: var(--green); background: #f0fdf4; color: #1a5c25; opacity: .7; }
+.option-letter {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: #eee;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  font-weight: 800;
+  flex-shrink: 0;
+  transition: all .15s;
+}
+.mc-option.correct  .option-letter { background: var(--green); color: white; }
+.mc-option.wrong    .option-letter { background: var(--red); color: white; }
+.mc-option.reveal   .option-letter { background: var(--green); color: white; }
+
+/* Fill in the Blank */
+.fib-wrap { position: relative; }
+.fib-input {
+  width: 100%;
+  padding: 10px 14px;
+  border: 2px solid #d4c4a0;
+  border-radius: 10px;
+  background: white;
+  font-family: 'Nunito', sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--navy);
+  outline: none;
+  transition: border-color .15s;
+}
+.fib-input:focus { border-color: var(--navy); }
+.fib-input.correct { border-color: var(--green); background: #f0fdf4; }
+.fib-input.wrong   { border-color: var(--red); background: #fff5f5; }
+.fib-check {
+  background: var(--navy);
+  color: var(--gold);
+  border: none;
+  font-family: 'Nunito', sans-serif;
+  font-weight: 800;
+  font-size: 12px;
+  padding: 8px 16px;
+  border-radius: 20px;
+  cursor: pointer;
+  margin-top: 8px;
+  transition: background .15s;
+}
+.fib-check:hover { background: var(--navy-light); }
+
+.q-feedback {
+  display: none;
+  font-size: 13px;
+  font-weight: 700;
+  padding: 8px 12px;
+  border-radius: 8px;
+  margin-top: 8px;
+  line-height: 1.5;
+}
+.q-feedback.correct { display: block; background: #f0fdf4; color: #1a5c25; border-left: 3px solid var(--green); }
+.q-feedback.wrong   { display: block; background: #fff5f5; color: #7a1c1c; border-left: 3px solid var(--red); }
+
+/* Score / Submit */
+.ws-submit-row {
+  padding: 16px 20px;
+  background: var(--cream-dark);
+  border-top: 2px dashed #d4c4a0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.ws-score-text {
+  font-size: 13px;
+  color: #5c4025;
+  font-weight: 700;
+}
+.btn-submit {
+  background: linear-gradient(135deg, var(--navy), var(--navy-mid));
+  color: var(--gold);
+  border: 2px solid var(--gold);
+  font-family: 'Nunito', sans-serif;
+  font-weight: 800;
+  font-size: 14px;
+  padding: 10px 22px;
+  border-radius: 30px;
+  cursor: pointer;
+  transition: all .15s;
+}
+.btn-submit:hover { background: var(--gold); color: var(--navy); }
+
+/* ── Completion Screen ── */
+.completion-screen {
+  display: none;
+  padding: 30px 20px;
+  background: var(--cream);
+  text-align: center;
+}
+.completion-screen.active { display: block; }
+.comp-badge {
+  font-size: 64px;
+  display: block;
+  margin-bottom: 12px;
+  animation: badgePop .4s cubic-bezier(.17,.67,.4,1.8);
+}
+@keyframes badgePop {
+  from { transform: scale(0); opacity: 0; }
+  to   { transform: scale(1); opacity: 1; }
+}
+.comp-title {
+  font-family: 'Baloo 2', sans-serif;
+  font-size: 22px;
+  font-weight: 800;
+  color: var(--navy);
+  margin-bottom: 4px;
+}
+.comp-score {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--green);
+  margin-bottom: 10px;
+}
+.comp-msg {
+  font-size: 13px;
+  color: var(--muted);
+  line-height: 1.6;
+  max-width: 380px;
+  margin: 0 auto 20px;
+}
+.btn-close-comp {
+  background: linear-gradient(135deg, var(--green), #2a8a35);
+  color: white;
+  border: none;
+  font-family: 'Nunito', sans-serif;
+  font-weight: 800;
+  font-size: 15px;
+  padding: 12px 28px;
+  border-radius: 30px;
+  cursor: pointer;
+  box-shadow: 0 4px 14px rgba(74,170,85,.35);
+}
+
+/* ── Toast ── */
+.toast {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%) translateY(80px);
+  background: var(--navy);
+  color: white;
+  padding: 12px 20px;
+  border-radius: 30px;
+  font-size: 13px;
+  font-weight: 700;
+  border: 1px solid var(--gold);
+  z-index: 999;
+  transition: transform .3s ease;
+  white-space: nowrap;
+}
+.toast.show { transform: translateX(-50%) translateY(0); }
+
+/* ── Empty state ── */
+.empty-state {
+  text-align: center;
+  padding: 40px 20px;
+  color: rgba(255,255,255,.4);
+}
+.empty-state .es-icon { font-size: 40px; margin-bottom: 10px; }
+.empty-state p { font-size: 13px; }
+
+/* ── Responsive ── */
+@media (max-width: 500px) {
+  .modal-box { margin: 0; border-radius: 16px 16px 0 0; min-height: 100vh; }
+  .modal-overlay { align-items: flex-end; display: flex; flex-direction: column; justify-content: flex-end; }
+  .modal-overlay.open { display: flex; }
+  .reading-cta { flex-direction: column; align-items: stretch; }
+  .reading-cta .btn-primary { width: 100%; text-align: center; }
+  .ws-submit-row { flex-direction: column; }
+  .btn-submit { width: 100%; text-align: center; }
+  .case-grid { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<!-- ── Agency Header ── -->
+<header class="agency-header">
+  <span class="agency-badge">🔍</span>
+  <div class="agency-title">L'Agence du Savoir</div>
+  <div class="agency-sub">Grade 4 · French Immersion · Alberta</div>
+  <div class="agent-card"><span>🕵️</span> Agent Logan · Mission : Récupérer la Bibliothèque Perdue</div>
+</header>
+
+<!-- ── Progress ── -->
+<div class="progress-section">
+  <div class="progress-label">
+    <span id="prog-label">Dossiers complétés</span>
+    <span id="prog-count">0 / 8</span>
+  </div>
+  <div class="progress-track">
+    <div class="progress-fill" id="prog-fill" style="width:0%"></div>
+  </div>
+</div>
+
+<!-- ── Subject Tabs ── -->
+<div class="subject-tabs">
+  <button class="s-tab active" onclick="showSubject('all')">📁 Tous les Dossiers</button>
+  <button class="s-tab" onclick="showSubject('fla')">📖 Français (FLA)</button>
+  <button class="s-tab" onclick="showSubject('ss')">🍁 Sciences Humaines (SS)</button>
+</div>
+
+<!-- ── Cases ── -->
+<div class="cases-wrap">
+  <div class="section-heading" id="fla-heading">📖 Dossiers — Arts de la Langue Française</div>
+  <div class="case-grid" id="fla-grid"></div>
+  <div class="section-heading" id="ss-heading">🍁 Dossiers — Sciences Humaines</div>
+  <div class="case-grid" id="ss-grid"></div>
+</div>
+
+<!-- ── Modal ── -->
+<div class="modal-overlay" id="modal" onclick="handleOverlayClick(event)">
+  <div class="modal-box" id="modal-box">
+    <!-- Injected by JS -->
+  </div>
+</div>
+
+<!-- ── Toast ── -->
+<div class="toast" id="toast"></div>
+
+<script>
+/* ══════════════════════════════════════════════════════════
+   DATA — Cases
+══════════════════════════════════════════════════════════ */
+const CASES = [
+  {
+    id: 'fla-001',
+    subject: 'fla',
+    code: '4FLA.2.2',
+    icon: '📜',
+    title: 'Le Livre Codé',
+    subtitle: 'Stratégies de lecture',
+    desc: 'Une lettre mystérieuse a été trouvée à l\'école. Maîtrise les cinq stratégies de lecture pour la décoder !',
+    reading: {
+      title: 'Dossier #FLA-001 — Le Livre Codé',
+      intro: 'Une vieille bibliothèque a été scellée par un mystérieux cadenas. L\'unique indice : un livre dont chaque page utilise des stratégies secrètes. Pour l\'ouvrir, tu dois les maîtriser.',
+      sections: [
+        {
+          heading: '🔑 Les Cinq Stratégies Secrètes',
+          content: `<p><strong>1. Prédire</strong> — Avant de lire, <em>devine</em> ce qui va arriver. Utilise les indices : le titre, les images, les premiers mots. Exemple : Si le titre est <em>Le Dragon Disparu</em>, tu peux prédire qu'il s'agit d'une aventure.</p>
+<p><strong>2. Faire des liens</strong> — Connecte le texte à ta vie. Trois types :</p>
+<ul>
+  <li><em>Texte à soi</em> : « Ça me rappelle quand moi… »</li>
+  <li><em>Texte à texte</em> : « C'est comme dans le livre… »</li>
+  <li><em>Texte au monde</em> : « C'est pareil à ce qui se passe… »</li>
+</ul>
+<p><strong>3. Visualiser</strong> — Crée des <em>images mentales</em> pendant que tu lis. Vois les personnages et les lieux dans ta tête comme un film.</p>
+<p><strong>4. Poser des questions</strong> — Demande-toi : <em>Pourquoi ? Comment ? Qu'est-ce qui va arriver ?</em> Les questions t'aident à rester attentif.</p>
+<p><strong>5. Inférer</strong> — <em>Comprendre ce qui n'est pas dit directement.</em> L'auteur laisse des indices ; tu utilises ces indices + tes connaissances pour trouver le message caché.</p>`
+        },
+        {
+          heading: '📄 Types de Textes',
+          content: `<ul>
+<li><strong>Narratif</strong> : raconte une histoire (personnages, intrigue, fin)</li>
+<li><strong>Informatif</strong> : donne des faits et des explications</li>
+<li><strong>Poétique</strong> : utilise des images, le rythme et les émotions</li>
+</ul>`
+        }
+      ],
+      vocab: ['prédire', 'inférer', 'faire des liens', 'visualiser', 'texte narratif', 'texte informatif']
+    },
+    questions: [
+      {
+        type: 'mc',
+        text: 'Quelle stratégie consiste à « deviner ce qui va arriver avant de lire » ?',
+        options: ['Visualiser', 'Prédire', 'Inférer', 'Poser des questions'],
+        answer: 1
+      },
+      {
+        type: 'fib',
+        text: '« Inférer » signifie comprendre ce qui n\'est pas dit ____________ dans le texte.',
+        answer: 'directement',
+        hint: 'On comprend les idées cachées, pas celles qui sont écrites ______.'
+      },
+      {
+        type: 'mc',
+        text: 'Tu lis un livre sur les dinosaures et tu penses à un documentaire que tu as vu à la télévision. C\'est un lien de quel type ?',
+        options: ['Texte à soi', 'Texte au monde', 'Texte à texte', 'Texte à question'],
+        answer: 2
+      },
+      {
+        type: 'fib',
+        text: 'Un texte qui raconte une histoire avec des personnages et une intrigue est un texte ____________.',
+        answer: 'narratif',
+        hint: 'Ce type de texte raconte (narre) une histoire.'
+      },
+      {
+        type: 'mc',
+        text: 'Quel type de texte utiliserait ce titre : « Les Volcans : Comment Ça Marche » ?',
+        options: ['Narratif', 'Poétique', 'Informatif', 'Dramatique'],
+        answer: 2
+      }
+    ]
+  },
+  {
+    id: 'fla-002',
+    subject: 'fla',
+    code: '4FLA.3.1',
+    icon: '✍️',
+    title: 'Les Cinq Étapes du Message Secret',
+    subtitle: 'Processus d\'écriture',
+    desc: 'L\'agent Dubois a laissé des messages codés. Pour les comprendre, apprends le processus d\'écriture en 5 étapes.',
+    reading: {
+      title: 'Dossier #FLA-002 — Le Message Secret',
+      intro: 'L\'agent Dubois a laissé un message crypté. Pour décoder ses rapports, tu dois maîtriser les cinq étapes secrètes de l\'écriture.',
+      sections: [
+        {
+          heading: '📋 Le Processus d\'Écriture — 5 Étapes',
+          content: `<p><strong>1. Les Idées (Remue-méninges)</strong> — Avant d'écrire, pense à toutes les idées possibles. Écris tous tes mots et pensées — même les idées folles ! C'est le moment d'explorer sans jugement.</p>
+<p><strong>2. Le Brouillon</strong> — Écris ta première version rapidement. <em>Ne t'inquiète pas des erreurs maintenant.</em> L'objectif est de mettre tes idées sur papier.</p>
+<p><strong>3. La Révision</strong> — Relis ton brouillon et <em>améliore les idées</em>. Est-ce que tes idées sont claires ? As-tu mis assez de détails ? La révision concerne le <strong>sens</strong> du texte.</p>
+<p><strong>4. La Correction</strong> — Vérifie les <em>erreurs de langue</em> : l'orthographe, la grammaire, la ponctuation, les majuscules. La correction concerne la <strong>forme</strong> du texte.</p>
+<p><strong>5. La Publication</strong> — Écris ta version finale, soignée et lisible. C'est le produit que tu partageras avec les autres.</p>`
+        },
+        {
+          heading: '⚠️ Important à Retenir',
+          content: `<ul>
+<li><strong>Réviser</strong> = améliorer les <strong>idées</strong> et l'organisation</li>
+<li><strong>Corriger</strong> = réparer les <strong>erreurs</strong> de langue</li>
+<li>Ces deux étapes sont différentes mais toutes les deux essentielles !</li>
+</ul>`
+        }
+      ],
+      vocab: ['remue-méninges', 'brouillon', 'révision', 'correction', 'publication']
+    },
+    questions: [
+      {
+        type: 'fib',
+        text: 'Le processus d\'écriture comporte ____________ étapes.',
+        answer: 'cinq',
+        hint: '1 + 1 + 1 + 1 + 1 = ?'
+      },
+      {
+        type: 'mc',
+        text: 'Quelle étape consiste à corriger les erreurs d\'orthographe et de grammaire ?',
+        options: ['La révision', 'Le brouillon', 'La correction', 'La publication'],
+        answer: 2
+      },
+      {
+        type: 'mc',
+        text: 'Quelle est la différence principale entre « réviser » et « corriger » ?',
+        options: [
+          'Réviser = corriger les erreurs ; Corriger = améliorer les idées',
+          'Réviser = améliorer les idées ; Corriger = corriger les erreurs de langue',
+          'Ce sont exactement la même chose',
+          'Réviser = première étape ; Corriger = dernière étape'
+        ],
+        answer: 1
+      },
+      {
+        type: 'fib',
+        text: 'Lors du brouillon, tu ne dois pas t\'inquiéter des ____________.',
+        answer: 'erreurs',
+        hint: 'On peut faire des fautes dans le brouillon — on les réparera plus tard.'
+      },
+      {
+        type: 'mc',
+        text: 'Dans quel ordre ces étapes se déroulent-elles ? Idées → ___ → Révision → Correction → Publication',
+        options: ['Publication', 'Correction', 'Brouillon', 'Visualisation'],
+        answer: 2
+      }
+    ]
+  },
+  {
+    id: 'fla-003',
+    subject: 'fla',
+    code: '4FLA.1.3',
+    icon: '🔤',
+    title: 'L\'Enquête Grammaticale',
+    subtitle: 'Grammaire de base',
+    desc: 'Un message codé utilise des règles de grammaire secrètes. Décode-le en maîtrisant les noms, verbes et adjectifs !',
+    reading: {
+      title: 'Dossier #FLA-003 — Le Code Grammatical',
+      intro: 'Pour déchiffrer les messages de l\'agence, tu dois connaître les règles grammaticales de base. Voici les outils secrets d\'un bon détective de la langue.',
+      sections: [
+        {
+          heading: '📝 Les Classes de Mots',
+          content: `<p><strong>Le Nom</strong> — désigne une personne, un animal, un lieu ou une chose.</p>
+<ul>
+  <li><em>Nom commun</em> : catégorie générale, pas de majuscule. Ex. : <em>rivière, détective, ville</em></li>
+  <li><em>Nom propre</em> : désigne quelque chose de <strong>spécifique</strong>, toujours avec une <strong>majuscule</strong>. Ex. : <em>Alberta, Logan, Edmonton</em></li>
+</ul>
+<p><strong>L'Adjectif</strong> — <em>décrit</em> un nom. Il s'accorde en genre et en nombre avec le nom. Ex. : <em>un grand détective</em> / <em>une grande détective</em> / <em>des indices mystérieux</em></p>
+<p><strong>Le Verbe</strong> — indique une <em>action</em> ou un <em>état</em>. Il s'accorde avec son sujet. Au présent, les verbes en <em>-er</em> : je parle, tu parles, il parle, nous parlons, vous parlez, ils parlent.</p>`
+        },
+        {
+          heading: '✅ L\'Accord et la Ponctuation',
+          content: `<p><strong>Accord sujet-verbe :</strong></p>
+<ul>
+  <li>Le détective <em>court</em> (singulier → verbe singulier)</li>
+  <li>Les détectives <em>courent</em> (pluriel → verbe pluriel)</li>
+</ul>
+<p><strong>La Ponctuation :</strong></p>
+<ul>
+  <li>Chaque phrase commence par une <strong>majuscule</strong></li>
+  <li>Elle se termine par : <strong>.</strong> (point), <strong>?</strong> (point d'interrogation) ou <strong>!</strong> (point d'exclamation)</li>
+</ul>`
+        }
+      ],
+      vocab: ['nom commun', 'nom propre', 'verbe', 'adjectif', 'accord', 'majuscule']
+    },
+    questions: [
+      {
+        type: 'mc',
+        text: 'Quel est le nom propre dans cette liste ?',
+        options: ['ville', 'rivière', 'Alberta', 'détective'],
+        answer: 2
+      },
+      {
+        type: 'fib',
+        text: 'Le mot qui décrit un nom s\'appelle un ____________.',
+        answer: 'adjectif',
+        hint: 'Ce mot donne des détails sur le nom (grand, mystérieux, rapide…).'
+      },
+      {
+        type: 'mc',
+        text: 'Dans la phrase « Les chats noirs dorment », quel est le verbe ?',
+        options: ['chats', 'noirs', 'dorment', 'les'],
+        answer: 2
+      },
+      {
+        type: 'fib',
+        text: 'Le verbe doit s\'accorder avec son ____________.',
+        answer: 'sujet',
+        hint: 'La personne ou chose qui fait l\'action.'
+      },
+      {
+        type: 'mc',
+        text: 'Comment s\'écrit « manger » à la première personne du singulier au présent ?',
+        options: ['mangeons', 'mangez', 'mange', 'je mange'],
+        answer: 3
+      },
+      {
+        type: 'fib',
+        text: 'Une phrase commence toujours par une ____________.',
+        answer: 'majuscule',
+        hint: 'Pense à la première lettre d\'un nom propre.'
+      }
+    ]
+  },
+  {
+    id: 'fla-004',
+    subject: 'fla',
+    code: '4FLA.4.1',
+    icon: '🗝️',
+    title: 'Le Dictionnaire Secret',
+    subtitle: 'Stratégies de vocabulaire',
+    desc: 'Un espion a utilisé des mots mystérieux dans son rapport. Utilise les stratégies de vocabulaire pour les décoder !',
+    reading: {
+      title: 'Dossier #FLA-004 — Le Dictionnaire Secret',
+      intro: 'L\'espion Renard utilise des mots rares et inconnus dans ses rapports. Pour les comprendre, tu as besoin des quatre stratégies de vocabulaire de l\'agence.',
+      sections: [
+        {
+          heading: '🔍 Stratégie 1 : Les Indices du Contexte',
+          content: `<p>Quand tu rencontres un mot inconnu, lis les mots <em>autour</em> de lui. La phrase donne souvent des indices sur le sens du mot.</p>
+<p>Exemple : <em>Le détective fatigué décida de se reposer car il était <strong>épuisé</strong>.</em><br>→ « Épuisé » doit vouloir dire très, très fatigué (indices : « fatigué », « se reposer »).</p>`
+        },
+        {
+          heading: '🧩 Stratégie 2 : Préfixes et Suffixes',
+          content: `<p><strong>Préfixes</strong> — ajoutés <em>au début</em> d'un mot :</p>
+<ul>
+  <li><em>dé-</em> / <em>dés-</em> = contraire (défaire, désaccord)</li>
+  <li><em>re-</em> = encore une fois (relire, refaire)</li>
+  <li><em>im-</em> / <em>in-</em> = pas (impossible, incapable)</li>
+</ul>
+<p><strong>Suffixes</strong> — ajoutés <em>à la fin</em> d'un mot :</p>
+<ul>
+  <li><em>-eur</em> = personne qui fait (détecteur, chanteur)</li>
+  <li><em>-tion</em> = action ou résultat (observation, solution)</li>
+  <li><em>-ment</em> = manière (rapidement, doucement)</li>
+</ul>`
+        },
+        {
+          heading: '🔄 Stratégies 3 & 4 : Synonymes, Antonymes et Familles',
+          content: `<ul>
+<li><strong>Synonyme</strong> : mot avec le <em>même sens</em> (rapide = vite)</li>
+<li><strong>Antonyme</strong> : mot avec le sens <em>contraire</em> (grand ≠ petit)</li>
+<li><strong>Famille de mots</strong> : mots qui partagent la même racine. Ex. : <em>lire → relire → lecture → lecteur → lisible</em></li>
+</ul>`
+        }
+      ],
+      vocab: ['préfixe', 'suffixe', 'synonyme', 'antonyme', 'indice du contexte', 'famille de mots']
+    },
+    questions: [
+      {
+        type: 'mc',
+        text: 'Quel préfixe signifie « pas » ou « contraire » ?',
+        options: ['re-', 'im-/in-', '-tion', '-eur'],
+        answer: 1
+      },
+      {
+        type: 'fib',
+        text: 'Un mot qui a le sens contraire d\'un autre mot s\'appelle un ____________.',
+        answer: 'antonyme',
+        hint: 'Grand ≠ petit : petit est l\'______ de grand.'
+      },
+      {
+        type: 'mc',
+        text: 'Dans le mot « rapidement », quel est le suffixe ?',
+        options: ['rapid-', '-ment', 'rapide-', '-ement'],
+        answer: 1
+      },
+      {
+        type: 'fib',
+        text: 'Pour trouver le sens d\'un mot inconnu, tu peux lire les mots ____________ de lui pour trouver des indices.',
+        answer: 'autour',
+        hint: 'Regarde avant et après le mot dans la phrase.'
+      },
+      {
+        type: 'mc',
+        text: 'Quel est le synonyme de « rapide » ?',
+        options: ['lent', 'grand', 'vite', 'calme'],
+        answer: 2
+      }
+    ]
+  },
+  {
+    id: 'ss-001',
+    subject: 'ss',
+    code: '4SS.4.1.2',
+    icon: '🗺️',
+    title: 'La Carte Volée',
+    subtitle: 'Géographie de l\'Alberta',
+    desc: 'La carte officielle de l\'Alberta a été volée ! Pour la retrouver, tu dois connaître toutes les régions de la province.',
+    reading: {
+      title: 'Dossier #SS-001 — La Carte Volée',
+      intro: 'La carte officielle de l\'Alberta a disparu du bureau du gouverneur ! L\'agent de terrain signale que le voleur se cache dans l\'une des quatre régions. Mémorise-les toutes.',
+      sections: [
+        {
+          heading: '📍 Faits Essentiels sur l\'Alberta',
+          content: `<p>L'Alberta est une province de l'Ouest du Canada. Elle est <strong>enclavée</strong> — elle n'a pas de frontière avec un océan.</p>
+<ul>
+  <li><strong>Capitale</strong> : Edmonton (nord de la province)</li>
+  <li><strong>Plus grande ville</strong> : Calgary (sud)</li>
+</ul>`
+        },
+        {
+          heading: '🏔️ Les Quatre Régions Géographiques',
+          content: `<p><strong>1. Les Prairies</strong> — Au sud et au centre. Terrain plat, idéal pour l'agriculture (blé, canola). Grands espaces ouverts avec peu d'arbres.</p>
+<p><strong>2. Les Badlands</strong> — Près de Drumheller. Terrain sec et érodé avec des formations rocheuses spectaculaires appelées <em>hoodoos</em>. On y découvre de nombreux fossiles de dinosaures !</p>
+<p><strong>3. Les Rocheuses</strong> — À l'ouest. Montagnes majestueuses avec des lacs, des glaciers et des parcs nationaux (Banff, Jasper).</p>
+<p><strong>4. Le Bouclier Boréal</strong> — Au nord. Forêts denses, lacs et marécages. Région riche en ressources naturelles.</p>`
+        },
+        {
+          heading: '🌊 Les Rivières Importantes',
+          content: `<ul>
+<li>Rivière <strong>Saskatchewan du Nord</strong> (traverse Edmonton)</li>
+<li>Rivière <strong>Athabasca</strong> (nord)</li>
+<li>Rivière <strong>Bow</strong> (Calgary)</li>
+</ul>
+<p>Les rivières fournissent de l'eau potable, soutiennent l'agriculture et constituent des habitats pour la faune.</p>`
+        }
+      ],
+      vocab: ['province', 'prairie', 'Rocheuses', 'Badlands', 'hoodoos', 'enclavée', 'capitale']
+    },
+    questions: [
+      {
+        type: 'mc',
+        text: 'Quelle est la capitale de l\'Alberta ?',
+        options: ['Calgary', 'Edmonton', 'Banff', 'Drumheller'],
+        answer: 1
+      },
+      {
+        type: 'fib',
+        text: 'Les formations rocheuses spectaculaires qu\'on trouve dans les Badlands s\'appellent des ____________.',
+        answer: 'hoodoos',
+        hint: 'Ce sont des colonnes de roche érodée, comme des champignons de pierre.'
+      },
+      {
+        type: 'mc',
+        text: 'Quelle région est connue pour son terrain plat et son agriculture ?',
+        options: ['Les Rocheuses', 'Le Bouclier Boréal', 'Les Prairies', 'Les Badlands'],
+        answer: 2
+      },
+      {
+        type: 'fib',
+        text: 'L\'Alberta est une province ____________ car elle n\'a pas de frontière avec un océan.',
+        answer: 'enclavée',
+        hint: 'Elle est enfermée (enclavée) entre d\'autres provinces et les États-Unis.'
+      },
+      {
+        type: 'mc',
+        text: 'Dans quelle région trouve-t-on les parcs nationaux Banff et Jasper ?',
+        options: ['Les Prairies', 'Le Bouclier Boréal', 'Les Badlands', 'Les Rocheuses'],
+        answer: 3
+      },
+      {
+        type: 'fib',
+        text: 'La rivière ____________ du Nord traverse la ville d\'Edmonton.',
+        answer: 'Saskatchewan',
+        hint: 'Pense au nom d\'une province voisine de l\'Alberta !'
+      }
+    ]
+  },
+  {
+    id: 'ss-002',
+    subject: 'ss',
+    code: '4SS.4.2.2',
+    icon: '📜',
+    title: 'Les Témoins du Passé',
+    subtitle: 'Peuples et histoire de l\'Alberta',
+    desc: 'Des témoins historiques ont disparu de la bibliothèque ! Retrouve-les en apprenant l\'histoire des peuples de l\'Alberta.',
+    reading: {
+      title: 'Dossier #SS-002 — Les Témoins du Passé',
+      intro: 'Cinq dossiers historiques ont disparu ! Les témoins racontent l\'histoire des peuples qui ont habité l\'Alberta depuis des millénaires. Tu dois les retrouver.',
+      sections: [
+        {
+          heading: '🪶 Les Premières Nations de l\'Alberta',
+          content: `<p>Avant l'arrivée des Européens, les <strong>Premières Nations</strong> vivaient en Alberta depuis des <strong>milliers d'années</strong>. Parmi les nations principales :</p>
+<ul>
+  <li><strong>Les Cris (Nehiyaw)</strong> — Vivaient dans les forêts du nord</li>
+  <li><strong>La Confédération des Pieds-Noirs (Blackfoot)</strong> — Dans les prairies du sud</li>
+  <li><strong>Les Tsuu T'ina</strong> — Près de ce qui est aujourd'hui Calgary</li>
+  <li><strong>Les Nakoda</strong> — Dans les contreforts des Rocheuses</li>
+</ul>`
+        },
+        {
+          heading: '🦫 La Traite des Fourrures',
+          content: `<p>Au 17e siècle, des commerçants européens sont venus en Amérique du Nord. Ils échangeaient des <em>fourrures d'animaux</em> (surtout du castor) contre des <em>outils et marchandises européens</em>. Les Premières Nations et les Européens travaillaient ensemble dans ce commerce. La <strong>Compagnie de la Baie d'Hudson</strong> (fondée en 1670) contrôlait une grande partie du commerce.</p>`
+        },
+        {
+          heading: '🤝 Les Métis et les Traités',
+          content: `<p>Les <strong>Métis</strong> sont des personnes d'origine <em>mixte</em> — autochtone et européenne. Ils ont développé leur propre culture et langue (le michif).</p>
+<p>Le gouvernement canadien a signé des <strong>traités</strong> (accords officiels) avec les nations autochtones concernant le partage des terres. La plupart de l'Alberta est couverte par les Traités 6, 7 et 8. Ces traités sont <strong>encore valides aujourd'hui</strong>.</p>
+<p>En <strong>1905</strong>, l'Alberta est officiellement devenue une province canadienne.</p>`
+        }
+      ],
+      vocab: ['Premières Nations', 'Autochtones', 'Métis', 'traite des fourrures', 'traité', 'colons', '1905']
+    },
+    questions: [
+      {
+        type: 'mc',
+        text: 'Quelle nation des Premières Nations vivait principalement dans les prairies du sud de l\'Alberta ?',
+        options: ['Les Cris', 'Les Tsuu T\'ina', 'La Confédération des Pieds-Noirs', 'Les Nakoda'],
+        answer: 2
+      },
+      {
+        type: 'fib',
+        text: 'Dans la traite des fourrures, les Premières Nations échangeaient des fourrures contre des ____________ et marchandises européens.',
+        answer: 'outils',
+        hint: 'Des choses utiles pour travailler, comme des couteaux et des haches.'
+      },
+      {
+        type: 'mc',
+        text: 'Les Métis sont des personnes d\'origine :',
+        options: ['Uniquement autochtone', 'Uniquement européenne', 'Mixte — autochtone et européenne', 'Asiatique et européenne'],
+        answer: 2
+      },
+      {
+        type: 'fib',
+        text: 'L\'Alberta est devenue une province canadienne en ____________.',
+        answer: '1905',
+        hint: 'C\'est au début du 20e siècle.'
+      },
+      {
+        type: 'mc',
+        text: 'Qu\'est-ce qu\'un traité ?',
+        options: ['Une guerre entre nations', 'Un accord officiel sur le partage des terres et des droits', 'Une carte géographique', 'Une loi sur l\'économie'],
+        answer: 1
+      }
+    ]
+  },
+  {
+    id: 'ss-003',
+    subject: 'ss',
+    code: '4SS.4.4.1',
+    icon: '💼',
+    title: 'Le Trésor Économique',
+    subtitle: 'L\'activité économique en Alberta',
+    desc: 'Le rapport économique de l\'Alberta a été volé ! Comprends l\'économie pour retrouver ce précieux document.',
+    reading: {
+      title: 'Dossier #SS-003 — Le Trésor Économique',
+      intro: 'L\'agent des finances signale qu\'un criminel a volé le rapport économique secret de l\'Alberta. Pour le récupérer, tu dois comprendre comment fonctionne l\'économie de la province.',
+      sections: [
+        {
+          heading: '⛽ Les Ressources Naturelles',
+          content: `<p>Les <strong>ressources naturelles</strong> sont des richesses qui se trouvent dans la nature. L'Alberta en possède beaucoup :</p>
+<ul>
+  <li><strong>Pétrole et gaz naturel</strong> — L'Alberta produit une grande partie du pétrole canadien, surtout dans les <em>sables bitumineux</em> près de Fort McMurray.</li>
+  <li><strong>Agriculture</strong> — Blé, canola, élevage de bœuf. Les grandes fermes des Prairies nourrissent des millions de personnes.</li>
+  <li><strong>Forêts</strong> — Bois de construction dans le nord.</li>
+</ul>`
+        },
+        {
+          heading: '🛒 Biens et Services',
+          content: `<p>Une <strong>économie</strong> est le système qui permet aux gens de produire et d'échanger.</p>
+<ul>
+  <li>Un <strong>bien</strong> est un <em>objet</em> qu'on peut toucher : une miche de pain, une voiture, un litre de pétrole.</li>
+  <li>Un <strong>service</strong> est une <em>action</em> faite pour quelqu'un d'autre : enseigner, couper les cheveux, réparer un ordinateur.</li>
+</ul>`
+        },
+        {
+          heading: '🔗 L\'Interdépendance et les Défis',
+          content: `<p>Les communautés dépendent les unes des autres — c'est l'<strong>interdépendance</strong>. Une ferme envoie du blé à une boulangerie qui vend du pain à des familles. Personne ne peut tout produire seul.</p>
+<p><strong>Un défi :</strong> Quand les prix du pétrole baissent dans le monde, de nombreux Albertains perdent leur emploi. C'est pourquoi il est important de <em>diversifier</em> l'économie — développer d'autres industries comme les <em>énergies renouvelables</em> et le <em>tourisme</em>.</p>`
+        }
+      ],
+      vocab: ['ressource naturelle', 'bien', 'service', 'économie', 'interdépendance', 'diversifier', 'sables bitumineux']
+    },
+    questions: [
+      {
+        type: 'mc',
+        text: 'Laquelle de ces options est un BIEN (pas un service) ?',
+        options: ['Enseigner les mathématiques', 'Couper les cheveux', 'Un litre de pétrole', 'Réparer un ordinateur'],
+        answer: 2
+      },
+      {
+        type: 'fib',
+        text: 'Les sables bitumineux, importants pour la production de pétrole, se trouvent près de ____________.',
+        answer: 'Fort McMurray',
+        hint: 'C\'est une grande ville dans le nord de l\'Alberta.'
+      },
+      {
+        type: 'mc',
+        text: 'Quelle est la différence entre un « bien » et un « service » ?',
+        options: [
+          'Un bien est une action ; un service est un objet',
+          'Un bien est un objet physique ; un service est une action faite pour quelqu\'un',
+          'Ce sont exactement la même chose',
+          'Un service est toujours gratuit'
+        ],
+        answer: 1
+      },
+      {
+        type: 'fib',
+        text: 'Le fait que les communautés dépendent les unes des autres s\'appelle l\'____________.',
+        answer: 'interdépendance',
+        hint: 'Inter = entre ; dépendance = besoin des autres.'
+      },
+      {
+        type: 'mc',
+        text: 'Pourquoi est-il important de « diversifier » l\'économie de l\'Alberta ?',
+        options: [
+          'Pour produire plus de pétrole',
+          'Pour ne pas dépendre seulement du pétrole, dont le prix peut baisser',
+          'Pour arrêter l\'agriculture',
+          'Pour construire plus de villes'
+        ],
+        answer: 1
+      }
+    ]
+  },
+  {
+    id: 'ss-004',
+    subject: 'ss',
+    code: '4SS.4.3.1',
+    icon: '🗳️',
+    title: 'La Clé de la Communauté',
+    subtitle: 'Citoyenneté et communauté',
+    desc: 'La dernière pièce du mystère ! Comprends ce que signifie être un bon citoyen pour déverrouiller la bibliothèque du savoir.',
+    reading: {
+      title: 'Dossier #SS-004 — La Clé de la Communauté',
+      intro: 'Félicitations, agent Logan ! Tu approches de la fin de ta mission. La dernière clé de la bibliothèque perdue est cachée dans la compréhension de la citoyenneté.',
+      sections: [
+        {
+          heading: '👤 Qu\'est-ce qu\'un Citoyen ?',
+          content: `<p>Un <strong>citoyen</strong> est un membre reconnu d'une communauté. Tu fais partie de plusieurs communautés en même temps :</p>
+<p style="text-align:center;font-weight:700;color:#0f1c35">Ta classe → Ton école → Ta ville → L'Alberta → Le Canada</p>`
+        },
+        {
+          heading: '⚖️ Droits et Responsabilités',
+          content: `<p><strong>Les Droits</strong> — ce que tu <em>peux faire</em> ou ce à quoi tu <em>as droit</em> :</p>
+<ul>
+  <li>Le droit à l'éducation</li>
+  <li>Le droit à la sécurité</li>
+  <li>Le droit d'être traité équitablement</li>
+</ul>
+<p><strong>Les Responsabilités</strong> — ce que tu <em>dois faire</em> :</p>
+<ul>
+  <li>Respecter les règles de la communauté</li>
+  <li>Respecter les autres personnes</li>
+  <li>Prendre soin des espaces partagés</li>
+  <li>Participer à la vie de la communauté</li>
+</ul>`
+        },
+        {
+          heading: '🏛️ Le Gouvernement et les Élections',
+          content: `<p>Le <strong>gouvernement</strong> crée les lois et offre des services (écoles, hôpitaux, routes). Il y a trois niveaux :</p>
+<ul>
+  <li><strong>Municipal</strong> — ta ville</li>
+  <li><strong>Provincial</strong> — l'Alberta</li>
+  <li><strong>Fédéral</strong> — le Canada</li>
+</ul>
+<p>Les citoyens choisissent leurs <strong>représentants</strong> par les <strong>élections</strong>. Voter est un droit ET une responsabilité. Un bon citoyen <em>participe</em> à sa communauté : aide les autres, vote, prend soin de l'environnement.</p>`
+        }
+      ],
+      vocab: ['citoyen', 'droits', 'responsabilités', 'gouvernement', 'élection', 'représentant', 'participation']
+    },
+    questions: [
+      {
+        type: 'mc',
+        text: 'Laquelle de ces options est une RESPONSABILITÉ (pas un droit) ?',
+        options: ['Le droit à l\'éducation', 'Le droit à la sécurité', 'Respecter les règles de la communauté', 'Le droit d\'être traité équitablement'],
+        answer: 2
+      },
+      {
+        type: 'fib',
+        text: 'Le processus par lequel les citoyens choisissent leurs représentants s\'appelle une ____________.',
+        answer: 'élection',
+        hint: 'Les citoyens votent pour choisir leurs dirigeants.'
+      },
+      {
+        type: 'mc',
+        text: 'À quel niveau de gouvernement s\'occupe-t-on des lois et services pour toute la province d\'Alberta ?',
+        options: ['Municipal', 'Provincial', 'Fédéral', 'Scolaire'],
+        answer: 1
+      },
+      {
+        type: 'fib',
+        text: 'Tu es citoyen de ta classe, ton école, ta ville, l\'Alberta ET le ____________.',
+        answer: 'Canada',
+        hint: 'Le pays dans lequel se trouve l\'Alberta.'
+      },
+      {
+        type: 'mc',
+        text: 'Pourquoi est-il important que les citoyens participent aux élections ?',
+        options: [
+          'Pour payer moins d\'impôts',
+          'Pour pouvoir critiquer le gouvernement librement',
+          'Pour choisir des représentants qui prendront des décisions pour toute la communauté',
+          'Pour éviter de payer des amendes'
+        ],
+        answer: 2
+      }
+    ]
+  }
+];
+
+/* ══════════════════════════════════════════════════════════
+   STATE
+══════════════════════════════════════════════════════════ */
+let progress = JSON.parse(localStorage.getItem('lads_progress') || '{}');
+let currentCase = null;
+let currentPhase = 'reading'; // 'reading' | 'worksheet'
+let answers = {};
+
+function saveProgress() {
+  localStorage.setItem('lads_progress', JSON.stringify(progress));
+}
+
+/* ══════════════════════════════════════════════════════════
+   RENDER CARDS
+══════════════════════════════════════════════════════════ */
+function renderCases(filter = 'all') {
+  const flaGrid = document.getElementById('fla-grid');
+  const ssGrid  = document.getElementById('ss-grid');
+  flaGrid.innerHTML = '';
+  ssGrid.innerHTML  = '';
+
+  const flaH = document.getElementById('fla-heading');
+  const ssH  = document.getElementById('ss-heading');
+  flaH.style.display = (filter === 'ss') ? 'none' : '';
+  ssH.style.display  = (filter === 'fla') ? 'none' : '';
+
+  CASES.forEach(c => {
+    if (filter !== 'all' && c.subject !== filter) return;
+    const done = progress[c.id]?.completed;
+    const card = document.createElement('div');
+    card.className = `case-card${done ? ' completed' : ''}`;
+    card.onclick = () => openCase(c.id);
+    card.innerHTML = `
+      <div class="cc-header">
+        <div class="cc-icon ${c.subject}">${c.icon}</div>
+        <div class="cc-meta">
+          <div class="cc-code ${c.subject}">${c.code}</div>
+          <div class="cc-title">${c.title}</div>
+        </div>
+        <div class="cc-status">${done ? '✅' : '🔒'}</div>
+      </div>
+      <div class="cc-body">
+        <div class="cc-desc">${c.desc}</div>
+        <div class="cc-meta-row">
+          <span class="cc-pill ${c.subject}">${c.subject === 'fla' ? '📖 Français' : '🍁 Sciences Humaines'}</span>
+          <span class="cc-pill">⏱ 15 min</span>
+          <span class="completed-badge">✓ Complété</span>
+        </div>
+      </div>`;
+    (c.subject === 'fla' ? flaGrid : ssGrid).appendChild(card);
+  });
+
+  updateProgress();
+}
+
+function updateProgress() {
+  const done = CASES.filter(c => progress[c.id]?.completed).length;
+  const total = CASES.length;
+  document.getElementById('prog-count').textContent = `${done} / ${total}`;
+  document.getElementById('prog-fill').style.width = `${Math.round(done/total*100)}%`;
+  document.getElementById('prog-label').textContent =
+    done === total ? '🎉 Mission accomplie !' : 'Dossiers complétés';
+}
+
+function showSubject(sub) {
+  document.querySelectorAll('.s-tab').forEach(t => t.classList.remove('active'));
+  event.target.classList.add('active');
+  renderCases(sub);
+}
+
+/* ══════════════════════════════════════════════════════════
+   OPEN CASE
+══════════════════════════════════════════════════════════ */
+function openCase(id) {
+  currentCase = CASES.find(c => c.id === id);
+  currentPhase = 'reading';
+  answers = {};
+  document.getElementById('modal-box').innerHTML = buildModal(currentCase);
+  document.getElementById('modal').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeModal() {
+  document.getElementById('modal').classList.remove('open');
+  document.body.style.overflow = '';
+  currentCase = null;
+}
+
+function handleOverlayClick(e) {
+  if (e.target === document.getElementById('modal')) closeModal();
+}
+
+/* ══════════════════════════════════════════════════════════
+   BUILD MODAL HTML
+══════════════════════════════════════════════════════════ */
+function buildModal(c) {
+  const done = progress[c.id]?.completed;
+  return `
+    <div class="dossier-header">
+      <div class="dossier-icon">${c.icon}</div>
+      <div class="dossier-meta">
+        <div class="dossier-code ${c.subject}">${c.code} · ${c.subject === 'fla' ? 'Arts de la Langue Française' : 'Sciences Humaines'}</div>
+        <div class="dossier-title">${c.reading.title}</div>
+      </div>
+      <button class="dossier-close" onclick="closeModal()">✕</button>
+    </div>
+
+    <div class="phase-bar">
+      <div class="phase-step ${currentPhase === 'reading' ? 'active' : (currentPhase === 'worksheet' || done ? 'done' : '')}" id="ph-1">
+        <div class="phase-dot">${currentPhase !== 'reading' ? '✓' : '1'}</div>
+        <span>Lecture</span>
+      </div>
+      <div class="phase-line ${currentPhase !== 'reading' ? 'done' : ''}"></div>
+      <div class="phase-step ${currentPhase === 'worksheet' ? 'active' : (done ? 'done' : '')}" id="ph-2">
+        <div class="phase-dot">${done ? '✓' : '2'}</div>
+        <span>Fiche de travail</span>
+      </div>
+    </div>
+
+    <div class="reading-phase active" id="reading-phase">
+      <div class="dossier-stamp">
+        <span>🗂️</span>
+        <span class="stamp-text">Dossier Confidentiel — Agent Logan</span>
+        <span class="stamp-time">⏱ 8 min de lecture</span>
+      </div>
+      <div class="reading-body">
+        <p><em>${c.reading.intro}</em></p>
+        ${c.reading.sections.map(s => `<h3>${s.heading}</h3>${s.content}`).join('')}
+        <div class="vocab-row">${c.reading.vocab.map(v => `<span class="vocab-chip">${v}</span>`).join('')}</div>
+      </div>
+      <div class="reading-cta">
+        <p>📋 Prêt(e) pour la fiche de travail ?</p>
+        <button class="btn-primary" onclick="startWorksheet()">Commencer la fiche →</button>
+      </div>
+    </div>
+
+    <div class="worksheet-phase" id="worksheet-phase">
+      <div class="ws-header">
+        <div class="ws-title">📋 Fiche de Travail — ${c.subtitle}</div>
+        <div class="ws-sub">⏱ 7 min · Réponds à toutes les questions pour compléter le dossier</div>
+      </div>
+      <div class="ws-body" id="ws-questions">
+        ${buildQuestions(c)}
+      </div>
+      <div class="ws-submit-row">
+        <span class="ws-score-text" id="ws-score-text">Réponds à toutes les questions puis vérifie.</span>
+        <button class="btn-submit" onclick="checkAll()">Vérifier les réponses ✓</button>
+      </div>
+    </div>
+
+    <div class="completion-screen" id="completion-screen">
+      <span class="comp-badge">🏅</span>
+      <div class="comp-title">Dossier Complété !</div>
+      <div class="comp-score" id="comp-score-text"></div>
+      <div class="comp-msg">Excellent travail, agent Logan ! Ce dossier est maintenant classé dans tes archives. Continue vers le prochain pour récupérer la bibliothèque du savoir.</div>
+      <button class="btn-close-comp" onclick="closeModal(); renderCases();">Retour aux Dossiers</button>
+    </div>
+  `;
+}
+
+function buildQuestions(c) {
+  return c.questions.map((q, i) => {
+    if (q.type === 'mc') {
+      const opts = q.options.map((o, j) => `
+        <button class="mc-option" onclick="selectMC(${i}, ${j})" id="opt-${i}-${j}">
+          <span class="option-letter">${String.fromCharCode(65+j)}</span>
+          ${o}
+        </button>`).join('');
+      return `
+        <div class="question-block" id="q-block-${i}">
+          <div class="q-label mc">Choix Multiple · Q${i+1}</div>
+          <div class="q-text">${q.text}</div>
+          <div class="mc-options">${opts}</div>
+          <div class="q-feedback" id="fb-${i}"></div>
+        </div>`;
+    } else {
+      return `
+        <div class="question-block" id="q-block-${i}">
+          <div class="q-label fib">Remplis le Blanc · Q${i+1}</div>
+          <div class="q-text">${q.text}</div>
+          <div class="fib-wrap">
+            <input class="fib-input" type="text" id="fib-${i}" placeholder="Tape ta réponse ici…" oninput="fibInput(${i})" autocomplete="off" autocorrect="off" spellcheck="false">
+          </div>
+          <div class="q-feedback" id="fb-${i}"></div>
+        </div>`;
+    }
+  }).join('');
+}
+
+/* ══════════════════════════════════════════════════════════
+   INTERACTIONS
+══════════════════════════════════════════════════════════ */
+function startWorksheet() {
+  currentPhase = 'worksheet';
+  document.getElementById('reading-phase').classList.remove('active');
+  document.getElementById('worksheet-phase').classList.add('active');
+
+  // Update phase bar
+  const ph1 = document.getElementById('ph-1');
+  const ph2 = document.getElementById('ph-2');
+  const line = document.querySelector('.phase-line');
+  ph1.classList.remove('active'); ph1.classList.add('done');
+  ph1.querySelector('.phase-dot').textContent = '✓';
+  ph2.classList.add('active');
+  line.classList.add('done');
+
+  document.getElementById('modal-box').scrollTo({ top: 0, behavior: 'smooth' });
+  document.getElementById('modal').scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function selectMC(qIdx, optIdx) {
+  const q = currentCase.questions[qIdx];
+  if (answers[qIdx] !== undefined) return; // already answered
+  // Just store selection for batch check, OR we can do immediate feedback
+  // Do immediate feedback
+  answers[qIdx] = optIdx;
+
+  const correct = optIdx === q.answer;
+  for (let j = 0; j < q.options.length; j++) {
+    const btn = document.getElementById(`opt-${qIdx}-${j}`);
+    if (j === optIdx) {
+      btn.classList.add(correct ? 'correct' : 'wrong');
+    } else if (j === q.answer && !correct) {
+      btn.classList.add('reveal');
+    }
+  }
+
+  const fb = document.getElementById(`fb-${qIdx}`);
+  fb.className = `q-feedback ${correct ? 'correct' : 'wrong'}`;
+  fb.textContent = correct
+    ? '✓ Bonne réponse !'
+    : `✗ La bonne réponse est : « ${q.options[q.answer]} »`;
+}
+
+function fibInput(qIdx) {
+  // clear previous state when user types again
+  const input = document.getElementById(`fib-${qIdx}`);
+  input.classList.remove('correct', 'wrong');
+  document.getElementById(`fb-${qIdx}`).className = 'q-feedback';
+}
+
+function checkFib(qIdx) {
+  const q = currentCase.questions[qIdx];
+  const input = document.getElementById(`fib-${qIdx}`);
+  const val = input.value.trim().toLowerCase();
+  const ans = q.answer.toLowerCase();
+  // Accept partial match for common variations (e.g., "5" for "cinq", accents)
+  const normalize = s => s.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase();
+  const correct = normalize(val) === normalize(ans)
+    || val === ans
+    || (ans === 'cinq' && val === '5')
+    || (ans === 'fort mcmurray' && normalize(val).includes('fort'));
+
+  answers[qIdx] = val;
+  input.classList.add(correct ? 'correct' : 'wrong');
+  const fb = document.getElementById(`fb-${qIdx}`);
+  fb.className = `q-feedback ${correct ? 'correct' : 'wrong'}`;
+  fb.textContent = correct
+    ? '✓ Bonne réponse !'
+    : `✗ La bonne réponse est : « ${q.answer} »`;
+}
+
+function checkAll() {
+  const c = currentCase;
+  let correct = 0;
+  let total = c.questions.length;
+  let allAnswered = true;
+
+  c.questions.forEach((q, i) => {
+    if (q.type === 'mc') {
+      if (answers[i] === undefined) {
+        allAnswered = false;
+        document.getElementById(`q-block-${i}`).style.outline = '2px solid #e05252';
+      } else {
+        document.getElementById(`q-block-${i}`).style.outline = '';
+        if (answers[i] === q.answer) correct++;
+      }
+    } else {
+      const input = document.getElementById(`fib-${i}`);
+      const val = input.value.trim();
+      if (!val) {
+        allAnswered = false;
+        document.getElementById(`q-block-${i}`).style.outline = '2px solid #e05252';
+      } else {
+        document.getElementById(`q-block-${i}`).style.outline = '';
+        checkFib(i);
+        const normalize = s => s.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase();
+        const ans = q.answer.toLowerCase();
+        const norm = normalize(val);
+        if (normalize(val) === normalize(ans) || val.toLowerCase() === ans ||
+            (ans === 'cinq' && val === '5') ||
+            (ans === 'fort mcmurray' && norm.includes('fort'))) {
+          correct++;
+        }
+        answers[i] = val;
+      }
+    }
+  });
+
+  if (!allAnswered) {
+    showToast('⚠️ Réponds à toutes les questions d\'abord !');
+    return;
+  }
+
+  // Show score
+  const scoreText = document.getElementById('ws-score-text');
+  scoreText.textContent = `Score : ${correct} / ${total}`;
+
+  // Mark complete
+  progress[c.id] = { completed: true, score: correct, total };
+  saveProgress();
+
+  // Show completion
+  setTimeout(() => {
+    document.getElementById('worksheet-phase').classList.remove('active');
+    const comp = document.getElementById('completion-screen');
+    comp.classList.add('active');
+    const pct = Math.round(correct/total*100);
+    document.getElementById('comp-score-text').textContent =
+      `${correct} / ${total} correctes (${pct}%) — ${pct >= 80 ? '⭐ Excellent !' : pct >= 60 ? '👍 Bon travail !' : '📚 Continue à pratiquer !'}`;
+    document.getElementById('modal').scrollTo({ top: 0, behavior: 'smooth' });
+  }, 500);
+}
+
+/* ══════════════════════════════════════════════════════════
+   TOAST
+══════════════════════════════════════════════════════════ */
+let toastTimer;
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => t.classList.remove('show'), 3000);
+}
+
+/* ══════════════════════════════════════════════════════════
+   INIT
+══════════════════════════════════════════════════════════ */
+renderCases();
+</script>
+</body>
+</html>

@@ -1,0 +1,1112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LockWorks — Mine Safety Management System</title>
+<style>
+:root{--navy:#0d2137;--blue:#1565c0;--blue-lt:#1976d2;--gold:#f9a825;--red:#c62828;--green:#2e7d32;--orange:#e65100;--grey:#455a64;--grey-lt:#eceff1;--white:#fff;--border:#cfd8dc;--shadow:0 2px 8px rgba(0,0,0,.15);--radius:6px;}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Segoe UI',Arial,sans-serif;font-size:14px;background:#f0f4f8;color:#212121;min-height:100vh;}
+header{background:var(--navy);color:#fff;padding:0 20px;display:flex;align-items:center;justify-content:space-between;height:56px;position:sticky;top:0;z-index:100;box-shadow:var(--shadow);}
+header h1{font-size:20px;font-weight:700;letter-spacing:.5px;}
+header h1 span{color:var(--gold);}
+.header-meta{font-size:12px;opacity:.7;text-align:right;}
+nav{background:var(--blue);display:flex;overflow-x:auto;position:sticky;top:56px;z-index:99;}
+nav button{background:none;border:none;color:rgba(255,255,255,.8);padding:11px 16px;font-size:12px;font-weight:600;cursor:pointer;white-space:nowrap;border-bottom:3px solid transparent;transition:.2s;}
+nav button:hover{background:rgba(255,255,255,.1);color:#fff;}
+nav button.active{color:#fff;border-bottom-color:var(--gold);background:rgba(255,255,255,.08);}
+.page{display:none;padding:20px;max-width:1400px;margin:0 auto;}
+.page.active{display:block;}
+.card{background:#fff;border-radius:var(--radius);box-shadow:var(--shadow);padding:18px;margin-bottom:16px;}
+.card-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;padding-bottom:10px;border-bottom:2px solid var(--grey-lt);}
+.card-header h2{font-size:15px;font-weight:700;color:var(--navy);}
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+.grid-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;}
+.grid-4{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;}
+@media(max-width:900px){.grid-2,.grid-3,.grid-4{grid-template-columns:1fr 1fr;}}
+@media(max-width:600px){.grid-2,.grid-3,.grid-4{grid-template-columns:1fr;}}
+.stat-card{background:#fff;border-radius:var(--radius);box-shadow:var(--shadow);padding:16px;border-left:4px solid var(--blue);display:flex;flex-direction:column;gap:4px;}
+.stat-card.red{border-left-color:var(--red);}
+.stat-card.green{border-left-color:var(--green);}
+.stat-card.gold{border-left-color:var(--gold);}
+.stat-card .num{font-size:28px;font-weight:700;color:var(--navy);}
+.stat-card .lbl{font-size:12px;color:var(--grey);font-weight:600;text-transform:uppercase;letter-spacing:.5px;}
+.btn{display:inline-flex;align-items:center;gap:6px;padding:8px 14px;border:none;border-radius:var(--radius);font-size:13px;font-weight:600;cursor:pointer;transition:.15s;}
+.btn-primary{background:var(--blue);color:#fff;}.btn-primary:hover{background:var(--blue-lt);}
+.btn-danger{background:var(--red);color:#fff;}.btn-danger:hover{opacity:.9;}
+.btn-success{background:var(--green);color:#fff;}.btn-success:hover{opacity:.9;}
+.btn-gold{background:var(--gold);color:var(--navy);}.btn-gold:hover{opacity:.9;}
+.btn-ghost{background:transparent;color:var(--blue);border:1px solid var(--blue);}.btn-ghost:hover{background:var(--grey-lt);}
+.btn-sm{padding:4px 10px;font-size:12px;}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px;}
+.form-row.cols-3{grid-template-columns:1fr 1fr 1fr;}
+.form-row.cols-1{grid-template-columns:1fr;}
+.form-group{display:flex;flex-direction:column;gap:4px;}
+label{font-size:12px;font-weight:600;color:var(--grey);text-transform:uppercase;letter-spacing:.4px;}
+input,select,textarea{border:1px solid var(--border);border-radius:4px;padding:8px 10px;font-size:13px;font-family:inherit;transition:.15s;}
+input:focus,select:focus,textarea:focus{outline:none;border-color:var(--blue);box-shadow:0 0 0 2px rgba(21,101,192,.15);}
+textarea{resize:vertical;min-height:70px;}
+.tbl-wrap{overflow-x:auto;}
+table{width:100%;border-collapse:collapse;font-size:13px;}
+th{background:var(--navy);color:#fff;padding:9px 12px;text-align:left;font-size:12px;font-weight:600;letter-spacing:.4px;text-transform:uppercase;}
+td{padding:9px 12px;border-bottom:1px solid var(--border);vertical-align:top;}
+tr:hover td{background:#f5f8ff;}
+.badge{display:inline-block;padding:2px 8px;border-radius:20px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.4px;}
+.badge-active{background:#e8f5e9;color:var(--green);}
+.badge-draft{background:#fff8e1;color:#f57f17;}
+.badge-released{background:#e3f2fd;color:var(--blue);}
+.badge-overdue{background:#ffebee;color:var(--red);}
+.badge-compliant{background:#e8f5e9;color:var(--green);}
+.badge-pending{background:#fff3e0;color:var(--orange);}
+.badge-na{background:#eceff1;color:var(--grey);}
+.badge-inactive{background:#ffebee;color:var(--red);}
+.loto-step{border:1px solid var(--border);border-radius:var(--radius);padding:14px;margin-bottom:10px;}
+.loto-step .step-num{background:var(--navy);color:#fff;width:26px;height:26px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-weight:700;font-size:12px;margin-right:8px;}
+.loto-step h4{font-size:13px;font-weight:700;margin-bottom:8px;display:flex;align-items:center;}
+.sub-item{background:#f8f9fa;border:1px solid #dee2e6;border-radius:4px;padding:10px;margin-bottom:8px;display:grid;grid-template-columns:1fr auto;gap:8px;align-items:start;}
+.lock-tag{background:var(--gold);color:var(--navy);border-radius:4px;padding:3px 8px;font-size:11px;font-weight:700;margin:2px;}
+.comp-item{border:1px solid var(--border);border-radius:var(--radius);padding:12px;margin-bottom:8px;display:grid;grid-template-columns:1fr auto;gap:12px;align-items:center;}
+.comp-reg{font-size:11px;color:var(--grey);font-weight:600;}
+.comp-title{font-size:13px;font-weight:600;margin:2px 0;}
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:200;align-items:center;justify-content:center;}
+.modal-overlay.open{display:flex;}
+.modal{background:#fff;border-radius:var(--radius);box-shadow:0 8px 32px rgba(0,0,0,.25);width:90%;max-width:700px;max-height:90vh;overflow-y:auto;}
+.modal-header{background:var(--navy);color:#fff;padding:14px 18px;display:flex;justify-content:space-between;align-items:center;border-radius:var(--radius) var(--radius) 0 0;}
+.modal-header h3{font-size:15px;}
+.modal-close{background:none;border:none;color:#fff;font-size:20px;cursor:pointer;line-height:1;}
+.modal-body{padding:20px;}
+.modal-footer{padding:14px 20px;border-top:1px solid var(--border);display:flex;justify-content:flex-end;gap:10px;}
+.alert{padding:10px 14px;border-radius:var(--radius);margin-bottom:12px;font-size:13px;}
+.alert-warn{background:#fff8e1;border-left:4px solid var(--gold);color:#5d4037;}
+.alert-info{background:#e3f2fd;border-left:4px solid var(--blue);color:#0d47a1;}
+.alert-danger{background:#ffebee;border-left:4px solid var(--red);color:#b71c1c;}
+.section-title{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:var(--grey);margin:16px 0 8px;padding-bottom:4px;border-bottom:1px solid var(--border);}
+.toolbar{display:flex;gap:10px;align-items:center;margin-bottom:14px;flex-wrap:wrap;}
+.toolbar input[type=search]{flex:1;min-width:180px;}
+.cert-warn{color:var(--red);font-size:11px;font-weight:700;}
+@media print{nav,header .header-meta,.btn,.toolbar,#main-nav{display:none!important;}.page.active{display:block!important;padding:0;}}
+</style>
+</head>
+<body>
+<header>
+  <h1>Lock<span>Works</span> <small style="font-size:12px;opacity:.5;font-weight:400;">Mine Safety Management</small></h1>
+  <div class="header-meta"><div id="facility-name-hdr">—</div><div id="current-date-hdr"></div></div>
+</header>
+<nav id="main-nav">
+  <button class="active" onclick="showPage('dashboard',this)">📊 Dashboard</button>
+  <button onclick="showPage('assets',this)">🏭 Assets</button>
+  <button onclick="showPage('lockout',this)">🔒 Lockout / LOTO</button>
+  <button onclick="showPage('procedures',this)">📋 Procedures</button>
+  <button onclick="showPage('documents',this)">📁 Documents</button>
+  <button onclick="showPage('compliance',this)">✅ Compliance</button>
+  <button onclick="showPage('personnel',this)">👷 Personnel</button>
+  <button onclick="showPage('settings',this)">⚙️ Settings</button>
+</nav>
+
+<!-- DASHBOARD -->
+<div id="page-dashboard" class="page active">
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
+    <h2 style="font-size:18px;color:var(--navy);">Operations Dashboard</h2>
+    <div style="display:flex;gap:8px;">
+      <button class="btn btn-ghost btn-sm" onclick="exportData()">⬇ Export JSON</button>
+      <label class="btn btn-ghost btn-sm" style="cursor:pointer;">⬆ Import JSON<input type="file" accept=".json" onchange="importData(event)" style="display:none;"></label>
+    </div>
+  </div>
+  <div class="grid-4" id="dash-stats"></div>
+  <div class="grid-3" style="margin-top:16px;">
+    <div class="card"><div class="card-header"><h2>Active Lockouts</h2></div><div id="dash-active-lockouts"><p style="color:var(--grey);font-size:13px;">None.</p></div></div>
+    <div class="card"><div class="card-header"><h2>Compliance Alerts</h2></div><div id="dash-compliance-alerts"><p style="color:var(--grey);font-size:13px;">All clear.</p></div></div>
+    <div class="card"><div class="card-header"><h2>Cert Expiries (90 days)</h2></div><div id="dash-cert-expiries"><p style="color:var(--grey);font-size:13px;">None upcoming.</p></div></div>
+  </div>
+  <div class="card"><div class="card-header"><h2>Recent Activity</h2></div><div id="dash-activity"><p style="color:var(--grey);font-size:13px;">No activity yet.</p></div></div>
+</div>
+
+<!-- ASSETS -->
+<div id="page-assets" class="page">
+  <div class="toolbar">
+    <h2 style="font-size:18px;color:var(--navy);flex:1;">Asset Register</h2>
+    <input type="search" placeholder="Search assets…" oninput="filterAssets(this.value)">
+    <select id="asset-filter-cat" onchange="filterAssets()">
+      <option value="">All Categories</option>
+      <option>Electrical</option><option>Mechanical</option><option>Hydraulic</option>
+      <option>Pneumatic</option><option>Thermal</option><option>Chemical</option>
+      <option>Gravity</option><option>Instrumentation</option><option>Other</option>
+    </select>
+    <button class="btn btn-primary" onclick="openAssetModal()">+ Add Asset</button>
+  </div>
+  <div class="card"><div class="tbl-wrap">
+    <table><thead><tr>
+      <th>Asset ID</th><th>Name / Description</th><th>Category</th><th>Location</th>
+      <th>Manufacturer</th><th>Model</th><th>Serial</th><th>Status</th><th>Iso Pts</th><th>Drawings</th><th>Actions</th>
+    </tr></thead><tbody id="assets-tbody"></tbody></table>
+  </div></div>
+</div>
+
+<!-- LOCKOUT -->
+<div id="page-lockout" class="page">
+  <div class="toolbar">
+    <h2 style="font-size:18px;color:var(--navy);flex:1;">Lockout / Tagout (LOTO)</h2>
+    <select id="loto-filter" onchange="renderLotoTable()">
+      <option value="">All Status</option><option>Draft</option><option>Active</option><option>Released</option>
+    </select>
+    <button class="btn btn-primary" onclick="openLotoModal()">+ New Lockout Form</button>
+  </div>
+  <div class="alert alert-warn">⚠ <strong>Regulatory Notice:</strong> Lockout procedures must comply with WorkSafe BC OHS Reg Part 10, BC Mine Code Part 12, and AB OHS Code Part 15. Isolation and verification are mandatory <strong>separate tasks</strong>.</div>
+  <div class="card"><div class="tbl-wrap">
+    <table><thead><tr>
+      <th>Form #</th><th>Asset</th><th>Work Description</th><th>Worker</th>
+      <th>Lock Set</th><th>Isolation</th><th>Verification</th><th>Status</th><th>Date</th><th>Actions</th>
+    </tr></thead><tbody id="loto-tbody"></tbody></table>
+  </div></div>
+</div>
+
+<!-- PROCEDURES -->
+<div id="page-procedures" class="page">
+  <div class="toolbar">
+    <h2 style="font-size:18px;color:var(--navy);flex:1;">Safe Work Procedures</h2>
+    <input type="search" placeholder="Search…" oninput="filterProcs(this.value)">
+    <select id="proc-filter-jur" onchange="filterProcs()">
+      <option value="">All Jurisdictions</option><option>BC</option><option>Alberta</option><option>Both</option>
+    </select>
+    <button class="btn btn-primary" onclick="openProcModal()">+ Add Procedure</button>
+  </div>
+  <div id="procs-list"></div>
+</div>
+
+<!-- DOCUMENTS -->
+<div id="page-documents" class="page">
+  <div class="toolbar">
+    <h2 style="font-size:18px;color:var(--navy);flex:1;">Document Control</h2>
+    <input type="search" placeholder="Search documents…" oninput="filterDocs(this.value)">
+    <select id="doc-filter-cat" onchange="filterDocs()">
+      <option value="">All Types</option>
+      <option>Procedure</option><option>Drawing</option><option>Certificate</option>
+      <option>Report</option><option>Form</option><option>Legislation</option><option>Permit</option><option>Other</option>
+    </select>
+    <select id="doc-filter-status" onchange="filterDocs()">
+      <option value="">All Status</option><option>Current</option><option>Draft</option><option>Superseded</option><option>Obsolete</option>
+    </select>
+    <button class="btn btn-primary" onclick="openDocModal()">+ Add Document</button>
+  </div>
+  <div class="card"><div class="tbl-wrap">
+    <table><thead><tr>
+      <th>Doc #</th><th>Title</th><th>Type</th><th>Rev</th><th>Author</th><th>Approver</th><th>Review Date</th><th>Related Asset</th><th>Status</th><th>Actions</th>
+    </tr></thead><tbody id="docs-tbody"></tbody></table>
+  </div></div>
+</div>
+
+<!-- COMPLIANCE -->
+<div id="page-compliance" class="page">
+  <div class="toolbar">
+    <h2 style="font-size:18px;color:var(--navy);flex:1;">Compliance Register</h2>
+    <select id="comp-filter-body" onchange="renderCompliance()">
+      <option value="">All Bodies</option>
+      <option>BC Mine Code</option><option>WorkSafe BC OHS Reg</option><option>BC Mines Act</option><option>BC Health Authority</option>
+      <option>AB OHS Act</option><option>AB OHS Code</option><option>AB OHS Regulation</option><option>Alberta Energy Regulator</option>
+      <option>Other</option>
+    </select>
+    <button class="btn btn-primary" onclick="openCompModal()">+ Add Requirement</button>
+  </div>
+  <div class="alert alert-info">ℹ Pre-seeded with BC Mine Code, WorkSafe BC OHS Reg (Part 10 &amp; 20), BC Mines Act, BC Health Authority, and Alberta OHS Code (Part 15 &amp; 36) requirements.</div>
+  <div id="comp-list"></div>
+</div>
+
+<!-- PERSONNEL -->
+<div id="page-personnel" class="page">
+  <div class="toolbar">
+    <h2 style="font-size:18px;color:var(--navy);flex:1;">Personnel Register</h2>
+    <input type="search" placeholder="Search personnel…" oninput="filterPersonnel(this.value)">
+    <select id="pers-filter-type" onchange="filterPersonnel()">
+      <option value="">All Types</option><option>Worker</option><option>Supervisor</option><option>Both</option>
+    </select>
+    <select id="pers-filter-status" onchange="filterPersonnel()">
+      <option value="">All Status</option><option>Active</option><option>Inactive</option>
+    </select>
+    <button class="btn btn-primary" onclick="openPersModal()">+ Add Person</button>
+  </div>
+  <div id="pers-cert-warn" style="display:none;" class="alert alert-danger"></div>
+  <div class="card"><div class="tbl-wrap">
+    <table><thead><tr>
+      <th>Name</th><th>Type</th><th>Trade / Role</th><th>Cert / Ticket #</th><th>Cert Expiry</th><th>Jurisdiction</th><th>Status</th><th>Notes</th><th>Actions</th>
+    </tr></thead><tbody id="personnel-tbody"></tbody></table>
+  </div></div>
+</div>
+
+<!-- SETTINGS -->
+<div id="page-settings" class="page">
+  <div class="grid-2">
+    <div class="card">
+      <div class="card-header"><h2>Facility Information</h2></div>
+      <div class="form-row cols-1"><div class="form-group"><label>Facility / Mine Name</label><input id="s-facility-name" type="text" oninput="saveSetting('facilityName',this.value);updateHeader()"></div></div>
+      <div class="form-row"><div class="form-group"><label>Permit / ID Number</label><input id="s-permit" type="text" oninput="saveSetting('permit',this.value)"></div><div class="form-group"><label>Mine Type</label><select id="s-mine-type" onchange="saveSetting('mineType',this.value)"><option>Open Pit</option><option>Underground</option><option>Placer</option><option>Quarry</option><option>Aggregate</option></select></div></div>
+      <div class="form-row"><div class="form-group"><label>Location / Region</label><input id="s-location" type="text" oninput="saveSetting('location',this.value)"></div><div class="form-group"><label>Province</label><select id="s-province" onchange="saveSetting('province',this.value)"><option>British Columbia</option><option>Alberta</option><option>Both</option></select></div></div>
+      <div class="form-row cols-1"><div class="form-group"><label>Safety Officer / Contact</label><input id="s-safety-officer" type="text" oninput="saveSetting('safetyOfficer',this.value)"></div></div>
+    </div>
+    <div class="card">
+      <div class="card-header"><h2>Lock Sets</h2><button class="btn btn-primary btn-sm" onclick="openLockSetModal()">+ Add Lock Set</button></div>
+      <div id="lock-sets-list"></div>
+    </div>
+    <div class="card">
+      <div class="card-header"><h2>Data Management</h2></div>
+      <p style="font-size:13px;color:var(--grey);margin-bottom:12px;">All data lives in browser memory. Export regularly as JSON backup.</p>
+      <div style="display:flex;gap:10px;flex-wrap:wrap;">
+        <button class="btn btn-primary" onclick="exportData()">⬇ Export JSON</button>
+        <label class="btn btn-ghost" style="cursor:pointer;">⬆ Import JSON<input type="file" accept=".json" onchange="importData(event)" style="display:none;"></label>
+        <button class="btn btn-danger btn-sm" onclick="clearAll()">🗑 Clear All</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ MODALS ═══ -->
+<!-- Asset Modal -->
+<div class="modal-overlay" id="modal-asset">
+  <div class="modal" style="max-width:780px;">
+    <div class="modal-header"><h3 id="modal-asset-title">Add Asset</h3><button class="modal-close" onclick="closeModal('modal-asset')">✕</button></div>
+    <div class="modal-body">
+      <div class="form-row"><div class="form-group"><label>Asset ID *</label><input id="a-id" type="text" placeholder="e.g. EQ-001"></div><div class="form-group"><label>Category *</label><select id="a-cat"><option>Electrical</option><option>Mechanical</option><option>Hydraulic</option><option>Pneumatic</option><option>Thermal</option><option>Chemical</option><option>Gravity</option><option>Instrumentation</option><option>Other</option></select></div></div>
+      <div class="form-row cols-1"><div class="form-group"><label>Name / Description *</label><input id="a-name" type="text"></div></div>
+      <div class="form-row"><div class="form-group"><label>Location</label><input id="a-loc" type="text" placeholder="e.g. Level 2 – Crusher Bay"></div><div class="form-group"><label>Status</label><select id="a-status"><option>Operational</option><option>Out of Service</option><option>Under Maintenance</option><option>Decommissioned</option></select></div></div>
+      <div class="form-row cols-3">
+        <div class="form-group"><label>Manufacturer</label><input id="a-mfr" type="text"></div>
+        <div class="form-group"><label>Model Number</label><input id="a-model" type="text"></div>
+        <div class="form-group"><label>Serial Number</label><input id="a-serial" type="text"></div>
+      </div>
+      <div class="form-row"><div class="form-group"><label>Install Date</label><input id="a-install" type="date"></div><div class="form-group"><label>Commissioned By</label><input id="a-commissioned" type="text"></div></div>
+      <div class="form-row cols-1"><div class="form-group"><label>Notes</label><textarea id="a-notes" placeholder="Condition, age, special considerations…"></textarea></div></div>
+      <div class="section-title">Drawing References</div>
+      <div id="drawing-refs-list"></div>
+      <button class="btn btn-ghost btn-sm" onclick="addDrawingRef()" style="margin-bottom:12px;">+ Add Drawing Reference</button>
+      <div class="section-title">Isolation Points</div>
+      <div id="iso-points-list"></div>
+      <button class="btn btn-ghost btn-sm" onclick="addIsoPoint()">+ Add Isolation Point</button>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost" onclick="closeModal('modal-asset')">Cancel</button>
+      <button class="btn btn-primary" onclick="saveAsset()">Save Asset</button>
+    </div>
+  </div>
+</div>
+
+<!-- LOTO Modal -->
+<div class="modal-overlay" id="modal-loto">
+  <div class="modal" style="max-width:840px;">
+    <div class="modal-header"><h3 id="modal-loto-title">Lockout / Tagout Form</h3><button class="modal-close" onclick="closeModal('modal-loto')">✕</button></div>
+    <div class="modal-body">
+      <div class="alert alert-warn" style="font-size:12px;">Per WorkSafe BC OHS Reg §10.2, BC Mine Code Part 12, and AB OHS Code Part 15 — Isolation and Verification are mandatory <strong>separate tasks</strong>.</div>
+      <div class="form-row"><div class="form-group"><label>Form Number</label><input id="l-num" type="text" readonly style="background:#f5f5f5;"></div><div class="form-group"><label>Date / Time</label><input id="l-date" type="datetime-local"></div></div>
+      <div class="form-row"><div class="form-group"><label>Asset *</label><select id="l-asset" onchange="loadAssetIsoPoints()"><option value="">— Select Asset —</option></select></div><div class="form-group"><label>Authorized Worker *</label><select id="l-worker"><option value="">— Select —</option></select></div></div>
+      <div class="form-row"><div class="form-group"><label>Supervisor / Approver *</label><select id="l-super"><option value="">— Select —</option></select></div><div class="form-group"><label>Lock Set</label><select id="l-lockset"><option value="">— Select Lock Set —</option></select></div></div>
+      <div class="form-row cols-1"><div class="form-group"><label>Work to be Performed *</label><textarea id="l-work" placeholder="Describe the maintenance/work task…"></textarea></div></div>
+
+      <div class="section-title" style="color:var(--red);">🔴 TASK 1 — ISOLATION (De-energization)</div>
+      <div class="alert alert-info" style="font-size:12px;">Isolate ALL energy sources individually. Ref: BC Mine Code §12.5; OHS Reg §10.4; AB OHS Code §213–214.</div>
+      <div id="l-iso-points"></div>
+      <div class="form-row cols-1" style="margin-top:8px;"><div class="form-group"><label>Isolation Notes</label><textarea id="l-iso-notes" rows="2"></textarea></div></div>
+      <div class="form-row"><div class="form-group"><label>Isolated By</label><input id="l-iso-by" type="text"></div><div class="form-group"><label>Isolation Date/Time</label><input id="l-iso-dt" type="datetime-local"></div></div>
+
+      <div class="section-title" style="color:var(--green);">🟢 TASK 2 — VERIFICATION (Try-out / Zero Energy Test)</div>
+      <div class="alert alert-info" style="font-size:12px;">Verify ZERO energy independently. Ref: BC OHS Reg §10.5; BC Mine Code §12.6; AB OHS Code §215.</div>
+      <div id="l-ver-checks"></div>
+      <div class="form-row cols-1" style="margin-top:8px;"><div class="form-group"><label>Verification Notes</label><textarea id="l-ver-notes" rows="2" placeholder="e.g. Attempted start, no movement confirmed…"></textarea></div></div>
+      <div class="form-row"><div class="form-group"><label>Verified By</label><input id="l-ver-by" type="text"></div><div class="form-group"><label>Verification Date/Time</label><input id="l-ver-dt" type="datetime-local"></div></div>
+
+      <div class="section-title">Form Status &amp; Release</div>
+      <div class="form-row"><div class="form-group"><label>Status</label><select id="l-status"><option>Draft</option><option>Active</option><option>Released</option></select></div><div class="form-group"><label>Released / Re-energized By</label><input id="l-release-by" type="text"></div></div>
+      <div class="form-row"><div class="form-group"><label>Release Date/Time</label><input id="l-release-dt" type="datetime-local"></div><div class="form-group"><label>Jurisdiction</label><select id="l-jur"><option>BC</option><option>Alberta</option><option>Both</option></select></div></div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost" onclick="closeModal('modal-loto')">Cancel</button>
+      <button class="btn btn-gold" onclick="printCurrentLoto()">🖨 Print Form</button>
+      <button class="btn btn-success" onclick="saveLoto()">Save</button>
+    </div>
+  </div>
+</div>
+
+<!-- Procedure Modal -->
+<div class="modal-overlay" id="modal-proc">
+  <div class="modal">
+    <div class="modal-header"><h3>Safe Work Procedure</h3><button class="modal-close" onclick="closeModal('modal-proc')">✕</button></div>
+    <div class="modal-body">
+      <div class="form-row"><div class="form-group"><label>Procedure Number</label><input id="p-num" type="text" placeholder="SWP-001"></div><div class="form-group"><label>Category</label><select id="p-cat"><option>Lockout/Tagout</option><option>Electrical Safety</option><option>Mechanical</option><option>Ground Control</option><option>Blasting</option><option>Haulage</option><option>Chemical Handling</option><option>Confined Space</option><option>Emergency</option><option>General</option></select></div></div>
+      <div class="form-row cols-1"><div class="form-group"><label>Title *</label><input id="p-title" type="text"></div></div>
+      <div class="form-row"><div class="form-group"><label>Jurisdiction</label><select id="p-jur"><option>BC</option><option>Alberta</option><option>Both</option></select></div><div class="form-group"><label>Review Date</label><input id="p-review" type="date"></div></div>
+      <div class="form-row"><div class="form-group"><label>Related Asset</label><select id="p-asset"><option value="">None</option></select></div><div class="form-group"><label>Approved By</label><input id="p-approved" type="text"></div></div>
+      <div class="form-row cols-1"><div class="form-group"><label>Hazards Identified</label><textarea id="p-hazards" rows="2"></textarea></div></div>
+      <div class="form-row cols-1"><div class="form-group"><label>Procedure Steps</label><textarea id="p-steps" rows="5" placeholder="Step-by-step instructions…"></textarea></div></div>
+      <div class="form-row cols-1"><div class="form-group"><label>PPE Required</label><input id="p-ppe" type="text" placeholder="Hard hat, safety glasses, gloves, CSA boots…"></div></div>
+      <div class="form-row cols-1"><div class="form-group"><label>References / Regulations</label><input id="p-refs" type="text" placeholder="e.g. AB OHS Code Part 15, BC OHS Reg Part 10"></div></div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost" onclick="closeModal('modal-proc')">Cancel</button>
+      <button class="btn btn-primary" onclick="saveProc()">Save</button>
+    </div>
+  </div>
+</div>
+
+<!-- Document Modal -->
+<div class="modal-overlay" id="modal-doc">
+  <div class="modal">
+    <div class="modal-header"><h3 id="modal-doc-title">Add Document</h3><button class="modal-close" onclick="closeModal('modal-doc')">✕</button></div>
+    <div class="modal-body">
+      <div class="form-row"><div class="form-group"><label>Document Number *</label><input id="d-num" type="text" placeholder="e.g. DWG-001, CERT-005"></div><div class="form-group"><label>Type</label><select id="d-type"><option>Procedure</option><option>Drawing</option><option>Certificate</option><option>Report</option><option>Form</option><option>Legislation</option><option>Permit</option><option>Other</option></select></div></div>
+      <div class="form-row cols-1"><div class="form-group"><label>Title *</label><input id="d-title" type="text"></div></div>
+      <div class="form-row cols-3"><div class="form-group"><label>Revision</label><input id="d-rev" type="text" placeholder="e.g. A, 1, 2.1"></div><div class="form-group"><label>Issue Date</label><input id="d-date" type="date"></div><div class="form-group"><label>Review Date</label><input id="d-review" type="date"></div></div>
+      <div class="form-row"><div class="form-group"><label>Author / Prepared By</label><input id="d-author" type="text"></div><div class="form-group"><label>Approved By</label><input id="d-approver" type="text"></div></div>
+      <div class="form-row"><div class="form-group"><label>Related Asset</label><select id="d-asset"><option value="">None</option></select></div><div class="form-group"><label>Status</label><select id="d-status"><option>Current</option><option>Draft</option><option>Superseded</option><option>Obsolete</option></select></div></div>
+      <div class="form-row cols-1"><div class="form-group"><label>File Location / Reference</label><input id="d-file" type="text" placeholder="e.g. SharePoint path, cabinet location, URL"></div></div>
+      <div class="form-row cols-1"><div class="form-group"><label>Description / Notes</label><textarea id="d-notes" rows="3"></textarea></div></div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost" onclick="closeModal('modal-doc')">Cancel</button>
+      <button class="btn btn-primary" onclick="saveDoc()">Save</button>
+    </div>
+  </div>
+</div>
+
+<!-- Compliance Modal -->
+<div class="modal-overlay" id="modal-comp">
+  <div class="modal">
+    <div class="modal-header"><h3>Compliance Requirement</h3><button class="modal-close" onclick="closeModal('modal-comp')">✕</button></div>
+    <div class="modal-body">
+      <div class="form-row"><div class="form-group"><label>Regulatory Body *</label><select id="c-body"><option>BC Mine Code</option><option>WorkSafe BC OHS Reg</option><option>BC Mines Act</option><option>BC Health Authority</option><option>AB OHS Act</option><option>AB OHS Code</option><option>AB OHS Regulation</option><option>Alberta Energy Regulator</option><option>Other</option></select></div><div class="form-group"><label>Section / Reference</label><input id="c-ref" type="text" placeholder="e.g. Part 15 §212"></div></div>
+      <div class="form-row cols-1"><div class="form-group"><label>Requirement Title *</label><input id="c-title" type="text"></div></div>
+      <div class="form-row cols-1"><div class="form-group"><label>Description</label><textarea id="c-desc" rows="3"></textarea></div></div>
+      <div class="form-row"><div class="form-group"><label>Frequency</label><select id="c-freq"><option>Continuous</option><option>Daily</option><option>Weekly</option><option>Monthly</option><option>Quarterly</option><option>Annually</option><option>As Required</option></select></div><div class="form-group"><label>Next Due Date</label><input id="c-due" type="date"></div></div>
+      <div class="form-row"><div class="form-group"><label>Responsible Person</label><input id="c-person" type="text"></div><div class="form-group"><label>Status</label><select id="c-status"><option>Compliant</option><option>Pending</option><option>Overdue</option><option>N/A</option></select></div></div>
+      <div class="form-row cols-1"><div class="form-group"><label>Notes</label><textarea id="c-notes" rows="2"></textarea></div></div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost" onclick="closeModal('modal-comp')">Cancel</button>
+      <button class="btn btn-primary" onclick="saveComp()">Save</button>
+    </div>
+  </div>
+</div>
+
+<!-- Personnel Modal -->
+<div class="modal-overlay" id="modal-pers">
+  <div class="modal">
+    <div class="modal-header"><h3 id="modal-pers-title">Add Person</h3><button class="modal-close" onclick="closeModal('modal-pers')">✕</button></div>
+    <div class="modal-body">
+      <div class="form-row"><div class="form-group"><label>Full Name *</label><input id="pr-name" type="text"></div><div class="form-group"><label>Type *</label><select id="pr-type"><option>Worker</option><option>Supervisor</option><option>Both</option></select></div></div>
+      <div class="form-row"><div class="form-group"><label>Trade / Role</label><input id="pr-role" type="text" placeholder="e.g. Electrician, Millwright, Blaster"></div><div class="form-group"><label>Jurisdiction</label><select id="pr-jur"><option>BC</option><option>Alberta</option><option>Both</option></select></div></div>
+      <div class="form-row"><div class="form-group"><label>Certificate / Ticket #</label><input id="pr-cert" type="text"></div><div class="form-group"><label>Cert Expiry Date</label><input id="pr-expiry" type="date"></div></div>
+      <div class="form-row"><div class="form-group"><label>Secondary Cert #</label><input id="pr-cert2" type="text"></div><div class="form-group"><label>Secondary Cert Expiry</label><input id="pr-expiry2" type="date"></div></div>
+      <div class="form-row"><div class="form-group"><label>LOTO Authorized?</label><select id="pr-loto"><option>Yes</option><option>No</option></select></div><div class="form-group"><label>Status</label><select id="pr-status"><option>Active</option><option>Inactive</option></select></div></div>
+      <div class="form-row cols-1"><div class="form-group"><label>Notes</label><textarea id="pr-notes" rows="2"></textarea></div></div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost" onclick="closeModal('modal-pers')">Cancel</button>
+      <button class="btn btn-primary" onclick="savePers()">Save</button>
+    </div>
+  </div>
+</div>
+
+<!-- Lock Set Modal -->
+<div class="modal-overlay" id="modal-lockset">
+  <div class="modal" style="max-width:480px;">
+    <div class="modal-header"><h3>Add Lock Set</h3><button class="modal-close" onclick="closeModal('modal-lockset')">✕</button></div>
+    <div class="modal-body">
+      <div class="form-row cols-1"><div class="form-group"><label>Lock Set Name *</label><input id="ls-name" type="text" placeholder="e.g. Electrical Panel Set A"></div></div>
+      <div class="form-row"><div class="form-group"><label>Lock Colour</label><select id="ls-color"><option value="#f9a825">Yellow</option><option value="#c62828">Red</option><option value="#1565c0">Blue</option><option value="#2e7d32">Green</option><option value="#6a1b9a">Purple</option><option value="#e65100">Orange</option><option value="#37474f">Black/Grey</option></select></div><div class="form-group"><label>Number of Locks</label><input id="ls-qty" type="number" min="1" value="1"></div></div>
+      <div class="form-row cols-1"><div class="form-group"><label>Key Holder / Custodian</label><input id="ls-custodian" type="text"></div></div>
+      <div class="form-row cols-1"><div class="form-group"><label>Notes</label><textarea id="ls-notes" rows="2" placeholder="Hasp type, unique ID, storage location…"></textarea></div></div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost" onclick="closeModal('modal-lockset')">Cancel</button>
+      <button class="btn btn-primary" onclick="saveLockSet()">Save</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ══════════════════════════════════════
+//  DATA STORE
+// ══════════════════════════════════════
+let DB = {
+  settings:{facilityName:'',permit:'',mineType:'Quarry',location:'',province:'British Columbia',safetyOfficer:''},
+  assets:[], lockouts:[], procedures:[], documents:[], compliance:[], lockSets:[], personnel:[], activity:[]
+};
+let editAssetIdx=null,editLotoIdx=null,editProcIdx=null,editDocIdx=null,editCompIdx=null,editPersIdx=null;
+let pendingLotoData=null;
+
+// ══════════════════════════════════════
+//  COMPLIANCE SEED — BC + ALBERTA
+// ══════════════════════════════════════
+function seedCompliance(){
+  if(DB.compliance.length>0) return;
+  const items=[
+    // BC Mine Code
+    {body:'BC Mine Code',ref:'Part 12 §12.1',title:'Lockout Program — Written Procedure Required',desc:'Every mine must establish a written lockout program covering all energy sources. Must be reviewed annually.',freq:'Annually',due:'',person:'',status:'Pending',notes:''},
+    {body:'BC Mine Code',ref:'Part 12 §12.5',title:'Isolation of Energy Sources',desc:'Before maintenance, all energy sources (electrical, hydraulic, pneumatic, thermal, gravity) must be individually isolated and locked out.',freq:'As Required',due:'',person:'',status:'Compliant',notes:''},
+    {body:'BC Mine Code',ref:'Part 12 §12.6',title:'Verification — Zero Energy State',desc:'After isolation, worker must verify zero energy before work begins. Try-out test required.',freq:'As Required',due:'',person:'',status:'Compliant',notes:''},
+    {body:'BC Mine Code',ref:'Part 17',title:'Electrical Safety — Qualified Workers',desc:'Only qualified electrical workers may work on energized or de-energized electrical equipment. Certificates maintained on site.',freq:'Continuous',due:'',person:'',status:'Pending',notes:''},
+    {body:'BC Mine Code',ref:'Part 20',title:'Ground Control Program',desc:'Written ground control program required. Inspection frequency and methods documented and followed.',freq:'Quarterly',due:'',person:'',status:'Pending',notes:''},
+    // WorkSafe BC
+    {body:'WorkSafe BC OHS Reg',ref:'Part 10 §10.1',title:'Lockout — Application Scope',desc:'Part 10 applies to all work on machinery or systems where inadvertent startup or stored energy release could cause injury.',freq:'Continuous',due:'',person:'',status:'Compliant',notes:''},
+    {body:'WorkSafe BC OHS Reg',ref:'Part 10 §10.2',title:'Lockout Procedures — Written Program',desc:'Employer must develop and implement a written lockout program. Workers trained. Program reviewed when conditions change.',freq:'Annually',due:'',person:'',status:'Pending',notes:''},
+    {body:'WorkSafe BC OHS Reg',ref:'Part 10 §10.5',title:'Verification by Second Person',desc:'After applying lockout, isolation must be verified by a second authorized worker independently.',freq:'As Required',due:'',person:'',status:'Compliant',notes:''},
+    {body:'WorkSafe BC OHS Reg',ref:'Part 20 §20.2',title:'Mine Construction — Safe Work Plan',desc:'Safe work plan required for construction activities at mine sites including electrical and structural work.',freq:'As Required',due:'',person:'',status:'Pending',notes:''},
+    {body:'WorkSafe BC OHS Reg',ref:'Part 20 §20.16',title:'Confined Space Entry Procedure',desc:'Written confined space entry procedure required. Atmosphere testing, standby persons, and rescue plan mandatory.',freq:'As Required',due:'',person:'',status:'Pending',notes:''},
+    // BC Mines Act
+    {body:'BC Mines Act',ref:'§20',title:'Mine Manager Certificate Required',desc:'A person must hold a valid Mine Manager Certificate from the Chief Inspector of Mines.',freq:'Continuous',due:'',person:'',status:'Pending',notes:''},
+    {body:'BC Mines Act',ref:'§34',title:'Accident Reporting — Chief Inspector',desc:'Serious accidents, dangerous occurrences, and work-related diseases reported to Chief Inspector within prescribed timeframes.',freq:'As Required',due:'',person:'',status:'Compliant',notes:''},
+    // BC Health Authority
+    {body:'BC Health Authority',ref:'IH-OHS-01',title:'Health Authority Annual Inspection',desc:'Facility inspected by regional Health Authority representative annually. Records and corrective actions maintained on site.',freq:'Annually',due:'',person:'',status:'Pending',notes:''},
+    {body:'BC Health Authority',ref:'IH-OHS-02',title:'Potable Water Testing',desc:'Potable water sources tested per Health Authority schedule. Results documented and retained.',freq:'Quarterly',due:'',person:'',status:'Pending',notes:''},
+    // Alberta OHS Act
+    {body:'AB OHS Act',ref:'RSA 2000 c.O-2 §2',title:'General Duties — Employer',desc:'Every employer must ensure, as far as reasonably practicable, the health and safety of workers at the work site.',freq:'Continuous',due:'',person:'',status:'Pending',notes:''},
+    {body:'AB OHS Act',ref:'§18',title:'Hazard Assessment Required',desc:'Employer must identify existing and potential hazards at the work site and implement controls before work begins.',freq:'As Required',due:'',person:'',status:'Pending',notes:''},
+    {body:'AB OHS Act',ref:'§33',title:'Serious Incident Reporting',desc:'Serious injuries, incidents, and near-misses must be reported to OHS and investigated. Records retained for minimum 2 years.',freq:'As Required',due:'',person:'',status:'Pending',notes:''},
+    // Alberta OHS Code — Part 15 (Lockout)
+    {body:'AB OHS Code',ref:'Part 15 §212',title:'Energy Control Program Required',desc:'Employer must establish a written energy control (lockout) program for all machinery and equipment with hazardous energy sources.',freq:'Annually',due:'',person:'',status:'Pending',notes:''},
+    {body:'AB OHS Code',ref:'Part 15 §213',title:'Energy Control Procedure — Per Equipment',desc:'An energy control procedure must be developed for each piece of equipment listing all energy sources, isolation points, and lock locations.',freq:'As Required',due:'',person:'',status:'Pending',notes:''},
+    {body:'AB OHS Code',ref:'Part 15 §214',title:'Isolation Devices — Application',desc:'Each energy isolation device must be locked out with a personal lock by each worker performing maintenance.',freq:'As Required',due:'',person:'',status:'Pending',notes:''},
+    {body:'AB OHS Code',ref:'Part 15 §215',title:'Verification of Zero Energy State',desc:'After locking out, the worker must verify by testing that all energy is at a zero energy state before work begins.',freq:'As Required',due:'',person:'',status:'Compliant',notes:''},
+    {body:'AB OHS Code',ref:'Part 15 §216',title:'Group Lockout — Multiple Workers',desc:'When more than one worker is involved, each worker applies their own personal lock to a group lockout hasp or device.',freq:'As Required',due:'',person:'',status:'Pending',notes:''},
+    // Alberta OHS Code — Part 36 (Mining)
+    {body:'AB OHS Code',ref:'Part 36 §460',title:'Mine Site Safety Plan',desc:'A written health and safety plan must be prepared, implemented, and maintained for the mine site.',freq:'Annually',due:'',person:'',status:'Pending',notes:''},
+    {body:'AB OHS Code',ref:'Part 36 §461',title:'Mine Supervisor Certification',desc:'A certified mine supervisor must be designated and present when workers are at the mine site.',freq:'Continuous',due:'',person:'',status:'Pending',notes:''},
+    {body:'AB OHS Code',ref:'Part 36 §465',title:'Ground Stability Assessment',desc:'Ground stability must be assessed and documented before work in any excavation or pit area.',freq:'As Required',due:'',person:'',status:'Pending',notes:''},
+    // Alberta OHS Regulation
+    {body:'AB OHS Regulation',ref:'AR 62/2003 §13',title:'First Aid Equipment and Services',desc:'Adequate first aid equipment, supplies, and trained first aid providers must be maintained on site per schedule.',freq:'Continuous',due:'',person:'',status:'Pending',notes:''},
+    // Alberta Energy Regulator
+    {body:'Alberta Energy Regulator',ref:'Directive 023',title:'Surface Mine Application and Operating Approval',desc:'Surface mine operations require an AER Operating Approval. Conditions of approval must be complied with and reported.',freq:'Annually',due:'',person:'',status:'Pending',notes:''},
+  ];
+  DB.compliance=items.map((c,i)=>({...c,id:'COMP-'+(1000+i)}));
+}
+
+// ══════════════════════════════════════
+//  NAVIGATION
+// ══════════════════════════════════════
+function showPage(id,btn){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('nav button').forEach(b=>b.classList.remove('active'));
+  document.getElementById('page-'+id).classList.add('active');
+  if(btn)btn.classList.add('active');
+  const renders={dashboard:renderDashboard,assets:renderAssetsTable,lockout:renderLotoTable,procedures:renderProcs,documents:renderDocsTable,compliance:renderCompliance,personnel:renderPersonnel,settings:renderSettings};
+  if(renders[id])renders[id]();
+}
+
+// ══════════════════════════════════════
+//  DASHBOARD
+// ══════════════════════════════════════
+function renderDashboard(){
+  const activeLoto=DB.lockouts.filter(l=>l.status==='Active').length;
+  const overdueComp=DB.compliance.filter(c=>c.status==='Overdue').length;
+  const pendingComp=DB.compliance.filter(c=>c.status==='Pending').length;
+  const today=new Date(); const in90=new Date(); in90.setDate(today.getDate()+90);
+  const expiring=DB.personnel.filter(p=>{const d=p.expiry?new Date(p.expiry):null;return d&&d>=today&&d<=in90;});
+  document.getElementById('dash-stats').innerHTML=`
+    <div class="stat-card"><div class="num">${DB.assets.length}</div><div class="lbl">Total Assets</div></div>
+    <div class="stat-card red"><div class="num">${activeLoto}</div><div class="lbl">Active Lockouts</div></div>
+    <div class="stat-card gold"><div class="num">${pendingComp}</div><div class="lbl">Compliance Pending</div></div>
+    <div class="stat-card ${overdueComp>0?'red':'green'}"><div class="num">${overdueComp}</div><div class="lbl">Overdue Items</div></div>`;
+  const al=document.getElementById('dash-active-lockouts');
+  const actives=DB.lockouts.filter(l=>l.status==='Active');
+  al.innerHTML=actives.length?actives.map(l=>`<div style="padding:8px 0;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;"><div><strong>${l.num}</strong> — ${l.assetName||l.asset}<br><small style="color:var(--grey);">${l.worker} · ${l.lockset||'—'}</small></div><span class="badge badge-active">Active</span></div>`).join(''):'<p style="color:var(--grey);font-size:13px;">None.</p>';
+  const ca=document.getElementById('dash-compliance-alerts');
+  const alerts=DB.compliance.filter(c=>c.status==='Overdue'||c.status==='Pending');
+  ca.innerHTML=alerts.length?alerts.slice(0,5).map(c=>`<div style="padding:6px 0;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;"><div><small class="comp-reg">${c.body} ${c.ref}</small><div style="font-size:13px;">${c.title}</div></div><span class="badge badge-${c.status.toLowerCase()}">${c.status}</span></div>`).join(''):'<p style="color:var(--grey);font-size:13px;">All clear.</p>';
+  const ce=document.getElementById('dash-cert-expiries');
+  ce.innerHTML=expiring.length?expiring.map(p=>`<div style="padding:6px 0;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;"><div><strong>${p.name}</strong><br><small style="color:var(--grey);">${p.role}</small></div><span class="cert-warn">Exp: ${p.expiry}</span></div>`).join(''):'<p style="color:var(--grey);font-size:13px;">None upcoming.</p>';
+  const act=document.getElementById('dash-activity');
+  act.innerHTML=DB.activity.length?DB.activity.slice(0,8).map(a=>`<div style="padding:6px 0;border-bottom:1px solid var(--border);font-size:13px;"><span style="color:var(--grey);font-size:11px;">${a.ts}</span> — ${a.msg}</div>`).join(''):'<p style="color:var(--grey);font-size:13px;">No activity.</p>';
+}
+function logActivity(msg){DB.activity.unshift({ts:new Date().toLocaleString(),msg});if(DB.activity.length>50)DB.activity.pop();}
+
+// ══════════════════════════════════════
+//  ASSETS
+// ══════════════════════════════════════
+function renderAssetsTable(filter='',cat=''){
+  const tbody=document.getElementById('assets-tbody');
+  const f=(filter||document.querySelector('#page-assets input[type=search]').value).toLowerCase();
+  const c=cat||document.getElementById('asset-filter-cat').value;
+  const rows=DB.assets.filter(a=>{
+    const m=!f||a.id.toLowerCase().includes(f)||a.name.toLowerCase().includes(f)||(a.location||'').toLowerCase().includes(f);
+    return m&&(!c||a.category===c);
+  });
+  tbody.innerHTML=rows.length?rows.map(a=>`<tr>
+    <td><strong>${a.id}</strong></td><td>${a.name}</td>
+    <td><span class="badge badge-na">${a.category}</span></td>
+    <td>${a.location||'—'}</td><td>${a.manufacturer||'—'}</td><td>${a.model||'—'}</td><td>${a.serial||'—'}</td>
+    <td><span class="badge badge-${a.status==='Operational'?'compliant':a.status==='Decommissioned'?'overdue':'pending'}">${a.status}</span></td>
+    <td>${(a.isoPoints||[]).length}</td><td>${(a.drawingRefs||[]).length}</td>
+    <td style="white-space:nowrap;">
+      <button class="btn btn-ghost btn-sm" onclick="openAssetModal(${DB.assets.indexOf(a)})">Edit</button>
+      <button class="btn btn-danger btn-sm" onclick="deleteAsset(${DB.assets.indexOf(a)})">Del</button>
+    </td></tr>`).join(''):'<tr><td colspan="11" style="text-align:center;color:var(--grey);padding:24px;">No assets. Add your first asset.</td></tr>';
+}
+function filterAssets(v){renderAssetsTable(v||'');}
+
+let isoPointCounter=0;
+function openAssetModal(idx=null){
+  editAssetIdx=idx; isoPointCounter=0;
+  document.getElementById('modal-asset-title').textContent=idx===null?'Add Asset':'Edit Asset';
+  const a=idx!==null?DB.assets[idx]:{};
+  ['a-id','a-name','a-loc','a-mfr','a-model','a-serial','a-notes','a-commissioned'].forEach(id=>{
+    const el=document.getElementById(id); if(el){const key=id.replace('a-','');
+    el.value=a[key==='commissioned'?'commissioned':key==='id'?'id':key==='name'?'name':key==='loc'?'location':key==='mfr'?'manufacturer':key==='model'?'model':key==='serial'?'serial':key==='notes'?'notes':'commissioned']||'';}
+  });
+  document.getElementById('a-id').value=a.id||'';
+  document.getElementById('a-name').value=a.name||'';
+  document.getElementById('a-loc').value=a.location||'';
+  document.getElementById('a-mfr').value=a.manufacturer||'';
+  document.getElementById('a-model').value=a.model||'';
+  document.getElementById('a-serial').value=a.serial||'';
+  document.getElementById('a-notes').value=a.notes||'';
+  document.getElementById('a-commissioned').value=a.commissioned||'';
+  document.getElementById('a-install').value=a.installDate||'';
+  document.getElementById('a-cat').value=a.category||'Electrical';
+  document.getElementById('a-status').value=a.status||'Operational';
+  document.getElementById('drawing-refs-list').innerHTML='';
+  (a.drawingRefs||[]).forEach(d=>addDrawingRef(d));
+  document.getElementById('iso-points-list').innerHTML='';
+  (a.isoPoints||[]).forEach(ip=>addIsoPoint(ip));
+  openModal('modal-asset');
+}
+function addDrawingRef(d={}){
+  const div=document.createElement('div'); div.className='sub-item';
+  div.innerHTML=`<div class="form-row" style="margin-bottom:0;">
+    <div class="form-group"><label>Drawing Number</label><input class="dr-num" type="text" value="${d.num||''}" placeholder="e.g. DWG-EL-001"></div>
+    <div class="form-group"><label>Revision</label><input class="dr-rev" type="text" value="${d.rev||''}" placeholder="e.g. B"></div>
+    <div class="form-group"><label>Title</label><input class="dr-title" type="text" value="${d.title||''}" placeholder="Drawing title"></div>
+  </div>
+  <button class="btn btn-danger btn-sm" style="margin-top:18px;" onclick="this.parentElement.remove()">✕</button>`;
+  document.getElementById('drawing-refs-list').appendChild(div);
+}
+function addIsoPoint(ip={}){
+  isoPointCounter++;
+  const div=document.createElement('div'); div.className='sub-item';
+  div.innerHTML=`<div>
+    <div class="form-row" style="margin-bottom:6px;">
+      <div class="form-group"><label>Point Label</label><input class="ip-label" type="text" value="${ip.label||''}" placeholder="e.g. Main Disconnect CB-14"></div>
+      <div class="form-group"><label>Energy Type</label><select class="ip-type">${['Electrical','Mechanical','Hydraulic','Pneumatic','Thermal','Gravity','Chemical'].map(t=>`<option${ip.type===t?' selected':''}>${t}</option>`).join('')}</select></div>
+    </div>
+    <div class="form-row" style="margin-bottom:0;">
+      <div class="form-group"><label>Isolation Method</label><input class="ip-method" type="text" value="${ip.method||''}" placeholder="e.g. LOTO lock on breaker"></div>
+      <div class="form-group"><label>Location / Tag</label><input class="ip-loc" type="text" value="${ip.loc||''}" placeholder="e.g. Panel A Row 3"></div>
+    </div>
+  </div>
+  <button class="btn btn-danger btn-sm" style="margin-top:24px;" onclick="this.parentElement.remove()">✕</button>`;
+  document.getElementById('iso-points-list').appendChild(div);
+}
+function saveAsset(){
+  const id=document.getElementById('a-id').value.trim();
+  const name=document.getElementById('a-name').value.trim();
+  if(!id||!name){alert('Asset ID and Name required.');return;}
+  const isoPoints=[...document.querySelectorAll('#iso-points-list .sub-item')].map(el=>({
+    label:el.querySelector('.ip-label').value,type:el.querySelector('.ip-type').value,
+    method:el.querySelector('.ip-method').value,loc:el.querySelector('.ip-loc').value
+  }));
+  const drawingRefs=[...document.querySelectorAll('#drawing-refs-list .sub-item')].map(el=>({
+    num:el.querySelector('.dr-num').value,rev:el.querySelector('.dr-rev').value,title:el.querySelector('.dr-title').value
+  }));
+  const asset={id,name,category:document.getElementById('a-cat').value,location:document.getElementById('a-loc').value,
+    status:document.getElementById('a-status').value,manufacturer:document.getElementById('a-mfr').value,
+    model:document.getElementById('a-model').value,serial:document.getElementById('a-serial').value,
+    installDate:document.getElementById('a-install').value,commissioned:document.getElementById('a-commissioned').value,
+    notes:document.getElementById('a-notes').value,isoPoints,drawingRefs};
+  if(editAssetIdx!==null)DB.assets[editAssetIdx]=asset;else DB.assets.push(asset);
+  logActivity(`Asset ${editAssetIdx!==null?'updated':'added'}: ${asset.id} — ${asset.name}`);
+  closeModal('modal-asset');renderAssetsTable();
+}
+function deleteAsset(idx){if(!confirm('Delete this asset?'))return;logActivity('Asset deleted: '+DB.assets[idx].id);DB.assets.splice(idx,1);renderAssetsTable();}
+
+// ══════════════════════════════════════
+//  LOCKOUT / LOTO
+// ══════════════════════════════════════
+let lotoNum=1000;
+function nextLotoNum(){return 'LOTO-'+(++lotoNum);}
+
+function openLotoModal(idx=null){
+  editLotoIdx=idx; pendingLotoData=null;
+  populateAssetSelects(); populateWorkerSelects(); populateSuperviserSelects(); populateLockSetSelects();
+  const l=idx!==null?DB.lockouts[idx]:{};
+  document.getElementById('l-num').value=l.num||nextLotoNum();
+  document.getElementById('l-date').value=l.date||new Date().toISOString().slice(0,16);
+  document.getElementById('l-asset').value=l.asset||'';
+  document.getElementById('l-worker').value=l.worker||'';
+  document.getElementById('l-super').value=l.supervisor||'';
+  document.getElementById('l-lockset').value=l.lockset||'';
+  document.getElementById('l-work').value=l.work||'';
+  document.getElementById('l-iso-notes').value=l.isoNotes||'';
+  document.getElementById('l-iso-by').value=l.isoBy||'';
+  document.getElementById('l-iso-dt').value=l.isoDt||'';
+  document.getElementById('l-ver-notes').value=l.verNotes||'';
+  document.getElementById('l-ver-by').value=l.verBy||'';
+  document.getElementById('l-ver-dt').value=l.verDt||'';
+  document.getElementById('l-status').value=l.status||'Draft';
+  document.getElementById('l-release-by').value=l.releaseBy||'';
+  document.getElementById('l-release-dt').value=l.releaseDt||'';
+  document.getElementById('l-jur').value=l.jurisdiction||'BC';
+  loadAssetIsoPoints(l);
+  openModal('modal-loto');
+}
+
+function loadAssetIsoPoints(existing){
+  const assetId=document.getElementById('l-asset').value;
+  const asset=DB.assets.find(a=>a.id===assetId);
+  const isoEl=document.getElementById('l-iso-points');
+  const verEl=document.getElementById('l-ver-checks');
+  const src=typeof existing==='object'&&existing.isoChecks?existing:null;
+  if(asset&&asset.isoPoints&&asset.isoPoints.length){
+    isoEl.innerHTML=asset.isoPoints.map((ip,i)=>`
+      <div class="loto-step">
+        <h4><span class="step-num">${i+1}</span>${ip.label} <small style="font-weight:400;color:var(--grey);">(${ip.type})</small></h4>
+        <div class="form-row" style="margin-bottom:6px;">
+          <div class="form-group"><label>Isolation Method</label><input type="text" value="${ip.method}" readonly style="background:#f5f5f5;"></div>
+          <div class="form-group"><label>Location / Tag</label><input type="text" value="${ip.loc}" readonly style="background:#f5f5f5;"></div>
+        </div>
+        <div class="form-row" style="margin-bottom:0;">
+          <div class="form-group"><label>Lock Applied (ID/Tag)</label><input class="iso-lock-id" data-i="${i}" type="text" value="${src&&src.isoChecks[i]?src.isoChecks[i].lockId:''}" placeholder="Lock number or tag ID"></div>
+          <div class="form-group"><label>Confirmed Isolated?</label><select class="iso-confirmed" data-i="${i}"><option value="">—</option><option${src&&src.isoChecks[i]&&src.isoChecks[i].confirmed==='Yes'?' selected':''}>Yes</option><option${src&&src.isoChecks[i]&&src.isoChecks[i].confirmed==='No'?' selected':''}>No</option></select></div>
+        </div>
+      </div>`).join('');
+    verEl.innerHTML=asset.isoPoints.map((ip,i)=>`
+      <div class="loto-step" style="border-color:var(--green);">
+        <h4><span class="step-num" style="background:var(--green);">${i+1}</span>Verify: ${ip.label}</h4>
+        <div class="form-row" style="margin-bottom:0;">
+          <div class="form-group"><label>Test Performed</label><input class="ver-test" data-i="${i}" type="text" value="${src&&src.verChecks&&src.verChecks[i]?src.verChecks[i].test:''}" placeholder="e.g. Attempted start — no movement"></div>
+          <div class="form-group"><label>Result</label><select class="ver-result" data-i="${i}"><option value="">—</option><option${src&&src.verChecks&&src.verChecks[i]&&src.verChecks[i].result==='Zero Energy Confirmed'?' selected':''}>Zero Energy Confirmed</option><option${src&&src.verChecks&&src.verChecks[i]&&src.verChecks[i].result==='Energy Present — Do Not Proceed'?' selected':''}>Energy Present — Do Not Proceed</option></select></div>
+        </div>
+      </div>`).join('');
+  } else {
+    isoEl.innerHTML='<p style="color:var(--grey);font-size:13px;padding:8px;">Select an asset with defined isolation points.</p>';
+    verEl.innerHTML='<p style="color:var(--grey);font-size:13px;padding:8px;">Isolation points will appear once an asset is selected.</p>';
+  }
+}
+
+function collectLotoData(){
+  const asset=document.getElementById('l-asset').value;
+  const worker=document.getElementById('l-worker').value;
+  if(!asset||!worker){alert('Asset and Authorized Worker are required.');return null;}
+  const assetObj=DB.assets.find(a=>a.id===asset);
+  const isoChecks=[...document.querySelectorAll('.iso-lock-id')].map((el,i)=>({
+    lockId:el.value,confirmed:document.querySelectorAll('.iso-confirmed')[i]?.value||''
+  }));
+  const verChecks=[...document.querySelectorAll('.ver-test')].map((el,i)=>({
+    test:el.value,result:document.querySelectorAll('.ver-result')[i]?.value||''
+  }));
+  return {
+    num:document.getElementById('l-num').value,date:document.getElementById('l-date').value,
+    asset,assetName:assetObj?assetObj.name:'',assetObj,
+    worker,supervisor:document.getElementById('l-super').value,
+    lockset:document.getElementById('l-lockset').value,work:document.getElementById('l-work').value,
+    isoChecks,isoNotes:document.getElementById('l-iso-notes').value,
+    isoBy:document.getElementById('l-iso-by').value,isoDt:document.getElementById('l-iso-dt').value,
+    verChecks,verNotes:document.getElementById('l-ver-notes').value,
+    verBy:document.getElementById('l-ver-by').value,verDt:document.getElementById('l-ver-dt').value,
+    status:document.getElementById('l-status').value,
+    releaseBy:document.getElementById('l-release-by').value,releaseDt:document.getElementById('l-release-dt').value,
+    jurisdiction:document.getElementById('l-jur').value
+  };
+}
+
+function saveLoto(){
+  const loto=collectLotoData(); if(!loto)return;
+  if(editLotoIdx!==null)DB.lockouts[editLotoIdx]=loto;else DB.lockouts.push(loto);
+  logActivity(`Lockout ${editLotoIdx!==null?'updated':'created'}: ${loto.num} — ${loto.assetName} [${loto.status}]`);
+  closeModal('modal-loto');renderLotoTable();
+}
+
+function printCurrentLoto(){
+  const loto=collectLotoData(); if(!loto)return;
+  printLotoData(loto);
+}
+
+function printLotoData(l){
+  const asset=l.assetObj||DB.assets.find(a=>a.id===l.asset)||{};
+  const isoRows=(l.isoChecks||[]).map((c,i)=>{
+    const ip=asset.isoPoints?asset.isoPoints[i]:{};
+    return `<tr><td>${i+1}</td><td>${ip.label||''}</td><td>${ip.type||''}</td><td>${ip.method||''}</td><td>${c.lockId||'___________'}</td><td style="font-weight:bold;color:${c.confirmed==='Yes'?'green':'red'};">${c.confirmed||'—'}</td></tr>`;
+  }).join('');
+  const verRows=(l.verChecks||[]).map((c,i)=>{
+    const ip=asset.isoPoints?asset.isoPoints[i]:{};
+    return `<tr><td>${i+1}</td><td>${ip.label||''}</td><td>${c.test||'___________'}</td><td style="font-weight:bold;color:${c.result==='Zero Energy Confirmed'?'green':'red'};">${c.result||'—'}</td></tr>`;
+  }).join('');
+  const drawRows=(asset.drawingRefs||[]).map(d=>`<tr><td>${d.num}</td><td>${d.rev}</td><td>${d.title}</td></tr>`).join('');
+  const jurRef=l.jurisdiction==='Alberta'?'AB OHS Code Part 15 §212–216':l.jurisdiction==='Both'?'WorkSafe BC OHS Reg Part 10 / AB OHS Code Part 15':'WorkSafe BC OHS Reg Part 10 / BC Mine Code Part 12';
+  const w=window.open('','_blank');
+  w.document.write(`<!DOCTYPE html><html><head><title>LOTO ${l.num}</title>
+  <style>body{font-family:Arial,sans-serif;font-size:12px;padding:20px;color:#000;}
+  h1{font-size:16px;margin-bottom:4px;}h2{font-size:13px;margin:12px 0 4px;border-bottom:2px solid #000;padding-bottom:2px;}
+  table{width:100%;border-collapse:collapse;margin:8px 0;}td,th{border:1px solid #999;padding:5px 7px;}th{background:#ddd;font-size:11px;}
+  .box{border:2px solid #000;padding:10px;margin:8px 0;}.hdr{background:#0d2137;color:#fff;padding:10px 14px;display:flex;justify-content:space-between;}
+  .sig-block{display:inline-block;width:200px;border-top:1px solid #000;margin:30px 20px 0 0;text-align:center;font-size:10px;}
+  .warn{background:#fff8e1;border-left:4px solid #f9a825;padding:6px 10px;font-size:11px;margin:6px 0;}
+  @media print{body{padding:10px;}}</style></head><body>
+  <div class="hdr"><div><strong style="font-size:15px;">LOCKOUT / TAGOUT FORM</strong><br><span style="font-size:11px;">Form #: ${l.num}</span></div><div style="text-align:right;font-size:11px;">${l.assetName||l.asset}<br>${l.date?l.date.replace('T',' '):''}</div></div>
+  <div class="box"><table><tr><td><b>Asset ID:</b> ${l.asset}</td><td><b>Asset:</b> ${l.assetName||'—'}</td><td><b>Lock Set:</b> ${l.lockset||'—'}</td></tr>
+  <tr><td><b>Worker:</b> ${l.worker}</td><td><b>Supervisor:</b> ${l.supervisor||'—'}</td><td><b>Jurisdiction:</b> ${l.jurisdiction||'BC'}</td></tr>
+  <tr><td colspan="3"><b>Work to be Performed:</b> ${l.work||'—'}</td></tr></table></div>
+  <div class="warn">⚠ Regulatory Reference: ${jurRef}</div>
+  ${drawRows?`<h2>REFERENCED DRAWINGS</h2><table><thead><tr><th>Drawing #</th><th>Rev</th><th>Title</th></tr></thead><tbody>${drawRows}</tbody></table>`:''}
+  <h2 style="color:#c62828;">TASK 1 — ISOLATION (De-energization)</h2>
+  <table><thead><tr><th>#</th><th>Isolation Point</th><th>Energy Type</th><th>Method</th><th>Lock Applied (ID)</th><th>Confirmed Isolated</th></tr></thead><tbody>${isoRows||'<tr><td colspan="6" style="text-align:center;">No isolation points defined</td></tr>'}</tbody></table>
+  <p><b>Notes:</b> ${l.isoNotes||'—'}</p>
+  <div class="sig-block">Date/Time: ${l.isoDt||''}<br>Isolated By: ${l.isoBy||''}<br>Signature</div>
+  <h2 style="color:#2e7d32;">TASK 2 — VERIFICATION (Zero Energy Test)</h2>
+  <table><thead><tr><th>#</th><th>Isolation Point</th><th>Test Performed</th><th>Result</th></tr></thead><tbody>${verRows||'<tr><td colspan="4" style="text-align:center;">No verification checks</td></tr>'}</tbody></table>
+  <p><b>Notes:</b> ${l.verNotes||'—'}</p>
+  <div class="sig-block">Date/Time: ${l.verDt||''}<br>Verified By: ${l.verBy||''}<br>Signature</div>
+  ${l.status==='Released'?`<h2>RELEASE / RE-ENERGIZATION</h2><p><b>Released By:</b> ${l.releaseBy||'—'} &nbsp;&nbsp; <b>Date/Time:</b> ${l.releaseDt||'—'}</p>`:''}
+  <hr style="margin-top:20px;"><p style="font-size:10px;color:#555;">Generated by LockWorks Mine Safety Management System &bull; ${new Date().toLocaleString()}</p>
+  </body></html>`);
+  w.document.close(); w.print();
+}
+
+function renderLotoTable(){
+  const filter=document.getElementById('loto-filter').value;
+  const tbody=document.getElementById('loto-tbody');
+  const rows=DB.lockouts.filter(l=>!filter||l.status===filter);
+  tbody.innerHTML=rows.length?rows.map(l=>{
+    const isoOk=l.isoChecks&&l.isoChecks.length&&l.isoChecks.every(c=>c.confirmed==='Yes');
+    const verOk=l.verChecks&&l.verChecks.length&&l.verChecks.every(c=>c.result==='Zero Energy Confirmed');
+    return `<tr>
+      <td><strong>${l.num}</strong></td><td>${l.assetName||l.asset}</td>
+      <td style="max-width:180px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${l.work||'—'}</td>
+      <td>${l.worker}</td><td><span class="lock-tag">${l.lockset||'—'}</span></td>
+      <td><span class="badge badge-${isoOk?'compliant':'pending'}">${isoOk?'✓ Done':'Pending'}</span></td>
+      <td><span class="badge badge-${verOk?'compliant':'pending'}">${verOk?'✓ Verified':'Pending'}</span></td>
+      <td><span class="badge badge-${l.status==='Active'?'active':l.status==='Released'?'released':'draft'}">${l.status}</span></td>
+      <td style="font-size:12px;">${l.date?l.date.replace('T',' '):'—'}</td>
+      <td style="white-space:nowrap;">
+        <button class="btn btn-ghost btn-sm" onclick="openLotoModal(${DB.lockouts.indexOf(l)})">Edit</button>
+        <button class="btn btn-ghost btn-sm" onclick="printLotoData(DB.lockouts[${DB.lockouts.indexOf(l)}])">🖨</button>
+        <button class="btn btn-danger btn-sm" onclick="deleteLoto(${DB.lockouts.indexOf(l)})">Del</button>
+      </td></tr>`;
+  }).join(''):'<tr><td colspan="10" style="text-align:center;color:var(--grey);padding:24px;">No lockout forms. Create your first one.</td></tr>';
+}
+function deleteLoto(idx){if(!confirm('Delete?'))return;logActivity('Lockout deleted: '+DB.lockouts[idx].num);DB.lockouts.splice(idx,1);renderLotoTable();}
+
+// ══════════════════════════════════════
+//  PROCEDURES
+// ══════════════════════════════════════
+function renderProcs(filter){
+  const f=(filter!==undefined?filter:document.querySelector('#page-procedures input[type=search]').value).toLowerCase();
+  const jur=document.getElementById('proc-filter-jur').value;
+  const el=document.getElementById('procs-list');
+  const rows=DB.procedures.filter(p=>(!f||p.title.toLowerCase().includes(f)||p.num.toLowerCase().includes(f))&&(!jur||p.jurisdiction===jur||p.jurisdiction==='Both'));
+  el.innerHTML=rows.length?rows.map(p=>`
+    <div class="card" style="margin-bottom:12px;">
+      <div class="card-header">
+        <div><small style="color:var(--grey);font-weight:600;">${p.num} &bull; <span class="badge badge-na">${p.category}</span> &bull; <span class="badge badge-released">${p.jurisdiction}</span></small><h2 style="margin-top:4px;">${p.title}</h2></div>
+        <div style="display:flex;gap:6px;"><button class="btn btn-ghost btn-sm" onclick="openProcModal(${DB.procedures.indexOf(p)})">Edit</button><button class="btn btn-danger btn-sm" onclick="deleteProc(${DB.procedures.indexOf(p)})">Del</button></div>
+      </div>
+      ${p.hazards?`<div><strong style="font-size:12px;">⚠ Hazards:</strong> <span style="font-size:13px;">${p.hazards}</span></div>`:''}
+      ${p.steps?`<div style="margin-top:8px;"><strong style="font-size:12px;">Steps:</strong><pre style="font-size:12px;white-space:pre-wrap;font-family:inherit;margin-top:4px;background:#f8f9fa;padding:10px;border-radius:4px;">${p.steps}</pre></div>`:''}
+      <div style="margin-top:8px;display:flex;gap:16px;flex-wrap:wrap;font-size:12px;color:var(--grey);">
+        ${p.ppe?`<span>🦺 <b>PPE:</b> ${p.ppe}</span>`:''}${p.refs?`<span>📎 <b>Refs:</b> ${p.refs}</span>`:''}
+        ${p.review?`<span>📅 <b>Review:</b> ${p.review}</span>`:''}${p.approved?`<span>✅ <b>Approved:</b> ${p.approved}</span>`:''}
+      </div>
+    </div>`).join(''):'<div class="card"><p style="color:var(--grey);">No procedures found.</p></div>';
+}
+function filterProcs(v){renderProcs(v||'');}
+function openProcModal(idx=null){
+  editProcIdx=idx; populateAssetSelects();
+  const p=idx!==null?DB.procedures[idx]:{};
+  document.getElementById('p-num').value=p.num||'SWP-'+(DB.procedures.length+1).toString().padStart(3,'0');
+  document.getElementById('p-cat').value=p.category||'Lockout/Tagout';
+  document.getElementById('p-title').value=p.title||'';
+  document.getElementById('p-jur').value=p.jurisdiction||'BC';
+  document.getElementById('p-asset').value=p.asset||'';
+  document.getElementById('p-review').value=p.review||'';
+  document.getElementById('p-approved').value=p.approved||'';
+  document.getElementById('p-hazards').value=p.hazards||'';
+  document.getElementById('p-steps').value=p.steps||'';
+  document.getElementById('p-ppe').value=p.ppe||'';
+  document.getElementById('p-refs').value=p.refs||'';
+  openModal('modal-proc');
+}
+function saveProc(){
+  const title=document.getElementById('p-title').value.trim();
+  if(!title){alert('Title required.');return;}
+  const proc={num:document.getElementById('p-num').value,category:document.getElementById('p-cat').value,title,
+    jurisdiction:document.getElementById('p-jur').value,asset:document.getElementById('p-asset').value,
+    review:document.getElementById('p-review').value,approved:document.getElementById('p-approved').value,
+    hazards:document.getElementById('p-hazards').value,steps:document.getElementById('p-steps').value,
+    ppe:document.getElementById('p-ppe').value,refs:document.getElementById('p-refs').value};
+  if(editProcIdx!==null)DB.procedures[editProcIdx]=proc;else DB.procedures.push(proc);
+  logActivity(`Procedure ${editProcIdx!==null?'updated':'added'}: ${proc.num} — ${proc.title}`);
+  closeModal('modal-proc');renderProcs();
+}
+function deleteProc(idx){if(!confirm('Delete?'))return;logActivity('Procedure deleted: '+DB.procedures[idx].title);DB.procedures.splice(idx,1);renderProcs();}
+
+// ══════════════════════════════════════
+//  DOCUMENT CONTROL
+// ══════════════════════════════════════
+function renderDocsTable(filter){
+  const f=(filter!==undefined?filter:document.querySelector('#page-documents input[type=search]').value).toLowerCase();
+  const cat=document.getElementById('doc-filter-cat').value;
+  const stat=document.getElementById('doc-filter-status').value;
+  const tbody=document.getElementById('docs-tbody');
+  const rows=DB.documents.filter(d=>(!f||d.title.toLowerCase().includes(f)||d.num.toLowerCase().includes(f))&&(!cat||d.type===cat)&&(!stat||d.status===stat));
+  const today=new Date();
+  tbody.innerHTML=rows.length?rows.map(d=>{
+    const overdue=d.review&&new Date(d.review)<today&&d.status==='Current';
+    return `<tr>
+      <td><strong>${d.num}</strong></td><td>${d.title}</td>
+      <td><span class="badge badge-na">${d.type}</span></td>
+      <td>${d.rev||'—'}</td><td>${d.author||'—'}</td><td>${d.approver||'—'}</td>
+      <td style="${overdue?'color:var(--red);font-weight:700;':''}">${d.review||'—'}${overdue?' ⚠':''}</td>
+      <td>${d.asset||'—'}</td>
+      <td><span class="badge badge-${d.status==='Current'?'compliant':d.status==='Draft'?'draft':d.status==='Superseded'?'pending':'overdue'}">${d.status}</span></td>
+      <td style="white-space:nowrap;">
+        <button class="btn btn-ghost btn-sm" onclick="openDocModal(${DB.documents.indexOf(d)})">Edit</button>
+        <button class="btn btn-danger btn-sm" onclick="deleteDoc(${DB.documents.indexOf(d)})">Del</button>
+      </td></tr>`;
+  }).join(''):'<tr><td colspan="10" style="text-align:center;color:var(--grey);padding:24px;">No documents. Add your first document.</td></tr>';
+}
+function filterDocs(v){renderDocsTable(v||'');}
+function openDocModal(idx=null){
+  editDocIdx=idx; populateAssetSelects('d-asset');
+  const d=idx!==null?DB.documents[idx]:{};
+  document.getElementById('modal-doc-title').textContent=idx===null?'Add Document':'Edit Document';
+  document.getElementById('d-num').value=d.num||'';
+  document.getElementById('d-type').value=d.type||'Procedure';
+  document.getElementById('d-title').value=d.title||'';
+  document.getElementById('d-rev').value=d.rev||'';
+  document.getElementById('d-date').value=d.issueDate||'';
+  document.getElementById('d-review').value=d.review||'';
+  document.getElementById('d-author').value=d.author||'';
+  document.getElementById('d-approver').value=d.approver||'';
+  document.getElementById('d-asset').value=d.asset||'';
+  document.getElementById('d-status').value=d.status||'Current';
+  document.getElementById('d-file').value=d.fileRef||'';
+  document.getElementById('d-notes').value=d.notes||'';
+  openModal('modal-doc');
+}
+function saveDoc(){
+  const num=document.getElementById('d-num').value.trim();
+  const title=document.getElementById('d-title').value.trim();
+  if(!num||!title){alert('Document Number and Title required.');return;}
+  const doc={num,type:document.getElementById('d-type').value,title,rev:document.getElementById('d-rev').value,
+    issueDate:document.getElementById('d-date').value,review:document.getElementById('d-review').value,
+    author:document.getElementById('d-author').value,approver:document.getElementById('d-approver').value,
+    asset:document.getElementById('d-asset').value,status:document.getElementById('d-status').value,
+    fileRef:document.getElementById('d-file').value,notes:document.getElementById('d-notes').value};
+  if(editDocIdx!==null)DB.documents[editDocIdx]=doc;else DB.documents.push(doc);
+  logActivity(`Document ${editDocIdx!==null?'updated':'added'}: ${doc.num} — ${doc.title}`);
+  closeModal('modal-doc');renderDocsTable();
+}
+function deleteDoc(idx){if(!confirm('Delete this document?'))return;DB.documents.splice(idx,1);renderDocsTable();}
+
+// ══════════════════════════════════════
+//  COMPLIANCE
+// ══════════════════════════════════════
+function renderCompliance(){
+  const filter=document.getElementById('comp-filter-body').value;
+  const el=document.getElementById('comp-list');
+  const rows=DB.compliance.filter(c=>!filter||c.body===filter);
+  if(!rows.length){el.innerHTML='<div class="card"><p style="color:var(--grey);">No compliance items.</p></div>';return;}
+  const groups={};
+  rows.forEach(c=>{if(!groups[c.body])groups[c.body]=[];groups[c.body].push(c);});
+  el.innerHTML=Object.entries(groups).map(([body,items])=>`
+    <div class="card"><div class="card-header"><h2>${body}</h2><span style="font-size:12px;color:var(--grey);">${items.length} requirement(s)</span></div>
+    ${items.map(c=>`<div class="comp-item">
+      <div><div class="comp-reg">${c.ref} &bull; ${c.freq}${c.due?' &bull; Due: '+c.due:''}</div>
+        <div class="comp-title">${c.title}</div>
+        ${c.desc?`<div style="font-size:12px;color:var(--grey);margin-top:3px;">${c.desc}</div>`:''}
+        ${c.person?`<div style="font-size:12px;margin-top:3px;">👤 ${c.person}</div>`:''}
+        ${c.notes?`<div style="font-size:12px;color:var(--grey);">${c.notes}</div>`:''}
+      </div>
+      <div style="display:flex;flex-direction:column;align-items:flex-end;gap:6px;">
+        <span class="badge badge-${c.status==='Compliant'?'compliant':c.status==='Overdue'?'overdue':c.status==='N/A'?'na':'pending'}">${c.status}</span>
+        <div style="white-space:nowrap;">
+          <button class="btn btn-ghost btn-sm" onclick="openCompModal(${DB.compliance.indexOf(c)})">Edit</button>
+          <button class="btn btn-danger btn-sm" onclick="deleteComp(${DB.compliance.indexOf(c)})">Del</button>
+        </div>
+      </div>
+    </div>`).join('')}</div>`).join('');
+}
+function openCompModal(idx=null){
+  editCompIdx=idx;
+  const c=idx!==null?DB.compliance[idx]:{};
+  document.getElementById('c-body').value=c.body||'BC Mine Code';
+  document.getElementById('c-ref').value=c.ref||'';
+  document.getElementById('c-title').value=c.title||'';
+  document.getElementById('c-desc').value=c.desc||'';
+  document.getElementById('c-freq').value=c.freq||'Annually';
+  document.getElementById('c-due').value=c.due||'';
+  document.getElementById('c-person').value=c.person||'';
+  document.getElementById('c-status').value=c.status||'Pending';
+  document.getElementById('c-notes').value=c.notes||'';
+  openModal('modal-comp');
+}
+function saveComp(){
+  const title=document.getElementById('c-title').value.trim();
+  if(!title){alert('Title required.');return;}
+  const comp={id:editCompIdx!==null?DB.compliance[editCompIdx].id:'COMP-'+Date.now(),
+    body:document.getElementById('c-body').value,ref:document.getElementById('c-ref').value,title,
+    desc:document.getElementById('c-desc').value,freq:document.getElementById('c-freq').value,
+    due:document.getElementById('c-due').value,person:document.getElementById('c-person').value,
+    status:document.getElementById('c-status').value,notes:document.getElementById('c-notes').value};
+  if(editCompIdx!==null)DB.compliance[editCompIdx]=comp;else DB.compliance.push(comp);
+  logActivity(`Compliance ${editCompIdx!==null?'updated':'added'}: ${comp.body} — ${comp.title}`);
+  closeModal('modal-comp');renderCompliance();
+}
+function deleteComp(idx){if(!confirm('Delete?'))return;DB.compliance.splice(idx,1);renderCompliance();}
+
+// ══════════════════════════════════════
+//  PERSONNEL
+// ══════════════════════════════════════
+function renderPersonnel(filter){
+  const f=(filter!==undefined?filter:document.querySelector('#page-personnel input[type=search]').value).toLowerCase();
+  const type=document.getElementById('pers-filter-type').value;
+  const stat=document.getElementById('pers-filter-status').value;
+  const tbody=document.getElementById('personnel-tbody');
+  const today=new Date(); const in90=new Date(); in90.setDate(today.getDate()+90);
+  const rows=DB.personnel.filter(p=>(!f||p.name.toLowerCase().includes(f)||(p.role||'').toLowerCase().includes(f))&&(!type||p.type===type||p.type==='Both')&&(!stat||p.status===stat));
+  // cert expiry warning banner
+  const expiring=DB.personnel.filter(p=>{const d=p.expiry?new Date(p.expiry):null;return d&&d>=today&&d<=in90;});
+  const expired=DB.personnel.filter(p=>{const d=p.expiry?new Date(p.expiry):null;return d&&d<today;});
+  const wb=document.getElementById('pers-cert-warn');
+  if(expired.length||expiring.length){
+    wb.style.display='block';
+    wb.innerHTML=(expired.length?`<strong>EXPIRED:</strong> ${expired.map(p=>p.name).join(', ')}<br>`:'')+(expiring.length?`<strong>Expiring within 90 days:</strong> ${expiring.map(p=>p.name+' ('+p.expiry+')').join(', ')}`:'');
+  } else { wb.style.display='none'; }
+  tbody.innerHTML=rows.length?rows.map(p=>{
+    const expDate=p.expiry?new Date(p.expiry):null;
+    const certBadge=!expDate?'':(expDate<today?'<span class="cert-warn">EXPIRED</span>':expDate<=in90?'<span class="cert-warn">Expiring soon</span>':'');
+    return `<tr>
+      <td><strong>${p.name}</strong></td>
+      <td><span class="badge badge-${p.type==='Supervisor'?'released':p.type==='Both'?'compliant':'na'}">${p.type}</span></td>
+      <td>${p.role||'—'}</td>
+      <td>${p.cert||'—'}</td>
+      <td>${p.expiry||'—'} ${certBadge}</td>
+      <td><span class="badge badge-na">${p.jurisdiction||'BC'}</span></td>
+      <td><span class="badge badge-${p.status==='Active'?'compliant':'inactive'}">${p.status}</span></td>
+      <td style="max-width:160px;font-size:12px;">${p.notes||'—'}</td>
+      <td style="white-space:nowrap;">
+        <button class="btn btn-ghost btn-sm" onclick="openPersModal(${DB.personnel.indexOf(p)})">Edit</button>
+        <button class="btn btn-danger btn-sm" onclick="deletePers(${DB.personnel.indexOf(p)})">Del</button>
+      </td></tr>`;
+  }).join(''):'<tr><td colspan="9" style="text-align:center;color:var(--grey);padding:24px;">No personnel added.</td></tr>';
+}
+function filterPersonnel(v){renderPersonnel(v||'');}
+function openPersModal(idx=null){
+  editPersIdx=idx;
+  const p=idx!==null?DB.personnel[idx]:{};
+  document.getElementById('modal-pers-title').textContent=idx===null?'Add Person':'Edit Person';
+  document.getElementById('pr-name').value=p.name||'';
+  document.getElementById('pr-type').value=p.type||'Worker';
+  document.getElementById('pr-role').value=p.role||'';
+  document.getElementById('pr-jur').value=p.jurisdiction||'BC';
+  document.getElementById('pr-cert').value=p.cert||'';
+  document.getElementById('pr-expiry').value=p.expiry||'';
+  document.getElementById('pr-cert2').value=p.cert2||'';
+  document.getElementById('pr-expiry2').value=p.expiry2||'';
+  document.getElementById('pr-loto').value=p.lotoAuth||'Yes';
+  document.getElementById('pr-status').value=p.status||'Active';
+  document.getElementById('pr-notes').value=p.notes||'';
+  openModal('modal-pers');
+}
+function savePers(){
+  const name=document.getElementById('pr-name').value.trim();
+  if(!name){alert('Name required.');return;}
+  const pers={name,type:document.getElementById('pr-type').value,role:document.getElementById('pr-role').value,
+    jurisdiction:document.getElementById('pr-jur').value,cert:document.getElementById('pr-cert').value,
+    expiry:document.getElementById('pr-expiry').value,cert2:document.getElementById('pr-cert2').value,
+    expiry2:document.getElementById('pr-expiry2').value,lotoAuth:document.getElementById('pr-loto').value,
+    status:document.getElementById('pr-status').value,notes:document.getElementById('pr-notes').value};
+  if(editPersIdx!==null)DB.personnel[editPersIdx]=pers;else DB.personnel.push(pers);
+  logActivity(`Personnel ${editPersIdx!==null?'updated':'added'}: ${pers.name} (${pers.type})`);
+  closeModal('modal-pers');renderPersonnel();
+}
+function deletePers(idx){if(!confirm('Remove this person?'))return;logActivity('Personnel removed: '+DB.personnel[idx].name);DB.personnel.splice(idx,1);renderPersonnel();}
+
+// ══════════════════════════════════════
+//  SETTINGS
+// ══════════════════════════════════════
+function renderSettings(){
+  const s=DB.settings;
+  document.getElementById('s-facility-name').value=s.facilityName||'';
+  document.getElementById('s-permit').value=s.permit||'';
+  document.getElementById('s-mine-type').value=s.mineType||'Quarry';
+  document.getElementById('s-location').value=s.location||'';
+  document.getElementById('s-province').value=s.province||'British Columbia';
+  document.getElementById('s-safety-officer').value=s.safetyOfficer||'';
+  renderLockSets();
+}
+function saveSetting(k,v){DB.settings[k]=v;}
+function updateHeader(){document.getElementById('facility-name-hdr').textContent=DB.settings.facilityName||'Mine Safety System';}
+
+function renderLockSets(){
+  const el=document.getElementById('lock-sets-list');
+  el.innerHTML=DB.lockSets.length?DB.lockSets.map((ls,i)=>`
+    <div style="display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+      <div style="width:16px;height:16px;border-radius:3px;background:${ls.color};flex-shrink:0;border:1px solid rgba(0,0,0,.2);"></div>
+      <div style="flex:1;"><strong style="font-size:13px;">${ls.name}</strong>
+        <div style="font-size:11px;color:var(--grey);">${ls.qty} lock(s) &bull; ${ls.custodian||'No custodian'}</div>
+      </div>
+      <button class="btn btn-danger btn-sm" onclick="deleteLockSet(${i})">✕</button>
+    </div>`).join(''):'<p style="color:var(--grey);font-size:13px;padding:8px 0;">No lock sets defined.</p>';
+}
+function openLockSetModal(){document.getElementById('ls-name').value='';document.getElementById('ls-qty').value='1';document.getElementById('ls-custodian').value='';document.getElementById('ls-notes').value='';openModal('modal-lockset');}
+function saveLockSet(){const name=document.getElementById('ls-name').value.trim();if(!name){alert('Name required.');return;}DB.lockSets.push({name,color:document.getElementById('ls-color').value,qty:document.getElementById('ls-qty').value,custodian:document.getElementById('ls-custodian').value,notes:document.getElementById('ls-notes').value});closeModal('modal-lockset');renderLockSets();logActivity('Lock set added: '+name);}
+function deleteLockSet(i){if(!confirm('Remove lock set?'))return;DB.lockSets.splice(i,1);renderLockSets();}
+
+// ══════════════════════════════════════
+//  HELPERS
+// ══════════════════════════════════════
+function populateAssetSelects(specific){
+  const ids=specific?[specific]:['l-asset','p-asset','d-asset'];
+  ids.forEach(id=>{
+    const el=document.getElementById(id);if(!el)return;
+    const cur=el.value;
+    el.innerHTML='<option value="">— None —</option>'+DB.assets.map(a=>`<option value="${a.id}">${a.id} — ${a.name}</option>`).join('');
+    el.value=cur;
+  });
+}
+function populateWorkerSelects(){
+  const el=document.getElementById('l-worker');if(!el)return;
+  const cur=el.value;
+  const workers=DB.personnel.filter(p=>p.lotoAuth==='Yes'&&p.status==='Active');
+  el.innerHTML='<option value="">— Select Worker —</option>'+workers.map(p=>`<option value="${p.name}">${p.name} (${p.role||p.type})</option>`).join('');
+  el.value=cur;
+}
+function populateSuperviserSelects(){
+  const el=document.getElementById('l-super');if(!el)return;
+  const cur=el.value;
+  const supers=DB.personnel.filter(p=>(p.type==='Supervisor'||p.type==='Both')&&p.status==='Active');
+  el.innerHTML='<option value="">— Select Supervisor —</option>'+supers.map(p=>`<option value="${p.name}">${p.name} (${p.role||'Supervisor'})</option>`).join('');
+  if(cur)el.value=cur;
+}
+function populateLockSetSelects(){const el=document.getElementById('l-lockset');if(!el)return;const cur=el.value;el.innerHTML='<option value="">— None —</option>'+DB.lockSets.map(ls=>`<option>${ls.name}</option>`).join('');el.value=cur;}
+
+function openModal(id){document.getElementById(id).classList.add('open');}
+function closeModal(id){document.getElementById(id).classList.remove('open');}
+document.querySelectorAll('.modal-overlay').forEach(o=>o.addEventListener('click',e=>{if(e.target===o)o.classList.remove('open');}));
+
+function exportData(){
+  const blob=new Blob([JSON.stringify(DB,null,2)],{type:'application/json'});
+  const a=document.createElement('a');a.href=URL.createObjectURL(blob);
+  a.download='LockWorks_'+new Date().toISOString().slice(0,10)+'.json';a.click();
+  logActivity('Data exported');
+}
+function importData(evt){
+  const file=evt.target.files[0];if(!file)return;
+  const reader=new FileReader();
+  reader.onload=e=>{try{const d=JSON.parse(e.target.result);Object.assign(DB,d);updateHeader();renderDashboard();alert('Imported successfully.');}catch{alert('Invalid JSON file.');}};
+  reader.readAsText(file);evt.target.value='';
+}
+function clearAll(){if(!confirm('Clear ALL data? Cannot be undone.'))return;
+  DB={settings:{facilityName:'',permit:'',mineType:'Quarry',location:'',province:'British Columbia',safetyOfficer:''},assets:[],lockouts:[],procedures:[],documents:[],compliance:[],lockSets:[],personnel:[],activity:[]};
+  seedCompliance();updateHeader();renderDashboard();alert('Cleared.');
+}
+
+// ══════════════════════════════════════
+//  INIT
+// ══════════════════════════════════════
+function init(){
+  seedCompliance();
+  document.getElementById('current-date-hdr').textContent=new Date().toLocaleDateString('en-CA',{weekday:'short',year:'numeric',month:'short',day:'numeric'});
+  updateHeader();
+  renderDashboard();
+}
+init();
+</script>
+</body>
+</html>

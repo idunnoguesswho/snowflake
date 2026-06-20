@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>A.002 QMS — HSMS</title>
+<link rel="stylesheet" href="../hsms.css">
+<style>
+.a-hero { background:linear-gradient(135deg,var(--navy) 0%,#1e40af 100%); color:#fff; padding:20px 16px; }
+.a-hero .a-badge { font-size:.65rem; font-weight:700; letter-spacing:.1em; text-transform:uppercase; opacity:.8; margin-bottom:6px; }
+.a-hero h2 { font-size:1.2rem; font-weight:700; margin:0 0 4px; }
+.a-hero p { font-size:.8rem; opacity:.8; margin:0; }
+.a-section {
+  border:1px solid var(--border); border-radius:8px;
+  margin:10px 12px 0; overflow:hidden;
+}
+.a-section-header {
+  display:flex; align-items:center; justify-content:space-between;
+  padding:12px 14px; background:#f8fafc; cursor:pointer;
+  font-weight:700; font-size:.9rem; color:var(--navy);
+  list-style:none; user-select:none;
+}
+.a-section-header::-webkit-details-marker { display:none; }
+.a-section-header::after { content:"▸"; font-size:.75rem; color:var(--muted); transition:transform .2s; }
+details[open] > .a-section-header::after { transform:rotate(90deg); }
+.a-section-title { flex:1; }
+.a-section-body { padding:14px; }
+.a-para { font-size:.875rem; line-height:1.65; color:var(--body); margin:0 0 8px; }
+.a-h3 { font-size:.95rem; font-weight:700; color:var(--navy); margin:14px 0 6px;
+         padding-bottom:4px; border-bottom:1px solid var(--border); }
+.a-h4 { font-size:.85rem; font-weight:700; color:var(--navy); margin:10px 0 4px; }
+.a-table-wrap { overflow-x:auto; margin:10px 0; }
+.a-table { border-collapse:collapse; font-size:.8rem; width:100%; }
+.a-table thead th { background:var(--navy); color:#fff; padding:6px 8px; text-align:left; }
+.a-table td { border:1px solid var(--border); padding:5px 8px; vertical-align:top; }
+.a-table tr:nth-child(even) td { background:#f8fafc; }
+/* controls */
+.a-controls { padding:8px 14px; display:flex; gap:8px; flex-wrap:wrap; align-items:center; }
+.a-btn { background:#f1f5f9; border:1px solid var(--border); border-radius:6px;
+          padding:4px 12px; font-size:.78rem; cursor:pointer; color:var(--body); }
+.a-btn:hover { background:#e2e8f0; }
+@media print {
+  .site-header, footer, .search-wrap, .a-controls { display:none !important; }
+  .a-section { break-inside:avoid; }
+  details.a-section:not([open]) > .a-section-body { display:block !important; }
+}
+</style>
+</head>
+<body>
+<header class="site-header">
+  <span class="logo">🛡️</span>
+  <div><h1>HSMS Wiki</h1><p>DS Home Computing</p></div>
+  <a href="index.html" style="margin-left:auto;color:#fff;font-size:.8rem;">← A Series</a>
+</header>
+
+<div class="search-wrap">
+  <span class="search-icon">🔍</span>
+  <input type="search" id="srch" placeholder="Search document…" autocomplete="off">
+</div>
+
+<div class="a-hero">
+  <div class="a-badge">A.002 · System Document</div>
+  <h2>QMS</h2>
+  <p>DS Home Computing Ltd · SA03 SECOR · For internal use</p>
+</div>
+
+<nav style="font-size:.75rem;color:var(--muted);padding:10px 16px;">
+  <a href="../index.html">HSMS Wiki</a> › <a href="index.html">A Series</a> › A.002
+</nav>
+
+<div class="a-controls">
+  <button class="a-btn" onclick="document.querySelectorAll('.a-section').forEach(d=>d.open=true)">Expand All</button>
+  <button class="a-btn" onclick="document.querySelectorAll('.a-section').forEach(d=>d.open=false)">Collapse All</button>
+  <span id="match-count" style="font-size:.75rem;color:var(--muted);margin-left:auto;"></span>
+</div>
+
+<main style="padding-bottom:24px;">
+<p class="a-para">Quality Management Plan</p>
+<div class="a-table-wrap"><table class="a-table">
+<thead><tr><th>Revision Log</th></tr></thead>
+<tbody>
+<tr><td>Revision</td><td>Approved By</td><td>Publish Date</td><td>Changes Made</td></tr>
+<tr><td>0</td><td>Katie Snow</td><td>15 MAY 2025</td><td>Initial Revision</td></tr>
+</tbody></table></div>
+<p class="a-para">Table of Contents</p>
+<p class="a-para">Notice</p>
+<p class="a-para">NOTICE:  This document is CONTROLLED in its electronic format. Versions of this document residing in locations other than those stipulated, by QA, are considered UNCONTROLLED.  All hardcopy versions of this document are considered uncontrolled. The user is responsible for ensuring that the current version is being used.  The specifications/standards contained herein are the property of DS Home Computing Ltd.; they are not to be copied or used without the authorization of DS Home Computing Ltd. and are loaned subject to return on demand. Possession of any copy—electronic or hardcopy, controlled or uncontrolled—of this document indicates the possessor’s agreement with this notice</p>
+<details class="a-section" id="sec0" open>
+<summary class="a-section-header"><span class="a-section-title">Preface</span></summary>
+<div class="a-section-body">
+<h4 class="a-h4">Mission Statement</h4>
+<p class="a-para">It is the mission of DS Home Computing Ltd, to provide customer satisfaction through the quality of our services.  We work hard to ensure customer demands are met every time.</p>
+<h4 class="a-h4">Vision</h4>
+<p class="a-para">At DS Home Computing Ltd our main focus, is not on just building things, it is about creating a lasting relationship with our clients.  We are taking the time to build connections with our partners and focusing on their goals and needs so we can add as much value as possible.  Providing a safe and productive environment for all employees.</p>
+</div>
+</details>
+<details class="a-section" id="sec1" open>
+<summary class="a-section-header"><span class="a-section-title">Introduction</span></summary>
+<div class="a-section-body">
+<p class="a-para">This Quality System Manual establishes the Quality Management System (QMS) requirements for DS Home Computing Ltd. Which outline the standard work procedures for the quality control program.</p>
+<p class="a-para">This manual specifies the requirements of the QMS for DS Home Computing Ltd.to demonstrate our ability to consistently provide reliable products, processes or services which meet customer and legal requirements. The QMS, Quality Policy and Manual are written for use by DS Home Computing Ltd.</p>
+<p class="a-para">Through the implementation and integration of this QMS into DS Home Computing Ltd. processes, this Quality Manual is used to familiarize individuals, customers and other external organizations with the controls and processes that have been implemented and to assure them that the reliability of our QMS is maintained and is focused on continual improvement and customer satisfaction.</p>
+<p class="a-para">DS Home Computing Ltd.’s QMS meets the requirements of ISO 9001:2015 and uses the Plan, Do, Check and Act approach(PDCA) to process planning.</p>
+<p class="a-para">This document outlines the project turnover plan and workflow for DS Home Computing Ltd projects from the project team to the owner organization, including the roles and responsibilities of different parties within this process. This process works in coordination with the Documentation Standard Work Process to successfully complete a project.</p>
+<p class="a-para">We believe that all services provided must be the highest level of quality for clients. We understand the importance of providing quotes with a prompt response, exceeding the expectations of our clients by achieving scheduled completion dates. We continually invest in our employees to ensure our standards of quality are excellent.</p>
+<p class="a-para">The scope of the quality management system described in this manual is to deliver defect-free products construction services that meet the requirements of our internal and external clients.</p>
+</div>
+</details>
+<details class="a-section" id="sec2" open>
+<summary class="a-section-header"><span class="a-section-title">References</span></summary>
+<div class="a-section-body">
+<div class="a-table-wrap"><table class="a-table">
+<thead><tr><th>Standard</th><th>Title</th><th>Description</th></tr></thead>
+<tbody>
+<tr><td>ISO 9001:2015</td><td>Quality Management Systems</td><td>Requirements</td></tr>
+<tr><td>ISO 9000:2015</td><td>Quality Management Systems – Fundamentals and vocabulary</td><td>Fundamentals and vocabulary</td></tr>
+<tr><td>Internal Documents</td><td>Title</td><td>Description</td></tr>
+<tr><td>A.001</td><td>DS Home Computing Ltd Health and Safety Program</td><td></td></tr>
+<tr><td>A.003</td><td>DS Home Computing Ltd. Document Management Program</td><td></td></tr>
+</tbody></table></div>
+</div>
+</details>
+<details class="a-section" id="sec3" open>
+<summary class="a-section-header"><span class="a-section-title">Terms and Definitions</span></summary>
+<div class="a-section-body">
+<p class="a-para">This document does not introduce any new definitions but rather relies on the following:</p>
+<p class="a-para">Terms and definitions given in ISO 9000:2015 apply</p>
+<p class="a-para">Management of Change (MOC)- Is a structured approach in an organization for ensuring that changes are smoothly and successfully implemented to achieve lasting benefits</p>
+<p class="a-para">Non-Conformance (NCR) - Any deviation to the applicable Code, client specification, design standard, special requirements, drawing, established procedure or the applicable QA Manual.  (i.e any condition whereby the product or service does not meet DS Home Computing Ltd’ or the client’s requirements.)</p>
+<p class="a-para">Internally Generated NCR- An NCR that is created by a DS Home Computing Ltd employee due to a nonconformance</p>
+<p class="a-para">Externally Generated NCR- An NCR that is created by anyone outside of DS Home Computing Ltd due to a nonconformance (i.e Supplier, manufacturer, project owner, etc)</p>
+<p class="a-para">Non-Conformance Report Log- A record of non-conformance</p>
+<p class="a-para">Corrective Action- Steps that are taken to remove the causes of an existing nonconformity and to render product acceptable.</p>
+<p class="a-para">Preventative Action- Action taken to avoid repetition of similar non-conformances including modification or enforcement of procedures or implementation of additional requirements.</p>
+<p class="a-para">Concession- An allowance made which allows a non-conforming item to be accepted without meeting the originally specified requirements.</p>
+</div>
+</details>
+<details class="a-section" id="sec4" open>
+<summary class="a-section-header"><span class="a-section-title">Context of the Organization</span></summary>
+<div class="a-section-body">
+<h4 class="a-h4">Understanding our organization and its context</h4>
+<p class="a-para">DS Home Computing Ltd has determined internal and external issues that are relevant to its purpose and its strategic direction and that affect its ability to achieve the intended result(s) of its quality management system.  DS Home Computing Ltd continually monitors and reviews information about these internal and external issues.</p>
+<h4 class="a-h4">Understanding the Expectations and Needs of Interested Parties</h4>
+<p class="a-para">Due to the potential effect on DS Home Computing Ltd ability to provide consistent services that meet client and applicable codes and regulatory requirements, DS Home Computing Ltd determined:</p>
+<p class="a-para">The relevant parties with interest to this quality management system;</p>
+<p class="a-para">The requirements of these interested parties that are relevant to the quality management system.</p>
+<p class="a-para">DS Home Computing Ltd continually reviews and monitors the information about these interested parties and their relevant requirements. DS Home Computing Ltd has determined the current interested parties to include our clients, ownership group, staff, and any codes (if/when applicable).</p>
+<h4 class="a-h4">Determining the Scope of the Quality Management System</h4>
+<p class="a-para">DS Home Computing Ltd has determined the applicability and boundary of this quality management system to establish its scope.</p>
+<p class="a-para">When determining the scope, DS Home Computing Ltd considered:</p>
+<p class="a-para">The external and internal issues referred to in 1.3;</p>
+<p class="a-para">The requirements of relevant interested parties referred to in 1.4;</p>
+<p class="a-para">The services provided by DS Home Computing Ltd. DS Home Computing Ltd applies the requirements of the ISO 9001-15 International Standard if they are applicable within the determined scope of its quality management system.</p>
+<p class="a-para">The scope of DS Home Computing Ltd quality management system is available and maintained as documented information. The scope states the types of services offered and justifies for any requirements that DS Home Computing Ltd has determined are not applicable to the scope of its quality management system.</p>
+<p class="a-para">Conformity to ISO 9001 is only claimed if the requirements determined as not being applicable do not affect DS Home Computing Ltd ability to ensure the conformity of its services and increase customer satisfaction.</p>
+</div>
+</details>
+<details class="a-section" id="sec5" open>
+<summary class="a-section-header"><span class="a-section-title">Scope of Registration</span></summary>
+<div class="a-section-body">
+<p class="a-para">The scope associated with DS Home Computing Ltd.’s Registration and activities is:</p>
+<p class="a-para">Computer Service and Repair</p>
+<h4 class="a-h4">Quality Management System</h4>
+<p class="a-para">DS Home Computing Ltd has established, implemented, maintains, and continually improves a quality management system, including the processes needed and their interactions, in accordance with the requirements of this International Standard.</p>
+<p class="a-para">DS Home Computing Ltd has determined the processes needed for the quality management system and their application throughout DS Home Computing Ltd, and:</p>
+<p class="a-para">Determined the inputs required and the outputs expected from these processes;</p>
+<p class="a-para">Determined the sequence and interaction of these processes;</p>
+<p class="a-para">Determined and applied the criteria and methods (including monitoring, measurements and related performance indicators) needed to ensure the effective operation and control of these processes;</p>
+<p class="a-para">Determined the resources needed for these processes and ensure their availability;</p>
+<p class="a-para">Assigns the responsibilities and authorities for these processes;</p>
+<p class="a-para">Addresses the risks and opportunities as determined in accordance with the requirements of 1.10;</p>
+<p class="a-para">Evaluates these processes and implements any changes needed to ensure that these processes achieve their intended results.</p>
+<p class="a-para">Improves the processes and the quality management system.</p>
+<p class="a-para">To the extent necessary, DS Home Computing Ltd:</p>
+<p class="a-para">Maintains documented information to support the operation of its processes.</p>
+<p class="a-para">Retains documented information to have confidence that the processes are being carried out as planned.</p>
+</div>
+</details>
+<details class="a-section" id="sec6" open>
+<summary class="a-section-header"><span class="a-section-title">Leadership</span></summary>
+<div class="a-section-body">
+<h4 class="a-h4">Leadership &amp; Commitment</h4>
+<p class="a-para">The Management of DS Home Computing Ltd is committed to the development, implementation and continuous improvement of the quality management system by:</p>
+<p class="a-para">Taking accountability for the overall effectiveness of the Quality Management System</p>
+<p class="a-para">Promoting the use of the process approach and risk-based thinking</p>
+<p class="a-para">Communicating the importance of meeting customer, regulatory and legal requirements</p>
+<p class="a-para">Establishing a quality policy compatible with the context and strategic direction of the organization</p>
+<p class="a-para">Commitment to continual improvement.</p>
+<p class="a-para">Establishing quality objectives compatible with the context and strategic direction of the organization</p>
+<p class="a-para">Conducting an annual management review of the quality management system</p>
+<p class="a-para">Ensuring resources are available.</p>
+<p class="a-para">Supporting other relevant management roles to demonstrate their leadership as it applies to their areas of responsibility.</p>
+<h4 class="a-h4">Customer Focus</h4>
+<p class="a-para">The Management of DS Home Computing Ltd is committed and focused on providing services that meet customer requirements and that these requirements are met with the primary goal being a satisfied customer. This is achieved through:</p>
+<p class="a-para">Customer and applicable statutory and regulatory requirements are determined, understood, and consistently met;</p>
+<p class="a-para">The risks and opportunities that can affect conformity of products and services and the ability to enhance customer satisfaction are determined and addressed; and</p>
+<p class="a-para">The focus on improving customer satisfaction is maintained.</p>
+<h4 class="a-h4">Policy</h4>
+<h4 class="a-h4">Management Responsibility</h4>
+<p class="a-para">The Management of DS Home Computing Ltd shall ensure that:</p>
+<p class="a-para">A quality policy is established and is appropriated to the purpose of the organization,</p>
+<p class="a-para">The quality policy includes a commitment to comply with requirements and to continually improve the effectiveness of the quality management system,</p>
+<p class="a-para">The quality policy provides the framework for establishing and reviewing quality objectives,</p>
+<p class="a-para">The quality policy is communicated and understood throughout all levels of the organization, and;</p>
+<p class="a-para">The quality policy is reviewed annually for continuing suitability.</p>
+<h4 class="a-h4">Quality Policy &amp; Statement</h4>
+<h4 class="a-h4">Quality Policy</h4>
+<p class="a-para">DS Home Computing Ltd provides customer satisfaction through the quality of our services. We work hard to ensure client demands are met every time. This is accomplished through our management system that encourages continual improvement and quality objectives.</p>
+<h4 class="a-h4">Quality Statement</h4>
+<p class="a-para">DS Home Computing Ltd shall commission products right the first time by providing supporting procedures, training and necessary resources. The Quality Policy is accomplished through our quality management system that encourages continual improvement through employee involvement.</p>
+<p class="a-para">This manual describes the organization's responsibilities and control features necessary for administration and construction. Compliance to this manual and any referenced or supporting procedures and specifications are mandatory and shall be consistently applied. Each person and functional area identified in this manual is responsible for implementing the requirements specifically assigned.</p>
+<p class="a-para">Ultimately the managing director is assigned the responsibility and authority for ensuring that the quality management system described in this Quality Program Manual is implemented and maintained. All project managers are responsible for reporting on the performance of the quality management system to management for review and as a basis for improvement. Quality management is a shared responsibility, department managers have the authority to:</p>
+<p class="a-para">Initiate action to prevent the occurrence of any nonconformities relating to product, process and quality management system;</p>
+<p class="a-para">Identify and record any problems relating to the product, process and quality management system; c) Initiate, recommend or provide solutions through designated channels;</p>
+<p class="a-para">Verify the implementation of solutions; and</p>
+<p class="a-para">Control further processing, delivery or installation of nonconforming product until the deficiency or unsatisfactory condition has been corrected.</p>
+<h4 class="a-h4">Organization Roles and Responsibilities</h4>
+<p class="a-para">Management ensures that the responsibilities and authorities for relevant roles are assigned, communicated and understood within DS Home Computing Ltd. Management assigns the responsibility and authority for:</p>
+<p class="a-para">Ensuring that the quality management system conforms to the requirements of this International Standard;</p>
+<p class="a-para">Ensuring that the processes are delivering their intended outputs;</p>
+<p class="a-para">Reporting on the performance of the quality management system and on opportunities for improvement (see 12.1), in particular for Management;</p>
+<p class="a-para">Ensuring the promotion of customer focus throughout all aspects of DS Home Computing Ltd; and</p>
+<p class="a-para">Ensuring that the integrity of the quality management system is maintained when changes to the quality management system are planned and implemented.</p>
+<p class="a-para">Ultimately the Managing Director is assigned the responsibility and authority for ensuring that the quality management system described in this Quality Program Manual is implemented and maintained. All managers are responsible for reporting on the performance of the quality management system to management for review and as a basis for improvement. Quality management is a shared responsibility, department managers have the authority to:</p>
+<p class="a-para">Initiate action to prevent the occurrence of any nonconformities relating to product, process and quality management system;</p>
+<p class="a-para">Identify and record any problems relating to the product, process and quality management system;</p>
+<p class="a-para">Initiate, recommend or provide solutions through designated channels;</p>
+<p class="a-para">Verify the implementation of solutions;</p>
+<p class="a-para">And Control further processing, delivery or installation of nonconforming product until the deficiency or unsatisfactory condition has been corrected.</p>
+<p class="a-para">See DS Home Computing Ltd Organizational Chart</p>
+</div>
+</details>
+<details class="a-section" id="sec7" open>
+<summary class="a-section-header"><span class="a-section-title">Planning</span></summary>
+<div class="a-section-body">
+<h4 class="a-h4">Actions to Address Opportunities and Risks</h4>
+<h4 class="a-h4">Determining Risks when Planning</h4>
+<p class="a-para">When planning the quality management system, DS Home Computing Ltd considered the issues referred to in 5.1and the requirements referred to in 5.2and determined the risk and opportunities that need to be addressed:</p>
+<p class="a-para">Giving assurance that the quality management system can achieve its intended results;</p>
+<p class="a-para">Prevent, or reduce, undesired effects; and</p>
+<p class="a-para">Enhance desirable effects;</p>
+<p class="a-para">Achieve improvement.</p>
+<h4 class="a-h4">DS Home Computing Ltd Plans:</h4>
+<p class="a-para">Actions to address these risks and opportunities;</p>
+<p class="a-para">How to:</p>
+<p class="a-para">Integrate and implement the actions into its quality management system processes (see 5.4)</p>
+<p class="a-para">Evaluate the effectiveness of these actions</p>
+<p class="a-para">Actions taken to address risks and opportunities are proportionate to the potential impact on the conformity of products and services.</p>
+<h4 class="a-h4">Quality Objectives and Achievement Plan</h4>
+<h4 class="a-h4">Quality Objectives</h4>
+<p class="a-para">DS Home Computing Ltd has developed quality objectives at relevant functions, levels and processes needed for the quality management system.</p>
+<p class="a-para">The quality objectives are:</p>
+<p class="a-para">Consistent with the quality policy;</p>
+<p class="a-para">Measurable;</p>
+<p class="a-para">Taken into account applicable requirements;</p>
+<p class="a-para">Relevant to conformity of services and to enhancement of customer satisfaction by meeting their specifications;</p>
+<p class="a-para">Monitored;</p>
+<p class="a-para">Communicated; and</p>
+<p class="a-para">Updated as appropriate.</p>
+<p class="a-para">DS Home Computing Ltd maintains documented information on the quality objectives.</p>
+<h4 class="a-h4">Planning Quality Objectives</h4>
+<p class="a-para">When planning how to achieve its quality objectives, DS Home Computing Ltd has determined:</p>
+<p class="a-para">What will be done;</p>
+<p class="a-para">What resources will be required;</p>
+<p class="a-para">Who will be responsible;</p>
+<p class="a-para">When it will be completed; and</p>
+<p class="a-para">How the results will be evaluated.</p>
+<h4 class="a-h4">Planning of Changes</h4>
+<p class="a-para">When DS Home Computing Ltd determines the need for change to the quality management system, the change is carried out in a planned manner (see 5.4).</p>
+<p class="a-para">DS Home Computing Ltd always considers:</p>
+<p class="a-para">The purpose of the changes and any potential consequences;</p>
+<p class="a-para">The overall integrity of the quality management system;</p>
+<p class="a-para">The availability of resources; and</p>
+<p class="a-para">The allocation of responsibilities and authorities.</p>
+</div>
+</details>
+<details class="a-section" id="sec8" open>
+<summary class="a-section-header"><span class="a-section-title">Support</span></summary>
+<div class="a-section-body">
+<h4 class="a-h4">Resources</h4>
+<h4 class="a-h4">General</h4>
+<p class="a-para">DS Home Computing Ltd determines and provides the resources needed for the establishment, implementation, maintenance and continual improvement of our quality management system.</p>
+<p class="a-para">DS Home Computing Ltd considers:</p>
+<p class="a-para">The capabilities of, and constraints on, existing internal resources; and</p>
+<p class="a-para">What needs to be obtained from the external providers.</p>
+<h4 class="a-h4">Infrastructure</h4>
+<p class="a-para">DS Home Computing Ltd determines, provides, and maintains the environment necessary for the operation of its processes and to achieve conformity of services.</p>
+<p class="a-para">Home Office and associated utilities;</p>
+<p class="a-para">Equipment, including hardware and software;</p>
+<p class="a-para">Information and communication technology.</p>
+<h4 class="a-h4">People</h4>
+<p class="a-para">DS Home Computing Ltd determines and provides the persons necessary for the effective implementation of its quality management system and for the operation and control of its processes. DS Home Computing Ltd seeks out and hires the highest quality staff on the market.</p>
+<h4 class="a-h4">Environment for the Operation Process</h4>
+<p class="a-para">DS Home Computing Ltd determines, provides and maintains the environment required for the operation of its processes and to achieve conformity of its services.</p>
+<p class="a-para">Social (i.e., non-discriminatory, calm, non-confrontational);</p>
+<p class="a-para">Psychological (i.e., stress reducing, burnout prevention, emotionally protective);</p>
+<p class="a-para">Physical (i.e., temperature, heat, humidity, light, airflow, hygiene, noise). These factors can differ substantially depending on the location that the services are being provided.</p>
+<h4 class="a-h4">Monitoring and Measuring Resources</h4>
+<h4 class="a-h4">General</h4>
+<p class="a-para">DS Home Computing Ltd provides the resources needed to ensure valid and reliable results when monitoring or measuring is used to verify the conformity of our construction services provided.</p>
+<p class="a-para">DS Home Computing Ltd ensures that the resources provided:</p>
+<p class="a-para">Are qualified and trained for the specific type of monitoring and measurement activities being undertaken; and</p>
+<p class="a-para">Are maintained to ensure that our technicians are qualified for their position, and continually exceed client expectations.</p>
+<p class="a-para">DS Home Computing Ltd retains the appropriate documentation for evidence of the process of the monitoring and measurement resources.</p>
+<h4 class="a-h4">Awareness</h4>
+<p class="a-para">DS Home Computing Ltd ensures that all people doing work under DS Home Computing Ltd control are aware of:</p>
+<p class="a-para">The DS Home Computing Ltd quality policy;</p>
+<p class="a-para">Relevant quality objectives for DS Home Computing Ltd and our clients;</p>
+<p class="a-para">Their contribution to the effectiveness of the quality management system, including the benefits of improved performance; and</p>
+<p class="a-para">The implications of non-conformance with the quality management system requirements.</p>
+<h4 class="a-h4">Communication</h4>
+<p class="a-para">DS Home Computing Ltd has determined the external and internal communications relevant to the quality management system, including:</p>
+<p class="a-para">On what it will communicate;</p>
+<p class="a-para">With whom to communicate;</p>
+<p class="a-para">When to communicate;</p>
+<p class="a-para">How to communicate; and</p>
+<p class="a-para">Who communicates.</p>
+<h4 class="a-h4">Documented Information</h4>
+<p class="a-para">DS Home Computing Ltd documents all appropriate information on our company drive, which is a cloud based drive that can be accessed from anywhere. This drive contains the DS Home Computing Ltd Quality Management system, client requirements, and client specifications for projects. Some of the documents include:</p>
+<p class="a-para">Client procedures and specifications that are current, older revisions are archived.</p>
+<p class="a-para">DS Home Computing Ltd QA QC documentation and QMS.</p>
+<p class="a-para">All turnover documentation once construction is complete. This includes signed copies of any documentation that our clients sign as well.</p>
+<h4 class="a-h4">Competence</h4>
+<p class="a-para">Ensures that the competence of person(s) doing work under its control that affects the performance and effectiveness of the quality management system;</p>
+<p class="a-para">Ensures that these persons are competent on the basis of appropriate education, training, and experience;</p>
+<p class="a-para">Where applicable, take actions to acquire the necessary competence, and evaluate the effectiveness of the actions taken; and</p>
+<p class="a-para">Retain appropriate documented information as evidence of competence. To date competence evaluations include KPIs and competency assessment forms.</p>
+</div>
+</details>
+<details class="a-section" id="sec9" open>
+<summary class="a-section-header"><span class="a-section-title">Operation</span></summary>
+<div class="a-section-body">
+<h4 class="a-h4">Operational Planning and Control</h4>
+<p class="a-para">DS Home Computing Ltd has planned, implemented and controls the processes needed to meet the requirements of the provisions of our services, and implemented the actions determined by:</p>
+<p class="a-para">Determining the requirements for our services;</p>
+<p class="a-para">Establishing criteria for:</p>
+<p class="a-para">a)The processes;</p>
+<p class="a-para">b)The acceptance of services;</p>
+<p class="a-para">Determining the resources needed to achieve conformity to the services we provide;</p>
+<p class="a-para">Implementing control of the processes in accordance with the criteria; and</p>
+<p class="a-para">Determining and keeping documented information to the extent necessary:</p>
+<p class="a-para">a) To have confidence that the processes have been carried out as planned;</p>
+<p class="a-para">b) To demonstrate the conformity of our construction services to client requirements. The output of this planning is in a form suitable to DS Home Computing Ltd method of operations.</p>
+<h4 class="a-h4">Requirements for Services</h4>
+<h4 class="a-h4">Customer Communication</h4>
+<p class="a-para">Communication with Customers includes:</p>
+<p class="a-para">Providing information relating to our services;</p>
+<p class="a-para">Handling inquiries, estimates, contracts, or orders, including changes;</p>
+<p class="a-para">Handling or controlling customer property.</p>
+<h4 class="a-h4">Determining the Requirements Related to our Services</h4>
+<p class="a-para">When determining the requirements for the services to be offered to customers, DS Home Computing Ltd ensures that:</p>
+<p class="a-para">The requirements for the services are clearly defined, including:</p>
+<p class="a-para">Role of our construction staff on the project.</p>
+<p class="a-para">Deliverables.</p>
+<p class="a-para">Any applicable client procedures and check sheets</p>
+<h4 class="a-h4">Review of Requirements Related to our Services</h4>
+<h4 class="a-h4">Review</h4>
+<p class="a-para">DS Home Computing Ltd ensures that it can meet the requirements for services offered to customers. DS Home Computing Ltd conducts a review before committing to supply services to a customer, this includes:</p>
+<p class="a-para">Requirements specified by customer, including the requirements for delivery and post delivery activities;</p>
+<p class="a-para">Requirements not stated by the customer, but necessary for the specified intended use, when known;</p>
+<p class="a-para">Requirements specified by DS Home Computing Ltd, and</p>
+<p class="a-para">Contract or order requirements differing from those previously expressed by practicing proper change management.</p>
+<p class="a-para">The customer’s requirements are confirmed by DS Home Computing Ltd before acceptance, if the customer does not provide a documented statement of their requirements and scope DS Home Computing Ltd carefully notes what is included in our proposal letters, which is then attached to our client purchase order.</p>
+<h4 class="a-h4">Control of Externally Provided Processes and Services</h4>
+<h4 class="a-h4">General</h4>
+<p class="a-para">DS Home Computing Ltd ensures that externally provided processes and services conform to client requirements. DS Home Computing Ltd determines the control applied to externally provided processes and services when:</p>
+<p class="a-para">Services from external providers are intended for incorporation into DS Home Computing Ltd own services;</p>
+<p class="a-para">Services are provided directly to the customer(s) by external providers on behalf of DS Home Computing Ltd; and</p>
+<p class="a-para">A process, or part of a process, is provided by an external provider as a result of a decision by DS Home Computing Ltd. DS Home Computing Ltd determines and applies criteria for the evaluation, selection, monitoring of performance, and re-evaluation of external providers, based on their ability to provide processes and services in accordance with client requirements. DS Home Computing Ltd retains documented information of these activities and any necessary actions arising from the work performed.</p>
+<h4 class="a-h4">Type of Extent Control</h4>
+<p class="a-para">DS Home Computing Ltd ensures that externally provided processes and services do not adversely affect DS Home Computing Ltd’s ability to consistently deliver conforming products and services to its customers.</p>
+<p class="a-para">DS Home Computing Ltd:</p>
+<p class="a-para">Ensures that externally provided processes remain within the control of its quality management system;</p>
+<p class="a-para">Defines both the controls that it intends to apply to an external provider and those it intends to apply to the resulting output.</p>
+<p class="a-para">Takes into consideration:</p>
+<p class="a-para">The potential impact of the externally provided processes and services on DS Home Computing Ltd’s ability to consistently meet customer and applicable regulatory requirements;</p>
+<p class="a-para">The effectiveness of the controls applied by the external provider;</p>
+<p class="a-para">Determines the verification, or other activities, necessary to ensure that the externally provided processes and testing services meet requirements.</p>
+<h4 class="a-h4">Information for External Providers</h4>
+<p class="a-para">DS Home Computing Ltd ensures the adequacy of requirements prior to their communication to the external provider. DS Home Computing Ltd communicates to external providers its requirements for:</p>
+<p class="a-para">The processes and construction services to be provided;</p>
+<p class="a-para">The approval of:</p>
+<p class="a-para">Services;</p>
+<p class="a-para">Methods, processes and equipment used;</p>
+<p class="a-para">The release of services and testing;</p>
+<p class="a-para">Competence, including any required qualification of persons;</p>
+<p class="a-para">The external providers’ interactions with DS Home Computing Ltd;</p>
+<p class="a-para">Control and monitoring of the external providers’ performance to be applied by DS Home Computing Ltd; and</p>
+<p class="a-para">Verification or validation activities that DS Home Computing Ltd, or its customer, intends to perform at the external providers’ premises.</p>
+<h4 class="a-h4">Service Provision</h4>
+<h4 class="a-h4">Control of Service Provision</h4>
+<p class="a-para">DS Home Computing Ltd implements service provision under controlled conditions. Controlled conditions include, as applicable:</p>
+<p class="a-para">The availability of documented information that defines:</p>
+<p class="a-para">The characteristics of the services to be provided, or the activities to be performed;</p>
+<p class="a-para">The results to be achieved;</p>
+<p class="a-para">The availability and use of suitable monitoring and measuring resources;</p>
+<p class="a-para">The implementation of monitoring and measurement activities at appropriate stages to verify that criteria for control of processes or outputs, and acceptance criteria for construction services have been met;</p>
+<p class="a-para">The use of suitable infrastructure and environment for the operation of processes;</p>
+<p class="a-para">The appointment of competent persons, including any required qualification;</p>
+<p class="a-para">The validation and periodic revalidation, of the ability to achieve planned results of the processes for production and service provision, where the resulting output cannot be verified by subsequent monitoring or measurement;</p>
+<p class="a-para">The implementation of actions to prevent human error; and</p>
+<p class="a-para">The implementation of release, delivery and post-delivery activities.</p>
+<h4 class="a-h4">Identification and Traceability</h4>
+<p class="a-para">DS Home Computing Ltd uses suitable means to identify outputs when it is necessary to ensure the conformity of services. DS Home Computing Ltd identifies the status of outputs with respect to monitoring and measurement requirements throughout the construction service provision. DS Home Computing Ltd controls the unique identification of the outputs when traceability is a requirement and retains the documented information necessary to enable traceability.</p>
+<h4 class="a-h4">Property Belonging to Customers or External Providers</h4>
+<p class="a-para">DS Home Computing Ltd exercises care with property and documentation belonging to customers or external providers while it is under DS Home Computing Ltd’s control or being used by DS Home Computing Ltd. DS Home Computing Ltd identifies, verifies, protects and safeguards customer’s or external providers’ property provided for use or incorporation into the construction and testing services. When the property of a customer or external provider is lost, damaged or otherwise found to be unsuitable for use, DS Home Computing Ltd reports this to the customer or external provider and retains documented information on what has occurred.</p>
+<h4 class="a-h4">Preservation</h4>
+<p class="a-para">DS Home Computing Ltd preserves the outputs during the service provision as required or requested by the client, to the extent necessary to ensure conformity to client requirements.</p>
+<h4 class="a-h4">Post- Delivery Activities</h4>
+<p class="a-para">DS Home Computing Ltd meets requirements for post-delivery activities associated with the construction services provided. In determining the extent of post-delivery activities that are required, DS Home Computing Ltd considers:</p>
+<p class="a-para">Any applicable code requirements;</p>
+<p class="a-para">The potential undesired consequences associated with its construction services;</p>
+<p class="a-para">The nature and use of its construction and testing services;</p>
+<p class="a-para">Customer requirements; and</p>
+<p class="a-para">Customer Feedback</p>
+<h4 class="a-h4">Control of Changes</h4>
+<p class="a-para">DS Home Computing Ltd reviews and controls changes for services rendered, to the extent necessary to ensure continuing conformity with requirements.</p>
+<p class="a-para">DS Home Computing Ltd retains documented information describing the results of the review of changes, the person(s) authorizing the change, and any necessary actions arising from the review.</p>
+<h4 class="a-h4">Release of Services and Closeout Documentation</h4>
+<p class="a-para">DS Home Computing Ltd has implemented planned arrangements, at appropriate stages, to verify that the construction service requirements have been met. The release of turnover documentation to the customer, do not proceed until the planned arrangements have been satisfactorily completed, unless otherwise approved by a relevant authority and, as applicable, by the customer.</p>
+<p class="a-para">DS Home Computing Ltd retains documented information on the release of construction documentation and services. The documented information includes:</p>
+<p class="a-para">Evidence of conformity with the acceptance criteria;</p>
+<p class="a-para">Traceability to the person(s) authorizing the release.</p>
+<h4 class="a-h4">Control of Nonconforming Outputs</h4>
+<h4 class="a-h4">Nonconforming Installations</h4>
+<p class="a-para">DS Home Computing Ltd ensures that outputs that do not conform to their requirements are identified and controlled to prevent their unintended use.</p>
+<p class="a-para">DS Home Computing Ltd takes appropriate action based on the nature of the nonconformity and its effect on the conformity of client products and equipment.</p>
+<p class="a-para">DS Home Computing Ltd deals with nonconforming installations in one or more of the following ways:</p>
+<p class="a-para">Correction;</p>
+<p class="a-para">Segregation, containment, until a decision is made from the client;</p>
+<p class="a-para">Informing the customer; and</p>
+<p class="a-para">Obtaining authorization for acceptance under concession.</p>
+<p class="a-para">Conformity to the requirements are verified when nonconforming outputs are corrected.</p>
+<h4 class="a-h4">Documented Information</h4>
+<p class="a-para">DS Home Computing Ltd retains documented information that:</p>
+<p class="a-para">Describes the nonconformity;</p>
+<p class="a-para">Describes the actions taken;</p>
+<p class="a-para">Describes any concessions obtained; and</p>
+<p class="a-para">Identifies the authority deciding the action in respect of the nonconformity.</p>
+</div>
+</details>
+<details class="a-section" id="sec10" open>
+<summary class="a-section-header"><span class="a-section-title">Performance Evaluation</span></summary>
+<div class="a-section-body">
+<h4 class="a-h4">Monitoring, Measurement, Evaluation and Analysis</h4>
+<h4 class="a-h4">General</h4>
+<p class="a-para">DS Home Computing Ltd determines:</p>
+<p class="a-para">What needs to be monitored and measured;</p>
+<p class="a-para">The methods for monitoring, measurement, analysis and evaluation needed to ensure valid results;</p>
+<p class="a-para">When the monitoring and measuring is performed;</p>
+<p class="a-para">When the results form monitoring and measurement are analyzed and evaluated. DS Home Computing Ltd evaluates the performance and the effectiveness of the quality management system. DS Home Computing Ltd retains appropriate documented information as evidence of the results.</p>
+<h4 class="a-h4">Customer Satisfaction</h4>
+<p class="a-para">DS Home Computing Ltd monitors customers’ perceptions of the degree to which their needs and expectations have been fulfilled. DS Home Computing Ltd determines the methods for obtaining, monitoring and reviewing this information.</p>
+<h4 class="a-h4">Analysis and Evaluation</h4>
+<p class="a-para">DS Home Computing Ltd analyzes and evaluates appropriate data and information arising from monitoring and measurement. The results of analysis are used to evaluate:</p>
+<p class="a-para">Conformity of construction services and documentation;</p>
+<p class="a-para">The degree of customer satisfaction;</p>
+<p class="a-para">The performance and effectiveness of the quality management system;</p>
+<p class="a-para">If planning has been implemented effectively;</p>
+<p class="a-para">The effectiveness of actions taken to address risks and opportunities;</p>
+<p class="a-para">The performance of external providers (subcontractors and vendors) and</p>
+<p class="a-para">The need for improvements to the quality management system</p>
+<h4 class="a-h4">Internal Audits</h4>
+<h4 class="a-h4">Internal Audits to Ensure</h4>
+<p class="a-para">DS Home Computing Ltd conducts internal audits at planned intervals to provide information on whether the quality management system:</p>
+<p class="a-para">Conforms to:</p>
+<p class="a-para">DS Home Computing Ltd’s own requirements for its quality management system;</p>
+<p class="a-para">The requirements of ISO 9001:2015</p>
+<p class="a-para">Is effectively implemented and maintained.</p>
+<h4 class="a-h4">Internal Audits- DS Home Computing Ltd Accomplished</h4>
+<p class="a-para">DS Home Computing Ltd has:</p>
+<p class="a-para">Planned, established, implemented and maintains an audit program including the frequency, methods, responsibilities, planning requirements and reporting, which is taken into consideration the importance of the processes concerned, changes affecting DS Home Computing Ltd, and the results of previous audits;</p>
+<p class="a-para">Defined the audit criteria and scope of each audit;</p>
+<p class="a-para">Selected auditors and conducts audits to ensure objectively and the impartiality of the audit process;</p>
+<p class="a-para">Ensured that the results of the audits are reported to relevant management;</p>
+<p class="a-para">Take appropriate correction and corrective actions without delay; and</p>
+<p class="a-para">Retain documented information as evidence of the implementation of the audit program</p>
+<h4 class="a-h4">Management Review</h4>
+<h4 class="a-h4">General</h4>
+<p class="a-para">Top management reviews DS Home Computing Ltd’s quality management system, at planned intervals, to ensure its continuing suitability, adequacy, effectiveness and alignment with the strategic direction of DS Home Computing Ltd. Management reviews are on-going throughout the year.</p>
+<h4 class="a-h4">Management Review Inputs</h4>
+<p class="a-para">Management review is planned and carried out taking into consideration:</p>
+<p class="a-para">The status of actions from previous management reviews;</p>
+<p class="a-para">Changes in external and internal issues that are relevant to the quality management system;</p>
+<p class="a-para">Information on the performance and effectiveness of the quality management system, including trends in:</p>
+<p class="a-para">Customer satisfaction and feedback from relevant interested parties;</p>
+<p class="a-para">The extent to which quality objectives have been met;</p>
+<p class="a-para">Process performance and conformity of construction services;</p>
+<p class="a-para">Nonconformities and corrective actions;</p>
+<p class="a-para">Monitoring and measurement results;</p>
+<p class="a-para">Audit results;</p>
+<p class="a-para">The performance of external providers;</p>
+<p class="a-para">The adequacy of resources;</p>
+<p class="a-para">The effectiveness of actions taken to address risks and opportunities (see 6.1); and</p>
+<p class="a-para">Opportunities for improvement</p>
+<h4 class="a-h4">Management Review Outputs</h4>
+<p class="a-para">The outputs of the management review include decisions and actions related to:</p>
+<p class="a-para">Opportunities for improvement;</p>
+<p class="a-para">Any need for changes to the quality management system; and</p>
+<p class="a-para">Resource needs.</p>
+</div>
+</details>
+<details class="a-section" id="sec11" open>
+<summary class="a-section-header"><span class="a-section-title">Improvement</span></summary>
+<div class="a-section-body">
+<h4 class="a-h4">General</h4>
+<p class="a-para">DS Home Computing Ltd determines and selects opportunities for improvement and implements any necessary actions to meet customer requirements and enhance customer satisfaction. These include:</p>
+<p class="a-para">Improving DS Home Computing Ltd services to meet requirements as well as to address future needs and expectations;</p>
+<p class="a-para">Correcting, preventing or reducing undesired effects; and</p>
+<p class="a-para">Improving the performance and effectiveness of the quality management system.</p>
+<h4 class="a-h4">Nonconformity and Corrective Action</h4>
+<h4 class="a-h4">Step for Nonconformity</h4>
+<p class="a-para">When a nonconformity occurs, including any arising from complaints, DS Home Computing Ltd:</p>
+<p class="a-para">Reacts to the nonconformity and, as applicable:</p>
+<p class="a-para">Takes action to control and correct it;</p>
+<p class="a-para">Deals with the consequences;</p>
+<p class="a-para">Evaluates the need for action to eliminate the cause(s) of the nonconformity, in order that it does not recur or occur elsewhere, by:</p>
+<p class="a-para">Reviewing and analyzing the nonconformity;</p>
+<p class="a-para">Determining the causes of the nonconformity;</p>
+<p class="a-para">Determining if similar nonconformities exist, or could potentially occur;</p>
+<p class="a-para">Implements any action needed;</p>
+<p class="a-para">Reviews the effectiveness of any corrective action taken;</p>
+<p class="a-para">Updates risks and opportunities determined during planning, if necessary; and</p>
+<p class="a-para">Makes changes to the quality management system, if necessary.</p>
+<p class="a-para">Corrective actions are appropriate to the effects of the nonconformities encountered.</p>
+<h4 class="a-h4">Documentation</h4>
+<p class="a-para">DS Home Computing Ltd retains documented information as evidence of:</p>
+<p class="a-para">The nature of the nonconformities and any subsequent actions taken; and</p>
+<p class="a-para">The results of any corrective action.</p>
+<h4 class="a-h4">Continual Improvement</h4>
+<p class="a-para">DS Home Computing Ltd continually improves the suitability, adequacy and effectiveness of the quality management system. DS Home Computing Ltd considers the results of analysis and evaluations, and the outputs from the management review, to determine if there are needs or opportunities that are addressed as part of the continual improvement.</p>
+</div>
+</details>
+<details class="a-section" id="sec12" open>
+<summary class="a-section-header"><span class="a-section-title">Acknowledgement</span></summary>
+<div class="a-section-body">
+<p class="a-para">By signing this document, I acknowledge:</p>
+<p class="a-para">I have received a copy of the Quality Manual</p>
+<p class="a-para">I will take responsibility for the quality of work I perform.</p>
+<div class="a-table-wrap"><table class="a-table">
+<thead><tr><th>Employee</th><th>Date</th><th></th><th>Signature</th><th></th></tr></thead>
+<tbody>
+<tr><td>Printed Name:</td><td></td></tr>
+</tbody></table></div>
+</div>
+</details>
+
+</main>
+
+<footer>DS Home Computing · SA03 SECOR · HSMS Wiki · For internal use only</footer>
+<script>
+const srch = document.getElementById('srch');
+srch.addEventListener('input', () => {
+  const q = srch.value.toLowerCase().trim();
+  let matches = 0;
+  document.querySelectorAll('.a-para, .a-h3, .a-h4').forEach(el => {
+    const hit = q && el.textContent.toLowerCase().includes(q);
+    el.style.background = hit ? '#fef08a' : '';
+    if (hit) {
+      matches++;
+      el.closest('details')?.setAttribute('open','');
+    }
+  });
+  document.getElementById('match-count').textContent = q ? matches + ' matches' : '';
+});
+</script>
+</body>
+</html>

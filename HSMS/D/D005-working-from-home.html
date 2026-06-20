@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>D.005 Working from Home JSA — HSMS Wiki</title>
+<link rel="stylesheet" href="../hsms.css">
+</head>
+<body>
+<header class="site-header">
+  <span class="logo">🛡️</span>
+  <div><h1>HSMS Wiki</h1><p>DS Home Computing</p></div>
+  <a class="back-btn" href="../index.html">← Wiki Home</a>
+</header>
+<div class="search-wrap" style="top:58px">
+  <span class="search-icon">🔍</span>
+  <input type="search" id="taskSearch" placeholder="Search tasks, hazards, controls…" autocomplete="off">
+</div>
+<main>
+  <div class="breadcrumb"><a href="../index.html">HSMS Wiki</a> › D Series › D.005 Working from Home</div>
+
+  <div class="doc-header">
+    <div class="doc-id">D.005 · Job Safety Analysis</div>
+    <h2>Working from Home</h2>
+    <div class="meta">JSA Leader: Katie Snow, Manager · Revision 1</div>
+    <div class="revision-note">Revision focus: Updated to include WFH agreement, home ergonomics, privacy/BYOD, fatigue/stress, and emergency controls.</div>
+  </div>
+
+  <div class="info-grid">
+    <div class="info-card">
+      <div class="label">PPE Required</div>
+      <div class="value">As required by task; ergonomic setup and safe footwear/clothing for work area</div>
+    </div>
+    <div class="info-card">
+      <div class="label">Emergency Contact</div>
+      <div class="value">911 · Supervisor contact number</div>
+    </div>
+    <div class="info-card">
+      <div class="label">Emergency Meeting Point</div>
+      <div class="value">Home office — worker to identify emergency exit/muster point</div>
+    </div>
+    <div class="info-card">
+      <div class="label">Tools &amp; Equipment</div>
+      <div class="value">Workstation, computer/laptop, monitor, keyboard/mouse, phone, secure storage, printer if approved</div>
+    </div>
+    <div class="info-card" style="grid-column:1/-1">
+      <div class="label">Training / Skills Required</div>
+      <div class="value">Work-from-home orientation · Privacy/BYOD · Ergonomics · Incident reporting · Respectful workplace</div>
+    </div>
+    <div class="info-card" style="grid-column:1/-1">
+      <div class="label">Approval Required</div>
+      <div class="value">High risk work requires Supervisor/Management approval per risk matrix</div>
+    </div>
+  </div>
+
+  <div class="refs-panel">
+    <h3>Reference Documents</h3>
+    <div class="ref-section">
+      <div class="ref-section-title">Policies &amp; Procedures</div>
+      <div class="chips">
+        <span class="chip chip-policy">A.001 HSMS</span>
+        <span class="chip chip-policy">B.001 Progressive Discipline</span>
+        <span class="chip chip-policy">B.023 Hazard Assessment</span>
+        <span class="chip chip-policy">B.026 Respectful Workplace &amp; Privacy</span>
+        <span class="chip chip-policy">B.029 Computer/Internet Use</span>
+        <span class="chip chip-policy">B.030 Telecommuting / Work from Home</span>
+        <span class="chip chip-policy">B.031 Substance Abuse &amp; Fitness for Work</span>
+        <span class="chip chip-policy">B.043 Inclement Weather</span>
+        <span class="chip chip-policy">B.044 BYOD</span>
+        <span class="chip chip-policy">B.045 Cell Phone Use</span>
+        <span class="chip chip-policy">B.046 Back Injury Prevention</span>
+      </div>
+    </div>
+    <div class="ref-section">
+      <div class="ref-section-title">Forms &amp; Records</div>
+      <div class="chips">
+        <span class="chip chip-form">C.020 Incident Investigation</span>
+        <span class="chip chip-form">C.029 Privacy Request/Breach</span>
+        <span class="chip chip-form">C.032 Work from Home Checklist</span>
+        <span class="chip chip-form">C.044 Performance Review</span>
+        <span class="chip chip-form">C.046 BYOD Agreement</span>
+        <span class="chip chip-form">C.048 Back Injury Assessment</span>
+        <span class="chip chip-form">C.049 Fatigue Self-Assessment</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="risk-matrix-wrap">
+    <h3>Risk Matrix — Probability × Severity</h3>
+    <div class="risk-matrix">
+      <table>
+        <tr><th>P / S</th><th>4 Catastrophic</th><th>3 Critical</th><th>2 Marginal</th><th>1 Negligible</th></tr>
+        <tr><th>4 Probable</th><td class="r-high">16 H</td><td class="r-high">12 H</td><td class="r-high">8 H</td><td class="r-mod">4 M</td></tr>
+        <tr><th>3 Reasonably Probable</th><td class="r-high">12 H</td><td class="r-high">9 H</td><td class="r-mod">6 M</td><td class="r-mod">3 M</td></tr>
+        <tr><th>2 Remote</th><td class="r-high">8 H</td><td class="r-mod">6 M</td><td class="r-mod">4 M</td><td class="r-low">2 L</td></tr>
+        <tr><th>1 Extremely Remote</th><td class="r-mod">4 M</td><td class="r-mod">3 M</td><td class="r-low">2 L</td><td class="r-low">1 L</td></tr>
+      </table>
+    </div>
+    <div style="margin-top:8px;font-size:.75rem;color:var(--muted)">
+      <span style="color:var(--high);font-weight:700">High (8–16)</span> · Management approval &nbsp;|&nbsp;
+      <span style="color:var(--mod);font-weight:700">Moderate (3–6)</span> · Supervisor/Lead approval &nbsp;|&nbsp;
+      <span style="color:var(--low);font-weight:700">Low (1–2)</span> · Field level
+    </div>
+  </div>
+
+  <div class="section-heading">Job Tasks</div>
+  <button class="expand-all-btn" onclick="toggleAll()">Expand All</button>
+  <div id="taskList">
+
+    <div class="task-card" data-search="approve set up work from home arrangement unapproved work location unsuitable workspace poor communication privacy isolation">
+      <div class="task-header" onclick="toggle(this)">
+        <div class="task-num">1</div>
+        <div class="task-title">Approve and set up work-from-home arrangement</div>
+        <span class="risk-badge mod">PRE: 6 M</span>
+        <span class="risk-badge low">POST: 2 L</span>
+        <span class="chevron">▾</span>
+      </div>
+      <div class="task-body">
+        <div class="hazard-label">Potential Hazards &amp; Effects</div>
+        <div class="hazard-text">Unapproved work location, unsuitable workspace, poor communication, privacy exposure, or worker isolation.</div>
+        <div class="hazard-label">Controls</div>
+        <ul class="controls-list">
+          <li><span class="control-type A">A</span>Complete work-from-home agreement/checklist before regular remote work.</li>
+          <li><span class="control-type A">A</span>Confirm emergency address, work hours, communication method, equipment, privacy expectations, and reporting process.</li>
+          <li><span class="control-type A">A</span>Supervisor confirms worker knows check-in expectations and incident reporting process.</li>
+        </ul>
+        <div class="forms-ref"><strong>Required Forms:</strong> C.032 Work from Home Checklist</div>
+      </div>
+    </div>
+
+    <div class="task-card" data-search="home workstation computer work ergonomic strain eye strain repetitive motion poor lighting fatigue">
+      <div class="task-header" onclick="toggle(this)">
+        <div class="task-num">2</div>
+        <div class="task-title">Home workstation / computer work</div>
+        <span class="risk-badge mod">PRE: 6 M</span>
+        <span class="risk-badge mod">POST: 4 M</span>
+        <span class="chevron">▾</span>
+      </div>
+      <div class="task-body">
+        <div class="hazard-label">Potential Hazards &amp; Effects</div>
+        <div class="hazard-text">Ergonomic strain, eye strain, repetitive motion, poor lighting, and fatigue.</div>
+        <div class="hazard-label">Controls</div>
+        <ul class="controls-list">
+          <li><span class="control-type A">A</span>Complete ergonomic self-assessment and adjust workstation.</li>
+          <li><span class="control-type A">A</span>Use suitable chair/work surface, neutral posture, screen height, keyboard/mouse position, lighting, and breaks.</li>
+          <li><span class="control-type A">A</span>Report discomfort early and request equipment/support if needed.</li>
+        </ul>
+        <div class="forms-ref"><strong>Required Forms:</strong> C.032 WFH Checklist · C.048 Back Injury Assessment</div>
+      </div>
+    </div>
+
+    <div class="task-card" data-search="privacy BYOD confidential documents home family visitor access data breach unauthorized printing disposal insecure wifi">
+      <div class="task-header" onclick="toggle(this)">
+        <div class="task-num">3</div>
+        <div class="task-title">Privacy, BYOD, and confidential documents at home</div>
+        <span class="risk-badge high">PRE: 9 H</span>
+        <span class="risk-badge low">POST: 2 L</span>
+        <span class="chevron">▾</span>
+      </div>
+      <div class="task-body">
+        <div class="hazard-label">Potential Hazards &amp; Effects</div>
+        <div class="hazard-text">Family/visitor access to confidential records, device loss, data breach, unauthorized printing/disposal, or insecure Wi-Fi.</div>
+        <div class="hazard-label">Controls</div>
+        <ul class="controls-list">
+          <li><span class="control-type A">A</span>Store records securely and keep screens/documents out of view of others.</li>
+          <li><span class="control-type A">A</span>Lock devices when unattended and use approved storage locations.</li>
+          <li><span class="control-type A">A</span>Do not use personal devices for company work unless BYOD authorization is in place.</li>
+          <li><span class="control-type A">A</span>Shred/securely dispose of confidential paper records.</li>
+          <li><span class="control-type A">A</span>Report suspected privacy incident immediately.</li>
+        </ul>
+        <div class="forms-ref"><strong>Required Forms:</strong> C.029 Privacy · C.046 BYOD Agreement</div>
+      </div>
+    </div>
+
+    <div class="task-card" data-search="working alone emergency response home delayed help after injury illness communication failure">
+      <div class="task-header" onclick="toggle(this)">
+        <div class="task-num">4</div>
+        <div class="task-title">Working alone / emergency response at home</div>
+        <span class="risk-badge mod">PRE: 4 M</span>
+        <span class="risk-badge low">POST: 1 L</span>
+        <span class="chevron">▾</span>
+      </div>
+      <div class="task-body">
+        <div class="hazard-label">Potential Hazards &amp; Effects</div>
+        <div class="hazard-text">Delayed help after injury/illness, communication failure, or emergency at home office.</div>
+        <div class="hazard-label">Controls</div>
+        <ul class="controls-list">
+          <li><span class="control-type A">A</span>Keep phone/communication device available during working hours.</li>
+          <li><span class="control-type A">A</span>Confirm emergency address and contact method with supervisor.</li>
+          <li><span class="control-type A">A</span>Report communication outages or inability to be reached.</li>
+          <li><span class="control-type A">A</span>Call 911 for emergencies and notify supervisor as soon as safe.</li>
+        </ul>
+        <div class="forms-ref"><strong>Required Forms:</strong> C.032 WFH Checklist · C.020 if incident</div>
+      </div>
+    </div>
+
+    <div class="task-card" data-search="stress fatigue family interruptions workload management mental fatigue distraction reduced quality conflict extended hours">
+      <div class="task-header" onclick="toggle(this)">
+        <div class="task-num">5</div>
+        <div class="task-title">Stress, fatigue, family interruptions, and workload management</div>
+        <span class="risk-badge mod">PRE: 6 M</span>
+        <span class="risk-badge low">POST: 2 L</span>
+        <span class="chevron">▾</span>
+      </div>
+      <div class="task-body">
+        <div class="hazard-label">Potential Hazards &amp; Effects</div>
+        <div class="hazard-text">Mental fatigue, distraction, reduced quality, conflict, or extended working hours.</div>
+        <div class="hazard-label">Controls</div>
+        <ul class="controls-list">
+          <li><span class="control-type A">A</span>Set work hours and boundaries with household members where practicable.</li>
+          <li><span class="control-type A">A</span>Take breaks and report fatigue/stress concerns before errors or unsafe work occur.</li>
+          <li><span class="control-type A">A</span>Use scheduling, workload review, and supervisor support when deadlines create stress.</li>
+          <li><span class="control-type A">A</span>Follow respectful communication expectations for calls/messages.</li>
+        </ul>
+        <div class="forms-ref"><strong>Required Forms:</strong> C.049 Fatigue Self-Assessment · C.044 if workload/performance review needed</div>
+      </div>
+    </div>
+
+    <div class="task-card" data-search="home office fire electrical safety overloaded circuits tripping cords poor ventilation electronics smoke CO alarm">
+      <div class="task-header" onclick="toggle(this)">
+        <div class="task-num">6</div>
+        <div class="task-title">Home office fire / electrical safety</div>
+        <span class="risk-badge high">PRE: 8 H</span>
+        <span class="risk-badge low">POST: 2 L</span>
+        <span class="chevron">▾</span>
+      </div>
+      <div class="task-body">
+        <div class="hazard-label">Potential Hazards &amp; Effects</div>
+        <div class="hazard-text">Fire, overloaded circuits, tripping cords, poor ventilation of electronics, smoke/CO alarm failure.</div>
+        <div class="hazard-label">Controls</div>
+        <ul class="controls-list">
+          <li><span class="control-type E">E</span>Use surge protection and keep equipment ventilated.</li>
+          <li><span class="control-type A">A</span>Keep cords in good condition and out of walkways.</li>
+          <li><span class="control-type A">A</span>Test smoke/CO alarms monthly; maintain fire escape plan.</li>
+          <li><span class="control-type A">A</span>Do not leave candles or heat sources unattended near work area.</li>
+        </ul>
+        <div class="forms-ref"><strong>Required Forms:</strong> C.032 WFH Checklist · C.020 if incident</div>
+      </div>
+    </div>
+
+  </div>
+  <div class="no-results hidden" id="noResults">No tasks match your search.</div>
+
+  <div style="margin-top:24px;background:white;border-radius:var(--radius);border:1px solid var(--border);padding:14px;box-shadow:var(--shadow)">
+    <div class="section-heading" style="margin-top:0">Annual Review Team</div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:10px;margin-top:10px">
+      <div style="font-size:.85rem"><strong>Doug Senger</strong><br><span style="color:var(--muted)">Date / Signature: ________</span></div>
+      <div style="font-size:.85rem"><strong>Katie Snow</strong><br><span style="color:var(--muted)">Date / Signature: ________</span></div>
+      <div style="font-size:.85rem"><strong>Sandy Senger</strong><br><span style="color:var(--muted)">Date / Signature: ________</span></div>
+      <div style="font-size:.85rem"><strong>Robyn Morales</strong><br><span style="color:var(--muted)">Date / Signature: ________</span></div>
+    </div>
+  </div>
+</main>
+<footer>DS Home Computing · SA03 SECOR · D.005 Working from Home JSA · For internal use only</footer>
+<script>
+function toggle(hdr){hdr.closest('.task-card').classList.toggle('open');}
+function toggleAll(){const cards=document.querySelectorAll('.task-card');const anyOpen=[...cards].some(c=>c.classList.contains('open'));cards.forEach(c=>anyOpen?c.classList.remove('open'):c.classList.add('open'));document.querySelector('.expand-all-btn').textContent=anyOpen?'Expand All':'Collapse All';}
+const search=document.getElementById('taskSearch');search.addEventListener('input',()=>{const q=search.value.toLowerCase();let v=0;document.querySelectorAll('.task-card').forEach(card=>{const show=!q||(card.dataset.search+' '+card.textContent).toLowerCase().includes(q);card.classList.toggle('hidden',!show);if(show)v++;});document.getElementById('noResults').classList.toggle('hidden',v>0);});
+</script>
+</body>
+</html>

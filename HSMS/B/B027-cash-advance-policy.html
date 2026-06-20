@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>B.027 Cash Advance Policy — HSMS</title>
+<link rel="stylesheet" href="../hsms.css">
+
+<style>
+.policy-heading {
+  font-size: 1rem; font-weight: 700; color: var(--navy);
+  margin: 20px 0 6px; padding-bottom: 4px; border-bottom: 1px solid var(--border);
+}
+.policy-para { font-size: .88rem; line-height: 1.65; margin-bottom: 8px; color: var(--text); }
+.policy-list { font-size: .88rem; line-height: 1.7; padding-left: 24px; margin-bottom: 10px; }
+.policy-list li { margin-bottom: 3px; }
+.policy-table { overflow-x: auto; margin: 12px 0; }
+.policy-table table { border-collapse: collapse; width: 100%; font-size: .83rem; }
+.policy-table th, .policy-table td { border: 1px solid var(--border); padding: 7px 10px; text-align: left; }
+.policy-table th { background: var(--surface); font-weight: 700; }
+.policy-card { background: white; border-radius: var(--radius); border: 1px solid var(--border); padding: 20px; box-shadow: var(--shadow); margin-bottom: 20px; }
+.ack-card { background: white; border-radius: var(--radius); border: 2px solid var(--blue); padding: 20px; margin-bottom: 20px; box-shadow: var(--shadow); }
+.ack-card h3 { font-size: 1rem; color: var(--navy); margin-bottom: 6px; }
+.ack-card .sub { font-size: .83rem; color: var(--muted); margin-bottom: 16px; }
+.form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 16px; }
+@media (max-width: 500px) { .form-grid { grid-template-columns: 1fr; } }
+.form-field label { display: block; font-size: .72rem; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: .04em; margin-bottom: 4px; }
+.form-field input, .form-field select, .form-field textarea { width: 100%; padding: 8px 10px; border: 1px solid var(--border); border-radius: 6px; font-size: .88rem; font-family: inherit; color: var(--text); background: var(--surface); }
+.form-field input:focus { outline: none; border-color: var(--blue); background: white; }
+.form-field.full { grid-column: 1 / -1; }
+.sig-line { border: none; border-bottom: 1px solid var(--border); height: 40px; background: transparent; display: flex; align-items: flex-end; padding-bottom: 4px; color: var(--muted); font-size: .78rem; font-style: italic; }
+.chk-row { display: flex; align-items: flex-start; gap: 10px; margin-bottom: 12px; }
+.chk-row input[type=checkbox] { margin-top: 2px; width: 16px; height: 16px; flex-shrink: 0; accent-color: var(--blue); }
+.chk-row label { font-size: .87rem; line-height: 1.5; }
+.save-bar { background: var(--navy); border-radius: var(--radius); padding: 14px 16px; display: flex; align-items: center; gap: 14px; flex-wrap: wrap; margin-bottom: 20px; }
+.save-bar .pi { flex: 1; min-width: 0; }
+.save-bar .pl { font-size: .7rem; color: rgba(255,255,255,.6); font-weight: 700; text-transform: uppercase; letter-spacing: .04em; }
+.save-bar .pv { font-size: .78rem; color: white; font-family: monospace; word-break: break-all; }
+.btn-print { background: var(--blue); color: white; border: none; border-radius: 8px; padding: 10px 18px; font-size: .9rem; font-weight: 700; cursor: pointer; white-space: nowrap; }
+.btn-print:hover { background: #1d4ed8; }
+.btn-clear { background: rgba(255,255,255,.15); color: white; border: none; border-radius: 8px; padding: 10px 14px; font-size: .85rem; cursor: pointer; }
+.btn-clear:hover { background: rgba(255,255,255,.25); }
+.fn-hint { margin-top: 10px; padding: 10px 12px; background: var(--blue-light); border-radius: 6px; font-size: .78rem; color: var(--navy); }
+.appendix-wrap { background: white; border-radius: var(--radius); border: 1px solid var(--border); margin-bottom: 20px; overflow: hidden; }
+.appendix-wrap summary { padding: 12px 16px; font-weight: 700; font-size: .9rem; color: var(--navy); cursor: pointer; list-style: none; user-select: none; }
+.appendix-wrap summary::-webkit-details-marker { display: none; }
+.appendix-body { padding: 16px; border-top: 1px solid var(--border); font-size: .85rem; }
+.appendix-body h4 { color: var(--navy); margin: 12px 0 4px; }
+@media print {
+  .site-header, .search-wrap, .breadcrumb, .save-bar, footer { display: none !important; }
+  body { background: white; font-size: 11pt; }
+  .policy-card, .ack-card { border: 1px solid #bbb; box-shadow: none; break-inside: avoid; margin-bottom: 10pt; padding: 12pt; }
+  .ack-card { border: 2pt solid #1a2744; }
+  .form-field input { border: 1px solid #999; background: white; }
+  .sig-line { border-bottom: 1pt solid #333; }
+  .chk-row input { print-color-adjust: exact; -webkit-print-color-adjust: exact; }
+  main { max-width: 100%; padding: 0; }
+  .appendix-wrap { display: none; }
+}
+</style>
+
+</head>
+<body>
+<header class="site-header">
+  <span class="logo">&#128737;</span>
+  <div><h1>HSMS Wiki</h1><p>DS Home Computing</p></div>
+  <a class="back-btn" href="index.html">&#8592; B Series</a>
+</header>
+<div class="search-wrap" style="top:58px">
+  <span class="search-icon">&#128269;</span>
+  <input type="search" id="policySearch" placeholder="Search policy text&#8230;" autocomplete="off">
+</div>
+<main>
+  <div class="breadcrumb">
+    <a href="../index.html">HSMS Wiki</a> &rsaquo; <a href="index.html">B Series</a> &rsaquo; B.027 Cash Advance Policy
+  </div>
+  <div class="doc-header">
+    <div class="doc-id">B.027 &middot; Policy</div>
+    <h2>Cash Advance Policy</h2>
+    <div class="meta">DS Home Computing Ltd &middot; SA03 SECOR &middot; For internal use</div>
+  </div>
+
+  <div class="policy-card" id="policyContent">
+    <h3 class="policy-heading">Policy brief &amp; purpose</h3>
+<p class="policy-para">DS Home Computing Ltd may, at its discretion, provide a cash advance to an employee for approved work-related expenses or for an approved short-term payroll advance where there is a legitimate business or employment reason. This policy sets out when an advance may be requested, who may approve it, how repayment is authorized, and how supporting records will be managed.</p>
+<p class="policy-para">This policy supports the Health and Safety Management System (HSMS) commitment to clear policies, shared responsibility, confidentiality, accountability, and fair treatment of employees and subcontractors. It also supports compliance with Alberta employment standards requirements for written authorization before deductions from earnings and Alberta privacy requirements for handling employee personal information.</p>
+<h3 class="policy-heading">Scope</h3>
+<p class="policy-para">This policy applies to all DS Home Computing Ltd employees who request or receive a cash advance from the Company. Subcontractors are not eligible for payroll cash advances, but may request project expense advances only where approved in writing by management and permitted under their contract.</p>
+<p class="policy-para">For this policy, a cash advance includes money paid to a worker before the expense is incurred, before receipts are submitted, or before the regular payroll date, where the amount must later be reconciled, repaid, or deducted from earnings under a written authorization.</p>
+<h3 class="policy-heading">Policy elements</h3>
+<p class="policy-para">Cash advances are not an entitlement. DS Home Computing Ltd may approve, deny, reduce, delay, or cancel an advance based on business need, payroll timing, project requirements, the employee’s repayment history, outstanding advances, documentation, and the Company’s ability to administer the request safely and lawfully.</p>
+<ul class="policy-list"><li>All advances must be requested using the Cash Advance Request and Repayment Authorization Form attached to this policy.</li><li>All deductions from employee earnings to recover an advance require the employee’s written authorization before the deduction is made.</li><li>Advances must be for a specific approved purpose and must not be used to avoid regular payroll rules, overtime requirements, vacation pay requirements, or final-pay obligations.</li><li>Employees may not request a new advance while a previous advance is outstanding unless the owner or Human Resources Manager approves an exception in writing.</li><li>Cash advances must be reconciled by receipts, repayment, payroll deduction, or a combination of those methods by the deadline set at approval.</li><li>Personal information collected for this process will be limited to what is reasonable for employment, payroll, accounting, safety, audit, and legal compliance purposes.</li></ul>
+<h3 class="policy-heading">Definitions</h3>
+<div class="policy-table"><table><tbody><tr><th>Term</th><th>Policy meaning</th></tr><tr><td>Cash advance</td><td>Money paid to a worker before the regular payroll date or before expenses are fully incurred and supported by receipts.</td></tr><tr><td>Expense advance</td><td>Money issued before a work-related expense is incurred, such as approved travel, accommodations, meals, parking, supplies, fuel, or project purchases.</td></tr><tr><td>Payroll advance</td><td>An early payment against wages that have already been earned or are expected to be earned in the current pay period, subject to approval and written repayment authorization.</td></tr><tr><td>Outstanding advance</td><td>Any advance that has not yet been fully reconciled by receipts, approved expense report, repayment, or authorized payroll deduction.</td></tr><tr><td>Written authorization</td><td>A dated employee authorization that clearly states the amount, purpose, repayment method, deduction amount or schedule, and employee agreement to the deduction.</td></tr></tbody></table></div><h3 class="policy-heading">Eligible Uses</h3>
+<h3 class="policy-heading">The Company may consider advances for approved business purposes, including:</h3>
+<ul class="policy-list"><li>Project travel, meals, parking, fuel, accommodation deposits, or other travel-related costs that are not otherwise paid directly by the Company.</li><li>Approved project materials, supplies, permits, shipping, or other job-related purchases where a company credit card or direct vendor payment is not practical.</li><li>Approved payroll timing issues where the employee has requested a short-term advance and management determines the request can be administered without creating a payroll or legal concern.</li><li>Other exceptional circumstances approved in writing by the owner or Human Resources Manager.</li></ul>
+<p class="policy-para">The Company will not approve advances for unlawful purposes, personal purchases unrelated to employment unless specifically approved as a payroll advance, gambling, illicit substances, alcohol, fines, penalties, traffic tickets, damage deposits for personal housing, or expenses that violate Company policy.</p>
+<h3 class="policy-heading">Approval Limits</h3>
+<h3 class="policy-heading">The following limits apply unless the owner approves an exception in writing:</h3>
+<div class="policy-table"><table><tbody><tr><th>Advance type</th><th>Standard limit</th><th>Approval required</th></tr><tr><td>Expense advance</td><td>Estimated approved business cost only</td><td>Project Manager or Owner</td></tr><tr><td>Payroll advance</td><td>Normally no more than 50% of net wages expected for the current pay period</td><td>Owner and Human Resources Manager</td></tr><tr><td>Emergency exception</td><td>Case-by-case</td><td>Owner only</td></tr></tbody></table></div><p class="policy-para">Approvers must confirm that the amount requested is reasonable, that the repayment method is clear, and that the request does not create an unsafe, unfair, discriminatory, or administratively unreasonable situation.</p>
+<h3 class="policy-heading">Request and Approval Process</h3>
+<ul class="policy-list"><li>The employee completes the Cash Advance Request and Repayment Authorization Form before funds are issued.</li><li>The employee attaches supporting information, such as trip details, project number, estimated costs, vendor quote, or reason for the payroll advance.</li><li>The supervisor, Project Manager, Human Resources Manager, or owner reviews the request for business need, reasonableness, outstanding balances, and repayment plan.</li><li>Approved advances are issued by e-transfer, cheque, payroll, company card, or another method approved by management.</li><li>The Company records the advance, repayment authorization, receipts, deductions, and outstanding balance in payroll or accounting records.</li></ul>
+<h3 class="policy-heading">Receipt and Reconciliation Requirements</h3>
+<p class="policy-para">Employees must use advances only for the approved purpose and must submit original receipts or acceptable electronic receipts within five (5) business days after the expense is incurred or the employee returns from travel, unless a different deadline is written on the approval form.</p>
+<p class="policy-para">If the approved expenses are less than the advance, the unused amount must be repaid immediately or deducted from earnings according to the written authorization. If approved expenses are more than the advance, the employee may submit the additional amount through the normal expense process for review and approval.</p>
+<p class="policy-para">Missing receipts, late reconciliation, or unsupported expenses may result in repayment being required, suspension of future advances, or discipline under the Company’s progressive discipline process.</p>
+<h3 class="policy-heading">Payroll Deduction and Repayment Rules</h3>
+<p class="policy-para">Before any deduction is made from an employee’s earnings to recover a cash advance, DS Home Computing Ltd will obtain written authorization from the employee. The authorization must identify the amount owed, the deduction amount or schedule, the reason for the deduction, and the employee’s agreement.</p>
+<p class="policy-para">The Company will not make deductions that are prohibited by Alberta employment standards legislation, even if a worker signs an authorization. Deductions will not be used for faulty work, damage, cash shortages, or loss of property where such deductions are not allowed by law. Any payroll deduction will be administered through payroll and documented on the employee’s payroll or accounting record.</p>
+<p class="policy-para">If employment ends before an advance is fully reconciled, the employee remains responsible for the outstanding balance. The Company may deduct the authorized amount from final earnings only where permitted by Alberta employment standards legislation and the employee’s written authorization. Any remaining balance may be recovered through direct repayment or another lawful process.</p>
+<h3 class="policy-heading">Employee Responsibilities</h3>
+<ul class="policy-list"><li>Request an advance before incurring the expense whenever possible.</li><li>Provide complete and accurate information on the request form.</li><li>Use the advance only for the approved purpose.</li><li>Keep receipts and submit them by the required deadline.</li><li>Repay or authorize deduction of any unsupported, unused, or unapproved amount.</li><li>Notify the Company immediately if receipts are lost, costs change, travel is cancelled, or repayment may be delayed.</li></ul>
+<h3 class="policy-heading">Management and Human Resources Responsibilities</h3>
+<ul class="policy-list"><li>Review requests consistently and fairly.</li><li>Confirm that the reason for the advance is legitimate, reasonable, and documented.</li><li>Confirm that written repayment authorization is completed before any payroll deduction is made.</li><li>Maintain advance records confidentially and disclose them only to those who need the information for payroll, accounting, supervision, audit, legal compliance, or business administration.</li><li>Monitor outstanding advances and follow up on overdue receipts or repayment.</li><li>Apply corrective action consistently where an employee misuses an advance or fails to reconcile it.</li></ul>
+<h3 class="policy-heading">Confidentiality and Privacy</h3>
+<p class="policy-para">Cash advance records may include personal employee information, banking or payment information, payroll information, travel details, expense receipts, and employment administration records. DS Home Computing Ltd will collect, use, disclose, store, and destroy this information only for reasonable employment, payroll, accounting, tax, audit, safety, insurance, legal, or business purposes.</p>
+<p class="policy-para">Employees must not disclose another worker’s advance request, payroll information, or personal circumstances unless disclosure is authorized or required for legitimate Company business or by law. Records will be kept with payroll, accounting, or Human Resources files according to Company retention requirements.</p>
+<h3 class="policy-heading">Misuse, Fraud, and Progressive Discipline</h3>
+<p class="policy-para">Misuse of a cash advance is a serious matter. Examples include using the funds for an unapproved purpose, falsifying receipts, failing to repay an amount owed, submitting duplicate receipts, altering documents, or requesting an advance under false or misleading circumstances.</p>
+<p class="policy-para">Depending on the circumstances, corrective action may include denial of future advances, repayment, written warning, suspension, termination with cause, civil recovery, or referral to law enforcement where fraud or theft is suspected.</p>
+<h3 class="policy-heading">Training, Communication, and Review</h3>
+<p class="policy-para">This policy will be made available to employees who may request advances and to managers or supervisors who approve or administer advances. The Company will review this policy when legislation changes, when an issue shows the policy is not working as intended, or at least every three (3) years as part of HSMS administration.</p>
+<h3 class="policy-heading">Related documents</h3>
+<ul class="policy-list"><li>A.001 Health and Safety Management System (HSMS)</li><li>B.002 Rental Unit Policy</li><li>B.026 Domestic Violence, Respectful Workplace and Privacy Policy</li><li>Company expense reporting, payroll, progressive discipline, travel, and document retention processes</li><li>Alberta Employment Standards Code and related deductions-from-earnings rules</li><li>Alberta Personal Information Protection Act (PIPA)</li></ul>
+<div class="policy-table"><table><tbody><tr><th>Doug Senger, CEO</th><th>Date</th><th></th><th>Signature</th><th></th></tr></tbody></table></div><h3 class="policy-heading">Appendix A - Cash Advance Request and Repayment Authorization Form</h3>
+<p class="policy-para">This form must be completed and approved before a cash advance is issued. Complete all applicable fields. Attach supporting documents, estimates, itinerary, project information, or receipts as required.</p>
+<h3 class="policy-heading">Employee and request information</h3>
+<div class="policy-table"><table><tbody><tr><th>Employee name:</th><th>Employee number / position:</th></tr><tr><td>Department / project:</td><td>Supervisor / Project Manager:</td></tr><tr><td>Date requested:</td><td>Date advance needed:</td></tr><tr><td>Advance type:  ☐ Expense advance   ☐ Payroll advance   ☐ Emergency exception</td><td>Requested amount: $</td></tr><tr><td>Payment method requested:  ☐ Payroll   ☐ E-transfer   ☐ Cheque   ☐ Other</td><td>Project / cost code:</td></tr></tbody></table></div><h3 class="policy-heading">Purpose of advance</h3>
+<div class="policy-table"><table><tbody><tr><th>Describe the business purpose or payroll reason for this advance:</th></tr><tr><td></td></tr></tbody></table></div><h3 class="policy-heading">Supporting documentation checklist</h3>
+<div class="policy-table"><table><tbody><tr><th>Check</th><th>Required support/documentation</th></tr><tr><td>☐</td><td>Estimated cost, itinerary, vendor quote, project instruction, or other support attached.</td></tr><tr><td>☐</td><td>Employee has no overdue cash advance unless exception is approved below.</td></tr><tr><td>☐</td><td>Repayment/reconciliation date is clearly stated below.</td></tr><tr><td>☐</td><td>Payroll deduction authorization is completed if repayment will be deducted from earnings.</td></tr></tbody></table></div><h3 class="policy-heading">Repayment and reconciliation plan</h3>
+<div class="policy-table"><table><tbody><tr><th>Total advance approved: $</th><th>Date funds issued:</th></tr><tr><td>Reconciliation due date:</td><td>Receipts due date:</td></tr><tr><td>Repayment method:  ☐ Receipts/expense reconciliation   ☐ Direct repayment   ☐ Payroll deduction   ☐ Combination</td><td>Final repayment due date:</td></tr><tr><td>Payroll deduction amount per pay period: $</td><td>Number of deductions / deduction dates:</td></tr></tbody></table></div><h3 class="policy-heading">Employee authorization</h3>
+<p class="policy-para">I request the cash advance described above. I agree to use the advance only for the approved purpose, submit receipts by the deadline, repay any unused or unsupported amount, and immediately report any change that affects reconciliation or repayment.</p>
+<p class="policy-para">If repayment is to be made by payroll deduction, I authorize DS Home Computing Ltd to deduct the amount and schedule listed above from my earnings, subject to Alberta employment standards legislation. I understand that deductions prohibited by law will not be made, even if this form is signed.</p>
+<div class="policy-table"><table><tbody><tr><th>Employee printed name</th><th>Employee signature</th><th>Date</th></tr><tr><td></td><td></td><td></td></tr></tbody></table></div><h3 class="policy-heading">Approval</h3>
+
+  </div>
+
+  <details class="appendix-wrap"><summary>&#9660; Appendix / Additional Forms</summary><div class="appendix-body"><h3 class="policy-heading">Reconciliation record</h3>
+<div class="policy-table"><table><tbody><tr><th>Date</th><th>Receipt / repayment description</th><th>Amount</th><th>Initials</th></tr><tr><td></td><td></td><td>$</td><td></td></tr><tr><td></td><td></td><td>$</td><td></td></tr><tr><td></td><td></td><td>$</td><td></td></tr><tr><td>Advance total</td><td>Total receipts / repayments</td><td>Balance owing / returned</td><td>Completed by / date</td></tr><tr><td>$</td><td>$</td><td>$</td><td></td></tr></tbody></table></div><p class="policy-para">Completed forms and supporting records are to be filed with payroll/accounting or Human Resources records according to Company retention requirements.</p>
+</div></details>
+
+  <div class="save-bar">
+    <div class="pi">
+      <div class="pl">Save completed PDF to</div>
+      <div class="pv">G:\My Drive\DS Home\SA Safety and Security\SA03 SECOR\2026 Forms</div>
+    </div>
+    <button class="btn-clear" onclick="clearForm()">Clear</button>
+    <button class="btn-print" onclick="printForm()">&#128424; Save as PDF</button>
+  </div>
+
+  <div class="ack-card">
+    <h3>Policy Acknowledgement</h3>
+    <p class="sub">Complete all fields, check each box, then click <strong>Save as PDF</strong>. Choose <em>Save as PDF</em> in the print dialog and navigate to the folder shown above.</p>
+    <div class="chk-row">
+      <input type="checkbox" id="chk1">
+      <label for="chk1">I have read and understood the full <strong>B.027 Cash Advance Policy</strong> policy.</label>
+    </div>
+    <div class="chk-row">
+      <input type="checkbox" id="chk2">
+      <label for="chk2">I agree to comply with this policy in the performance of my duties.</label>
+    </div>
+    <div class="chk-row">
+      <input type="checkbox" id="chk3">
+      <label for="chk3">I understand that failure to follow this policy may result in corrective action up to and including termination.</label>
+    </div>
+    <div class="form-grid">
+      <div class="form-field">
+        <label>Employee Full Name</label>
+        <input type="text" id="empName" placeholder="Full legal name" oninput="sync()">
+      </div>
+      <div class="form-field">
+        <label>Position / Title</label>
+        <input type="text" id="empPos" placeholder="Your job title">
+      </div>
+      <div class="form-field">
+        <label>Date of Acknowledgement</label>
+        <input type="date" id="ackDate" oninput="sync()">
+      </div>
+      <div class="form-field">
+        <label>Supervisor / Manager Name</label>
+        <input type="text" id="supName" placeholder="Supervisor full name">
+      </div>
+      <div class="form-field full">
+        <label>Signature</label>
+        <div class="sig-line">Sign above this line after printing &nbsp;&mdash;&nbsp; or type full name to acknowledge electronically</div>
+      </div>
+    </div>
+    <div class="fn-hint"><strong>Suggested filename:</strong> <span id="sfn"></span></div>
+  </div>
+</main>
+<footer>DS Home Computing &middot; SA03 SECOR &middot; B.027 Cash Advance Policy &middot; For internal use only</footer>
+
+<script>
+const BASE_FN = 'B027-cash-advance-policy';
+function sync() {
+  const n = (document.getElementById('empName').value||'[name]').trim().replace(/\s+/g,'-');
+  const d = document.getElementById('ackDate').value||'[date]';
+  document.getElementById('sfn').textContent = BASE_FN+'_'+n+'_'+d+'.pdf';
+}
+function printForm() { window.print(); }
+function clearForm() {
+  ['empName','empPos','ackDate','supName'].forEach(id=>document.getElementById(id).value='');
+  document.querySelectorAll('.chk-row input').forEach(el=>el.checked=false);
+  document.getElementById('ackDate').value=new Date().toISOString().split('T')[0];
+  sync();
+}
+document.getElementById('ackDate').value=new Date().toISOString().split('T')[0];
+sync();
+const srch=document.getElementById('policySearch');
+srch.addEventListener('input',()=>{
+  const q=srch.value.toLowerCase();
+  document.querySelectorAll('.policy-card p,.policy-card li,.policy-card h3').forEach(el=>{
+    el.style.backgroundColor=q&&el.textContent.toLowerCase().includes(q)?'#fef9c3':'';
+  });
+});
+</script>
+
+</body>
+</html>

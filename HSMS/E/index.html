@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>E Series — Emergency Response Plans — HSMS</title>
+<link rel="stylesheet" href="../hsms.css">
+<style>
+.erp-banner {
+  background:linear-gradient(135deg,#7f1d1d,#dc2626);
+  color:#fff; padding:16px; text-align:center;
+}
+.erp-banner h2 { font-size:1.1rem; margin:0 0 4px; }
+.erp-banner p { font-size:.78rem; opacity:.85; margin:0; }
+</style>
+</head>
+<body>
+<header class="site-header">
+  <span class="logo">🛡️</span>
+  <div><h1>HSMS Wiki</h1><p>DS Home Computing</p></div>
+  <a href="../index.html" style="margin-left:auto;color:#fff;font-size:.8rem;">← Home</a>
+</header>
+
+<div class="erp-banner">
+  <h2>🚨 Emergency Response Plans</h2>
+  <p>E Series · DS Home Computing · SA03 SECOR</p>
+</div>
+
+<div class="search-wrap">
+  <span class="search-icon">🔍</span>
+  <input type="search" id="srch" placeholder="Search emergency plans…" autocomplete="off">
+</div>
+
+<main style="padding:16px;">
+  <div style="font-size:.78rem;color:var(--muted);margin-bottom:12px;">
+    10 emergency response plans. Know your role before an emergency occurs.
+  </div>
+  <div class="index-grid" id="grid">
+      <a class="index-card" href="E001-fire.html">
+        <span class="series-badge" style="font-size:1.2rem;background:#fef2f2;color:#7f1d1d;">🔥</span>
+        <span class="series-badge" style="margin-left:4px;">E.001</span>
+        <h3>Fire</h3>
+        <div class="task-count">Emergency Response Plan</div>
+      </a>
+      <a class="index-card" href="E002-chemical-spill.html">
+        <span class="series-badge" style="font-size:1.2rem;background:#fef2f2;color:#7f1d1d;">☣️</span>
+        <span class="series-badge" style="margin-left:4px;">E.002</span>
+        <h3>Chemical Spill</h3>
+        <div class="task-count">Emergency Response Plan</div>
+      </a>
+      <a class="index-card" href="E003-fall-from-a-significant-height.html">
+        <span class="series-badge" style="font-size:1.2rem;background:#fef2f2;color:#7f1d1d;">⬇️</span>
+        <span class="series-badge" style="margin-left:4px;">E.003</span>
+        <h3>Fall From a Significant Height</h3>
+        <div class="task-count">Emergency Response Plan</div>
+      </a>
+      <a class="index-card" href="E004-severed-or-crushed-appendage.html">
+        <span class="series-badge" style="font-size:1.2rem;background:#fef2f2;color:#7f1d1d;">🩹</span>
+        <span class="series-badge" style="margin-left:4px;">E.004</span>
+        <h3>Severed or Crushed Appendage</h3>
+        <div class="task-count">Emergency Response Plan</div>
+      </a>
+      <a class="index-card" href="E005-heart-attack.html">
+        <span class="series-badge" style="font-size:1.2rem;background:#fef2f2;color:#7f1d1d;">❤️</span>
+        <span class="series-badge" style="margin-left:4px;">E.005</span>
+        <h3>Heart Attack</h3>
+        <div class="task-count">Emergency Response Plan</div>
+      </a>
+      <a class="index-card" href="E006-carbon-monoxide-poisoning.html">
+        <span class="series-badge" style="font-size:1.2rem;background:#fef2f2;color:#7f1d1d;">💨</span>
+        <span class="series-badge" style="margin-left:4px;">E.006</span>
+        <h3>Carbon Monoxide Poisoning</h3>
+        <div class="task-count">Emergency Response Plan</div>
+      </a>
+      <a class="index-card" href="E007-rescue.html">
+        <span class="series-badge" style="font-size:1.2rem;background:#fef2f2;color:#7f1d1d;">🚁</span>
+        <span class="series-badge" style="margin-left:4px;">E.007</span>
+        <h3>Rescue</h3>
+        <div class="task-count">Emergency Response Plan</div>
+      </a>
+      <a class="index-card" href="E008-hold-and-secure-shelter-in-place-lockdown-or-active-threat.html">
+        <span class="series-badge" style="font-size:1.2rem;background:#fef2f2;color:#7f1d1d;">🔒</span>
+        <span class="series-badge" style="margin-left:4px;">E.008</span>
+        <h3>Hold and Secure Shelter-in-Place Lockdown or Active Threat</h3>
+        <div class="task-count">Emergency Response Plan</div>
+      </a>
+      <a class="index-card" href="E009-non-fire-evacuation.html">
+        <span class="series-badge" style="font-size:1.2rem;background:#fef2f2;color:#7f1d1d;">🔥</span>
+        <span class="series-badge" style="margin-left:4px;">E.009</span>
+        <h3>Non-Fire Evacuation</h3>
+        <div class="task-count">Emergency Response Plan</div>
+      </a>
+      <a class="index-card" href="E010-vehicle-incident.html">
+        <span class="series-badge" style="font-size:1.2rem;background:#fef2f2;color:#7f1d1d;">🚗</span>
+        <span class="series-badge" style="margin-left:4px;">E.010</span>
+        <h3>Vehicle Incident</h3>
+        <div class="task-count">Emergency Response Plan</div>
+      </a>
+  </div>
+</main>
+
+<footer>DS Home Computing · SA03 SECOR · HSMS Wiki · For internal use only</footer>
+<script>
+document.getElementById('srch').addEventListener('input', function() {
+  const q = this.value.toLowerCase();
+  document.querySelectorAll('.index-card').forEach(c => {
+    c.style.display = (!q || c.textContent.toLowerCase().includes(q)) ? '' : 'none';
+  });
+});
+</script>
+</body>
+</html>

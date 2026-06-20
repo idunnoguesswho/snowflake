@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>A.003 Document Control Management Plan — HSMS</title>
+<link rel="stylesheet" href="../hsms.css">
+<style>
+.a-hero { background:linear-gradient(135deg,var(--navy) 0%,#1e40af 100%); color:#fff; padding:20px 16px; }
+.a-hero .a-badge { font-size:.65rem; font-weight:700; letter-spacing:.1em; text-transform:uppercase; opacity:.8; margin-bottom:6px; }
+.a-hero h2 { font-size:1.2rem; font-weight:700; margin:0 0 4px; }
+.a-hero p { font-size:.8rem; opacity:.8; margin:0; }
+.a-section {
+  border:1px solid var(--border); border-radius:8px;
+  margin:10px 12px 0; overflow:hidden;
+}
+.a-section-header {
+  display:flex; align-items:center; justify-content:space-between;
+  padding:12px 14px; background:#f8fafc; cursor:pointer;
+  font-weight:700; font-size:.9rem; color:var(--navy);
+  list-style:none; user-select:none;
+}
+.a-section-header::-webkit-details-marker { display:none; }
+.a-section-header::after { content:"▸"; font-size:.75rem; color:var(--muted); transition:transform .2s; }
+details[open] > .a-section-header::after { transform:rotate(90deg); }
+.a-section-title { flex:1; }
+.a-section-body { padding:14px; }
+.a-para { font-size:.875rem; line-height:1.65; color:var(--body); margin:0 0 8px; }
+.a-h3 { font-size:.95rem; font-weight:700; color:var(--navy); margin:14px 0 6px;
+         padding-bottom:4px; border-bottom:1px solid var(--border); }
+.a-h4 { font-size:.85rem; font-weight:700; color:var(--navy); margin:10px 0 4px; }
+.a-table-wrap { overflow-x:auto; margin:10px 0; }
+.a-table { border-collapse:collapse; font-size:.8rem; width:100%; }
+.a-table thead th { background:var(--navy); color:#fff; padding:6px 8px; text-align:left; }
+.a-table td { border:1px solid var(--border); padding:5px 8px; vertical-align:top; }
+.a-table tr:nth-child(even) td { background:#f8fafc; }
+/* controls */
+.a-controls { padding:8px 14px; display:flex; gap:8px; flex-wrap:wrap; align-items:center; }
+.a-btn { background:#f1f5f9; border:1px solid var(--border); border-radius:6px;
+          padding:4px 12px; font-size:.78rem; cursor:pointer; color:var(--body); }
+.a-btn:hover { background:#e2e8f0; }
+@media print {
+  .site-header, footer, .search-wrap, .a-controls { display:none !important; }
+  .a-section { break-inside:avoid; }
+  details.a-section:not([open]) > .a-section-body { display:block !important; }
+}
+</style>
+</head>
+<body>
+<header class="site-header">
+  <span class="logo">🛡️</span>
+  <div><h1>HSMS Wiki</h1><p>DS Home Computing</p></div>
+  <a href="index.html" style="margin-left:auto;color:#fff;font-size:.8rem;">← A Series</a>
+</header>
+
+<div class="search-wrap">
+  <span class="search-icon">🔍</span>
+  <input type="search" id="srch" placeholder="Search document…" autocomplete="off">
+</div>
+
+<div class="a-hero">
+  <div class="a-badge">A.003 · System Document</div>
+  <h2>Document Control Management Plan</h2>
+  <p>DS Home Computing Ltd · SA03 SECOR · For internal use</p>
+</div>
+
+<nav style="font-size:.75rem;color:var(--muted);padding:10px 16px;">
+  <a href="../index.html">HSMS Wiki</a> › <a href="index.html">A Series</a> › A.003
+</nav>
+
+<div class="a-controls">
+  <button class="a-btn" onclick="document.querySelectorAll('.a-section').forEach(d=>d.open=true)">Expand All</button>
+  <button class="a-btn" onclick="document.querySelectorAll('.a-section').forEach(d=>d.open=false)">Collapse All</button>
+  <span id="match-count" style="font-size:.75rem;color:var(--muted);margin-left:auto;"></span>
+</div>
+
+<main style="padding-bottom:24px;">
+<details class="a-section" id="sec0" open>
+<summary class="a-section-header"><span class="a-section-title">DOCUMENT CONTROL</span></summary>
+<div class="a-section-body">
+</div>
+</details>
+<details class="a-section" id="sec1" open>
+<summary class="a-section-header"><span class="a-section-title">MANAGEMENT PLAN</span></summary>
+<div class="a-section-body">
+<p class="a-para">A.003</p>
+<div class="a-table-wrap"><table class="a-table">
+<thead><tr><th>Field</th><th>Detail</th></tr></thead>
+<tbody>
+<tr><td>Document Number</td><td>A.003</td></tr>
+<tr><td>Title</td><td>Document Control Management Plan</td></tr>
+<tr><td>Revision</td><td>0 — Initial Release</td></tr>
+<tr><td>Effective Date</td><td>2026-05-29</td></tr>
+<tr><td>Prepared By</td><td>Document Control / QMS Team</td></tr>
+<tr><td>Reviewed By</td><td>Branch Manager</td></tr>
+<tr><td>Approved By</td><td>General Manager</td></tr>
+<tr><td>Applies To</td><td>All DS Home Computing Ltd. divisions: EIM, HR, Safety, Corporate</td></tr>
+<tr><td>ISO Reference</td><td>ISO 9001:2015 Clause 7.5 — Documented Information</td></tr>
+<tr><td>Classification</td><td>Controlled — Master copy held in QMS repository</td></tr>
+</tbody></table></div>
+</div>
+</details>
+<details class="a-section" id="sec2" open>
+<summary class="a-section-header"><span class="a-section-title">1. Purpose and Scope</span></summary>
+<div class="a-section-body">
+<p class="a-para">This Document Control Management Plan (DCMP) establishes the framework, policies, procedures, and forms governing the creation, identification, review, approval, distribution, storage, retrieval, retention, and disposition of all documented information produced or maintained by DS Home Computing Ltd. (DSHC).</p>
+<p class="a-para">It satisfies the requirements of ISO 9001:2015 Clause 7.5 (Documented Information) and supports alignment with Canadian federal and Alberta provincial legislation, including but not limited to the Occupational Health and Safety Act (Alberta), the Personal Information Protection and Privacy Act (PIPA), and applicable NEB/CER regulatory frameworks.</p>
+<h4 class="a-h4">1.1 Scope of Application</h4>
+<p class="a-para">This plan applies to all documented information regardless of format or medium (paper, electronic, or hybrid), across all functional areas of DSHC:</p>
+<p class="a-para">Operations / Facilities Management (OP)</p>
+<p class="a-para">Safety, Security and Environmental (SA)</p>
+<p class="a-para">Human Resources (HU)</p>
+<p class="a-para">Information Management (IN)</p>
+<p class="a-para">Corporate Governance (CO)</p>
+<p class="a-para">Financial Management (FI)</p>
+<p class="a-para">Legal and Regulatory (LE / RE)</p>
+<p class="a-para">Customer Management (CU)</p>
+<p class="a-para">Business Development and Planning (BU)</p>
+<p class="a-para">Public Relations (PU)</p>
+<p class="a-para">Documents generated under construction, commissioning, and EIM project scopes are captured under this plan and supplemented by the project-specific Document Turnover Program (refer to document D.001).</p>
+<h4 class="a-h4">1.2 Objectives</h4>
+<p class="a-para">Ensure all documents are created, reviewed, and approved before use</p>
+<p class="a-para">Prevent use of obsolete or superseded documents</p>
+<p class="a-para">Maintain a single source of truth for all master documents</p>
+<p class="a-para">Support ISO 9001:2015 certification and regulatory compliance</p>
+<p class="a-para">Enable efficient document retrieval and business continuity</p>
+<p class="a-para">Provide clear retention, archival, and disposition procedures aligned to the DS Home Retention Schedule</p>
+</div>
+</details>
+<details class="a-section" id="sec3" open>
+<summary class="a-section-header"><span class="a-section-title">2. Definitions and Abbreviations</span></summary>
+<div class="a-section-body">
+<div class="a-table-wrap"><table class="a-table">
+<thead><tr><th>Term / Abbreviation</th><th>Definition</th></tr></thead>
+<tbody>
+<tr><td>Controlled Document</td><td>A document subject to formal revision control. Each copy is assigned a copy number or distributed via controlled distribution list.</td></tr>
+<tr><td>Uncontrolled Document</td><td>A document issued outside the formal distribution system, marked UNCONTROLLED IF PRINTED. Recipient is responsible for verifying currency.</td></tr>
+<tr><td>Master Document</td><td>The approved original record from which controlled copies are made. Held in the QMS repository.</td></tr>
+<tr><td>Obsolete Document</td><td>A superseded version removed from active use and archived or destroyed per retention schedule.</td></tr>
+<tr><td>Document Owner</td><td>Individual or role responsible for the document's content, review cycle, and disposition.</td></tr>
+<tr><td>QMS</td><td>Quality Management System</td></tr>
+<tr><td>DCMP</td><td>Document Control Management Plan</td></tr>
+<tr><td>DMS</td><td>Document Management System</td></tr>
+<tr><td>EIM</td><td>Electrical, Instrumentation, and Mechanical</td></tr>
+<tr><td>ISO 9001:2015</td><td>International standard specifying requirements for a quality management system</td></tr>
+<tr><td>PIPA</td><td>Personal Information Protection Act (Alberta)</td></tr>
+<tr><td>CER / NEB</td><td>Canada Energy Regulator / National Energy Board</td></tr>
+<tr><td>Revision (Rev)</td><td>A numbered increment applied each time a document is changed: Rev 0 = initial issue.</td></tr>
+<tr><td>Retention Period</td><td>The minimum period a document must be retained, expressed as C+n (n years after closure), E+n (n years after an event), S+n (n years after supersession), or Permanent.</td></tr>
+<tr><td>Disposition</td><td>The final action taken on a document at the end of its retention period: destroy, archive, or transfer.</td></tr>
+</tbody></table></div>
+</div>
+</details>
+<details class="a-section" id="sec4" open>
+<summary class="a-section-header"><span class="a-section-title">3. Document Control Policy</span></summary>
+<div class="a-section-body">
+</div>
+</details>
+<details class="a-section" id="sec5" open>
+<summary class="a-section-header"><span class="a-section-title">Policy Statement</span></summary>
+<div class="a-section-body">
+<p class="a-para">DS Home Computing Ltd. is committed to maintaining accurate, current, and accessible documented information that supports the quality management system and protects the interests of clients, employees, regulators, and the public. All documented information shall be controlled at all times throughout its lifecycle.</p>
+<h4 class="a-h4">3.1 Policy Principles</h4>
+<p class="a-para">Every document in active use must be at its current revision level</p>
+<p class="a-para">All documents must be approved by an authorized signatory before issue</p>
+<p class="a-para">Documents must be uniquely identified using the DSHC naming convention</p>
+<p class="a-para">Storage locations must ensure protection from damage, loss, or unauthorized access</p>
+<p class="a-para">Obsolete documents must be removed from points of use immediately upon supersession</p>
+<p class="a-para">Personal information within documents must be managed in accordance with PIPA (Alberta)</p>
+<p class="a-para">Electronic documents in the QMS DMS are the master copies; printed copies are uncontrolled unless stamped CONTROLLED</p>
+<h4 class="a-h4">3.2 Document Numbering and Naming Rules</h4>
+<h4 class="a-h4">3.2.1 Standard Document Identifier Format</h4>
+<p class="a-para">All DSHC documents shall use the following identifier format:</p>
+<div class="a-table-wrap"><table class="a-table">
+<thead><tr><th>Element</th><th>Format</th><th>Example</th><th>Notes</th></tr></thead>
+<tbody>
+<tr><td>Type Code</td><td>[A–Z]</td><td>A</td><td>Single letter. See Type Code Table below.</td></tr>
+<tr><td>Separator</td><td>.</td><td>.</td><td>Period separator</td></tr>
+<tr><td>Sequential Number</td><td>NNN</td><td>003</td><td>3-digit zero-padded integer</td></tr>
+<tr><td>Optional Suffix</td><td>-Rev N</td><td>-Rev 2</td><td>Appended to filename only; not part of doc number</td></tr>
+</tbody></table></div>
+<h4 class="a-h4">3.2.2 Document Type Codes</h4>
+<div class="a-table-wrap"><table class="a-table">
+<thead><tr><th>Code</th><th>Document Type</th><th>Example</th><th>Description</th></tr></thead>
+<tbody>
+<tr><td>A</td><td>Administrative / Management Plans</td><td>A.003</td><td>Plans, programs, and management documents</td></tr>
+<tr><td>B</td><td>Policy</td><td>B.001</td><td>Organizational policies (HR, Safety, QMS, etc.)</td></tr>
+<tr><td>C</td><td>Form / Checklist</td><td>C.001</td><td>Fillable forms, checklists, inspection sheets</td></tr>
+<tr><td>D</td><td>Job Description / Duty Statement</td><td>D.001</td><td>Role descriptions and duty matrices</td></tr>
+<tr><td>E</td><td>Emergency Response Plan</td><td>E.001</td><td>Emergency and crisis management documents</td></tr>
+<tr><td>F</td><td>Financial Record</td><td>F.001</td><td>Budgets, invoices, financial statements</td></tr>
+<tr><td>H</td><td>Hazard Assessment</td><td>H.001</td><td>JSA, PHA, FLHA documents</td></tr>
+<tr><td>L</td><td>Legal / Contract</td><td>L.001</td><td>Contracts, agreements, permits, licenses</td></tr>
+<tr><td>M</td><td>Manual / Handbook</td><td>M.001</td><td>Operations, quality, employee handbooks</td></tr>
+<tr><td>P</td><td>Procedure / SOP</td><td>P.001</td><td>Step-by-step work procedures</td></tr>
+<tr><td>Q</td><td>Quality / Inspection Record</td><td>Q.001</td><td>ITPs, inspection reports, test records</td></tr>
+<tr><td>R</td><td>Report</td><td>R.001</td><td>Project, audit, incident, and analysis reports</td></tr>
+<tr><td>S</td><td>Safety Program</td><td>S.001</td><td>Safety programs and safe work practices</td></tr>
+<tr><td>T</td><td>Training Record</td><td>T.001</td><td>Training matrices, competency records</td></tr>
+<tr><td>X</td><td>External / Reference Document</td><td>X.001</td><td>Standards, codes, client documents</td></tr>
+</tbody></table></div>
+<h4 class="a-h4">3.2.3 File Naming Convention</h4>
+<p class="a-para">Electronic files shall be named using the following convention:</p>
+</div>
+</details>
+<details class="a-section" id="sec6" open>
+<summary class="a-section-header"><span class="a-section-title">[DocNumber] [Title] - Rev [N].ext</span></summary>
+<div class="a-section-body">
+<p class="a-para">Examples:</p>
+<p class="a-para">A.003 Document Control Management Plan - Rev 0.docx</p>
+<p class="a-para">B.058 Domestic Violence Respectful Workplace and Privacy Policy - Rev 1.docx</p>
+<p class="a-para">C.047 Cell Phone Authorization Form - Rev 0.docx</p>
+<p class="a-para">H.001 Project Hazard Assessment - Rev 0.docx</p>
+<p class="a-para">Q.015 Inspection and Test Plan - EIM - Rev 2.xlsx</p>
+<h4 class="a-h4">3.2.4 Prohibited Characters and Naming Restrictions</h4>
+<p class="a-para">Do NOT use: / \ : * ? &quot; &lt; &gt; | in file or folder names</p>
+<p class="a-para">Do NOT use special characters (&amp;, #, @, !, %, ^) in document titles</p>
+<p class="a-para">Spaces are permitted in file names; underscores may be used as an alternative</p>
+<p class="a-para">Version history is maintained in the DMS; file names should reflect current revision only</p>
+<p class="a-para">Date prefix format for time-stamped records: YYYY-MM-DD (e.g., 2026-05-29)</p>
+<h4 class="a-h4">3.3 Filing Rules and Folder Structure</h4>
+<h4 class="a-h4">3.3.1 Primary Classification Taxonomy</h4>
+<p class="a-para">All documents shall be filed according to the DS Home Records Classification Taxonomy (see IN17 Records Retention and Disposition). The primary classification codes are:</p>
+<div class="a-table-wrap"><table class="a-table">
+<thead><tr><th>Code</th><th>Primary Category</th></tr></thead>
+<tbody>
+<tr><td>AD</td><td>Administration</td></tr>
+<tr><td>BU</td><td>Business Development and Planning</td></tr>
+<tr><td>CO</td><td>Corporate Governance</td></tr>
+<tr><td>CU</td><td>Customer Management</td></tr>
+<tr><td>EN</td><td>Energy Supply and Demand Management</td></tr>
+<tr><td>FI</td><td>Financial Management</td></tr>
+<tr><td>HU</td><td>Human Resources</td></tr>
+<tr><td>IN</td><td>Information Management</td></tr>
+<tr><td>LE</td><td>Legal</td></tr>
+<tr><td>OP</td><td>Operations Facility Management</td></tr>
+<tr><td>PU</td><td>Public Relations Management</td></tr>
+<tr><td>RE</td><td>Regulatory and Government Relations</td></tr>
+<tr><td>SA</td><td>Safety – Security and Environmental</td></tr>
+</tbody></table></div>
+<h4 class="a-h4">3.3.2 Filing Hierarchy</h4>
+<p class="a-para">Electronic documents shall be stored in the following hierarchy within Google Drive (or approved DMS):</p>
+<p class="a-para">[Primary Code] [Category Name]</p>
+<p class="a-para">[SubCode] [Subcategory Name]</p>
+<p class="a-para">[YYYY-MM-DD] [Doc Number] [Title] - Rev [N].[ext]</p>
+<p class="a-para">Example:</p>
+<p class="a-para">SA Safety – Security and Environmental</p>
+<p class="a-para">SA03 SECOR</p>
+<p class="a-para">Native (current controlled documents)</p>
+<p class="a-para">B.058 Domestic Violence Respectful Workplace and Privacy Policy - Rev 1.docx</p>
+<h4 class="a-h4">3.3.3 Physical Filing Rules</h4>
+<p class="a-para">Physical (paper) controlled documents are filed in colour-coded binders by primary category</p>
+<p class="a-para">Each binder is labelled with the primary code, category, and revision date</p>
+<p class="a-para">Controlled paper copies bear a CONTROLLED stamp with copy number and distribution date</p>
+<p class="a-para">Physical masters are stored in a locked, fire-resistant cabinet in the Document Control office</p>
+<p class="a-para">Obsolete paper documents are shredded upon supersession unless legal hold applies</p>
+<h4 class="a-h4">3.4 Document Lifecycle and Control Procedures</h4>
+<h4 class="a-h4">3.4.1 Creation and Drafting</h4>
+<p class="a-para">Document Owner initiates a new document request using Form C.DC-001 (Document Request Form)</p>
+<p class="a-para">Template appropriate to the document type is used (master templates held in QMS DMS under IN &gt; IN01 Forms Control)</p>
+<p class="a-para">Document Owner completes all required fields including scope, references, and revision history table</p>
+<p class="a-para">Draft documents are watermarked DRAFT and are not for operational use</p>
+<h4 class="a-h4">3.4.2 Review</h4>
+<p class="a-para">All new or revised documents undergo technical review by a Subject Matter Expert (SME)</p>
+<p class="a-para">SME review is documented in Form C.DC-002 (Document Review Record)</p>
+<p class="a-para">Reviewers confirm: accuracy of content, compliance with applicable regulations, alignment with ISO 9001:2015 requirements, and consistency with other QMS documents</p>
+<p class="a-para">Review cycle must be completed within 10 business days of draft issue</p>
+<h4 class="a-h4">3.4.3 Approval</h4>
+<p class="a-para">Documents are approved by the authority level defined in the Document Authority Matrix (see Section 4)</p>
+<p class="a-para">Approved documents are assigned a document number if not already assigned</p>
+<p class="a-para">The Document Controller updates the Document Master Register (Form C.DC-003) within 2 business days of approval</p>
+<p class="a-para">Approval signatures (wet or digital) are retained in the Document History file</p>
+<h4 class="a-h4">3.4.4 Issue and Distribution</h4>
+<p class="a-para">Controlled electronic copies are distributed via the DMS with access rights set by the Document Controller</p>
+<p class="a-para">Controlled paper copies are issued with a Distribution Record (Form C.DC-004) and stamped CONTROLLED</p>
+<p class="a-para">Uncontrolled copies may be distributed externally but must bear the UNCONTROLLED IF PRINTED watermark</p>
+<p class="a-para">Distribution list is maintained in the Document Master Register</p>
+<h4 class="a-h4">3.4.5 Revision</h4>
+<p class="a-para">Any person may request a document revision using Form C.DC-001</p>
+<p class="a-para">Minor changes (editorial, formatting): revision letter suffix (Rev 0a, 0b); no re-approval required if content unchanged</p>
+<p class="a-para">Major changes (content, scope, procedure): full review and approval cycle; revision number increments</p>
+<p class="a-para">All previous revisions are archived in the DMS under a designated Superseded folder</p>
+<h4 class="a-h4">3.4.6 Obsolescence</h4>
+<p class="a-para">Upon approval of a new revision, the Document Controller marks the previous revision as OBSOLETE in the DMS</p>
+<p class="a-para">All controlled copies of the obsolete document are retrieved from distribution points within 5 business days</p>
+<p class="a-para">Obsolete paper documents are shredded and recorded in Form C.DC-005 (Obsolete Document Disposal Record)</p>
+<p class="a-para">Obsolete electronic documents are moved to the Superseded archive and access-restricted</p>
+</div>
+</details>
+<details class="a-section" id="sec7" open>
+<summary class="a-section-header"><span class="a-section-title">4. Document Authority Matrix</span></summary>
+<div class="a-section-body">
+<p class="a-para">The following matrix defines the minimum authority levels required to approve each document type:</p>
+<div class="a-table-wrap"><table class="a-table">
+<thead><tr><th>Document Type</th><th>Prepared By</th><th>Reviewed By</th><th>Approved By</th></tr></thead>
+<tbody>
+<tr><td>Management Plans (A.)</td><td>DC / QMS Team</td><td>Branch Manager</td><td>General Manager</td></tr>
+<tr><td>Policies (B.)</td><td>HR / Safety Lead</td><td>Branch Manager</td><td>General Manager</td></tr>
+<tr><td>Forms &amp; Checklists (C.)</td><td>Document Owner / DC</td><td>SME</td><td>Document Owner</td></tr>
+<tr><td>Job Descriptions (D.)</td><td>HR Lead</td><td>Branch Manager</td><td>General Manager</td></tr>
+<tr><td>Emergency Plans (E.)</td><td>Safety Coordinator</td><td>NCSO / Branch Manager</td><td>General Manager</td></tr>
+<tr><td>Procedures / SOPs (P.)</td><td>Operations Lead / NCSO</td><td>Safety Coordinator</td><td>Branch Manager</td></tr>
+<tr><td>Quality / Inspection (Q.)</td><td>QC Inspector</td><td>QA Coordinator</td><td>Branch Manager</td></tr>
+<tr><td>Hazard Assessments (H.)</td><td>Field Lead / NCSO</td><td>Safety Coordinator</td><td>Project Manager</td></tr>
+<tr><td>Safety Programs (S.)</td><td>Safety Coordinator / NCSO</td><td>Branch Manager</td><td>General Manager</td></tr>
+<tr><td>Reports (R.)</td><td>Document Owner</td><td>Reviewer</td><td>Branch Manager</td></tr>
+<tr><td>Training Records (T.)</td><td>HR / Training Coordinator</td><td>Supervisor</td><td>HR Lead</td></tr>
+<tr><td>Contracts / Legal (L.)</td><td>Project Manager</td><td>Branch Manager</td><td>General Manager / Legal</td></tr>
+</tbody></table></div>
+</div>
+</details>
+<details class="a-section" id="sec8" open>
+<summary class="a-section-header"><span class="a-section-title">5. Personnel Turnover Practices — Knowledge and Document Continuity</span></summary>
+<div class="a-section-body">
+<p class="a-para">The departure of key personnel creates significant risk of institutional knowledge loss. DSHC implements the following practices to preserve document integrity during personnel transitions, aligned with ISO 9001:2015 Clause 7.5.3 (Control of Documented Information) and best practices for operational continuity.</p>
+<h4 class="a-h4">5.1 Document Ownership Review</h4>
+<p class="a-para">Sixty (60) calendar days prior to a planned departure, the departing employee's manager triggers a Document Ownership Review using Form C.DC-006 (Document Ownership Transfer Form)</p>
+<p class="a-para">All documents owned by the departing employee are identified in the Document Master Register</p>
+<p class="a-para">Each document is assigned a new Owner within 30 days of notice</p>
+<p class="a-para">For unplanned departures (termination, incapacity), the manager assumes interim ownership immediately and completes the transfer within 10 business days</p>
+<h4 class="a-h4">5.2 Knowledge Transfer Protocol</h4>
+<p class="a-para">Transition Meeting: Departing employee meets with successor to review all owned documents, including their purpose, review cycle, and any pending revisions</p>
+<p class="a-para">Document Audit: Successor verifies that all documents are at current revision and complete</p>
+<p class="a-para">Gap Identification: Any identified gaps (missing records, incomplete versions, informal processes not documented) are reported to the Document Controller and Document Request Forms submitted</p>
+<p class="a-para">Handover Record: Form C.DC-007 (Knowledge Handover Record) is completed and filed in the departing employee's personnel file and the QMS document record</p>
+<p class="a-para">Post-Transfer Review: Within 30 days of transition completion, Document Controller audits the affected documents to confirm continuity</p>
+<h4 class="a-h4">5.3 Critical Document Identification</h4>
+<p class="a-para">Documents in the following categories are designated Critical Documents and require enhanced turnover controls:</p>
+<p class="a-para">Quality Management System manuals and procedures</p>
+<p class="a-para">Active construction and commissioning data books</p>
+<p class="a-para">Regulatory submissions and correspondence</p>
+<p class="a-para">Client contracts and service agreements</p>
+<p class="a-para">Safety and Emergency Response Plans</p>
+<p class="a-para">Certification and competency records for regulated roles</p>
+<p class="a-para">Financial records under active audit period</p>
+<p class="a-para">Critical Documents must have at minimum two individuals with access and working knowledge at all times (Primary Owner + Backup).</p>
+<h4 class="a-h4">5.4 Contractor and Third-Party Document Continuity</h4>
+<p class="a-para">Contractors operating under DSHC project controls are required to designate a document contact as a condition of engagement</p>
+<p class="a-para">Upon contractor demobilization, all project documents are transferred to DSHC in accordance with the Document Turnover Program (D.001)</p>
+<p class="a-para">Third-party originals are scanned and filed in the DMS; originals are retained per the retention schedule</p>
+</div>
+</details>
+<details class="a-section" id="sec9" open>
+<summary class="a-section-header"><span class="a-section-title">6. Document Retention and Disposal Policy</span></summary>
+<div class="a-section-body">
+<p class="a-para">Retention periods are defined in the DS Home Retention Schedule (IN17 Records Retention and Disposition). The following policy governs application of that schedule.</p>
+<h4 class="a-h4">6.1 Retention Period Key</h4>
+<div class="a-table-wrap"><table class="a-table">
+<thead><tr><th>Code</th><th>Meaning</th><th>Example</th></tr></thead>
+<tbody>
+<tr><td>C + n</td><td>n years after the file/project is Closed</td><td>C + 6 = retain 6 years after project close</td></tr>
+<tr><td>E + n</td><td>n years after a specified Event</td><td>E + 10, E = pipeline abandoned</td></tr>
+<tr><td>S + n</td><td>n years after Supersession</td><td>S + 2 = retain 2 years after new version issued</td></tr>
+<tr><td>Permanent</td><td>Retained indefinitely; never destroyed without GM approval</td><td>Incorporation documents, final safety records</td></tr>
+</tbody></table></div>
+<h4 class="a-h4">6.2 Minimum Retention by Category (Selected Key Areas)</h4>
+<div class="a-table-wrap"><table class="a-table">
+<thead><tr><th>Code</th><th>Category</th><th>Canadian Requirement</th><th>DSHC Minimum</th></tr></thead>
+<tbody>
+<tr><td>HU04</td><td>Employee Administration</td><td>E + 10</td><td>E + 10</td></tr>
+<tr><td>HU11</td><td>Payroll Administration</td><td>C + 10</td><td>C + 10</td></tr>
+<tr><td>HU16</td><td>Training &amp; Development</td><td>S + 5</td><td>S + 5</td></tr>
+<tr><td>HU18</td><td>Employee Medical Assessment</td><td>E + 40</td><td>E + 40</td></tr>
+<tr><td>SA06</td><td>Incident Reporting</td><td>E + 10</td><td>E + 10</td></tr>
+<tr><td>SA09</td><td>Occupational Health &amp; Hygiene</td><td>C + 10</td><td>C + 10</td></tr>
+<tr><td>SA10</td><td>Safety Programming</td><td>C + 30</td><td>C + 30</td></tr>
+<tr><td>OP01</td><td>Facility Design &amp; Construction</td><td>E + 6</td><td>E + 6</td></tr>
+<tr><td>OP02</td><td>Facility &amp; Equipment Maintenance</td><td>E + 6</td><td>E + 6</td></tr>
+<tr><td>FI01</td><td>Accounts Payable</td><td>C + 10</td><td>C + 10</td></tr>
+<tr><td>FI14</td><td>Tax Filing</td><td>C + 10</td><td>C + 10</td></tr>
+<tr><td>LE01</td><td>Contracts &amp; Agreements</td><td>E + 10</td><td>E + 10</td></tr>
+<tr><td>CO01</td><td>Board of Directors</td><td>E + 6</td><td>E + 6</td></tr>
+<tr><td>IN17</td><td>Records Retention Schedule</td><td>Permanent</td><td>Permanent</td></tr>
+</tbody></table></div>
+<h4 class="a-h4">6.3 Disposition Process</h4>
+<p class="a-para">Document Controller identifies records approaching end of retention period (quarterly review)</p>
+<p class="a-para">Document Controller consults Document Owner and Legal counsel before authorizing disposal</p>
+<p class="a-para">Disposal Approval Form (C.DC-008) is completed and approved by Branch Manager</p>
+<p class="a-para">Electronic records are permanently deleted from all systems; paper records are cross-cut shredded or placed in a locked shred bin for a certified destruction vendor</p>
+<p class="a-para">Certificate of Destruction is retained for 6 years after disposal</p>
+<p class="a-para">Disposition is logged in the Document Master Register</p>
+<p class="a-para">Legal Hold Exception: If a document is subject to litigation, regulatory inquiry, or audit, the standard retention schedule is suspended and the document is placed under a Legal Hold order. No disposal may occur under Legal Hold without written authorization from the General Manager.</p>
+</div>
+</details>
+<details class="a-section" id="sec10" open>
+<summary class="a-section-header"><span class="a-section-title">7. Associated Forms and Records</span></summary>
+<div class="a-section-body">
+<div class="a-table-wrap"><table class="a-table">
+<thead><tr><th>Form No.</th><th>Form Title</th><th>Purpose</th><th>Retention</th></tr></thead>
+<tbody>
+<tr><td>C.DC-001</td><td>Document Request Form</td><td>Initiates creation or revision</td><td>IN11: C + 6</td></tr>
+<tr><td>C.DC-002</td><td>Document Review Record</td><td>Documents SME review comments</td><td>IN11: C + 6</td></tr>
+<tr><td>C.DC-003</td><td>Document Master Register</td><td>Master index of all controlled docs</td><td>Permanent</td></tr>
+<tr><td>C.DC-004</td><td>Document Distribution Record</td><td>Tracks copies issued and recipients</td><td>IN11: C + 3</td></tr>
+<tr><td>C.DC-005</td><td>Obsolete Document Disposal Record</td><td>Records destruction of superseded docs</td><td>IN17: C + 6</td></tr>
+<tr><td>C.DC-006</td><td>Document Ownership Transfer Form</td><td>Manages ownership on staff change</td><td>HU04: E + 10</td></tr>
+<tr><td>C.DC-007</td><td>Knowledge Handover Record</td><td>Documents turnover knowledge transfer</td><td>HU04: E + 10</td></tr>
+<tr><td>C.DC-008</td><td>Document Disposal Approval Form</td><td>Authorizes end-of-retention disposal</td><td>IN17: C + 6</td></tr>
+</tbody></table></div>
+</div>
+</details>
+<details class="a-section" id="sec11" open>
+<summary class="a-section-header"><span class="a-section-title">8. Roles and Responsibilities</span></summary>
+<div class="a-section-body">
+<div class="a-table-wrap"><table class="a-table">
+<thead><tr><th>Role</th><th>Responsibilities</th></tr></thead>
+<tbody>
+<tr><td>General Manager</td><td>Ultimate approval authority for tier-1 documents; authorizes Legal Hold and permanent disposal.</td></tr>
+<tr><td>Branch Manager</td><td>Approves operational procedures, safety programs, and management reports. Oversees Document Control function.</td></tr>
+<tr><td>Document Controller</td><td>Manages QMS DMS; issues document numbers; maintains Master Register; coordinates reviews and distribution; controls access rights; monitors retention schedule.</td></tr>
+<tr><td>Document Owner</td><td>Responsible for content accuracy, initiating revisions, conducting annual reviews, and managing turnover upon role change.</td></tr>
+<tr><td>Subject Matter Expert (SME)</td><td>Provides technical review and validation of content within their area of expertise.</td></tr>
+<tr><td>NCSO / Safety Coordinator</td><td>Reviews and approves all safety-related documents; ensures regulatory compliance of SA-category documents.</td></tr>
+<tr><td>HR Lead</td><td>Owns all HU-category documents; manages competency records and regulated certifications.</td></tr>
+<tr><td>QA Coordinator</td><td>Oversees quality inspection and test records; monitors ITP compliance and document quality.</td></tr>
+<tr><td>All Employees</td><td>Responsible for using only current, controlled versions of documents; reporting discrepancies or errors to their supervisor or Document Controller.</td></tr>
+</tbody></table></div>
+</div>
+</details>
+<details class="a-section" id="sec12" open>
+<summary class="a-section-header"><span class="a-section-title">9. Document Revision History</span></summary>
+<div class="a-section-body">
+<div class="a-table-wrap"><table class="a-table">
+<thead><tr><th>Rev</th><th>Date</th><th>Description</th><th>Approved By</th></tr></thead>
+<tbody>
+<tr><td>0</td><td>2026-05-29</td><td>Initial Issue</td><td>General Manager</td></tr>
+</tbody></table></div>
+<h4 class="a-h4">Review Schedule</h4>
+<p class="a-para">This document shall be reviewed annually, or upon any significant change to the QMS, applicable legislation, or organizational structure. The Document Owner is responsible for initiating the review.</p>
+<p class="a-para">Next scheduled review: 2027-05-29</p>
+</div>
+</details>
+<details class="a-section" id="sec13" open>
+<summary class="a-section-header"><span class="a-section-title">APPENDIX A — Form C.DC-001: Document Request Form</span></summary>
+<div class="a-section-body">
+<div class="a-table-wrap"><table class="a-table">
+<thead><tr><th>DOCUMENT REQUEST FORM</th></tr></thead>
+<tbody>
+<tr><td>Form Number: C.DC-001</td><td>Rev: 0 | Date: 2026-05-29</td></tr>
+<tr><td>Requestor Name:</td><td></td></tr>
+<tr><td>Department / Role:</td><td></td></tr>
+<tr><td>Date of Request:</td><td></td></tr>
+<tr><td>REQUEST TYPE</td></tr>
+<tr><td>[ ] New Document   [ ] Revision   [ ] Cancellation</td></tr>
+<tr><td>Existing Document No. (if revision/cancellation):</td><td></td></tr>
+<tr><td>Proposed Document Title:</td><td></td></tr>
+<tr><td>Document Type Code:</td><td></td></tr>
+<tr><td>Reason for Request / Change Description:</td><td></td></tr>
+<tr><td>Applicable Regulatory Reference (if known):</td><td></td></tr>
+<tr><td>Suggested Document Owner:</td><td></td></tr>
+<tr><td>Required Completion Date:</td><td></td></tr>
+<tr><td>DOCUMENT CONTROLLER USE ONLY</td></tr>
+<tr><td>Document Number Assigned:</td><td></td></tr>
+<tr><td>Assigned To:</td><td>Date Assigned:</td></tr>
+<tr><td>DC Signature:</td><td>Date:</td></tr>
+</tbody></table></div>
+</div>
+</details>
+<details class="a-section" id="sec14" open>
+<summary class="a-section-header"><span class="a-section-title">APPENDIX B — Form C.DC-003: Document Master Register (Sample)</span></summary>
+<div class="a-section-body">
+<p class="a-para">This register is maintained electronically in the QMS DMS. The following is a sample format for reference. The live register contains all controlled documents.</p>
+<div class="a-table-wrap"><table class="a-table">
+<thead><tr><th>Doc No.</th><th>Title</th><th>Type</th><th>Rev</th><th>Owner</th><th>Issued</th><th>Next Rev</th><th>Status</th></tr></thead>
+<tbody>
+<tr><td>A.003</td><td>Document Control Management Plan</td><td>A</td><td>0</td><td>DC</td><td>2026-05-29</td><td>2027-05-29</td><td>Active</td></tr>
+<tr><td>B.058</td><td>Domestic Violence Respectful Workplace and Privacy Policy</td><td>B</td><td>1</td><td>HR Lead</td><td>2026-05-26</td><td>2027-05-26</td><td>Active</td></tr>
+<tr><td>C.DC-001</td><td>Document Request Form</td><td>C</td><td>0</td><td>DC</td><td>2026-05-29</td><td>2027-05-29</td><td>Active</td></tr>
+<tr><td>D.003</td><td>Manager or Lead</td><td>D</td><td>1</td><td>HR Lead</td><td>2026-05-26</td><td>2027-05-26</td><td>Active</td></tr>
+<tr><td>[Add rows]</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+</tbody></table></div>
+</div>
+</details>
+
+</main>
+
+<footer>DS Home Computing · SA03 SECOR · HSMS Wiki · For internal use only</footer>
+<script>
+const srch = document.getElementById('srch');
+srch.addEventListener('input', () => {
+  const q = srch.value.toLowerCase().trim();
+  let matches = 0;
+  document.querySelectorAll('.a-para, .a-h3, .a-h4').forEach(el => {
+    const hit = q && el.textContent.toLowerCase().includes(q);
+    el.style.background = hit ? '#fef08a' : '';
+    if (hit) {
+      matches++;
+      el.closest('details')?.setAttribute('open','');
+    }
+  });
+  document.getElementById('match-count').textContent = q ? matches + ' matches' : '';
+});
+</script>
+</body>
+</html>

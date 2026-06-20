@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>D.001 Driving JSA — HSMS Wiki</title>
+<link rel="stylesheet" href="../hsms.css">
+</head>
+<body>
+
+<header class="site-header">
+  <span class="logo">🛡️</span>
+  <div><h1>HSMS Wiki</h1><p>DS Home Computing</p></div>
+  <a class="back-btn" href="../index.html">← Wiki Home</a>
+</header>
+
+<div class="search-wrap" style="top:58px">
+  <span class="search-icon">🔍</span>
+  <input type="search" id="taskSearch" placeholder="Search tasks, hazards, controls…" autocomplete="off">
+</div>
+
+<main>
+  <div class="breadcrumb"><a href="../index.html">HSMS Wiki</a> › D Series › D.001 Driving</div>
+
+  <div class="doc-header">
+    <div class="doc-id">D.001 · Job Safety Analysis</div>
+    <h2>Driving</h2>
+    <div class="meta">JSA Leader: Katie Snow, Manager · Revision 1</div>
+    <div class="revision-note">Revision focus: Updated to include formal fatigue, fleet, journey management, 360 walkaround, and vehicle record requirements.</div>
+  </div>
+
+  <div class="info-grid">
+    <div class="info-card">
+      <div class="label">PPE Required</div>
+      <div class="value">Shaded eyewear, proper footwear based on weather, appropriate clothing for weather conditions</div>
+    </div>
+    <div class="info-card">
+      <div class="label">Emergency Contact</div>
+      <div class="value">911 · Radio channel established at site</div>
+    </div>
+    <div class="info-card">
+      <div class="label">Emergency Meeting Point</div>
+      <div class="value">Established at site</div>
+    </div>
+    <div class="info-card">
+      <div class="label">Tools &amp; Equipment</div>
+      <div class="value">Emergency kit, First Aid kit, blankets, radio/phone, winter tires</div>
+    </div>
+    <div class="info-card" style="grid-column:1/-1">
+      <div class="label">Training / Skills Required</div>
+      <div class="value">Valid driver's licence · Defensive driving · Fatigue management · Journey management · 360 before driving</div>
+    </div>
+    <div class="info-card" style="grid-column:1/-1">
+      <div class="label">Approval Required</div>
+      <div class="value">High risk work requires Supervisor/Management approval per risk matrix</div>
+    </div>
+  </div>
+
+  <div class="refs-panel">
+    <h3>Reference Documents</h3>
+    <div class="ref-section">
+      <div class="ref-section-title">Policies &amp; Procedures</div>
+      <div class="chips">
+        <span class="chip chip-policy">A.001 HSMS</span>
+        <span class="chip chip-policy">B.001 Progressive Discipline</span>
+        <span class="chip chip-policy">B.023 Hazard Assessment</span>
+        <span class="chip chip-policy">B.026 Respectful Workplace &amp; Privacy</span>
+        <span class="chip chip-policy">B.031 Substance Abuse &amp; Fitness for Work</span>
+        <span class="chip chip-policy">B.043 Inclement Weather</span>
+        <span class="chip chip-policy">B.045 Cell Phone Use</span>
+        <span class="chip chip-policy">B.046 Back Injury Prevention</span>
+        <span class="chip chip-policy">B.047 Fatigue Management</span>
+        <span class="chip chip-policy">B.048 Vehicle/Fleet Safety</span>
+        <span class="chip chip-policy">B.049 Journey Management</span>
+        <span class="chip chip-policy">B.050 360 Before Driving</span>
+      </div>
+    </div>
+    <div class="ref-section">
+      <div class="ref-section-title">Forms &amp; Records</div>
+      <div class="chips">
+        <span class="chip chip-form">C.002 Vehicle Inspection</span>
+        <span class="chip chip-form">C.010 Near Miss</span>
+        <span class="chip chip-form">C.020 Incident Investigation</span>
+        <span class="chip chip-form">C.049 Fatigue Self-Assessment</span>
+        <span class="chip chip-form">C.050 Driver Auth / Vehicle Pre-Use</span>
+        <span class="chip chip-form">C.051 Journey Management</span>
+        <span class="chip chip-form">C.052 360 Before Driving</span>
+      </div>
+    </div>
+    <div class="ref-section">
+      <div class="ref-section-title">Emergency Response Plans</div>
+      <div class="chips">
+        <span class="chip chip-erp">E.010 Vehicle Incident</span>
+      </div>
+    </div>
+    <div class="ref-section">
+      <div class="ref-section-title">External References</div>
+      <div class="chips">
+        <span class="chip chip-ext">Alberta Traffic Safety Act</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="risk-matrix-wrap">
+    <h3>Risk Matrix — Probability × Severity</h3>
+    <div class="risk-matrix">
+      <table>
+        <tr><th>P / S</th><th>4 Catastrophic</th><th>3 Critical</th><th>2 Marginal</th><th>1 Negligible</th></tr>
+        <tr><th>4 Probable</th><td class="r-high">16 H</td><td class="r-high">12 H</td><td class="r-high">8 H</td><td class="r-mod">4 M</td></tr>
+        <tr><th>3 Reasonably Probable</th><td class="r-high">12 H</td><td class="r-high">9 H</td><td class="r-mod">6 M</td><td class="r-mod">3 M</td></tr>
+        <tr><th>2 Remote</th><td class="r-high">8 H</td><td class="r-mod">6 M</td><td class="r-mod">4 M</td><td class="r-low">2 L</td></tr>
+        <tr><th>1 Extremely Remote</th><td class="r-mod">4 M</td><td class="r-mod">3 M</td><td class="r-low">2 L</td><td class="r-low">1 L</td></tr>
+      </table>
+    </div>
+    <div style="margin-top:8px;font-size:.75rem;color:var(--muted)">
+      <span style="color:var(--high);font-weight:700">High (8–16)</span> · Management approval required &nbsp;|&nbsp;
+      <span style="color:var(--mod);font-weight:700">Moderate (3–6)</span> · Supervisor/Lead approval &nbsp;|&nbsp;
+      <span style="color:var(--low);font-weight:700">Low (1–2)</span> · Field level
+    </div>
+  </div>
+
+  <div class="section-heading">Job Tasks</div>
+  <button class="expand-all-btn" onclick="toggleAll()">Expand All</button>
+  <div id="taskList">
+
+    <div class="task-card" data-search="accept driving assignment pre-trip fitness fatigue illness medication impairment stress distraction">
+      <div class="task-header" onclick="toggle(this)">
+        <div class="task-num">1</div>
+        <div class="task-title">Accept driving assignment / pre-trip fitness check</div>
+        <span class="risk-badge high">PRE: 16 H</span>
+        <span class="risk-badge mod">POST: 6 M</span>
+        <span class="chevron">▾</span>
+      </div>
+      <div class="task-body">
+        <div class="hazard-label">Potential Hazards &amp; Effects</div>
+        <div class="hazard-text">Fatigue, illness, medication effects, impairment, stress, or distraction affecting judgment and reaction time.</div>
+        <div class="hazard-label">Controls</div>
+        <ul class="controls-list">
+          <li><span class="control-type A">A</span>Worker confirms fit for work before driving and reports fatigue, illness, medication concerns, or impairment before operating a vehicle.</li>
+          <li><span class="control-type A">A</span>Complete fatigue self-assessment when travel is long distance, after-hours, early morning, adverse weather, or fatigue concern is identified.</li>
+          <li><span class="control-type A">A</span>Supervisor to delay, reassign, add rest break, or arrange alternate driver if worker is not fit to drive.</li>
+          <li><span class="control-type A">A</span>No alcohol, unauthorized drugs, or impairing substances before or during driving.</li>
+        </ul>
+        <div class="forms-ref"><strong>Required Forms:</strong> C.049 Fatigue Self-Assessment · C.033 when required</div>
+      </div>
+    </div>
+
+    <div class="task-card" data-search="pre-use vehicle inspection driver authorization breakdown tire failure equipment defect">
+      <div class="task-header" onclick="toggle(this)">
+        <div class="task-num">2</div>
+        <div class="task-title">Pre-use vehicle inspection / driver authorization</div>
+        <span class="risk-badge high">PRE: 9 H</span>
+        <span class="risk-badge mod">POST: 6 M</span>
+        <span class="chevron">▾</span>
+      </div>
+      <div class="task-body">
+        <div class="hazard-label">Potential Hazards &amp; Effects</div>
+        <div class="hazard-text">Breakdown, tire failure, equipment defect, expired documents, missing emergency equipment, or unsafe vehicle condition.</div>
+        <div class="hazard-label">Controls</div>
+        <ul class="controls-list">
+          <li><span class="control-type A">A</span>Driver must be authorized and hold a valid licence for the vehicle class.</li>
+          <li><span class="control-type A">A</span>Complete documented vehicle pre-use inspection before first use of the day or when taking over a vehicle.</li>
+          <li><span class="control-type A">A</span>Confirm registration, insurance, first aid kit, fire extinguisher, roadside kit, lights, tires, fluid leaks, mirrors, wipers, brakes, horn, and seatbelts.</li>
+          <li><span class="control-type A">A</span>Remove vehicle from service and report defects that could affect safe operation.</li>
+        </ul>
+        <div class="forms-ref"><strong>Required Forms:</strong> C.050 Driver Auth/Vehicle Pre-Use · C.020/C.010 if defect caused incident/near miss</div>
+      </div>
+    </div>
+
+    <div class="task-card" data-search="360 before driving vehicle movement striking people property parked vehicles animals">
+      <div class="task-header" onclick="toggle(this)">
+        <div class="task-num">3</div>
+        <div class="task-title">360 before driving / vehicle movement</div>
+        <span class="risk-badge high">PRE: 16 H</span>
+        <span class="risk-badge mod">POST: 4 M</span>
+        <span class="chevron">▾</span>
+      </div>
+      <div class="task-body">
+        <div class="hazard-label">Potential Hazards &amp; Effects</div>
+        <div class="hazard-text">Striking people, property, parked vehicles, animals, equipment, low objects, or trailer hazards while pulling away or backing.</div>
+        <div class="hazard-label">Controls</div>
+        <ul class="controls-list">
+          <li><span class="control-type A">A</span>Complete a 360 walkaround before moving the vehicle after parking, loading, unloading, stopping at site, or changing drivers.</li>
+          <li><span class="control-type A">A</span>Check all sides, blind spots, ground hazards, overhead hazards, trailer connection, wheel chocks, load security, and clearance.</li>
+          <li><span class="control-type A">A</span>Use spotter when available for backing, congested sites, tight parking, or trailer movement.</li>
+          <li><span class="control-type A">A</span>Back into parking spaces when practicable to reduce future backing risk.</li>
+        </ul>
+        <div class="forms-ref"><strong>Required Forms:</strong> C.052 360 Before Driving Checklist</div>
+      </div>
+    </div>
+
+    <div class="task-card" data-search="plan journey long distance winter remote unfamiliar travel route delays severe weather">
+      <div class="task-header" onclick="toggle(this)">
+        <div class="task-num">4</div>
+        <div class="task-title">Plan journey / long distance, winter, remote, or unfamiliar travel</div>
+        <span class="risk-badge high">PRE: 12 H</span>
+        <span class="risk-badge mod">POST: 6 M</span>
+        <span class="chevron">▾</span>
+      </div>
+      <div class="task-body">
+        <div class="hazard-label">Potential Hazards &amp; Effects</div>
+        <div class="hazard-text">Route delays, severe weather, poor road conditions, loss of communication, fatigue, emergency response delays, or insufficient fuel.</div>
+        <div class="hazard-label">Controls</div>
+        <ul class="controls-list">
+          <li><span class="control-type A">A</span>Complete a Journey Management Form for out-of-town, remote, winter/adverse weather, after-hours, long-distance, or client-site travel as required by policy.</li>
+          <li><span class="control-type A">A</span>Review route, weather, road conditions, fuel stops, parking, communication method, emergency contacts, and expected arrival/check-in times.</li>
+          <li><span class="control-type A">A</span>Carry emergency kit, first aid kit, warm clothing/blanket, phone/radio, charger, and seasonal equipment.</li>
+          <li><span class="control-type A">A</span>Postpone or reroute trip when risk cannot be controlled.</li>
+        </ul>
+        <div class="forms-ref"><strong>Required Forms:</strong> C.051 Journey Management Form</div>
+      </div>
+    </div>
+
+    <div class="task-card" data-search="general driving collision traffic violation distracted driving wildlife pedestrians cyclists loss of control">
+      <div class="task-header" onclick="toggle(this)">
+        <div class="task-num">5</div>
+        <div class="task-title">General driving</div>
+        <span class="risk-badge high">PRE: 16 H</span>
+        <span class="risk-badge mod">POST: 6 M</span>
+        <span class="chevron">▾</span>
+      </div>
+      <div class="task-body">
+        <div class="hazard-label">Potential Hazards &amp; Effects</div>
+        <div class="hazard-text">Collision, traffic violation, distracted driving, wildlife, pedestrians, cyclists, other vehicles, or loss of control.</div>
+        <div class="hazard-label">Controls</div>
+        <ul class="controls-list">
+          <li><span class="control-type E">E</span>Use seatbelts, headlights, mirrors, wipers, brakes, and vehicle safety systems.</li>
+          <li><span class="control-type A">A</span>Obey traffic laws, speed limits, seatbelt requirements, signs, and traffic controls.</li>
+          <li><span class="control-type A">A</span>No handheld phone use; stop in a safe location before calling, texting, programming GPS, or reading messages.</li>
+          <li><span class="control-type A">A</span>Do not eat, handle paperwork, or complete forms while driving.</li>
+          <li><span class="control-type A">A</span>Drive to conditions and increase following distance in poor weather, gravel, construction zones, or wildlife areas.</li>
+        </ul>
+        <div class="forms-ref"><strong>Required Forms:</strong> C.047 Cell Phone Acknowledgement · C.020/C.010 if incident/near miss</div>
+      </div>
+    </div>
+
+    <div class="task-card" data-search="extended long distances fatigue reduced attention slower reaction time microsleep body strain">
+      <div class="task-header" onclick="toggle(this)">
+        <div class="task-num">6</div>
+        <div class="task-title">Driving for extended / long distances</div>
+        <span class="risk-badge high">PRE: 16 H</span>
+        <span class="risk-badge mod">POST: 6 M</span>
+        <span class="chevron">▾</span>
+      </div>
+      <div class="task-body">
+        <div class="hazard-label">Potential Hazards &amp; Effects</div>
+        <div class="hazard-text">Fatigue, reduced attention, slower reaction time, microsleep, body strain, and reduced ability to respond to hazards.</div>
+        <div class="hazard-label">Controls</div>
+        <ul class="controls-list">
+          <li><span class="control-type A">A</span>Use journey plan and scheduled check-ins for long travel.</li>
+          <li><span class="control-type A">A</span>Take planned rest breaks, stretch, hydrate, and stop if drowsy.</li>
+          <li><span class="control-type A">A</span>Use a second driver or overnight stop when needed.</li>
+          <li><span class="control-type A">A</span>Do not continue driving when unable to stay alert; contact supervisor for direction.</li>
+        </ul>
+        <div class="forms-ref"><strong>Required Forms:</strong> C.049 Fatigue Self-Assessment · C.051 Journey Management</div>
+      </div>
+    </div>
+
+    <div class="task-card" data-search="driving with trailer jackknifing tipping trailer detachment poor load distribution extended stopping distance">
+      <div class="task-header" onclick="toggle(this)">
+        <div class="task-num">7</div>
+        <div class="task-title">Driving with a trailer or loaded vehicle</div>
+        <span class="risk-badge high">PRE: 16 H</span>
+        <span class="risk-badge mod">POST: 4 M</span>
+        <span class="chevron">▾</span>
+      </div>
+      <div class="task-body">
+        <div class="hazard-label">Potential Hazards &amp; Effects</div>
+        <div class="hazard-text">Jackknifing, tipping, trailer detachment, poor load distribution, extended stopping distance, striking objects on turns.</div>
+        <div class="hazard-label">Controls</div>
+        <ul class="controls-list">
+          <li><span class="control-type A">A</span>Confirm hitch, chains, safety latch, lights, brakes, breakaway cable, tires, and load securement before travel and during stops.</li>
+          <li><span class="control-type A">A</span>Reduce speed, allow additional stopping distance, and take turns wider than normal.</li>
+          <li><span class="control-type A">A</span>Confirm load weight and distribution are within vehicle/trailer limits.</li>
+          <li><span class="control-type A">A</span>Use spotter and 360 walkaround before backing or repositioning.</li>
+        </ul>
+        <div class="forms-ref"><strong>Required Forms:</strong> C.002 Vehicle Inspection · C.049 · C.050 · C.052</div>
+      </div>
+    </div>
+
+    <div class="task-card" data-search="post-trip vehicle return unreported vehicle damage defects missing equipment fuel mileage">
+      <div class="task-header" onclick="toggle(this)">
+        <div class="task-num">8</div>
+        <div class="task-title">Post-trip / vehicle return</div>
+        <span class="risk-badge mod">PRE: 6 M</span>
+        <span class="risk-badge low">POST: 2 L</span>
+        <span class="chevron">▾</span>
+      </div>
+      <div class="task-body">
+        <div class="hazard-label">Potential Hazards &amp; Effects</div>
+        <div class="hazard-text">Unreported vehicle damage or defects, missing equipment, fuel/mileage record gaps, or delayed corrective action.</div>
+        <div class="hazard-label">Controls</div>
+        <ul class="controls-list">
+          <li><span class="control-type A">A</span>Report vehicle damage, defects, incidents, near misses, or emergency equipment use immediately.</li>
+          <li><span class="control-type A">A</span>Record mileage/fuel/expenses as required.</li>
+          <li><span class="control-type A">A</span>Remove garbage, return equipment, and restock safety supplies.</li>
+          <li><span class="control-type A">A</span>Supervisor reviews defect reports and ensures repair or removal from service.</li>
+        </ul>
+        <div class="forms-ref"><strong>Required Forms:</strong> C.050 · C.020 · C.010 · C.005 if corrective action required</div>
+      </div>
+    </div>
+
+  </div>
+  <div class="no-results hidden" id="noResults">No tasks match your search.</div>
+
+  <div style="margin-top:24px;background:white;border-radius:var(--radius);border:1px solid var(--border);padding:14px;box-shadow:var(--shadow)">
+    <div class="section-heading" style="margin-top:0">Annual Review Team</div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:10px;margin-top:10px">
+      <div style="font-size:.85rem"><strong>Doug Senger</strong><br><span style="color:var(--muted)">Date / Signature: ________</span></div>
+      <div style="font-size:.85rem"><strong>Katie Snow</strong><br><span style="color:var(--muted)">Date / Signature: ________</span></div>
+      <div style="font-size:.85rem"><strong>Sandy Senger</strong><br><span style="color:var(--muted)">Date / Signature: ________</span></div>
+      <div style="font-size:.85rem"><strong>Robyn Morales</strong><br><span style="color:var(--muted)">Date / Signature: ________</span></div>
+    </div>
+  </div>
+</main>
+
+<footer>DS Home Computing · SA03 SECOR · D.001 Driving JSA · For internal use only</footer>
+
+<script>
+function toggle(hdr) {
+  hdr.closest('.task-card').classList.toggle('open');
+}
+function toggleAll() {
+  const cards = document.querySelectorAll('.task-card');
+  const anyOpen = [...cards].some(c => c.classList.contains('open'));
+  cards.forEach(c => anyOpen ? c.classList.remove('open') : c.classList.add('open'));
+  document.querySelector('.expand-all-btn').textContent = anyOpen ? 'Expand All' : 'Collapse All';
+}
+const search = document.getElementById('taskSearch');
+search.addEventListener('input', () => {
+  const q = search.value.toLowerCase();
+  let visible = 0;
+  document.querySelectorAll('.task-card').forEach(card => {
+    const text = (card.dataset.search + ' ' + card.textContent).toLowerCase();
+    const show = !q || text.includes(q);
+    card.classList.toggle('hidden', !show);
+    if (show) visible++;
+  });
+  document.getElementById('noResults').classList.toggle('hidden', visible > 0);
+});
+</script>
+</body>
+</html>

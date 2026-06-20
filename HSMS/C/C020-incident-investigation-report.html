@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>C.020 Incident Investigation Report — HSMS</title>
+<link rel="stylesheet" href="../hsms.css">
+<style>
+/* ===== C-series form styles ===== */
+.form-desc { font-size:.875rem; color:var(--muted); margin:0 0 16px; padding:0 16px; }
+.field-group { padding:12px 16px; }
+.field-section-label {
+  font-size:.7rem; font-weight:700; letter-spacing:.08em; text-transform:uppercase;
+  color:var(--muted); margin:14px 0 6px; padding-top:6px;
+  border-top:1px solid var(--border);
+}
+.field-row { display:flex; flex-wrap:wrap; gap:10px; margin-bottom:10px; }
+.field { display:flex; flex-direction:column; gap:4px; flex:1 1 200px; }
+.field-full { width:100%; }
+.field-no-label { flex:1 1 180px; }
+.field-label { font-size:.75rem; font-weight:600; color:var(--body); }
+.fi { border:1px solid var(--border); border-radius:6px; padding:6px 10px;
+      font:inherit; font-size:.875rem; color:var(--body); background:#fff;
+      width:100%; box-sizing:border-box; }
+.fi:focus { outline:none; border-color:var(--blue); box-shadow:0 0 0 2px #dbeafe; }
+.fi-short { max-width:120px; }
+.fi-med   { max-width:280px; }
+.fi-long  { max-width:100%; }
+.fi-area  { min-height:72px; resize:vertical; max-width:100%; }
+.fi-date  { max-width:160px; }
+/* check grid */
+.table-wrap { overflow-x:auto; padding:12px 16px; }
+.form-table { width:100%; border-collapse:collapse; font-size:.8rem; }
+.form-table th {
+  background:var(--navy); color:#fff; text-align:left;
+  padding:6px 8px; font-size:.72rem; font-weight:600;
+}
+.form-table td { padding:5px 6px; border:1px solid var(--border); vertical-align:middle; }
+.form-table .label-cell { font-size:.8rem; color:var(--body); background:#f8fafc; font-weight:500; }
+.form-table .check-cell { text-align:center; background:#fafafa; }
+.radio-group { display:flex; flex-wrap:wrap; gap:6px; justify-content:center; }
+.radio-opt { display:flex; align-items:center; gap:3px; font-size:.72rem;
+             cursor:pointer; padding:2px 5px; border-radius:4px; }
+.radio-opt:hover { background:#eff6ff; }
+.radio-opt input[type=radio] { accent-color:var(--blue); }
+/* signoff */
+.signoff-section {
+  margin:20px 16px 0; padding:16px;
+  border:1px solid var(--border); border-radius:10px; background:#f8fafc;
+}
+.signoff-label {
+  font-size:.7rem; font-weight:700; letter-spacing:.08em; text-transform:uppercase;
+  color:var(--muted); margin-bottom:12px;
+}
+.signoff-grid { display:flex; flex-wrap:wrap; gap:12px; }
+.sig-field { display:flex; flex-direction:column; gap:4px; flex:1 1 200px; }
+.sig-wide { flex:2 1 300px; }
+.sig-date { flex:0 1 160px; }
+.sig-field label { font-size:.75rem; font-weight:600; color:var(--body); }
+/* save bar */
+.save-bar {
+  position:sticky; top:0; z-index:50;
+  background:#1e3a5f; color:#fff; padding:8px 16px;
+  display:flex; align-items:center; justify-content:space-between;
+  font-size:.78rem; gap:12px; flex-wrap:wrap;
+}
+.save-bar .save-path { opacity:.8; font-size:.7rem; word-break:break-all; }
+.save-bar button {
+  background:var(--blue); color:#fff; border:none; border-radius:6px;
+  padding:6px 14px; font-size:.8rem; font-weight:600; cursor:pointer; white-space:nowrap;
+}
+.save-bar button:hover { background:#1d4ed8; }
+.filename-hint { font-size:.7rem; opacity:.75; margin-top:2px; }
+/* breadcrumb + header */
+.doc-header {
+  background:#fff; padding:16px; border-bottom:1px solid var(--border);
+}
+.doc-badge { font-size:.7rem; font-weight:700; letter-spacing:.05em;
+             text-transform:uppercase; color:var(--blue); margin-bottom:4px; }
+.doc-header h2 { font-size:1.2rem; font-weight:700; color:var(--navy); margin:0 0 4px; }
+.doc-sub { font-size:.78rem; color:var(--muted); }
+/* section heading within form */
+.section-heading {
+  font-size:.95rem; font-weight:700; color:var(--navy);
+  background:#f1f5f9; padding:8px 16px; margin:16px 0 0;
+  border-left:3px solid var(--blue);
+}
+/* print */
+@media print {
+  .site-header, .save-bar, footer, .search-wrap { display:none !important; }
+  body { font-size:11pt; }
+  .form-table th { background:#1a2744 !important; -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+  .fi, .fi-area { border:1px solid #999 !important; }
+}
+</style>
+</head>
+<body>
+<header class="site-header">
+  <span class="logo">🛡️</span>
+  <div>
+    <h1>HSMS Wiki</h1>
+    <p>DS Home Computing</p>
+  </div>
+  <a href="../C/index.html" style="margin-left:auto;color:#fff;font-size:.8rem;">← C Series</a>
+</header>
+
+<div class="save-bar" id="savebar">
+  <div>
+    <div>Save completed form as PDF</div>
+    <div class="save-path">📁 G:\My Drive\DS Home\SA Safety and Security\SA03 SECOR\2026 Forms</div>
+    <div class="filename-hint" id="fnhint">Suggested filename: <span id="fnout">C020-incident-investigation-report_[name]_[date].pdf</span></div>
+  </div>
+  <button onclick="window.print()">🖨 Print / Save PDF</button>
+</div>
+
+<div class="doc-header">
+  <nav class="breadcrumb" style="font-size:.75rem;color:var(--muted);margin-bottom:8px;">
+    <a href="../index.html">HSMS Wiki</a> › <a href="index.html">C Series</a> › C.020 Incident Investigation Report
+  </nav>
+  <div class="doc-badge">C.020 · FORM</div>
+  <h2>Incident Investigation Report</h2>
+  <div class="doc-sub">DS Home Computing Ltd · SA03 SECOR · For internal use</div>
+</div>
+
+<main>
+<div class="field-group">
+<div class="field-section-label">This form must be completed by the investigation team.  It must identify both direct/immediate as well as root/underlying causes.  Recommendations for corrective measures must be identified and reviewed by senior management. A copy of the completed investigation report must also be forwarded to the OHS Committee/WHS Designate/WHS Representative for review.</div>
+</div>
+<div class="table-wrap"><table class="form-table">
+<thead><tr><th>Incident Category</th><th></th><th>Incident Specifics</th></tr></thead>
+<tbody>
+<tr><td class="label-cell">(Check all that apply)</td><td><input type="text" id="f1" class="fi fi-med" autocomplete="off"></td><td class="label-cell">Location of Incident:</td></tr>
+<tr><td class="label-cell">No Injury (Near Miss)</td><td><input type="text" id="f2" class="fi fi-med" autocomplete="off"></td><td class="label-cell">Date of Incident :</td><td class="label-cell">Time of Incident:</td><td class="label-cell">am/pm</td></tr>
+<tr><td class="label-cell">First Aid Injury</td><td><input type="text" id="f3" class="fi fi-med" autocomplete="off"></td><td class="label-cell">Date Reported:</td><td class="label-cell">Time Reported:</td><td class="label-cell">am/pm</td></tr>
+<tr><td class="label-cell">Medical Aid Injury</td><td><input type="text" id="f4" class="fi fi-med" autocomplete="off"></td><td class="label-cell">Affected Body Part(s):</td><td><input type="text" id="f5" class="fi fi-med" autocomplete="off"></td></tr>
+<tr><td class="label-cell">Lost Time Injury</td><td><input type="text" id="f6" class="fi fi-med" autocomplete="off"></td><td class="label-cell">Description of Injury/Damage:</td></tr>
+<tr><td class="label-cell">Fatality</td><td><input type="text" id="f7" class="fi fi-med" autocomplete="off"></td><td><input type="text" id="f8" class="fi fi-med" autocomplete="off"></td></tr>
+<tr><td class="label-cell">Illness</td><td><input type="text" id="f9" class="fi fi-med" autocomplete="off"></td><td><input type="text" id="f10" class="fi fi-med" autocomplete="off"></td></tr>
+<tr><td class="label-cell">Property Damage</td><td><input type="text" id="f11" class="fi fi-med" autocomplete="off"></td><td><input type="text" id="f12" class="fi fi-med" autocomplete="off"></td></tr>
+<tr><td class="label-cell">Hazardous Materials Spill</td><td><input type="text" id="f13" class="fi fi-med" autocomplete="off"></td><td><input type="text" id="f14" class="fi fi-med" autocomplete="off"></td></tr>
+<tr><td class="label-cell">Motor Vehicle  Accident</td><td><input type="text" id="f15" class="fi fi-med" autocomplete="off"></td><td><input type="text" id="f16" class="fi fi-med" autocomplete="off"></td></tr>
+</tbody></table></div>
+<div class="field-group">
+<div class="field-section-label">Sequence of Events</div>
+<div class="field-section-label">Outline the sequence of events leading up to, during, and immediately after the incident:</div>
+</div>
+<div class="field-group">
+<div class="field-section-label">Immediate Causes</div>
+<div class="field-section-label">What substandard acts, practices, and/or conditions caused, or could cause, the incident? A list of substandard acts and conditions has been included at the end of this document.</div>
+</div>
+<div class="field-group">
+<div class="field-section-label">Basic Causes</div>
+<div class="field-section-label">What specific personal or job/system factors caused, or could cause, the incident?A list of job factors and personal factors has been included at the end of this document.</div>
+</div>
+<div class="field-group">
+<div class="field-section-label">Recommendations to Correct Immediate Causes:</div>
+<div class="field-row">
+<div class="field-full"><span class="field-label">Actions</span></div>
+<div class="field-full"><span class="field-label">Time Frame</span></div>
+<div class="field-full"><span class="field-label">Who is Responsible?</span></div>
+</div>
+</div>
+<div class="field-group">
+<div class="field-section-label">Recommendations to Correct Basic Causes. Consider improvements to the following:</div>
+<div class="field-row">
+<div class="field-full"><span class="field-label">Leadership and Administration</span></div>
+<div class="field-full"><span class="field-label">Inspections</span></div>
+</div>
+<div class="field-row">
+<div class="field-full"><span class="field-label">Occupational Health and Safety Committee</span></div>
+<div class="field-full"><span class="field-label">Safe Work Practices and Job Procedures</span></div>
+</div>
+<div class="field-row">
+<div class="field-full"><span class="field-label">Communication</span></div>
+<div class="field-full"><span class="field-label">Training and Orientation</span></div>
+</div>
+<div class="field-row">
+<div class="field-full"><span class="field-label">Hazard Recognition, Evaluation, and Control</span></div>
+<div class="field-full"><span class="field-label">Emergency Preparedness</span></div>
+</div>
+<div class="field-row">
+<div class="field-full"><span class="field-label">Incident Investigation</span></div>
+<div class="field-full"><span class="field-label">Disability Management</span></div>
+</div>
+</div>
+<div class="field-group">
+<div class="field-row">
+<div class="field-full"><span class="field-label">Actions</span></div>
+<div class="field-full"><span class="field-label">Time Frame</span></div>
+<div class="field-full"><span class="field-label">Who is Responsible?</span></div>
+</div>
+</div>
+<div class="field-group">
+<div class="field-section-label">Additional Comments:</div>
+</div>
+<div class="field-group">
+<div class="field-section-label">Investigation Team</div>
+<div class="field-row">
+<div class="field-full"><span class="field-label">Name:</span></div>
+<div class="field-full"><span class="field-label">Occupation:</span></div>
+</div>
+<div class="field-row">
+<div class="field-full"><span class="field-label">Name:</span></div>
+<div class="field-full"><span class="field-label">Occupation:</span></div>
+</div>
+<div class="field-row">
+<div class="field-full"><span class="field-label">Name:</span></div>
+<div class="field-full"><span class="field-label">Occupation:</span></div>
+</div>
+<div class="field-row">
+<div class="field-full"><span class="field-label">Name:</span></div>
+<div class="field-full"><span class="field-label">Occupation:</span></div>
+</div>
+</div>
+<div class="signoff-section">
+<div class="signoff-label">Sign-off</div>
+<div class="signoff-grid">
+<div class="sig-field"><label>Report Completed By:</label><input type="text" id="f17" class="fi fi-long" autocomplete="off"></div>
+<div class="sig-field"><label>Signature:</label><input type="text" id="f18" class="fi fi-long" autocomplete="off"></div>
+<div class="sig-field sig-date"><label>Date</label><input type="date" class="fi fi-date"></div>
+</div>
+</div>
+<div class="signoff-section">
+<div class="signoff-label">Sign-off</div>
+<div class="signoff-grid">
+<div class="sig-field"><label>Review &amp; Sign Off</label><input type="text" id="f19" class="fi fi-long" autocomplete="off"></div>
+<div class="sig-field"><label>Supervisor:</label><input type="text" id="f20" class="fi fi-long" autocomplete="off"></div>
+<div class="sig-field"><label>Title:</label><input type="text" id="f21" class="fi fi-long" autocomplete="off"></div>
+<div class="sig-field"><label>Signature:</label><input type="text" id="f22" class="fi fi-long" autocomplete="off"></div>
+<div class="sig-field sig-date"><label>Date</label><input type="date" class="fi fi-date"></div>
+<div class="sig-field"><label>Sr. Management:</label><input type="text" id="f23" class="fi fi-long" autocomplete="off"></div>
+<div class="sig-field"><label>Title:</label><input type="text" id="f24" class="fi fi-long" autocomplete="off"></div>
+<div class="sig-field"><label>Signature:</label><input type="text" id="f25" class="fi fi-long" autocomplete="off"></div>
+<div class="sig-field sig-date"><label>Date</label><input type="date" class="fi fi-date"></div>
+<div class="sig-field"><label>Committee Co-Chairs:</label><input type="text" id="f26" class="fi fi-long" autocomplete="off"></div>
+<div class="sig-field"><label>Title:</label><input type="text" id="f27" class="fi fi-long" autocomplete="off"></div>
+<div class="sig-field"><label>Signature:</label><input type="text" id="f28" class="fi fi-long" autocomplete="off"></div>
+<div class="sig-field sig-date"><label>Date</label><input type="date" class="fi fi-date"></div>
+<div class="sig-field"><label>Committee Co-Chairs:</label><input type="text" id="f29" class="fi fi-long" autocomplete="off"></div>
+<div class="sig-field"><label>Title:</label><input type="text" id="f30" class="fi fi-long" autocomplete="off"></div>
+<div class="sig-field"><label>Signature:</label><input type="text" id="f31" class="fi fi-long" autocomplete="off"></div>
+<div class="sig-field sig-date"><label>Date</label><input type="date" class="fi fi-date"></div>
+</div>
+</div>
+<div class="field-group">
+<div class="field-section-label">IMMEDIATE CAUSES (check all that apply)</div>
+<div class="field-row">
+<div class="field-full"><span class="field-label">Substandard Acts/Actions□Operating equipment without authority□Failure to warn□Failure to secure□Operating at improper speed□Making safety devices inoperable□Removing safety devices□Using defective equipment□Failure to use PPE□Improper loading□Improper placement□Improper lifting□Improper position for task□Servicing equipment in operation□Horseplay□Under influence of alcohol and/or other substances</span></div>
+<div class="field-full"><span class="field-label">Substandard Conditions□Inadequate guards or barriers□Inadequate or improper protective equipment□Defective tools, equipment or materials□Congestion or restricted action□Inadequate warning system□Fire and explosion hazard□Poor housekeeping, disorder□Hazardous environmental conditions, gases, smoke, dusts,fumes□Noise exposure□Radiation exposure□High or low temperature exposure□Inadequate or excess illumination□Inadequate ventilation</span></div>
+</div>
+</div>
+<div class="field-group">
+<div class="field-section-label">BASIC CAUSES  (check all that apply)</div>
+<div class="field-row">
+<div class="field-full"><span class="field-label">PERSONAL FACTORS□Inadequate physical/physiological capability inappropriate height, weight, size, strength,     reach, etc. restricted range of body movement limited ability to sustain body positions substance sensitivities or allergies sensitivities to sensory extremes (sound,     temperatures, etc.) sensory deficiency (hearing, vision, touch, balance    etc.) respiratory incapacity other permanent physical disabilities temporary disabilities□Inadequate mental/psychological capability fears and phobias emotional disturbancemental illness intelligence level inability to comprehend poor judgement poor coordination slow reaction time low mechanical aptitude low learning aptitude Memory failure□Physical/ physiological stress injury/illness fatigue due to ( task load or duration, lack of rest,     Sensory overload etc.)exposure to health hazards exposure to temperature extremes oxygen deficiency atmospheric pressure variation constrained movement blood sugar deficiency drugs□Mental/ psychological stress emotional overload fatigue due to mental task or speed  extreme judgement/decision demands routine, monotony, demand for uneventful     vigilance extreme concentration/perception demands meaningless/degrading activities confusing directions/demands preoccupation with problems frustration mental illness□Lack of knowledge/training lack of experience inadequate orientation/training misunderstood directions□Lack of skill inadequate initial instruction inadequate practice infrequent performance lack of coaching inadequate review instruction inadequate specifications to vendors□Inadequate maintenance inadequate preventative assessment of needs lubrication and servicing adjustment/assembly cleaning or resurfacing inadequate reparative communications of needs scheduling of work examination of units part substitution □Inadequate tools/equipment inadequate assessment of needs/risks inadequate standards or considerations inadequate availability inadequate adjustment/repair maintenance inadequate salvage and reclamation inadequate removal and replacement of unsuitable items</span></div>
+<div class="field-full"><span class="field-label">JOB FACTORS□Improper motivation improper performance is rewarding proper performance is punishing lack of incentives excessive frustration Inappropriate aggression improper attempt to save time or effort improper attempt to avoid discomfort improper attempt to gain attention inadequate discipline inappropriate peer pressure improper supervisory example inadequate performance feedback improper production incentives□Inadequate leadership and/or supervision unclear/conflicting reporting relationships unclear/conflicting assignment of responsibilities improper or insufficient delegation giving inadequate policy, procedure, practices, or     guidelines conflicting objectives, goals, or standards inadequate work planning or programmingproviding inadequate reference documents, directives,    or guidance publications inadequate identification and evaluation of loss exposures lack of supervisory/management job knowledge  inadequate matching of individual qualifications and    job/task requirements inadequate performance measurement and evaluation inadequate evaluation of changes□Inadequate engineering inadequate assessment of loss exposures inadequate consideration of human/ergonomic factors inadequate standards, specifications, and/or design criteria inadequate monitoring of construction inadequate assessment of operational readiness inadequate or improper controls inadequate monitoring or initial operation□Inadequate purchasing inadequate specifications on requisitions inadequate research on materials/equipment inadequate receiving inspection and acceptance inadequate communication of safety and health data improper storage, handling, and/or transporting of materials inadequate identification of hazardous items improper salvage and/or waste disposal inadequate contractor selection□Inadequate work standards inadequate inventory and evaluation of standards for: inventory and evaluation of exposures and needs coordination with process design employee involvement procedures/practices/rules inadequate communication of standards for: publication distribution translation to appropriate languages training reinforcing with signs, colour, codes, and job ads inadequate maintenance of standards for: tracking of work flow updating monitoring of procedures/practices/rulesinadequate monitoring of compliance□Excessive wear and tear inadequate planning of useimproper extension of service life inadequate inspection and/or monitoring improper loading or rate of use inadequate maintenance use by unqualified/untrained personnel use for wrong purpose□Abuse and/or misuse improper conduct that is condoned (intentional) improper conduct that is condoned (unintentional) improper conduct that is not condoned (intentional) improper conduct that is not condoned (unintentional)</span></div>
+</div>
+</div>
+
+</main>
+
+<footer>DS Home Computing · SA03 SECOR · HSMS Wiki · For internal use only</footer>
+<script>
+// Auto-generate filename hint from first text input that looks like a name
+document.querySelectorAll('.fi').forEach(el => {{
+  el.addEventListener('input', updateFn);
+}});
+function updateFn() {{
+  const inputs = [...document.querySelectorAll('input.fi[type=text]')];
+  const name = (inputs[0] && inputs[0].value) ? inputs[0].value.trim().replace(/\s+/g,'_') : '[name]';
+  const today = new Date().toISOString().slice(0,10);
+  document.getElementById('fnout').textContent = 'C020-incident-investigation-report_' + name + '_' + today + '.pdf';
+}}
+</script>
+</body>
+</html>

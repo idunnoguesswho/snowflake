@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>A Series — System Management — HSMS</title>
+<link rel="stylesheet" href="../hsms.css">
+</head>
+<body>
+<header class="site-header">
+  <span class="logo">🛡️</span>
+  <div><h1>HSMS Wiki</h1><p>DS Home Computing</p></div>
+  <a href="../index.html" style="margin-left:auto;color:#fff;font-size:.8rem;">← Home</a>
+</header>
+<div class="search-wrap">
+  <span class="search-icon">🔍</span>
+  <input type="search" id="srch" placeholder="Search system documents…" autocomplete="off">
+</div>
+<main style="padding:16px;">
+  <div style="font-size:.78rem;color:var(--muted);margin-bottom:12px;">
+    3 system management documents — foundational HSMS, QMS, and document control.
+  </div>
+  <div class="index-grid" id="grid">
+      <a class="index-card" href="A001-hsms.html">
+        <span class="series-badge">A.001</span>
+        <h3>🛡️ HSMS</h3>
+        <div class="task-count">1217 items · 214 sections · Searchable</div>
+      </a>
+      <a class="index-card" href="A002-qms.html">
+        <span class="series-badge">A.002</span>
+        <h3>⭐ QMS</h3>
+        <div class="task-count">400 items · 82 sections · Searchable</div>
+      </a>
+      <a class="index-card" href="A003-document-control-management-plan.html">
+        <span class="series-badge">A.003</span>
+        <h3>📁 Document Control Management Plan</h3>
+        <div class="task-count">170 items · 42 sections · Searchable</div>
+      </a>
+  </div>
+</main>
+<footer>DS Home Computing · SA03 SECOR · HSMS Wiki · For internal use only</footer>
+<script>
+document.getElementById('srch').addEventListener('input', function() {
+  const q = this.value.toLowerCase();
+  document.querySelectorAll('.index-card').forEach(c => {
+    c.style.display = (!q || c.textContent.toLowerCase().includes(q)) ? '' : 'none';
+  });
+});
+</script>
+</body>
+</html>

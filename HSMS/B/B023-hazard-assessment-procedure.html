@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>B.023 Hazard Assessment Procedure — HSMS</title>
+<link rel="stylesheet" href="../hsms.css">
+
+<style>
+.policy-heading {
+  font-size: 1rem; font-weight: 700; color: var(--navy);
+  margin: 20px 0 6px; padding-bottom: 4px; border-bottom: 1px solid var(--border);
+}
+.policy-para { font-size: .88rem; line-height: 1.65; margin-bottom: 8px; color: var(--text); }
+.policy-list { font-size: .88rem; line-height: 1.7; padding-left: 24px; margin-bottom: 10px; }
+.policy-list li { margin-bottom: 3px; }
+.policy-table { overflow-x: auto; margin: 12px 0; }
+.policy-table table { border-collapse: collapse; width: 100%; font-size: .83rem; }
+.policy-table th, .policy-table td { border: 1px solid var(--border); padding: 7px 10px; text-align: left; }
+.policy-table th { background: var(--surface); font-weight: 700; }
+.policy-card { background: white; border-radius: var(--radius); border: 1px solid var(--border); padding: 20px; box-shadow: var(--shadow); margin-bottom: 20px; }
+.ack-card { background: white; border-radius: var(--radius); border: 2px solid var(--blue); padding: 20px; margin-bottom: 20px; box-shadow: var(--shadow); }
+.ack-card h3 { font-size: 1rem; color: var(--navy); margin-bottom: 6px; }
+.ack-card .sub { font-size: .83rem; color: var(--muted); margin-bottom: 16px; }
+.form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 16px; }
+@media (max-width: 500px) { .form-grid { grid-template-columns: 1fr; } }
+.form-field label { display: block; font-size: .72rem; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: .04em; margin-bottom: 4px; }
+.form-field input, .form-field select, .form-field textarea { width: 100%; padding: 8px 10px; border: 1px solid var(--border); border-radius: 6px; font-size: .88rem; font-family: inherit; color: var(--text); background: var(--surface); }
+.form-field input:focus { outline: none; border-color: var(--blue); background: white; }
+.form-field.full { grid-column: 1 / -1; }
+.sig-line { border: none; border-bottom: 1px solid var(--border); height: 40px; background: transparent; display: flex; align-items: flex-end; padding-bottom: 4px; color: var(--muted); font-size: .78rem; font-style: italic; }
+.chk-row { display: flex; align-items: flex-start; gap: 10px; margin-bottom: 12px; }
+.chk-row input[type=checkbox] { margin-top: 2px; width: 16px; height: 16px; flex-shrink: 0; accent-color: var(--blue); }
+.chk-row label { font-size: .87rem; line-height: 1.5; }
+.save-bar { background: var(--navy); border-radius: var(--radius); padding: 14px 16px; display: flex; align-items: center; gap: 14px; flex-wrap: wrap; margin-bottom: 20px; }
+.save-bar .pi { flex: 1; min-width: 0; }
+.save-bar .pl { font-size: .7rem; color: rgba(255,255,255,.6); font-weight: 700; text-transform: uppercase; letter-spacing: .04em; }
+.save-bar .pv { font-size: .78rem; color: white; font-family: monospace; word-break: break-all; }
+.btn-print { background: var(--blue); color: white; border: none; border-radius: 8px; padding: 10px 18px; font-size: .9rem; font-weight: 700; cursor: pointer; white-space: nowrap; }
+.btn-print:hover { background: #1d4ed8; }
+.btn-clear { background: rgba(255,255,255,.15); color: white; border: none; border-radius: 8px; padding: 10px 14px; font-size: .85rem; cursor: pointer; }
+.btn-clear:hover { background: rgba(255,255,255,.25); }
+.fn-hint { margin-top: 10px; padding: 10px 12px; background: var(--blue-light); border-radius: 6px; font-size: .78rem; color: var(--navy); }
+.appendix-wrap { background: white; border-radius: var(--radius); border: 1px solid var(--border); margin-bottom: 20px; overflow: hidden; }
+.appendix-wrap summary { padding: 12px 16px; font-weight: 700; font-size: .9rem; color: var(--navy); cursor: pointer; list-style: none; user-select: none; }
+.appendix-wrap summary::-webkit-details-marker { display: none; }
+.appendix-body { padding: 16px; border-top: 1px solid var(--border); font-size: .85rem; }
+.appendix-body h4 { color: var(--navy); margin: 12px 0 4px; }
+@media print {
+  .site-header, .search-wrap, .breadcrumb, .save-bar, footer { display: none !important; }
+  body { background: white; font-size: 11pt; }
+  .policy-card, .ack-card { border: 1px solid #bbb; box-shadow: none; break-inside: avoid; margin-bottom: 10pt; padding: 12pt; }
+  .ack-card { border: 2pt solid #1a2744; }
+  .form-field input { border: 1px solid #999; background: white; }
+  .sig-line { border-bottom: 1pt solid #333; }
+  .chk-row input { print-color-adjust: exact; -webkit-print-color-adjust: exact; }
+  main { max-width: 100%; padding: 0; }
+  .appendix-wrap { display: none; }
+}
+</style>
+
+</head>
+<body>
+<header class="site-header">
+  <span class="logo">&#128737;</span>
+  <div><h1>HSMS Wiki</h1><p>DS Home Computing</p></div>
+  <a class="back-btn" href="index.html">&#8592; B Series</a>
+</header>
+<div class="search-wrap" style="top:58px">
+  <span class="search-icon">&#128269;</span>
+  <input type="search" id="policySearch" placeholder="Search policy text&#8230;" autocomplete="off">
+</div>
+<main>
+  <div class="breadcrumb">
+    <a href="../index.html">HSMS Wiki</a> &rsaquo; <a href="index.html">B Series</a> &rsaquo; B.023 Hazard Assessment Procedure
+  </div>
+  <div class="doc-header">
+    <div class="doc-id">B.023 &middot; Policy</div>
+    <h2>Hazard Assessment Procedure</h2>
+    <div class="meta">DS Home Computing Ltd &middot; SA03 SECOR &middot; For internal use</div>
+  </div>
+
+  <div class="policy-card" id="policyContent">
+    <p class="policy-para">DS Home Computing Ltd is committed to ensuring all health and safety hazards are assessed and eliminated or controlled. This will be achieved with formal hazard assessments and site-specific hazard assessments.</p>
+<p class="policy-para">This policy applies to all managers, supervisors, and workers, including contracted personnel performing work for DS Home Computing Ltd. Compliance with this policy, Alberta OHS legislation, and work site requirements is mandatory.</p>
+<p class="policy-para">A workplace hazard recognition system includes processes for reporting hazards, hazard assessments, workplace inspections, and incident investigation. The identification and control of hazards in the workplace is crucial to the success of an effective safety program.</p>
+<h3 class="policy-heading">Recognizing Hazards</h3>
+<p class="policy-para">A hazard is a condition, practice or behavior that has the potential to cause injury, illness, or property damage.</p>
+<p class="policy-para">Hazards exist on every worksite. Recognizing hazards is the first step in preventing illness, injury and property damage in the workplace. There are several ways to recognize hazards, including but not limited to:</p>
+<h3 class="policy-heading">Conducting workplace inspections,</h3>
+<h3 class="policy-heading">Investigating incidents,</h3>
+<h3 class="policy-heading">Listening to worker concerns,</h3>
+<h3 class="policy-heading">Completing hazard assessments,</h3>
+<h3 class="policy-heading">Reviewing injury statistics, and</h3>
+<p class="policy-para">Reviewing material /safety data sheets.</p>
+<h3 class="policy-heading">Hazard Assessments</h3>
+<p class="policy-para">A hazard assessment is a thorough assessment of the workplace or specific task for the purpose of identifying what actual and potential hazards exist.</p>
+<p class="policy-para">The purpose of hazard assessments is to identify actual and potential hazards in the workplace, with the intent, where possible, to first eliminate the hazard or reduce the hazard by using engineering controls, administrative controls, or personal protective equipment. Some hazards can be eliminated, but other must be controlled by use of appropriate procedures or devices.</p>
+<p class="policy-para">Each workplace consists of four major components; People, Environment, Materials, and Equipment (PEME). In conducting a hazard assessment, all four components must be examined to identify what risks are present. It is important to recognize that the hazard assessment does not deal strictly with things that are wrong at the present time, rather the assessment must address with what could go wrong---potential hazards.</p>
+<h3 class="policy-heading">Formal Hazard Assessment</h3>
+<p class="policy-para">DS Home Computing Ltd will complete a comprehensive formal hazard assessment for all activities, equipment, processes, and property under our control. The formal hazard assessment will be reviewed annually, at minimum, with all supervisors, workers and the Joint Health and Safety Committee/Member to ensure its ongoing suitability for our operational needs.</p>
+<h3 class="policy-heading">Formal hazard assessments will be:</h3>
+<p class="policy-para">Used to assess all positions in the company.</p>
+<p class="policy-para">Conducted by all personnel involved in the process included managers, supervisors and a selection of workers trained in performing the task.</p>
+<p class="policy-para">Reviewed at least annually.</p>
+<p class="policy-para">Hazards shall be ranked based on the grid noted below.</p>
+<p class="policy-para">Whenever possible, the preference is to eliminate hazards using the hierarchy of control.</p>
+<p class="policy-para">The formal hazard assessments will be developed using the approved format in the Health and Safety Management System.</p>
+<h3 class="policy-heading">To conduct a comprehensive hazard assessment use the following steps:</h3>
+<p class="policy-para">List the types of work and any related activities.</p>
+<p class="policy-para">Identify the hazards associated with each of the related activities; consider PEME.</p>
+<p class="policy-para">Prioritize the hazards. Prioritizing hazards helps establish a baseline for implementing corrective measures, ensuring the most hazardous conditions are corrected first.</p>
+<p class="policy-para">Determine which controls are necessary to eliminate or reduce the hazard to an acceptable level.  The hierarchy of risk controls must be considered when implementing controls, in accordance with provincial regulations.</p>
+<p class="policy-para">Once the controls have been implemented, the company must evaluate the controls for effectiveness.</p>
+<h3 class="policy-heading">Site Specific Hazard Assessments / Pre-Job Hazard Assessments</h3>
+<h3 class="policy-heading">Site-specific hazard assessments will be:</h3>
+<h3 class="policy-heading">Used to assess all tasks performed in the field, shop, or office</h3>
+<p class="policy-para">Conducted At the beginning of every shift (i.e., daily basis) and re-assessed if conditions change (including the addition of new workers)</p>
+<h3 class="policy-heading">Before non-routine tasks are performed or a new activity begins</h3>
+<h3 class="policy-heading">When on temporary sites</h3>
+<p class="policy-para">When workers are conducting activities at a worksite not owned by their employer.</p>
+<h3 class="policy-heading">With the involvement of all applicable employees</h3>
+<h3 class="policy-heading">Performed using the approved format in the Health and Safety Management System</h3>
+<h3 class="policy-heading">Responsibilities</h3>
+<h3 class="policy-heading">Managers must ensure workers are trained on the hazard assessment process and policy</h3>
+<h3 class="policy-heading">Supervisors must ensure workers follow the hazard assessment process and policy</h3>
+<p class="policy-para">Workers (including contracted personnel) must follow the hazard assessment process and policy</p>
+<p class="policy-para">Pre-job hazard assessments will be completed by a supervisor, with the help of workers, prior to the start of work. To ensure the safety of workers, all identified controls will be implemented prior to commencing the job.</p>
+<h3 class="policy-heading">To conduct a pre-job hazard assessments use the following steps:</h3>
+<p class="policy-para">Assemble the people that will be involved, including workers.</p>
+<p class="policy-para">Review the job scope and examine the worksite.</p>
+<p class="policy-para">Identify real and potential hazards associated with PEME.</p>
+<p class="policy-para">Prioritize the hazards.</p>
+<h3 class="policy-heading">Identify controls for the hazards listed</h3>
+<p class="policy-para">Assign responsibility for implementing the controls.</p>
+<p class="policy-para">Identify the date the control will be implemented.</p>
+<h3 class="policy-heading">The supervisor  will conduct a toolbox meeting with all applicable workers to discuss the results of the hazard assessment.</h3>
+<h3 class="policy-heading">Hazard Evaluation</h3>
+<p class="policy-para">Once hazards have been recognized, the potential loss to people, equipment, materials and the environment must be assessed.  The main factors to be considered when evaluating potential risk  include severity of the risk, probability of the hazard resulting in injury, and the frequency of worker exposure.</p>
+<h3 class="policy-heading">The risk ranking will determine the priority for corrective action, and the most effective controls to put in place. Remember -- regulatory requirements may dictate priorities.</h3>
+<h3 class="policy-heading">Hazard Control</h3>
+<h3 class="policy-heading">The following is a recommended hierarchy of control measures for managing hazards:</h3>
+<p class="policy-para">Engineering controls involve elimination, substitution, ventilation, isolation, workplace redesign, and process control. Whenever possible, hazards identified shall be controlled through elimination of the hazard. Where the hazard cannot be eliminated, the company shall  consider alternatives to the substances, processes, machines and equipment currently being used.</p>
+<p class="policy-para">Where engineering controls do not adequately manage the hazard, the company shall implement administrative controls to lessen the risk. These measures may include changing work procedures, developing and implementing new policies, training and education programs, signage, etc.</p>
+<p class="policy-para">Where engineering and administrative controls do not completely eliminate the risk of injury to workers, personal protective equipment must be used to control a hazard. This is the last resort as it is simply a barrier between the hazard and the worker.</p>
+<h3 class="policy-heading">References:</h3>
+<h3 class="policy-heading">Module 3 in ACSA Principles of Health and Safety Management course guide</h3>
+<h3 class="policy-heading">Module 5 in ACSA Principles of Health and Safety Management for SECOR course guide</h3>
+<h3 class="policy-heading">ACSA Hazard Management course guide</h3>
+<h3 class="policy-heading">Government of Alberta Occupational Health and Safety Starter Kit:</h3>
+<p class="policy-para">https://ohs-pubstore.labour.alberta.ca/bp035</p>
+<h3 class="policy-heading">ACSA 2023 Audit Instrument Elements 5 and 6</h3>
+<h3 class="policy-heading">ACSA 2023 SECOR Evaluation Elements 5 and 6</h3>
+<h3 class="policy-heading">(Download the current versions from youracsa.ca)</h3>
+
+  </div>
+
+  <details class="appendix-wrap"><summary>&#9660; Appendix / Additional Forms</summary><div class="appendix-body"><h3 class="policy-heading">Probability x Severity = Risk Ranking**</h3>
+<div class="policy-table"><table><tbody><tr><th>Probability – How likely is an incident likely to occur based on the hazard presented</th><th>Severity – How severe could an accident</th></tr><tr><td></td><td>4 = Catastrophic: Fatality, widespread occupational illness or injuries, Damage &gt;50,000. Permanent non-repairable environmental impact.</td><td>3 = Critical: Serious illness or injury resulting in lost time, Damage &gt;25,000. Non-contained repairable environmental impact.</td><td>2 = Marginal: Illness or injury requiring medical aid, Damage &gt;$1001 to 24,999. Contained repairable environmental impact.</td><td>1 = Negligible: Minor illness or injury, first aid. Damage &lt;$1000. Contained release with no environmental impact.</td></tr><tr><td>4 = Probable: likely to occur immediately or very soon</td><td>16</td><td>12</td><td>8</td><td>4</td></tr><tr><td>3 = Reasonably Probable: Likely to occur eventually</td><td>12</td><td>9</td><td>6</td><td>3</td></tr><tr><td>2 = Remote: Could occur at some point</td><td>8</td><td>6</td><td>4</td><td>2</td></tr><tr><td>1 = Extremely Remote: Unlikely to occur</td><td>4</td><td>3</td><td>2</td><td>1</td></tr></tbody></table></div><div class="policy-table"><table><tbody><tr><th>Supervisory Oversight</th></tr><tr><td>High (H)8,9,12,16</td><td>Risk approved by Management</td></tr><tr><td>Moderate (M) 3,4,6</td><td>Risk approved by Supervisor/Lead</td></tr><tr><td>Low (L) 1,2</td><td>Risk managed at field Level</td></tr></tbody></table></div></div></details>
+
+  <div class="save-bar">
+    <div class="pi">
+      <div class="pl">Save completed PDF to</div>
+      <div class="pv">G:\My Drive\DS Home\SA Safety and Security\SA03 SECOR\2026 Forms</div>
+    </div>
+    <button class="btn-clear" onclick="clearForm()">Clear</button>
+    <button class="btn-print" onclick="printForm()">&#128424; Save as PDF</button>
+  </div>
+
+  <div class="ack-card">
+    <h3>Policy Acknowledgement</h3>
+    <p class="sub">Complete all fields, check each box, then click <strong>Save as PDF</strong>. Choose <em>Save as PDF</em> in the print dialog and navigate to the folder shown above.</p>
+    <div class="chk-row">
+      <input type="checkbox" id="chk1">
+      <label for="chk1">I have read and understood the full <strong>B.023 Hazard Assessment Procedure</strong> policy.</label>
+    </div>
+    <div class="chk-row">
+      <input type="checkbox" id="chk2">
+      <label for="chk2">I agree to comply with this policy in the performance of my duties.</label>
+    </div>
+    <div class="chk-row">
+      <input type="checkbox" id="chk3">
+      <label for="chk3">I understand that failure to follow this policy may result in corrective action up to and including termination.</label>
+    </div>
+    <div class="form-grid">
+      <div class="form-field">
+        <label>Employee Full Name</label>
+        <input type="text" id="empName" placeholder="Full legal name" oninput="sync()">
+      </div>
+      <div class="form-field">
+        <label>Position / Title</label>
+        <input type="text" id="empPos" placeholder="Your job title">
+      </div>
+      <div class="form-field">
+        <label>Date of Acknowledgement</label>
+        <input type="date" id="ackDate" oninput="sync()">
+      </div>
+      <div class="form-field">
+        <label>Supervisor / Manager Name</label>
+        <input type="text" id="supName" placeholder="Supervisor full name">
+      </div>
+      <div class="form-field full">
+        <label>Signature</label>
+        <div class="sig-line">Sign above this line after printing &nbsp;&mdash;&nbsp; or type full name to acknowledge electronically</div>
+      </div>
+    </div>
+    <div class="fn-hint"><strong>Suggested filename:</strong> <span id="sfn"></span></div>
+  </div>
+</main>
+<footer>DS Home Computing &middot; SA03 SECOR &middot; B.023 Hazard Assessment Procedure &middot; For internal use only</footer>
+
+<script>
+const BASE_FN = 'B023-hazard-assessment-procedure';
+function sync() {
+  const n = (document.getElementById('empName').value||'[name]').trim().replace(/\s+/g,'-');
+  const d = document.getElementById('ackDate').value||'[date]';
+  document.getElementById('sfn').textContent = BASE_FN+'_'+n+'_'+d+'.pdf';
+}
+function printForm() { window.print(); }
+function clearForm() {
+  ['empName','empPos','ackDate','supName'].forEach(id=>document.getElementById(id).value='');
+  document.querySelectorAll('.chk-row input').forEach(el=>el.checked=false);
+  document.getElementById('ackDate').value=new Date().toISOString().split('T')[0];
+  sync();
+}
+document.getElementById('ackDate').value=new Date().toISOString().split('T')[0];
+sync();
+const srch=document.getElementById('policySearch');
+srch.addEventListener('input',()=>{
+  const q=srch.value.toLowerCase();
+  document.querySelectorAll('.policy-card p,.policy-card li,.policy-card h3').forEach(el=>{
+    el.style.backgroundColor=q&&el.textContent.toLowerCase().includes(q)?'#fef9c3':'';
+  });
+});
+</script>
+
+</body>
+</html>

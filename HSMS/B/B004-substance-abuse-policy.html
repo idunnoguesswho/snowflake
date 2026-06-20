@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>B.004 Substance Abuse Policy — HSMS</title>
+<link rel="stylesheet" href="../hsms.css">
+
+<style>
+.policy-heading {
+  font-size: 1rem; font-weight: 700; color: var(--navy);
+  margin: 20px 0 6px; padding-bottom: 4px; border-bottom: 1px solid var(--border);
+}
+.policy-para { font-size: .88rem; line-height: 1.65; margin-bottom: 8px; color: var(--text); }
+.policy-list { font-size: .88rem; line-height: 1.7; padding-left: 24px; margin-bottom: 10px; }
+.policy-list li { margin-bottom: 3px; }
+.policy-table { overflow-x: auto; margin: 12px 0; }
+.policy-table table { border-collapse: collapse; width: 100%; font-size: .83rem; }
+.policy-table th, .policy-table td { border: 1px solid var(--border); padding: 7px 10px; text-align: left; }
+.policy-table th { background: var(--surface); font-weight: 700; }
+.policy-card { background: white; border-radius: var(--radius); border: 1px solid var(--border); padding: 20px; box-shadow: var(--shadow); margin-bottom: 20px; }
+.ack-card { background: white; border-radius: var(--radius); border: 2px solid var(--blue); padding: 20px; margin-bottom: 20px; box-shadow: var(--shadow); }
+.ack-card h3 { font-size: 1rem; color: var(--navy); margin-bottom: 6px; }
+.ack-card .sub { font-size: .83rem; color: var(--muted); margin-bottom: 16px; }
+.form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 16px; }
+@media (max-width: 500px) { .form-grid { grid-template-columns: 1fr; } }
+.form-field label { display: block; font-size: .72rem; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: .04em; margin-bottom: 4px; }
+.form-field input, .form-field select, .form-field textarea { width: 100%; padding: 8px 10px; border: 1px solid var(--border); border-radius: 6px; font-size: .88rem; font-family: inherit; color: var(--text); background: var(--surface); }
+.form-field input:focus { outline: none; border-color: var(--blue); background: white; }
+.form-field.full { grid-column: 1 / -1; }
+.sig-line { border: none; border-bottom: 1px solid var(--border); height: 40px; background: transparent; display: flex; align-items: flex-end; padding-bottom: 4px; color: var(--muted); font-size: .78rem; font-style: italic; }
+.chk-row { display: flex; align-items: flex-start; gap: 10px; margin-bottom: 12px; }
+.chk-row input[type=checkbox] { margin-top: 2px; width: 16px; height: 16px; flex-shrink: 0; accent-color: var(--blue); }
+.chk-row label { font-size: .87rem; line-height: 1.5; }
+.save-bar { background: var(--navy); border-radius: var(--radius); padding: 14px 16px; display: flex; align-items: center; gap: 14px; flex-wrap: wrap; margin-bottom: 20px; }
+.save-bar .pi { flex: 1; min-width: 0; }
+.save-bar .pl { font-size: .7rem; color: rgba(255,255,255,.6); font-weight: 700; text-transform: uppercase; letter-spacing: .04em; }
+.save-bar .pv { font-size: .78rem; color: white; font-family: monospace; word-break: break-all; }
+.btn-print { background: var(--blue); color: white; border: none; border-radius: 8px; padding: 10px 18px; font-size: .9rem; font-weight: 700; cursor: pointer; white-space: nowrap; }
+.btn-print:hover { background: #1d4ed8; }
+.btn-clear { background: rgba(255,255,255,.15); color: white; border: none; border-radius: 8px; padding: 10px 14px; font-size: .85rem; cursor: pointer; }
+.btn-clear:hover { background: rgba(255,255,255,.25); }
+.fn-hint { margin-top: 10px; padding: 10px 12px; background: var(--blue-light); border-radius: 6px; font-size: .78rem; color: var(--navy); }
+.appendix-wrap { background: white; border-radius: var(--radius); border: 1px solid var(--border); margin-bottom: 20px; overflow: hidden; }
+.appendix-wrap summary { padding: 12px 16px; font-weight: 700; font-size: .9rem; color: var(--navy); cursor: pointer; list-style: none; user-select: none; }
+.appendix-wrap summary::-webkit-details-marker { display: none; }
+.appendix-body { padding: 16px; border-top: 1px solid var(--border); font-size: .85rem; }
+.appendix-body h4 { color: var(--navy); margin: 12px 0 4px; }
+@media print {
+  .site-header, .search-wrap, .breadcrumb, .save-bar, footer { display: none !important; }
+  body { background: white; font-size: 11pt; }
+  .policy-card, .ack-card { border: 1px solid #bbb; box-shadow: none; break-inside: avoid; margin-bottom: 10pt; padding: 12pt; }
+  .ack-card { border: 2pt solid #1a2744; }
+  .form-field input { border: 1px solid #999; background: white; }
+  .sig-line { border-bottom: 1pt solid #333; }
+  .chk-row input { print-color-adjust: exact; -webkit-print-color-adjust: exact; }
+  main { max-width: 100%; padding: 0; }
+  .appendix-wrap { display: none; }
+}
+</style>
+
+</head>
+<body>
+<header class="site-header">
+  <span class="logo">&#128737;</span>
+  <div><h1>HSMS Wiki</h1><p>DS Home Computing</p></div>
+  <a class="back-btn" href="index.html">&#8592; B Series</a>
+</header>
+<div class="search-wrap" style="top:58px">
+  <span class="search-icon">&#128269;</span>
+  <input type="search" id="policySearch" placeholder="Search policy text&#8230;" autocomplete="off">
+</div>
+<main>
+  <div class="breadcrumb">
+    <a href="../index.html">HSMS Wiki</a> &rsaquo; <a href="index.html">B Series</a> &rsaquo; B.004 Substance Abuse Policy
+  </div>
+  <div class="doc-header">
+    <div class="doc-id">B.004 &middot; Policy</div>
+    <h2>Substance Abuse Policy</h2>
+    <div class="meta">DS Home Computing Ltd &middot; SA03 SECOR &middot; For internal use</div>
+  </div>
+
+  <div class="policy-card" id="policyContent">
+    <h3 class="policy-heading">Company Substance Abuse Policy</h3>
+<p class="policy-para">DS Home Computing Ltd is committed to being an industry leader by providing outstanding value to its customers, a safe and stimulating work environment for its employees, and superior returns for its shareholders. Drug and alcohol abuse is not acceptable in the workplace. DS Home Computing Ltd acknowledges its obligation to take all reasonable steps to ensure the health and safety of its workers.</p>
+<p class="policy-para">Recognizing the potential negative effects of alcohol and drugs on the organization, in particular the hazards that those individuals who abuse alcohol and/or drugs pose to themselves, their co-workers, and the general public, DS Home Computing Ltd has implemented a drug and alcohol policy.</p>
+<p class="policy-para">This policy provides for the investigation of employees and/or testing of employees who have been suspected as potential drug and/or alcohol abusers, to assist employees who voluntarily seek help for problems relating to alcohol and/or drugs, and educating employees on the dangers of drug and alcohol abuse.</p>
+<p class="policy-para">The Drug and Alcohol policy applies to all employees of DS Home Computing Ltd. This policy may also be extended to subcontractors.</p>
+<h3 class="policy-heading">For the purposes of this policy, the following are prohibited:</h3>
+<p class="policy-para">Being impaired by alcohol/drugs while at work.</p>
+<p class="policy-para">The possession or use of illicit drugs on Company premises, at Company worksites, or in Company vehicles.</p>
+<p class="policy-para">The presence in the body of illicit drugs (or their metabolites) while at work.</p>
+<p class="policy-para">Refusal to submit to drug/alcohol testing, failure to report to a Company-designated facility for a drug/alcohol test, or tampering or attempting to tamper with a test sample.If there is reasonable cause to believe that an employee is in violation of this policy, the Company may require the employee to submit to alcohol/drug testing and/or physical testing of motor skills and reactions. Reasonable cause shall mean observation of impaired motor skill proficiency, impaired judgment, or unusual conduct, or any reliable information provided to the Company of drug/alcohol consumption at work or an inappropriately short time prior to reporting to work.</p>
+<p class="policy-para">Employees who violate the provisions of this policy are subject to disciplinary action up to and including termination of employment.</p>
+
+  </div>
+
+  <details class="appendix-wrap"><summary>&#9660; Appendix / Additional Forms</summary><div class="appendix-body"><h3 class="policy-heading">Employee Responsibilities</h3>
+<h3 class="policy-heading">Company Management &amp; Supervisors</h3>
+<p class="policy-para">Management and supervisors are responsible for compliance with Provincial and Federal Laws and Company Policy. Management must ensure all employees know and follow these laws and guidelines.</p>
+<h3 class="policy-heading">Workers</h3>
+<p class="policy-para">The worker is responsible to report any incident or potentially serious safety conditions, including suspicion of drug and/or alcohol use to their supervisors.</p>
+<h3 class="policy-heading">Substance Abuse Workplace Guidelines</h3>
+<p class="policy-para">Employees are not to report to work, or be at work, if they are impaired by alcohol or drugs. An employee who is taking legal medication (whether or not prescribed by a physician) which may affect or impair judgment, co-ordination or perception, so as to adversely affect his/her ability to perform work, in a safe and productive manner, must notify his/her supervisor prior to commencing work. The supervisor will determine whether the employee will be permitted to work or whether work restrictions will be applied.</p>
+<p class="policy-para">Employees who are not capable of competently and/or safely performing their job duties will not be permitted to work and will be required to leave the Company premises/job site immediately. When an employee, considered to be in an unfit condition, is requested to leave Company premises, transportation to his/her residence will be arranged by his/her supervisor.</p>
+<p class="policy-para">DS Home Computing Ltd reserves the right to temporarily remove, reassign or suspend an employee pending a determination of the employee’s fitness for work, assessment of a drug/alcohol problem, or completion of an investigation into a possible violation of this policy.</p>
+<h3 class="policy-heading">Drug and Alcohol Testing</h3>
+<p class="policy-para">In the interest of safety and to ensure a drug and alcohol free work environment, employees and potential employees are required to submit to tests for drugs and/or alcohol. Such tests may include breath analysis, urinalysis, or any other test(s) considered appropriate.</p>
+<p class="policy-para">Urinalysis will be performed at a medical facility designated by DS Home Computing Ltd. DS Home Computing Ltd will not accept test results from any facility other than one designated by itself. A positive test may result in the refusal of or termination of employment.</p>
+<p class="policy-para">If there is reasonable cause to believe that an employee is in violation of this policy, DS Home Computing Ltd may require the employee to submit to alcohol/drug testing and/or physical testing of motor skills and reactions. Reasonable cause shall mean observation of impaired motor skill proficiency, impaired judgment, or unusual conduct, or any reliable information provided to DS Home Computing Ltd of drug/alcohol consumption at work or an inappropriately short time prior to reporting to work.</p>
+<p class="policy-para">Following an accident or a near miss, DS Home Computing Ltd may require those involved to undergo testing for drugs/alcohol.</p>
+<p class="policy-para">DS Home Computing Ltd may also conduct random periodical drug and alcohol testing in which all employees must undergo. All DS Home Computing Ltd employees, including management and office personnel, are subject to drug and alcohol testing.</p>
+<h3 class="policy-heading">Positive Test Results</h3>
+<p class="policy-para">An employee who tests positive for drugs/alcohol will be advised of the positive test result and will be suspended immediately without pay pending a determination by DS Home Computing Ltd of the disciplinary action to be taken. Such individual will also be encouraged to meet with his/her physician for assessment. If the employee is not terminated, he/she will be required to undergo a drug/alcohol test at a time determined by the DS Home Computing Ltd prior to being permitted to return to work. Should the result of such test be positive, disciplinary action will be enforced. An employee who returns to work following a suspension resulting from a positive drug test will be subject to random drug testing by the DS Home Computing Ltd for a period not to exceed 24 months following his/her return. During such period, any positive test for drugs/alcohol will result in disciplinary action.</p>
+<p class="policy-para">The maximum permitted level of blood alcohol will be .03 milligrams of alcohol per 100 milliliters of blood. In the absence of legislated thresholds, the drug levels that will be reported as a positive result will be based on industry norms as recommended by the consultant engaged by DS Home Computing Ltd.</p>
+<p class="policy-para">In the event of a positive test result, an employee has the right to request a re-test of the original specimen within 30 days of his/her being originally notified of the positive result. The costs incurred for a positive re-test will be borne by the employee.</p>
+<h3 class="policy-heading">Drug and Alcohol Support Services</h3>
+<p class="policy-para">Employees who have drug and/or alcohol problems are encouraged to seek assistance before performance problems lead to disciplinary action, whether or not they are in violation of this policy.</p>
+<p class="policy-para">Upon approached, by an employee, for help in overcoming a drug/alcohol problem, DS Home Computing Ltd will put the employee in contact with a medical practitioner who, if necessary, will make a referral to the appropriate agency (ex. Alberta Addictions and Mental Health). An acknowledgment by an employee of a drug/alcohol abuse problem will not be a cause for disciplinary action. Notwithstanding such, an employee’s request for assistance will not be a defense to the imposition of disciplinary action where a violation of this or other policies/workplace rules has occurred. Employees who enter a treatment program will be required to sign a form authorizing the administrators of such program to release to DS Home Computing Ltd, information regarding the employee’s progress and degree of commitment to the program. DS Home Computing Ltd will exercise reasonable care and caution to maintain confidentiality relating to an employee’s participation in a treatment program</p>
+</div></details>
+
+  <div class="save-bar">
+    <div class="pi">
+      <div class="pl">Save completed PDF to</div>
+      <div class="pv">G:\My Drive\DS Home\SA Safety and Security\SA03 SECOR\2026 Forms</div>
+    </div>
+    <button class="btn-clear" onclick="clearForm()">Clear</button>
+    <button class="btn-print" onclick="printForm()">&#128424; Save as PDF</button>
+  </div>
+
+  <div class="ack-card">
+    <h3>Policy Acknowledgement</h3>
+    <p class="sub">Complete all fields, check each box, then click <strong>Save as PDF</strong>. Choose <em>Save as PDF</em> in the print dialog and navigate to the folder shown above.</p>
+    <div class="chk-row">
+      <input type="checkbox" id="chk1">
+      <label for="chk1">I have read and understood the full <strong>B.004 Substance Abuse Policy</strong> policy.</label>
+    </div>
+    <div class="chk-row">
+      <input type="checkbox" id="chk2">
+      <label for="chk2">I agree to comply with this policy in the performance of my duties.</label>
+    </div>
+    <div class="chk-row">
+      <input type="checkbox" id="chk3">
+      <label for="chk3">I understand that failure to follow this policy may result in corrective action up to and including termination.</label>
+    </div>
+    <div class="form-grid">
+      <div class="form-field">
+        <label>Employee Full Name</label>
+        <input type="text" id="empName" placeholder="Full legal name" oninput="sync()">
+      </div>
+      <div class="form-field">
+        <label>Position / Title</label>
+        <input type="text" id="empPos" placeholder="Your job title">
+      </div>
+      <div class="form-field">
+        <label>Date of Acknowledgement</label>
+        <input type="date" id="ackDate" oninput="sync()">
+      </div>
+      <div class="form-field">
+        <label>Supervisor / Manager Name</label>
+        <input type="text" id="supName" placeholder="Supervisor full name">
+      </div>
+      <div class="form-field full">
+        <label>Signature</label>
+        <div class="sig-line">Sign above this line after printing &nbsp;&mdash;&nbsp; or type full name to acknowledge electronically</div>
+      </div>
+    </div>
+    <div class="fn-hint"><strong>Suggested filename:</strong> <span id="sfn"></span></div>
+  </div>
+</main>
+<footer>DS Home Computing &middot; SA03 SECOR &middot; B.004 Substance Abuse Policy &middot; For internal use only</footer>
+
+<script>
+const BASE_FN = 'B004-substance-abuse-policy';
+function sync() {
+  const n = (document.getElementById('empName').value||'[name]').trim().replace(/\s+/g,'-');
+  const d = document.getElementById('ackDate').value||'[date]';
+  document.getElementById('sfn').textContent = BASE_FN+'_'+n+'_'+d+'.pdf';
+}
+function printForm() { window.print(); }
+function clearForm() {
+  ['empName','empPos','ackDate','supName'].forEach(id=>document.getElementById(id).value='');
+  document.querySelectorAll('.chk-row input').forEach(el=>el.checked=false);
+  document.getElementById('ackDate').value=new Date().toISOString().split('T')[0];
+  sync();
+}
+document.getElementById('ackDate').value=new Date().toISOString().split('T')[0];
+sync();
+const srch=document.getElementById('policySearch');
+srch.addEventListener('input',()=>{
+  const q=srch.value.toLowerCase();
+  document.querySelectorAll('.policy-card p,.policy-card li,.policy-card h3').forEach(el=>{
+    el.style.backgroundColor=q&&el.textContent.toLowerCase().includes(q)?'#fef9c3':'';
+  });
+});
+</script>
+
+</body>
+</html>

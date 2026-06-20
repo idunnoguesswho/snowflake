@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>B Series — Policies — HSMS Wiki</title>
+<link rel="stylesheet" href="../hsms.css">
+<style>
+.filter-bar {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 16px;
+  align-items: center;
+}
+.filter-btn {
+  padding: 5px 12px;
+  border-radius: 20px;
+  border: 1px solid var(--border);
+  background: white;
+  font-size: .78rem;
+  font-weight: 600;
+  cursor: pointer;
+  color: var(--muted);
+  transition: all .15s;
+}
+.filter-btn.active {
+  background: var(--navy);
+  color: white;
+  border-color: var(--navy);
+}
+.filter-btn:hover:not(.active) { border-color: var(--blue); color: var(--blue); }
+.policy-count {
+  font-size: .78rem;
+  color: var(--muted);
+  margin-left: auto;
+}
+.policy-list-view { display: flex; flex-direction: column; gap: 8px; }
+.policy-row {
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 12px 16px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  text-decoration: none;
+  color: var(--text);
+  box-shadow: var(--shadow);
+  transition: box-shadow .15s, transform .15s;
+}
+.policy-row:hover { box-shadow: 0 4px 14px rgba(0,0,0,.12); transform: translateX(3px); }
+.policy-row .badge {
+  font-size: .7rem;
+  font-weight: 700;
+  background: var(--blue-light);
+  color: var(--blue);
+  border-radius: 4px;
+  padding: 3px 7px;
+  white-space: nowrap;
+  flex-shrink: 0;
+  min-width: 48px;
+  text-align: center;
+}
+.policy-row .name { font-weight: 600; font-size: .9rem; flex: 1; }
+.policy-row .tag {
+  font-size: .7rem;
+  padding: 2px 7px;
+  border-radius: 10px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  color: var(--muted);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.policy-row .arrow { color: var(--muted); font-size: 1.1rem; flex-shrink: 0; }
+.no-results { text-align: center; padding: 40px 20px; color: var(--muted); }
+.section-divider {
+  font-size: .7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .07em;
+  color: var(--muted);
+  padding: 16px 0 8px;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 8px;
+}
+</style>
+</head>
+<body>
+<header class="site-header">
+  <span class="logo">&#128737;</span>
+  <div><h1>HSMS Wiki</h1><p>DS Home Computing</p></div>
+  <a class="back-btn" href="../index.html">&#8592; Wiki Home</a>
+</header>
+<div class="search-wrap">
+  <span class="search-icon">&#128269;</span>
+  <input type="search" id="policySearch" placeholder="Search policies&#8230;" autocomplete="off">
+</div>
+<main>
+  <div class="breadcrumb"><a href="../index.html">HSMS Wiki</a> &rsaquo; B Series — Policies</div>
+
+  <div class="series-header">
+    <h2>B Series — Policies</h2>
+    <p>51 workplace policies. Click any policy to open the form-ready page with acknowledgement fields and PDF export.</p>
+  </div>
+
+  <div style="background:var(--blue-light);border-radius:var(--radius);padding:12px 16px;margin-bottom:16px;font-size:.83rem;color:var(--navy)">
+    <strong>&#128424; PDF Workflow:</strong> Open a policy &rarr; fill in the acknowledgement form &rarr; click <strong>Save as PDF</strong> &rarr; save to
+    <code style="background:white;padding:2px 6px;border-radius:4px;font-size:.78rem">G:\My Drive\DS Home\SA Safety and Security\SA03 SECOR\2026 Forms</code>
+  </div>
+
+  <div class="filter-bar">
+    <button class="filter-btn active" data-cat="all">All</button>
+    <button class="filter-btn" data-cat="hr">HR &amp; Conduct</button>
+    <button class="filter-btn" data-cat="safety">Safety</button>
+    <button class="filter-btn" data-cat="vehicle">Vehicle &amp; Travel</button>
+    <button class="filter-btn" data-cat="ops">Operations</button>
+    <span class="policy-count" id="countLabel">51 policies</span>
+  </div>
+
+  <div class="policy-list-view" id="policyList">
+
+    <!-- HR & CONDUCT -->
+    <div class="section-divider" data-cat="hr">HR &amp; Conduct</div>
+    <a class="policy-row" href="B001-progressive-discipline.html" data-cat="hr">
+      <span class="badge">B.001</span><span class="name">Progressive Discipline</span><span class="tag">HR</span><span class="arrow">›</span>
+    </a>
+    <a class="policy-row" href="B008-equal-work-for-equal-pay.html" data-cat="hr">
+      <span class="badge">B.008</span><span class="name">Equal Work for Equal Pay</span><span class="tag">HR</span><span class="arrow">›</span>
+    </a>
+    <a class="policy-row" href="B009-duty-to-accommodate.html" data-cat="hr">
+      <span class="badge">B.009</span><span class="name">Duty to Accommodate</span><span class="tag">HR</span><span class="arrow">›</span>
+    </a>
+    <a class="policy-row" href="B010-workplace-accessibility.html" data-cat="hr">
+      <span class="badge">B.010</span><span class="name">Workplace Accessibility</span><span class="tag">HR</span><span class="arrow">›</span>
+    </a>
+    <a class="policy-row" href="B011-genetic-testing-policy.html" data-cat="hr">
+      <span class="badge">B.011</span><span class="name">Genetic Testing Policy</span><span class="tag">HR</span><span class="arrow">›</span>
+    </a>
+    <a class="policy-row" href="B012-lie-detectors-policy.html" data-cat="hr">
+      <span class="badge">B.012</span><span class="name">Lie Detectors Policy</span><span class="tag">HR</span><span class="arrow">›</span>
+    </a>
+    <a class="policy-row" href="B028-bullying-and-cyberbullying-policy.html" data-cat="hr">
+      <span class="badge">B.028</span><span class="name">Bullying and Cyberbullying Policy</span><span class="tag">HR</span><span class="arrow">›</span>
+    </a>
+    <a class="policy-row" href="B032-general-hr-code-of-conduct.html" data-cat="hr">
+      <span class="badge">B.032</span><span class="name">General HR Code of Conduct</span><span class="tag">HR</span><span class="arrow">›</span>
+    </a>
+    <a class="policy-row" href="B033-compensation-salary-and-benefits-policy.html" data-cat="hr">
+      <span class="badge">B.033</span><span class="name">Compensation, Salary and Benefits Policy</span><span class="tag">HR</span><span class="arrow">›</span>
+    </a>
+    <a class="policy-row" href="B034-general-leaves-of-absence-policy.html" data-cat="hr">
+      <span class="badge">B.034</span><span class="name">General Leaves of Absence Policy</span><span class="tag">HR</span><span class="arrow">›</span>
+    </a>
+    <a class="policy-row" href="B035-termination-of-employment-policy.html" data-cat="hr">
+      <span class="badge">B.035</span><span class="name">Termination of Employment Policy</span><span class="tag">HR</span><span class="arrow">›</span>
+    </a>
+    <a class="policy-row" href="B036-non-retaliation-and-reprisals-policy.html" data-cat="hr">
+      <span class="badge">B.036</span><span class="name">Non-Retaliation and Reprisals Policy</span><span class="tag">HR</span><span class="arrow">›</span>
+    </a>
+    <a class="policy-row" href="B038-children-in-the-workplace-policy.html" data-cat="hr">
+      <span class="badge">B.038</span><span class="name">Children in the Workplace Policy</span><span class="tag">HR</span><span class="arrow">›</span>
+    </a>
+    <a class="policy-row" href="B039-gifts-favours-and-entertainment-policy.html" data-cat="hr">
+      <span class="badge">B.039</span><span class="name">Gifts, Favours and Entertainment Policy</span><span class="tag">HR</span><span class="arrow">›</span>
+    </a>
+    <a class="policy-row" href="B040-off-duty-conduct-policy.html" data-cat="hr">
+      <span class="badge">B.040</span><span class="name">Off-Duty Conduct Policy</span><span class="tag">HR</span><span class="arrow">›</span>
+    </a>
+    <a class="policy-row" href="B041-dress-code-and-personal-appearance-policy.html" data-cat="hr">
+      <span class="badge">B.041</span><span class="name">Dress Code and Personal Appearance Policy</span><span class="tag">HR</span><span class="arrow">›</span>
+    </a>
+    <a class="policy-row" href="B042-performance-review-and-management-policy.html" data-cat="hr">
+      <span class="badge">B.042</span><span class="name">Performance Review and Management Policy</span><span class="tag">HR</span><span class="arrow">›</span>
+    </a>
+    <a class="policy-row" href="B058-domestic-violence-respectful-workplace-and-privacy-policy.html" data-cat="hr">
+      <span class="badge">B.058</span><span class="name">Domestic Violence, Respectful Workplace and Privacy Policy</span><span class="tag">HR</span><span class="arrow">›</span>
+    </a>
+    <a class="policy-row" href="B003-return-to-work-rtw-policy.html" data-cat="hr">
+      <span class="badge">B.003</span><span class="name">Return to Work (RTW) Policy</span><span class="tag">HR</span><span class="arrow">›</span>
+    </a>
+
+    <!-- SAFETY -->
+    <div class="section-divider" data-cat="safety">Safety Policies &amp; Procedures</div>
+    <a class="policy-row" href="B004-substance-abuse-policy.html" data-cat="safety">
+      <span class="badge">B.004</span><span class="name">Substance Abuse Policy</span><span class="tag">Safety</span><span class="arrow">›</span>
+    </a>
+    <a class="policy-row" href="B014-housekeeping-policy.html" data-cat="safety">
+      <span class="badge">B.014</span><span class="name">Housekeeping Policy</span><span class="tag">Safety</span><span class="arrow">›</span>
+    </a>
+    <a class="policy-row" href="B015-covid-19-policy.html" data-cat="safety">
+      <span class="badge">B.015</span><span class="name">COVID-19 Policy</span><span class="tag">Safety</span><span class="arrow">›</span>
+    </a>
+    <a class="policy-row" href="B016-covid-19-safe-job-procedure.html" data-cat="safety">
+      <span class="badge">B.016</span><span class="name">COVID-19 Safe Job Procedure</span><span class="tag">Safety</span><span class="arrow">›</span>
+    </a>
+    <a class="policy-row" href="B017-office-safety.html" data-cat="safety">
+      <span class="badge">B.017</span><span class="name">Office Safety</span><span class="tag">Safety</span><span class="arrow">›</span>
+    </a>
+    <a class="policy-row" href="B018-extension-cords.html" data-cat="safety">
+      <span class="badge">B.018</span><span class="name">Extension Cords</span><span class="tag">Safety</span><span class="arrow">›</span>
+    </a>
+    <a class="policy-row" href="B019-using-hand-tools.html" data-cat="safety">
+      <span class="badge">B.019</span><span class="name">Using Hand Tools</span><span class="tag">Safety</span><span class="arrow">›</span>
+    </a>
+    <a class="policy-row" href="B020-ladders-standard-work-procedure.html" data-cat="safety">
+      <span class="badge">B.020</span><span class="name">Ladders Standard Work Procedure</span><span class="tag">Safety</span><span class="arrow">›</span>
+    </a>
+    <a class="policy-row" href="B022-first-aid-procedure.html" data-cat="safety">
+      <span class="badge">B.022</span><span class="name">First Aid Procedure</span><span class="tag">Safety</span><span class="arrow">›</span>
+    </a>
+    <a class="policy-row" href="B023-hazard-assessment-procedure.html" data-cat="safety">
+      <span class="badge">B.023</span><span class="name">Hazard Assessment Procedure</span><span class="tag">Safety</span><span class="arrow">›</span>
+    </a>
+    <a class="policy-row" href="B031-substance-abuse-impairment-and-fitness-for-work-policy.html" data-cat="safety">
+      <span class="badge">B.031</span><span class="name">Substance Abuse, Impairment and Fitness for Work Policy</span><span class="tag">Safety</span><span class="arrow">›</span>
+    </a>
+    <a class="policy-row" href="B046-back-injury-prevention-policy.html" data-cat="safety">
+      <span class="badge">B.046</span><span class="name">Back Injury Prevention Policy</span><span class="tag">Safety</span><span class="arrow">›</span>
+    </a>
+    <a class="policy-row" href="B047-fatigue-management-policy.html" data-cat="safety">
+      <span class="badge">B.047</span><span class="name">Fatigue Management Policy</span><span class="tag">Safety</span><span class="arrow">›</span>
+    </a>
+
+    <!-- VEHICLE & TRAVEL -->
+    <div class="section-divider" data-cat="vehicle">Vehicle &amp; Travel</div>
+    <a class="policy-row" href="B021-winter-driving.html" data-cat="vehicle">
+      <span class="badge">B.021</span><span class="name">Winter Driving</span><span class="tag">Vehicle</span><span class="arrow">›</span>
+    </a>
+    <a class="policy-row" href="B024-backing-up-truck-and-trailer.html" data-cat="vehicle">
+      <span class="badge">B.024</span><span class="name">Backing Up Truck and Trailer</span><span class="tag">Vehicle</span><span class="arrow">›</span>
+    </a>
+    <a class="policy-row" href="B025-vehicle-boosting-policy.html" data-cat="vehicle">
+      <span class="badge">B.025</span><span class="name">Vehicle Boosting Policy</span><span class="tag">Vehicle</span><span class="arrow">›</span>
+    </a>
+    <a class="policy-row" href="B026-vehicle-boosting-safe-job-procedure.html" data-cat="vehicle">
+      <span class="badge">B.026</span><span class="name">Vehicle Boosting Safe Job Procedure</span><span class="tag">Vehicle</span><span class="arrow">›</span>
+    </a>
+    <a class="policy-row" href="B043-inclement-weather-policy.html" data-cat="vehicle">
+      <span class="badge">B.043</span><span class="name">Inclement Weather Policy</span><span class="tag">Vehicle</span><span class="arrow">›</span>
+    </a>
+    <a class="policy-row" href="B048-vehicle-fleet-safety-management-policy.html" data-cat="vehicle">
+      <span class="badge">B.048</span><span class="name">Vehicle/Fleet Safety Management Policy</span><span class="tag">Vehicle</span><span class="arrow">›</span>
+    </a>
+    <a class="policy-row" href="B049-journey-management-policy.html" data-cat="vehicle">
+      <span class="badge">B.049</span><span class="name">Journey Management Policy</span><span class="tag">Vehicle</span><span class="arrow">›</span>
+    </a>
+    <a class="policy-row" href="B050-360-before-driving-policy.html" data-cat="vehicle">
+      <span class="badge">B.050</span><span class="name">360 Before Driving Policy</span><span class="tag">Vehicle</span><span class="arrow">›</span>
+    </a>
+
+    <!-- OPERATIONS -->
+    <div class="section-divider" data-cat="ops">Operations &amp; Technology</div>
+    <a class="policy-row" href="B002-rental-unit-policy.html" data-cat="ops">
+      <span class="badge">B.002</span><span class="name">Rental Unit Policy</span><span class="tag">Ops</span><span class="arrow">›</span>
+    </a>
+    <a class="policy-row" href="B005-site-material-receiving.html" data-cat="ops">
+      <span class="badge">B.005</span><span class="name">Site Material Receiving</span><span class="tag">Ops</span><span class="arrow">›</span>
+    </a>
+    <a class="policy-row" href="B006-employee-payroll.html" data-cat="ops">
+      <span class="badge">B.006</span><span class="name">Employee Payroll</span><span class="tag">Ops</span><span class="arrow">›</span>
+    </a>
+    <a class="policy-row" href="B007-self-employed-payroll.html" data-cat="ops">
+      <span class="badge">B.007</span><span class="name">Self-Employed Payroll</span><span class="tag">Ops</span><span class="arrow">›</span>
+    </a>
+    <a class="policy-row" href="B013-cell-phone-usage.html" data-cat="ops">
+      <span class="badge">B.013</span><span class="name">Cell Phone Usage</span><span class="tag">Ops</span><span class="arrow">›</span>
+    </a>
+    <a class="policy-row" href="B027-cash-advance-policy.html" data-cat="ops">
+      <span class="badge">B.027</span><span class="name">Cash Advance Policy</span><span class="tag">Ops</span><span class="arrow">›</span>
+    </a>
+    <a class="policy-row" href="B029-computer-social-networking-and-internet-use-policy.html" data-cat="ops">
+      <span class="badge">B.029</span><span class="name">Computer, Social Networking and Internet Use Policy</span><span class="tag">Ops</span><span class="arrow">›</span>
+    </a>
+    <a class="policy-row" href="B030-flexible-benefits-telecommuting-and-work-from-home-policy.html" data-cat="ops">
+      <span class="badge">B.030</span><span class="name">Flexible Benefits, Telecommuting and Work from Home Policy</span><span class="tag">Ops</span><span class="arrow">›</span>
+    </a>
+    <a class="policy-row" href="B037-visitors-safety-and-rules-of-conduct-policy.html" data-cat="ops">
+      <span class="badge">B.037</span><span class="name">Visitors Safety and Rules of Conduct Policy</span><span class="tag">Ops</span><span class="arrow">›</span>
+    </a>
+    <a class="policy-row" href="B044-bring-your-own-device-byod-policy.html" data-cat="ops">
+      <span class="badge">B.044</span><span class="name">Bring Your Own Device (BYOD) Policy</span><span class="tag">Ops</span><span class="arrow">›</span>
+    </a>
+    <a class="policy-row" href="B045-use-of-cell-phones-in-the-workplace-policy.html" data-cat="ops">
+      <span class="badge">B.045</span><span class="name">Use of Cell Phones in the Workplace Policy</span><span class="tag">Ops</span><span class="arrow">›</span>
+    </a>
+
+  </div>
+  <div class="no-results hidden" id="noResults">No policies match your search.</div>
+</main>
+<footer>DS Home Computing &middot; SA03 SECOR &middot; B Series Policies &middot; For internal use only</footer>
+<script>
+const search = document.getElementById('policySearch');
+const countEl = document.getElementById('countLabel');
+const filters = document.querySelectorAll('.filter-btn');
+let activeCat = 'all';
+
+function applyFilters() {
+  const q = search.value.toLowerCase();
+  let visible = 0;
+  document.querySelectorAll('.policy-row').forEach(row => {
+    const catMatch = activeCat === 'all' || row.dataset.cat === activeCat;
+    const textMatch = !q || row.textContent.toLowerCase().includes(q);
+    row.style.display = catMatch && textMatch ? '' : 'none';
+    if (catMatch && textMatch) visible++;
+  });
+  document.querySelectorAll('.section-divider').forEach(div => {
+    div.style.display = activeCat === 'all' || div.dataset.cat === activeCat ? '' : 'none';
+  });
+  countEl.textContent = visible + ' polic' + (visible === 1 ? 'y' : 'ies');
+  document.getElementById('noResults').classList.toggle('hidden', visible > 0);
+}
+
+search.addEventListener('input', applyFilters);
+filters.forEach(btn => {
+  btn.addEventListener('click', () => {
+    filters.forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    activeCat = btn.dataset.cat;
+    applyFilters();
+  });
+});
+</script>
+</body>
+</html>

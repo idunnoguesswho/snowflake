@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>B.003 Return to Work (RTW) Policy — HSMS</title>
+<link rel="stylesheet" href="../hsms.css">
+
+<style>
+.policy-heading {
+  font-size: 1rem; font-weight: 700; color: var(--navy);
+  margin: 20px 0 6px; padding-bottom: 4px; border-bottom: 1px solid var(--border);
+}
+.policy-para { font-size: .88rem; line-height: 1.65; margin-bottom: 8px; color: var(--text); }
+.policy-list { font-size: .88rem; line-height: 1.7; padding-left: 24px; margin-bottom: 10px; }
+.policy-list li { margin-bottom: 3px; }
+.policy-table { overflow-x: auto; margin: 12px 0; }
+.policy-table table { border-collapse: collapse; width: 100%; font-size: .83rem; }
+.policy-table th, .policy-table td { border: 1px solid var(--border); padding: 7px 10px; text-align: left; }
+.policy-table th { background: var(--surface); font-weight: 700; }
+.policy-card { background: white; border-radius: var(--radius); border: 1px solid var(--border); padding: 20px; box-shadow: var(--shadow); margin-bottom: 20px; }
+.ack-card { background: white; border-radius: var(--radius); border: 2px solid var(--blue); padding: 20px; margin-bottom: 20px; box-shadow: var(--shadow); }
+.ack-card h3 { font-size: 1rem; color: var(--navy); margin-bottom: 6px; }
+.ack-card .sub { font-size: .83rem; color: var(--muted); margin-bottom: 16px; }
+.form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 16px; }
+@media (max-width: 500px) { .form-grid { grid-template-columns: 1fr; } }
+.form-field label { display: block; font-size: .72rem; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: .04em; margin-bottom: 4px; }
+.form-field input, .form-field select, .form-field textarea { width: 100%; padding: 8px 10px; border: 1px solid var(--border); border-radius: 6px; font-size: .88rem; font-family: inherit; color: var(--text); background: var(--surface); }
+.form-field input:focus { outline: none; border-color: var(--blue); background: white; }
+.form-field.full { grid-column: 1 / -1; }
+.sig-line { border: none; border-bottom: 1px solid var(--border); height: 40px; background: transparent; display: flex; align-items: flex-end; padding-bottom: 4px; color: var(--muted); font-size: .78rem; font-style: italic; }
+.chk-row { display: flex; align-items: flex-start; gap: 10px; margin-bottom: 12px; }
+.chk-row input[type=checkbox] { margin-top: 2px; width: 16px; height: 16px; flex-shrink: 0; accent-color: var(--blue); }
+.chk-row label { font-size: .87rem; line-height: 1.5; }
+.save-bar { background: var(--navy); border-radius: var(--radius); padding: 14px 16px; display: flex; align-items: center; gap: 14px; flex-wrap: wrap; margin-bottom: 20px; }
+.save-bar .pi { flex: 1; min-width: 0; }
+.save-bar .pl { font-size: .7rem; color: rgba(255,255,255,.6); font-weight: 700; text-transform: uppercase; letter-spacing: .04em; }
+.save-bar .pv { font-size: .78rem; color: white; font-family: monospace; word-break: break-all; }
+.btn-print { background: var(--blue); color: white; border: none; border-radius: 8px; padding: 10px 18px; font-size: .9rem; font-weight: 700; cursor: pointer; white-space: nowrap; }
+.btn-print:hover { background: #1d4ed8; }
+.btn-clear { background: rgba(255,255,255,.15); color: white; border: none; border-radius: 8px; padding: 10px 14px; font-size: .85rem; cursor: pointer; }
+.btn-clear:hover { background: rgba(255,255,255,.25); }
+.fn-hint { margin-top: 10px; padding: 10px 12px; background: var(--blue-light); border-radius: 6px; font-size: .78rem; color: var(--navy); }
+.appendix-wrap { background: white; border-radius: var(--radius); border: 1px solid var(--border); margin-bottom: 20px; overflow: hidden; }
+.appendix-wrap summary { padding: 12px 16px; font-weight: 700; font-size: .9rem; color: var(--navy); cursor: pointer; list-style: none; user-select: none; }
+.appendix-wrap summary::-webkit-details-marker { display: none; }
+.appendix-body { padding: 16px; border-top: 1px solid var(--border); font-size: .85rem; }
+.appendix-body h4 { color: var(--navy); margin: 12px 0 4px; }
+@media print {
+  .site-header, .search-wrap, .breadcrumb, .save-bar, footer { display: none !important; }
+  body { background: white; font-size: 11pt; }
+  .policy-card, .ack-card { border: 1px solid #bbb; box-shadow: none; break-inside: avoid; margin-bottom: 10pt; padding: 12pt; }
+  .ack-card { border: 2pt solid #1a2744; }
+  .form-field input { border: 1px solid #999; background: white; }
+  .sig-line { border-bottom: 1pt solid #333; }
+  .chk-row input { print-color-adjust: exact; -webkit-print-color-adjust: exact; }
+  main { max-width: 100%; padding: 0; }
+  .appendix-wrap { display: none; }
+}
+</style>
+
+</head>
+<body>
+<header class="site-header">
+  <span class="logo">&#128737;</span>
+  <div><h1>HSMS Wiki</h1><p>DS Home Computing</p></div>
+  <a class="back-btn" href="index.html">&#8592; B Series</a>
+</header>
+<div class="search-wrap" style="top:58px">
+  <span class="search-icon">&#128269;</span>
+  <input type="search" id="policySearch" placeholder="Search policy text&#8230;" autocomplete="off">
+</div>
+<main>
+  <div class="breadcrumb">
+    <a href="../index.html">HSMS Wiki</a> &rsaquo; <a href="index.html">B Series</a> &rsaquo; B.003 Return to Work (RTW) Policy
+  </div>
+  <div class="doc-header">
+    <div class="doc-id">B.003 &middot; Policy</div>
+    <h2>Return to Work (RTW) Policy</h2>
+    <div class="meta">DS Home Computing Ltd &middot; SA03 SECOR &middot; For internal use</div>
+  </div>
+
+  <div class="policy-card" id="policyContent">
+    <h3 class="policy-heading">Management Commitment</h3>
+<p class="policy-para">DS Home Computing Ltd. is committed to cooperating in returning injured workers to safe and suitable employment.</p>
+<p class="policy-para">To support this commitment, a company representative will contact the worker as soon as possible after the injury and work together on developing a Return-To-Work (RTW) plan.  The RTW plan will be based on the individual needs of each employee and include functional abilities information from health professionals as well as input from the jurisdictional case manager.</p>
+<p class="policy-para">If an employee is unable to return to their pre-injury position because of a work-related injury or illness, the company will consider alternate options as required by the applicable legislation.  These may include work assignments involving modified equipment, hours, or duties as well as different work units or locations with the goal of reducing the length of an employee’s absence to as short as reasonably possible.</p>
+<p class="policy-para">All employees will be treated fairly and consistently.  If injured or ill, employees are expected to participate and cooperate in the RTW plan developed.</p>
+<p class="policy-para">All managers and supervisors are expected to understand and value the importance of returning injured or ill employees to work and must provide assistance where appropriate.</p>
+<p class="policy-para">Any personal information received or collected that can lead to the identification of an employee will be held in the strictest of confidence.  Information of a personal nature will be released only if required by law or with the approval of the employee who will specify the nature of the information to be released and to whom it can be released.</p>
+<p class="policy-para">This statement reflects the views of both management and employees of this organization and has been developed in consultation with employee representatives.</p>
+<p class="policy-para">This statement will be reviewed at least annually and may be updated or changed as required.</p>
+<div class="policy-table"><table><tbody><tr><th>Doug Senger, CEO</th><th>Date</th><th></th><th>Signature</th><th></th></tr></tbody></table></div><h3 class="policy-heading">Definitions</h3>
+<p class="policy-para">As a result of working in multiple jurisdictions, it should be clarified, references to WCB and Legislation refer to the provincial or territorial bodies of work.</p>
+<h3 class="policy-heading">Table 1 WCB Jurisdictions Table</h3>
+<div class="policy-table"><table><tbody><tr><th>Jurisdiction</th><th>WCB Agency</th><th>Legislation</th></tr><tr><td>Alberta (AB)</td><td>Workers Compensation Board</td><td>Alberta Occupational Health and Safety</td></tr></tbody></table></div><p class="policy-para">A series of definitions is provided to assist workplace parties during the return to work planning and to promote a consistent understanding of the program types to be utilized in the hierarchy of return to work. The hierarchy of return to work priorities is illustrated in the table included in each appropriate section of the policy (i.e. Parts I and II). The definitions should be read in the context of the hierarchy of return to work priorities. Other relevant policies should be consulted and considered when decisions are being made on return to work programs.</p>
+<h3 class="policy-heading">Accommodation: Accommodation is any change or adaptation to the work, hours of work, work duties or workplace, and includes the provision of equipment or assistive devices. In any specific case, accommodation can include, but is not limited to, any of the options outlined in this policy or an appropriate combination thereof.</h3>
+<h3 class="policy-heading">Alternate Duties: Alternate duties are non-pre-injury duties within the worker’s functional abilities</h3>
+<h3 class="policy-heading">Alternative Work: A different job or bundle of duties (not the pre-injury job or duties) that are suitable and are provided to accommodate a worker who has temporary or permanent functional restrictions as a result of the injury.</h3>
+<h3 class="policy-heading">Assistive Devices: Assistive devices include aids/attachments specifically designed for the worker and/or required by the worker to perform job-related activities.</h3>
+<h3 class="policy-heading">Ease Back: A gradual return to pre-injury hours of work achieved by increasing the number of hours worked over a defined time frame agreed upon by the workplace parties utilizing the functional abilities information relating to the worker. While the pre-injury hours of work vary, the pre-injury duties are the same.</h3>
+<h3 class="policy-heading">Modifications: Changes to job schedule, equipment, organization of work, and/or facilities.</h3>
+<h3 class="policy-heading">Modified Work: Changing the job duties of the pre-injury position required to accommodate the worker’s functional restrictions as a result of the injury. Modified work includes altering or removing some duties; however, the worker is still working primarily in his or her pre-injury position.</h3>
+<h3 class="policy-heading">Procedures</h3>
+<h3 class="policy-heading">Responding to an Incident or Injury</h3>
+<h3 class="policy-heading">Workers</h3>
+<p class="policy-para">Report to supervisor or first aid of any incident, or injury.</p>
+<p class="policy-para">Complete a Worker's Report of Injury (WCB form) and forward this to the WCB office.</p>
+<h3 class="policy-heading">Obtain a job description if available and forward it to WCB</h3>
+<p class="policy-para">Have the functional abilities form completed by the attending physician.  If there is no form available onsite contact WCB to obtain one.</p>
+<p class="policy-para">Return the Functional Abilities Form to your supervisor immediately.  You will be part of the “Case Management Team”.   The team will review the information and arrange a return to work based on the information provided by the physician and submit an RTW Plan to the WCB.  This plan will be updated until you are back to your regular work duties.</p>
+<p class="policy-para">The doctor will tell you if you can return to your regular duties and will give you the completed Functional Abilities Form necessary for assessing your physical capabilities if you are to be placed into a Modified Work Program. Give the completed form to the Supervisor.  Plan to return to work at the beginning of your next regular shift.</p>
+<p class="policy-para">If you are cleared to return to Modified Work, you will most likely be assigned to an Interim Work Placement. The initial placement would be modified work, graduated return to work, transitional work, and the trial of work or training on the job.</p>
+<h3 class="policy-heading">Employers</h3>
+<h3 class="policy-heading">Call 911 for serious injuries</h3>
+<p class="policy-para">Provide first aid if necessary.</p>
+<h3 class="policy-heading">Transport the worker to the nearest medical facility</h3>
+<p class="policy-para">Report the incident immediately if it is serious.  Serious incidents include fatalities, serious injuries, major damage to buildings, and major releases of hazardous substances.  If we are unsure whether an incident is serious, we will report it anyway</p>
+<p class="policy-para">Report any injury to WCB within 48 hours.  If you find out about the injury more than 48 hours after it occurs report it as soon as possible.</p>
+<p class="policy-para">Initiate a WCB claim.  Submit an employer’s report of injury.  Ensure that the completed a worker’s report of injury.</p>
+<p class="policy-para">Investigate the incident.  Find out what went wrong and what needs to be done to prevent it from happening again.  The investigation will include statements from anyone who was present during the incident.</p>
+<p class="policy-para">Have a package at the worksite which includes the worker’s report of injury, functional abilities form, job descriptions, and modified duties if available</p>
+<p class="policy-para">Alberta requires a serious injuries report as well. OHS Online Incident Reports https://oirportal.labour.alberta.ca/claims-list/</p>
+<h3 class="policy-heading">Promoting Return to Work</h3>
+<h3 class="policy-heading">Employers</h3>
+<h3 class="policy-heading">If the worker will miss work for an extended period, be prepared to do the following:</h3>
+<p class="policy-para">Document who the members of the committee are (labor, management, safety committee members)</p>
+<p class="policy-para">Create and maintain a separate file for injuries and where this information will be stored</p>
+<h3 class="policy-heading">Determine who is paying (occupational or non-occupational)</h3>
+<h3 class="policy-heading">Stay in touch with the worker</h3>
+<h3 class="policy-heading">Consider speaking to the nurse advisor at WCB for help</h3>
+<h3 class="policy-heading">Maintain a good working relationship with the person managing the claim at WCB</h3>
+<p class="policy-para">Discuss RTW with the worker and whether modified or alternate duties can be matched to his/her functional abilities</p>
+<h3 class="policy-heading">Maintain confidentiality</h3>
+<h3 class="policy-heading">Monitor progress with Functional Abilities Forms</h3>
+<p class="policy-para">If the worker refuses to participate in the modified work program, the Case Management Team will interview the employee and record the reasons for not accepting the offer.  This information will be forwarded to WCB.</p>
+<h3 class="policy-heading">Follow-up after Return to Work</h3>
+<p class="policy-para">When the worker reports for modified work, the supervisor and the Case Management Team shall monitor the employee’s progress daily and address any concerns immediately.</p>
+<p class="policy-para">When the worker receives written medical clearance to return to regular duties, the case manager will provide a copy of the clearance letter to WCB  The Case Management Team and case manager will continue to monitor the employee’s progress to ensure that the return to regular duties is without incident.</p>
+<h3 class="policy-heading">Make all reasonable efforts to accommodate all workers injured on the job to return to work in consideration of their functional abilities. The goal is to assist the employee in full rehabilitation</h3>
+<h3 class="policy-heading">Workers</h3>
+<h3 class="policy-heading">Stay in touch with the employer</h3>
+<h3 class="policy-heading">Be committed to your recovery and RTW</h3>
+<h3 class="policy-heading">Participate in discussions regarding RTW, modified work and or alternate duties</h3>
+<h3 class="policy-heading">Fully participate in your treatment program</h3>
+<h3 class="policy-heading">The Return to Work Plan</h3>
+<p class="policy-para">The RTW plan will be developed by the Case Management Team.  The RTW Plan will be updated regularly and will include the following information.</p>
+<h3 class="policy-heading">Specific job duties to be performed</h3>
+<p class="policy-para">Hours of work.  These are important in the case of transitional employment where the hours may vary during the placement.</p>
+<p class="policy-para">Length of placement.  This will depend on the worker receiving clearance to return to work from the physician.</p>
+<p class="policy-para">The Return-to-Work Plan will be signed by the injured worker and any other members of the Case Management Team.  A copy will be forwarded to WCB.</p>
+<h3 class="policy-heading">Options for Return to Work:</h3>
+<p class="policy-para">The following options for modified work will be considered when returning an injured worker to the workplace:</p>
+<h3 class="policy-heading">Modified Work – may include hours of work, job duties and work-site modifications that will accommodate an injured worker’s abilities and/or functional limitations.</h3>
+<h3 class="policy-heading">Graduated Return to Work – is aimed at facilitating an injured worker’s gradual transition from disability to full employment.</h3>
+<h3 class="policy-heading">Transitional Work – Work not considered part of the employee’s work duties but would benefit the injured worker’s rehabilitation and may include</h3>
+<p class="policy-para">The injured worker shadowing a person doing his/her pre-accident job.</p>
+<h3 class="policy-heading">A meaningful make-work projects</h3>
+<h3 class="policy-heading">Taking on the various duties of co-workers that are suitable</h3>
+<p class="policy-para">Trial of Work – is a trial placement of an injured worker with an employer to test and assess an injured worker’s functional capabilities in a new job setting.</p>
+<p class="policy-para">Training on the Job – is a vocational rehabilitation plan, a contract between the employer, injured worker and the WCB used to identify key elements, milestones, timelines, and the final outcome in advance.</p>
+<h3 class="policy-heading">RTW Committee</h3>
+<p class="policy-para">The RTW Committee will include a member of the Health and Safety Committee and the Superintendent or Supervisor for each site. They will meet quarterly to consult on program elements and advise on complex issues. Any suggestions for improvement will be submitted through the HSC program on a routine basis.</p>
+<div class="policy-table"><table><tbody><tr><th>Revision Log</th></tr><tr><td>Revision</td><td>Approved By</td><td>Publish Date</td><td>Changes Made</td></tr><tr><td>0</td><td>Katie Snow</td><td>15-MAY-2025</td><td>First Publish</td></tr></tbody></table></div><h3 class="policy-heading">Acceptance</h3>
+<h3 class="policy-heading">By signing this document, I acknowledge:</h3>
+<p class="policy-para">I have received a copy of the Return-to-Work Program.</p>
+<p class="policy-para">I will take responsibility for my safety and those around me.</p>
+<h3 class="policy-heading">I will report all incidents</h3>
+<h3 class="policy-heading">I will complete a site specific safety review for each project I join</h3>
+
+  </div>
+
+  
+
+  <div class="save-bar">
+    <div class="pi">
+      <div class="pl">Save completed PDF to</div>
+      <div class="pv">G:\My Drive\DS Home\SA Safety and Security\SA03 SECOR\2026 Forms</div>
+    </div>
+    <button class="btn-clear" onclick="clearForm()">Clear</button>
+    <button class="btn-print" onclick="printForm()">&#128424; Save as PDF</button>
+  </div>
+
+  <div class="ack-card">
+    <h3>Policy Acknowledgement</h3>
+    <p class="sub">Complete all fields, check each box, then click <strong>Save as PDF</strong>. Choose <em>Save as PDF</em> in the print dialog and navigate to the folder shown above.</p>
+    <div class="chk-row">
+      <input type="checkbox" id="chk1">
+      <label for="chk1">I have read and understood the full <strong>B.003 Return to Work (RTW) Policy</strong> policy.</label>
+    </div>
+    <div class="chk-row">
+      <input type="checkbox" id="chk2">
+      <label for="chk2">I agree to comply with this policy in the performance of my duties.</label>
+    </div>
+    <div class="chk-row">
+      <input type="checkbox" id="chk3">
+      <label for="chk3">I understand that failure to follow this policy may result in corrective action up to and including termination.</label>
+    </div>
+    <div class="form-grid">
+      <div class="form-field">
+        <label>Employee Full Name</label>
+        <input type="text" id="empName" placeholder="Full legal name" oninput="sync()">
+      </div>
+      <div class="form-field">
+        <label>Position / Title</label>
+        <input type="text" id="empPos" placeholder="Your job title">
+      </div>
+      <div class="form-field">
+        <label>Date of Acknowledgement</label>
+        <input type="date" id="ackDate" oninput="sync()">
+      </div>
+      <div class="form-field">
+        <label>Supervisor / Manager Name</label>
+        <input type="text" id="supName" placeholder="Supervisor full name">
+      </div>
+      <div class="form-field full">
+        <label>Signature</label>
+        <div class="sig-line">Sign above this line after printing &nbsp;&mdash;&nbsp; or type full name to acknowledge electronically</div>
+      </div>
+    </div>
+    <div class="fn-hint"><strong>Suggested filename:</strong> <span id="sfn"></span></div>
+  </div>
+</main>
+<footer>DS Home Computing &middot; SA03 SECOR &middot; B.003 Return to Work (RTW) Policy &middot; For internal use only</footer>
+
+<script>
+const BASE_FN = 'B003-return-to-work-rtw-policy';
+function sync() {
+  const n = (document.getElementById('empName').value||'[name]').trim().replace(/\s+/g,'-');
+  const d = document.getElementById('ackDate').value||'[date]';
+  document.getElementById('sfn').textContent = BASE_FN+'_'+n+'_'+d+'.pdf';
+}
+function printForm() { window.print(); }
+function clearForm() {
+  ['empName','empPos','ackDate','supName'].forEach(id=>document.getElementById(id).value='');
+  document.querySelectorAll('.chk-row input').forEach(el=>el.checked=false);
+  document.getElementById('ackDate').value=new Date().toISOString().split('T')[0];
+  sync();
+}
+document.getElementById('ackDate').value=new Date().toISOString().split('T')[0];
+sync();
+const srch=document.getElementById('policySearch');
+srch.addEventListener('input',()=>{
+  const q=srch.value.toLowerCase();
+  document.querySelectorAll('.policy-card p,.policy-card li,.policy-card h3').forEach(el=>{
+    el.style.backgroundColor=q&&el.textContent.toLowerCase().includes(q)?'#fef9c3':'';
+  });
+});
+</script>
+
+</body>
+</html>

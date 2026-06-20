@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>C.024 Worksite Inspection — HSMS</title>
+<link rel="stylesheet" href="../hsms.css">
+<style>
+/* ===== C-series form styles ===== */
+.form-desc { font-size:.875rem; color:var(--muted); margin:0 0 16px; padding:0 16px; }
+.field-group { padding:12px 16px; }
+.field-section-label {
+  font-size:.7rem; font-weight:700; letter-spacing:.08em; text-transform:uppercase;
+  color:var(--muted); margin:14px 0 6px; padding-top:6px;
+  border-top:1px solid var(--border);
+}
+.field-row { display:flex; flex-wrap:wrap; gap:10px; margin-bottom:10px; }
+.field { display:flex; flex-direction:column; gap:4px; flex:1 1 200px; }
+.field-full { width:100%; }
+.field-no-label { flex:1 1 180px; }
+.field-label { font-size:.75rem; font-weight:600; color:var(--body); }
+.fi { border:1px solid var(--border); border-radius:6px; padding:6px 10px;
+      font:inherit; font-size:.875rem; color:var(--body); background:#fff;
+      width:100%; box-sizing:border-box; }
+.fi:focus { outline:none; border-color:var(--blue); box-shadow:0 0 0 2px #dbeafe; }
+.fi-short { max-width:120px; }
+.fi-med   { max-width:280px; }
+.fi-long  { max-width:100%; }
+.fi-area  { min-height:72px; resize:vertical; max-width:100%; }
+.fi-date  { max-width:160px; }
+/* check grid */
+.table-wrap { overflow-x:auto; padding:12px 16px; }
+.form-table { width:100%; border-collapse:collapse; font-size:.8rem; }
+.form-table th {
+  background:var(--navy); color:#fff; text-align:left;
+  padding:6px 8px; font-size:.72rem; font-weight:600;
+}
+.form-table td { padding:5px 6px; border:1px solid var(--border); vertical-align:middle; }
+.form-table .label-cell { font-size:.8rem; color:var(--body); background:#f8fafc; font-weight:500; }
+.form-table .check-cell { text-align:center; background:#fafafa; }
+.radio-group { display:flex; flex-wrap:wrap; gap:6px; justify-content:center; }
+.radio-opt { display:flex; align-items:center; gap:3px; font-size:.72rem;
+             cursor:pointer; padding:2px 5px; border-radius:4px; }
+.radio-opt:hover { background:#eff6ff; }
+.radio-opt input[type=radio] { accent-color:var(--blue); }
+/* signoff */
+.signoff-section {
+  margin:20px 16px 0; padding:16px;
+  border:1px solid var(--border); border-radius:10px; background:#f8fafc;
+}
+.signoff-label {
+  font-size:.7rem; font-weight:700; letter-spacing:.08em; text-transform:uppercase;
+  color:var(--muted); margin-bottom:12px;
+}
+.signoff-grid { display:flex; flex-wrap:wrap; gap:12px; }
+.sig-field { display:flex; flex-direction:column; gap:4px; flex:1 1 200px; }
+.sig-wide { flex:2 1 300px; }
+.sig-date { flex:0 1 160px; }
+.sig-field label { font-size:.75rem; font-weight:600; color:var(--body); }
+/* save bar */
+.save-bar {
+  position:sticky; top:0; z-index:50;
+  background:#1e3a5f; color:#fff; padding:8px 16px;
+  display:flex; align-items:center; justify-content:space-between;
+  font-size:.78rem; gap:12px; flex-wrap:wrap;
+}
+.save-bar .save-path { opacity:.8; font-size:.7rem; word-break:break-all; }
+.save-bar button {
+  background:var(--blue); color:#fff; border:none; border-radius:6px;
+  padding:6px 14px; font-size:.8rem; font-weight:600; cursor:pointer; white-space:nowrap;
+}
+.save-bar button:hover { background:#1d4ed8; }
+.filename-hint { font-size:.7rem; opacity:.75; margin-top:2px; }
+/* breadcrumb + header */
+.doc-header {
+  background:#fff; padding:16px; border-bottom:1px solid var(--border);
+}
+.doc-badge { font-size:.7rem; font-weight:700; letter-spacing:.05em;
+             text-transform:uppercase; color:var(--blue); margin-bottom:4px; }
+.doc-header h2 { font-size:1.2rem; font-weight:700; color:var(--navy); margin:0 0 4px; }
+.doc-sub { font-size:.78rem; color:var(--muted); }
+/* section heading within form */
+.section-heading {
+  font-size:.95rem; font-weight:700; color:var(--navy);
+  background:#f1f5f9; padding:8px 16px; margin:16px 0 0;
+  border-left:3px solid var(--blue);
+}
+/* print */
+@media print {
+  .site-header, .save-bar, footer, .search-wrap { display:none !important; }
+  body { font-size:11pt; }
+  .form-table th { background:#1a2744 !important; -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+  .fi, .fi-area { border:1px solid #999 !important; }
+}
+</style>
+</head>
+<body>
+<header class="site-header">
+  <span class="logo">🛡️</span>
+  <div>
+    <h1>HSMS Wiki</h1>
+    <p>DS Home Computing</p>
+  </div>
+  <a href="../C/index.html" style="margin-left:auto;color:#fff;font-size:.8rem;">← C Series</a>
+</header>
+
+<div class="save-bar" id="savebar">
+  <div>
+    <div>Save completed form as PDF</div>
+    <div class="save-path">📁 G:\My Drive\DS Home\SA Safety and Security\SA03 SECOR\2026 Forms</div>
+    <div class="filename-hint" id="fnhint">Suggested filename: <span id="fnout">C024-worksite-inspection_[name]_[date].pdf</span></div>
+  </div>
+  <button onclick="window.print()">🖨 Print / Save PDF</button>
+</div>
+
+<div class="doc-header">
+  <nav class="breadcrumb" style="font-size:.75rem;color:var(--muted);margin-bottom:8px;">
+    <a href="../index.html">HSMS Wiki</a> › <a href="index.html">C Series</a> › C.024 Worksite Inspection
+  </nav>
+  <div class="doc-badge">C.024 · FORM</div>
+  <h2>Worksite Inspection</h2>
+  <div class="doc-sub">DS Home Computing Ltd · SA03 SECOR · For internal use</div>
+</div>
+
+<main>
+<div class="field-group">
+<div class="field-section-label">Safety Inspection</div>
+<div class="field-row">
+<div class="field"><label class="field-label">Project Name:</label><input type="text" id="f1" class="fi fi-med" autocomplete="off"></div>
+</div>
+<div class="field-row">
+<div class="field"><label class="field-label">Project Address:</label><input type="text" id="f2" class="fi fi-med" autocomplete="off"></div>
+</div>
+<div class="field-row">
+<div class="field"><label class="field-label">Contract No.:</label><input type="text" id="f3" class="fi fi-med" autocomplete="off"></div>
+<div class="field"><label class="field-label">Owner:</label><input type="text" id="f4" class="fi fi-med" autocomplete="off"></div>
+</div>
+<div class="field-row">
+<div class="field"><label class="field-label">Client Project No:</label><input type="text" id="f5" class="fi fi-med" autocomplete="off"></div>
+<div class="field"><label class="field-label">Client Rep:</label><input type="text" id="f6" class="fi fi-med" autocomplete="off"></div>
+</div>
+</div>
+<div class="table-wrap"><table class="form-table check-grid">
+<thead><tr><th>#</th><th>Inspection Point</th><th>Yes</th><th>No</th><th>N/A</th></tr></thead>
+<tbody>
+<tr><td><input type="text" id="f7" class="fi fi-med" autocomplete="off"></td><td class="label-cell">Hard Hats in Use</td><td class="check-cell"><div class="radio-group"><label class="radio-opt"><input type="radio" name="rg8" id="r9"><span>Yes</span></label></div></td><td class="check-cell"><div class="radio-group"><label class="radio-opt"><input type="radio" name="rg10" id="r11"><span>No</span></label></div></td><td class="check-cell"><div class="radio-group"><label class="radio-opt"><input type="radio" name="rg12" id="r13"><span>N/A</span></label></div></td></tr>
+<tr><td><input type="text" id="f14" class="fi fi-med" autocomplete="off"></td><td class="label-cell">Safety Foot Wear Worn</td><td class="check-cell"><div class="radio-group"><label class="radio-opt"><input type="radio" name="rg15" id="r16"><span>Yes</span></label></div></td><td class="check-cell"><div class="radio-group"><label class="radio-opt"><input type="radio" name="rg17" id="r18"><span>No</span></label></div></td><td class="check-cell"><div class="radio-group"><label class="radio-opt"><input type="radio" name="rg19" id="r20"><span>N/A</span></label></div></td></tr>
+<tr><td><input type="text" id="f21" class="fi fi-med" autocomplete="off"></td><td class="label-cell">Hearing Protection Worn</td><td class="check-cell"><div class="radio-group"><label class="radio-opt"><input type="radio" name="rg22" id="r23"><span>Yes</span></label></div></td><td class="check-cell"><div class="radio-group"><label class="radio-opt"><input type="radio" name="rg24" id="r25"><span>No</span></label></div></td><td class="check-cell"><div class="radio-group"><label class="radio-opt"><input type="radio" name="rg26" id="r27"><span>N/A</span></label></div></td></tr>
+<tr><td><input type="text" id="f28" class="fi fi-med" autocomplete="off"></td><td class="label-cell">Safety Vests Worn</td><td class="check-cell"><div class="radio-group"><label class="radio-opt"><input type="radio" name="rg29" id="r30"><span>Yes</span></label></div></td><td class="check-cell"><div class="radio-group"><label class="radio-opt"><input type="radio" name="rg31" id="r32"><span>No</span></label></div></td><td class="check-cell"><div class="radio-group"><label class="radio-opt"><input type="radio" name="rg33" id="r34"><span>N/A</span></label></div></td></tr>
+<tr><td><input type="text" id="f35" class="fi fi-med" autocomplete="off"></td><td class="label-cell">COVID-19 PPE In Use</td><td class="check-cell"><div class="radio-group"><label class="radio-opt"><input type="radio" name="rg36" id="r37"><span>Yes</span></label></div></td><td class="check-cell"><div class="radio-group"><label class="radio-opt"><input type="radio" name="rg38" id="r39"><span>No</span></label></div></td><td class="check-cell"><div class="radio-group"><label class="radio-opt"><input type="radio" name="rg40" id="r41"><span>N/A</span></label></div></td></tr>
+<tr><td><input type="text" id="f42" class="fi fi-med" autocomplete="off"></td><td class="label-cell">Other PPE Used (When Required)</td><td class="check-cell"><div class="radio-group"><label class="radio-opt"><input type="radio" name="rg43" id="r44"><span>Yes</span></label></div></td><td class="check-cell"><div class="radio-group"><label class="radio-opt"><input type="radio" name="rg45" id="r46"><span>No</span></label></div></td><td class="check-cell"><div class="radio-group"><label class="radio-opt"><input type="radio" name="rg47" id="r48"><span>N/A</span></label></div></td></tr>
+<tr><td><input type="text" id="f49" class="fi fi-med" autocomplete="off"></td><td class="label-cell">First Aid Kit Available and Accessible</td><td class="check-cell"><div class="radio-group"><label class="radio-opt"><input type="radio" name="rg50" id="r51"><span>Yes</span></label></div></td><td class="check-cell"><div class="radio-group"><label class="radio-opt"><input type="radio" name="rg52" id="r53"><span>No</span></label></div></td><td class="check-cell"><div class="radio-group"><label class="radio-opt"><input type="radio" name="rg54" id="r55"><span>N/A</span></label></div></td></tr>
+<tr><td><input type="text" id="f56" class="fi fi-med" autocomplete="off"></td><td class="label-cell">Fire Extinguisher Accessible</td><td class="check-cell"><div class="radio-group"><label class="radio-opt"><input type="radio" name="rg57" id="r58"><span>Yes</span></label></div></td><td class="check-cell"><div class="radio-group"><label class="radio-opt"><input type="radio" name="rg59" id="r60"><span>No</span></label></div></td><td class="check-cell"><div class="radio-group"><label class="radio-opt"><input type="radio" name="rg61" id="r62"><span>N/A</span></label></div></td></tr>
+<tr><td><input type="text" id="f63" class="fi fi-med" autocomplete="off"></td><td class="label-cell">Emergency Phone Number and Job Location Posted or Made Aware Of</td><td class="check-cell"><div class="radio-group"><label class="radio-opt"><input type="radio" name="rg64" id="r65"><span>Yes</span></label></div></td><td class="check-cell"><div class="radio-group"><label class="radio-opt"><input type="radio" name="rg66" id="r67"><span>No</span></label></div></td><td class="check-cell"><div class="radio-group"><label class="radio-opt"><input type="radio" name="rg68" id="r69"><span>N/A</span></label></div></td></tr>
+<tr><td><input type="text" id="f70" class="fi fi-med" autocomplete="off"></td><td class="label-cell">Back up Alarms Working</td><td class="check-cell"><div class="radio-group"><label class="radio-opt"><input type="radio" name="rg71" id="r72"><span>Yes</span></label></div></td><td class="check-cell"><div class="radio-group"><label class="radio-opt"><input type="radio" name="rg73" id="r74"><span>No</span></label></div></td><td class="check-cell"><div class="radio-group"><label class="radio-opt"><input type="radio" name="rg75" id="r76"><span>N/A</span></label></div></td></tr>
+<tr><td><input type="text" id="f77" class="fi fi-med" autocomplete="off"></td><td class="label-cell">Revolving Lights Working</td><td class="check-cell"><div class="radio-group"><label class="radio-opt"><input type="radio" name="rg78" id="r79"><span>Yes</span></label></div></td><td class="check-cell"><div class="radio-group"><label class="radio-opt"><input type="radio" name="rg80" id="r81"><span>No</span></label></div></td><td class="check-cell"><div class="radio-group"><label class="radio-opt"><input type="radio" name="rg82" id="r83"><span>N/A</span></label></div></td></tr>
+<tr><td><input type="text" id="f84" class="fi fi-med" autocomplete="off"></td><td class="label-cell">Equipment Checked Daily</td><td class="check-cell"><div class="radio-group"><label class="radio-opt"><input type="radio" name="rg85" id="r86"><span>Yes</span></label></div></td><td class="check-cell"><div class="radio-group"><label class="radio-opt"><input type="radio" name="rg87" id="r88"><span>No</span></label></div></td><td class="check-cell"><div class="radio-group"><label class="radio-opt"><input type="radio" name="rg89" id="r90"><span>N/A</span></label></div></td></tr>
+<tr><td><input type="text" id="f91" class="fi fi-med" autocomplete="off"></td><td class="label-cell">General Housekeeping to Standard</td><td class="check-cell"><div class="radio-group"><label class="radio-opt"><input type="radio" name="rg92" id="r93"><span>Yes</span></label></div></td><td class="check-cell"><div class="radio-group"><label class="radio-opt"><input type="radio" name="rg94" id="r95"><span>No</span></label></div></td><td class="check-cell"><div class="radio-group"><label class="radio-opt"><input type="radio" name="rg96" id="r97"><span>N/A</span></label></div></td></tr>
+<tr><td><input type="text" id="f98" class="fi fi-med" autocomplete="off"></td><td class="label-cell">Field Offices Clean</td><td class="check-cell"><div class="radio-group"><label class="radio-opt"><input type="radio" name="rg99" id="r100"><span>Yes</span></label></div></td><td class="check-cell"><div class="radio-group"><label class="radio-opt"><input type="radio" name="rg101" id="r102"><span>No</span></label></div></td><td class="check-cell"><div class="radio-group"><label class="radio-opt"><input type="radio" name="rg103" id="r104"><span>N/A</span></label></div></td></tr>
+<tr><td><input type="text" id="f105" class="fi fi-med" autocomplete="off"></td><td class="label-cell">Workers Aware of Overhead Lines</td><td class="check-cell"><div class="radio-group"><label class="radio-opt"><input type="radio" name="rg106" id="r107"><span>Yes</span></label></div></td><td class="check-cell"><div class="radio-group"><label class="radio-opt"><input type="radio" name="rg108" id="r109"><span>No</span></label></div></td><td class="check-cell"><div class="radio-group"><label class="radio-opt"><input type="radio" name="rg110" id="r111"><span>N/A</span></label></div></td></tr>
+<tr><td><input type="text" id="f112" class="fi fi-med" autocomplete="off"></td><td class="label-cell">Underground Lines Marked</td><td class="check-cell"><div class="radio-group"><label class="radio-opt"><input type="radio" name="rg113" id="r114"><span>Yes</span></label></div></td><td class="check-cell"><div class="radio-group"><label class="radio-opt"><input type="radio" name="rg115" id="r116"><span>No</span></label></div></td><td class="check-cell"><div class="radio-group"><label class="radio-opt"><input type="radio" name="rg117" id="r118"><span>N/A</span></label></div></td></tr>
+<tr><td><input type="text" id="f119" class="fi fi-med" autocomplete="off"></td><td class="label-cell">Proper Trench Slopes Used</td><td class="check-cell"><div class="radio-group"><label class="radio-opt"><input type="radio" name="rg120" id="r121"><span>Yes</span></label></div></td><td class="check-cell"><div class="radio-group"><label class="radio-opt"><input type="radio" name="rg122" id="r123"><span>No</span></label></div></td><td class="check-cell"><div class="radio-group"><label class="radio-opt"><input type="radio" name="rg124" id="r125"><span>N/A</span></label></div></td></tr>
+<tr><td><input type="text" id="f126" class="fi fi-med" autocomplete="off"></td><td class="label-cell">Shoring Used When Required</td><td class="check-cell"><div class="radio-group"><label class="radio-opt"><input type="radio" name="rg127" id="r128"><span>Yes</span></label></div></td><td class="check-cell"><div class="radio-group"><label class="radio-opt"><input type="radio" name="rg129" id="r130"><span>No</span></label></div></td><td class="check-cell"><div class="radio-group"><label class="radio-opt"><input type="radio" name="rg131" id="r132"><span>N/A</span></label></div></td></tr>
+<tr><td><input type="text" id="f133" class="fi fi-med" autocomplete="off"></td><td class="label-cell">Security Measures Used For Deep Trench</td><td class="check-cell"><div class="radio-group"><label class="radio-opt"><input type="radio" name="rg134" id="r135"><span>Yes</span></label></div></td><td class="check-cell"><div class="radio-group"><label class="radio-opt"><input type="radio" name="rg136" id="r137"><span>No</span></label></div></td><td class="check-cell"><div class="radio-group"><label class="radio-opt"><input type="radio" name="rg138" id="r139"><span>N/A</span></label></div></td></tr>
+<tr><td><input type="text" id="f140" class="fi fi-med" autocomplete="off"></td><td class="label-cell">Ladders Used In Condition</td><td class="check-cell"><div class="radio-group"><label class="radio-opt"><input type="radio" name="rg141" id="r142"><span>Yes</span></label></div></td><td class="check-cell"><div class="radio-group"><label class="radio-opt"><input type="radio" name="rg143" id="r144"><span>No</span></label></div></td><td class="check-cell"><div class="radio-group"><label class="radio-opt"><input type="radio" name="rg145" id="r146"><span>N/A</span></label></div></td></tr>
+<tr><td><input type="text" id="f147" class="fi fi-med" autocomplete="off"></td><td class="label-cell">Roads Well Signed and Barricaded</td><td class="check-cell"><div class="radio-group"><label class="radio-opt"><input type="radio" name="rg148" id="r149"><span>Yes</span></label></div></td><td class="check-cell"><div class="radio-group"><label class="radio-opt"><input type="radio" name="rg150" id="r151"><span>No</span></label></div></td><td class="check-cell"><div class="radio-group"><label class="radio-opt"><input type="radio" name="rg152" id="r153"><span>N/A</span></label></div></td></tr>
+<tr><td><input type="text" id="f154" class="fi fi-med" autocomplete="off"></td><td class="label-cell">Traffic Pattern Safe and Efficient</td><td class="check-cell"><div class="radio-group"><label class="radio-opt"><input type="radio" name="rg155" id="r156"><span>Yes</span></label></div></td><td class="check-cell"><div class="radio-group"><label class="radio-opt"><input type="radio" name="rg157" id="r158"><span>No</span></label></div></td><td class="check-cell"><div class="radio-group"><label class="radio-opt"><input type="radio" name="rg159" id="r160"><span>N/A</span></label></div></td></tr>
+<tr><td><input type="text" id="f161" class="fi fi-med" autocomplete="off"></td><td class="label-cell">Security Measures Taken At End of Day</td><td class="check-cell"><div class="radio-group"><label class="radio-opt"><input type="radio" name="rg162" id="r163"><span>Yes</span></label></div></td><td class="check-cell"><div class="radio-group"><label class="radio-opt"><input type="radio" name="rg164" id="r165"><span>No</span></label></div></td><td class="check-cell"><div class="radio-group"><label class="radio-opt"><input type="radio" name="rg166" id="r167"><span>N/A</span></label></div></td></tr>
+<tr><td><input type="text" id="f168" class="fi fi-med" autocomplete="off"></td><td class="label-cell">Hazard Assessments Discussed Regularly</td><td class="check-cell"><div class="radio-group"><label class="radio-opt"><input type="radio" name="rg169" id="r170"><span>Yes</span></label></div></td><td class="check-cell"><div class="radio-group"><label class="radio-opt"><input type="radio" name="rg171" id="r172"><span>No</span></label></div></td><td class="check-cell"><div class="radio-group"><label class="radio-opt"><input type="radio" name="rg173" id="r174"><span>N/A</span></label></div></td></tr>
+<tr><td><input type="text" id="f175" class="fi fi-med" autocomplete="off"></td><td class="label-cell">Tool Box Meetings Held</td><td class="check-cell"><div class="radio-group"><label class="radio-opt"><input type="radio" name="rg176" id="r177"><span>Yes</span></label></div></td><td class="check-cell"><div class="radio-group"><label class="radio-opt"><input type="radio" name="rg178" id="r179"><span>No</span></label></div></td><td class="check-cell"><div class="radio-group"><label class="radio-opt"><input type="radio" name="rg180" id="r181"><span>N/A</span></label></div></td></tr>
+<tr><td><input type="text" id="f182" class="fi fi-med" autocomplete="off"></td><td class="label-cell">Incident or Near Misses Reported</td><td class="check-cell"><div class="radio-group"><label class="radio-opt"><input type="radio" name="rg183" id="r184"><span>Yes</span></label></div></td><td class="check-cell"><div class="radio-group"><label class="radio-opt"><input type="radio" name="rg185" id="r186"><span>No</span></label></div></td><td class="check-cell"><div class="radio-group"><label class="radio-opt"><input type="radio" name="rg187" id="r188"><span>N/A</span></label></div></td></tr>
+<tr><td class="label-cell">Comments/Corrective Actions</td><td><input type="text" id="f189" class="fi fi-med" autocomplete="off"></td><td class="check-cell"><div class="radio-group"><label class="radio-opt"><input type="radio" name="rg190" id="r191"><span>Yes</span></label></div></td><td class="check-cell"><div class="radio-group"><label class="radio-opt"><input type="radio" name="rg192" id="r193"><span>No</span></label></div></td><td class="check-cell"><div class="radio-group"><label class="radio-opt"><input type="radio" name="rg194" id="r195"><span>N/A</span></label></div></td></tr>
+</tbody></table></div>
+<div class="signoff-section">
+<div class="signoff-label">Sign-off</div>
+<div class="signoff-grid">
+<div class="sig-field"><label>Inspector Sign Off</label><input type="text" id="f196" class="fi fi-long" autocomplete="off"></div>
+<div class="sig-field sig-wide"><label>Signature</label><input type="text" id="f197" class="fi fi-long" autocomplete="off"></div>
+<div class="sig-field"><label>Date:</label><input type="text" id="f198" class="fi fi-long" autocomplete="off"></div>
+</div>
+</div>
+
+</main>
+
+<footer>DS Home Computing · SA03 SECOR · HSMS Wiki · For internal use only</footer>
+<script>
+// Auto-generate filename hint from first text input that looks like a name
+document.querySelectorAll('.fi').forEach(el => {{
+  el.addEventListener('input', updateFn);
+}});
+function updateFn() {{
+  const inputs = [...document.querySelectorAll('input.fi[type=text]')];
+  const name = (inputs[0] && inputs[0].value) ? inputs[0].value.trim().replace(/\s+/g,'_') : '[name]';
+  const today = new Date().toISOString().slice(0,10);
+  document.getElementById('fnout').textContent = 'C024-worksite-inspection_' + name + '_' + today + '.pdf';
+}}
+</script>
+</body>
+</html>

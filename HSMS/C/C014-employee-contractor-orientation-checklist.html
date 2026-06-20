@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>C.014 Employee Contractor Orientation Checklist — HSMS</title>
+<link rel="stylesheet" href="../hsms.css">
+<style>
+/* ===== C-series form styles ===== */
+.form-desc { font-size:.875rem; color:var(--muted); margin:0 0 16px; padding:0 16px; }
+.field-group { padding:12px 16px; }
+.field-section-label {
+  font-size:.7rem; font-weight:700; letter-spacing:.08em; text-transform:uppercase;
+  color:var(--muted); margin:14px 0 6px; padding-top:6px;
+  border-top:1px solid var(--border);
+}
+.field-row { display:flex; flex-wrap:wrap; gap:10px; margin-bottom:10px; }
+.field { display:flex; flex-direction:column; gap:4px; flex:1 1 200px; }
+.field-full { width:100%; }
+.field-no-label { flex:1 1 180px; }
+.field-label { font-size:.75rem; font-weight:600; color:var(--body); }
+.fi { border:1px solid var(--border); border-radius:6px; padding:6px 10px;
+      font:inherit; font-size:.875rem; color:var(--body); background:#fff;
+      width:100%; box-sizing:border-box; }
+.fi:focus { outline:none; border-color:var(--blue); box-shadow:0 0 0 2px #dbeafe; }
+.fi-short { max-width:120px; }
+.fi-med   { max-width:280px; }
+.fi-long  { max-width:100%; }
+.fi-area  { min-height:72px; resize:vertical; max-width:100%; }
+.fi-date  { max-width:160px; }
+/* check grid */
+.table-wrap { overflow-x:auto; padding:12px 16px; }
+.form-table { width:100%; border-collapse:collapse; font-size:.8rem; }
+.form-table th {
+  background:var(--navy); color:#fff; text-align:left;
+  padding:6px 8px; font-size:.72rem; font-weight:600;
+}
+.form-table td { padding:5px 6px; border:1px solid var(--border); vertical-align:middle; }
+.form-table .label-cell { font-size:.8rem; color:var(--body); background:#f8fafc; font-weight:500; }
+.form-table .check-cell { text-align:center; background:#fafafa; }
+.radio-group { display:flex; flex-wrap:wrap; gap:6px; justify-content:center; }
+.radio-opt { display:flex; align-items:center; gap:3px; font-size:.72rem;
+             cursor:pointer; padding:2px 5px; border-radius:4px; }
+.radio-opt:hover { background:#eff6ff; }
+.radio-opt input[type=radio] { accent-color:var(--blue); }
+/* signoff */
+.signoff-section {
+  margin:20px 16px 0; padding:16px;
+  border:1px solid var(--border); border-radius:10px; background:#f8fafc;
+}
+.signoff-label {
+  font-size:.7rem; font-weight:700; letter-spacing:.08em; text-transform:uppercase;
+  color:var(--muted); margin-bottom:12px;
+}
+.signoff-grid { display:flex; flex-wrap:wrap; gap:12px; }
+.sig-field { display:flex; flex-direction:column; gap:4px; flex:1 1 200px; }
+.sig-wide { flex:2 1 300px; }
+.sig-date { flex:0 1 160px; }
+.sig-field label { font-size:.75rem; font-weight:600; color:var(--body); }
+/* save bar */
+.save-bar {
+  position:sticky; top:0; z-index:50;
+  background:#1e3a5f; color:#fff; padding:8px 16px;
+  display:flex; align-items:center; justify-content:space-between;
+  font-size:.78rem; gap:12px; flex-wrap:wrap;
+}
+.save-bar .save-path { opacity:.8; font-size:.7rem; word-break:break-all; }
+.save-bar button {
+  background:var(--blue); color:#fff; border:none; border-radius:6px;
+  padding:6px 14px; font-size:.8rem; font-weight:600; cursor:pointer; white-space:nowrap;
+}
+.save-bar button:hover { background:#1d4ed8; }
+.filename-hint { font-size:.7rem; opacity:.75; margin-top:2px; }
+/* breadcrumb + header */
+.doc-header {
+  background:#fff; padding:16px; border-bottom:1px solid var(--border);
+}
+.doc-badge { font-size:.7rem; font-weight:700; letter-spacing:.05em;
+             text-transform:uppercase; color:var(--blue); margin-bottom:4px; }
+.doc-header h2 { font-size:1.2rem; font-weight:700; color:var(--navy); margin:0 0 4px; }
+.doc-sub { font-size:.78rem; color:var(--muted); }
+/* section heading within form */
+.section-heading {
+  font-size:.95rem; font-weight:700; color:var(--navy);
+  background:#f1f5f9; padding:8px 16px; margin:16px 0 0;
+  border-left:3px solid var(--blue);
+}
+/* print */
+@media print {
+  .site-header, .save-bar, footer, .search-wrap { display:none !important; }
+  body { font-size:11pt; }
+  .form-table th { background:#1a2744 !important; -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+  .fi, .fi-area { border:1px solid #999 !important; }
+}
+</style>
+</head>
+<body>
+<header class="site-header">
+  <span class="logo">🛡️</span>
+  <div>
+    <h1>HSMS Wiki</h1>
+    <p>DS Home Computing</p>
+  </div>
+  <a href="../C/index.html" style="margin-left:auto;color:#fff;font-size:.8rem;">← C Series</a>
+</header>
+
+<div class="save-bar" id="savebar">
+  <div>
+    <div>Save completed form as PDF</div>
+    <div class="save-path">📁 G:\My Drive\DS Home\SA Safety and Security\SA03 SECOR\2026 Forms</div>
+    <div class="filename-hint" id="fnhint">Suggested filename: <span id="fnout">C014-employee-contractor-orientation-checklist_[name]_[date].pdf</span></div>
+  </div>
+  <button onclick="window.print()">🖨 Print / Save PDF</button>
+</div>
+
+<div class="doc-header">
+  <nav class="breadcrumb" style="font-size:.75rem;color:var(--muted);margin-bottom:8px;">
+    <a href="../index.html">HSMS Wiki</a> › <a href="index.html">C Series</a> › C.014 Employee Contractor Orientation Checklist
+  </nav>
+  <div class="doc-badge">C.014 · FORM</div>
+  <h2>Employee Contractor Orientation Checklist</h2>
+  <div class="doc-sub">DS Home Computing Ltd · SA03 SECOR · For internal use</div>
+</div>
+
+<main>
+<div class="field-group">
+<div class="field-row">
+<div class="field-full"><span class="field-label">Manager:</span></div>
+<div class="field-full"><span class="field-label">Hire Date:</span></div>
+</div>
+<div class="field-row">
+<div class="field-full"><span class="field-label">New Employee:</span></div>
+<div class="field-full"><span class="field-label">Date:</span></div>
+</div>
+<div class="field-row">
+<div class="field-full"><span class="field-label">Topics to Cover</span></div>
+<div class="field-full"><span class="field-label">Worker Initials</span></div>
+<div class="field-full"><span class="field-label">Managers Initials</span></div>
+</div>
+<div class="field-row">
+<div class="field"><label class="field-label">Worker Responsibilities</label><input type="text" id="f1" class="fi fi-med" autocomplete="off"></div>
+</div>
+<div class="field-row">
+<div class="field"><label class="field-label">Safety Reporting Requirements</label><input type="text" id="f2" class="fi fi-med" autocomplete="off"></div>
+</div>
+<div class="field-row">
+<div class="field"><label class="field-label">Distribute Hazard/Near Miss Alert Forms and discuss location of Incident Reports.</label><textarea id="f3" class="fi fi-area" placeholder=" "></textarea></div>
+</div>
+<div class="field-row">
+<div class="field"><label class="field-label">Discuss with employee the inspecting procedure for hazards in the workplace</label><textarea id="f4" class="fi fi-area" placeholder=" "></textarea></div>
+</div>
+<div class="field-row">
+<div class="field"><label class="field-label">Employee to visually inspect vehicles and maintenance in the workplace</label><textarea id="f5" class="fi fi-area" placeholder=" "></textarea></div>
+</div>
+<div class="field-row">
+<div class="field"><label class="field-label">Workers Right to Refuse Unsafe Work, and Form to be filled out</label><textarea id="f6" class="fi fi-area" placeholder=" "></textarea></div>
+</div>
+<div class="field-row">
+<div class="field"><label class="field-label">Site Tour</label><input type="text" id="f7" class="fi fi-med" autocomplete="off"></div>
+</div>
+<div class="field-row">
+<div class="field"><label class="field-label">Location of First Aid Kit</label><input type="text" id="f8" class="fi fi-med" autocomplete="off"></div>
+</div>
+<div class="field-row">
+<div class="field"><label class="field-label">Location of Fire Extinguisher</label><input type="text" id="f9" class="fi fi-med" autocomplete="off"></div>
+</div>
+<div class="field-row">
+<div class="field"><label class="field-label">Location of Muster Point</label><input type="text" id="f10" class="fi fi-med" autocomplete="off"></div>
+</div>
+<div class="field-row">
+<div class="field"><label class="field-label">Location of Washrooms</label><input type="text" id="f11" class="fi fi-med" autocomplete="off"></div>
+</div>
+<div class="field-row">
+<div class="field"><label class="field-label">Location of Safety Data Sheets</label><input type="text" id="f12" class="fi fi-med" autocomplete="off"></div>
+</div>
+<div class="field-row">
+<div class="field"><label class="field-label">Location and Care of PPE</label><input type="text" id="f13" class="fi fi-med" autocomplete="off"></div>
+</div>
+<div class="field-row">
+<div class="field"><label class="field-label">Location of OH&amp;S (Alberta) Manual</label><input type="text" id="f14" class="fi fi-med" autocomplete="off"></div>
+</div>
+<div class="field-row">
+<div class="field-full"><span class="field-label">A Systems</span></div>
+<div class="field-full"><span class="field-label">Worker Initials</span></div>
+<div class="field-full"><span class="field-label">Managers Initials</span></div>
+</div>
+<div class="field-row">
+<div class="field-full"><span class="field-label">A.001</span></div>
+<div class="field"><label class="field-label">Health and Safety Management System</label><input type="text" id="f15" class="fi fi-med" autocomplete="off"></div>
+</div>
+<div class="field-row">
+<div class="field-full"><span class="field-label">A.002</span></div>
+<div class="field"><label class="field-label">Quality Management System</label><input type="text" id="f16" class="fi fi-med" autocomplete="off"></div>
+</div>
+<div class="field-row">
+<div class="field-full"><span class="field-label">A.003</span></div>
+<div class="field"><label class="field-label">Document Management System</label><input type="text" id="f17" class="fi fi-med" autocomplete="off"></div>
+</div>
+</div>
+<div class="field-group">
+<div class="field-row">
+<div class="field-full"><span class="field-label">B Policies, Standard Work Procedures</span></div>
+<div class="field-full"><span class="field-label">Worker Initials</span></div>
+<div class="field-full"><span class="field-label">Managers Initials</span></div>
+</div>
+<div class="field-row">
+<div class="field-full"><span class="field-label">B.001</span></div>
+<div class="field"><label class="field-label">Progressive Discipline</label><input type="text" id="f18" class="fi fi-med" autocomplete="off"></div>
+</div>
+<div class="field-row">
+<div class="field-full"><span class="field-label">B.002</span></div>
+<div class="field"><label class="field-label">Rental Unit Policy</label><input type="text" id="f19" class="fi fi-med" autocomplete="off"></div>
+</div>
+<div class="field-row">
+<div class="field-full"><span class="field-label">B.003</span></div>
+<div class="field"><label class="field-label">Return to Work Policy</label><input type="text" id="f20" class="fi fi-med" autocomplete="off"></div>
+</div>
+<div class="field-row">
+<div class="field-full"><span class="field-label">B.004</span></div>
+<div class="field"><label class="field-label">Substance Abuse</label><input type="text" id="f21" class="fi fi-med" autocomplete="off"></div>
+</div>
+<div class="field-row">
+<div class="field-full"><span class="field-label">B.005</span></div>
+<div class="field"><label class="field-label">Site Material Receiving</label><input type="text" id="f22" class="fi fi-med" autocomplete="off"></div>
+</div>
+<div class="field-row">
+<div class="field-full"><span class="field-label">B.006</span></div>
+<div class="field"><label class="field-label">Employee Payroll</label><input type="text" id="f23" class="fi fi-med" autocomplete="off"></div>
+</div>
+<div class="field-row">
+<div class="field-full"><span class="field-label">B.007</span></div>
+<div class="field"><label class="field-label">Self-Employed Payroll</label><input type="text" id="f24" class="fi fi-med" autocomplete="off"></div>
+</div>
+<div class="field-row">
+<div class="field-full"><span class="field-label">B.008</span></div>
+<div class="field"><label class="field-label">Equal work for equal pay</label><input type="text" id="f25" class="fi fi-med" autocomplete="off"></div>
+</div>
+<div class="field-row">
+<div class="field-full"><span class="field-label">B.009</span></div>
+<div class="field"><label class="field-label">Duty to Accommodate</label><input type="text" id="f26" class="fi fi-med" autocomplete="off"></div>
+</div>
+<div class="field-row">
+<div class="field-full"><span class="field-label">B.010</span></div>
+<div class="field"><label class="field-label">Workplace Accessibility</label><input type="text" id="f27" class="fi fi-med" autocomplete="off"></div>
+</div>
+<div class="field-row">
+<div class="field-full"><span class="field-label">B.011</span></div>
+<div class="field"><label class="field-label">Genetic Testing</label><input type="text" id="f28" class="fi fi-med" autocomplete="off"></div>
+</div>
+<div class="field-row">
+<div class="field-full"><span class="field-label">B.012</span></div>
+<div class="field"><label class="field-label">Lie Detectors</label><input type="text" id="f29" class="fi fi-med" autocomplete="off"></div>
+</div>
+<div class="field-row">
+<div class="field-full"><span class="field-label">B.013</span></div>
+<div class="field"><label class="field-label">Cell Phone Usage</label><input type="text" id="f30" class="fi fi-med" autocomplete="off"></div>
+</div>
+<div class="field-row">
+<div class="field-full"><span class="field-label">B.014</span></div>
+<div class="field"><label class="field-label">Housekeeping</label><input type="text" id="f31" class="fi fi-med" autocomplete="off"></div>
+</div>
+<div class="field-row">
+<div class="field-full"><span class="field-label">B.015</span></div>
+<div class="field"><label class="field-label">Covid-19 Policy</label><input type="text" id="f32" class="fi fi-med" autocomplete="off"></div>
+</div>
+<div class="field-row">
+<div class="field-full"><span class="field-label">B.016</span></div>
+<div class="field"><label class="field-label">Covid-19 Standard Job Procedure</label><input type="text" id="f33" class="fi fi-med" autocomplete="off"></div>
+</div>
+<div class="field-row">
+<div class="field-full"><span class="field-label">B.017</span></div>
+<div class="field"><label class="field-label">Office Safety</label><input type="text" id="f34" class="fi fi-med" autocomplete="off"></div>
+</div>
+<div class="field-row">
+<div class="field-full"><span class="field-label">B.018</span></div>
+<div class="field"><label class="field-label">Extension Cords</label><input type="text" id="f35" class="fi fi-med" autocomplete="off"></div>
+</div>
+<div class="field-row">
+<div class="field-full"><span class="field-label">B.019</span></div>
+<div class="field"><label class="field-label">Using Hand Tools</label><input type="text" id="f36" class="fi fi-med" autocomplete="off"></div>
+</div>
+<div class="field-row">
+<div class="field-full"><span class="field-label">B.020</span></div>
+<div class="field"><label class="field-label">Ladders Standard Work Procedure</label><input type="text" id="f37" class="fi fi-med" autocomplete="off"></div>
+</div>
+<div class="field-row">
+<div class="field-full"><span class="field-label">B.021</span></div>
+<div class="field"><label class="field-label">Winter Driving</label><input type="text" id="f38" class="fi fi-med" autocomplete="off"></div>
+</div>
+<div class="field-row">
+<div class="field-full"><span class="field-label">B.022</span></div>
+<div class="field"><label class="field-label">First Aid Procedure</label><input type="text" id="f39" class="fi fi-med" autocomplete="off"></div>
+</div>
+<div class="field-row">
+<div class="field-full"><span class="field-label">B.023</span></div>
+<div class="field"><label class="field-label">Hazard Assessment Procedure</label><input type="text" id="f40" class="fi fi-med" autocomplete="off"></div>
+</div>
+<div class="field-row">
+<div class="field-full"><span class="field-label">B.024</span></div>
+<div class="field"><label class="field-label">Backing up Truck and Trailer</label><input type="text" id="f41" class="fi fi-med" autocomplete="off"></div>
+</div>
+<div class="field-row">
+<div class="field-full"><span class="field-label">B.025</span></div>
+<div class="field"><label class="field-label">Vehicle Battery Boosting Policy</label><input type="text" id="f42" class="fi fi-med" autocomplete="off"></div>
+</div>
+<div class="field-row">
+<div class="field-full"><span class="field-label">B.026</span></div>
+<div class="field"><label class="field-label">Vehicle Battery Boosting Safe Job Procedure</label><input type="text" id="f43" class="fi fi-med" autocomplete="off"></div>
+</div>
+<div class="field-row">
+<div class="field-full"><span class="field-label">C- Forms</span></div>
+<div class="field-full"><span class="field-label">Worker Initials</span></div>
+<div class="field-full"><span class="field-label">Managers Initials</span></div>
+</div>
+<div class="field-row">
+<div class="field-full"><span class="field-label">C.001</span></div>
+<div class="field"><label class="field-label">Field Level Hazard Assessment</label><input type="text" id="f44" class="fi fi-med" autocomplete="off"></div>
+</div>
+<div class="field-row">
+<div class="field-full"><span class="field-label">C.002</span></div>
+<div class="field"><label class="field-label">Vehicle Inspection Form</label><input type="text" id="f45" class="fi fi-med" autocomplete="off"></div>
+</div>
+<div class="field-row">
+<div class="field-full"><span class="field-label">C.003</span></div>
+<div class="field"><label class="field-label">Toolbox Meeting</label><input type="text" id="f46" class="fi fi-med" autocomplete="off"></div>
+</div>
+<div class="field-row">
+<div class="field-full"><span class="field-label">C.004</span></div>
+<div class="field"><label class="field-label">Daily Report</label><input type="text" id="f47" class="fi fi-med" autocomplete="off"></div>
+</div>
+<div class="field-row">
+<div class="field-full"><span class="field-label">C.005</span></div>
+<div class="field"><label class="field-label">Corrective Action Form</label><input type="text" id="f48" class="fi fi-med" autocomplete="off"></div>
+</div>
+<div class="field-row">
+<div class="field-full"><span class="field-label">C.006</span></div>
+<div class="field"><label class="field-label">Covid-19 Personal Checklist</label><input type="text" id="f49" class="fi fi-med" autocomplete="off"></div>
+</div>
+<div class="field-row">
+<div class="field-full"><span class="field-label">C.007</span></div>
+<div class="field"><label class="field-label">Critical Task List</label><input type="text" id="f50" class="fi fi-med" autocomplete="off"></div>
+</div>
+<div class="field-row">
+<div class="field-full"><span class="field-label">C.008</span></div>
+<div class="field"><label class="field-label">Change Order</label><input type="text" id="f51" class="fi fi-med" autocomplete="off"></div>
+</div>
+<div class="field-row">
+<div class="field-full"><span class="field-label">C.009</span></div>
+<div class="field"><label class="field-label">Safety Summary</label><input type="text" id="f52" class="fi fi-med" autocomplete="off"></div>
+</div>
+<div class="field-row">
+<div class="field-full"><span class="field-label">C.010</span></div>
+<div class="field"><label class="field-label">Near Miss</label><input type="text" id="f53" class="fi fi-med" autocomplete="off"></div>
+</div>
+<div class="field-row">
+<div class="field-full"><span class="field-label">C.011</span></div>
+<div class="field"><label class="field-label">Suggested Revision Form</label><input type="text" id="f54" class="fi fi-med" autocomplete="off"></div>
+</div>
+<div class="field-row">
+<div class="field-full"><span class="field-label">C.012</span></div>
+<div class="field"><label class="field-label">Emergency Drill Record</label><input type="text" id="f55" class="fi fi-med" autocomplete="off"></div>
+</div>
+<div class="field-row">
+<div class="field-full"><span class="field-label">C.013</span></div>
+<div class="field"><label class="field-label">Employee Discipline Form</label><input type="text" id="f56" class="fi fi-med" autocomplete="off"></div>
+</div>
+<div class="field-row">
+<div class="field-full"><span class="field-label">C.014</span></div>
+<div class="field"><label class="field-label">Orientation Checklist</label><input type="text" id="f57" class="fi fi-med" autocomplete="off"></div>
+</div>
+<div class="field-row">
+<div class="field-full"><span class="field-label">C.015</span></div>
+<div class="field"><label class="field-label">Equipment Inspection</label><input type="text" id="f58" class="fi fi-med" autocomplete="off"></div>
+</div>
+<div class="field-row">
+<div class="field-full"><span class="field-label">C.016</span></div>
+<div class="field"><label class="field-label">First Aid Maintenance Log</label><input type="text" id="f59" class="fi fi-med" autocomplete="off"></div>
+</div>
+<div class="field-row">
+<div class="field-full"><span class="field-label">C.017</span></div>
+<div class="field"><label class="field-label">JHSC Member Check List</label><input type="text" id="f60" class="fi fi-med" autocomplete="off"></div>
+</div>
+<div class="field-row">
+<div class="field-full"><span class="field-label">C.018</span></div>
+<div class="field"><label class="field-label">Safety Meeting Record</label><input type="text" id="f61" class="fi fi-med" autocomplete="off"></div>
+</div>
+<div class="field-row">
+<div class="field-full"><span class="field-label">C.019</span></div>
+<div class="field"><label class="field-label">JHSC Meeting Record</label><input type="text" id="f62" class="fi fi-med" autocomplete="off"></div>
+</div>
+<div class="field-row">
+<div class="field-full"><span class="field-label">C.020</span></div>
+<div class="field"><label class="field-label">Incident Investigation</label><input type="text" id="f63" class="fi fi-med" autocomplete="off"></div>
+</div>
+<div class="field-row">
+<div class="field-full"><span class="field-label">C.021</span></div>
+<div class="field"><label class="field-label">Employee Training Record</label><input type="text" id="f64" class="fi fi-med" autocomplete="off"></div>
+</div>
+<div class="field-row">
+<div class="field-full"><span class="field-label">C.022</span></div>
+<div class="field"><label class="field-label">Trailer Inspection Form</label><input type="text" id="f65" class="fi fi-med" autocomplete="off"></div>
+</div>
+<div class="field-row">
+<div class="field-full"><span class="field-label">C.023</span></div>
+<div class="field"><label class="field-label">Hazard Report</label><input type="text" id="f66" class="fi fi-med" autocomplete="off"></div>
+</div>
+<div class="field-row">
+<div class="field-full"><span class="field-label">C.024</span></div>
+<div class="field"><label class="field-label">Worksite Inspection</label><input type="text" id="f67" class="fi fi-med" autocomplete="off"></div>
+</div>
+<div class="field-row">
+<div class="field-full"><span class="field-label">C.025</span></div>
+<div class="field"><label class="field-label">Vehicle Battery Boosting Check Sheet</label><input type="text" id="f68" class="fi fi-med" autocomplete="off"></div>
+</div>
+<div class="field-row">
+<div class="field-full"><span class="field-label">D – Formal Hazard Assessments</span></div>
+<div class="field-full"><span class="field-label">Worker Initials</span></div>
+<div class="field-full"><span class="field-label">Managers Initials</span></div>
+</div>
+<div class="field-row">
+<div class="field-full"><span class="field-label">D.001</span></div>
+<div class="field"><label class="field-label">Driving</label><input type="text" id="f69" class="fi fi-med" autocomplete="off"></div>
+</div>
+<div class="field-row">
+<div class="field-full"><span class="field-label">D.002</span></div>
+<div class="field"><label class="field-label">Sales</label><input type="text" id="f70" class="fi fi-med" autocomplete="off"></div>
+</div>
+<div class="field-row">
+<div class="field-full"><span class="field-label">D.003</span></div>
+<div class="field"><label class="field-label">Manager or Lead</label><input type="text" id="f71" class="fi fi-med" autocomplete="off"></div>
+</div>
+<div class="field-row">
+<div class="field-full"><span class="field-label">D.004</span></div>
+<div class="field"><label class="field-label">Office Work</label><input type="text" id="f72" class="fi fi-med" autocomplete="off"></div>
+</div>
+<div class="field-row">
+<div class="field-full"><span class="field-label">D.005</span></div>
+<div class="field"><label class="field-label">Working from Home</label><input type="text" id="f73" class="fi fi-med" autocomplete="off"></div>
+</div>
+<div class="field-row">
+<div class="field-full"><span class="field-label">D.006</span></div>
+<div class="field"><label class="field-label">Computer Repair</label><input type="text" id="f74" class="fi fi-med" autocomplete="off"></div>
+</div>
+<div class="field-row">
+<div class="field-full"><span class="field-label">D.007</span></div>
+<div class="field"><label class="field-label">Cooking</label><input type="text" id="f75" class="fi fi-med" autocomplete="off"></div>
+</div>
+<div class="field-row">
+<div class="field-full"><span class="field-label">D.008</span></div>
+<div class="field"><label class="field-label">Cleaning</label><input type="text" id="f76" class="fi fi-med" autocomplete="off"></div>
+</div>
+<div class="field-row">
+<div class="field-full"><span class="field-label">D.009</span></div>
+<div class="field"><label class="field-label">Lawn Maintenance</label><input type="text" id="f77" class="fi fi-med" autocomplete="off"></div>
+</div>
+</div>
+<div class="signoff-section">
+<div class="signoff-label">Sign-off</div>
+<div class="signoff-grid">
+<div class="sig-field"><label>Worker</label><input type="text" id="f78" class="fi fi-long" autocomplete="off"></div>
+<div class="sig-field"><label>Name</label><input type="text" id="f79" class="fi fi-long" autocomplete="off"></div>
+<div class="sig-field sig-date"><label>Date</label><input type="date" class="fi fi-date"></div>
+<div class="sig-field sig-wide"><label>Signature</label><input type="text" id="f80" class="fi fi-long" autocomplete="off"></div>
+<div class="sig-field"><label>Notes :</label><input type="text" id="f81" class="fi fi-long" autocomplete="off"></div>
+</div>
+</div>
+<div class="signoff-section">
+<div class="signoff-label">Sign-off</div>
+<div class="signoff-grid">
+<div class="sig-field"><label>Manager</label><input type="text" id="f82" class="fi fi-long" autocomplete="off"></div>
+<div class="sig-field"><label>Name</label><input type="text" id="f83" class="fi fi-long" autocomplete="off"></div>
+<div class="sig-field sig-date"><label>Date</label><input type="date" class="fi fi-date"></div>
+<div class="sig-field sig-wide"><label>Signature</label><input type="text" id="f84" class="fi fi-long" autocomplete="off"></div>
+</div>
+</div>
+
+</main>
+
+<footer>DS Home Computing · SA03 SECOR · HSMS Wiki · For internal use only</footer>
+<script>
+// Auto-generate filename hint from first text input that looks like a name
+document.querySelectorAll('.fi').forEach(el => {{
+  el.addEventListener('input', updateFn);
+}});
+function updateFn() {{
+  const inputs = [...document.querySelectorAll('input.fi[type=text]')];
+  const name = (inputs[0] && inputs[0].value) ? inputs[0].value.trim().replace(/\s+/g,'_') : '[name]';
+  const today = new Date().toISOString().slice(0,10);
+  document.getElementById('fnout').textContent = 'C014-employee-contractor-orientation-checklist_' + name + '_' + today + '.pdf';
+}}
+</script>
+</body>
+</html>

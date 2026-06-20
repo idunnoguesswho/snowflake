@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>B.012 Lie Detectors Policy — HSMS</title>
+<link rel="stylesheet" href="../hsms.css">
+
+<style>
+.policy-heading {
+  font-size: 1rem; font-weight: 700; color: var(--navy);
+  margin: 20px 0 6px; padding-bottom: 4px; border-bottom: 1px solid var(--border);
+}
+.policy-para { font-size: .88rem; line-height: 1.65; margin-bottom: 8px; color: var(--text); }
+.policy-list { font-size: .88rem; line-height: 1.7; padding-left: 24px; margin-bottom: 10px; }
+.policy-list li { margin-bottom: 3px; }
+.policy-table { overflow-x: auto; margin: 12px 0; }
+.policy-table table { border-collapse: collapse; width: 100%; font-size: .83rem; }
+.policy-table th, .policy-table td { border: 1px solid var(--border); padding: 7px 10px; text-align: left; }
+.policy-table th { background: var(--surface); font-weight: 700; }
+.policy-card { background: white; border-radius: var(--radius); border: 1px solid var(--border); padding: 20px; box-shadow: var(--shadow); margin-bottom: 20px; }
+.ack-card { background: white; border-radius: var(--radius); border: 2px solid var(--blue); padding: 20px; margin-bottom: 20px; box-shadow: var(--shadow); }
+.ack-card h3 { font-size: 1rem; color: var(--navy); margin-bottom: 6px; }
+.ack-card .sub { font-size: .83rem; color: var(--muted); margin-bottom: 16px; }
+.form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 16px; }
+@media (max-width: 500px) { .form-grid { grid-template-columns: 1fr; } }
+.form-field label { display: block; font-size: .72rem; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: .04em; margin-bottom: 4px; }
+.form-field input, .form-field select, .form-field textarea { width: 100%; padding: 8px 10px; border: 1px solid var(--border); border-radius: 6px; font-size: .88rem; font-family: inherit; color: var(--text); background: var(--surface); }
+.form-field input:focus { outline: none; border-color: var(--blue); background: white; }
+.form-field.full { grid-column: 1 / -1; }
+.sig-line { border: none; border-bottom: 1px solid var(--border); height: 40px; background: transparent; display: flex; align-items: flex-end; padding-bottom: 4px; color: var(--muted); font-size: .78rem; font-style: italic; }
+.chk-row { display: flex; align-items: flex-start; gap: 10px; margin-bottom: 12px; }
+.chk-row input[type=checkbox] { margin-top: 2px; width: 16px; height: 16px; flex-shrink: 0; accent-color: var(--blue); }
+.chk-row label { font-size: .87rem; line-height: 1.5; }
+.save-bar { background: var(--navy); border-radius: var(--radius); padding: 14px 16px; display: flex; align-items: center; gap: 14px; flex-wrap: wrap; margin-bottom: 20px; }
+.save-bar .pi { flex: 1; min-width: 0; }
+.save-bar .pl { font-size: .7rem; color: rgba(255,255,255,.6); font-weight: 700; text-transform: uppercase; letter-spacing: .04em; }
+.save-bar .pv { font-size: .78rem; color: white; font-family: monospace; word-break: break-all; }
+.btn-print { background: var(--blue); color: white; border: none; border-radius: 8px; padding: 10px 18px; font-size: .9rem; font-weight: 700; cursor: pointer; white-space: nowrap; }
+.btn-print:hover { background: #1d4ed8; }
+.btn-clear { background: rgba(255,255,255,.15); color: white; border: none; border-radius: 8px; padding: 10px 14px; font-size: .85rem; cursor: pointer; }
+.btn-clear:hover { background: rgba(255,255,255,.25); }
+.fn-hint { margin-top: 10px; padding: 10px 12px; background: var(--blue-light); border-radius: 6px; font-size: .78rem; color: var(--navy); }
+.appendix-wrap { background: white; border-radius: var(--radius); border: 1px solid var(--border); margin-bottom: 20px; overflow: hidden; }
+.appendix-wrap summary { padding: 12px 16px; font-weight: 700; font-size: .9rem; color: var(--navy); cursor: pointer; list-style: none; user-select: none; }
+.appendix-wrap summary::-webkit-details-marker { display: none; }
+.appendix-body { padding: 16px; border-top: 1px solid var(--border); font-size: .85rem; }
+.appendix-body h4 { color: var(--navy); margin: 12px 0 4px; }
+@media print {
+  .site-header, .search-wrap, .breadcrumb, .save-bar, footer { display: none !important; }
+  body { background: white; font-size: 11pt; }
+  .policy-card, .ack-card { border: 1px solid #bbb; box-shadow: none; break-inside: avoid; margin-bottom: 10pt; padding: 12pt; }
+  .ack-card { border: 2pt solid #1a2744; }
+  .form-field input { border: 1px solid #999; background: white; }
+  .sig-line { border-bottom: 1pt solid #333; }
+  .chk-row input { print-color-adjust: exact; -webkit-print-color-adjust: exact; }
+  main { max-width: 100%; padding: 0; }
+  .appendix-wrap { display: none; }
+}
+</style>
+
+</head>
+<body>
+<header class="site-header">
+  <span class="logo">&#128737;</span>
+  <div><h1>HSMS Wiki</h1><p>DS Home Computing</p></div>
+  <a class="back-btn" href="index.html">&#8592; B Series</a>
+</header>
+<div class="search-wrap" style="top:58px">
+  <span class="search-icon">&#128269;</span>
+  <input type="search" id="policySearch" placeholder="Search policy text&#8230;" autocomplete="off">
+</div>
+<main>
+  <div class="breadcrumb">
+    <a href="../index.html">HSMS Wiki</a> &rsaquo; <a href="index.html">B Series</a> &rsaquo; B.012 Lie Detectors Policy
+  </div>
+  <div class="doc-header">
+    <div class="doc-id">B.012 &middot; Policy</div>
+    <h2>Lie Detectors Policy</h2>
+    <div class="meta">DS Home Computing Ltd &middot; SA03 SECOR &middot; For internal use</div>
+  </div>
+
+  <div class="policy-card" id="policyContent">
+    <p class="policy-para">DS Home Computing Ltd Currently has no purpose for lie detectors in the work place. Should the need arise, we will comply with the federal, legal and local legislation.</p>
+
+  </div>
+
+  
+
+  <div class="save-bar">
+    <div class="pi">
+      <div class="pl">Save completed PDF to</div>
+      <div class="pv">G:\My Drive\DS Home\SA Safety and Security\SA03 SECOR\2026 Forms</div>
+    </div>
+    <button class="btn-clear" onclick="clearForm()">Clear</button>
+    <button class="btn-print" onclick="printForm()">&#128424; Save as PDF</button>
+  </div>
+
+  <div class="ack-card">
+    <h3>Policy Acknowledgement</h3>
+    <p class="sub">Complete all fields, check each box, then click <strong>Save as PDF</strong>. Choose <em>Save as PDF</em> in the print dialog and navigate to the folder shown above.</p>
+    <div class="chk-row">
+      <input type="checkbox" id="chk1">
+      <label for="chk1">I have read and understood the full <strong>B.012 Lie Detectors Policy</strong> policy.</label>
+    </div>
+    <div class="chk-row">
+      <input type="checkbox" id="chk2">
+      <label for="chk2">I agree to comply with this policy in the performance of my duties.</label>
+    </div>
+    <div class="chk-row">
+      <input type="checkbox" id="chk3">
+      <label for="chk3">I understand that failure to follow this policy may result in corrective action up to and including termination.</label>
+    </div>
+    <div class="form-grid">
+      <div class="form-field">
+        <label>Employee Full Name</label>
+        <input type="text" id="empName" placeholder="Full legal name" oninput="sync()">
+      </div>
+      <div class="form-field">
+        <label>Position / Title</label>
+        <input type="text" id="empPos" placeholder="Your job title">
+      </div>
+      <div class="form-field">
+        <label>Date of Acknowledgement</label>
+        <input type="date" id="ackDate" oninput="sync()">
+      </div>
+      <div class="form-field">
+        <label>Supervisor / Manager Name</label>
+        <input type="text" id="supName" placeholder="Supervisor full name">
+      </div>
+      <div class="form-field full">
+        <label>Signature</label>
+        <div class="sig-line">Sign above this line after printing &nbsp;&mdash;&nbsp; or type full name to acknowledge electronically</div>
+      </div>
+    </div>
+    <div class="fn-hint"><strong>Suggested filename:</strong> <span id="sfn"></span></div>
+  </div>
+</main>
+<footer>DS Home Computing &middot; SA03 SECOR &middot; B.012 Lie Detectors Policy &middot; For internal use only</footer>
+
+<script>
+const BASE_FN = 'B012-lie-detectors-policy';
+function sync() {
+  const n = (document.getElementById('empName').value||'[name]').trim().replace(/\s+/g,'-');
+  const d = document.getElementById('ackDate').value||'[date]';
+  document.getElementById('sfn').textContent = BASE_FN+'_'+n+'_'+d+'.pdf';
+}
+function printForm() { window.print(); }
+function clearForm() {
+  ['empName','empPos','ackDate','supName'].forEach(id=>document.getElementById(id).value='');
+  document.querySelectorAll('.chk-row input').forEach(el=>el.checked=false);
+  document.getElementById('ackDate').value=new Date().toISOString().split('T')[0];
+  sync();
+}
+document.getElementById('ackDate').value=new Date().toISOString().split('T')[0];
+sync();
+const srch=document.getElementById('policySearch');
+srch.addEventListener('input',()=>{
+  const q=srch.value.toLowerCase();
+  document.querySelectorAll('.policy-card p,.policy-card li,.policy-card h3').forEach(el=>{
+    el.style.backgroundColor=q&&el.textContent.toLowerCase().includes(q)?'#fef9c3':'';
+  });
+});
+</script>
+
+</body>
+</html>

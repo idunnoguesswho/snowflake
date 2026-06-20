@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>B.001 Progressive Discipline — HSMS</title>
+<link rel="stylesheet" href="../hsms.css">
+
+<style>
+.policy-heading {
+  font-size: 1rem; font-weight: 700; color: var(--navy);
+  margin: 20px 0 6px; padding-bottom: 4px; border-bottom: 1px solid var(--border);
+}
+.policy-para { font-size: .88rem; line-height: 1.65; margin-bottom: 8px; color: var(--text); }
+.policy-list { font-size: .88rem; line-height: 1.7; padding-left: 24px; margin-bottom: 10px; }
+.policy-list li { margin-bottom: 3px; }
+.policy-table { overflow-x: auto; margin: 12px 0; }
+.policy-table table { border-collapse: collapse; width: 100%; font-size: .83rem; }
+.policy-table th, .policy-table td { border: 1px solid var(--border); padding: 7px 10px; text-align: left; }
+.policy-table th { background: var(--surface); font-weight: 700; }
+.policy-card { background: white; border-radius: var(--radius); border: 1px solid var(--border); padding: 20px; box-shadow: var(--shadow); margin-bottom: 20px; }
+.ack-card { background: white; border-radius: var(--radius); border: 2px solid var(--blue); padding: 20px; margin-bottom: 20px; box-shadow: var(--shadow); }
+.ack-card h3 { font-size: 1rem; color: var(--navy); margin-bottom: 6px; }
+.ack-card .sub { font-size: .83rem; color: var(--muted); margin-bottom: 16px; }
+.form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 16px; }
+@media (max-width: 500px) { .form-grid { grid-template-columns: 1fr; } }
+.form-field label { display: block; font-size: .72rem; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: .04em; margin-bottom: 4px; }
+.form-field input, .form-field select, .form-field textarea { width: 100%; padding: 8px 10px; border: 1px solid var(--border); border-radius: 6px; font-size: .88rem; font-family: inherit; color: var(--text); background: var(--surface); }
+.form-field input:focus { outline: none; border-color: var(--blue); background: white; }
+.form-field.full { grid-column: 1 / -1; }
+.sig-line { border: none; border-bottom: 1px solid var(--border); height: 40px; background: transparent; display: flex; align-items: flex-end; padding-bottom: 4px; color: var(--muted); font-size: .78rem; font-style: italic; }
+.chk-row { display: flex; align-items: flex-start; gap: 10px; margin-bottom: 12px; }
+.chk-row input[type=checkbox] { margin-top: 2px; width: 16px; height: 16px; flex-shrink: 0; accent-color: var(--blue); }
+.chk-row label { font-size: .87rem; line-height: 1.5; }
+.save-bar { background: var(--navy); border-radius: var(--radius); padding: 14px 16px; display: flex; align-items: center; gap: 14px; flex-wrap: wrap; margin-bottom: 20px; }
+.save-bar .pi { flex: 1; min-width: 0; }
+.save-bar .pl { font-size: .7rem; color: rgba(255,255,255,.6); font-weight: 700; text-transform: uppercase; letter-spacing: .04em; }
+.save-bar .pv { font-size: .78rem; color: white; font-family: monospace; word-break: break-all; }
+.btn-print { background: var(--blue); color: white; border: none; border-radius: 8px; padding: 10px 18px; font-size: .9rem; font-weight: 700; cursor: pointer; white-space: nowrap; }
+.btn-print:hover { background: #1d4ed8; }
+.btn-clear { background: rgba(255,255,255,.15); color: white; border: none; border-radius: 8px; padding: 10px 14px; font-size: .85rem; cursor: pointer; }
+.btn-clear:hover { background: rgba(255,255,255,.25); }
+.fn-hint { margin-top: 10px; padding: 10px 12px; background: var(--blue-light); border-radius: 6px; font-size: .78rem; color: var(--navy); }
+.appendix-wrap { background: white; border-radius: var(--radius); border: 1px solid var(--border); margin-bottom: 20px; overflow: hidden; }
+.appendix-wrap summary { padding: 12px 16px; font-weight: 700; font-size: .9rem; color: var(--navy); cursor: pointer; list-style: none; user-select: none; }
+.appendix-wrap summary::-webkit-details-marker { display: none; }
+.appendix-body { padding: 16px; border-top: 1px solid var(--border); font-size: .85rem; }
+.appendix-body h4 { color: var(--navy); margin: 12px 0 4px; }
+@media print {
+  .site-header, .search-wrap, .breadcrumb, .save-bar, footer { display: none !important; }
+  body { background: white; font-size: 11pt; }
+  .policy-card, .ack-card { border: 1px solid #bbb; box-shadow: none; break-inside: avoid; margin-bottom: 10pt; padding: 12pt; }
+  .ack-card { border: 2pt solid #1a2744; }
+  .form-field input { border: 1px solid #999; background: white; }
+  .sig-line { border-bottom: 1pt solid #333; }
+  .chk-row input { print-color-adjust: exact; -webkit-print-color-adjust: exact; }
+  main { max-width: 100%; padding: 0; }
+  .appendix-wrap { display: none; }
+}
+</style>
+
+</head>
+<body>
+<header class="site-header">
+  <span class="logo">&#128737;</span>
+  <div><h1>HSMS Wiki</h1><p>DS Home Computing</p></div>
+  <a class="back-btn" href="index.html">&#8592; B Series</a>
+</header>
+<div class="search-wrap" style="top:58px">
+  <span class="search-icon">&#128269;</span>
+  <input type="search" id="policySearch" placeholder="Search policy text&#8230;" autocomplete="off">
+</div>
+<main>
+  <div class="breadcrumb">
+    <a href="../index.html">HSMS Wiki</a> &rsaquo; <a href="index.html">B Series</a> &rsaquo; B.001 Progressive Discipline
+  </div>
+  <div class="doc-header">
+    <div class="doc-id">B.001 &middot; Policy</div>
+    <h2>Progressive Discipline</h2>
+    <div class="meta">DS Home Computing Ltd &middot; SA03 SECOR &middot; For internal use</div>
+  </div>
+
+  <div class="policy-card" id="policyContent">
+    <h3 class="policy-heading">Policy brief &amp; purpose</h3>
+<p class="policy-para">Our Progressive Discipline policy outlines the steps we will take to address an employee’s misconduct.</p>
+<p class="policy-para">We recognize that people make mistakes, and our employees may not always follow our policies closely. We want to give our employees a chance to correct their behavior when possible and assist them in the process. We also want to ensure that serious offenses are thoroughly investigated and dealt with.</p>
+<h3 class="policy-heading">Scope</h3>
+<p class="policy-para">This policy applies to all our employees.</p>
+<h3 class="policy-heading">Policy elements</h3>
+<h3 class="policy-heading">Our disciplinary process has three steps of increasing strictness. These steps are:</h3>
+<h3 class="policy-heading">Verbal warning with Informal meeting with supervisor</h3>
+<h3 class="policy-heading">Witten Warning</h3>
+<h3 class="policy-heading">Termination</h3>
+<p class="policy-para">All these phases are official and managers should document them. HR must also keep records of the process from step 2 onwards.</p>
+<p class="policy-para">Managers should let employees know when they launch a progressive discipline procedure. For example, pointing out a performance issue is not necessarily a verbal warning and may be part of the regular feedback an employee receives during on-the-job training. If managers judge that a progressive disciplinary process is appropriate, they must clarify this to their team member and document the step.</p>
+<p class="policy-para">Each step may be repeated instead of moving forward to the next step at HR or a manager’s discretion. For example, a supervisor may choose to have more than one informal meeting with their employees (step 1) before they ask HR to issue a formal reprimand (step 2.) Managers can make the decision to repeat a step if they:</p>
+<p class="policy-para">Feel that the step was not properly executed the first time.</p>
+<p class="policy-para">See signs of improvement in their employee and want to help them further.</p>
+<p class="policy-para">Believe conditions or parameters change enough to make repeating the step necessary.</p>
+<h3 class="policy-heading">Explaining the steps</h3>
+<h3 class="policy-heading">Step 1: When a manager or HR issues a verbal warning to an employee, they should do so privately. When appropriate, they should provide that employee with a copy of the company policy they violated, and explain our progressive discipline steps. Supervisors should provide employees with any coaching or advice they need. A discussion including corrective actions with an employee. Employees should receive actionable feedback on how to deal with an unintentional violation. They can review coaching or mentoring methods. Employees have one week to correct their behavior before step 2 takes effect.</h3>
+<h3 class="policy-heading">Step 2: Employees receive a formal written reprimand. HR should inform them that if they do not correct their behavior within one week, step 3 will take effect.  Employees will be called in for a formal disciplinary meeting with HR and their supervisor. They will have the chance to explain their side and HR is obliged to investigate. HR must clarify that this is the final step before an employee is penalized. Employees must correct their behavior immediately, or step 3 takes effect.</h3>
+<h3 class="policy-heading">Step 3:  Employees who continue to violate our policies, either voluntarily or involuntarily, by this stage will be terminated. This step will follow an official investigation by HR (or legal authorities when appropriate) to ensure that terminating an employee is fair. A termination for cause will refer to employees who were guilty of severe violations or felonies.</h3>
+<h3 class="policy-heading">How to invoke progressive discipline</h3>
+<p class="policy-para">The progressive discipline process may begin from a different step, according to the severity of an employee’s misconduct:</p>
+<h3 class="policy-heading">Performance issues. Procedure starts at stage 1. Examples are:</h3>
+<p class="policy-para">Absenteeism.</p>
+<p class="policy-para">Disregarding deadlines.</p>
+<p class="policy-para">Lack of knowledge of Health &amp; Safety standards.</p>
+<h3 class="policy-heading">Minor offenses (one-time). Procedure starts at stage 1. Examples are:</h3>
+<p class="policy-para">On-the-job minor mistakes.</p>
+<p class="policy-para">Breach of dress code (including PPE) or smoking policy.</p>
+<h3 class="policy-heading">Serious misconduct/ Repeating an offense for which a progressive discipline procedure already took place. Procedure starts at stage 2. Examples are:</h3>
+<p class="policy-para">On-the-job major mistakes.</p>
+<p class="policy-para">Rudeness to customers or partners.</p>
+<h3 class="policy-heading">Unwillingness to follow Health &amp; Safety standards</h3>
+<h3 class="policy-heading">Damage to rental units (see Policy 11.3 Rental Unit Policy)</h3>
+<h3 class="policy-heading">Severe violations. Procedure starts at stage 3. Examples are:</h3>
+<p class="policy-para">Substance abuse.</p>
+<p class="policy-para">Offensive behavior.</p>
+<p class="policy-para">Retaliation against an employee.</p>
+<h3 class="policy-heading">Illegal behavior. Procedure starts at step 3. Examples are:</h3>
+<p class="policy-para">Corruption/ Bribery.</p>
+<p class="policy-para">Sexual Harassment.</p>
+<p class="policy-para">Workplace Violence.</p>
+<p class="policy-para">Embezzlement/Fraud.</p>
+<h3 class="policy-heading">Illicit or recreational drugs</h3>
+<p class="policy-para">HR/Department Heads can skip any of the steps if they believe they are obsolete. For example, if an employee has received several formal reprimands for the same offense, HR may choose to terminate them directly. Or an employee may be directly suspended for a short period as a punishment.</p>
+<p class="policy-para">This policy is meant to provide general guidelines. Our company reserves the right to treat circumstances in a different way from that described in this policy. But, we are always obliged to act fairly and lawfully and document every stage of the progressive discipline process.</p>
+<h3 class="policy-heading">Right to appeal</h3>
+<p class="policy-para">Employees who were not terminated for cause or were not found guilty for illegal behavior may file an appeal. For example, if an employee thinks they were demoted unfairly, they can bring this issue to the attention of HR. HR will evaluate the situation and may organize a hearing.</p>
+<h3 class="policy-heading">Preventing progressive discipline</h3>
+<p class="policy-para">Disciplining an employee is never a pleasant task. For the sake of everyone involved, we will take actions to prevent the need for disciplinary action. We will:</p>
+<p class="policy-para">Communicate our policies and Code of Conduct clearly to all new hires.</p>
+<p class="policy-para">Announce any revisions or changes in our policies to all our employees in a formal manner (e.g. bulletins, newsletters.)</p>
+<p class="policy-para">Use frequent employee performance meetings to address issues before they become problems.</p>
+<p class="policy-para">Train managers to communicate, enforce and abide by policies.</p>
+<p class="policy-para">Train employees in certain policies and procedures.</p>
+<h3 class="policy-heading">Establish a culture of respect and collaboration</h3>
+
+  </div>
+
+  
+
+  <div class="save-bar">
+    <div class="pi">
+      <div class="pl">Save completed PDF to</div>
+      <div class="pv">G:\My Drive\DS Home\SA Safety and Security\SA03 SECOR\2026 Forms</div>
+    </div>
+    <button class="btn-clear" onclick="clearForm()">Clear</button>
+    <button class="btn-print" onclick="printForm()">&#128424; Save as PDF</button>
+  </div>
+
+  <div class="ack-card">
+    <h3>Policy Acknowledgement</h3>
+    <p class="sub">Complete all fields, check each box, then click <strong>Save as PDF</strong>. Choose <em>Save as PDF</em> in the print dialog and navigate to the folder shown above.</p>
+    <div class="chk-row">
+      <input type="checkbox" id="chk1">
+      <label for="chk1">I have read and understood the full <strong>B.001 Progressive Discipline</strong> policy.</label>
+    </div>
+    <div class="chk-row">
+      <input type="checkbox" id="chk2">
+      <label for="chk2">I agree to comply with this policy in the performance of my duties.</label>
+    </div>
+    <div class="chk-row">
+      <input type="checkbox" id="chk3">
+      <label for="chk3">I understand that failure to follow this policy may result in corrective action up to and including termination.</label>
+    </div>
+    <div class="form-grid">
+      <div class="form-field">
+        <label>Employee Full Name</label>
+        <input type="text" id="empName" placeholder="Full legal name" oninput="sync()">
+      </div>
+      <div class="form-field">
+        <label>Position / Title</label>
+        <input type="text" id="empPos" placeholder="Your job title">
+      </div>
+      <div class="form-field">
+        <label>Date of Acknowledgement</label>
+        <input type="date" id="ackDate" oninput="sync()">
+      </div>
+      <div class="form-field">
+        <label>Supervisor / Manager Name</label>
+        <input type="text" id="supName" placeholder="Supervisor full name">
+      </div>
+      <div class="form-field full">
+        <label>Signature</label>
+        <div class="sig-line">Sign above this line after printing &nbsp;&mdash;&nbsp; or type full name to acknowledge electronically</div>
+      </div>
+    </div>
+    <div class="fn-hint"><strong>Suggested filename:</strong> <span id="sfn"></span></div>
+  </div>
+</main>
+<footer>DS Home Computing &middot; SA03 SECOR &middot; B.001 Progressive Discipline &middot; For internal use only</footer>
+
+<script>
+const BASE_FN = 'B001-progressive-discipline';
+function sync() {
+  const n = (document.getElementById('empName').value||'[name]').trim().replace(/\s+/g,'-');
+  const d = document.getElementById('ackDate').value||'[date]';
+  document.getElementById('sfn').textContent = BASE_FN+'_'+n+'_'+d+'.pdf';
+}
+function printForm() { window.print(); }
+function clearForm() {
+  ['empName','empPos','ackDate','supName'].forEach(id=>document.getElementById(id).value='');
+  document.querySelectorAll('.chk-row input').forEach(el=>el.checked=false);
+  document.getElementById('ackDate').value=new Date().toISOString().split('T')[0];
+  sync();
+}
+document.getElementById('ackDate').value=new Date().toISOString().split('T')[0];
+sync();
+const srch=document.getElementById('policySearch');
+srch.addEventListener('input',()=>{
+  const q=srch.value.toLowerCase();
+  document.querySelectorAll('.policy-card p,.policy-card li,.policy-card h3').forEach(el=>{
+    el.style.backgroundColor=q&&el.textContent.toLowerCase().includes(q)?'#fef9c3':'';
+  });
+});
+</script>
+
+</body>
+</html>

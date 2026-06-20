@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>E.001 Fire — HSMS</title>
+<link rel="stylesheet" href="../hsms.css">
+<style>
+.erp-hero {
+  background:linear-gradient(135deg,#7f1d1d 0%,#dc2626 100%);
+  color:#fff; padding:20px 16px;
+}
+.erp-hero .erp-badge {
+  font-size:.65rem; font-weight:700; letter-spacing:.1em; text-transform:uppercase;
+  opacity:.85; margin-bottom:6px;
+}
+.erp-hero h2 { font-size:1.2rem; font-weight:700; margin:0 0 6px; line-height:1.3; }
+.erp-hero p { font-size:.8rem; opacity:.8; margin:0; }
+.source-ref {
+  font-size:.72rem; color:var(--muted); padding:10px 16px 0; font-style:italic;
+}
+.erp-section {
+  margin:12px 12px 0; border-radius:10px; overflow:hidden;
+  border:1px solid var(--border);
+}
+.erp-section-header {
+  display:flex; align-items:center; gap:10px; padding:10px 14px;
+  font-weight:700;
+}
+.erp-icon { font-size:1.1rem; }
+.erp-section-header h3 { margin:0; font-size:.95rem; color:var(--navy); }
+.erp-section-body { padding:10px 14px 14px; }
+.erp-para { font-size:.875rem; color:var(--body); margin:0 0 8px; line-height:1.55; }
+.erp-sub-heading { font-size:.85rem; font-weight:700; color:var(--navy); margin:10px 0 4px; }
+.erp-sub { font-size:.82rem; font-weight:700; color:var(--navy); margin:8px 0 4px; }
+/* section colour accents */
+.section-procedure .erp-section-header { background:#fef2f2; }
+.section-facilities .erp-section-header { background:#eff6ff; }
+.section-equipment .erp-section-header { background:#fefce8; }
+.section-reporting .erp-section-header { background:#f0fdf4; }
+.section-purpose .erp-section-header { background:#f8fafc; }
+.section-default .erp-section-header { background:#f8fafc; }
+/* steps */
+.erp-steps { list-style:none; padding:0; margin:8px 0 0; }
+.erp-step {
+  display:flex; gap:10px; align-items:flex-start;
+  padding:8px 0; border-bottom:1px solid var(--border);
+}
+.erp-step:last-child { border-bottom:none; }
+.step-num {
+  flex-shrink:0; width:26px; height:26px; border-radius:50%;
+  background:var(--navy); color:#fff; font-size:.72rem; font-weight:700;
+  display:flex; align-items:center; justify-content:center;
+}
+.step-text { font-size:.875rem; line-height:1.5; padding-top:3px; }
+/* table */
+.erp-table-wrap { overflow-x:auto; margin:8px 0; }
+.erp-table { border-collapse:collapse; font-size:.78rem; width:100%; }
+.erp-table th { background:var(--navy); color:#fff; padding:5px 8px; text-align:left; }
+.erp-table td { border:1px solid var(--border); padding:5px 8px; }
+/* print */
+@media print {
+  .site-header, footer, .search-wrap { display:none !important; }
+  .erp-section { break-inside:avoid; }
+  .erp-section-header { -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+}
+</style>
+</head>
+<body>
+<header class="site-header">
+  <span class="logo">🛡️</span>
+  <div><h1>HSMS Wiki</h1><p>DS Home Computing</p></div>
+  <a href="index.html" style="margin-left:auto;color:#fff;font-size:.8rem;">← E Series</a>
+</header>
+
+<div class="erp-hero">
+  <div class="erp-badge">E.001 · Emergency Response Plan</div>
+  <h2>Fire</h2>
+  <p>DS Home Computing Ltd · SA03 SECOR · For internal use</p>
+</div>
+
+<nav style="font-size:.75rem;color:var(--muted);padding:10px 16px;">
+  <a href="../index.html">HSMS Wiki</a> › <a href="index.html">E Series</a> › E.001
+</nav>
+
+<main style="padding-bottom:24px;">
+<div class="source-ref">Source: A.001 Health and Safety Management System, Section 9 Emergency Preparedness.</div>
+<div class="erp-section section-purpose">
+<div class="erp-section-header"><span class="erp-icon">📌</span><h3>Purpose</h3></div>
+<div class="erp-section-body">
+<p class="erp-para">Provide immediate response actions for this emergency condition. Workers shall follow the site lead or supervisor instructions and summon outside emergency assistance when required.</p>
+</div>
+</div>
+<div class="erp-section section-facilities">
+<div class="erp-section-header"><span class="erp-icon">🏥</span><h3>Emergency Facilities</h3></div>
+<div class="erp-section-body">
+<p class="erp-para">Muster Point - Located across the road from the front entrance.</p>
+<p class="erp-para">University of Alberta Hospital - 8440-112 Street, Edmonton, AB, T6G-2B7</p>
+<p class="erp-para">Emergency equipment locations - See shop &amp; office map for locations (11.9 &amp; 11.10).</p>
+</div>
+</div>
+<div class="erp-section section-equipment">
+<div class="erp-section-header"><span class="erp-icon">🧯</span><h3>Emergency Equipment Reference</h3></div>
+<div class="erp-section-body">
+<p class="erp-para">Fire extinguisher: use the P.A.S.S. method - Pull, Aim, Squeeze, Sweep.</p>
+</div>
+</div>
+<div class="erp-section section-procedure">
+<div class="erp-section-header"><span class="erp-icon">⚠️</span><h3>Emergency Response Procedure</h3></div>
+<div class="erp-section-body">
+<p class="erp-para">When responding to a fire in another room, first confirm that the fire is not located in the adjacent room by feeling the warmth of the door handle. If the handle is warm, exit the building using another doorway, but make sure to still follow the technique previously outlined</p>
+<p class="erp-para">When responding to a fire, first remove any fuel sources from the fire’s path, such as wood, gasoline, and diesel</p>
+<p class="erp-para">If possible, try to extinguish the fire using a fire extinguisher located in the shop or office</p>
+<p class="erp-para">If the fire is out of control, notify all personnel and meet at the designated muster point</p>
+<p class="erp-para">Once everyone is safe from the fire, phone 911 and request that the fire department be dispatched to our location</p>
+</div>
+</div>
+<div class="erp-section section-reporting">
+<div class="erp-section-header"><span class="erp-icon">📋</span><h3>Reporting and Follow-Up</h3></div>
+<div class="erp-section-body">
+<p class="erp-para">Notify the Safety Officer or site lead of the incident as soon as it is safe to do so.</p>
+<p class="erp-para">Do not resume work until instructed by the site lead or supervisor.</p>
+<p class="erp-para">Reassess the Field Level Hazard Assessment (F.L.H.A.) before resuming work when applicable.</p>
+<div class="erp-table-wrap"><table class="erp-table">
+<tr><th>Rev.</th><th>Submitted By</th><th>Review By</th><th>Publish Date</th><th>Reason</th></tr>
+<tr><td>0</td><td>Katie Snow</td><td>Doug Senger</td><td>05-SEP-2025</td><td>Extracted from A.001 HSMS Section 9</td></tr>
+</table></div>
+</div>
+</div>
+
+</main>
+
+<footer>DS Home Computing · SA03 SECOR · HSMS Wiki · For internal use only</footer>
+</body>
+</html>

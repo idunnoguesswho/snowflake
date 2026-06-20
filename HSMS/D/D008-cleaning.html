@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>D.008 Cleaning JSA — HSMS Wiki</title>
+<link rel="stylesheet" href="../hsms.css">
+</head>
+<body>
+<header class="site-header">
+  <span class="logo">🛡️</span>
+  <div><h1>HSMS Wiki</h1><p>DS Home Computing</p></div>
+  <a class="back-btn" href="../index.html">← Wiki Home</a>
+</header>
+<div class="search-wrap" style="top:58px">
+  <span class="search-icon">🔍</span>
+  <input type="search" id="taskSearch" placeholder="Search tasks, hazards, controls…" autocomplete="off">
+</div>
+<main>
+  <div class="breadcrumb"><a href="../index.html">HSMS Wiki</a> › D Series › D.008 Cleaning</div>
+
+  <div class="doc-header">
+    <div class="doc-id">D.008 · Job Safety Analysis</div>
+    <h2>Cleaning</h2>
+    <div class="meta">JSA Leader: Katie Snow, Manager · Revision 1</div>
+    <div class="revision-note">Revision focus: Updated to include fatigue/fitness, privacy/respectful workplace, chemical safety, biohazards, and back injury controls.</div>
+  </div>
+
+  <div class="info-grid">
+    <div class="info-card">
+      <div class="label">PPE Required</div>
+      <div class="value">Gloves, eye protection, non-slip footwear, mask/respiratory protection if required by product/task</div>
+    </div>
+    <div class="info-card">
+      <div class="label">Emergency Contact</div>
+      <div class="value">911</div>
+    </div>
+    <div class="info-card">
+      <div class="label">Emergency Meeting Point</div>
+      <div class="value">To be determined at home office / work area</div>
+    </div>
+    <div class="info-card">
+      <div class="label">Tools &amp; Equipment</div>
+      <div class="value">Cleaning products, mop/bucket, vacuum, ladder/step stool, garbage bags, caution signs, first aid kit</div>
+    </div>
+    <div class="info-card" style="grid-column:1/-1">
+      <div class="label">Training / Skills Required</div>
+      <div class="value">Cleaning procedures · Label/WHMIS awareness · First aid · Respectful workplace · Incident reporting</div>
+    </div>
+    <div class="info-card" style="grid-column:1/-1">
+      <div class="label">Approval Required</div>
+      <div class="value">High risk work requires Supervisor/Management approval per risk matrix</div>
+    </div>
+  </div>
+
+  <div class="refs-panel">
+    <h3>Reference Documents</h3>
+    <div class="ref-section">
+      <div class="ref-section-title">Policies &amp; Procedures</div>
+      <div class="chips">
+        <span class="chip chip-policy">A.001 HSMS</span>
+        <span class="chip chip-policy">B.001 Progressive Discipline</span>
+        <span class="chip chip-policy">B.023 Hazard Assessment</span>
+        <span class="chip chip-policy">B.026 Respectful Workplace &amp; Privacy</span>
+        <span class="chip chip-policy">B.031 Substance Abuse &amp; Fitness for Work</span>
+        <span class="chip chip-policy">B.037 Visitors</span>
+        <span class="chip chip-policy">B.046 Back Injury Prevention</span>
+      </div>
+    </div>
+    <div class="ref-section">
+      <div class="ref-section-title">Forms &amp; Records</div>
+      <div class="chips">
+        <span class="chip chip-form">C.001 FLHA</span>
+        <span class="chip chip-form">C.010 Near Miss</span>
+        <span class="chip chip-form">C.015 Equipment Inspection</span>
+        <span class="chip chip-form">C.020 Incident Investigation</span>
+        <span class="chip chip-form">C.028 Violence/Harassment Complaint</span>
+        <span class="chip chip-form">C.029 Privacy Request/Breach</span>
+        <span class="chip chip-form">C.039 Visitor Sign-In</span>
+        <span class="chip chip-form">C.048 Back Injury Assessment</span>
+        <span class="chip chip-form">C.049 Fatigue Self-Assessment</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="risk-matrix-wrap">
+    <h3>Risk Matrix — Probability × Severity</h3>
+    <div class="risk-matrix">
+      <table>
+        <tr><th>P / S</th><th>4 Catastrophic</th><th>3 Critical</th><th>2 Marginal</th><th>1 Negligible</th></tr>
+        <tr><th>4 Probable</th><td class="r-high">16 H</td><td class="r-high">12 H</td><td class="r-high">8 H</td><td class="r-mod">4 M</td></tr>
+        <tr><th>3 Reasonably Probable</th><td class="r-high">12 H</td><td class="r-high">9 H</td><td class="r-mod">6 M</td><td class="r-mod">3 M</td></tr>
+        <tr><th>2 Remote</th><td class="r-high">8 H</td><td class="r-mod">6 M</td><td class="r-mod">4 M</td><td class="r-low">2 L</td></tr>
+        <tr><th>1 Extremely Remote</th><td class="r-mod">4 M</td><td class="r-mod">3 M</td><td class="r-low">2 L</td><td class="r-low">1 L</td></tr>
+      </table>
+    </div>
+    <div style="margin-top:8px;font-size:.75rem;color:var(--muted)">
+      <span style="color:var(--high);font-weight:700">High (8–16)</span> · Management approval &nbsp;|&nbsp;
+      <span style="color:var(--mod);font-weight:700">Moderate (3–6)</span> · Supervisor/Lead approval &nbsp;|&nbsp;
+      <span style="color:var(--low);font-weight:700">Low (1–2)</span> · Field level
+    </div>
+  </div>
+
+  <div class="section-heading">Job Tasks</div>
+  <button class="expand-all-btn" onclick="toggleAll()">Expand All</button>
+  <div id="taskList">
+
+    <div class="task-card" data-search="pre-task inspection fitness check fatigue illness poor lighting clutter unknown chemicals working alone">
+      <div class="task-header" onclick="toggle(this)">
+        <div class="task-num">1</div>
+        <div class="task-title">Pre-task inspection and fitness check</div>
+        <span class="risk-badge mod">PRE: 6 M</span>
+        <span class="risk-badge low">POST: 2 L</span>
+        <span class="chevron">▾</span>
+      </div>
+      <div class="task-body">
+        <div class="hazard-label">Potential Hazards &amp; Effects</div>
+        <div class="hazard-text">Fatigue, illness, poor lighting, clutter, unknown chemicals, or working alone.</div>
+        <div class="hazard-label">Controls</div>
+        <ul class="controls-list">
+          <li><span class="control-type A">A</span>Confirm worker is fit for work and understands task scope.</li>
+          <li><span class="control-type A">A</span>Inspect area for spills, obstacles, lighting, exits, and special hazards before starting.</li>
+          <li><span class="control-type A">A</span>Establish communication/check-in if working alone.</li>
+        </ul>
+        <div class="forms-ref"><strong>Required Forms:</strong> C.049 if fatigue · C.001 FLHA if needed</div>
+      </div>
+    </div>
+
+    <div class="task-card" data-search="using chemical cleaners skin eye irritation inhalation chemical reaction spill improper storage WHMIS">
+      <div class="task-header" onclick="toggle(this)">
+        <div class="task-num">2</div>
+        <div class="task-title">Using chemical cleaners</div>
+        <span class="risk-badge high">PRE: 9 H</span>
+        <span class="risk-badge low">POST: 2 L</span>
+        <span class="chevron">▾</span>
+      </div>
+      <div class="task-body">
+        <div class="hazard-label">Potential Hazards &amp; Effects</div>
+        <div class="hazard-text">Skin/eye irritation, inhalation, chemical reaction, spill, or improper storage.</div>
+        <div class="hazard-label">Controls</div>
+        <ul class="controls-list">
+          <li><span class="control-type A">A</span>Read labels and follow product directions.</li>
+          <li><span class="control-type A">A</span>Do not mix chemicals.</li>
+          <li><span class="control-type E">E</span>Ventilate area and keep containers closed when not in use.</li>
+          <li><span class="control-type P">P</span>Wear gloves and eye protection as required.</li>
+          <li><span class="control-type A">A</span>Store chemicals securely and report spills.</li>
+        </ul>
+        <div class="forms-ref"><strong>Required Forms:</strong> C.020 if exposure/spill</div>
+      </div>
+    </div>
+
+    <div class="task-card" data-search="mopping floors wet cleaning slips trips falls public worker exposure wet floor caution signs">
+      <div class="task-header" onclick="toggle(this)">
+        <div class="task-num">3</div>
+        <div class="task-title">Mopping floors / wet cleaning</div>
+        <span class="risk-badge mod">PRE: 4 M</span>
+        <span class="risk-badge low">POST: 1 L</span>
+        <span class="chevron">▾</span>
+      </div>
+      <div class="task-body">
+        <div class="hazard-label">Potential Hazards &amp; Effects</div>
+        <div class="hazard-text">Slips, trips, falls, or public/worker exposure to wet floor.</div>
+        <div class="hazard-label">Controls</div>
+        <ul class="controls-list">
+          <li><span class="control-type E">E</span>Use caution signs/barriers where others may enter.</li>
+          <li><span class="control-type A">A</span>Clean small sections and keep one dry path available.</li>
+          <li><span class="control-type P">P</span>Wear non-slip footwear.</li>
+          <li><span class="control-type A">A</span>Remove signs only when floor is dry.</li>
+        </ul>
+        <div class="forms-ref"><strong>Required Forms:</strong> C.010 if near miss · C.020 if incident</div>
+      </div>
+    </div>
+
+    <div class="task-card" data-search="dusting high areas reaching falls from height overreaching shoulder back strain falling objects ladder">
+      <div class="task-header" onclick="toggle(this)">
+        <div class="task-num">4</div>
+        <div class="task-title">Dusting high areas / reaching</div>
+        <span class="risk-badge mod">PRE: 6 M</span>
+        <span class="risk-badge low">POST: 2 L</span>
+        <span class="chevron">▾</span>
+      </div>
+      <div class="task-body">
+        <div class="hazard-label">Potential Hazards &amp; Effects</div>
+        <div class="hazard-text">Falls from height, overreaching, shoulder/back strain, or falling objects.</div>
+        <div class="hazard-label">Controls</div>
+        <ul class="controls-list">
+          <li><span class="control-type E">E</span>Use stable ladder/step stool appropriate to task.</li>
+          <li><span class="control-type A">A</span>Avoid overreaching; reposition ladder and maintain three points of contact.</li>
+          <li><span class="control-type A">A</span>Do not stand on chairs or unstable surfaces.</li>
+          <li><span class="control-type P">P</span>Eye protection as required.</li>
+        </ul>
+        <div class="forms-ref"><strong>Required Forms:</strong> C.048 Back Injury Assessment · C.020 if injury</div>
+      </div>
+    </div>
+
+    <div class="task-card" data-search="vacuuming corded equipment trips over cords electric shock noise repetitive strain damaged equipment">
+      <div class="task-header" onclick="toggle(this)">
+        <div class="task-num">5</div>
+        <div class="task-title">Vacuuming / corded equipment</div>
+        <span class="risk-badge mod">PRE: 4 M</span>
+        <span class="risk-badge low">POST: 1 L</span>
+        <span class="chevron">▾</span>
+      </div>
+      <div class="task-body">
+        <div class="hazard-label">Potential Hazards &amp; Effects</div>
+        <div class="hazard-text">Trips over cords, electric shock, noise, repetitive strain, or damaged equipment.</div>
+        <div class="hazard-label">Controls</div>
+        <ul class="controls-list">
+          <li><span class="control-type A">A</span>Inspect cord/equipment before use; remove defective equipment from service.</li>
+          <li><span class="control-type A">A</span>Keep cords organized and out of walkways.</li>
+          <li><span class="control-type A">A</span>Use proper posture and change hands/position.</li>
+          <li><span class="control-type P">P</span>Hearing protection if equipment/noise requires.</li>
+        </ul>
+        <div class="forms-ref"><strong>Required Forms:</strong> C.015 Equipment Inspection if issue · C.048 Back Injury Assessment</div>
+      </div>
+    </div>
+
+    <div class="task-card" data-search="trash washroom biohazard clean-up cuts sharps bodily fluids biological exposure odours pests lifting injury">
+      <div class="task-header" onclick="toggle(this)">
+        <div class="task-num">6</div>
+        <div class="task-title">Trash, washroom, or biohazard clean-up</div>
+        <span class="risk-badge high">PRE: 9 H</span>
+        <span class="risk-badge low">POST: 2 L</span>
+        <span class="chevron">▾</span>
+      </div>
+      <div class="task-body">
+        <div class="hazard-label">Potential Hazards &amp; Effects</div>
+        <div class="hazard-text">Cuts, sharps, bodily fluids, biological exposure, odours, pests, or lifting injury.</div>
+        <div class="hazard-label">Controls</div>
+        <ul class="controls-list">
+          <li><span class="control-type A">A</span>Do not reach blindly into bags or bins.</li>
+          <li><span class="control-type A">A</span>Use sealed bags and avoid overfilling.</li>
+          <li><span class="control-type P">P</span>Wear gloves; use additional PPE for bodily fluids.</li>
+          <li><span class="control-type A">A</span>Report sharps, blood/bodily fluids, or unusual waste to supervisor.</li>
+          <li><span class="control-type A">A</span>Use proper lifting technique or reduce load size.</li>
+        </ul>
+        <div class="forms-ref"><strong>Required Forms:</strong> C.020 Incident Investigation · C.048 Back Injury Assessment</div>
+      </div>
+    </div>
+
+    <div class="task-card" data-search="interaction workers clients public cleaning harassment violence disrespectful privacy exposure unauthorized access">
+      <div class="task-header" onclick="toggle(this)">
+        <div class="task-num">7</div>
+        <div class="task-title">Interaction with workers, clients, or public while cleaning</div>
+        <span class="risk-badge mod">PRE: 6 M</span>
+        <span class="risk-badge low">POST: 2 L</span>
+        <span class="chevron">▾</span>
+      </div>
+      <div class="task-body">
+        <div class="hazard-label">Potential Hazards &amp; Effects</div>
+        <div class="hazard-text">Harassment, violence, disrespectful behaviour, privacy exposure, or unauthorized access to work areas.</div>
+        <div class="hazard-label">Controls</div>
+        <ul class="controls-list">
+          <li><span class="control-type A">A</span>Keep communication respectful and report concerning behaviour.</li>
+          <li><span class="control-type A">A</span>Do not enter private/restricted spaces without authorization.</li>
+          <li><span class="control-type A">A</span>Protect confidential documents/items seen while cleaning.</li>
+          <li><span class="control-type A">A</span>Stop work and contact supervisor if unsafe.</li>
+        </ul>
+        <div class="forms-ref"><strong>Required Forms:</strong> C.028 Violence/Harassment · C.029 Privacy · C.039 if visitors involved</div>
+      </div>
+    </div>
+
+  </div>
+  <div class="no-results hidden" id="noResults">No tasks match your search.</div>
+
+  <div style="margin-top:24px;background:white;border-radius:var(--radius);border:1px solid var(--border);padding:14px;box-shadow:var(--shadow)">
+    <div class="section-heading" style="margin-top:0">Annual Review Team</div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:10px;margin-top:10px">
+      <div style="font-size:.85rem"><strong>Doug Senger</strong><br><span style="color:var(--muted)">Date / Signature: ________</span></div>
+      <div style="font-size:.85rem"><strong>Katie Snow</strong><br><span style="color:var(--muted)">Date / Signature: ________</span></div>
+      <div style="font-size:.85rem"><strong>Sandy Senger</strong><br><span style="color:var(--muted)">Date / Signature: ________</span></div>
+      <div style="font-size:.85rem"><strong>Robyn Morales</strong><br><span style="color:var(--muted)">Date / Signature: ________</span></div>
+    </div>
+  </div>
+</main>
+<footer>DS Home Computing · SA03 SECOR · D.008 Cleaning JSA · For internal use only</footer>
+<script>
+function toggle(hdr){hdr.closest('.task-card').classList.toggle('open');}
+function toggleAll(){const cards=document.querySelectorAll('.task-card');const anyOpen=[...cards].some(c=>c.classList.contains('open'));cards.forEach(c=>anyOpen?c.classList.remove('open'):c.classList.add('open'));document.querySelector('.expand-all-btn').textContent=anyOpen?'Expand All':'Collapse All';}
+const search=document.getElementById('taskSearch');search.addEventListener('input',()=>{const q=search.value.toLowerCase();let v=0;document.querySelectorAll('.task-card').forEach(card=>{const show=!q||(card.dataset.search+' '+card.textContent).toLowerCase().includes(q);card.classList.toggle('hidden',!show);if(show)v++;});document.getElementById('noResults').classList.toggle('hidden',v>0);});
+</script>
+</body>
+</html>

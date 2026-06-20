@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>B.046 Back Injury Prevention Policy — HSMS</title>
+<link rel="stylesheet" href="../hsms.css">
+
+<style>
+.policy-heading {
+  font-size: 1rem; font-weight: 700; color: var(--navy);
+  margin: 20px 0 6px; padding-bottom: 4px; border-bottom: 1px solid var(--border);
+}
+.policy-para { font-size: .88rem; line-height: 1.65; margin-bottom: 8px; color: var(--text); }
+.policy-list { font-size: .88rem; line-height: 1.7; padding-left: 24px; margin-bottom: 10px; }
+.policy-list li { margin-bottom: 3px; }
+.policy-table { overflow-x: auto; margin: 12px 0; }
+.policy-table table { border-collapse: collapse; width: 100%; font-size: .83rem; }
+.policy-table th, .policy-table td { border: 1px solid var(--border); padding: 7px 10px; text-align: left; }
+.policy-table th { background: var(--surface); font-weight: 700; }
+.policy-card { background: white; border-radius: var(--radius); border: 1px solid var(--border); padding: 20px; box-shadow: var(--shadow); margin-bottom: 20px; }
+.ack-card { background: white; border-radius: var(--radius); border: 2px solid var(--blue); padding: 20px; margin-bottom: 20px; box-shadow: var(--shadow); }
+.ack-card h3 { font-size: 1rem; color: var(--navy); margin-bottom: 6px; }
+.ack-card .sub { font-size: .83rem; color: var(--muted); margin-bottom: 16px; }
+.form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 16px; }
+@media (max-width: 500px) { .form-grid { grid-template-columns: 1fr; } }
+.form-field label { display: block; font-size: .72rem; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: .04em; margin-bottom: 4px; }
+.form-field input, .form-field select, .form-field textarea { width: 100%; padding: 8px 10px; border: 1px solid var(--border); border-radius: 6px; font-size: .88rem; font-family: inherit; color: var(--text); background: var(--surface); }
+.form-field input:focus { outline: none; border-color: var(--blue); background: white; }
+.form-field.full { grid-column: 1 / -1; }
+.sig-line { border: none; border-bottom: 1px solid var(--border); height: 40px; background: transparent; display: flex; align-items: flex-end; padding-bottom: 4px; color: var(--muted); font-size: .78rem; font-style: italic; }
+.chk-row { display: flex; align-items: flex-start; gap: 10px; margin-bottom: 12px; }
+.chk-row input[type=checkbox] { margin-top: 2px; width: 16px; height: 16px; flex-shrink: 0; accent-color: var(--blue); }
+.chk-row label { font-size: .87rem; line-height: 1.5; }
+.save-bar { background: var(--navy); border-radius: var(--radius); padding: 14px 16px; display: flex; align-items: center; gap: 14px; flex-wrap: wrap; margin-bottom: 20px; }
+.save-bar .pi { flex: 1; min-width: 0; }
+.save-bar .pl { font-size: .7rem; color: rgba(255,255,255,.6); font-weight: 700; text-transform: uppercase; letter-spacing: .04em; }
+.save-bar .pv { font-size: .78rem; color: white; font-family: monospace; word-break: break-all; }
+.btn-print { background: var(--blue); color: white; border: none; border-radius: 8px; padding: 10px 18px; font-size: .9rem; font-weight: 700; cursor: pointer; white-space: nowrap; }
+.btn-print:hover { background: #1d4ed8; }
+.btn-clear { background: rgba(255,255,255,.15); color: white; border: none; border-radius: 8px; padding: 10px 14px; font-size: .85rem; cursor: pointer; }
+.btn-clear:hover { background: rgba(255,255,255,.25); }
+.fn-hint { margin-top: 10px; padding: 10px 12px; background: var(--blue-light); border-radius: 6px; font-size: .78rem; color: var(--navy); }
+.appendix-wrap { background: white; border-radius: var(--radius); border: 1px solid var(--border); margin-bottom: 20px; overflow: hidden; }
+.appendix-wrap summary { padding: 12px 16px; font-weight: 700; font-size: .9rem; color: var(--navy); cursor: pointer; list-style: none; user-select: none; }
+.appendix-wrap summary::-webkit-details-marker { display: none; }
+.appendix-body { padding: 16px; border-top: 1px solid var(--border); font-size: .85rem; }
+.appendix-body h4 { color: var(--navy); margin: 12px 0 4px; }
+@media print {
+  .site-header, .search-wrap, .breadcrumb, .save-bar, footer { display: none !important; }
+  body { background: white; font-size: 11pt; }
+  .policy-card, .ack-card { border: 1px solid #bbb; box-shadow: none; break-inside: avoid; margin-bottom: 10pt; padding: 12pt; }
+  .ack-card { border: 2pt solid #1a2744; }
+  .form-field input { border: 1px solid #999; background: white; }
+  .sig-line { border-bottom: 1pt solid #333; }
+  .chk-row input { print-color-adjust: exact; -webkit-print-color-adjust: exact; }
+  main { max-width: 100%; padding: 0; }
+  .appendix-wrap { display: none; }
+}
+</style>
+
+</head>
+<body>
+<header class="site-header">
+  <span class="logo">&#128737;</span>
+  <div><h1>HSMS Wiki</h1><p>DS Home Computing</p></div>
+  <a class="back-btn" href="index.html">&#8592; B Series</a>
+</header>
+<div class="search-wrap" style="top:58px">
+  <span class="search-icon">&#128269;</span>
+  <input type="search" id="policySearch" placeholder="Search policy text&#8230;" autocomplete="off">
+</div>
+<main>
+  <div class="breadcrumb">
+    <a href="../index.html">HSMS Wiki</a> &rsaquo; <a href="index.html">B Series</a> &rsaquo; B.046 Back Injury Prevention Policy
+  </div>
+  <div class="doc-header">
+    <div class="doc-id">B.046 &middot; Policy</div>
+    <h2>Back Injury Prevention Policy</h2>
+    <div class="meta">DS Home Computing Ltd &middot; SA03 SECOR &middot; For internal use</div>
+  </div>
+
+  <div class="policy-card" id="policyContent">
+    <h3 class="policy-heading">Policy brief &amp; purpose</h3>
+<p class="policy-para">DS Home Computing Ltd recognizes that back injuries and other musculoskeletal injuries can result from lifting, carrying, pushing, pulling, awkward posture, vibration, repetitive work, slips, trips, and poor workstation setup. This policy establishes prevention, reporting, and control expectations.</p>
+<p class="policy-para">This policy supports the Health and Safety Management System (HSMS) commitment to clear policies, shared responsibility, employee participation, confidentiality, hazard control, fair treatment, training, communication, and continuous improvement.</p>
+<h3 class="policy-heading">Scope</h3>
+<p class="policy-para">This policy applies to all employees and subcontractors who perform lifting, carrying, material handling, office work, driving, equipment use, field work, or other tasks that may create back or musculoskeletal injury risk.</p>
+<h3 class="policy-heading">Policy elements</h3>
+<ul class="policy-list"><li>Back injury hazards must be considered during hazard assessments, inspections, pre-job planning, and task assignment.</li><li>Workers must use mechanical aids, team lifts, carts, dollies, proper body positioning, and task planning where reasonable to reduce force and awkward posture.</li><li>No worker should lift, carry, push, or pull a load that is beyond their ability or creates an undue hazard. Ask for help or stop the task if it cannot be done safely.</li><li>Supervisors must provide instruction, tools, time, and resources needed for safe material handling and ergonomic work.</li><li>Workers must report early signs of strain, pain, discomfort, near misses, unsafe storage, poor workstation setup, or equipment problems.</li><li>Incident and injury information will be reviewed to improve controls and prevent recurrence.</li></ul>
+<h3 class="policy-heading">Definitions</h3>
+<div class="policy-table"><table><tbody><tr><th>Term</th><th>Policy meaning</th></tr><tr><td>Musculoskeletal injury (MSI)</td><td>An injury or disorder of muscles, tendons, ligaments, joints, nerves, blood vessels, or related soft tissue caused or aggravated by work.</td></tr><tr><td>Ergonomics</td><td>Designing work, tools, equipment, and workstations to fit the worker and reduce injury risk.</td></tr></tbody></table></div><h3 class="policy-heading">Responsibilities</h3>
+<div class="policy-table"><table><tbody><tr><th>Role</th><th>Responsibilities</th></tr><tr><td>Managers / Owners</td><td>Provide resources, approve reasonable exceptions, enforce expectations, maintain records, and ensure policy decisions comply with Alberta requirements.</td></tr><tr><td>Supervisors / Project Managers</td><td>Communicate expectations, monitor compliance, respond to concerns, document issues, and escalate matters that may affect safety, privacy, payroll, or employment status.</td></tr><tr><td>Workers / Subcontractors</td><td>Read and follow the policy, ask questions when unsure, report hazards or concerns, cooperate with investigations, and protect confidential information.</td></tr><tr><td>Human Resources</td><td>Support consistent application, maintain confidential records, advise on legislation and accommodation, and coordinate training or corrective action where required.</td></tr></tbody></table></div><h3 class="policy-heading">Safe lifting and material handling rules</h3>
+<ul class="policy-list"><li>Plan the lift and clear the travel path before moving the load.</li><li>Keep the load close to the body and avoid twisting while lifting.</li><li>Use carts, dollies, hoists, lifts, or mechanical aids where practical.</li><li>Break loads into smaller parts where possible.</li><li>Get help for heavy, awkward, unstable, or high-reach loads.</li><li>Store frequently used items between knee and shoulder height where practical.</li></ul>
+<h3 class="policy-heading">Office and driving ergonomics</h3>
+<ul class="policy-list"><li>Adjust chair, monitor, keyboard, mouse, and documents to reduce awkward posture.</li><li>Take short posture changes or micro-breaks during prolonged sitting or repetitive work.</li><li>Set vehicle seats and mirrors to reduce reach and twisting.</li><li>Report workstation discomfort early so adjustments can be made.</li></ul>
+<h3 class="policy-heading">Control examples</h3>
+<div class="policy-table"><table><tbody><tr><th>Hazard</th><th>Possible control</th></tr><tr><td>Heavy or awkward load</td><td>Mechanical aid, team lift, smaller loads, supplier delivery.</td></tr><tr><td>Repetitive bending</td><td>Raise work height, reposition material, rotate tasks.</td></tr><tr><td>Long sitting</td><td>Ergonomic setup, scheduled breaks, posture changes.</td></tr><tr><td>Slippery or cluttered path</td><td>Housekeeping, ice control, lighting, clear access route.</td></tr></tbody></table></div><h3 class="policy-heading">Reporting, review, and corrective action</h3>
+<p class="policy-para">Employees and subcontractors are encouraged to raise concerns early through their supervisor, Project Manager, Human Resources Manager, or owner. Concerns involving a supervisor may be reported directly to Human Resources or ownership. The Company will respond fairly, promptly, and confidentially to the extent reasonably possible.</p>
+<p class="policy-para">Breaches of this policy may result in coaching, retraining, written warning, suspension, loss of privileges, removal from site, termination of employment or contract, or other corrective action appropriate to the circumstances. The Company will not tolerate retaliation against a person who raises a good-faith concern or participates in a review or investigation.</p>
+<h3 class="policy-heading">Confidentiality and records</h3>
+<p class="policy-para">Records created under this policy will be kept only as long as required for employment, safety, payroll, accounting, investigation, insurance, legal, or business purposes. Personal employee information will be collected, used, disclosed, stored, and destroyed in a reasonable manner and shared only with persons who have a legitimate need to know or where required by law.</p>
+<h3 class="policy-heading">Training, communication, and review</h3>
+<p class="policy-para">This policy will be communicated during orientation, when assigned duties make it relevant, and when changes occur. Supervisors and managers are responsible for applying the policy consistently. This policy will be reviewed when legislation changes, when an incident or audit shows improvement is needed, or at least every three (3) years as part of HSMS administration.</p>
+<h3 class="policy-heading">Related documents and references</h3>
+<ul class="policy-list"><li>A.001 HSMS Section 5 Hazard Assessment</li><li>A.001 HSMS Section 8 Hazard Control</li><li>A.001 Health and Safety Management System (HSMS)</li><li>Applicable Alberta Occupational Health and Safety legislation</li><li>Alberta Employment Standards Code, where applicable</li><li>Alberta Human Rights Act, where applicable</li><li>Alberta Personal Information Protection Act (PIPA), where applicable</li><li>Company progressive discipline and incident reporting processes</li></ul>
+
+  </div>
+
+  
+
+  <div class="save-bar">
+    <div class="pi">
+      <div class="pl">Save completed PDF to</div>
+      <div class="pv">G:\My Drive\DS Home\SA Safety and Security\SA03 SECOR\2026 Forms</div>
+    </div>
+    <button class="btn-clear" onclick="clearForm()">Clear</button>
+    <button class="btn-print" onclick="printForm()">&#128424; Save as PDF</button>
+  </div>
+
+  <div class="ack-card">
+    <h3>Policy Acknowledgement</h3>
+    <p class="sub">Complete all fields, check each box, then click <strong>Save as PDF</strong>. Choose <em>Save as PDF</em> in the print dialog and navigate to the folder shown above.</p>
+    <div class="chk-row">
+      <input type="checkbox" id="chk1">
+      <label for="chk1">I have read and understood the full <strong>B.046 Back Injury Prevention Policy</strong> policy.</label>
+    </div>
+    <div class="chk-row">
+      <input type="checkbox" id="chk2">
+      <label for="chk2">I agree to comply with this policy in the performance of my duties.</label>
+    </div>
+    <div class="chk-row">
+      <input type="checkbox" id="chk3">
+      <label for="chk3">I understand that failure to follow this policy may result in corrective action up to and including termination.</label>
+    </div>
+    <div class="form-grid">
+      <div class="form-field">
+        <label>Employee Full Name</label>
+        <input type="text" id="empName" placeholder="Full legal name" oninput="sync()">
+      </div>
+      <div class="form-field">
+        <label>Position / Title</label>
+        <input type="text" id="empPos" placeholder="Your job title">
+      </div>
+      <div class="form-field">
+        <label>Date of Acknowledgement</label>
+        <input type="date" id="ackDate" oninput="sync()">
+      </div>
+      <div class="form-field">
+        <label>Supervisor / Manager Name</label>
+        <input type="text" id="supName" placeholder="Supervisor full name">
+      </div>
+      <div class="form-field full">
+        <label>Signature</label>
+        <div class="sig-line">Sign above this line after printing &nbsp;&mdash;&nbsp; or type full name to acknowledge electronically</div>
+      </div>
+    </div>
+    <div class="fn-hint"><strong>Suggested filename:</strong> <span id="sfn"></span></div>
+  </div>
+</main>
+<footer>DS Home Computing &middot; SA03 SECOR &middot; B.046 Back Injury Prevention Policy &middot; For internal use only</footer>
+
+<script>
+const BASE_FN = 'B046-back-injury-prevention-policy';
+function sync() {
+  const n = (document.getElementById('empName').value||'[name]').trim().replace(/\s+/g,'-');
+  const d = document.getElementById('ackDate').value||'[date]';
+  document.getElementById('sfn').textContent = BASE_FN+'_'+n+'_'+d+'.pdf';
+}
+function printForm() { window.print(); }
+function clearForm() {
+  ['empName','empPos','ackDate','supName'].forEach(id=>document.getElementById(id).value='');
+  document.querySelectorAll('.chk-row input').forEach(el=>el.checked=false);
+  document.getElementById('ackDate').value=new Date().toISOString().split('T')[0];
+  sync();
+}
+document.getElementById('ackDate').value=new Date().toISOString().split('T')[0];
+sync();
+const srch=document.getElementById('policySearch');
+srch.addEventListener('input',()=>{
+  const q=srch.value.toLowerCase();
+  document.querySelectorAll('.policy-card p,.policy-card li,.policy-card h3').forEach(el=>{
+    el.style.backgroundColor=q&&el.textContent.toLowerCase().includes(q)?'#fef9c3':'';
+  });
+});
+</script>
+
+</body>
+</html>

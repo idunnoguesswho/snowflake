@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>B.048 Vehicle Fleet Safety Management Policy — HSMS</title>
+<link rel="stylesheet" href="../hsms.css">
+
+<style>
+.policy-heading {
+  font-size: 1rem; font-weight: 700; color: var(--navy);
+  margin: 20px 0 6px; padding-bottom: 4px; border-bottom: 1px solid var(--border);
+}
+.policy-para { font-size: .88rem; line-height: 1.65; margin-bottom: 8px; color: var(--text); }
+.policy-list { font-size: .88rem; line-height: 1.7; padding-left: 24px; margin-bottom: 10px; }
+.policy-list li { margin-bottom: 3px; }
+.policy-table { overflow-x: auto; margin: 12px 0; }
+.policy-table table { border-collapse: collapse; width: 100%; font-size: .83rem; }
+.policy-table th, .policy-table td { border: 1px solid var(--border); padding: 7px 10px; text-align: left; }
+.policy-table th { background: var(--surface); font-weight: 700; }
+.policy-card { background: white; border-radius: var(--radius); border: 1px solid var(--border); padding: 20px; box-shadow: var(--shadow); margin-bottom: 20px; }
+.ack-card { background: white; border-radius: var(--radius); border: 2px solid var(--blue); padding: 20px; margin-bottom: 20px; box-shadow: var(--shadow); }
+.ack-card h3 { font-size: 1rem; color: var(--navy); margin-bottom: 6px; }
+.ack-card .sub { font-size: .83rem; color: var(--muted); margin-bottom: 16px; }
+.form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 16px; }
+@media (max-width: 500px) { .form-grid { grid-template-columns: 1fr; } }
+.form-field label { display: block; font-size: .72rem; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: .04em; margin-bottom: 4px; }
+.form-field input, .form-field select, .form-field textarea { width: 100%; padding: 8px 10px; border: 1px solid var(--border); border-radius: 6px; font-size: .88rem; font-family: inherit; color: var(--text); background: var(--surface); }
+.form-field input:focus { outline: none; border-color: var(--blue); background: white; }
+.form-field.full { grid-column: 1 / -1; }
+.sig-line { border: none; border-bottom: 1px solid var(--border); height: 40px; background: transparent; display: flex; align-items: flex-end; padding-bottom: 4px; color: var(--muted); font-size: .78rem; font-style: italic; }
+.chk-row { display: flex; align-items: flex-start; gap: 10px; margin-bottom: 12px; }
+.chk-row input[type=checkbox] { margin-top: 2px; width: 16px; height: 16px; flex-shrink: 0; accent-color: var(--blue); }
+.chk-row label { font-size: .87rem; line-height: 1.5; }
+.save-bar { background: var(--navy); border-radius: var(--radius); padding: 14px 16px; display: flex; align-items: center; gap: 14px; flex-wrap: wrap; margin-bottom: 20px; }
+.save-bar .pi { flex: 1; min-width: 0; }
+.save-bar .pl { font-size: .7rem; color: rgba(255,255,255,.6); font-weight: 700; text-transform: uppercase; letter-spacing: .04em; }
+.save-bar .pv { font-size: .78rem; color: white; font-family: monospace; word-break: break-all; }
+.btn-print { background: var(--blue); color: white; border: none; border-radius: 8px; padding: 10px 18px; font-size: .9rem; font-weight: 700; cursor: pointer; white-space: nowrap; }
+.btn-print:hover { background: #1d4ed8; }
+.btn-clear { background: rgba(255,255,255,.15); color: white; border: none; border-radius: 8px; padding: 10px 14px; font-size: .85rem; cursor: pointer; }
+.btn-clear:hover { background: rgba(255,255,255,.25); }
+.fn-hint { margin-top: 10px; padding: 10px 12px; background: var(--blue-light); border-radius: 6px; font-size: .78rem; color: var(--navy); }
+.appendix-wrap { background: white; border-radius: var(--radius); border: 1px solid var(--border); margin-bottom: 20px; overflow: hidden; }
+.appendix-wrap summary { padding: 12px 16px; font-weight: 700; font-size: .9rem; color: var(--navy); cursor: pointer; list-style: none; user-select: none; }
+.appendix-wrap summary::-webkit-details-marker { display: none; }
+.appendix-body { padding: 16px; border-top: 1px solid var(--border); font-size: .85rem; }
+.appendix-body h4 { color: var(--navy); margin: 12px 0 4px; }
+@media print {
+  .site-header, .search-wrap, .breadcrumb, .save-bar, footer { display: none !important; }
+  body { background: white; font-size: 11pt; }
+  .policy-card, .ack-card { border: 1px solid #bbb; box-shadow: none; break-inside: avoid; margin-bottom: 10pt; padding: 12pt; }
+  .ack-card { border: 2pt solid #1a2744; }
+  .form-field input { border: 1px solid #999; background: white; }
+  .sig-line { border-bottom: 1pt solid #333; }
+  .chk-row input { print-color-adjust: exact; -webkit-print-color-adjust: exact; }
+  main { max-width: 100%; padding: 0; }
+  .appendix-wrap { display: none; }
+}
+</style>
+
+</head>
+<body>
+<header class="site-header">
+  <span class="logo">&#128737;</span>
+  <div><h1>HSMS Wiki</h1><p>DS Home Computing</p></div>
+  <a class="back-btn" href="index.html">&#8592; B Series</a>
+</header>
+<div class="search-wrap" style="top:58px">
+  <span class="search-icon">&#128269;</span>
+  <input type="search" id="policySearch" placeholder="Search policy text&#8230;" autocomplete="off">
+</div>
+<main>
+  <div class="breadcrumb">
+    <a href="../index.html">HSMS Wiki</a> &rsaquo; <a href="index.html">B Series</a> &rsaquo; B.048 Vehicle Fleet Safety Management Policy
+  </div>
+  <div class="doc-header">
+    <div class="doc-id">B.048 &middot; Policy</div>
+    <h2>Vehicle Fleet Safety Management Policy</h2>
+    <div class="meta">DS Home Computing Ltd &middot; SA03 SECOR &middot; For internal use</div>
+  </div>
+
+  <div class="policy-card" id="policyContent">
+    <h3 class="policy-heading">Policy brief &amp; purpose</h3>
+<p class="policy-para">DS Home Computing Ltd is committed to safe, legal, and responsible operation of Company-owned, leased, rented, client-provided, and personally owned vehicles used for Company business. This policy establishes driver authorization, vehicle inspection, maintenance, reporting, safe driving, and record requirements.</p>
+<p class="policy-para">This policy supports the Health and Safety Management System (HSMS) commitment to hazard assessment, hazard control, fit for work, employee participation, shared responsibility, training, confidentiality, and continuous improvement.</p>
+<h3 class="policy-heading">Scope</h3>
+<p class="policy-para">This policy applies to all employees, subcontractors, supervisors, managers, and authorized drivers who operate a vehicle for Company business, travel between jobs, transport people or materials, tow trailers, use rented vehicles, or use personal vehicles for approved work purposes.</p>
+<h3 class="policy-heading">Policy elements</h3>
+<ul class="policy-list"><li>Only authorized, licensed, fit-for-work, and adequately trained workers may operate vehicles for Company business.</li><li>Drivers must comply with traffic laws, client rules, site rules, road bans, load securement requirements, hours of service requirements where applicable, and Company policies.</li><li>Vehicles must be suitable for the task, maintained in safe operating condition, and inspected before use.</li><li>Seatbelts must be worn by all occupants. Drivers must not permit unsafe passenger conduct, distracted driving, impairment, unsecured loads, or unsafe vehicle operation.</li><li>Drivers must immediately report collisions, damage, defects, tickets, licence restrictions, suspensions, near misses, unsafe road conditions, or concerns that may affect driving safety.</li><li>Company vehicles may be used only for approved Company business unless management authorizes another use in writing.</li><li>Drivers are responsible for basic vehicle security, including locking vehicles, securing tools and equipment, protecting keys, and not leaving confidential documents exposed.</li></ul>
+<h3 class="policy-heading">Definitions</h3>
+<div class="policy-table"><table><tbody><tr><th>Term</th><th>Policy meaning</th></tr><tr><td>Fleet vehicle</td><td>Any Company-owned, leased, rented, client-provided, or personally owned vehicle used for Company business.</td></tr><tr><td>Authorized driver</td><td>A worker approved by management to drive for Company business after licence, training, task, and safety requirements have been considered.</td></tr><tr><td>Defect</td><td>A vehicle condition that may affect safe operation, legal compliance, reliability, or security.</td></tr></tbody></table></div><h3 class="policy-heading">Responsibilities</h3>
+<div class="policy-table"><table><tbody><tr><th>Role</th><th>Responsibilities</th></tr><tr><td>Managers / Owners</td><td>Provide resources, approve policy exceptions, ensure driving and scheduling decisions support health and safety, and hold supervisors accountable for compliance.</td></tr><tr><td>Supervisors / Project Managers</td><td>Plan work to control hazards, verify worker readiness and authorization, review forms and inspections, respond to reports, and stop or modify work when conditions are unsafe.</td></tr><tr><td>Workers / Drivers</td><td>Follow the policy, remain fit for work, complete required forms and inspections honestly, report hazards or fatigue, obey traffic laws, and refuse or stop unsafe work when required.</td></tr><tr><td>Human Resources / Administration</td><td>Maintain confidential records, support training, assist with accommodation or employment questions, and coordinate documentation, deductions, payroll or corrective action where applicable.</td></tr><tr><td>Subcontractors</td><td>Comply with Company and client requirements, applicable law, journey controls, vehicle requirements, reporting expectations, and site-specific driving rules.</td></tr></tbody></table></div><h3 class="policy-heading">Driver authorization and minimum requirements</h3>
+<ul class="policy-list"><li>Maintain a valid driver licence for the class of vehicle being operated.</li><li>Inform the Company promptly of any licence restriction, suspension, medical restriction, ticket, collision, or condition that may affect driving duties.</li><li>Complete orientation, vehicle-specific instruction, 360 before driving, and other required training before driving.</li><li>Do not drive when impaired by fatigue, alcohol, drugs, medication, illness, distraction, emotional distress, or other conditions that may affect safety.</li></ul>
+<h3 class="policy-heading">Vehicle inspection and maintenance</h3>
+<ul class="policy-list"><li>Complete a pre-use inspection before operating a vehicle and document it when required.</li><li>Do not operate a vehicle with a defect that makes it unsafe or illegal to drive.</li><li>Remove unsafe vehicles from service, tag or report them as required, and notify the supervisor immediately.</li><li>Keep vehicles reasonably clean, fuelled or charged, and ready for safe use.</li><li>Ensure tools, equipment, materials, cargo, ladders, and documents are secured before travel.</li></ul>
+<h3 class="policy-heading">Prohibited conduct</h3>
+<ul class="policy-list"><li>Texting, emailing, reading, browsing, programming a device, or handling a phone while driving.</li><li>Speeding, aggressive driving, stunt driving, racing, or driving in a way that endangers people or property.</li><li>Transporting unauthorized passengers, unauthorized cargo, firearms, illegal substances, or other prohibited items.</li><li>Tampering with telematics, dash cameras, safety equipment, seatbelts, inspection records, or maintenance records.</li><li>Using a Company vehicle for personal purposes without written approval.</li></ul>
+<h3 class="policy-heading">Collision or incident response</h3>
+<ul class="policy-list"><li>Stop safely and protect people from immediate danger.</li><li>Call emergency services if anyone may be injured or if hazards require emergency response.</li><li>Notify the supervisor as soon as safe to do so.</li><li>Do not admit fault or make statements on behalf of the Company.</li><li>Exchange legally required information and document facts, photos, witnesses, location, weather, and damage where safe and appropriate.</li></ul>
+<h3 class="policy-heading">Reporting, review, and corrective action</h3>
+<p class="policy-para">Employees and subcontractors must promptly report unsafe conditions, vehicle or equipment defects, fatigue concerns, journey concerns, incidents, near misses, injuries, damage, fines, tickets, collisions, and policy breaches to their supervisor, Project Manager, Human Resources Manager, or owner.</p>
+<p class="policy-para">The Company will review reported concerns, implement corrective actions where required, and document outcomes. Corrective action may include coaching, retraining, revised schedules, removal from driving duties, loss of vehicle privileges, written warning, suspension, termination, or contractor removal depending on the circumstances.</p>
+<h3 class="policy-heading">Confidentiality and records</h3>
+<p class="policy-para">Records created under this policy will be kept only as long as required for safety, employment, payroll, accounting, insurance, vehicle maintenance, investigation, legal, or business purposes. Personal employee information will be collected, used, disclosed, stored, and destroyed in a reasonable manner and shared only with persons who have a legitimate need to know or where required by law.</p>
+<h3 class="policy-heading">Training, communication, and review</h3>
+<p class="policy-para">This policy will be communicated during orientation, before a worker is assigned affected duties, when a change in work creates additional risk, and when changes occur. Supervisors and managers are responsible for applying the policy consistently. This policy will be reviewed when legislation changes, after a significant incident or audit finding, when operations change, or at least every three (3) years as part of HSMS administration.</p>
+<h3 class="policy-heading">Related documents and references</h3>
+<ul class="policy-list"><li>B.045 Use of Cell Phones in the Workplace Policy</li><li>B.047 Fatigue Management Policy</li><li>B.049 Journey Management Policy</li><li>B.050 360 Before Driving Policy</li><li>A.001 Health and Safety Management System (HSMS)</li><li>Applicable Alberta Occupational Health and Safety legislation</li><li>Alberta Traffic Safety Act and regulations, where applicable</li><li>Commercial Vehicle Drivers Hours of Service requirements, where applicable</li><li>Alberta Personal Information Protection Act (PIPA), where applicable</li><li>Company incident reporting, inspection, hazard assessment, maintenance, and progressive discipline processes</li></ul>
+<div class="policy-table"><table><tbody><tr><th>Doug Senger, CEO</th><th>Date</th><th></th><th>Signature</th><th></th></tr></tbody></table></div><h3 class="policy-heading">Vehicle / Fleet Driver Authorization and Pre-Use Checklist</h3>
+<p class="policy-para">Complete before assigning a new driver and as directed for vehicle use. A daily inspection or commercial vehicle inspection form may also be required depending on vehicle type and law.</p>
+<div class="policy-table"><table><tbody><tr><th>Driver name</th><th></th></tr><tr><td>Licence class / expiry</td><td></td></tr><tr><td>Vehicle unit / plate</td><td></td></tr><tr><td>Approved vehicle type or task</td><td></td></tr><tr><td>Supervisor approval</td><td></td></tr></tbody></table></div><div class="policy-table"><table><tbody><tr><th>Authorization item</th><th>Complete / Notes</th></tr><tr><td>Valid licence verified for assigned vehicle</td><td></td></tr><tr><td>Driver has reviewed fleet, fatigue, cell phone, journey management, and 360 policies</td><td></td></tr><tr><td>Vehicle-specific controls reviewed</td><td></td></tr><tr><td>Insurance/rental/client requirements confirmed where applicable</td><td></td></tr><tr><td>Known restrictions or conditions documented</td><td></td></tr></tbody></table></div><div class="policy-table"><table><tbody><tr><th>Pre-use check item</th><th>OK / Defect / N/A</th></tr><tr><td>Tires/wheels appear safe</td><td></td></tr><tr><td>Lights/signals/horn/wipers/mirrors/windows</td><td></td></tr><tr><td>Fluids/fuel/charge/leaks</td><td></td></tr><tr><td>Seatbelts and safety equipment</td><td></td></tr><tr><td>Load, tools, ladder, trailer, or cargo secured</td><td></td></tr><tr><td>Emergency kit / first aid / fire extinguisher where required</td><td></td></tr><tr><td>360 walk-around completed before moving</td><td></td></tr><tr><td>Defects reported and vehicle removed from service if unsafe</td><td></td></tr></tbody></table></div>
+  </div>
+
+  
+
+  <div class="save-bar">
+    <div class="pi">
+      <div class="pl">Save completed PDF to</div>
+      <div class="pv">G:\My Drive\DS Home\SA Safety and Security\SA03 SECOR\2026 Forms</div>
+    </div>
+    <button class="btn-clear" onclick="clearForm()">Clear</button>
+    <button class="btn-print" onclick="printForm()">&#128424; Save as PDF</button>
+  </div>
+
+  <div class="ack-card">
+    <h3>Policy Acknowledgement</h3>
+    <p class="sub">Complete all fields, check each box, then click <strong>Save as PDF</strong>. Choose <em>Save as PDF</em> in the print dialog and navigate to the folder shown above.</p>
+    <div class="chk-row">
+      <input type="checkbox" id="chk1">
+      <label for="chk1">I have read and understood the full <strong>B.048 Vehicle Fleet Safety Management Policy</strong> policy.</label>
+    </div>
+    <div class="chk-row">
+      <input type="checkbox" id="chk2">
+      <label for="chk2">I agree to comply with this policy in the performance of my duties.</label>
+    </div>
+    <div class="chk-row">
+      <input type="checkbox" id="chk3">
+      <label for="chk3">I understand that failure to follow this policy may result in corrective action up to and including termination.</label>
+    </div>
+    <div class="form-grid">
+      <div class="form-field">
+        <label>Employee Full Name</label>
+        <input type="text" id="empName" placeholder="Full legal name" oninput="sync()">
+      </div>
+      <div class="form-field">
+        <label>Position / Title</label>
+        <input type="text" id="empPos" placeholder="Your job title">
+      </div>
+      <div class="form-field">
+        <label>Date of Acknowledgement</label>
+        <input type="date" id="ackDate" oninput="sync()">
+      </div>
+      <div class="form-field">
+        <label>Supervisor / Manager Name</label>
+        <input type="text" id="supName" placeholder="Supervisor full name">
+      </div>
+      <div class="form-field full">
+        <label>Signature</label>
+        <div class="sig-line">Sign above this line after printing &nbsp;&mdash;&nbsp; or type full name to acknowledge electronically</div>
+      </div>
+    </div>
+    <div class="fn-hint"><strong>Suggested filename:</strong> <span id="sfn"></span></div>
+  </div>
+</main>
+<footer>DS Home Computing &middot; SA03 SECOR &middot; B.048 Vehicle Fleet Safety Management Policy &middot; For internal use only</footer>
+
+<script>
+const BASE_FN = 'B048-vehicle-fleet-safety-management-policy';
+function sync() {
+  const n = (document.getElementById('empName').value||'[name]').trim().replace(/\s+/g,'-');
+  const d = document.getElementById('ackDate').value||'[date]';
+  document.getElementById('sfn').textContent = BASE_FN+'_'+n+'_'+d+'.pdf';
+}
+function printForm() { window.print(); }
+function clearForm() {
+  ['empName','empPos','ackDate','supName'].forEach(id=>document.getElementById(id).value='');
+  document.querySelectorAll('.chk-row input').forEach(el=>el.checked=false);
+  document.getElementById('ackDate').value=new Date().toISOString().split('T')[0];
+  sync();
+}
+document.getElementById('ackDate').value=new Date().toISOString().split('T')[0];
+sync();
+const srch=document.getElementById('policySearch');
+srch.addEventListener('input',()=>{
+  const q=srch.value.toLowerCase();
+  document.querySelectorAll('.policy-card p,.policy-card li,.policy-card h3').forEach(el=>{
+    el.style.backgroundColor=q&&el.textContent.toLowerCase().includes(q)?'#fef9c3':'';
+  });
+});
+</script>
+
+</body>
+</html>

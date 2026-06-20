@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>C.027 FLHA Insulation — HSMS</title>
+<link rel="stylesheet" href="../hsms.css">
+<style>
+/* ===== C-series form styles ===== */
+.form-desc { font-size:.875rem; color:var(--muted); margin:0 0 16px; padding:0 16px; }
+.field-group { padding:12px 16px; }
+.field-section-label {
+  font-size:.7rem; font-weight:700; letter-spacing:.08em; text-transform:uppercase;
+  color:var(--muted); margin:14px 0 6px; padding-top:6px;
+  border-top:1px solid var(--border);
+}
+.field-row { display:flex; flex-wrap:wrap; gap:10px; margin-bottom:10px; }
+.field { display:flex; flex-direction:column; gap:4px; flex:1 1 200px; }
+.field-full { width:100%; }
+.field-no-label { flex:1 1 180px; }
+.field-label { font-size:.75rem; font-weight:600; color:var(--body); }
+.fi { border:1px solid var(--border); border-radius:6px; padding:6px 10px;
+      font:inherit; font-size:.875rem; color:var(--body); background:#fff;
+      width:100%; box-sizing:border-box; }
+.fi:focus { outline:none; border-color:var(--blue); box-shadow:0 0 0 2px #dbeafe; }
+.fi-short { max-width:120px; }
+.fi-med   { max-width:280px; }
+.fi-long  { max-width:100%; }
+.fi-area  { min-height:72px; resize:vertical; max-width:100%; }
+.fi-date  { max-width:160px; }
+/* check grid */
+.table-wrap { overflow-x:auto; padding:12px 16px; }
+.form-table { width:100%; border-collapse:collapse; font-size:.8rem; }
+.form-table th {
+  background:var(--navy); color:#fff; text-align:left;
+  padding:6px 8px; font-size:.72rem; font-weight:600;
+}
+.form-table td { padding:5px 6px; border:1px solid var(--border); vertical-align:middle; }
+.form-table .label-cell { font-size:.8rem; color:var(--body); background:#f8fafc; font-weight:500; }
+.form-table .check-cell { text-align:center; background:#fafafa; }
+.radio-group { display:flex; flex-wrap:wrap; gap:6px; justify-content:center; }
+.radio-opt { display:flex; align-items:center; gap:3px; font-size:.72rem;
+             cursor:pointer; padding:2px 5px; border-radius:4px; }
+.radio-opt:hover { background:#eff6ff; }
+.radio-opt input[type=radio] { accent-color:var(--blue); }
+/* signoff */
+.signoff-section {
+  margin:20px 16px 0; padding:16px;
+  border:1px solid var(--border); border-radius:10px; background:#f8fafc;
+}
+.signoff-label {
+  font-size:.7rem; font-weight:700; letter-spacing:.08em; text-transform:uppercase;
+  color:var(--muted); margin-bottom:12px;
+}
+.signoff-grid { display:flex; flex-wrap:wrap; gap:12px; }
+.sig-field { display:flex; flex-direction:column; gap:4px; flex:1 1 200px; }
+.sig-wide { flex:2 1 300px; }
+.sig-date { flex:0 1 160px; }
+.sig-field label { font-size:.75rem; font-weight:600; color:var(--body); }
+/* save bar */
+.save-bar {
+  position:sticky; top:0; z-index:50;
+  background:#1e3a5f; color:#fff; padding:8px 16px;
+  display:flex; align-items:center; justify-content:space-between;
+  font-size:.78rem; gap:12px; flex-wrap:wrap;
+}
+.save-bar .save-path { opacity:.8; font-size:.7rem; word-break:break-all; }
+.save-bar button {
+  background:var(--blue); color:#fff; border:none; border-radius:6px;
+  padding:6px 14px; font-size:.8rem; font-weight:600; cursor:pointer; white-space:nowrap;
+}
+.save-bar button:hover { background:#1d4ed8; }
+.filename-hint { font-size:.7rem; opacity:.75; margin-top:2px; }
+/* breadcrumb + header */
+.doc-header {
+  background:#fff; padding:16px; border-bottom:1px solid var(--border);
+}
+.doc-badge { font-size:.7rem; font-weight:700; letter-spacing:.05em;
+             text-transform:uppercase; color:var(--blue); margin-bottom:4px; }
+.doc-header h2 { font-size:1.2rem; font-weight:700; color:var(--navy); margin:0 0 4px; }
+.doc-sub { font-size:.78rem; color:var(--muted); }
+/* section heading within form */
+.section-heading {
+  font-size:.95rem; font-weight:700; color:var(--navy);
+  background:#f1f5f9; padding:8px 16px; margin:16px 0 0;
+  border-left:3px solid var(--blue);
+}
+/* print */
+@media print {
+  .site-header, .save-bar, footer, .search-wrap { display:none !important; }
+  body { font-size:11pt; }
+  .form-table th { background:#1a2744 !important; -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+  .fi, .fi-area { border:1px solid #999 !important; }
+}
+</style>
+</head>
+<body>
+<header class="site-header">
+  <span class="logo">🛡️</span>
+  <div>
+    <h1>HSMS Wiki</h1>
+    <p>DS Home Computing</p>
+  </div>
+  <a href="../C/index.html" style="margin-left:auto;color:#fff;font-size:.8rem;">← C Series</a>
+</header>
+
+<div class="save-bar" id="savebar">
+  <div>
+    <div>Save completed form as PDF</div>
+    <div class="save-path">📁 G:\My Drive\DS Home\SA Safety and Security\SA03 SECOR\2026 Forms</div>
+    <div class="filename-hint" id="fnhint">Suggested filename: <span id="fnout">C027-flha-insulation_[name]_[date].pdf</span></div>
+  </div>
+  <button onclick="window.print()">🖨 Print / Save PDF</button>
+</div>
+
+<div class="doc-header">
+  <nav class="breadcrumb" style="font-size:.75rem;color:var(--muted);margin-bottom:8px;">
+    <a href="../index.html">HSMS Wiki</a> › <a href="index.html">C Series</a> › C.027 FLHA Insulation
+  </nav>
+  <div class="doc-badge">C.027 · FORM</div>
+  <h2>FLHA Insulation</h2>
+  <div class="doc-sub">DS Home Computing Ltd · SA03 SECOR · For internal use</div>
+</div>
+
+<main>
+<div class="signoff-section">
+<div class="signoff-label">Sign-off</div>
+<div class="signoff-grid">
+<div class="sig-field"><label>Describe the task(s) being performed</label><input type="text" id="f1" class="fi fi-long" autocomplete="off"></div>
+<div class="sig-field"><label>See It               What could go wrong?</label><input type="text" id="f2" class="fi fi-long" autocomplete="off"></div>
+<div class="sig-field"><label>For Today</label><input type="text" id="f3" class="fi fi-long" autocomplete="off"></div>
+<div class="sig-field"><label>Evaluate It       How bad could it be?</label><input type="text" id="f4" class="fi fi-long" autocomplete="off"></div>
+<div class="sig-field"><label>For Tomorrow</label><input type="text" id="f5" class="fi fi-long" autocomplete="off"></div>
+<div class="sig-field"><label>Control It          What can I do to fix it?</label><input type="text" id="f6" class="fi fi-long" autocomplete="off"></div>
+<div class="sig-field"><label>Hazards to Consider- check off all that apply</label><input type="text" id="f7" class="fi fi-long" autocomplete="off"></div>
+<div class="sig-field"><label>Physical</label><input type="text" id="f8" class="fi fi-long" autocomplete="off"></div>
+<div class="sig-field"><label>Ergonomic</label><input type="text" id="f9" class="fi fi-long" autocomplete="off"></div>
+<div class="sig-field"><label>Chemical</label><input type="text" id="f10" class="fi fi-long" autocomplete="off"></div>
+<div class="sig-field"><label>X  HousekeepingX  Material storage &amp; handlingX  Slip/Trip/Fall potential  Blocked exits &amp; walkways  Confined/restricted spaceX  Improper ventilation  Powerlines overhead/ underground  Ground/surface condition  Open ExcavationX Lighting  Weather  Hot work  Vehicle/pedestrian traffic</label><input type="text" id="f11" class="fi fi-long" autocomplete="off"></div>
+<div class="sig-field"><label>X  Working at heightsX ScaffoldingX  Falling objects  Loads moving or being hoistedX Ladder use  Critical LiftX  Others working below/overhead  Incorrect tools/equipment  Working on/near energized equipment  Defective tools/equipment  Unguarded equipment  Noise  Vibration</label><input type="text" id="f12" class="fi fi-long" autocomplete="off"></div>
+<div class="sig-field"><label>X Awkward body positioningX OverextensionX Repetitive MotionX Twisting/reaching/bendingX Cramped/tight work area  Forceful pushing/pulling  Awkward grip/load carriedX  Working at over head height</label><input type="text" id="f13" class="fi fi-long" autocomplete="off"></div>
+<div class="sig-field"><label>Freeze burn  Chemical handling/storage  Spill potential  Dust/fumes/vapours/gases  Fire/explosion/reactive properties  Acid/corrosive material  Aerosols</label><input type="text" id="f14" class="fi fi-long" autocomplete="off"></div>
+<div class="sig-field"><label>Biological</label><input type="text" id="f15" class="fi fi-long" autocomplete="off"></div>
+<div class="sig-field"><label>Psychosocial</label><input type="text" id="f16" class="fi fi-long" autocomplete="off"></div>
+<div class="sig-field"><label>Waste disposal  Blood/bodily fluid  Virus/bacteria  Insect bite  Lack of hygiene/sanitation</label><input type="text" id="f17" class="fi fi-long" autocomplete="off"></div>
+<div class="sig-field"><label>Personal limitations/illness, age, mental stability  Harassment/violence  Stress/fatigue  Working alone  Worker(s) not competent</label><input type="text" id="f18" class="fi fi-long" autocomplete="off"></div>
+<div class="sig-field"><label>PPE Required</label><input type="text" id="f19" class="fi fi-long" autocomplete="off"></div>
+<div class="sig-field"><label>First Aid/ Muster Point:</label><input type="text" id="f20" class="fi fi-long" autocomplete="off"></div>
+<div class="sig-field"><label>Note for Management</label><input type="text" id="f21" class="fi fi-long" autocomplete="off"></div>
+<div class="sig-field"><label>Coveralls, Glasses, Boots, Gloves</label><input type="text" id="f22" class="fi fi-long" autocomplete="off"></div>
+<div class="sig-field"><label>First Aid kit at entry to work space. Muster point at car parking.</label><input type="text" id="f23" class="fi fi-long" autocomplete="off"></div>
+<div class="sig-field"><label>Severity (S) + Probability (P) = Risk Ranking (RR)</label><input type="text" id="f24" class="fi fi-long" autocomplete="off"></div>
+<div class="sig-field"><label>Inspection Points</label><input type="text" id="f25" class="fi fi-long" autocomplete="off"></div>
+<div class="sig-field"><label>Severity</label><input type="text" id="f26" class="fi fi-long" autocomplete="off"></div>
+<div class="sig-field"><label>Probability</label><input type="text" id="f27" class="fi fi-long" autocomplete="off"></div>
+<div class="sig-field"><label>Working Alone?</label><input type="text" id="f28" class="fi fi-long" autocomplete="off"></div>
+<div class="sig-field"><label>Yes  No  N/A</label><input type="text" id="f29" class="fi fi-long" autocomplete="off"></div>
+<div class="sig-field"><label>1-Minor first aid injury or damage</label><input type="text" id="f30" class="fi fi-long" autocomplete="off"></div>
+<div class="sig-field"><label>A-Unlikely</label><input type="text" id="f31" class="fi fi-long" autocomplete="off"></div>
+<div class="sig-field"><label>Was the work area cleaned up/materials store and disposed of properly?</label><input type="text" id="f32" class="fi fi-long" autocomplete="off"></div>
+<div class="sig-field"><label>X Yes  No  N/A</label><input type="text" id="f33" class="fi fi-long" autocomplete="off"></div>
+<div class="sig-field"><label>2-Medical treatment or major damage</label><input type="text" id="f34" class="fi fi-long" autocomplete="off"></div>
+<div class="sig-field"><label>B-May Happen</label><input type="text" id="f35" class="fi fi-long" autocomplete="off"></div>
+<div class="sig-field"><label>Are your permits closed?</label><input type="text" id="f36" class="fi fi-long" autocomplete="off"></div>
+<div class="sig-field"><label>Yes  No X N/A</label><input type="text" id="f37" class="fi fi-long" autocomplete="off"></div>
+<div class="sig-field"><label>Lock outs removed from energized panels?</label><input type="text" id="f38" class="fi fi-long" autocomplete="off"></div>
+<div class="sig-field"><label>Yes  No X N/A</label><input type="text" id="f39" class="fi fi-long" autocomplete="off"></div>
+<div class="sig-field"><label>3-Lost time, fatality, or catastrophic damage</label><input type="text" id="f40" class="fi fi-long" autocomplete="off"></div>
+<div class="sig-field"><label>C-Highly Likely</label><input type="text" id="f41" class="fi fi-long" autocomplete="off"></div>
+<div class="sig-field"><label>Did you properly lock out &amp; tag any defective tools/equipment?</label><input type="text" id="f42" class="fi fi-long" autocomplete="off"></div>
+<div class="sig-field"><label>Yes  No X N/A</label><input type="text" id="f43" class="fi fi-long" autocomplete="off"></div>
+<div class="sig-field"><label>Tool Box/Safety Topic</label><input type="text" id="f44" class="fi fi-long" autocomplete="off"></div>
+<div class="sig-field"><label>Did you notify nearby workers of any hazards that may affect them?</label><input type="text" id="f45" class="fi fi-long" autocomplete="off"></div>
+<div class="sig-field"><label>X Yes  No  N/A</label><input type="text" id="f46" class="fi fi-long" autocomplete="off"></div>
+<div class="sig-field"><label>Hazard Identification</label><input type="text" id="f47" class="fi fi-long" autocomplete="off"></div>
+<div class="sig-field"><label>Hazard</label><input type="text" id="f48" class="fi fi-long" autocomplete="off"></div>
+<div class="sig-field"><label>Control</label><input type="text" id="f49" class="fi fi-long" autocomplete="off"></div>
+<div class="sig-field"><label>Risk Ranking</label><input type="text" id="f50" class="fi fi-long" autocomplete="off"></div>
+<div class="sig-field"><label>Working at heights, ladders</label><input type="text" id="f51" class="fi fi-long" autocomplete="off"></div>
+<div class="sig-field"><label>Verified ladder condition &amp; working safely</label><input type="text" id="f52" class="fi fi-long" autocomplete="off"></div>
+<div class="sig-field"><label>2A</label><input type="text" id="f53" class="fi fi-long" autocomplete="off"></div>
+<div class="sig-field"><label>Repetitive motions</label><input type="text" id="f54" class="fi fi-long" autocomplete="off"></div>
+<div class="sig-field"><label>Stretch Breaks</label><input type="text" id="f55" class="fi fi-long" autocomplete="off"></div>
+<div class="sig-field"><label>1A</label><input type="text" id="f56" class="fi fi-long" autocomplete="off"></div>
+<div class="sig-field"><label>Working with sharp tools</label><input type="text" id="f57" class="fi fi-long" autocomplete="off"></div>
+<div class="sig-field"><label>Cut resistant gloves</label><input type="text" id="f58" class="fi fi-long" autocomplete="off"></div>
+<div class="sig-field"><label>3B</label><input type="text" id="f59" class="fi fi-long" autocomplete="off"></div>
+<div class="sig-field"><label>Worker Sign Off (Must be completed before work begins and when workers return to the area)</label><input type="text" id="f60" class="fi fi-long" autocomplete="off"></div>
+<div class="sig-field"><label>Worker Name</label><input type="text" id="f61" class="fi fi-long" autocomplete="off"></div>
+<div class="sig-field"><label>Trade/Company</label><input type="text" id="f62" class="fi fi-long" autocomplete="off"></div>
+<div class="sig-field"><label>Initial</label><input type="text" id="f63" class="fi fi-long" autocomplete="off"></div>
+<div class="sig-field"><label>Time In</label><input type="text" id="f64" class="fi fi-long" autocomplete="off"></div>
+<div class="sig-field"><label>Time Out</label><input type="text" id="f65" class="fi fi-long" autocomplete="off"></div>
+<div class="sig-field"><label>Initial</label><input type="text" id="f66" class="fi fi-long" autocomplete="off"></div>
+<div class="sig-field"><label>Time In</label><input type="text" id="f67" class="fi fi-long" autocomplete="off"></div>
+<div class="sig-field"><label>Time Out</label><input type="text" id="f68" class="fi fi-long" autocomplete="off"></div>
+<div class="sig-field"><label>Jon Snow</label><input type="text" id="f69" class="fi fi-long" autocomplete="off"></div>
+<div class="sig-field"><label>Cube Insulation</label><input type="text" id="f70" class="fi fi-long" autocomplete="off"></div>
+<div class="sig-field"><label>James Hollinger</label><input type="text" id="f71" class="fi fi-long" autocomplete="off"></div>
+<div class="sig-field"><label>Cube Insulation</label><input type="text" id="f72" class="fi fi-long" autocomplete="off"></div>
+</div>
+</div>
+
+</main>
+
+<footer>DS Home Computing · SA03 SECOR · HSMS Wiki · For internal use only</footer>
+<script>
+// Auto-generate filename hint from first text input that looks like a name
+document.querySelectorAll('.fi').forEach(el => {{
+  el.addEventListener('input', updateFn);
+}});
+function updateFn() {{
+  const inputs = [...document.querySelectorAll('input.fi[type=text]')];
+  const name = (inputs[0] && inputs[0].value) ? inputs[0].value.trim().replace(/\s+/g,'_') : '[name]';
+  const today = new Date().toISOString().slice(0,10);
+  document.getElementById('fnout').textContent = 'C027-flha-insulation_' + name + '_' + today + '.pdf';
+}}
+</script>
+</body>
+</html>

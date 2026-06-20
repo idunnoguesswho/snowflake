@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>D.007 Cooking JSA — HSMS Wiki</title>
+<link rel="stylesheet" href="../hsms.css">
+</head>
+<body>
+<header class="site-header">
+  <span class="logo">🛡️</span>
+  <div><h1>HSMS Wiki</h1><p>DS Home Computing</p></div>
+  <a class="back-btn" href="../index.html">← Wiki Home</a>
+</header>
+<div class="search-wrap" style="top:58px">
+  <span class="search-icon">🔍</span>
+  <input type="search" id="taskSearch" placeholder="Search tasks, hazards, controls…" autocomplete="off">
+</div>
+<main>
+  <div class="breadcrumb"><a href="../index.html">HSMS Wiki</a> › D Series › D.007 Cooking</div>
+
+  <div class="doc-header">
+    <div class="doc-id">D.007 · Job Safety Analysis</div>
+    <h2>Cooking</h2>
+    <div class="meta">JSA Leader: Katie Snow, Manager · Revision 1</div>
+    <div class="revision-note">Revision focus: Updated to include fitness/fatigue, back injury prevention, chemical cleaning, and incident reporting controls.</div>
+  </div>
+
+  <div class="info-grid">
+    <div class="info-card">
+      <div class="label">PPE Required</div>
+      <div class="value">Gloves, heat protection, eye protection, non-slip footwear as required</div>
+    </div>
+    <div class="info-card">
+      <div class="label">Emergency Contact</div>
+      <div class="value">911</div>
+    </div>
+    <div class="info-card">
+      <div class="label">Emergency Meeting Point</div>
+      <div class="value">To be determined at home office / kitchen area</div>
+    </div>
+    <div class="info-card">
+      <div class="label">Tools &amp; Equipment</div>
+      <div class="value">Knives, cutting boards, stove/oven, microwave, kettle, cleaning supplies, fire extinguisher, first aid kit</div>
+    </div>
+    <div class="info-card" style="grid-column:1/-1">
+      <div class="label">Training / Skills Required</div>
+      <div class="value">Cooking competency · First aid · Fire response · WHMIS/label awareness as applicable</div>
+    </div>
+    <div class="info-card" style="grid-column:1/-1">
+      <div class="label">Approval Required</div>
+      <div class="value">High risk work requires Supervisor/Management approval per risk matrix</div>
+    </div>
+  </div>
+
+  <div class="refs-panel">
+    <h3>Reference Documents</h3>
+    <div class="ref-section">
+      <div class="ref-section-title">Policies &amp; Procedures</div>
+      <div class="chips">
+        <span class="chip chip-policy">A.001 HSMS</span>
+        <span class="chip chip-policy">B.001 Progressive Discipline</span>
+        <span class="chip chip-policy">B.023 Hazard Assessment</span>
+        <span class="chip chip-policy">B.026 Respectful Workplace &amp; Privacy</span>
+        <span class="chip chip-policy">B.031 Substance Abuse &amp; Fitness for Work</span>
+        <span class="chip chip-policy">B.043 Inclement Weather (if travel/delivery applies)</span>
+        <span class="chip chip-policy">B.046 Back Injury Prevention</span>
+      </div>
+    </div>
+    <div class="ref-section">
+      <div class="ref-section-title">Forms &amp; Records</div>
+      <div class="chips">
+        <span class="chip chip-form">C.010 Near Miss</span>
+        <span class="chip chip-form">C.020 Incident Investigation</span>
+        <span class="chip chip-form">C.048 Back Injury Assessment</span>
+        <span class="chip chip-form">C.049 Fatigue Self-Assessment</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="risk-matrix-wrap">
+    <h3>Risk Matrix — Probability × Severity</h3>
+    <div class="risk-matrix">
+      <table>
+        <tr><th>P / S</th><th>4 Catastrophic</th><th>3 Critical</th><th>2 Marginal</th><th>1 Negligible</th></tr>
+        <tr><th>4 Probable</th><td class="r-high">16 H</td><td class="r-high">12 H</td><td class="r-high">8 H</td><td class="r-mod">4 M</td></tr>
+        <tr><th>3 Reasonably Probable</th><td class="r-high">12 H</td><td class="r-high">9 H</td><td class="r-mod">6 M</td><td class="r-mod">3 M</td></tr>
+        <tr><th>2 Remote</th><td class="r-high">8 H</td><td class="r-mod">6 M</td><td class="r-mod">4 M</td><td class="r-low">2 L</td></tr>
+        <tr><th>1 Extremely Remote</th><td class="r-mod">4 M</td><td class="r-mod">3 M</td><td class="r-low">2 L</td><td class="r-low">1 L</td></tr>
+      </table>
+    </div>
+    <div style="margin-top:8px;font-size:.75rem;color:var(--muted)">
+      <span style="color:var(--high);font-weight:700">High (8–16)</span> · Management approval &nbsp;|&nbsp;
+      <span style="color:var(--mod);font-weight:700">Moderate (3–6)</span> · Supervisor/Lead approval &nbsp;|&nbsp;
+      <span style="color:var(--low);font-weight:700">Low (1–2)</span> · Field level
+    </div>
+  </div>
+
+  <div class="section-heading">Job Tasks</div>
+  <button class="expand-all-btn" onclick="toggleAll()">Expand All</button>
+  <div id="taskList">
+
+    <div class="task-card" data-search="pre-task fitness kitchen preparation fatigue illness distraction poor housekeeping blocked exits missing first aid fire controls">
+      <div class="task-header" onclick="toggle(this)">
+        <div class="task-num">1</div>
+        <div class="task-title">Pre-task fitness / kitchen preparation</div>
+        <span class="risk-badge mod">PRE: 6 M</span>
+        <span class="risk-badge low">POST: 2 L</span>
+        <span class="chevron">▾</span>
+      </div>
+      <div class="task-body">
+        <div class="hazard-label">Potential Hazards &amp; Effects</div>
+        <div class="hazard-text">Fatigue, illness, distraction, poor housekeeping, blocked exits, or missing first aid/fire controls.</div>
+        <div class="hazard-label">Controls</div>
+        <ul class="controls-list">
+          <li><span class="control-type A">A</span>Worker confirms fit for work and reports illness/fatigue before beginning.</li>
+          <li><span class="control-type A">A</span>Inspect kitchen for spills, clutter, blocked exits, working smoke alarms, and fire extinguisher location.</li>
+          <li><span class="control-type A">A</span>Wash hands and follow hygiene requirements.</li>
+        </ul>
+        <div class="forms-ref"><strong>Required Forms:</strong> C.049 if fatigue concern · C.020 if incident</div>
+      </div>
+    </div>
+
+    <div class="task-card" data-search="preparing ingredients cutting cuts punctures repetitive motion cross-contamination knife">
+      <div class="task-header" onclick="toggle(this)">
+        <div class="task-num">2</div>
+        <div class="task-title">Preparing ingredients / cutting</div>
+        <span class="risk-badge high">PRE: 9 H</span>
+        <span class="risk-badge mod">POST: 4 M</span>
+        <span class="chevron">▾</span>
+      </div>
+      <div class="task-body">
+        <div class="hazard-label">Potential Hazards &amp; Effects</div>
+        <div class="hazard-text">Cuts, punctures, repetitive motion, or cross-contamination.</div>
+        <div class="hazard-label">Controls</div>
+        <ul class="controls-list">
+          <li><span class="control-type E">E</span>Use stable cutting board and proper sharp knife for task.</li>
+          <li><span class="control-type A">A</span>Keep fingers clear, cut away from body, and do not rush.</li>
+          <li><span class="control-type A">A</span>Separate raw/cooked foods and clean surfaces.</li>
+          <li><span class="control-type P">P</span>Cut-resistant glove if appropriate.</li>
+        </ul>
+        <div class="forms-ref"><strong>Required Forms:</strong> C.020 if injury</div>
+      </div>
+    </div>
+
+    <div class="task-card" data-search="stove oven kettle microwave hot surfaces burns scalds fire smoke unattended cooking">
+      <div class="task-header" onclick="toggle(this)">
+        <div class="task-num">3</div>
+        <div class="task-title">Using stove, oven, kettle, microwave, or hot surfaces</div>
+        <span class="risk-badge high">PRE: 9 H</span>
+        <span class="risk-badge low">POST: 2 L</span>
+        <span class="chevron">▾</span>
+      </div>
+      <div class="task-body">
+        <div class="hazard-label">Potential Hazards &amp; Effects</div>
+        <div class="hazard-text">Burns, scalds, fire, smoke, or unattended cooking.</div>
+        <div class="hazard-label">Controls</div>
+        <ul class="controls-list">
+          <li><span class="control-type A">A</span>Never leave active cooking unattended.</li>
+          <li><span class="control-type A">A</span>Turn pot handles inward and keep flammables away.</li>
+          <li><span class="control-type P">P</span>Use oven mitts/heat protection.</li>
+          <li><span class="control-type E">E</span>Keep fire extinguisher available and know emergency response.</li>
+        </ul>
+        <div class="forms-ref"><strong>Required Forms:</strong> C.020 if incident</div>
+      </div>
+    </div>
+
+    <div class="task-card" data-search="handling hot oil boiling water heavy pots splashes burns scalds muscle strain dropped load">
+      <div class="task-header" onclick="toggle(this)">
+        <div class="task-num">4</div>
+        <div class="task-title">Handling hot oil, boiling water, or heavy pots</div>
+        <span class="risk-badge high">PRE: 9 H</span>
+        <span class="risk-badge mod">POST: 4 M</span>
+        <span class="chevron">▾</span>
+      </div>
+      <div class="task-body">
+        <div class="hazard-label">Potential Hazards &amp; Effects</div>
+        <div class="hazard-text">Splashes, burns, scalds, muscle strain, or dropped load.</div>
+        <div class="hazard-label">Controls</div>
+        <ul class="controls-list">
+          <li><span class="control-type E">E</span>Use lids/splash guards where practicable.</li>
+          <li><span class="control-type A">A</span>Reduce container weight, move slowly, and ask for help with heavy/hot items.</li>
+          <li><span class="control-type A">A</span>Keep pathway clear before moving hot items.</li>
+          <li><span class="control-type P">P</span>Use heat-resistant gloves/apron as needed.</li>
+        </ul>
+        <div class="forms-ref"><strong>Required Forms:</strong> C.048 Back Injury Assessment · C.020 if injury</div>
+      </div>
+    </div>
+
+    <div class="task-card" data-search="cleaning kitchen chemicals slips chemical exposure burns from cleaners mixing incompatible products">
+      <div class="task-header" onclick="toggle(this)">
+        <div class="task-num">5</div>
+        <div class="task-title">Cleaning kitchen and chemicals</div>
+        <span class="risk-badge mod">PRE: 6 M</span>
+        <span class="risk-badge low">POST: 2 L</span>
+        <span class="chevron">▾</span>
+      </div>
+      <div class="task-body">
+        <div class="hazard-label">Potential Hazards &amp; Effects</div>
+        <div class="hazard-text">Slips, chemical exposure, burns from cleaners, or mixing incompatible products.</div>
+        <div class="hazard-label">Controls</div>
+        <ul class="controls-list">
+          <li><span class="control-type A">A</span>Clean spills immediately and use wet-floor warning when others are present.</li>
+          <li><span class="control-type A">A</span>Read labels and never mix cleaning chemicals.</li>
+          <li><span class="control-type E">E</span>Ventilate area.</li>
+          <li><span class="control-type P">P</span>Wear gloves/eye protection as required.</li>
+        </ul>
+        <div class="forms-ref"><strong>Required Forms:</strong> C.020 if exposure/incident</div>
+      </div>
+    </div>
+
+    <div class="task-card" data-search="food storage waste disposal foodborne illness pests odours biohazards lifting strain garbage">
+      <div class="task-header" onclick="toggle(this)">
+        <div class="task-num">6</div>
+        <div class="task-title">Food storage and waste disposal</div>
+        <span class="risk-badge mod">PRE: 4 M</span>
+        <span class="risk-badge low">POST: 1 L</span>
+        <span class="chevron">▾</span>
+      </div>
+      <div class="task-body">
+        <div class="hazard-label">Potential Hazards &amp; Effects</div>
+        <div class="hazard-text">Foodborne illness, pests, odours, biohazards, or lifting strain from garbage.</div>
+        <div class="hazard-label">Controls</div>
+        <ul class="controls-list">
+          <li><span class="control-type A">A</span>Refrigerate promptly, check expiry dates, label/store food appropriately, and dispose of waste regularly.</li>
+          <li><span class="control-type A">A</span>Use sealed bags and avoid overfilling.</li>
+          <li><span class="control-type P">P</span>Wear gloves for waste handling.</li>
+        </ul>
+        <div class="forms-ref"><strong>Required Forms:</strong> C.020 if illness/incident</div>
+      </div>
+    </div>
+
+  </div>
+  <div class="no-results hidden" id="noResults">No tasks match your search.</div>
+
+  <div style="margin-top:24px;background:white;border-radius:var(--radius);border:1px solid var(--border);padding:14px;box-shadow:var(--shadow)">
+    <div class="section-heading" style="margin-top:0">Annual Review Team</div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:10px;margin-top:10px">
+      <div style="font-size:.85rem"><strong>Doug Senger</strong><br><span style="color:var(--muted)">Date / Signature: ________</span></div>
+      <div style="font-size:.85rem"><strong>Katie Snow</strong><br><span style="color:var(--muted)">Date / Signature: ________</span></div>
+      <div style="font-size:.85rem"><strong>Sandy Senger</strong><br><span style="color:var(--muted)">Date / Signature: ________</span></div>
+      <div style="font-size:.85rem"><strong>Robyn Morales</strong><br><span style="color:var(--muted)">Date / Signature: ________</span></div>
+    </div>
+  </div>
+</main>
+<footer>DS Home Computing · SA03 SECOR · D.007 Cooking JSA · For internal use only</footer>
+<script>
+function toggle(hdr){hdr.closest('.task-card').classList.toggle('open');}
+function toggleAll(){const cards=document.querySelectorAll('.task-card');const anyOpen=[...cards].some(c=>c.classList.contains('open'));cards.forEach(c=>anyOpen?c.classList.remove('open'):c.classList.add('open'));document.querySelector('.expand-all-btn').textContent=anyOpen?'Expand All':'Collapse All';}
+const search=document.getElementById('taskSearch');search.addEventListener('input',()=>{const q=search.value.toLowerCase();let v=0;document.querySelectorAll('.task-card').forEach(card=>{const show=!q||(card.dataset.search+' '+card.textContent).toLowerCase().includes(q);card.classList.toggle('hidden',!show);if(show)v++;});document.getElementById('noResults').classList.toggle('hidden',v>0);});
+</script>
+</body>
+</html>

@@ -1,0 +1,1580 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>A.001 HSMS — HSMS</title>
+<link rel="stylesheet" href="../hsms.css">
+<style>
+.a-hero { background:linear-gradient(135deg,var(--navy) 0%,#1e40af 100%); color:#fff; padding:20px 16px; }
+.a-hero .a-badge { font-size:.65rem; font-weight:700; letter-spacing:.1em; text-transform:uppercase; opacity:.8; margin-bottom:6px; }
+.a-hero h2 { font-size:1.2rem; font-weight:700; margin:0 0 4px; }
+.a-hero p { font-size:.8rem; opacity:.8; margin:0; }
+.a-section {
+  border:1px solid var(--border); border-radius:8px;
+  margin:10px 12px 0; overflow:hidden;
+}
+.a-section-header {
+  display:flex; align-items:center; justify-content:space-between;
+  padding:12px 14px; background:#f8fafc; cursor:pointer;
+  font-weight:700; font-size:.9rem; color:var(--navy);
+  list-style:none; user-select:none;
+}
+.a-section-header::-webkit-details-marker { display:none; }
+.a-section-header::after { content:"▸"; font-size:.75rem; color:var(--muted); transition:transform .2s; }
+details[open] > .a-section-header::after { transform:rotate(90deg); }
+.a-section-title { flex:1; }
+.a-section-body { padding:14px; }
+.a-para { font-size:.875rem; line-height:1.65; color:var(--body); margin:0 0 8px; }
+.a-h3 { font-size:.95rem; font-weight:700; color:var(--navy); margin:14px 0 6px;
+         padding-bottom:4px; border-bottom:1px solid var(--border); }
+.a-h4 { font-size:.85rem; font-weight:700; color:var(--navy); margin:10px 0 4px; }
+.a-table-wrap { overflow-x:auto; margin:10px 0; }
+.a-table { border-collapse:collapse; font-size:.8rem; width:100%; }
+.a-table thead th { background:var(--navy); color:#fff; padding:6px 8px; text-align:left; }
+.a-table td { border:1px solid var(--border); padding:5px 8px; vertical-align:top; }
+.a-table tr:nth-child(even) td { background:#f8fafc; }
+/* controls */
+.a-controls { padding:8px 14px; display:flex; gap:8px; flex-wrap:wrap; align-items:center; }
+.a-btn { background:#f1f5f9; border:1px solid var(--border); border-radius:6px;
+          padding:4px 12px; font-size:.78rem; cursor:pointer; color:var(--body); }
+.a-btn:hover { background:#e2e8f0; }
+@media print {
+  .site-header, footer, .search-wrap, .a-controls { display:none !important; }
+  .a-section { break-inside:avoid; }
+  details.a-section:not([open]) > .a-section-body { display:block !important; }
+}
+</style>
+</head>
+<body>
+<header class="site-header">
+  <span class="logo">🛡️</span>
+  <div><h1>HSMS Wiki</h1><p>DS Home Computing</p></div>
+  <a href="index.html" style="margin-left:auto;color:#fff;font-size:.8rem;">← A Series</a>
+</header>
+
+<div class="search-wrap">
+  <span class="search-icon">🔍</span>
+  <input type="search" id="srch" placeholder="Search document…" autocomplete="off">
+</div>
+
+<div class="a-hero">
+  <div class="a-badge">A.001 · System Document</div>
+  <h2>HSMS</h2>
+  <p>DS Home Computing Ltd · SA03 SECOR · For internal use</p>
+</div>
+
+<nav style="font-size:.75rem;color:var(--muted);padding:10px 16px;">
+  <a href="../index.html">HSMS Wiki</a> › <a href="index.html">A Series</a> › A.001
+</nav>
+
+<div class="a-controls">
+  <button class="a-btn" onclick="document.querySelectorAll('.a-section').forEach(d=>d.open=true)">Expand All</button>
+  <button class="a-btn" onclick="document.querySelectorAll('.a-section').forEach(d=>d.open=false)">Collapse All</button>
+  <span id="match-count" style="font-size:.75rem;color:var(--muted);margin-left:auto;"></span>
+</div>
+
+<main style="padding-bottom:24px;">
+<p class="a-para">Health and Safety Management System</p>
+<div class="a-table-wrap"><table class="a-table">
+<thead><tr><th>Revision Log</th></tr></thead>
+<tbody>
+<tr><td>Document:</td><td>Health and Safety Manual</td></tr>
+<tr><td>Revision</td><td>Submitted By</td><td>Review By</td><td>Publish Date</td><td>Revision Reason</td></tr>
+<tr><td>0</td><td>Katie Snow</td><td>Doug Senger</td><td>14 MAY 2025</td><td>SECOR Application</td></tr>
+<tr><td>1</td><td>Katie Snow</td><td>Doug Senger</td><td>05 SEP 2025</td><td>SECOR Audit Update 2025</td></tr>
+</tbody></table></div>
+<details class="a-section" id="sec0" open>
+<summary class="a-section-header"><span class="a-section-title">Management Commitment</span></summary>
+<div class="a-section-body">
+<p class="a-para">DS Home Computing Ltd is committed to a strong safety program protecting its staff, property, and the public from incidents.</p>
+<p class="a-para">Employees at every level, including management, are responsible and accountable for their overall safety initiatives. Complete and active participation by everyone, every day, is necessary for the safety and excellence the Company expects. Management supports participation in the program by all workers and provides proper equipment, training, and procedures. Supervisors shall help ensure all employees and subcontractors can work safely. Employees and subcontractors are responsible for following all procedures, working safely, and, wherever possible, improving safety measures.</p>
+<p class="a-para">An injury and accident-free workplace is our goal. Through continuous safety and loss control efforts, we can accomplish this.</p>
+<p class="a-para">DS Home Computing Ltd believes it is vital to balance employees' physical, psychological, and social well-being to ensure safety is our employees' primary focus. We recognize the shared responsibility of success and sustainability in promoting principles of mutual respect, confidentiality, and cooperation. Understanding employee participation is essential to this program's success to ensure a healthy and safe work environment.</p>
+<p class="a-para">The Company will foster a culture promoting:</p>
+<p class="a-para">Physical and psychological health and safety</p>
+<p class="a-para">Continuous performance improvement with indicators and targets for improvement</p>
+<p class="a-para">Adaptability to the evolving diverse needs of the employees and contractors</p>
+<p class="a-para">Maintaining confidentiality to all information gathered in the processes and procedures of the Company</p>
+<p class="a-para">Infrastructure to maintain physical and psychological health</p>
+<p class="a-para">Compliance with O.H. &amp; S and industry best practices regarding its employees' and contractors' physical, psychological, and social well-being</p>
+<p class="a-para">Harassment and violence-free workplace</p>
+<p class="a-para">This statement will be reviewed annually and updated as required.</p>
+<p class="a-para">*The safety information in this Policy does not take precedence over the Occupational Health and Safety Regulations. All employees should be familiar with the OH&amp;S Act and Regulations and the National Safety Code for commercial trucks.</p>
+<div class="a-table-wrap"><table class="a-table">
+<thead><tr><th>Doug Senger, CEO</th><th>Date</th><th>05-SEP-2025</th><th>Signature</th><th></th></tr></thead>
+<tbody>
+</tbody></table></div>
+<h4 class="a-h4">Organization Chart</h4>
+<p class="a-para">We can define responsibility as an individual’s obligation to carry out assigned duties. For our safety program to achieve its desired results, everyone in the organization must know their responsibilities. While the Safety Policy Statement contains a general reference to duties, management has set out specific responsibilities for themselves and everyone in its organization. See Training Matrix for particular training requirements for each role. A single person may hold more than one position or set of responsibilities depending on the project's site. If a person should have more than one role, they are responsible for upholding all accountabilities and responsibilities for their positions.</p>
+<p class="a-para">Figure 1 Generalized Organization Chart</p>
+<h4 class="a-h4">Managers, Project Managers or Owners</h4>
+<p class="a-para">Generally, managers, project managers or owners have higher levels of responsibilities. These individuals have others reporting to them, including site supervisors. These individuals are responsible for defining the site level organization chart and accompanying responsibilities.</p>
+<p class="a-para">To provide information, instructions, and assistance to all supervisory staff to protect all our employees' health and safety.</p>
+<p class="a-para">To understand and enforce or accident prevention policy as well as the occupational health and safety legislation.</p>
+<p class="a-para">To provide all supervisory staff with an understanding of our accident prevention program and relevant occupational health and safety legislation.</p>
+<p class="a-para">To provide all supervisory staff with proper, well-maintained tools and equipment, plus any other unique personal protective devices which may be required.</p>
+<p class="a-para">To provide ongoing safety education programs and approved first aid training courses as required.</p>
+<p class="a-para">To monitor departments and projects and hold them accountable for their safety performance.</p>
+<p class="a-para">The Manager acknowledges that with three (3) strikes, you are out of Policy. Warnings to be given either verbally or written.</p>
+<h4 class="a-h4">Supervisors, Site Supervisors, Superintendents</h4>
+<p class="a-para">Supervisors are the Manager's direct eyes and ears on the ground at each project. All site workers (employees and subcontractors) report to the supervisor. This individual is responsible for upholding the Company’s health, safety and working directives. (Often the Project Manager will fill this role)</p>
+<p class="a-para">To know and apply the firm’s safety policy and relevant occupational health and safety legislation.</p>
+<p class="a-para">Ensure adequate training for all employees to safely work, using all protective devices and procedures required by this firm and legislation to protect their health and safety.</p>
+<p class="a-para">To advise all employees of any potential or actual dangers and how to isolate, prevent, or remove them.</p>
+<p class="a-para">Arrange for medical treatment as required, in the case of injury or illness, including transportation to a doctor or hospital as necessary.</p>
+<p class="a-para">To report all accidents immediately to thoroughly investigate all accidents and advise management on preventing similar accidents in the future.</p>
+<p class="a-para">To carry out regular inspections of the workplace to ensure a safe and healthy environment.</p>
+<p class="a-para">The supervisor acknowledges that with three (3) strikes, you are out of employment. Warnings to be given either verbally or written.</p>
+<h4 class="a-h4">Workers</h4>
+<p class="a-para">A worker is any individual responsible for completing a set scope for a project. This person’s training includes the safe accomplishment of the tasks at hand. They report to the site supervisor.</p>
+<p class="a-para">To read, understand, and comply with this firm’s safety policy, safe work practices, procedures, and rules</p>
+<p class="a-para">To wear the safety equipment and personal protective devices and clothing required by regulations and his/her employer.</p>
+<p class="a-para">To notify his/her supervisor of any unsafe conditions or acts that may be of danger to other workers or himself/herself.</p>
+<p class="a-para">To report all accidents and injuries to his/her supervisor as soon as possible.</p>
+<p class="a-para">To take every reasonable precaution to protect the safety of other workers and himself/herself.</p>
+<p class="a-para">An employee has the right to refuse work in environments or situations that they deem dangerous</p>
+<p class="a-para">Employee acknowledges that three (3) strikes, you are out Policy. Warnings to be given either verbally or written.</p>
+<h4 class="a-h4">Subcontractors</h4>
+<p class="a-para">A subcontractor is a worker hired as a company rather than an employee.</p>
+<p class="a-para">Responsible for safety and awareness of company policies and legal responsibilities.</p>
+<p class="a-para">To read, understand, and comply with this firm’s safety policy, safe work practices, procedures, and rules</p>
+<p class="a-para">To report all accidents and injuries to his/her DS Home Computing Ltd contact as soon as possible.</p>
+<p class="a-para">To take every reasonable precaution to protect the safety of other workers and himself/herself.</p>
+<h4 class="a-h4">Visitors</h4>
+<p class="a-para">A visitor is a person who does not typically work on this site and may not have received orientation. An oriented worker accompanies this person.  See Public, Visitors and Contracted Employees for more.</p>
+<p class="a-para">Visitors will remain with their assigned DS Home Computing Ltd contact during their entire stay on the project site.</p>
+<p class="a-para">To report all accidents and injuries to his/her DS Home Computing Ltd contact as soon as possible.</p>
+<p class="a-para">To take every reasonable precaution to protect the safety of other workers and himself/herself.</p>
+<h4 class="a-h4">Fit For Work</h4>
+<h4 class="a-h4">Introduction</h4>
+<p class="a-para">“Fit for work” refers to employees’ ability to safely undertake their jobs' physical and psychological demands.  It is a comprehensive approach that employers can take to coordinate health and safety efforts, policies and guidelines to ensure a safe and healthy workplace for everyone. A fitness for work assessment is part of this approach and is used to determine if an employee can perform a specific job or task under their documented working conditions. Fitness for work assessments is most often one to determine medical fitness after an illness or injury but are sometimes completed during the onboarding process (pre-placement) if requested by the employer or as a job transfer condition.</p>
+<h4 class="a-h4">A Comprehensive Approach</h4>
+<p class="a-para">Fit for Work is a comprehensive approach where any individual pieces fit together to create the whole picture. Four key elements make up this approach:</p>
+<p class="a-para">clear policies and guidelines</p>
+<p class="a-para">workplace programs and services</p>
+<p class="a-para">employee support</p>
+<p class="a-para">shared responsibility</p>
+</div>
+</details>
+<details class="a-section" id="sec1" open>
+<summary class="a-section-header"><span class="a-section-title">Shared responsibilityEmployee supportWorkplace programs and servicesClear policies and guidelinesShared responsibilityEmployee supportWorkplace programs and servicesClear policies and guidelines</span></summary>
+<div class="a-section-body">
+<h4 class="a-h4">Clear Policies and Guidelines</h4>
+<p class="a-para">All staff should be clear about the rules and expectations. The Company should also have procedures and guidelines concerning treating employees according to labour, employment and occupational health and safety legislation. Some examples of policies and guidelines that can support workplaces in consistently managing addiction, substance use, psychological health or physical health situations include:</p>
+<p class="a-para">alcohol and drug policies</p>
+<p class="a-para">fit for work testing</p>
+<p class="a-para">drug testing programs</p>
+<p class="a-para">disability management programs</p>
+<p class="a-para">occupational health and safety programs</p>
+<p class="a-para">respectful workplace guidelines (e.g., the Canadian Safety Association psychological safety standard)</p>
+<p class="a-para">shift work guidelines</p>
+<h4 class="a-h4">Employee Support Model</h4>
+<p class="a-para">The model below outlines the range of support that a company can make available to its workers, implementing its fit for work approach.</p>
+</div>
+</details>
+<details class="a-section" id="sec2" open>
+<summary class="a-section-header"><span class="a-section-title">PreventionPerformancemanagementWorkplacere-entryPreventionPerformancemanagementWorkplacere-entry</span></summary>
+<div class="a-section-body">
+<p class="a-para">The process is not linear and does not have a start or endpoint. At any point in the process, the employee can move to the next or previous phase, though they do not usually skip a step entirely. It is common for organizations to focus on performance management: identifying and dealing with employees who violate policies. The fit for work approach, however, is much more proactive</p>
+<p class="a-para">and focuses instead on prevention. For Example, as part of this approach, employees are offered information about drug use's effects on safe work performance, allowing them to make better choices.</p>
+<p class="a-para">Employers have the front-line responsibility to ensure that employees report for work and remain fit to perform their duties safely and competently. But this is not something they are expected to do on their own.</p>
+<p class="a-para">Promoting fitness for work must start at the top. Companies must equip their leaders with clear policies, guidelines and programs that support wellness for work. They must also keep their leaders informed sufficiently to enforce fitness for work. This process starts with training and extends to standing behind leaders when deciding to remove workers who do not appear fit for duty.</p>
+<p class="a-para">Individual employees must also share in the responsibility of keeping their workplace safe.</p>
+<div class="a-table-wrap"><table class="a-table">
+<thead><tr><th>Without prevention and education</th><th>With prevention and education</th></tr></thead>
+<tbody>
+<tr><td>A worker goes to work unaware that the Tylenol® 3 he is taking, as prescribed by his doctor for back pain, can affect his work performance.The worker has an accident driving the company vehicle. The investigating supervisor notices that he is groggy and un-c-ordinated.The worker is tested for alcohol and drugs. He tests positive for opiates.</td><td>A worker is prescribed Tylenol® 3. He is aware that some medications can impair safe work performance.The worker asks his doctor if Tylenol® 3 can affect his work performance. The doctor advises him that it can impair his ability to drive or operate the equipment.The worker discusses this with his supervisor and the supervisor reassigns him to other duties that do not involve driving.</td></tr>
+</tbody></table></div>
+<p class="a-para">Here’s an example of effective prevention.</p>
+<p class="a-para">In this example, the worker would fail a drug test, even though he has never used an illegal drug.</p>
+<p class="a-para">This process starts with healthy lifestyle choices (e.g., a drug-free lifestyle), safe work practices, good sleep hygiene (especially for shift workers) and managing treatable medical conditions (e.g., diabetes, depression and epilepsy). Individual team members must also learn how to intervene when they suspect that a co-worker is not fit for work. Each workplace will have guidelines about what steps should be taken.</p>
+<p class="a-para">All employees must be clear on what steps to take if a fellow employee is not fit to perform their duties. Employers can take responsibility for initiating team discussions or ensuring that training occurs to clear all employees about their safety responsibilities. They can also promote fitness for work by setting a good example and intervening when required.</p>
+<h4 class="a-h4">Return to Work Policy</h4>
+<p class="a-para">The Company is committed to cooperation with returning injured workers to safe and suitable employment. We will meet our obligations and responsibilities for worker contact immediately following an injury and working with them on a Return-To-Work plan based upon individual needs with input from medical personnel and the Worker’s Compensation case manager.</p>
+<p class="a-para">Suppose an employee is unable to return to their pre-injury position due to a work-related injury or illness. In that case, DS Home Computing Ltd will consider alternate options as per The Human Rights Act and with the assistance of the applicable provincial Worker’s Compensation Board. All workers will be treated fairly and consistently and, if injured, are expected to participate and cooperate in the Return-To-Work plan developed. All managers are expected to understand and value the importance of returning injured workers to work and must assist where appropriate.</p>
+<p class="a-para">Any personal information that can lead to identifying an injured worker will be held within the strictest of confidence. Reports of a personal nature will be released only if required by law or with the approval of the worker who will specify the nature of the information to be released and to whom it can be released.</p>
+<h4 class="a-h4">Violence and Harassment Prevention</h4>
+<p class="a-para">DS Home Computing Ltd. Is committed to providing a violence-free workplace. Enforcement of this Policy requires a company-wide effort.</p>
+<p class="a-para">Any acts or threatened acts of violence will not be tolerated. Anyone engaging in violent behaviour will be subject to discipline, up to and including termination, and may be subject to judicial liabilities.</p>
+<p class="a-para">Similarly, any acts of harassment related to but not limited to sexuality, gender, age, race, or ability will not be tolerated.</p>
+<p class="a-para">Employees feeling violated shall report the act to a supervisor or human resources member they feel comfortable talking with.</p>
+<p class="a-para">All supervisors, managers, and owners will take each report seriously and thoroughly investigate the manner. The individual being investigated should be made aware of the inappropriate behaviour in a safe environment. All bizarre, erratic, or aggressive behaviour should be brought to human resources or the owner.</p>
+<p class="a-para">Law enforcement support will be obtained as necessary to ensure workplace safety.</p>
+<h4 class="a-h4">Introduction</h4>
+<p class="a-para">DS Home Computing Ltd. exercises a zero-tolerance approach to any occurrence of workplace violence.  Any employee or subcontractor participating in any act of violence will be subject to immediate termination.</p>
+<p class="a-para">DS Home Computing Ltd. considers workplace violence a safety hazard.  Workplace violence is described as an act in which a person is abused, threatened, intimidated, or assaulted in his or her employment, and includes:</p>
+<p class="a-para">Threatening behaviour – such as shaking fists, destroying property, or throwing objects.</p>
+<p class="a-para">Verbal or written threats – any expression of an intention to inflict harm.</p>
+<p class="a-para">Harassment – any behaviour that demeans, embarrasses, humiliates, annoys, alarms or verbally abuses a person and that is known or would be expected to be unwelcome.  This includes words, gestures, intimidation, bullying, or other inappropriate activities.</p>
+<p class="a-para">Verbal abuse – swearing, insults or condescending language.</p>
+<p class="a-para">Physical attacks – hitting, shoving, pushing or kicking.</p>
+<p class="a-para">The Company is committed to eliminating or, if that is not reasonably practicable, controlling the hazard of violence/harassment in the workplace to workers.</p>
+<p class="a-para">Some examples of controlling the hazards include, but are not limited to, training workers, posted signage, restricted access to work areas, locked doors, security cameras, alarms, fencing, lighting, personal protective devices, security procedures, emergency response procedures, working alone processes.</p>
+<h4 class="a-h4">TERMINOLOGY</h4>
+<p class="a-para">“Violence,” whether at a work site or work-related, means the threatened, attempted or actual conduct of a person that causes or is likely to cause physical or psychological injury or harm and includes domestic or sexual violence.</p>
+<p class="a-para">“Harassment” means any single incident or repeated incidents of objectionable or unwelcome conduct, comment, bullying or action by a person that the person knows or ought reasonably to know will or would cause offence or humiliation to a worker or adversely affects the worker’s health and safety, and includes:</p>
+<p class="a-para">Conduct, comment, bullying or action because of religious beliefs, colour, physical disability, mental disability, age, ancestry, place of origin, marital status, source of income, family status, gender, gender identity, gender expression and sexual orientation, and</p>
+<p class="a-para">Sexual solicitation or advance excludes any reasonable conduct of an employer or supervisor in respect of the management of workers or a work site.</p>
+<h4 class="a-h4">Incidents</h4>
+<p class="a-para">In an Incident occurs, workers that have been the victim of workplace violence are encouraged to report the occurrence to their foreman, superintendent, human resources representative, or any other management representative they feel comfortable approaching concerning the matter.</p>
+<p class="a-para">The Company will investigate all allegations or incidents in regards to the prevention plan. All incidents will be investigated, and corrective actions will be implemented. If required, disciplinary measures will apply as per the “Zero Tolerance Rule.”</p>
+<p class="a-para">Suppose a worker has reported an injury or adverse symptom resulting from an incident of violence or harassment. In that case, the Company will advise you to consult a health professional of the worker’s choice for treatment or referral to resolve any issues that may have occurred due to workplace violence.</p>
+<p class="a-para">The offending person will be isolated from the worker reporting until the investigation is completed.</p>
+<h4 class="a-h4">Review</h4>
+<p class="a-para">A review of the Violence Prevention Plan will take place on the earliest of the following:</p>
+<p class="a-para">when an incident of violence occurs;</p>
+<p class="a-para">if the joint worksite health and safety committee or the health and safety representative, if applicable, recommends a review of the plan;</p>
+<p class="a-para">every three years</p>
+<h4 class="a-h4">Training</h4>
+<p class="a-para">DS Home Computing Ltd.  will ensure that workers are trained in:</p>
+<p class="a-para">the recognition of violence and harassment,</p>
+<p class="a-para">the policies, procedures and work arrangements that the employer has developed and implemented to eliminate or control the hazards of violence and harassment,</p>
+<p class="a-para">the appropriate response to violence and harassment, including procedures for obtaining assistance, and</p>
+<p class="a-para">the procedures for reporting, investigating and documenting incidents of violence and harassment</p>
+<p class="a-para">Workers will be educated in recognizing workplace violence and the procedures to be followed in the event of workplace violence during the new hire orientation</p>
+<div class="a-table-wrap"><table class="a-table">
+<thead><tr><th>Doug Senger, CEO</th><th>Date</th><th>05-SEP-2025</th><th>Signature</th><th></th></tr></thead>
+<tbody>
+</tbody></table></div>
+<h4 class="a-h4">Company Rules</h4>
+<p class="a-para">Rules and regulations are an integral part of our safety program. When used effectively, they will continue to the overall success of our program.</p>
+<h4 class="a-h4">Definitions</h4>
+<p class="a-para">The following definitions are used in this section.</p>
+<p class="a-para">Rule: a directive that governs and controls conduct or action and that is instituted by an organization.</p>
+<p class="a-para">Regulation: an ordinance, a law, or a directive set by an outside organization or agency, such as the government, for control of people and their environment.</p>
+<h4 class="a-h4">About Rules</h4>
+<p class="a-para">Rules are basic ‘thou shalt’ or ‘thou shalt not’ statements; they leave no room for discretion or argument. Rules should be enforced. Actions should be taken every time a rule is violated, and not only when some loss occurs because of the violation of rules. Since our developing safety program already contains assignments of responsibility, safe work practices, and job procedures, and since regulations (discussed below) also control behaviour, rules have been kept to a minimum.</p>
+<h4 class="a-h4">About Regulations</h4>
+<p class="a-para">Alberta Occupational Health and Safety Regulations are a fact of life and really make a lot of sense. These are numerous other regulations that affect the safety of employees.</p>
+<p class="a-para">Rather, the intent is to draw your attention to the existence of such regulations. You must draw on your expertise and experience, and that of your employees, to determine what regulations apply to the organization. Obtain copies of relevant regulations, then study them and understand them. Applicable regulations must then be provided to and explained to affected employees.</p>
+<p class="a-para">Remember these regulations are for your benefit as well as for your employees’ benefit. Rules can sometimes be difficult to “sell” to your employees. Regulations that often do the same job are easier to sell- it’s the law.</p>
+<h4 class="a-h4">General Rules</h4>
+<p class="a-para">Accidents, injuries or ‘near misses,’ regardless of their nature, shall be promptly reported to a supervisor.</p>
+<p class="a-para">Approved hard hats shall be worn on the job by all personnel.</p>
+<p class="a-para">Clothing shall be appropriate to duties being performed. Long pants, a shirt and sturdy work shoes are the minimum requirements: no tank tops or tennis shoes.</p>
+<p class="a-para">Smoking is not permitted.</p>
+<p class="a-para">Running is not permitted, except in the case of extreme emergency.</p>
+<p class="a-para">Safety glasses, goggles or face shields shall be worn when concrete breaking, metal chipping, welding, grinding and for other operations where eye protection is required.</p>
+<p class="a-para">Hand tools shall not be used for any purpose other than that intended. All damaged or worn parts shall be promptly repaired or replaced.</p>
+<p class="a-para">Power tools shall be operated only by authorized personnel, with guards furnished by the manufacturer ‘in place.’</p>
+<p class="a-para">All electrical hand tools shall be grounded or double insulated.</p>
+<p class="a-para">Explosive/powder actuated tools shall be used only by persons who have been instructed and trained in their safe use.</p>
+<p class="a-para">Compressed gas cylinders shall be secured in an upright position.</p>
+<p class="a-para">Possession or use on the job of intoxicating beverages or unauthorized drugs is strictly forbidden and constitutes grounds for dismissal.</p>
+<p class="a-para">Riding on equipment is prohibited. No person shall ride any hook, hoist or other material handling equipment that is used strictly for handling material and not specifically designed to carry riders.</p>
+<p class="a-para">Welding and burning operations shall be carried out only by authorized personnel with appropriate individual protective equipment.</p>
+<p class="a-para">Horseplay, fighting, gambling, and possession of firearms are strictly forbidden on the job and constitute grounds for dismissal.</p>
+<p class="a-para">See company policy for more information on company rules (next page).</p>
+<h4 class="a-h4">DS Home Computing Ltd Company Policy and Goals for Hourly Employees</h4>
+<p class="a-para">Welcome to our team!  DS Home Computing Ltd. will grow to be a leader in the construction industry. Employment with our firm is based wholly on qualifications, competence and effort without regard for colour, race, religion, age or sex.  All employees are hired on a three-month probation period to allow us to get acquainted.</p>
+<p class="a-para">We at DS Home Computing Ltd. encourage everyone to learn and perform all tasks.  We will provide training and education whenever possible to develop your talents.  The company will supply all power tools and expects each tradesman to furnish a complete set of hand tools.  Tools are to be picked up at the end of each workday and returned to the job trailer.</p>
+<p class="a-para">Our pay period runs bi-weekly from Sunday of the first week through Saturday of the second week, with payday on the following Friday.   Each employee’s time will be recorded by your supervisor unless requested otherwise by your superior. Normal working hours are 7:30 AM to 5:30 PM with a 30 minute lunch period.  You are highly encouraged to take your lunch break throughout the day – lunches should only be missed on rare occasions. Your superintendent may change these hours to suit varying conditions.</p>
+<p class="a-para">Overtime - (Over 8 hours/day or 44 hours per week, whichever is to the employee’s benefit) must be authorized and will be paid at time and one-half rate. Statutory holidays worked will be paid at a time and a half, and statutory holiday pay will be included with vacation pay.</p>
+<p class="a-para">No illegal drugs, intoxicating beverages, firearms or weapons are allowed in vehicles, offices or other work locations of this company.  As a further precaution, entry into any of these areas is conditioned upon the company’s right to search the person and personal effects of any entrant without prior warning, given reasonable suspicion.</p>
+<p class="a-para">Your honesty, appearance, behaviour and performance reflect this company’s image to our customers.  The following rules are necessary for the mutual protection of all employees, and the violation will result in immediate termination. DS Home Computing Ltd follows a three (3rd strike is termination) policy. Two warnings will be given (first will be verbal, second will be written), followed by termination on the third offence. The rules are as follows:</p>
+</div>
+</details>
+<details class="a-section" id="sec3" open>
+<summary class="a-section-header"><span class="a-section-title">Falsifying time cards or payroll records is strictly prohibited.</span></summary>
+<div class="a-section-body">
+<p class="a-para">Abusive language or disrespectful behaviour in publicly occupied areas will not be permitted.</p>
+<p class="a-para">Stealing, destruction or willful abuse of company property is unlawful.  Fighting on the job or horseplay will not be tolerated.</p>
+<p class="a-para">Abuse or violation of company Safety Policy cannot be tolerated.</p>
+<p class="a-para">No employee shall engage in a second business or employment (moonlighting) without written permission.</p>
+<p class="a-para">In an effort to assure maximum safety of each individual employee, all company operations are conducted in conformity with these safety rules:</p>
+<p class="a-para">Report all injuries to your supervisor immediately.</p>
+<p class="a-para">Wear hard hats at all times outside the office and vehicle.</p>
+<p class="a-para">Wear safety glasses, safety shoes, eye protection, respirator and other protective equipment whenever the job calls for them and/or as directed by your supervisor.</p>
+<p class="a-para">Learn to lift the proper way.  Bend knees; keep back erect.  Get help for heavy loads.</p>
+<p class="a-para">Do not ride or get under loads that are being carried by cranes or other equipment.</p>
+<p class="a-para">Make sure guards and protective devices are in use on related equipment when such is operating.</p>
+<p class="a-para">Be sure all electrical devices, power tools, and so forth are properly grounded.</p>
+<p class="a-para">Be sure you know what is behind your vehicle before backing up.</p>
+<p class="a-para">Thank you for choosing DS Home Computing Ltd. as your employer.  Your personal advancement and job security will be determined by your efforts and ability.  We expect all employees to be treated fairly and properly paid.  If you are dissatisfied, please discuss it only with your supervisor or request that he accompany you to resolve it with his superior.  We plan to continue our growth in the construction industry and hope you will grow with us. Please read both sides of this policy, sign the bottom tear-off portion and return it to your superintendent. Keep the company policy for your record.  If you ever have any questions, please let your superintendent know.</p>
+<p class="a-para">I have read, understand and agree with the foregoing DS Home Computing Ltd. Company Policy, including the three strike policy.</p>
+<div class="a-table-wrap"><table class="a-table">
+<thead><tr><th>Employee</th><th>Date</th><th>Signature</th></tr></thead>
+<tbody>
+</tbody></table></div>
+<div class="a-table-wrap"><table class="a-table">
+<thead><tr><th>Doug Senger</th><th>05-SEP-2025</th><th></th></tr></thead>
+<tbody>
+<tr><td>Sandy Senger</td><td>05-SEP-2025</td><td></td></tr>
+<tr><td>Robyn Morales</td><td>05-SEP-2025</td><td></td></tr>
+<tr><td>Katie Snow</td><td>05-SEP-2025</td><td></td></tr>
+</tbody></table></div>
+<p class="a-para">.</p>
+</div>
+</details>
+<details class="a-section" id="sec4" open>
+<summary class="a-section-header"><span class="a-section-title">Public, Visitors and Contracted Employees</span></summary>
+<div class="a-section-body">
+<h4 class="a-h4">Contractor and Visitor Management Policy</h4>
+<p class="a-para">The objective of this manual is to bring to your attention the Health and Safety Program of DS Home Computing Ltd safety policies, procedures and practices herein are not to be considered a substitute for the applicable government regulations or specific site regulations.  We feel that through active participation in our Health and Safety Program, each employee will have the “tools” necessary to protect themselves, co-workers, our customers and the general public from any loss or injury.</p>
+<p class="a-para">This Health and Safety Program is designed to provide you with the safest working conditions and equipment to ensure all business activities' safe and successful operation.</p>
+<p class="a-para">As a condition of employment, the Company requires that you read and familiarize yourself with this Company's safety practices.  You have a responsibility to yourself and your fellow workers to understand, learn, and apply safe work practices.</p>
+<p class="a-para">Please be governed by the safety guidelines of this manual and by all posted rules and regulations.  Additional safe work practices and procedures may be implemented for situations not covered in this manual.</p>
+<p class="a-para">The directives contained in this Health and Safety Manual are critical to our safety program and are considered terms and conditions of employment with the Company.</p>
+<p class="a-para">All employees are encouraged to work toward the Company's goal of a healthy and injury-free workplace.  With a commitment to continuous safety and loss control, we can accomplish this together.</p>
+<p class="a-para">Ensure the health and safety of contractors and visitors at DS Home Computing Ltd. worksites.</p>
+<p class="a-para">Ensure that contractors are deemed competent before entering DS Home Computing Ltd. worksites.</p>
+<h4 class="a-h4">Policy</h4>
+<p class="a-para">Health and safety orientations are provided to contractors and visitors; they will include site requirements, P.P.E., training and any special requirements for that site. All directions will be completed before entering the worksite.</p>
+<p class="a-para">Inform contractors and visitors of their health and safety responsibilities, worksite hazards and controls, and conditions change during orientation.</p>
+<p class="a-para">Contractors are deemed competent through the DS Home Computing Ltd. contractor selection process.</p>
+<p class="a-para">DS Home Computing Ltd monitors contractors.</p>
+<p class="a-para">DS Home Computing Ltd. refers to the contractor's non-compliance disciplinary procedure for actions of non-compliance.</p>
+<p class="a-para">The Policy will meet and or exceed the O.H.S. Act s. 3(1) and O.H.S. Act s 9(1)-(2).</p>
+<p class="a-para">The Policy also meets the P.I.R. section 6.1.6.4 Policy to address others' protection, not under the employer’s direction.</p>
+<p class="a-para">.</p>
+<h4 class="a-h4">Public Responsibilities</h4>
+<p class="a-para">As a general rule, members of the public should not be on our construction sites without prior approval. Any members of the public entering the project site will be treated as visitors and expected to comply with visitor protocols. Any member of the public not complying with safety protocols will be asked to leave. If the member of the public does not leave, the site supervisor will be responsible for contacting the appropriate authorities to remove the individual.</p>
+<p class="a-para">Public responsibilities are to:</p>
+<p class="a-para">Follow the instructions of the site supervisor or personal escort;</p>
+<p class="a-para">Wear personal protective equipment when required;</p>
+<p class="a-para">Never walk about a work site unescorted</p>
+<h4 class="a-h4">Subcontractor Responsibilities</h4>
+<p class="a-para">Subcontractors are expected to fully cooperate and participate in all aspects of the Company Health and Safety Program.  Subcontractors will be pre-qualified to review their safety programs and performance, safety training documents, and safety statistics.</p>
+<p class="a-para">If a subcontractor does not have a Health and Safety Manual, DS Home Computing Ltd will supply a copy of the Company’s Safety Manual. The subcontractor must review the manual and abide by its applicable Health and Safety Policies, procedures, and regulations as if they were an employee of the Company.</p>
+<p class="a-para">The DS Home Computing Ltd will be responsible for communicating the hiring client's (site operator's) Drug and Alcohol policy to subcontractors. DS Home Computing Ltd reserves the right to deny subcontractors work with the Company should their safety metrics indicate substandard safety performance.</p>
+<p class="a-para">Subcontractors will:</p>
+<p class="a-para">Have an account in good standing with the applicable provincial Workers’ Compensation Board.  A WCB Clearance Letter, along with a copy of the subcontractor’s W.C.B. Premium Rate Statement, shall be provided.  Those companies who provide evidence they “outperform” industry-standard shall be selected whenever practicable.</p>
+<p class="a-para">Present evidence of applicable liability insurance</p>
+<p class="a-para">Submit for review copies of all health, safety, and environmental programs and training documentation applicable to the type of work the subcontractor will perform before the commencement of work.</p>
+<p class="a-para">Abide by all aspects of the Health and Safety Program and follow all stated rules, policies, procedures, and regulatory requirements.</p>
+<p class="a-para">Complete the new subcontractor program and read, understand, and comply with the Company safety policies, safe work practices and procedures, and rules.</p>
+<p class="a-para">Be aware of the Owner/Client’s Drug and Alcohol policy and adhere to the requirements of the Drug and Alcohol Policy at all times while at the worksite.</p>
+<p class="a-para">Refuse to perform any work that may place them in imminent danger (right to refuse).</p>
+<p class="a-para">Attend and participate in all safety meetings, i.e. kick-off, pre-job, daily tailgate.</p>
+<p class="a-para">Take every reasonable precaution to protect the health and safety of themselves and others.</p>
+<p class="a-para">Participate in hazard assessments and safety inspections, and report all hazards to management; correct the hazard, if possible, and complete a hazard report form, if applicable.</p>
+<p class="a-para">If the hazard cannot be corrected, “flag” the hazard site and notify management as soon as possible</p>
+<p class="a-para">Wear personal protective equipment, including approved safety clothing, and use safety devices as required by regulation, client and Company Policy.</p>
+<p class="a-para">Report all driving violations to management.</p>
+<p class="a-para">Use safe work procedures and follow Company, client, and government regulations, as stated in this section.</p>
+<p class="a-para">Participate in all Company training programs.</p>
+<p class="a-para">Stop work, shut down operating equipment, and secure the area if a near miss or accident occurs.</p>
+<p class="a-para">Follow all Company policies and procedures applicable to this position and perform all other duties as assigned.</p>
+<p class="a-para">Report all hazards and near misses, injury, accident and collision incidents to management immediately.  If a subcontractor is involved in an incident, management shall be responsible for reporting the incident to the Owner/Client and shall ensure that the incident is thoroughly investigated.  Subcontractors will be accountable for participating in the investigation process.</p>
+<p class="a-para">DS Home Computing Ltd will participate in all incidents and near-miss investigations.</p>
+<p class="a-para">Subcontractors will be evaluated post-job on their safety performance and compliance with the Company Health and Safety program.</p>
+<p class="a-para">See subcontractor orientation form.</p>
+<h4 class="a-h4">Visitor Responsibilities</h4>
+<p class="a-para">Visitors’ responsibilities are to:</p>
+<p class="a-para">Follow the instructions of the site supervisor or personal escort;</p>
+<p class="a-para">Wear personal protective equipment when required;</p>
+<p class="a-para">Never walk about a work site unescorted.</p>
+<p class="a-para">Sign in and out of the projected register.</p>
+<p class="a-para">Review a site-specific orientation checklist with their escort.</p>
+<h4 class="a-h4">Non-Compliance</h4>
+<p class="a-para">Employees and subcontractors found in non-compliance with the safety program will be required to adhere to additional training, including completing the orientation program. Should the non-compliance issue be severe, including injury to others or property damage, the employee or subcontractor may be released from the project or Company.</p>
+<p class="a-para">Visitors found in non-compliance will be removed from the project, and their escort will be required to review the applicable portions of the safety program training again; unless the visitor has left their escort.</p>
+</div>
+</details>
+<details class="a-section" id="sec5" open>
+<summary class="a-section-header"><span class="a-section-title">Joint Health and Safety Committee</span></summary>
+<div class="a-section-body">
+<h4 class="a-h4">Name of Committee</h4>
+<p class="a-para">The name of the committee shall be Joint Health and Safety Committee or J.H.S.C.</p>
+<h4 class="a-h4">Constituency</h4>
+<p class="a-para">There will be one member from each active project, management and coordination.</p>
+<div class="a-table-wrap"><table class="a-table">
+<thead><tr><th>Representative</th><th>Group/Area/Department/Union</th></tr></thead>
+<tbody>
+<tr><td>Worker Representative #1</td><td>Project Elected Representative</td></tr>
+<tr><td>Employer Representative #1</td><td>Project Management</td></tr>
+<tr><td>Employer Representative #2</td><td>Project Coordinator</td></tr>
+</tbody></table></div>
+<p class="a-para">There will always be a minimum of 3 members.</p>
+<p class="a-para">One worker representative will be elected from each active project under ten employees</p>
+<p class="a-para">Any project over ten employees will elect one worker representative per trade or union-represented on the project, which may include (but is not limited to) carpenters, electricians, pipefitters.</p>
+<p class="a-para">One employer representative will be appointed from each of the following groups: project management and project coordination.</p>
+<h4 class="a-h4">Purpose</h4>
+<p class="a-para">The purpose of the Joint Health and Safety Committee is to identify and resolve safety concerns as well as promote health and safety at the worksite.</p>
+<p class="a-para">The committee also aids in increasing two-way communication between workers and employers as well as promoting a healthy and safe working environment.</p>
+<h4 class="a-h4">Duties and functions</h4>
+<p class="a-para">The duties and functions of the committee are identified in the O.H.S. Act, s.19, and include the items below.</p>
+<p class="a-para">The receipt, consideration and disposition of concerns and complaints respecting the health and safety of workers</p>
+<p class="a-para">Participation in the identification of hazards to workers or other persons arising out of or in connection with activities at the worksite</p>
+<p class="a-para">Develop, monitor, and follow-up on corrective actions</p>
+<p class="a-para">The development and promotion of measures to protect the health and safety of persons at the worksite and checking the effectiveness of such measures</p>
+<p class="a-para">Cooperation with an officer exercising duties under the O.H.S. act, the regulations and the O.H.S. code</p>
+<p class="a-para">The development and promotion of programs for education and information concerning health and safety</p>
+<p class="a-para">The making of recommendations to the employer, prime contractor or owner respecting the health and safety of workers</p>
+<p class="a-para">The inspection of the worksite at regular intervals</p>
+<p class="a-para">The participation in investigations of serious injuries and incidents at the work site in accordance with section 40</p>
+<p class="a-para">The maintenance of records in connection with the receipt and disposition of concerns and complaints and the attendance to other matters relating to the duties of the committee</p>
+<p class="a-para">Other duties as may be specified in this act, the regulations and the O.H.S. code</p>
+<p class="a-para">Duties shall be performed during normal working hours.</p>
+<h4 class="a-h4">Records</h4>
+<p class="a-para">The committee will keep accurate records of all activities conducted by and all items addressed by the committee.</p>
+<p class="a-para">Records include meeting agendas, meeting minutes, recommendations to the employer, inspections, hazard reports, incident reports, investigations, action plans, orders, interactions with O.H.S. officers, or any other documentation related to the duties and functions of the committee.</p>
+<p class="a-para">Records shall be kept in the records management system for a minimum of 3 calendar years.</p>
+<h4 class="a-h4">Inspections</h4>
+<p class="a-para">The committee will inspect the work site at least once before each quarterly meeting to identify health and safety hazards that have not been controlled.</p>
+<p class="a-para">Additional inspections will be managed under the inspections section of this Policy.</p>
+<h4 class="a-h4">Meetings</h4>
+<p class="a-para">The committee shall meet in accordance with O.H.S. Act, s.22. The requirements are stated below.</p>
+<p class="a-para">Meet within ten days of being established</p>
+<p class="a-para">Meet at least quarterly</p>
+<p class="a-para">Meet if requested by a co-chair</p>
+<p class="a-para">Meet if requested by an O.H.S. officer</p>
+<p class="a-para">Meetings shall be held during normal working hours. A quorum is required to hold a meeting.</p>
+<h4 class="a-h4">Agenda and meeting minutes</h4>
+<p class="a-para">Meeting agendas and minutes will adhere to the guidelines below</p>
+<p class="a-para">Meeting agendas and minutes will follow the approved templates.</p>
+<p class="a-para">An agenda will be prepared by the co-chairs and distributed to members prior to the meeting.</p>
+<p class="a-para">The co-chairs must ensure that meeting minutes are recorded.</p>
+<p class="a-para">The co-chairs must ensure that meeting minutes are approved and given to the employer within seven days of the meeting.</p>
+<p class="a-para">The co-chairs must ensure copies of the approved meeting minutes are posted or provided by electronic means at the worksite within seven days after the day the meeting was held.</p>
+<h4 class="a-h4">Co-Chairs</h4>
+<p class="a-para">Two co-chairs will be selected by the members of the committee.</p>
+<p class="a-para">The worker representative shall select one co-chair</p>
+<p class="a-para">The employer representatives shall select one co-chair</p>
+<p class="a-para">The co-chairs have specific requirements under the AB OHS Act (s.22, s.25, s.27). Co-Chair responsibilities are listed below.</p>
+<p class="a-para">Alternate in serving as chair at committee meetings</p>
+<p class="a-para">Participate in all decisions of the committee</p>
+<p class="a-para">Prepare the agendas for the committee meetings</p>
+<p class="a-para">Ensure that meeting minutes are recorded</p>
+<p class="a-para">Ensure that meeting minutes are approved and given to the employer within seven days of the meeting</p>
+<p class="a-para">Ensure copies of the approved meeting minutes are posted or provided by electronic means at the worksite within seven days after the day the meeting was held</p>
+<p class="a-para">Either co-chair may call a special meeting.</p>
+<h4 class="a-h4">Quorum</h4>
+<p class="a-para">The composition of the quorum shall follow the requirements below.</p>
+<p class="a-para">It consists of 3 members (one-half or more of the members)</p>
+<p class="a-para">Both worker and employer members must be present</p>
+<p class="a-para">At least one-half of members present are workers</p>
+<p class="a-para">A quorum is required to conduct a meeting or make valid recommendations and decisions.</p>
+<h4 class="a-h4">Terms of Office</h4>
+<p class="a-para">The AB OHS Act, s.24 states the duration of a members’ term on the J.H.S.C. The durations in the O.H.S. Act are specified below.</p>
+<p class="a-para">Normally not less than one year</p>
+<p class="a-para">It may be longer than one year until a successor is elected or appointed</p>
+<p class="a-para">Determined as per the union’s agreement</p>
+<p class="a-para">If there are multiple unions, determined via an agreement amongst all the unions</p>
+<h4 class="a-h4">Replacing a member</h4>
+<p class="a-para">If a member must step down during the member’s term of office, the following procedure will be followed to replace the member.</p>
+<p class="a-para">The member will advise the committee in writing of their intent to step down</p>
+<p class="a-para">The committee will pass the motion to replace the member, if necessary</p>
+<p class="a-para">The committee will inform the employer if the member is an employer member, or the committee will proceed with an appropriate selection process to elect a new worker member</p>
+<p class="a-para">If the member stepping down is a co-chair, the committee must proceed with a co-chair selection once the new member joins the committee</p>
+<h4 class="a-h4">Recommendations to the employer</h4>
+<p class="a-para">Recommendations to the employer will follow the requirements stated below.</p>
+<p class="a-para">Written using the approved template</p>
+<p class="a-para">Directly related to health and safety</p>
+<p class="a-para">Reasonably capable of being done</p>
+<p class="a-para">Clear and complete (ensure the employer will not need more information to make a decision)</p>
+<h4 class="a-h4">Resolution of disagreements</h4>
+</div>
+</details>
+<details class="a-section" id="sec6" open>
+<summary class="a-section-header"><span class="a-section-title">With the Employer</span></summary>
+<div class="a-section-body">
+<p class="a-para">As per s.21 of the OHS Act, when a matter cannot be resolved after written reasons are given by the employer, the employer, the J.H.S.C., or a member of the J.H.S.C. may refer the concern to an O.H.S. officer.</p>
+</div>
+</details>
+<details class="a-section" id="sec7" open>
+<summary class="a-section-header"><span class="a-section-title">Amongst the J.H.S.C.</span></summary>
+<div class="a-section-body">
+<p class="a-para">When the committee is unable to reach an agreement regarding a health and safety matter, the committee will have a co-chair contact an O.H.S. officer.</p>
+<h4 class="a-h4">Coordination with other J.H.S.C.s</h4>
+<p class="a-para">If there are other J.H.S.C. established by the same employer or prime contractor, if there is one, the committee will coordinate accordingly. Coordination includes such items below.</p>
+<p class="a-para">Appointing individuals (J.H.S.C. coordinators) to share information amongst the established J.H.S.C.s</p>
+<p class="a-para">Example:</p>
+<div class="a-table-wrap"><table class="a-table">
+<thead><tr><th>J.W.S.H.S.C.</th><th>Coordinator</th></tr></thead>
+<tbody>
+<tr><td>JWSHSC #1</td><td></td></tr>
+<tr><td>JWSHSC #2</td><td></td></tr>
+<tr><td>JWSHSC #3</td><td></td></tr>
+</tbody></table></div>
+<p class="a-para">Communication of relevant safety information such as inspection reports, incident reports, corrective action recommendations, and other recommendations made to the employer</p>
+<p class="a-para">Meeting locations, dates, and times will be shared to allow for coordinators to attend the other committees’ meetings</p>
+<h4 class="a-h4">Disclosure of Information</h4>
+<p class="a-para">The committee or its individual members must not disclose a worker’s personal health information or the personal information of an identifiable individual unless the disclosure is required by law.</p>
+<h4 class="a-h4">Amendments</h4>
+<p class="a-para">These rules of procedure may be amended by vote of the committee members.</p>
+<h4 class="a-h4">Legislative Compliance</h4>
+<p class="a-para">It is the Policy of DS Home Computing Ltd. to comply with all legislation pertaining to worker</p>
+<p class="a-para">health and safety. When conditions or practices are found to exist in violation of these standards, corrective action is to be initiated as soon as possible or practical.</p>
+<p class="a-para">Recognizing the potential hazards to be found on worksites may help to reduce the frequency and severity of incidents or illnesses. It is the Policy of DS Home Computing Ltd. that all of its employees are well informed of current regulations pertaining to workplace health and safety.</p>
+<p class="a-para">Alberta OH&amp;S Code is available online: https://search-ohs-laws.alberta.ca/</p>
+<p class="a-para">A Paper copy of this document is available in both offices.</p>
+</div>
+</details>
+<details class="a-section" id="sec8" open>
+<summary class="a-section-header"><span class="a-section-title">Training and Communication</span></summary>
+<div class="a-section-body">
+<h4 class="a-h4">Purpose</h4>
+<p class="a-para">The purpose of this Policy is to provide general and specialized safety and related training throughout all levels of the organization.</p>
+<p class="a-para">Training is a crucial part of the DS Home Computing Ltd health and safety management system. The Company is committed to ensuring all workers have the necessary skills, competence and confidence to work appropriately and safely.</p>
+<p class="a-para">Every worker new to the job or work site or has been transferred must receive the complete health and safety orientation. Critical information will be provided on the first day of employment during the orientation. The remainder of the information will be provided at various times during the first week of employment.</p>
+<p class="a-para">The health and safety orientation checklist is utilized and adequately completed during all orientations. Any other items that are job-specific to the worker will be brought up during the orientation.</p>
+<p class="a-para">The Company will provide, and employees will participate in all safety and related training that is necessary to minimize losses of human and physical resources of the Company.</p>
+<p class="a-para">A complete and proper orientation helps workers become familiar with the worksite and the health and safety management system.</p>
+<p class="a-para">An orientation refresher is available at any time the worker or supervisor feels it would benefit the work, or when the worker is transferred to a new site.</p>
+<p class="a-para">A complete new worker orientation will include all of the following:</p>
+<p class="a-para">Job-specific training</p>
+<p class="a-para">Safety training for supervisors and management</p>
+<p class="a-para">Task and trade-specific training and certification</p>
+<p class="a-para">Specialized safety and related training</p>
+<p class="a-para">Job Safety Analysis reviews for tasks on a project</p>
+<p class="a-para">Company rules, policies and procedures.</p>
+<p class="a-para">Site-specific hazards.</p>
+<p class="a-para">Site-specific hazard controls.</p>
+<p class="a-para">WHMIS.</p>
+<p class="a-para">Safety precautions.</p>
+<p class="a-para">Health and safety responsibilities and obligations.</p>
+<p class="a-para">Regulatory requirements.</p>
+<p class="a-para">Company enforcement and corrective action policy.</p>
+<p class="a-para">Worker’s right to refuse unsafe work.</p>
+<p class="a-para">Procedures for workers to refuse to do unsafe work.</p>
+<p class="a-para">The role of the manager/supervisor when unsafe work is reported.</p>
+<p class="a-para">Violence and Harassment Policy</p>
+<p class="a-para">Site-specific orientations</p>
+<p class="a-para">Review of Training Matrix Requirements</p>
+<h4 class="a-h4">Worker Rights</h4>
+<h4 class="a-h4">Right to Refuse Policy</h4>
+<p class="a-para">The Company will meet or exceed the requirements as per the Occupational Health and Safety Act, Part 4 –Section 31(1) Right to Refuse Dangerous Work and Discriminatory Action.</p>
+<p class="a-para">All workers will be trained in their rights and responsibilities for the Right to Refuse Unsafe Work. Workers will be trained in the procedures to stop and report Unsafe Work.</p>
+<p class="a-para">All workers may refuse to work or to do particular work at a worksite if the worker believes on reasonable grounds that there is a dangerous condition at the worksite or that the work constitutes a danger to the worker’s health and safety or to the health and safety of another worker or another person</p>
+<p class="a-para">A worker who refuses to work or to do particular work under subsection (1) shall promptly report the refusal and the reasons for it to the worker’s employer or supervisor or to another person designated by the employer or supervisor.</p>
+<p class="a-para">No person shall take any discriminatory action against a worker because that worker refuses to do unsafe work under section 31(1). The worker is entitled to the same wages and benefits that the worker would have received had the worker continued to work and maybe reassigned to another duty until the issue has been resolved.</p>
+<p class="a-para">If DS Home Computing Ltd. is required to inspect under subsection (3), it shall take any action necessary to remedy any dangerous condition or ensure that such activity is taken.</p>
+<p class="a-para">When a worker has refused to work or to do particular work under subsection (1), DS Home Computing Ltd. shall not request or assign another worker to do the work until it is determined that the work does not constitute a danger to the health and safety of any person or that a dangerous condition does not exist.</p>
+<p class="a-para">On completing an inspection of all right to refuse, the Company shall prepare a written report of the refusal to work, the inspection and action are taken, if any, under subsection (4).</p>
+<p class="a-para">The employer shall give a copy of the report completed to:</p>
+<p class="a-para">(a)    the worker who refused work under subsection</p>
+<p class="a-para">(b)    the joint worksite health and safety committee, if one exists, and</p>
+<p class="a-para">(c)    the health and safety representative, if one exists.</p>
+<p class="a-para">All work refusals shall be reported immediately and investigated fully.</p>
+<h4 class="a-h4">Right to Understand</h4>
+<p class="a-para">It is a worker’s right to understand the task at hand. If there are questions, they should be directed to the supervisor of the task.</p>
+<h4 class="a-h4">Right to Participate</h4>
+<p class="a-para">Every worker has the right to participate in the evaluations of tasks, including Field Level Risk Assessments, Safety Meetings, Job Safety Analysis and the discussions related to safe work.</p>
+<h4 class="a-h4">Management Orientation</h4>
+<p class="a-para">Active management leadership and support is the key to a successful health and safety management system. To gain the support of the leadership team at DS Home Computing Ltd’s management will be provided with a health and safety orientation to the requirements of the management system. The health and safety designate will initiate the orientation. The orientation will include the requirements of the worker orientation as well as a review of the following:</p>
+<p class="a-para">The efficiency of operations:</p>
+<p class="a-para">Operation procedures and safe work procedures</p>
+<p class="a-para">Maintenance of equipment</p>
+<p class="a-para">Equipment certifications</p>
+<p class="a-para">Communication requirements</p>
+<p class="a-para">Health, safety and environmental systems</p>
+<p class="a-para">Health, safety and environmental Policy</p>
+<p class="a-para">OH&amp;S Legislation</p>
+<p class="a-para">Training requirements</p>
+<p class="a-para">Planned general inspections</p>
+<p class="a-para">Audit procedures, requirements and protocol</p>
+<p class="a-para">Safety meeting requirements</p>
+<p class="a-para">Joint Health and Safety Meetings</p>
+<p class="a-para">Incident and accident reporting and investigations</p>
+<p class="a-para">Modified work and return to work programs</p>
+<p class="a-para">Worker’s Compensation and incident costs</p>
+<p class="a-para">General safety rules and corporate policies</p>
+<p class="a-para">Safety awards program</p>
+<p class="a-para">Emergency Response Plans (ERP), actions and emergency contacts</p>
+<p class="a-para">Loss control management</p>
+<h4 class="a-h4">Visitor Orientation</h4>
+<h4 class="a-h4">Purpose</h4>
+<p class="a-para">A complete and proper health and safety orientation helps workers become familiar with the work site and DS Home Computing Ltd. Health and Safety Management System.</p>
+<h4 class="a-h4">Requirement and Procedure</h4>
+<p class="a-para">Every contractor who is new to the job or work site must receive DS Home Computing Ltd. health and safety orientation. This orientation will be conducted before the worker begins the job or conducts work on DS Home Computing Ltd. work sites.</p>
+<p class="a-para">The DS Home Computing Ltd. safety orientation checklist is to be followed and properly completed during all orientations. Any other items that are job specific to the worker will be brought up that day during the orientation.</p>
+<p class="a-para">The manager/supervisor will be responsible for providing a general safety orientation for all visitors. The orientation shall include but not be restricted to the following:</p>
+<p class="a-para">Site or job-specific hazards</p>
+<p class="a-para">Personal Protective Equipment (P.P.E.) requirements</p>
+<p class="a-para">General safety and housekeeping rules</p>
+<p class="a-para">Violence and Harassment Policy</p>
+<p class="a-para">Incident and accident reporting requirements and procedures</p>
+<p class="a-para">Safety responsibilities</p>
+<p class="a-para">Fire protection requirements, procedures and location of all fire equipment</p>
+<p class="a-para">Site-specific emergency response plan (ERP) requirements and procedures and location of safe muster point</p>
+<p class="a-para">Other items that will be addressed to all individuals on their first day of employment are as follows:</p>
+<p class="a-para">Emergency response plans and procedures.</p>
+<p class="a-para">Applicable alarm systems.</p>
+<p class="a-para">Incident/Accident reporting.</p>
+<p class="a-para">Fire protection (location of fire extinguishers).</p>
+<p class="a-para">Location of first aid supplies, facilities and designated first-aiders on-site.</p>
+<p class="a-para">* The safety information in this Policy does not take precedence over O.H.&amp;S. Regulations. All employees should be familiar with the O.H.&amp;S. Act and Regulations.</p>
+<div class="a-table-wrap"><table class="a-table">
+<thead><tr><th>Doug Senger, CEO</th><th>Date</th><th>05-SEP-2025</th><th>Signature</th><th></th></tr></thead>
+<tbody>
+</tbody></table></div>
+<h4 class="a-h4">Safety Meetings</h4>
+<p class="a-para">The primary vehicle for ongoing safety awareness and exchange of safety information is the safety meeting. The safety meeting involves workers and their immediate supervisor. Such meetings are referred to as tool-box meetings. The toolbox meeting should be held on the same day and time and, if possible, at the same place regularly. The supervisor should prepare the meeting.</p>
+<p class="a-para">An agenda for the toolbox meeting should contain the following:</p>
+<p class="a-para">Review of Minutes of the previous meeting, including status on any concerns raised</p>
+<p class="a-para">Review if incidents reported since the last meeting, including the status of corrective action recommendations</p>
+<p class="a-para">Review of planned inspections conducted since the last meeting, including the status of corrective actions</p>
+<p class="a-para">Comments and concerns of workers, and</p>
+<p class="a-para">Presentation of the weekly safety topic</p>
+<p class="a-para">The meeting need only be 10-30 minutes long but should:</p>
+<p class="a-para">Start on time</p>
+<p class="a-para">Stay strictly to safety topics</p>
+<p class="a-para">Be conducted in an orderly manner following a prepared agenda</p>
+<p class="a-para">Have minutes recorded</p>
+<p class="a-para">All team members of the project should attend the safety meetings and sign on to the attendance sheet. Routine meetings on projects should be weekly.</p>
+<p class="a-para">Management should attend at least one meeting per quarter (telecommuting is acceptable).</p>
+<p class="a-para">All office staff will attend a quarterly safety meeting. Any staff or contractors not on a project site the day of the safety meeting will be expected to participate in the safety meeting.</p>
+<h4 class="a-h4">Responsibilities</h4>
+<h4 class="a-h4">Responsibilities – Management:</h4>
+<p class="a-para">Review in conjunction with the supervisor all supplied material with the review of obtaining all Safety Data Sheets (S.D.S.) required.</p>
+<p class="a-para">Obtain from the owner and S.D.S., which are required for owner supplies material.</p>
+<p class="a-para">Obtain from subcontractors any S.D.S. which are required for material supplied by subcontractors.</p>
+<p class="a-para">Cooperate with the owner/general contractor in setting up a public S.D.S. file for the project.</p>
+<p class="a-para">Ensure foreman has set up and has updated S.D.S. filing system onsite.</p>
+<p class="a-para">Request from purchasing any labels that may be required.</p>
+<h4 class="a-h4">Site Supervisor, Project Manager</h4>
+<p class="a-para">Ensure that there is an S.D.S. for controlled products used on the site and in the site file accessible to all workers.</p>
+<p class="a-para">Review all supplied material and obtain all S.D.S. required.</p>
+<p class="a-para">Make available “upon request” S.D.S. to all employees.</p>
+<p class="a-para">Ensure that proper P.P.E. (personal protective equipment) is available onsite.</p>
+<h4 class="a-h4">Workers</h4>
+<p class="a-para">Participate in WHMIS/GHS and chemical safety training programs.</p>
+<p class="a-para">Take the necessary steps to protect themselves and their coworkers.</p>
+<p class="a-para">Participate in identifying and controlling hazards.</p>
+</div>
+</details>
+<details class="a-section" id="sec9" open>
+<summary class="a-section-header"><span class="a-section-title">Hazard Assessment</span></summary>
+<div class="a-section-body">
+<h4 class="a-h4">Introduction</h4>
+<p class="a-para">The safety manual/program determines what hazards are present in the workplace. This is a critical step because the balance of the safety program deals primarily with controlling these hazards. It is through the control of hazards that the frequency and severity of accidents are reduced, resulting in a parallel reduction in human and financial costs.</p>
+<p class="a-para">DS Home Computing Ltd is committed to maintaining a workplace in which safety is part of everything we do and is as important as anything we do. One way in which we keep this commitment is through Hazard Assessment practices.</p>
+<p class="a-para">It is the Company’s policy that all work activities are assessed in order to identify existing and potential risks to the health or safety of our workers and the general public and to reasonably put in place practical measures to eliminate, reduce or control these risks in the workplace.</p>
+<p class="a-para">The purpose of this Policy is to help implement the requirements that work activities are assessed in order to identify hazards, to assess the health and safety risks posed to workers and the immediate public by the identified hazards and to identify reasonably practicable measures to reduce those risks by eliminating, reducing or controlling the identified hazards.</p>
+<p class="a-para">This Policy applies to all of the Company’s facilities/operations and all work activities, including contractor and visitors activities. There are no exceptions to this Hazard Assessment policy.</p>
+<h4 class="a-h4">Definitions</h4>
+<p class="a-para">The following definitions are used in this manual.</p>
+</div>
+</details>
+<details class="a-section" id="sec10" open>
+<summary class="a-section-header"><span class="a-section-title">Hazard:any circumstances or condition which poses the risk of an accident.</span></summary>
+<div class="a-section-body">
+<p class="a-para">Incident:any unplanned and unwanted event which results in damage or injury, or which could have resulted in damage or injury.</p>
+</div>
+</details>
+<details class="a-section" id="sec11" open>
+<summary class="a-section-header"><span class="a-section-title">Hazard</span></summary>
+<div class="a-section-body">
+<p class="a-para">assessment:a thorough examination of an operation (job site, shop, etc.) for the purpose of identifying what actual and potential hazards exist. A hazard assessment is conducted with the direct involvement of the Manager when starting a safety program. It should also be conducted when setting up on a new job site. In addition to inspections, some organizations do a formal assessment periodically.</p>
+<p class="a-para">Audit:a comprehensive examination and evaluation of management’s performance in establishing and maintaining a safety program. An audit is conducted annually by a trained safety auditor either from within the organization or from outside.</p>
+</div>
+</details>
+<details class="a-section" id="sec12" open>
+<summary class="a-section-header"><span class="a-section-title">Inspection:an observation tour of the workplace for the specific purpose of determining the levels of compliance with established safe work practices, procedures and safety rules. Inspections are conducted on an ongoing basis to maintain the effectiveness of a safety program. (Inspections are discussed further in Section 9).</span></summary>
+<div class="a-section-body">
+<h4 class="a-h4">Roles and Responsibilities</h4>
+<p class="a-para">Site Supervisor shall:</p>
+<p class="a-para">Perform documented hazard identification and risk assessment of work activities that are the assigned responsibilities of each employee position or may reasonably be assigned to a position from time to time.</p>
+<p class="a-para">Perform documented hazard identification and risk assessment of jobs or tasks that are, or maybe, assigned to contractors.</p>
+<p class="a-para">Perform documented hazard identification and risk assessment of work activities that are, or maybe, performed by visitors to Company facilities and worksites.</p>
+<p class="a-para">Perform documented hazard identification and risk assessment of work activities when equipment, materials, products or site conditions change.</p>
+<p class="a-para">Perform documented hazard identification and risk assessment of new equipment when the equipment arrives on-site for the first time or is returned from a major service (more than three days away from the site).</p>
+<p class="a-para">Define the scope and the nature of the above assessments during the implementation of this Policy.</p>
+<p class="a-para">Communicate the identified hazards and risk countermeasures to the respective parties prior to the start of work.</p>
+<p class="a-para">Maintain the completed records.</p>
+<p class="a-para">Maintain a process of continuous improvement through management review.</p>
+<p class="a-para">Management shall:</p>
+<p class="a-para">Comply with all of the above foreman requirements.</p>
+<p class="a-para">Maintain the standard for DS Home Computing Ltd.</p>
+<p class="a-para">Support each site supervisor in meeting their responsibilities for this Policy by:</p>
+<p class="a-para">Assisting in conducting hazard assessment by a foreman.</p>
+<p class="a-para">Providing specialized training when requested by a foreman.</p>
+<p class="a-para">Assess foreman compliance and performance for this Policy through the internal and external audit process.</p>
+<h4 class="a-h4">Safe Work Practices</h4>
+<p class="a-para">Everyone wants to get the job done “right.” To most people in our industry, that means on time, on budget, and to the customer’s satisfaction. But a major part of getting the job done “right” is also getting it done safely; getting the job done safely means that people involved follow safe work practices.</p>
+<p class="a-para">Safe work practices are ways of controlling hazards and doing jobs with a minimum of risk to people and property. To reduce risks, we have a set of safe work practices. These have been developed to fit the particular Company’s needs. Management understands and fully endorses these safe work practices and ensures that:</p>
+<p class="a-para">Safe work practices are in writing;</p>
+<p class="a-para">All employees understand the safe work practices that apply to them;</p>
+<p class="a-para">All equipment and management support to permit compliance are available; and</p>
+<p class="a-para">Supervisors ensure that all safe work practices are followed.</p>
+<h4 class="a-h4">Hazard Reporting</h4>
+<p class="a-para">DS Home Computing Ltd. believes identifying hazards prior to and during a project promotes the elimination of accidents/incidents on the job site. It also ensures safe work procedures/practices are communicated and that management/supervisors have not overseen any additional potential hazards to personnel.</p>
+<p class="a-para">Managers/supervisors require that hazard identification and workplace inspections are conducted in a manner that is consistent with company policy and legislative requirements.</p>
+<p class="a-para">All subcontractors must notify their appropriate contact of any hazards they notice at DS Home Computing Ltd. work sites. The hazard report must include but not be limited to the following:</p>
+<p class="a-para">Hazard identification (description and location)</p>
+<p class="a-para">Risk assessment or potential</p>
+<p class="a-para">Control measures required</p>
+<p class="a-para">Subcontractors are aware of incident reporting procedures. Subcontractors are required to report all incidents to the contractor. Subcontractor is to ensure that the incident is reported and must participate in investigations.</p>
+<p class="a-para">All subcontractors are encouraged and are to be included when these hazard assessments are conducted. Subcontractors are to report hazards in writing to reduce the risk that a hazard is overlooked or has not been provided with the attention it is warranted.</p>
+<p class="a-para">Formal Hazard Assessments are to be reviewed annually during the board meeting. Each FHA shall be reviewed as a team, to consider the following:</p>
+<p class="a-para">Identification of hazards</p>
+<p class="a-para">Prioritization of hazards</p>
+<p class="a-para">Control of hazards</p>
+<p class="a-para">Regular review and repetition</p>
+<div class="a-table-wrap"><table class="a-table">
+<thead><tr><th>Probability – How likely is an incident likely to occur based on the hazard presented</th><th>Severity – How severe could an accident</th></tr></thead>
+<tbody>
+<tr><td></td><td>4 = Catastrophic: Fatality, widespread occupational illness or injuries, Damage &gt;50,000. Permanent non-repairable environmental impact.</td><td>3 = Critical: Serious illness or injury resulting in lost time, Damage &gt;25,000. Non-contained repairable environmental impact.</td><td>2 = Marginal: Illness or injury requiring medical aid, Damage &gt;$1001 to 24,999. Contained repairable environmental impact.</td><td>1 = Negligible: Minor illness or injury, first aid. Damage &lt;$1000. Contained release with no environmental impact.</td></tr>
+<tr><td>4 = Probable: likely to occur immediately or very soon</td><td>16</td><td>12</td><td>8</td><td>4</td></tr>
+<tr><td>3 = Reasonably Probable: Likely to occur eventually</td><td>12</td><td>9</td><td>6</td><td>3</td></tr>
+<tr><td>2 = Remote: Could occur at some point</td><td>8</td><td>6</td><td>4</td><td>2</td></tr>
+<tr><td>1 = Extremely Remote: Unlikely to occur</td><td>4</td><td>3</td><td>2</td><td>1</td></tr>
+</tbody></table></div>
+<div class="a-table-wrap"><table class="a-table">
+<thead><tr><th>Supervisory Oversight</th></tr></thead>
+<tbody>
+<tr><td>High (H)8,9,12,16</td><td>Risk approved by Management</td></tr>
+<tr><td>Moderate (M) 3,4,6</td><td>Risk approved by Supervisor/Lead</td></tr>
+<tr><td>Low (L) 1,2</td><td>Risk managed at field Level</td></tr>
+</tbody></table></div>
+<h4 class="a-h4">FLHA Cards &amp; Toolbox Meetings</h4>
+<p class="a-para">All subcontractors along with the DS Home Computing Ltd. employees will be involved in the identifying and reporting hazards, conducting and/or contributing to FLHA cards/toolbox meetings. During a FLHA card/toolbox meeting, a visual assessment is done before the job or work commences, it is recorded, and attention is brought up at the next shift/meeting or when work operations change.</p>
+<p class="a-para">Field level hazard assessments (FLHAs) are to be completed when workers are conducting activities on a site not owned by their employer including all temporary and mobile sites. Office staff should complete an FLHA weekly or upon start of new tasks.</p>
+<p class="a-para">These assessments can be used to:</p>
+<p class="a-para">Improve and upgrade work practices/procedures.</p>
+<p class="a-para">Assist comprehension of project costs.</p>
+<p class="a-para">Ensure that the proper tools and equipment are being used.</p>
+<h4 class="a-h4">Purpose</h4>
+<p class="a-para">The main purpose of the FLHA card/toolbox meetings is to ensure each Subcontractor evaluates the potential hazards and implement controls prior to commencing their work tasks. An FLHA card/toolbox meeting must be completed when there are any changes to a task, when a new work process is introduced or when there are changes to the environment or people.</p>
+<h4 class="a-h4">Requirements</h4>
+<p class="a-para">FLHA cards/toolbox meetings are performed when:</p>
+<p class="a-para">It is the beginning of a new job or a new shift.</p>
+<p class="a-para">When new workers come on-site.</p>
+<p class="a-para">When the work changes (i.e. modified plans, substitute equipment is provided, etc.).</p>
+<p class="a-para">Whenever work site conditions change (i.e. weather, availability of tools, etc.).</p>
+<p class="a-para">Whenever there is a change in work tasks or equipment.</p>
+<p class="a-para">Whenever there is a change in another person's activity on the work site that could pose as a risk to any worker.</p>
+<h4 class="a-h4">Who completes the FLHA card/toolbox meetings?</h4>
+<p class="a-para">All subcontractors working in the field must carry and complete FLHA card/toolbox meetings throughout their entire day/shift as required.</p>
+<h4 class="a-h4">Utilizing the sheets:</h4>
+<p class="a-para">Each sheet has adequate space to list several tasks; however, workers/subcontractors may have to carry a few cards depending on the number of tasks to be performed.</p>
+<h4 class="a-h4">When to submit:</h4>
+<p class="a-para">Each subcontractor/worker must submit FLHA card/toolbox meetings card at the end of the job. Card(s) must be handed in with all other paperwork.</p>
+<h4 class="a-h4">Guidelines for completing the card:</h4>
+<p class="a-para">They must be completed immediately prior to and during each task. A Risk Assessment is a continuous process:</p>
+<p class="a-para">Identify Jobs.</p>
+<p class="a-para">List Job Steps.</p>
+<p class="a-para">Identify Hazards.</p>
+<p class="a-para">Assess Risks.</p>
+<p class="a-para">Control Risks.</p>
+<p class="a-para">Resume Work.</p>
+<p class="a-para">Alberta OHS Code Part 2 identifies that worker participation is required for the assessment, control and elimination of hazards in the workplace.</p>
+<h4 class="a-h4">Formal Job Safety Analysis (JSA)</h4>
+<p class="a-para">At DS Home Computing Ltd. job hazard analysis will focus on our routine work activities. JSA's need to be reviewed when new equipment, processes, chemicals, personnel or other changes are introduced. JSA's will also be reviewed if hazard reports, inspections, or incident investigations indicate the need to review.</p>
+<p class="a-para">Set priorities for conducting JSA's. The following are examples of job's requiring a JSA:</p>
+<p class="a-para">Jobs with a history of many accidents.</p>
+<p class="a-para">Jobs that have produced disabling injuries.</p>
+<p class="a-para">Job with high potential for disabling injury or death.</p>
+<p class="a-para">New jobs with no accident history.</p>
+<p class="a-para">Once the priority has been determined, and a job has been selected to be analyzed, ask the following:</p>
+<p class="a-para">What is the job's purpose?</p>
+<p class="a-para">What has to be done?</p>
+<p class="a-para">Who will be doing this job?</p>
+<p class="a-para">What are the tasks/activities involved?</p>
+<p class="a-para">How are the tasks/activities done?</p>
+<p class="a-para">When are they done?</p>
+<p class="a-para">Where are they done?</p>
+<p class="a-para">What are the hazards they present?</p>
+<h4 class="a-h4">Sequence of Basic Job Steps (Task or Activity)</h4>
+<p class="a-para">Examining a specific job by breaking it down into a series of steps or tasks will enable the observer to discover potential hazards the subcontractor/employee may encounter.</p>
+<p class="a-para">Each job or operation will consist of a set of steps or tasks. For example, the job might be to move a tool from the shop floor to a storage shelf. To determine where a step begins or ends, look for a change of activity, change in direction or movement.</p>
+<h4 class="a-h4">Potential Hazards</h4>
+<p class="a-para">The purpose of the JSA is to identify all the hazards produced by environment, conditions and those involved with the job procedure.</p>
+<p class="a-para">To identify hazards, ask questions about each step:</p>
+<p class="a-para">Is a there a danger of the employee/subcontractor striking against, being struck by, or otherwise making injurious contact with an object?</p>
+<p class="a-para">Can the employee/subcontractor be caught in, by, or between objects?</p>
+<p class="a-para">Is there a potential for slipping, tripping or falling?</p>
+<p class="a-para">Could the employee/subcontractor suffer strains form pushing, pulling, lifting, bending or twisting?</p>
+<p class="a-para">Is the environment hazardous to safety and/or health (toxic gas, vapour, mist, fumes, dust, heat, cold, or radiation)?</p>
+<p class="a-para">Close observation and knowledge of the job task is important. Examine each step carefully to find and identify hazards – actions, conditions, and possibilities that could lead to an accident. Compiling an accurate and complete list of potential hazards will allow development of the recommended safe work procedure needed to prevent accidents.</p>
+<h4 class="a-h4">Risk Evaluation</h4>
+<p class="a-para">To quantify the risk: there are two variables involved: Severity of injury that the hazard could produce and probability the hazard will result in an accident.</p>
+</div>
+</details>
+<details class="a-section" id="sec13" open>
+<summary class="a-section-header"><span class="a-section-title">Risk Rating:</span></summary>
+<div class="a-section-body">
+</div>
+</details>
+<details class="a-section" id="sec14" open>
+<summary class="a-section-header"><span class="a-section-title">Severity:1. Imminent Danger   2. Serious       3. Minor         Severity (S) + Probability (P) = Risk Ranking (RR)Severity (S) + Probability (P) = Risk Ranking (RR)</span></summary>
+<div class="a-section-body">
+<p class="a-para">Probability:A. Probable   B. Reasonably ProbableC. Remote     D. Extremely Remote</p>
+<h4 class="a-h4">Recommended Action or Procedure</h4>
+<p class="a-para">Using the first two columns as a guide, decide what actions or procedures are necessary to eliminate or minimize the hazards that could lead to an accident, injury or occupational illness.</p>
+<p class="a-para">Begin by trying:</p>
+<p class="a-para">Engineering the hazard out.</p>
+<p class="a-para">Provide guards, safety devices, etc.</p>
+<p class="a-para">Provide PPE.</p>
+<p class="a-para">Provide job instructions training.</p>
+<p class="a-para">Maintain good housekeeping.</p>
+<p class="a-para">Ensure good ergonomics.</p>
+<p class="a-para">List the recommended safe work procedures. Begin with an action work. Say exactly what needs to be done to correct the hazard, such as, &quot;lift using your leg muscle.&quot; Avoid using general statements such as &quot;be careful.&quot;</p>
+<p class="a-para">List the required or recommended PPE necessary to perform each step of the job. Give a recommended action or procedure for each hazard. Serious hazards should be corrected immediately. The JSA should then be changed to reflect the new conditions.</p>
+<p class="a-para">Finally, review your information on all three columns for completeness and accuracy. Determine if the recommended action or procedures have been put in place. Re-evaluate the JSA as necessary.</p>
+</div>
+</details>
+<details class="a-section" id="sec15" open>
+<summary class="a-section-header"><span class="a-section-title">Inspections</span></summary>
+<div class="a-section-body">
+<h4 class="a-h4">Introduction</h4>
+<p class="a-para">Safety inspections within our safety program are used to identify and control hazards in the workplace before incidents occur. During an inspection, both activities and conditions in the workplace are carefully examined. Situations that have the potential to cause injury or damage (sometimes referred to as unsafe acts and unsafe conditions) are identified, and corrective action is initiated.</p>
+<p class="a-para">The purpose of this Policy is to control losses of human and material resources by identifying and correcting unsafe acts and conditions.</p>
+<p class="a-para">This Company will maintain a comprehensive program of safety inspections at all facilities and job-sites.</p>
+<p class="a-para">An incident is any unplanned and unwanted event that results in damage or injury or which could have resulted in damage or injury. Almost every incident is the result of a combination of causes. The primary purpose of an investigation is to identify these causes so that corrective action can be taken to prevent a recurrence of the incident. Additionally, the information collected will be valuable in meeting the W.C.B. and OH&amp;S reporting requirements.</p>
+<p class="a-para">Investigations should be conducted by the supervisor in charge of the area and/or personnel involved. You may assist in the investigation and must review every incident report to ensure that appropriate corrective actions take place.</p>
+<h4 class="a-h4">Investigation Policy</h4>
+<p class="a-para">Purpose</p>
+<p class="a-para">To investigate incidents so that causes can be determined and corrective actions can be implemented to prevent a recurrence.</p>
+<p class="a-para">Policy</p>
+<p class="a-para">In this Company, the following types of incidents shall be fully investigated:</p>
+<p class="a-para">Accidents that result in injuries requiring medical aid.</p>
+<p class="a-para">Accidents that cause property damage or interrupt operation with potential loss exceeding $500.00.</p>
+<p class="a-para">Incidents that have the potential to result in (1) or (2) above.</p>
+<p class="a-para">All incidents that, by regulation, must be reported to OH&amp;S, W.C.B., or other regulatory agencies.</p>
+<p class="a-para">Occupational Illness.</p>
+<p class="a-para">Responsibilities</p>
+<p class="a-para">All employees shall report all incidents to their immediate superior.</p>
+<p class="a-para">Supervisors shall conduct initial investigations and submit their reports to their manager promptly.</p>
+<p class="a-para">Managers shall determine the need for and, if necessary, direct detailed investigations.  They shall also determine causes, recommend corrective action, and report to the Manager.</p>
+<p class="a-para">The Manager shall review all site supervisor’s reports, determine corrective action to be taken, and ensure that such action is implemented.</p>
+<p class="a-para">* The Safety information in this Policy does not take precedence over O. H. &amp; S. Regulations. All employees should be familiar with the O. H. &amp; S. Act and Regulations.</p>
+<div class="a-table-wrap"><table class="a-table">
+<thead><tr><th>Doug Senger, CEO</th><th>Date</th><th>05-SEP-2025</th><th>Signature</th><th></th></tr></thead>
+<tbody>
+</tbody></table></div>
+<h4 class="a-h4">Investigation Policy</h4>
+<p class="a-para">The following types of incidents/accidents shall be fully investigated:</p>
+<p class="a-para">Accidents that result in injuries requiring medical aid,</p>
+<p class="a-para">Accidents that cause property damage or interrupt operation with the potential loss,</p>
+<p class="a-para">Incidents that have the potential to result in (1) or (2) above, and</p>
+<p class="a-para">All incidents that, by regulation, must be reported to OH&amp;S, Environment or other regulatory agencies.</p>
+<p class="a-para">All Near Miss Incidents</p>
+<p class="a-para">Occupational Illness</p>
+<p class="a-para">All incidents involving violence or harassment.</p>
+<h4 class="a-h4">Responsibilities</h4>
+<p class="a-para">All employees shall report all incidents/accidents to their immediate supervisor.</p>
+<p class="a-para">Supervisors shall conduct initial investigations and submit their reports using the Accident Investigation Form promptly to management.</p>
+<p class="a-para">Superintendents shall determine the need for and, if necessary, carry out detailed investigations. They shall also determine causes, recommend corrective action, and report to the Manager.</p>
+<p class="a-para">The Manager shall review all superintendents' reports, determine corrective action to be taken, and ensure that such action is implemented.</p>
+<h4 class="a-h4">Preservation of Evidence</h4>
+<p class="a-para">Where practical, the scene of an accident should be left untouched, except for activity necessitated by rescue work or to prevent further failures or injuries, until the accident has been investigated. When an accident occurs or has the potential for causing serious injury, refer to the designation of serious injury and accident regulation under the OH&amp;S Act. (Chapter O-2, Section 19 of the OH&amp;S Act)</p>
+<h4 class="a-h4">Conducting Investigations</h4>
+<p class="a-para">The person or team conducting an investigation into an incident should proceed as follows:</p>
+<p class="a-para">Take control of the scene;</p>
+<p class="a-para">Ensure that any injured persons are cared for;</p>
+<p class="a-para">Ensure that no further injury or damage occurs;</p>
+<p class="a-para">Get the “big picture” of what happened;</p>
+<p class="a-para">Examine equipment/materials involved;</p>
+<p class="a-para">Collect and safeguard any physical evidence;</p>
+<p class="a-para">Take photographs of the scene;</p>
+<p class="a-para">Interview people involved and obtain written statements where appropriate;</p>
+<p class="a-para">Analyze all the available information to determine the causes;</p>
+<p class="a-para">Look for causes where “the system failed the worker’, not only for those where “the worker failed the system”;</p>
+<p class="a-para">Determine what corrective action will prevent recurrence; and</p>
+<p class="a-para">Complete the report.</p>
+<p class="a-para">Note: Incident investigations are not conducted to fix the blame; they are conducted to prevent reoccurrence.</p>
+<h4 class="a-h4">Responsibilities</h4>
+<p class="a-para">The Manager is responsible for the overall operation of the program.</p>
+<p class="a-para">The Site Supervisors are responsible for directing formal inspections on job-sites that they control and involving workers in such assessments. They are responsible for conducting ongoing informal inspections of areas where their crews are working.</p>
+<p class="a-para">Workers are responsible for participating in and contributing to the inspection program.</p>
+<h4 class="a-h4">Inspection Frequency</h4>
+<p class="a-para">A site inspection should be completed at the beginning of each project. Projects lasting more than seven days will have a site inspection monthly.</p>
+<p class="a-para">Equipment will be inspected prior to and post-use as part of the task-specific assessment and preventative maintenance program.</p>
+<p class="a-para">The office and shop shall be inspected monthly.</p>
+<p class="a-para">* The safety information in this Policy does not take precedence over O.H. &amp; S. Regulations. All employees should be familiar with the O. H. &amp; S.  Act and Regulations.</p>
+<h4 class="a-h4">General Housekeeping</h4>
+<p class="a-para">A job site should be kept neat and orderly. This demonstrates pride in the work and also assists in the reduction of injuries.</p>
+<p class="a-para">Materials must be neatly stacked and placed out of the way.</p>
+<p class="a-para">Tools and equipment should be put away after use and not stored near the edge of the roof – block the wheels on rolling equipment.</p>
+<p class="a-para">Trash and scrap are a fire hazard and must be collected and disposed of immediately.</p>
+<p class="a-para">The workers must give particular attention to the orderliness of the work area – neatly fold and stack tins, pick up debris, keep the materials neatly stacked and organized and see that the propane cylinders are tied upright.</p>
+<h4 class="a-h4">Ongoing (Informal) Inspections</h4>
+<p class="a-para">Ongoing inspections should be conducted by supervisory personnel who do most of their work on the job site. They should constantly watch for unsafe acts and unsafe conditions. In many cases, a supervisor can correct a problem by discussing an unsafe act with a worker or by issuing instructions to have an unsafe condition corrected. Situations that require additional corrective action must be recorded by the supervisors for follow-up.</p>
+<p class="a-para">The supervisors should encourage the worker to bring forward their observations of unsafe conditions on an ongoing basis. In fact, this is a worker's right and responsibility under the Occupation Health and Safety Act. Management should always initiate prompt corrective action in response to the valid concerns of workers.</p>
+</div>
+</details>
+<details class="a-section" id="sec16" open>
+<summary class="a-section-header"><span class="a-section-title">Preventative Maintenance</span></summary>
+<div class="a-section-body">
+<h4 class="a-h4">Introduction</h4>
+<p class="a-para">This section has been included in our safety manual to highlight the importance of proper maintenance as a vital part of a safety program and to provide information on our maintenance program.</p>
+<p class="a-para">In addition to ensuring that workers use the tools and equipment properly, it is vital that tools and equipment be properly inspected, maintained and kept in good repair. Our maintenance program will reduce the risk of injury, damage and lost production.</p>
+<h4 class="a-h4">Preventative Maintenance Policy</h4>
+<p class="a-para">It is the policy of this Company to maintain all tools and equipment in a condition that will maximize the safety of all personnel.</p>
+<p class="a-para">To accomplish this, a “Maintenance Program” shall be maintained and shall include the following components:</p>
+<p class="a-para">Adherence to applicable regulations, standards, and manufacturers specifications</p>
+<p class="a-para">Services of appropriately qualified maintenance personnel; and</p>
+<p class="a-para">Scheduling and documentation of all maintenance work.</p>
+<p class="a-para">The supervisor shall be responsible for the application of the program in his/her area of responsibility.</p>
+<p class="a-para">* The safety information in this Policy does not take precedence over OH&amp;S Regulations.  All employees should be familiar with the OH&amp;S Act and Regulations and National Safety Code for commercial trucks.</p>
+<div class="a-table-wrap"><table class="a-table">
+<thead><tr><th>Doug Senger, CEO</th><th>Date</th><th>05-SEP-2025</th><th>Signature</th><th></th></tr></thead>
+<tbody>
+</tbody></table></div>
+<h4 class="a-h4">Maintenance Personnel Qualifications</h4>
+<p class="a-para">The qualifications of maintenance personnel are key to the success of a maintenance program. All individuals who perform maintenance work should have appropriate skills, accreditation and/or certification. This certification applies both to company employees and to contracted maintenance services.</p>
+<h4 class="a-h4">Operation Qualifications and Training</h4>
+<p class="a-para">The qualifications of operations are the key success of the maintenance program. All individuals who operate our mobile equipment, cranes, vehicles, and etc., should have the appropriate skills, accreditation and/or certification. This applies both to company employees and contracted equipment services.</p>
+<p class="a-para">The approval processes include the following:</p>
+<p class="a-para">Possession of a valid driver’s license.</p>
+<p class="a-para">Successful completion of a practical operating examination administered by competent and authorized personnel.</p>
+<p class="a-para">Vision tested to meet the appropriate standard. Vision tests must be conducted by competent and authorized personnel.</p>
+<p class="a-para">A hearing test with or without a hearing aid must be adequate for the specific operation. Hearing tests will be conducted by competent and authorized medical personnel.</p>
+<p class="a-para">No history of epilepsy or of a disabling heart condition or any other physical disability or impairment.</p>
+<p class="a-para">Training – The operator should be trained in the following area:</p>
+<p class="a-para">Responsibilities;</p>
+<p class="a-para">Familiarity and comprehension of safety requirements for the piece of mobile equipment which they intend to operate;</p>
+<p class="a-para">Manufacturers operating and maintenance manuals;</p>
+<p class="a-para">How to communicate to the maintenance personnel when there is a problem with that specific piece of equipment;</p>
+<p class="a-para">Hand signals and/or other requirements set by the company, owner, and local laws.</p>
+<h4 class="a-h4">Records</h4>
+<p class="a-para">The maintenance program should contain a recording system. Part of this system should be made up of inventories and schedules. In addition, the recording system should document what maintenance work was done, when and by whom.</p>
+<h4 class="a-h4">Monitoring</h4>
+<p class="a-para">The monitoring functions in a maintenance program fall into two areas. First, the people responsible for operating and/or operating equipment must monitor that equipment to ensure that appropriate checks and maintenance are done.</p>
+<p class="a-para">Secondly, management should monitor the entire program to ensure that it is functioning in accordance with company policy.</p>
+<h4 class="a-h4">Scheduled Inspections and Maintenance</h4>
+<p class="a-para">Maintenance of all heavy equipment and small tools are conducted on an as-needed basis and as soon as possible should maintenance be required.</p>
+<p class="a-para">Should maintenance be required, the machine or tool is tagged out and put aside so it cannot be used until looked at. Once informed of a problem, the Heavy Duty Mechanic goes to the job site and performs the required corrective procedures. The mechanic maintains and takes all corrective actions on a daily basis and monitors each piece of equipment for recurring problems.</p>
+<p class="a-para">All mobile equipment is to be inspected and maintained according to the following schedules as a minimum. Records of all inspections and maintenance are completed and maintained for review and approval.</p>
+<p class="a-para">Maintenance of equipment, the release of lubrication fluids, etc., is performed only in approved areas. Spills and leaks from equipment are cleaned up promptly.</p>
+<div class="a-table-wrap"><table class="a-table">
+<thead><tr><th>Type of Equipment</th><th>Type of Inspection</th><th>Schedule</th></tr></thead>
+<tbody>
+<tr><td>Miscellaneous</td><td>Complete inspection</td><td>Before put to work</td></tr>
+<tr><td>Fire Extinguisher</td><td>Inspection</td><td>Monthly</td></tr>
+<tr><td></td><td>Servicing</td><td>Annually</td></tr>
+<tr><td>Eye Wash Units</td><td>Inspection</td><td>Annually</td></tr>
+<tr><td>First Aid Kit</td><td>Complete Inspection</td><td>Annually</td></tr>
+<tr><td>Vehicle</td><td>Vehicle Inspection</td><td>Weekly</td></tr>
+<tr><td></td><td>Trailer Inspections</td><td>Before put to work</td></tr>
+</tbody></table></div>
+</div>
+</details>
+<details class="a-section" id="sec17" open>
+<summary class="a-section-header"><span class="a-section-title">Hazard Control</span></summary>
+<div class="a-section-body">
+<p class="a-para">Hazard controls can be broken down into four categories:</p>
+<p class="a-para">Elimination (including substitution): removing the hazard from the workplace.</p>
+<p class="a-para">Engineering controls: includes designs or modifications to plants, equipment, ventilation systems, and processes that reduce the source of exposure. Placing a barrier around the work area, putting a guard over a piece of equipment, and adding handrails.</p>
+<p class="a-para">Administrative controls: controls that alter the way the work is done, including the timing of work, policies and other rules, and work practices such as standards and operating procedures (including training, housekeeping, equipment maintenance, and safety meetings).</p>
+<p class="a-para">Personal Protective Equipment: equipment worn by individuals to reduce exposure, such as contact with chemicals or exposure to noise. If this is the only way to control a hazard, ensure all employees are trained in the proper use of the equipment being used. It is company policy to always inspect any PPE prior to use. PPE should also be understood to be the last line of defense against the hazard.</p>
+<p class="a-para">These methods are also known as the “hierarchy of control” because they should be considered in the order presented.</p>
+<p class="a-para">Corrective measures: For each hazard identified, there will be at least one control method in place to protect workers and to prevent exposure to the hazard. High-risk hazards may require more than one control method. Refer to the Alberta OHS Code Part 2 for details.</p>
+<h4 class="a-h4">Elimination or Substitution</h4>
+<p class="a-para">Elimination is the process of removing the hazard from the workplace. It is the most effective way to control a risk because the hazard is no longer present. It is the preferred way to control a hazard and should be used whenever possible.</p>
+<p class="a-para">Substitution occurs when a new chemical or process is used instead of another chemical or process.</p>
+<h4 class="a-h4">Engineering Controls</h4>
+<p class="a-para">Engineering controls are methods that are built into the design of a plant, equipment or process to minimize the hazard. Engineering controls are a reliable way to control worker exposures as long as the controls are designed, used and maintained properly. The basic types of engineering controls are:</p>
+<p class="a-para">Process control.</p>
+<p class="a-para">Enclosure or isolation of emission source.</p>
+<p class="a-para">Ventilation.</p>
+<h4 class="a-h4">Administrative Controls</h4>
+<p class="a-para">Administrative controls limit workers' exposures by scheduling shorter work times in contaminant areas or by implementing other &quot;rules.” These control measures have limitations because the hazard itself is</p>
+<p class="a-para">not actually removed or reduced. Administrative controls are not generally favoured because they can be difficult to implement, maintain and are not a reliable way to reduce exposure. When necessary, methods of administrative control include:</p>
+<p class="a-para">Scheduling to reduce exposure to the hazard (evenings, weekends, job rotation, and work and rest schedules).</p>
+<p class="a-para">Safe work practices or procedures</p>
+<p class="a-para">Training and education of employees about the operating procedures as well as other necessary workplace training (including WHMIS).</p>
+<p class="a-para">Establishing and maintaining good housekeeping programs.</p>
+<p class="a-para">Keeping equipment well maintained.</p>
+<p class="a-para">Preparing and training for emergency response for incidents such as spills, fire or worker injury.</p>
+<h4 class="a-h4">Personal Protective Equipment (PPE)</h4>
+<p class="a-para">DS Home Computing Ltd will provide adequate personal protective equipment to workers against identified hazards that cannot be sufficiently controlled by other means.</p>
+<p class="a-para">DS Home Computing Ltd will take every reasonable and practicable step to reduce workplace hazards. Substitution, engineering, administrative controls, and personal protective equipment (PPE) or any combination of</p>
+<p class="a-para">the above controls will be used to eliminate hazards at the source, along the path or before reaching the worker.</p>
+<p class="a-para">PPE requirements will be established for every job based on the results of the hazard assessment, occupational health assessments, employee input, and statistical data.</p>
+<p class="a-para">Criteria will be established for the use, care, maintenance, and limitations of the equipment.</p>
+<p class="a-para">PPE requirements for applicable work areas or activities will be displayed prominently, and the work areas posted accordingly.</p>
+<p class="a-para">Those in a position of authority will be responsible for ensuring compliance with PPE requirements.</p>
+<p class="a-para">Employees are responsible for using and maintaining PPE issued to them.</p>
+<h4 class="a-h4">Rules and Work Procedures</h4>
+<p class="a-para">To protect all: employees, contractors, and visitors, rules and work procedures are written and implemented. These rules and work procedures ensure that everyone is protected from known hazards and that all regulatory requirements are fulfilled. It is the objective of DS Home Computing Ltd to meet or exceed legislative requirements as it is related to its business.</p>
+<h4 class="a-h4">Developing Rules</h4>
+<p class="a-para">DS Home Computing Ltd understands rules and work procedures affect everyone involved in the company. The company encourages open communication and input from everyone towards developing new rules and procedures and improving existing ones. This cooperation will help promote compliance.</p>
+<h4 class="a-h4">Maintaining Rules</h4>
+<p class="a-para">DS Home Computing Ltd will review and update rules to ensure they remain current with company operations and regulatory requirements. Reviews will be conducted when operations or regulatory requirements change. Reviews will also be conducted when rules are not being followed.</p>
+<h4 class="a-h4">Communicating Safety Rules</h4>
+<p class="a-para">DS Home Computing Ltd ensures communication of company safety rules with all workers and visitors by the following:</p>
+<p class="a-para">Reviewing and discussing rules and work procedures during safety orientations and safety meetings.</p>
+<p class="a-para">Postings on bulletin boards.</p>
+<p class="a-para">Continued discussion with all individuals in the company.</p>
+<h4 class="a-h4">General Safety Rules</h4>
+<p class="a-para">The purpose of these general rules is to provide company standards and rules for workers working at</p>
+<p class="a-para">DS Home Computing Ltd worksites and operations. All workers must comply with the general rules set out by DS Home Computing Ltd and government legislation as a minimum.</p>
+<p class="a-para">Do not use or be in possession of alcohol or illegal drugs on company premises or on any company job-site.</p>
+<p class="a-para">Do not fight or participate in horseplay, practical jokes or otherwise interfere with another worker’s safety.</p>
+<p class="a-para">Theft, vandalism, or any other abuse or misuse of company property is prohibited.</p>
+<p class="a-para">All unsafe acts and conditions, including “near miss” incidents, must be reported to the immediate management as soon as possible.</p>
+<p class="a-para">Areas that are considered unsafe must be reported to your supervisor immediately.</p>
+<p class="a-para">All incidents that result in damage or personal injury are to be reported to management.</p>
+<p class="a-para">First aid treatment is to be obtained promptly for any injury and documented properly.</p>
+<p class="a-para">Hard hats, safety boots, safety glasses and hand protection are to be worn at all times on work sites.</p>
+<p class="a-para">All work shall be carried out in accordance with appropriate safe work procedures and management’s direction.</p>
+<p class="a-para">Only those tools or equipment that are in good repair, with all guards and safety devices in place, shall be used.</p>
+<p class="a-para">Vehicles shall be operated in accordance with regulatory requirements and will be operated in a safe, courteous manner and keeping with principles of defensive driving.</p>
+<p class="a-para">Only authorized DS Home Computing Ltd workers shall operate company vehicles and be in possession of a valid operator’s license for the size, class, and requirement for the operation of that vehicle.</p>
+<p class="a-para">Inform management of any equipment that is not in proper working condition.</p>
+<p class="a-para">Any misuse of company equipment or tools will result in disciplinary action and possible dismissal.</p>
+<p class="a-para">The company encourages and insists that all workers practice good housekeeping as a part of their regular duties to ensure an efficient, healthy and safe work environment.</p>
+<p class="a-para">If you observe any company operation or acts of others to be unsafe, report to management on-site. All discussions will be kept confidential.</p>
+<p class="a-para">When lifting, keep your back straight and lift with your legs. Ask for assistance or use a mechanical device when an object is too heavy for one person to lift or move. Do not attempt to lift or move objects that may normally be too heavy for one person to handle.</p>
+<h4 class="a-h4">Housekeeping Rules</h4>
+<p class="a-para">At DS Home Computing Ltd, housekeeping is the responsibility of everyone working at DS Home Computing Ltd Everyone is responsible to:</p>
+<p class="a-para">Designate 15 minutes before the end of the workday or shift to conduct a final clean up.</p>
+<p class="a-para">Ensure good housekeeping to minimize hazards during work and completion of a job.</p>
+<p class="a-para">Properly discard garbage in designated or approved locations.</p>
+<p class="a-para">Return tools and equipment to their appropriate storage areas upon completion of the job.</p>
+<p class="a-para">Keep work areas, stairs and walkways free of stored materials, debris, slipping hazards and equipment.</p>
+<p class="a-para">Clean up spills and dispose of hazardous materials properly.</p>
+<p class="a-para">Empty refuse containers on a daily basis.</p>
+<p class="a-para">Keep outside shop and storage areas clean and orderly.</p>
+<p class="a-para">Put oily rags and paper in the appropriate covered non-combustible container to avoid spontaneous ignition.</p>
+<h4 class="a-h4">Smoking</h4>
+<p class="a-para">The DS Home Computing Ltd office is designated as a no-smoking area. “No Smoking” signs must be obeyed, and smoking is only permitted in designated smoking areas. All hazardous areas are designated “No Smoking.”</p>
+<h4 class="a-h4">Substance Abuse Policy</h4>
+<p class="a-para">The consumption or possession of any alcoholic beverages or illegal drugs at the DS Home Computing Ltd workplace locations or in company-owned vehicles is strictly prohibited.</p>
+<p class="a-para">Failure to comply with this policy will result in corrective action being given at any level depending on the severity of the violation. This corrective action will be at the discretion of management.</p>
+<p class="a-para">Where illegal drug activities are suspected, the company supervisors can authorize government authorities to inspect individual camp living quarters and personal property. This policy applies to all employees of DS Home Computing Ltd and any other person(s) present at a worksite that is under the control of DS Home Computing Ltd.</p>
+<h4 class="a-h4">Facial Hair</h4>
+<p class="a-para">Facial hair may interfere with the effective sealing of respiratory equipment; for health and safety reasons, facial hair (excluding a small trimmed moustache) is not permitted for any workers who do or may work in an area where a toxic or oxygen-deficient atmosphere may exist.</p>
+<h4 class="a-h4">Scalp and Longhair</h4>
+<p class="a-para">Scalp hair must be trimmed short enough or collar length so that it will not become entangled in rotating equipment or interfere with the effective sealing of respiratory protective or resuscitation equipment. Hair length is up to the discretion of the contractor, depending on the nature of the job.</p>
+<h4 class="a-h4">Alcohol and Drugs</h4>
+<p class="a-para">No alcoholic beverages or non-prescription drugs are permitted on any work site. Immediate dismissal from the work site will occur if any worker is found to be impaired on a work site.</p>
+<h4 class="a-h4">Horseplay and Practical Joking</h4>
+<p class="a-para">No workers shall be permitted to engage in horseplay, scuffling, fighting, practical joking, unnecessary running, jumping or similar unsafe behaviour at work. This policy applies while workers are on location, in a yard, in company vehicles, or otherwise engaged in company business.</p>
+<h4 class="a-h4">Behaviour Control</h4>
+<p class="a-para">Management must be aware of the importance of setting a good example to the rest of the workers. When an unsafe act and behaviour is observed, management must take the time to stop the work and instruct the worker in a proper way to perform the job or task. Management must check back with the worker following the instruction to ensure that the worker has correctly understood and responded. By monitoring the worker’s behaviour through observation and acting immediately on improvements required, management can correct inadequate or unsafe acts and thereby reduce the potential for incidents.</p>
+<h4 class="a-h4">Warning Signs</h4>
+<p class="a-para">Warning signs are posted throughout the worksite and property in order to warn workers of potential danger or to provide instructions. Please respect them and do not destroy or deface them. To comply with provincial OH&amp;S regulations, it is required to ensure that all workers and visitors are made aware of requirements, hazards and restrictions of each area on-site, consistent signs will be provided.</p>
+<h4 class="a-h4">Exits</h4>
+<p class="a-para">Access to all exits, fire protection and safety equipment must be kept clear at all times. Do not leave material in front of exits. Exit doors shall be identified so that they can be distinguished clearly in case of an emergency.</p>
+<h4 class="a-h4">Lighting</h4>
+<p class="a-para">Lighting will be provided inside and outside shops and buildings, which will comply with the Canadian Electrical Code, Part 1 and the Electrical Protection Act. The brightness (intensity) of lighting should be determined by the type of work being performed and the hazards which may be encountered. Generally, lighting shall be provided in each of the work areas and evacuation routes.</p>
+<h4 class="a-h4">Site-Specific Regulations</h4>
+<p class="a-para">In some cases, site-specific precautions may be required in addition to these rules and guidelines. Site-specific regulations must be in written form and must be followed. Additionally, there may be times when the client safety procedures are equal to or are more stringent than those defined by DS Home Computing Ltd. In this case, the client’s safety procedures are to be followed.</p>
+<h4 class="a-h4">Legislative Compliance</h4>
+<p class="a-para">Health and safety legislation is designed to protect workers, the public and the environment. Compliance with legislation helps prevent personal injuries, fines and legal actions. Regulatory requirements include all acts, regulations, policies, practices and procedures administered by governments and their agencies. Within these codes and standards, our programs and documents have been developed for internal use to promote worker health and safety.</p>
+<p class="a-para">DS Home Computing Ltd work is governed by a variety of internal company and regulatory agency requirements, some of which are listed below:</p>
+<p class="a-para">Alberta Occupational Health</p>
+<p class="a-para">Provincial Safety Legislation.</p>
+<p class="a-para">Workplace Hazardous Materials Information System (WHMIS).</p>
+<p class="a-para">Transportation of Dangerous Goods Act and Regulations (TDG).</p>
+<p class="a-para">Highway Traffic Act.</p>
+<p class="a-para">Industry Recommended Practices.</p>
+<p class="a-para">Building Code of Canada.</p>
+<p class="a-para">Canada Labour Code Part 2.</p>
+<p class="a-para">Canadian Electrical Code.</p>
+<p class="a-para">Various Provincial Protection Safety Codes.</p>
+<p class="a-para">Emergency Response Plan (ERP).</p>
+<p class="a-para">Corporate Health and Safety Management System.</p>
+<h4 class="a-h4">Codes of Practice</h4>
+<p class="a-para">Codes of practice are also used in this manual and contain standard work practices adopted by DS Home Computing Ltd. These codes of practice have been developed and will be maintained with input from workers. All workers will be trained in their specific codes of practice and must follow them at all times.</p>
+<h4 class="a-h4">Safe Work Procedures</h4>
+<p class="a-para">Safe work procedures are step-by-step instructions for doing work the right way. A safe work procedure identifies the materials and equipment needed, along with how and when to use them. Safe work procedures usually include:</p>
+<p class="a-para">Regulatory requirements.</p>
+<p class="a-para">Personal protective equipment (PPE) requirements.</p>
+<p class="a-para">Training requirements.</p>
+<p class="a-para">Responsibilities of each person involved in the job.</p>
+<p class="a-para">A specific sequence of steps must be followed to complete the work safely.</p>
+<p class="a-para">Permits required.</p>
+<p class="a-para">Specific emergency procedures.</p>
+<p class="a-para">Safe work procedures are generally prepared for jobs that:</p>
+<p class="a-para">Are critical (high-risk jobs where accidents have or could result in severe injuries).</p>
+<p class="a-para">Are hazardous and where accidents occur frequently.</p>
+<p class="a-para">Are new or have changed.</p>
+<p class="a-para">Have had new equipment added.</p>
+<p class="a-para">Require more detailed tasks.</p>
+<p class="a-para">Involve two or more workers who must perform specific tasks simultaneously.</p>
+<p class="a-para">Are done infrequently.</p>
+<p class="a-para">Examples of safe work procedures that companies often prepare are:</p>
+<p class="a-para">Operating heavy equipment.</p>
+<p class="a-para">Handling chemicals.</p>
+<p class="a-para">Proper use of hand and power tools.</p>
+<p class="a-para">A common method of developing safe work procedures is to conduct a job safety analysis (JSA) on all jobs to determine the sequence of events, the potential hazards and the recommended safe way to perform the job.</p>
+<h4 class="a-h4">Personal Protective and Safety Equipment</h4>
+<p class="a-para">Injuries to workers' health can occur through contact with physical or chemical hazards. Approved personal protective equipment that is appropriate to the work performed and the nature of the hazard must be worn to eliminate or reduce the effects of exposure to the hazard. This section outlines the requirements for selection, care and use of personal protective equipment (PPE). Personal protective</p>
+<p class="a-para">equipment and safety equipment helps minimize the risk of worker exposure to many worksite hazards.</p>
+<p class="a-para">DS Home Computing Ltd will reduce, control or eliminate hazards that require personal protective equipment whenever possible. DS Home Computing Ltd insists that all workers and visitors wear personal protective equipment.</p>
+<p class="a-para">DS Home Computing Ltd strives to eliminate and enforce the use of PPE through the use of engineering controls and</p>
+<p class="a-para">administrative controls but understands this may not always be practical or feasible. For these times, all management, workers, and visitors are to wear the appropriate PPE.</p>
+<p class="a-para">Once hazards are eliminated or reduced to a point where no danger of personal injury or illness exists,</p>
+<p class="a-para">this equipment will no longer be required. It is the company’s expectation that all workers will wear the following PPE as a minimum when on any DS Home Computing Ltd worksite(s):</p>
+<p class="a-para">Hard hat.</p>
+<p class="a-para">Safety toe boots.</p>
+<p class="a-para">Eye protection (safety glasses), if required.</p>
+<p class="a-para">Hand protection (mitts or gloves), if required.</p>
+<p class="a-para">Hearing protection (appropriate hearing protection is required for areas 85 dBA or above).</p>
+<p class="a-para">Other personal protective equipment or clothing may be required subject to specific work activities or client specifications.</p>
+<h4 class="a-h4">Training</h4>
+<p class="a-para">Training on how to use, store, maintain and inspect all personal protective equipment will also be provided as necessary.</p>
+<h4 class="a-h4">Maintenance</h4>
+<p class="a-para">Personal protective and safety equipment will always be available in good working condition.</p>
+<p class="a-para">Regular maintenance will follow the manufacturer’s instructions and CSA or ANSI standards.</p>
+<h4 class="a-h4">Head Protection</h4>
+<p class="a-para">Safety headgear is designed to protect the head from impact from falling objects, bumps, splashes from chemicals or harmful substances, and contact with energized objects and equipment.</p>
+<p class="a-para">The recommended type of protective headgear is the Class B hard hat, which has the required “dielectric strength.” There are many designs, but they all must meet the CSA requirements for Class B industrial head protection.</p>
+<p class="a-para">Both parts of the headgear must be compatible and maintained according to the manufacturer’s instructions. If attachments are used with headgear, they must be designed specifically for use with the specific headgear used.</p>
+<h4 class="a-h4">Inspection and Maintenance</h4>
+<p class="a-para">Proper care is required for headgear to perform efficiently. The service life is affected by many factors, including temperature, chemicals, sunlight and ultraviolet radiation (welding). The usual maintenance for headgear is simply washing with a mild detergent and rinsing thoroughly.</p>
+<h4 class="a-h4">Always</h4>
+<p class="a-para">Replace headgear that is pitted, holed, cracked or brittle.</p>
+<p class="a-para">Replace headgear that has been subjected to a blow even though damage cannot be seen.</p>
+<p class="a-para">Replace headgear and components according to the manufacturer’s instructions.</p>
+<h4 class="a-h4">Never</h4>
+<p class="a-para">Drill, remove peaks and alter the shell or suspension in any way.</p>
+<p class="a-para">Use solvents or paints on the shells (makes shells “break down”).</p>
+<p class="a-para">Use any liner that contains metal or conductive material.</p>
+<p class="a-para">Carry anything in the hard hat while wearing the hardhat.</p>
+</div>
+</details>
+<details class="a-section" id="sec18" open>
+<summary class="a-section-header"><span class="a-section-title">Exceptions to the standard exist in office areas, within vehicles or in areas where no physical work is being performed.</span></summary>
+<div class="a-section-body">
+<h4 class="a-h4">Foot Protection</h4>
+<p class="a-para">Safety footwear is designed to protect against foot hazards in the workplace. It protects against compression, puncture injuries and impact. The tag colour tells the amount of resistance the toe will supply to different weights dropped from different heights. The symbol indicates the strength of the sole. For more information, refer to the CSA Standard “Protective Footwear” Z195-M1981. CSA approved Class 1 footwear will be worn on all work sites.</p>
+<h4 class="a-h4">Always</h4>
+<p class="a-para">Choose footwear according to job hazards and CSA standards.</p>
+<p class="a-para">Lace-up boot and tie laces securely; boots don’t protect if they are a tripping hazard or fall off.</p>
+<p class="a-para">Use a protective boot dressing to help the boot last longer and provide greater water resistance.</p>
+<p class="a-para">Choose a high cut boot to provide ankle support.</p>
+<h4 class="a-h4">Never</h4>
+<p class="a-para">Wear defective safety footwear (i.e. exposed steel toecaps).</p>
+<p class="a-para">Under protect your feet or modify safety footwear.</p>
+<p class="a-para">Wear runner type footwear.</p>
+</div>
+</details>
+<details class="a-section" id="sec19" open>
+<summary class="a-section-header"><span class="a-section-title">Exceptions to the standard exist in office areas, within vehicles or in areas where no physical work is being performed.</span></summary>
+<div class="a-section-body">
+<h4 class="a-h4">Eye and Face Protection</h4>
+<p class="a-para">This personal protective equipment is designed to protect the worker from such hazards as:</p>
+<p class="a-para">Cut off saws or grinders.</p>
+<p class="a-para">Flying objects and particles.</p>
+<p class="a-para">Chipping, cutting or breaking stone.</p>
+<p class="a-para">Handling chemicals.</p>
+<p class="a-para">Working under the vehicle.</p>
+<p class="a-para">This personal protective equipment has two types. Basic eye protection includes eyecup goggles and goggles and spectacles with side shields.</p>
+<p class="a-para">The second typeface protection includes:</p>
+<p class="a-para">Metal mesh face shields for radiant heat or hot and humid conditions.</p>
+<p class="a-para">Chemicals and impact-resistant (plastic) face shields.</p>
+<p class="a-para">Hardened glass prescription lenses and sports glasses are not an acceptable substitute for proper industrial safety eye protection.</p>
+<p class="a-para">Comfort and fit are very important in the selection of safe eyewear. Lens coatings, venting or fittings may be needed to prevent fogging or to fit with regular prescription eyeglasses.</p>
+<p class="a-para">Basic eye protection should be worn with face shields. Face shields alone often are not enough to fully protect the eyes from work hazards. When eye and face protection is required, advice from the MSDS will provide assistance in selection.</p>
+<h4 class="a-h4">Always</h4>
+<p class="a-para">Ensure your eye protection fits properly (close to the face).</p>
+<p class="a-para">Clean safety glasses daily, more often if needed.</p>
+<p class="a-para">Store safety glasses in a safe, clean, dry place when not in use.</p>
+<p class="a-para">Replace pitted, scratched, bent and poorly fitted PPE (damaged eye or face protection interferes with vision and will not provide the protection it was designed to deliver).</p>
+<h4 class="a-h4">Never</h4>
+<p class="a-para">Modify eye or face protection.</p>
+<p class="a-para">Use eye or face protection, which does not have a CSA certification (CSA stamp for safety glasses is usually on the frame inside the temple near the hinges of the glasses).</p>
+<h4 class="a-h4">Hearing Protection</h4>
+<p class="a-para">The purpose of the hearing protection standard is to protect workers from harmful noise exposure when sound levels exceed the noise permissible exposure limits.</p>
+<p class="a-para">Occupational exposure limits will be adhered to at all times. Hearing protection identified in the Alberta Occupational Health and Safety Code will be utilized at all DS Home Computing Ltd work sites.</p>
+</div>
+</details>
+<details class="a-section" id="sec20" open>
+<summary class="a-section-header"><span class="a-section-title">Refer to Alberta OHS Code, schedule 3, table 1: Noise for details.</span></summary>
+<div class="a-section-body">
+<p class="a-para">Local occupational exposure limits define the maximum permitted daily exposure to noise without hearing protection. The occupational exposure limits adopted by DS Home Computing Ltd are as follows:</p>
+</div>
+</details>
+<details class="a-section" id="sec21" open>
+<summary class="a-section-header"><span class="a-section-title">Schedule 3Noise</span></summary>
+<div class="a-section-body">
+<p class="a-para">Table 1Occupational exposure limits for noise</p>
+<div class="a-table-wrap"><table class="a-table">
+<thead><tr><th>Exposure level(dBA)</th><th>Exposure duration</th></tr></thead>
+<tbody>
+<tr><td>82</td><td>16 hours</td></tr>
+<tr><td>83</td><td>12 hours and 41 minutes</td></tr>
+<tr><td>84</td><td>10 hours and 4 minutes</td></tr>
+<tr><td>85</td><td>8 hours</td></tr>
+<tr><td>88</td><td>4 hours</td></tr>
+<tr><td>91</td><td>2 hours</td></tr>
+<tr><td>94</td><td>1 hour</td></tr>
+<tr><td>97</td><td>30 minutes</td></tr>
+<tr><td>100</td><td>15 minutes</td></tr>
+<tr><td>103</td><td>8 minutes</td></tr>
+<tr><td>106</td><td>4 minutes</td></tr>
+<tr><td>109</td><td>2 minutes</td></tr>
+<tr><td>112</td><td>56 seconds</td></tr>
+<tr><td>115 and greater</td><td>0</td></tr>
+</tbody></table></div>
+</div>
+</details>
+<details class="a-section" id="sec22" open>
+<summary class="a-section-header"><span class="a-section-title">Table 2 – Selection of hearing protection devices</span></summary>
+<div class="a-section-body">
+<div class="a-table-wrap"><table class="a-table">
+<thead><tr><th>Maximum equivalentnoise level (dBA )</th><th>CSA class of hearingprotector</th><th>CSA grade of hearingprotection</th></tr></thead>
+<tbody>
+<tr><td>Up to 90</td><td>C, B or A</td><td>1, 2, 3, or 4</td></tr>
+<tr><td>Up to 95</td><td>B or A</td><td>2, 3, or 4</td></tr>
+<tr><td>Up to 100</td><td>A</td><td>3 or 4</td></tr>
+<tr><td>Up to 105</td><td>A</td><td>4</td></tr>
+<tr><td>Up to 110</td><td>A earplug +A or B earmuff</td><td>3 or 4 earplug + 2, 3 or 4earmuff</td></tr>
+<tr><td>Greater than 110</td><td>An earplug + A or B earmuffand limited exposure time tokeep sound reaching theworker’s eardrum below 85dBA</td><td>3 or 4 earplug + 2, 3 or 4earmuff and limitedexposure time to keepsound reaching theworker’s eardrum below85 dBA</td></tr>
+</tbody></table></div>
+</div>
+</details>
+<details class="a-section" id="sec23" open>
+<summary class="a-section-header"><span class="a-section-title">Training on Hazards Control regarding Noise and Exposure to Employees</span></summary>
+<div class="a-section-body">
+<p class="a-para">DS Home Computing Ltd. will provide training to employees regarding hearing protection, and we will establish and maintain an audiometric testing program by making audiometric testing available to all employees whose exposures equal to or exceeds OH&amp;S and DS Home Computing Ltd acceptable levels. DS Home Computing Ltd will provide a monitoring program for all employees who are at risk of being exposed to high levels of noise, and in the unlikely event that noise becomes an issue for our employees, we will establish a baseline audiometric program and recurring testing for each exposed employee. In addition, will provide all PPE necessary for hearing protection and training on the proper care and use of hearing PPE.</p>
+</div>
+</details>
+<details class="a-section" id="sec24" open>
+<summary class="a-section-header"><span class="a-section-title">Personal Protective Equipment – reference EquipmentTo be used</span></summary>
+<div class="a-section-body">
+<div class="a-table-wrap"><table class="a-table">
+<thead><tr><th>Burning goggles</th><th>When oxy-acetylene welding, burning or cutting</th></tr></thead>
+<tbody>
+<tr><td>Chemical goggles</td><td>When handling hazardous chemicals that may splash or leak</td></tr>
+<tr><td>Chemical suits or aprons</td><td>When mixing corrosive chemicals</td></tr>
+<tr><td>Cold weather clothing</td><td>When working in extremely cold weather conditions</td></tr>
+<tr><td>Dust mask</td><td>When working around heavy concentrations of dust and other airborne particles</td></tr>
+<tr><td>Face shields</td><td>When handling corrosive chemicals, inspecting fireboxes, working on pressurized equipment, using high-pressure water, arc welding or performing any operation that may put the face at risk from flying objects, extreme temperatures, splashed acid or caustic substances</td></tr>
+<tr><td>Fire-retardant clothing</td><td>When working in an area with potential for explosion or flash fire as defined by OHS regulations</td></tr>
+<tr><td>Gloves</td><td>When handling sharp objects, chemicals, hot or cold objects, or ropes and cables</td></tr>
+<tr><td>Hard hats</td><td>On all work sites where overhead hazards exist</td></tr>
+<tr><td>Hearing protection</td><td>When working at a site with noise levels greater than legislated limits for unprotected exposure</td></tr>
+<tr><td>High visibility safety vests</td><td>When working with traffic or around mobile equipment</td></tr>
+<tr><td>Safety goggles</td><td>When welding, cutting, grinding, drilling or performing any operation with potential exposure to chemical splash or leak, flying objects, or excessive heat or light</td></tr>
+<tr><td>Safety helmets</td><td>When riding all-terrain vehicles or snowmobiles</td></tr>
+<tr><td>Safety-toed footwear</td><td>When feet are at risk from falling objects or other hazards at field sites</td></tr>
+<tr><td>Oxygen, flammable gas and other types of gas detection</td><td>When working in a confined space or in areas with potential for flash fire or exposure to toxic substances such as H2S and CO</td></tr>
+<tr><td>Respiratory protective equipment</td><td>When there is potential for exposure to oxygen deficiency or toxic gases exceeding regulated exposure limits</td></tr>
+<tr><td>Safety belts, lanyards and lifelines</td><td>When working from heights specified by OH&amp;S regulations</td></tr>
+</tbody></table></div>
+<h4 class="a-h4">Protective Clothing</h4>
+<p class="a-para">Protective clothing is required to minimize the risk of exposure to chemicals, fire, extreme heat and other hazards. Protective clothing, in conjunction with other personal protective equipment requirements, will aid in minimizing or eliminating exposure to these hazards. Where heat sources are unshielded, workers shall wear protective clothing. When working around moving machinery, the clothing must fit closely. No bracelets, watches, earrings, rings or other protruding items shall be worn.</p>
+<p class="a-para">Open flames, steam, hot water jets, or other high-temperature sources shall be shielded or positioned to prevent contact with any person unless the exposure is necessary to do the work. Fire Resistant Coveralls (FRC’s) are not required at DS Home Computing Ltd; however, if requested by our customers' employees will oblige.</p>
+<h4 class="a-h4">Limb and Body Protection</h4>
+<p class="a-para">Due to our shop environment and the number of hazards, it is not possible to cover all the specialized</p>
+<p class="a-para">limb and body protection devices in great detail. These types of hazards are known as job exposures.</p>
+<p class="a-para">Some job exposures are:</p>
+<p class="a-para">Fire.</p>
+<p class="a-para">Temperature extremes.</p>
+<p class="a-para">Body impacts.</p>
+<p class="a-para">Corrosion.</p>
+<p class="a-para">Cuts from swarf.</p>
+<p class="a-para">Personal Protective Equipment (PPE) is required at DS Home Computing Ltd and varies from gloves, winter coats, welding helmet, coveralls, chemical gloves, dust mask, respirator, apron, work boots and safety glasses. Of course, this depends upon your working area and work duties.</p>
+<h4 class="a-h4">Hand</h4>
+<p class="a-para">PPE for hand protection includes finger guards, thimbles, cots, hand pads, mitts, gloves and barrier cream. Choose the correct protection for the task at hand. Gloves should be comfortable and fit well. Chemical, welding, work gloves all have their applications. Vinyl coated or leather gloves are good for</p>
+<p class="a-para">providing protection while handling wood or metal objects. When selecting hand PPE, keep in mind the task, which needs to be completed. Inspect and maintain hand PPE regularly. If in doubt about what PPE to use, refer to the MSDS. If still not sure, consult with your immediate supervisor or health and safety designate.</p>
+<p class="a-para">Things to consider:</p>
+<p class="a-para">Inspect your gloves before using them.</p>
+<p class="a-para">Wash all chemicals and fluids off chemical gloves before removing them.</p>
+<p class="a-para">Ensure that gloves are of proper fit.</p>
+<p class="a-para">Use the proper PPE for the task at hand.</p>
+<p class="a-para">Follow the manufacturers’ recommendations.</p>
+<p class="a-para">Ensure that no skin is exposed to chemicals and there is no gap between your gloves and sleeves.</p>
+<p class="a-para">Do not wear gloves with moving machinery.</p>
+<p class="a-para">Do not wear gloves that are worn out or defective.</p>
+<h4 class="a-h4">Respiratory Protection</h4>
+<p class="a-para">Respiratory protective equipment varies in design, application, and protective capabilities. Supervisors must be diligent when assessing the hazard, referencing available information and understanding the specific use and limitations of the respiratory protective equipment prior to making a selection. Respiratory protection falls into two main categories: Air Purifying Respirators (APRs) and Self Contained Breathing Apparatus (SCBA).</p>
+<p class="a-para">Workers trained to use respiratory equipment must also have current (within one year) quantitative fit testing documentation.</p>
+</div>
+</details>
+<details class="a-section" id="sec25" open>
+<summary class="a-section-header"><span class="a-section-title">For more information on respiratory protection, please refer to the code of practice</span></summary>
+<div class="a-section-body">
+<h4 class="a-h4">Enforcement and Corrective Action Policy</h4>
+<p class="a-para">The DS Home Computing Ltd enforcement program is used to reinforce the health and safety management system. It is also the company’s commitment from its health and safety management system to ensure the health and safety of all workers, clients, visitors, public and environment.</p>
+<p class="a-para">All workers and visitors will have a strong understanding of the company rules, safe work policies, procedures and corrective action for any violations.</p>
+<p class="a-para">Corrective action can be given at any level depending on the severity of the violation to a policy, procedure or rule or any other safety violation. Willful violation can result in the immediate termination of an employee/contractor.</p>
+<h4 class="a-h4">Procedure</h4>
+<p class="a-para">1st Offence:Verbal warning, letter in the personnel file</p>
+<p class="a-para">2nd Offence:Written warning, letter in the personnel file, and a three-day suspension</p>
+<p class="a-para">3rd Offence:Termination</p>
+<h4 class="a-h4">Communication</h4>
+<p class="a-para">Communication will begin during new hire orientations. Continuous communication of the policy and procedures will be given during safety meetings, job performance reviews, inspections and reinforcement.</p>
+<p class="a-para">DS Home Computing Ltd management will tour worksites to ensure safety rules are being followed by all personnel.</p>
+</div>
+</details>
+<details class="a-section" id="sec26" open>
+<summary class="a-section-header"><span class="a-section-title">Emergency Preparedness</span></summary>
+<div class="a-section-body">
+<h4 class="a-h4">Introduction</h4>
+<p class="a-para">Emergency preparedness means having plans in place that we hope we will never have to use. At  a minimum, our organization should be capable of:</p>
+<p class="a-para">Providing first aid to the injured;</p>
+<p class="a-para">Providing transportation to medical aid for the injured;</p>
+<p class="a-para">Conducting initial attack firefighting; and</p>
+<p class="a-para">Promptly contacting outside agencies for assistance.</p>
+<h4 class="a-h4">Emergency Response Policy</h4>
+<p class="a-para">It is the policy of this Company to ensure that emergency response plans are in place and that the appropriate resources are available to handle emergency situations at the workplace. All workers are to be aware of the action required in the emergency response plans, but in the event of an emergency, they should follow the instructions of their supervisor.</p>
+<p class="a-para">The supervisor is responsible for implementing the emergency response plan, confirm that all personnel are familiar with the plan, and test the plan to assess effectiveness. Each site supervisor will be responsible for ensuring the site-specific locations for the nearest hospital, fire station and first aid station are updated. Each site safety plan shall be tested at least once per quarter on projects lasting more than 30 days.</p>
+<p class="a-para">It is company policy that all emergency response plans must be tested a minimum of once annually. Identified deficiencies in the emergency response plans will be rectified immediately upon discovery.</p>
+</div>
+</details>
+<details class="a-section" id="sec27" open>
+<summary class="a-section-header"><span class="a-section-title">The information in this Policy does not take precedence over applicable government legislation, with which all workers should be familiar</span></summary>
+<div class="a-section-body">
+<h4 class="a-h4">First Aid</h4>
+<p class="a-para">First aid regulations under the OH&amp;S Act specify the number and qualifications of first aid trained personnel who must be present in a workplace. These regulations also specify the requirement for first aid equipment.</p>
+<p class="a-para">A copy of these regulations follows this section</p>
+<p class="a-para">The first aid regulations also set out the requirements for recording injuries. A sample form for this purpose is included immediately after the regulations.</p>
+<h4 class="a-h4">Blood and Bodily Fluid Precautions</h4>
+<p class="a-para">Materials and equipment from the accident scene, first aid room or ambulance and equipment that has been contaminated with blood or body fluids are to be:</p>
+<p class="a-para">Cleaned with hot soapy water, then</p>
+<p class="a-para">Disinfected by washing down with nine (9) parts hot water and one (1) part bleach, or</p>
+<p class="a-para">Misting with 70% Isopropyl Alcohol and left to air dry.</p>
+<p class="a-para">All waste products from the accident scene and cleaning are to be disposed of in doubled white bags and placed in green garbage containers in the camp.</p>
+<p class="a-para">Follow proper handwashing procedures and universal precautions.</p>
+<p class="a-para">Wear appropriate protective clothing (i.e. gloves, eye protection, etc.).</p>
+<p class="a-para">If clothing becomes contaminated, shower and wash clothes.</p>
+<h4 class="a-h4">Occupational Health and Safety Code Part 11 – First Aid</h4>
+<p class="a-para">Training standards</p>
+<p class="a-para">177(1) A person or agency that provides training in first aid must enter into an agreement with the director of Medical Services if the person or agency is to provide training in first aid to workers under this Code.</p>
+<p class="a-para">177(2) An approved training agency that provides the first aid training to candidates for a certificate in emergency first aid, standard first aid or advanced first aid must comply with the terms of the agreement with the Director of Medical Services.</p>
+<p class="a-para">177(3) A worker who successfully completes the training of an approved training agency must meet the standards for a certificate in emergency first aid, standard first aid or advanced first aid that are adopted by the Director of Medical Services in consultation with the Joint First Aid Training Standards Board.</p>
+<p class="a-para">Providing services, supplies, equipment</p>
+<p class="a-para">178(1)   An employer must provide first aid services, supplies and equipment and provide a first aid room in accordance with the applicable requirements of Schedule 2, Tables 3 to 7 or an acceptance from the Director of Medical Services.</p>
+<p class="a-para">178(2) A prime contractor must ensure that in accordance with the applicable requirements of Schedule 2, Tables 3 to 7, first aid services, supplies and equipment and a first aid room are available at the work site suitable for the type of worksite and the total number of workers at the worksite.</p>
+<p class="a-para">178(3) Despite subsections (1) and (2), the employers and prime contractor at a project may enter into a written agreement to collectively provide first aid services, supplies and equipment and provide a first aid room for workers in accordance with the applicable requirements of Schedule 2, Tables 3 to 7 or an acceptance as allowed by section 34 of the Act.</p>
+<p class="a-para">178(4) If a first aid room is a temporary or mobile facility, an employer must ensure that it meets the requirements of Schedule 2, Table 4, except that:</p>
+<p class="a-para">(a) the room may be used for other services if it is maintained appropriately to provide first aid, and</p>
+<p class="a-para">(b) where it is not possible or practicable to provide a supply of hot and cold potable water, a supply of cold potable water is acceptable.</p>
+<p class="a-para">Location of first aid</p>
+</div>
+</details>
+<details class="a-section" id="sec28" open>
+<summary class="a-section-header"><span class="a-section-title">179 An employer and prime contractor must</span></summary>
+<div class="a-section-body">
+<p class="a-para">(a) ensure that first aid services, first aid equipment, supplies and the first aid room required by this Code are</p>
+<p class="a-para">(i) located at or near the worksite they are intended to serve, and</p>
+<p class="a-para">(ii) available and accessible during all working hours;</p>
+<p class="a-para">(b) ensure that first aid equipment and supplies are</p>
+<p class="a-para">(i) maintained in a clean, dry and serviceable condition,</p>
+<p class="a-para">(ii) contained in a material that protects the contents from the environment, and</p>
+<p class="a-para">(iii)clearly identified as first aid equipment and supplies;</p>
+<p class="a-para">(c)   post, at conspicuous places at the worksite, signs indicating the location of first aid services, equipment and supplies or, if the posting of signs is not practicable, ensure that each worker knows the location of first aid services, equipment and supplies; and</p>
+<p class="a-para">(d) ensure that an emergency communication system is in place for workers to summon first aid services.</p>
+<p class="a-para">Emergency transportation</p>
+<p class="a-para">180(1)   Before workers are sent to a worksite; the employer must ensure that arrangements are in place to transport injured or ill workers from the worksite to the nearest health care facility.</p>
+<p class="a-para">180(2)   An employer must ensure that an ambulance service licensed in accordance with the Ambulance Services Act is readily available to the worksite when travel conditions are normal.</p>
+<p class="a-para">180(3)   If an ambulance service licensed in accordance with the Ambulance Services Act is not readily available to the worksite, or if travel conditions are not normal, an employer must ensure that other transportation is available that</p>
+<p class="a-para">(a) is suitable, considering the distance to be travelled and the types of acute illnesses or injuries that may occur at the worksite,</p>
+<p class="a-para">(b)  protects occupants from the weather,</p>
+<p class="a-para">(c) has systems that allow the occupants to communicate with the health care facility to which the injured or ill worker is being taken, and</p>
+<p class="a-para">(d) can accommodate a stretcher, and an accompanying person is required to.</p>
+<p class="a-para">180(4)   An employer must provide a means of communication at the worksite to summon an ambulance service licensed in accordance with the Ambulance Services Act or transportation described in subsection (3).</p>
+<p class="a-para">180(5) If a worker is acutely ill or injured or needs to be accompanied during transport to a health care facility, an employer must ensure that the worker is accompanied by at least one first aider, in addition to the operator of the transportation.</p>
+<p class="a-para">180(6) Subsection (5) does not apply if there are three or fewer workers at the worksite at the time.</p>
+<p class="a-para">First aid providers</p>
+<p class="a-para">181(1)   An employer must ensure that the number of first aiders at a worksite and their qualifications and training comply with Schedule 2, Tables 5, 6 or 7.</p>
+<p class="a-para">181(2)   An employer must ensure that the first aiders at a worksite have successfully completed a first aid training course approved by a Director of Medical Services and hold a valid certificate in first aid.</p>
+<p class="a-para">181(3)   If a nurse, advanced first aider, or EMT‐P is required at a worksite, that person must</p>
+<p class="a-para">(a) be based at or near the first aid room, and</p>
+<p class="a-para">(b) when not in the first aid room, be easy to contact or notify if first aid services are required.</p>
+<p class="a-para">181(4)   If a nurse, advanced first aider or EMT‐P while on duty at the worksite, is required to perform non‐first aid duties, such duties must be of a type that let the person remain in a fit and clean condition.</p>
+<p class="a-para">181(5)   Subsection (4) does not apply if the duties are those of a first aid provider.</p>
+<p class="a-para">181(6)   An employer must keep a record of workers at a worksite who are first aiders.</p>
+<p class="a-para">Duty to report injury or illness</p>
+<p class="a-para">182 If a worker has an acute illness or injury at the worksite, the worker must report the illness or injury to the employer as soon as is practicable.</p>
+<p class="a-para">Record of injury or illness</p>
+<p class="a-para">183(1)   An employer must record every acute illness or injury that occurs at the worksite in a record kept for the purpose as soon as is practicable after the illness or injury is reported to the employer.</p>
+<p class="a-para">183(2) A record under subsection (1) must include the following:</p>
+<p class="a-para">(a) the name of the worker;</p>
+<p class="a-para">(b) the name and qualifications of the person giving first aid;</p>
+<p class="a-para">(c) a description of the illness or injury;</p>
+<p class="a-para">(d) the first aid is given to the worker;</p>
+<p class="a-para">(e) the date and time of the illness or injury;</p>
+<p class="a-para">(f) the date and time the illness or injury was reported;</p>
+<p class="a-para">(g) where at the worksite the incident occurred;</p>
+<p class="a-para">(h) the work‐related cause of the incident, if any.</p>
+<p class="a-para">183(3)   The employer must retain the records kept under this section for three years from the date the incident is recorded.</p>
+<p class="a-para">First-aid records access</p>
+<p class="a-para">184(1)   This section applies to records of first aid given to a worker.</p>
+<p class="a-para">184(2) Subject to section 8 of the Act, a person who has custody of records must ensure that no person other than the worker has access to a worker’s records unless</p>
+<p class="a-para">(a) the record is in a form that does not identify the worker,</p>
+<p class="a-para">(b) the worker has given written permission to the person, or</p>
+<p class="a-para">(c) access, use and disclosure of the information are in accordance with an enactment of Alberta or Canada that authorizes or requires the disclosure.</p>
+<p class="a-para">184(3) An employer must give a worker a copy of the records pertaining to the worker if the worker asks for a copy.</p>
+<h4 class="a-h4">OH&amp;S Schedule 2 – Table 5 First aid requirements for low hazard work</h4>
+<h4 class="a-h4">OH&amp;S Schedule 2 – Table 6  First aid requirements for medium hazard work</h4>
+<h4 class="a-h4">OH&amp;S Schedule 2 – Table 7 First aid requirements for high hazard work</h4>
+<h4 class="a-h4">Initial Attack Fire Fighting</h4>
+<p class="a-para">Most fires start small. Often a great deal of damage can be prevented if basic training and firefighting equipment are used. As a minimum, construction-related companies should acquire some portable fire extinguishers of the correct class and provide their employees with basic instruction in their use.</p>
+<h4 class="a-h4">Contacting Outside Assistance</h4>
+<p class="a-para">When an injury accident or fire occurs, outside assistance from the local ambulance service or fire department may be needed. It is essential that every employee know where the nearest means of communication is and how to summon assistance.</p>
+<p class="a-para">In a plant or shop setting, telephones are normally used to get aid. Emergency numbers should be posted on all phones, and all employees should know where the phones are.</p>
+<p class="a-para">Infield settings and remote locations, radios or non-company phones may be used to get help. In such situations, it is especially important that provisions are made for getting help and that all employees know what these provisions are.</p>
+<h4 class="a-h4">Emergency Response Procedures</h4>
+<p class="a-para">*Refer to Site Safety Plan when working outside the office.</p>
+<h4 class="a-h4">Shop and Office</h4>
+<p class="a-para">Emergency Facilities</p>
+<p class="a-para">Muster Point – Located across the road from the front entrance.</p>
+<p class="a-para">University of Alberta Hospital – 8440-112 Street, Edmonton, AB, T6G-2B7</p>
+<p class="a-para">Emergency Equipment – See shop &amp; office map for locations (11.9 &amp; 11.10)</p>
+<p class="a-para">Fire Extinguishers – To operate, remember the P.A.S.S. method:</p>
+<p class="a-para">P – Pull the pin from the handle</p>
+<p class="a-para">A – Aim the spray nozzle at the base of the fire</p>
+<p class="a-para">S – Squeeze the handle to spray the contents</p>
+<p class="a-para">S – Sweep the nozzle back and forth across the base of the fire</p>
+<p class="a-para">Eyewash Station – Follow the following steps to operate properly:</p>
+<p class="a-para">Remove the lid to the eyewash bottle</p>
+<p class="a-para">Forcibly hold your eye open with your fingers</p>
+<p class="a-para">Hold the eyewash bottle in your free hand</p>
+<p class="a-para">Lean over the top to the eyewash bottle</p>
+<p class="a-para">Squeeze the eyewash bottle to rinse your eye</p>
+<p class="a-para">First Aid Kit – Seek help from a certified first aid person. A list of first aid personnel is posted on the bulletin board in the office by the entrance to the shop. The first aid person will help in the selection and the proper application of materials from the first aid kit to treat your wound.</p>
+<h4 class="a-h4">Potential Emergency Situations</h4>
+<h4 class="a-h4">Fire</h4>
+<p class="a-para">When responding to a fire in another room, first confirm that the fire is not located in the adjacent room by feeling the warmth of the door handle. If the handle is warm, exit the building using another doorway, but make sure to still follow the technique previously outlined</p>
+<p class="a-para">When responding to a fire, first remove any fuel sources from the fire’s path, such as wood, gasoline, and diesel</p>
+<p class="a-para">If possible, try to extinguish the fire using a fire extinguisher located in the shop or office</p>
+<p class="a-para">If the fire is out of control, notify all personnel and meet at the designated muster point</p>
+<p class="a-para">Once everyone is safe from the fire, phone 911 and request that the fire department be dispatched to our location</p>
+<h4 class="a-h4">Chemical spill</h4>
+<p class="a-para">Try to contain the spill by building a berm around the spill or by surrounding the spill with absorbing materials</p>
+<p class="a-para">If any person came into contact with the spilt chemical, refer to the chemical’s MSDS sheet for first aid treatment recommendations</p>
+<p class="a-para">Report the spill to a supervisor</p>
+<p class="a-para">Clean up the spill as per the chemical manufacturers recommendations</p>
+<h4 class="a-h4">Fall from a significant height</h4>
+<p class="a-para">Seek help from one of the Company’s first aid personnel</p>
+<p class="a-para">If they fall victim’s injuries are deemed to be serious enough by the first aid responder, then call 911 and request that an ambulance be dispatched to the office</p>
+<p class="a-para">Notify the safety officer of the incident</p>
+<h4 class="a-h4">Severed or crushed appendage</h4>
+<p class="a-para">Seek help from one of the Company’s first aid personnel</p>
+<p class="a-para">If the person’s injuries are deemed to be serious enough by the first aid responder, then call 911 and request that an ambulance be dispatched to the office</p>
+<p class="a-para">Notify the safety officer of the incident</p>
+<h4 class="a-h4">Heart attack</h4>
+<p class="a-para">Seek help from one of the Company’s first aid personnel</p>
+<p class="a-para">Call 911 and request that an ambulance be dispatched to the office located</p>
+<p class="a-para">Notify the safety officer of the incident</p>
+<h4 class="a-h4">Carbon monoxide poisoning</h4>
+<p class="a-para">Open as many doors as possible to vent the buildup of carbon monoxide gases</p>
+<p class="a-para">Move the affected individuals outside for fresh air</p>
+<p class="a-para">Call 911 and request that an ambulance be dispatched to the office</p>
+<p class="a-para">Notify the safety officer of the incident</p>
+<h4 class="a-h4">Rescue</h4>
+<p class="a-para">Examples include: worker suspended in fall protection, worker trapped in confined space, worker pinned by equipment, vehicle collision</p>
+<p class="a-para">Seek help from one of the Company’s first aid personnel</p>
+<p class="a-para">Call 911 and request that an ambulance be dispatched to the office</p>
+<p class="a-para">Notify the safety officer of the incident</p>
+<h4 class="a-h4">Hold and Secure, Shelter-in-Place, Lockdown or Active Threat</h4>
+<p class="a-para">Follow the instructions of the site lead. Stay in the designated area and maintain a calm state.</p>
+<p class="a-para">Do not resume work until the site lead has been advised to do so. Reassess F.L.H.A. before resuming work.</p>
+<p class="a-para">Notify the safety officer of the incident.</p>
+<h4 class="a-h4">Non-fire Evacuation</h4>
+<p class="a-para">Proceed directly to the nearest safe muster point and report to the muster point lead.</p>
+<p class="a-para">Follow the instructions of the site lead. Stay in the designated area and maintain a calm state.</p>
+<p class="a-para">Do not resume work until the site lead has been advised to do so. Reassess F.L.H.A. before resuming work.</p>
+<p class="a-para">Notify the safety officer of the incident.</p>
+<h4 class="a-h4">Vehicle Incident</h4>
+<p class="a-para">Pull over to the side of the road or a parking lot where it is safe to exit the vehicle.</p>
+<p class="a-para">If you are not injured, take pictures or videos of the collision points and any damage. Include a photo of the other driver, participants and license plates as feasible.</p>
+<p class="a-para">Gather the other party’s insurance and license information, take pictures if they allow to prevent writing errors.</p>
+<p class="a-para">If the damage exceeds local limits, report the incident to the police.</p>
+<p class="a-para">If there are injuries, call for emergency medical services to attend the scene.</p>
+<p class="a-para">If the other party is combative or flees, call emergency services to report the incident.</p>
+<p class="a-para">Notify the safety officer of the incident.</p>
+<h4 class="a-h4">Roles and Responsibilities</h4>
+<h4 class="a-h4">Training Requirements</h4>
+<p class="a-para">All employees will be shown emergency equipment locations and the muster point location during their orientation</p>
+<p class="a-para">All designated first aid personnel will be sent to the appropriate courses in order to maintain a valid first aid certificate</p>
+<h4 class="a-h4">Fire Protection Requirements</h4>
+<p class="a-para">Fire extinguishers are to be kept in the office and company truck at all times</p>
+<p class="a-para">The fire extinguishers are to be inspected annually</p>
+<p class="a-para">A fire extinguisher is to be kept within 22.8 meters of personnel</p>
+<h4 class="a-h4">Alarm &amp; Emergency Communication Requirements</h4>
+<p class="a-para">The office is equipped with a smoke and carbon monoxide alarm</p>
+<h4 class="a-h4">First Aid Services Required</h4>
+</div>
+</details>
+<details class="a-section" id="sec29" open>
+<summary class="a-section-header"><span class="a-section-title">1 Emergency First Aider</span></summary>
+<div class="a-section-body">
+</div>
+</details>
+<details class="a-section" id="sec30" open>
+<summary class="a-section-header"><span class="a-section-title">1 Standard First Aider</span></summary>
+<div class="a-section-body">
+<p class="a-para">#2 First Aid Kit</p>
+<h4 class="a-h4">Designated Rescue and Evacuation Workers</h4>
+<p class="a-para">Rescue Workers – All first-aid certificate holders</p>
+<p class="a-para">Evacuation Workers – Safety Officer</p>
+<h4 class="a-h4">Rescue &amp; Evacuation Procedure</h4>
+<p class="a-para">During an evacuation, everyone is to meet at the muster point noted on the Site Safety Plan.</p>
+<p class="a-para">All able-bodied personnel should assist any injured personnel in getting to the muster point unless the injured person is located in a hazardous spot that would be harmful to the able-bodied person to enter</p>
+<p class="a-para">Once safely at the muster point, the evacuation coordinator should call 911 using a cell phone or a neighbouring business’s landline</p>
+<h4 class="a-h4">Muster Point Map Layout</h4>
+<p class="a-para">See Project Hazard Assessment.</p>
+<h4 class="a-h4">Emergency Equipment Locations</h4>
+<p class="a-para">See Project Hazard Assessment.</p>
+</div>
+</details>
+<details class="a-section" id="sec31" open>
+<summary class="a-section-header"><span class="a-section-title">Program Administration</span></summary>
+<div class="a-section-body">
+<h4 class="a-h4">Introduction</h4>
+<p class="a-para">Safety program management is a dynamic and constantly evolving process. The maintenance of records should be kept track of this process. These records provide a reference to program activities and results. They provide the information necessary to assess the program, make necessary modifications, and plan for future activities.</p>
+<h4 class="a-h4">Record Keeping</h4>
+<p class="a-para">Safety-related reports that are kept on file should be stored so that they are available. Reports that should be kept on file include:</p>
+<div class="a-table-wrap"><table class="a-table">
+<thead><tr><th>Report Type</th><th>File By</th><th>Frequency Required</th></tr></thead>
+<tbody>
+<tr><td>Orientations</td><td>Date in Employee File</td><td>Each site</td></tr>
+<tr><td>Training Records</td><td>Date in Employee File</td><td>Upon Expiry or As needed</td></tr>
+<tr><td>Tool Box Meetings</td><td>Date</td><td>Daily</td></tr>
+<tr><td>Formal Inspections</td><td>Date</td><td>Start of project, end of project and monthly for longer projects</td></tr>
+<tr><td>Incident Investigations</td><td>Date</td><td>Each incident</td></tr>
+<tr><td>First Aid Treatment</td><td>Date</td><td>Each Incident</td></tr>
+<tr><td>Hazard Assessments (JSA)</td><td>Name, Date</td><td>Annual</td></tr>
+</tbody></table></div>
+<p class="a-para">All forms or reports should be neat and readable, completely filled out and signed/dated by the appropriate worker(s), site supervisor, or manager(s). All forms will be maintained for three calendar years.</p>
+<p class="a-para">Document control becomes an important process in all health and safety management systems. All documentation shall be kept for at least three years. Staff members must know who to give a form to after it’s filled out and what happens to it throughout its cycle:</p>
+<p class="a-para">Where it starts: A form is filled out and given to management (i.e. inspection form, field-level hazard assessment form or safety meeting form), and whenever possible corrective actions are taken.</p>
+<p class="a-para">Who to give it to Management will review the form, including the corrective actions; they may suggest additional corrective actions and assign a person responsible for corrective action along with a required completion date.</p>
+<p class="a-para">Where it ends: All documentation will be sent to the office, where the administration staff will file the completed forms, which is the last part of a form’s life cycle.</p>
+<h4 class="a-h4">Revision Procedure</h4>
+<p class="a-para">This Health and Safety Manual is intended to be a “living” document.  Employee suggestions for revisions will be welcomed.  To initiate a revision, please follow these procedures:</p>
+<p class="a-para">Complete a “Suggested Revisions” form</p>
+<p class="a-para">Obtain approval for the suggested revision from your Supervisor.</p>
+<p class="a-para">Attach a copy of the Policy, practice, or procedure to be revised.</p>
+<p class="a-para">Forward the form and a copy of the Policy, practise or procedure to the Safety Supervisor or Manager.</p>
+<p class="a-para">Management will periodically appoint a group of employees to review all suggested revisions.  Any revisions will be forwarded to each employee.  Remove the old version from your manual and insert the revision as soon as possible.  The replacement must be done immediately upon receipt of a revision, so your manual will always be up-to-date.</p>
+<h4 class="a-h4">Summaries and Statistics</h4>
+<p class="a-para">Examining summaries will help in determining trends and setting priorities for future program measures.</p>
+<p class="a-para">The injury frequency rate and injury severity rate as set in the American National Standards Institute (ANSI) Z16.4 Code are two commonly used indicators. The Injury Frequency Rate is calculated as follows:</p>
+<p class="a-para">A recordable case is an injury incident that results in one or more lost workdays other than the day of the accident. The Injury Severity Rate is calculated as follows:</p>
+<h4 class="a-h4">Yearly Action Plan and Results</h4>
+<p class="a-para">Results of Action Plan of 2019: Not Applicable</p>
+<p class="a-para">Action Plan for Internal Audit of 2020: More hazard assessments are required.</p>
+<h4 class="a-h4">Periodic Review of the Health and Safety Program</h4>
+<p class="a-para">The ongoing review and evaluation of our Safety Program activities will ensure that the program will be upgraded and safety and health performance in the organization be improved and made more effective.</p>
+<h4 class="a-h4">Standards for Review and Evaluation</h4>
+<p class="a-para">The A.C.S.A. Safety Basics Audit should be used as a standard to review and evaluate the Safety Program activities.</p>
+<h4 class="a-h4">Internal Safety Audit</h4>
+<p class="a-para">The A.C.S.A. Safety Basics Audit should be used as a standard to review and evaluate the Safety Program activities on an annual basis.</p>
+</div>
+</details>
+<details class="a-section" id="sec32" open>
+<summary class="a-section-header"><span class="a-section-title">Appendices Listing</span></summary>
+<div class="a-section-body">
+<div class="a-table-wrap"><table class="a-table">
+<thead><tr><th>A</th><th>Site Specific Safety Plan</th></tr></thead>
+<tbody>
+<tr><td>B</td><td>Policies and Procedures</td></tr>
+<tr><td>C</td><td>Forms</td></tr>
+<tr><td>D</td><td>JSAs</td></tr>
+</tbody></table></div>
+</div>
+</details>
+
+</main>
+
+<footer>DS Home Computing · SA03 SECOR · HSMS Wiki · For internal use only</footer>
+<script>
+const srch = document.getElementById('srch');
+srch.addEventListener('input', () => {
+  const q = srch.value.toLowerCase().trim();
+  let matches = 0;
+  document.querySelectorAll('.a-para, .a-h3, .a-h4').forEach(el => {
+    const hit = q && el.textContent.toLowerCase().includes(q);
+    el.style.background = hit ? '#fef08a' : '';
+    if (hit) {
+      matches++;
+      el.closest('details')?.setAttribute('open','');
+    }
+  });
+  document.getElementById('match-count').textContent = q ? matches + ' matches' : '';
+});
+</script>
+</body>
+</html>

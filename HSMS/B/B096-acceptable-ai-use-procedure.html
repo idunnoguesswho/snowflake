@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>B.096 Acceptable AI Use Procedure — HSMS</title>
+<link rel="stylesheet" href="../hsms.css">
+<style>
+.policy-para { font-size:.875rem; line-height:1.65; margin:0 0 8px; }
+.policy-list { font-size:.875rem; line-height:1.6; padding-left:20px; margin:0 0 10px; }
+.section-heading {
+  font-size:.95rem; font-weight:700; color:var(--navy);
+  background:#f1f5f9; padding:8px 16px; margin:16px 0 0;
+  border-left:3px solid var(--blue);
+}
+.policy-table { border-collapse:collapse; font-size:.8rem; width:100%; margin:10px 0; }
+.policy-table th { background:var(--navy); color:#fff; padding:5px 8px; text-align:left; }
+.policy-table td { border:1px solid var(--border); padding:5px 8px; vertical-align:top; }
+.policy-table tr:nth-child(even) td { background:#f8fafc; }
+.sig-table-note {
+  background:#f0fdf4; border:1px solid #bbf7d0; border-radius:6px;
+  padding:10px 14px; font-size:.8rem; color:#166534; margin:16px 0;
+}
+.policy-body { padding:16px; }
+.save-bar {
+  position:sticky; top:0; z-index:50;
+  background:#1e3a5f; color:#fff; padding:8px 16px;
+  display:flex; align-items:center; justify-content:space-between;
+  font-size:.78rem; gap:12px; flex-wrap:wrap;
+}
+.save-bar .save-path { opacity:.8; font-size:.7rem; word-break:break-all; }
+.save-bar button {
+  background:var(--blue); color:#fff; border:none; border-radius:6px;
+  padding:6px 14px; font-size:.8rem; font-weight:600; cursor:pointer;
+}
+.save-bar button:hover { background:#1d4ed8; }
+.filename-hint { font-size:.7rem; opacity:.75; margin-top:2px; }
+.doc-header { background:#fff; padding:16px; border-bottom:1px solid var(--border); }
+.doc-badge { font-size:.7rem; font-weight:700; letter-spacing:.05em; text-transform:uppercase; color:var(--blue); margin-bottom:4px; }
+.doc-header h2 { font-size:1.2rem; font-weight:700; color:var(--navy); margin:0 0 4px; }
+.doc-sub { font-size:.78rem; color:var(--muted); }
+.ack-section {
+  margin:20px 16px; padding:16px;
+  border:2px solid var(--navy); border-radius:10px;
+}
+.ack-section h3 { font-size:.9rem; font-weight:700; color:var(--navy); margin:0 0 12px; }
+.ack-check { display:flex; align-items:flex-start; gap:10px; margin-bottom:10px; cursor:pointer; }
+.ack-check input { flex-shrink:0; margin-top:2px; accent-color:var(--blue); width:16px; height:16px; }
+.ack-check span { font-size:.8rem; line-height:1.4; }
+.sig-grid { display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-top:14px; }
+.sig-field { display:flex; flex-direction:column; gap:4px; }
+.sig-field label { font-size:.72rem; font-weight:600; color:var(--muted); }
+.sig-field input { border:1px solid var(--border); border-radius:6px; padding:7px 10px; font:inherit; font-size:.85rem; }
+.sig-line { border:none; border-bottom:1px solid var(--body); width:100%; padding:6px 0; font:inherit; font-size:.85rem; background:transparent; }
+@media (max-width:480px) { .sig-grid { grid-template-columns:1fr; } }
+@media print {
+  .site-header, .save-bar, footer, .search-wrap { display:none !important; }
+  body { font-size:11pt; }
+}
+</style>
+</head>
+<body>
+<header class="site-header">
+  <span class="logo">🛡️</span>
+  <div><h1>HSMS Wiki</h1><p>DS Home Computing</p></div>
+  <a href="../B/index.html" style="margin-left:auto;color:#fff;font-size:.8rem;">← B Series</a>
+</header>
+
+<div class="save-bar">
+  <div>
+    <div>Save completed acknowledgement as PDF</div>
+    <div class="save-path">📁 G:\My Drive\DS Home\SA Safety and Security\SA03 SECOR\2026 Forms</div>
+    <div class="filename-hint">Suggested: <span id="fn">B096-acceptable-ai-use-procedure_[name]_[date].pdf</span></div>
+  </div>
+  <button onclick="window.print()">🖨 Print / Save PDF</button>
+</div>
+
+<div class="doc-header">
+  <nav style="font-size:.75rem;color:var(--muted);margin-bottom:8px;">
+    <a href="../index.html">HSMS Wiki</a> › <a href="index.html">B Series</a> › B.096 Acceptable AI Use Procedure
+  </nav>
+  <div class="doc-badge">B.096 · POLICY</div>
+  <h2>Acceptable AI Use Procedure</h2>
+  <div class="doc-sub">DS Home Computing Ltd · SA03 SECOR · For internal use</div>
+</div>
+
+<div class="search-wrap">
+  <span class="search-icon">🔍</span>
+  <input type="search" id="srch" placeholder="Search policy text…" autocomplete="off">
+</div>
+
+<main>
+<div class="policy-body">
+<h3 class="section-heading">ESG-IT-PROC-005Acceptable AI Use Procedure</h3>
+<h3 class="section-heading">Introduction</h3>
+<p class="policy-para">Artificial Intelligence technologies are increasingly integrated into enterprise software platforms, productivity applications, analytics tools, and reporting systems. While these technologies provide operational efficiencies and enhanced analytical capabilities, their use introduces risks related to data protection, regulatory compliance, cybersecurity exposure, bias, and reputational integrity.</p>
+<p class="policy-para">This Procedure establishes the operational controls governing the day-to-day use of Artificial Intelligence systems within DS Home Computing Ltd. It ensures that AI systems are used in a controlled, secure, ethical, and auditable manner consistent with corporate governance obligations.</p>
+<h3 class="section-heading">Purpose</h3>
+<p class="policy-para">The purpose of this Procedure is to define the operational requirements that must be followed when using Artificial Intelligence systems in support of company activities. This Procedure supports the Artificial Intelligence Governance &amp; Responsible Use Policy (ESG-IT-POL-007) and ensures that all AI use remains compliant with corporate data protection standards, ethical commitments, and regulatory obligations.</p>
+<h3 class="section-heading">Roles &amp; Responsibilities</h3>
+<h3 class="section-heading">Executive Leadership</h3>
+<p class="policy-para">Approves final ESG and regulatory disclosures.</p>
+<p class="policy-para">Maintains accountability for the integrity of corporate reporting.</p>
+<h3 class="section-heading">ESG Coordinator</h3>
+<p class="policy-para">Oversees AI-assisted reporting controls.</p>
+<p class="policy-para">Ensures independent verification of AI-generated content.</p>
+<p class="policy-para">Confirms emission factors and regulatory references.</p>
+<p class="policy-para">Retains verification documentation.</p>
+<p class="policy-para">Disclose use of AI assistance internally.</p>
+<p class="policy-para">Independently verify all quantitative and regulatory information.</p>
+<p class="policy-para">Document verification activities.</p>
+<h3 class="section-heading">Information Technology/Administration</h3>
+<p class="policy-para">Ensures AI systems used in reporting have been risk assessed.</p>
+<p class="policy-para">Confirms secure handling of reporting data.</p>
+<h3 class="section-heading">Department Managers</h3>
+<p class="policy-para">Ensure AI outputs within their function are reviewed and validated.</p>
+<p class="policy-para">Confirm that no unverified AI content is externally distributed.</p>
+<h3 class="section-heading">Employees and Contractors</h3>
+<h3 class="section-heading">Do not deploy unapproved AI tools</h3>
+<h3 class="section-heading">Follow approved use parameters</h3>
+<h3 class="section-heading">Human Resources</h3>
+<h3 class="section-heading">Reviews AI tools impacting employment or workforce evaluation</h3>
+<h3 class="section-heading">Scope</h3>
+<p class="policy-para">This Procedure applies to all employees, contractors, consultants, and temporary personnel who utilize AI-enabled tools in any capacity related to company operations. This includes the use of generative AI systems, predictive analytics platforms, automated drafting tools, embedded AI features within SaaS applications, and any other technology that utilizes algorithmic decision-making or content generation.</p>
+<p class="policy-para">This Procedure applies to both Canadian and United States operations.</p>
+<h3 class="section-heading">Terms and Definitions</h3>
+<h3 class="section-heading">Artificial Intelligence (AI) refers to software systems capable of generating predictions, classifications, recommendations, or content using machine learning models or algorithmic automation.</h3>
+<h3 class="section-heading">AI-Assisted Output refers to any document, report, communication, dataset, analysis, or recommendation generated in whole or in part through the use of AI systems.</h3>
+<h3 class="section-heading">Confidential Information includes client data, proprietary engineering information, safety investigation reports, employment records, contractual documentation, financial information, and any information classified under the Data Protection Policy (ESG-IT-POL-002).</h3>
+<h3 class="section-heading">Human-in-the-Loop refers to a governance control requiring competent human review, validation, and approval before AI-generated outputs are relied upon or externally distributed.</h3>
+<h3 class="section-heading">Procedure</h3>
+<h3 class="section-heading">Identification of AI-Assisted Reporting</h3>
+<p class="policy-para">Where Artificial Intelligence tools are used in drafting or analyzing reporting content, the individual preparing the document shall internally identify that AI assistance has been utilized. This identification is required to ensure enhanced verification controls are applied.</p>
+<p class="policy-para">AI assistance may include narrative drafting, summarization, data organization, or analytical suggestions.</p>
+<h3 class="section-heading">Verification of Quantitative Data</h3>
+<p class="policy-para">All quantitative information generated or organized using AI tools must be reconciled against primary data sources. This includes, but is not limited to:</p>
+<h3 class="section-heading">Greenhouse gas emission calculations</h3>
+<h3 class="section-heading">Safety statistics</h3>
+<h3 class="section-heading">Workforce metrics</h3>
+<h3 class="section-heading">Financial figures</h3>
+<h3 class="section-heading">Performance indicators</h3>
+<p class="policy-para">AI-generated calculations shall not replace controlled internal calculation methodologies unless independently validated and approved.</p>
+<h3 class="section-heading">Validation of Emission Factors and Methodologies</h3>
+<p class="policy-para">When AI tools are used to assist in greenhouse gas reporting or environmental disclosures, emission factors must be confirmed against official, jurisdictionally appropriate sources. The reporting methodology must align with established corporate procedures and regulatory guidance.</p>
+<p class="policy-para">Under no circumstances shall emission factors or regulatory methodologies be accepted solely on the basis of AI-generated recommendations without manual confirmation.</p>
+<h3 class="section-heading">Regulatory Citation Confirmation</h3>
+<p class="policy-para">All regulatory references, legislative citations, or compliance claims generated with AI assistance must be manually verified against current legislation or authoritative regulatory publications. Outdated, fabricated, or unverifiable citations shall not be included in any formal reporting document.</p>
+<h3 class="section-heading">Narrative Interpretation Review</h3>
+<p class="policy-para">AI-generated summaries of regulatory requirements, ESG frameworks, or safety standards must be reviewed by competent personnel to ensure accuracy and contextual appropriateness. Where interpretation uncertainty exists, clarification shall be obtained from qualified internal or external subject matter experts.</p>
+<h3 class="section-heading">Approval Prior to External Distribution</h3>
+<p class="policy-para">No AI-assisted ESG or regulatory report shall be externally distributed until it has undergone documented human review and approval in accordance with corporate governance requirements.</p>
+<h3 class="section-heading">Documentation and Record Retention</h3>
+<p class="policy-para">Verification evidence shall be retained in accordance with document control procedures. This may include annotated drafts, emission factor confirmations, regulatory cross-check documentation, or completed AI Output Verification Checklists.</p>
+<h3 class="section-heading">Training</h3>
+<h3 class="section-heading">Personnel involved in ESG or regulatory reporting shall receive training on:</h3>
+<h3 class="section-heading">AI risk awareness</h3>
+<h3 class="section-heading">Verification requirements</h3>
+<h3 class="section-heading">Regulatory citation validation</h3>
+<h3 class="section-heading">Data reconciliation procedures</h3>
+<h3 class="section-heading">References</h3>
+<h3 class="section-heading">ESG-IT-POL-007 Artificial Intelligence Governance &amp; Responsible Use Policy</h3>
+<h3 class="section-heading">ESG-IT-POL-002 Data Protection Policy</h3>
+<h3 class="section-heading">ESG-GOV-PROC-003 Corporate GHG Inventory &amp; Monitoring Procedure</h3>
+<h3 class="section-heading">ESG-GOV-REP-001 Corporate Greenhouse Gas Emissions Report</h3>
+<h3 class="section-heading">ESG-GOV-REP-002 Corporate Sustainability Report</h3>
+<h3 class="section-heading">Related Forms</h3>
+<h3 class="section-heading">The following records support this Procedure:</h3>
+<h3 class="section-heading">ESG-IT-FRM-002 AI Output Verification Checklist</h3>
+<h3 class="section-heading">ESG-IT-REG-002 AI Usage Register</h3>
+<h3 class="section-heading">ESG-IT-RA-002 AI Risk Assessment Form</h3>
+<h3 class="section-heading">Review</h3>
+<h3 class="section-heading">This policy shall be reviewed every three (3) years, upon material changes to regulatory requirements or AI technologies.</h3>
+<h3 class="section-heading">Amendments/Revision History</h3>
+<table class="policy-table">
+<tr><th>Revision Number</th><th>Revision Date</th><th>Summary of Changes</th></tr>
+<tr><td>0</td><td>June 2026</td><td>Initial adoption — DS Home Computing Ltd</td></tr>
+</table>
+<div class="sig-table-note">Sign-off — Doug Senger, CEO</div>
+
+</div>
+
+<div class="ack-section" id="ack">
+  <h3>Acknowledgement — B.096</h3>
+  <label class="ack-check"><input type="checkbox" id="c1"><span>I have read and understood this policy in full.</span></label>
+  <label class="ack-check"><input type="checkbox" id="c2"><span>I agree to comply with all requirements set out in this policy.</span></label>
+  <label class="ack-check"><input type="checkbox" id="c3"><span>I understand non-compliance may result in disciplinary action.</span></label>
+  <div class="sig-grid">
+    <div class="sig-field"><label>Employee Name</label><input type="text" id="emp" placeholder="Full name" autocomplete="off"></div>
+    <div class="sig-field"><label>Position / Trade</label><input type="text" id="pos" placeholder="Position" autocomplete="off"></div>
+    <div class="sig-field"><label>Date</label><input type="date" id="dt"></div>
+    <div class="sig-field"><label>Supervisor</label><input type="text" id="sup" placeholder="Supervisor name" autocomplete="off"></div>
+  </div>
+  <div style="margin-top:14px;">
+    <div class="sig-field"><label>Employee Signature</label><input class="sig-line" type="text" placeholder="Type name or leave for handwritten signature"></div>
+  </div>
+</div>
+</main>
+
+<footer>DS Home Computing · SA03 SECOR · HSMS Wiki · For internal use only</footer>
+<script>
+const srch = document.getElementById('srch');
+srch.addEventListener('input', () => {
+  const q = srch.value.toLowerCase().trim();
+  document.querySelectorAll('.policy-para, .section-heading').forEach(el => {
+    el.style.background = (q && el.textContent.toLowerCase().includes(q)) ? '#fef08a' : '';
+  });
+});
+document.getElementById('emp').addEventListener('input', function() {
+  const name = this.value.trim().replace(/\s+/g,'_') || '[name]';
+  const date = new Date().toISOString().slice(0,10);
+  document.getElementById('fn').textContent = 'B096-acceptable-ai-use-procedure_' + name + '_' + date + '.pdf';
+});
+</script>
+</body>
+</html>

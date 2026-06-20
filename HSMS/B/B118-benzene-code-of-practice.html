@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>B.118 Benzene Code of Practice — HSMS</title>
+<link rel="stylesheet" href="../hsms.css">
+<style>
+.policy-para { font-size:.875rem; line-height:1.65; margin:0 0 8px; }
+.policy-list { font-size:.875rem; line-height:1.6; padding-left:20px; margin:0 0 10px; }
+.section-heading {
+  font-size:.95rem; font-weight:700; color:var(--navy);
+  background:#f1f5f9; padding:8px 16px; margin:16px 0 0;
+  border-left:3px solid var(--blue);
+}
+.policy-table { border-collapse:collapse; font-size:.8rem; width:100%; margin:10px 0; }
+.policy-table th { background:var(--navy); color:#fff; padding:5px 8px; text-align:left; }
+.policy-table td { border:1px solid var(--border); padding:5px 8px; vertical-align:top; }
+.policy-table tr:nth-child(even) td { background:#f8fafc; }
+.sig-table-note {
+  background:#f0fdf4; border:1px solid #bbf7d0; border-radius:6px;
+  padding:10px 14px; font-size:.8rem; color:#166534; margin:16px 0;
+}
+.policy-body { padding:16px; }
+.save-bar {
+  position:sticky; top:0; z-index:50;
+  background:#1e3a5f; color:#fff; padding:8px 16px;
+  display:flex; align-items:center; justify-content:space-between;
+  font-size:.78rem; gap:12px; flex-wrap:wrap;
+}
+.save-bar .save-path { opacity:.8; font-size:.7rem; word-break:break-all; }
+.save-bar button {
+  background:var(--blue); color:#fff; border:none; border-radius:6px;
+  padding:6px 14px; font-size:.8rem; font-weight:600; cursor:pointer;
+}
+.save-bar button:hover { background:#1d4ed8; }
+.filename-hint { font-size:.7rem; opacity:.75; margin-top:2px; }
+.doc-header { background:#fff; padding:16px; border-bottom:1px solid var(--border); }
+.doc-badge { font-size:.7rem; font-weight:700; letter-spacing:.05em; text-transform:uppercase; color:var(--blue); margin-bottom:4px; }
+.doc-header h2 { font-size:1.2rem; font-weight:700; color:var(--navy); margin:0 0 4px; }
+.doc-sub { font-size:.78rem; color:var(--muted); }
+.ack-section {
+  margin:20px 16px; padding:16px;
+  border:2px solid var(--navy); border-radius:10px;
+}
+.ack-section h3 { font-size:.9rem; font-weight:700; color:var(--navy); margin:0 0 12px; }
+.ack-check { display:flex; align-items:flex-start; gap:10px; margin-bottom:10px; cursor:pointer; }
+.ack-check input { flex-shrink:0; margin-top:2px; accent-color:var(--blue); width:16px; height:16px; }
+.ack-check span { font-size:.8rem; line-height:1.4; }
+.sig-grid { display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-top:14px; }
+.sig-field { display:flex; flex-direction:column; gap:4px; }
+.sig-field label { font-size:.72rem; font-weight:600; color:var(--muted); }
+.sig-field input { border:1px solid var(--border); border-radius:6px; padding:7px 10px; font:inherit; font-size:.85rem; }
+.sig-line { border:none; border-bottom:1px solid var(--body); width:100%; padding:6px 0; font:inherit; font-size:.85rem; background:transparent; }
+@media (max-width:480px) { .sig-grid { grid-template-columns:1fr; } }
+@media print {
+  .site-header, .save-bar, footer, .search-wrap { display:none !important; }
+  body { font-size:11pt; }
+}
+</style>
+</head>
+<body>
+<header class="site-header">
+  <span class="logo">🛡️</span>
+  <div><h1>HSMS Wiki</h1><p>DS Home Computing</p></div>
+  <a href="../B/index.html" style="margin-left:auto;color:#fff;font-size:.8rem;">← B Series</a>
+</header>
+
+<div class="save-bar">
+  <div>
+    <div>Save completed acknowledgement as PDF</div>
+    <div class="save-path">📁 G:\My Drive\DS Home\SA Safety and Security\SA03 SECOR\2026 Forms</div>
+    <div class="filename-hint">Suggested: <span id="fn">B118-benzene-code-of-practice_[name]_[date].pdf</span></div>
+  </div>
+  <button onclick="window.print()">🖨 Print / Save PDF</button>
+</div>
+
+<div class="doc-header">
+  <nav style="font-size:.75rem;color:var(--muted);margin-bottom:8px;">
+    <a href="../index.html">HSMS Wiki</a> › <a href="index.html">B Series</a> › B.118 Benzene Code of Practice
+  </nav>
+  <div class="doc-badge">B.118 · POLICY</div>
+  <h2>Benzene Code of Practice</h2>
+  <div class="doc-sub">DS Home Computing Ltd · SA03 SECOR · For internal use</div>
+</div>
+
+<div class="search-wrap">
+  <span class="search-icon">🔍</span>
+  <input type="search" id="srch" placeholder="Search policy text…" autocomplete="off">
+</div>
+
+<main>
+<div class="policy-body">
+<h3 class="section-heading">HSE-COP-007Benzene Code of Practice</h3>
+<h3 class="section-heading">Introduction</h3>
+<h3 class="section-heading">Benzene is a colourless or light-yellow liquid with a sweet odour and is classified as a known human carcinogen. Exposure to benzene can occur in oil and gas operations, including production, processing, commissioning, maintenance, sampling, and emergency response activities. Both acute and chronic exposure to benzene can result in serious health effects, including damage to the blood-forming system.</h3>
+<h3 class="section-heading">This Code of Practice establishes requirements for the identification, assessment, control, monitoring, and management of benzene exposure at DS Home Computing worksites in both Canada and the United States.</h3>
+<h3 class="section-heading">Purpose</h3>
+<h3 class="section-heading">The purpose of this Code of Practice is to:</h3>
+<h3 class="section-heading">Prevent occupational exposure to benzene</h3>
+<h3 class="section-heading">Establish consistent requirements for benzene hazard control</h3>
+<h3 class="section-heading">Define roles, responsibilities, and procedures for benzene-related work</h3>
+<p class="policy-para">Ensure monitoring, respiratory protection, training, and medical considerations are addressed</p>
+<h3 class="section-heading">Support compliance with applicable Canadian and U.S. regulatory requirements</h3>
+<h3 class="section-heading">Roles &amp; Responsibilities</h3>
+<h3 class="section-heading">Management</h3>
+<h3 class="section-heading">Implementing and maintaining this Code of Practice</h3>
+<h3 class="section-heading">Ensuring benzene hazards are identified and assessed</h3>
+<h3 class="section-heading">Providing appropriate engineering, administrative, and PPE controls</h3>
+<h3 class="section-heading">Ensuring exposure monitoring is conducted where required</h3>
+<h3 class="section-heading">Ensuring workers receive appropriate training</h3>
+<h3 class="section-heading">Supporting medical surveillance requirements where applicable</h3>
+<h3 class="section-heading">Reviewing benzene-related incidents and corrective actions</h3>
+<h3 class="section-heading">Supervisors</h3>
+<h3 class="section-heading">Identifying tasks with potential benzene exposure</h3>
+<h3 class="section-heading">Ensuring hazard assessments are completed prior to work</h3>
+<h3 class="section-heading">Confirming exposure controls are implemented</h3>
+<h3 class="section-heading">Ensuring workers use required PPE and respiratory protection</h3>
+<h3 class="section-heading">Verifying monitoring equipment is available and functional</h3>
+<h3 class="section-heading">Stopping work if unsafe benzene conditions exist</h3>
+<h3 class="section-heading">Workers</h3>
+<h3 class="section-heading">Participating in required training</h3>
+<h3 class="section-heading">Following benzene safe work procedures</h3>
+<h3 class="section-heading">Using required PPE and respiratory protection</h3>
+<h3 class="section-heading">Reporting potential exposures, spills, or leaks immediately</h3>
+<h3 class="section-heading">Leaving the area if unsafe benzene conditions are identified</h3>
+<h3 class="section-heading">Scope</h3>
+<h3 class="section-heading">This Code of Practice applies to all DS Home Computing employees and worksites in Canada and the United States where benzene may be present, including but not limited to:</h3>
+<h3 class="section-heading">Oil and gas production and processing facilities</h3>
+<h3 class="section-heading">Commissioning and start-up activities</h3>
+<h3 class="section-heading">Sampling, venting, and draining operations</h3>
+<h3 class="section-heading">Maintenance and instrumentation work</h3>
+<h3 class="section-heading">Confined space entry</h3>
+<h3 class="section-heading">Emergency response situations</h3>
+<h3 class="section-heading">Terms and Definitions</h3>
+<h3 class="section-heading">Benzene:A volatile, flammable, aromatic hydrocarbon classified as a carcinogen.</h3>
+<h3 class="section-heading">Action Level:An airborne concentration of benzene that triggers additional exposure controls, monitoring, or medical surveillance.</h3>
+<h3 class="section-heading">Occupational Exposure Limit (OEL):The maximum allowable concentration of benzene in workplace air.</h3>
+<h3 class="section-heading">Short-Term Exposure Limit (STEL):The maximum allowable concentration over a short-term exposure period.</h3>
+<h3 class="section-heading">Medical Surveillance:A program of medical examinations intended to detect health effects related to benzene exposure.</h3>
+<h3 class="section-heading">Procedures</h3>
+<h3 class="section-heading">Benzene Hazard Identification</h3>
+<p class="policy-para">Benzene hazards shall be identified prior to work and whenever conditions change.</p>
+<h3 class="section-heading">Benzene may be present during:</h3>
+<h3 class="section-heading">Crude oil and condensate handling</h3>
+<h3 class="section-heading">Sampling of hydrocarbons</h3>
+<h3 class="section-heading">Venting, bleeding, or draining operations</h3>
+<h3 class="section-heading">Instrumentation installation and maintenance</h3>
+<h3 class="section-heading">Confined space entry</h3>
+<h3 class="section-heading">Emergency response activities</h3>
+<p class="policy-para">Where uncertainty exists, benzene presence shall be assumed.</p>
+<h3 class="section-heading">Exposure Limits and Regulatory Requirements</h3>
+<p class="policy-para">Benzene exposure limits shall meet the most stringent applicable requirement for the jurisdiction and client.</p>
+<h3 class="section-heading">At a minimum, the following shall apply:</h3>
+<h3 class="section-heading">8-hour TWA: 1 ppm</h3>
+<h3 class="section-heading">STEL: 5 ppm</h3>
+<h3 class="section-heading">Action levels shall trigger:</h3>
+<h3 class="section-heading">Increased monitoring</h3>
+<h3 class="section-heading">Review of control measures</h3>
+<h3 class="section-heading">Additional PPE or respiratory protection</h3>
+<h3 class="section-heading">Exposure Monitoring</h3>
+<h3 class="section-heading">Exposure monitoring shall be conducted when:</h3>
+<h3 class="section-heading">Benzene may be present above background levels</h3>
+<h3 class="section-heading">Tasks have potential for inhalation exposure</h3>
+<h3 class="section-heading">Required by regulation or client</h3>
+<h3 class="section-heading">Monitoring may include:</h3>
+<h3 class="section-heading">Personal air sampling</h3>
+<h3 class="section-heading">Area monitoring</h3>
+<p class="policy-para">Monitoring results shall be documented and retained.</p>
+<h3 class="section-heading">Control Measures</h3>
+<h3 class="section-heading">Benzene exposure shall be controlled using the hierarchy of controls:</h3>
+<h3 class="section-heading">Engineering Controls</h3>
+<h3 class="section-heading">Closed systems</h3>
+<h3 class="section-heading">Ventilation</h3>
+<h3 class="section-heading">Process isolation</h3>
+<h3 class="section-heading">Administrative Controls</h3>
+<h3 class="section-heading">Work procedures</h3>
+<h3 class="section-heading">Permits and task planning</h3>
+<h3 class="section-heading">Limiting exposure duration</h3>
+<h3 class="section-heading">Personal Protective Equipment</h3>
+<h3 class="section-heading">Respiratory protection</h3>
+<h3 class="section-heading">Chemical-resistant gloves and clothing</h3>
+<h3 class="section-heading">Respiratory Protection</h3>
+<h3 class="section-heading">Respiratory protection shall be used when:</h3>
+<h3 class="section-heading">Benzene concentrations exceed applicable limits</h3>
+<h3 class="section-heading">Exposure levels are unknown</h3>
+<h3 class="section-heading">IDLH or unknown atmospheres require:</h3>
+<h3 class="section-heading">Pressure-demand SCBA, or</h3>
+<h3 class="section-heading">Supplied-air respirator with auxiliary escape air</h3>
+<h3 class="section-heading">Air-purifying respirators may only be used where:</h3>
+<h3 class="section-heading">Oxygen levels are adequate</h3>
+<h3 class="section-heading">Cartridge selection is appropriate</h3>
+<h3 class="section-heading">Change-out schedules are established</h3>
+<p class="policy-para">Respirator use shall comply with the Respiratory Protection Code of Practice.</p>
+<h3 class="section-heading">Skin and Eye Protection</h3>
+<p class="policy-para">Benzene can be absorbed through the skin.</p>
+<p class="policy-para">Chemical-resistant gloves and protective clothing shall be used where contact may occur.</p>
+<p class="policy-para">Eye and face protection shall be worn where splashing is possible.</p>
+<h3 class="section-heading">Confined Space Considerations</h3>
+<h3 class="section-heading">Confined spaces with potential benzene hazards require:</h3>
+<h3 class="section-heading">Atmospheric testing prior to entry</h3>
+<h3 class="section-heading">Continuous monitoring during entry</h3>
+<h3 class="section-heading">Appropriate respiratory protection</h3>
+<p class="policy-para">Benzene hazards shall be documented on confined space permits.</p>
+<h3 class="section-heading">Spill and Leak Response</h3>
+<p class="policy-para">Benzene spills or leaks shall be reported immediately.</p>
+<p class="policy-para">Non-essential personnel shall evacuate the area.</p>
+<p class="policy-para">Only trained and authorized personnel may respond.</p>
+<p class="policy-para">Appropriate PPE and respiratory protection shall be used.</p>
+<h3 class="section-heading">Medical Surveillance</h3>
+<p class="policy-para">Medical surveillance shall be implemented where required by regulation or exposure levels.</p>
+<p class="policy-para">Workers shall be informed of medical surveillance requirements and results.</p>
+<h3 class="section-heading">Training and Competency</h3>
+<p class="policy-para">Workers with potential benzene exposure shall receive training prior to work.</p>
+<h3 class="section-heading">Training shall include:</h3>
+<h3 class="section-heading">Health effects of benzene</h3>
+<h3 class="section-heading">Exposure routes</h3>
+<h3 class="section-heading">Control measures</h3>
+<h3 class="section-heading">PPE and respiratory protection</h3>
+<h3 class="section-heading">Emergency response</h3>
+<p class="policy-para">Refresher training shall be provided as required.</p>
+<h3 class="section-heading">Incident Reporting and Investigation</h3>
+<p class="policy-para">Benzene-related incidents, exposures, or near misses shall be reported immediately.</p>
+<p class="policy-para">Incidents shall be investigated to determine root causes and corrective actions.</p>
+<h3 class="section-heading">Recordkeeping</h3>
+<h3 class="section-heading">Records shall be maintained for:</h3>
+<h3 class="section-heading">Exposure monitoring</h3>
+<h3 class="section-heading">Training</h3>
+<h3 class="section-heading">Medical surveillance (where applicable)</h3>
+<h3 class="section-heading">Incident investigations</h3>
+<p class="policy-para">Records shall be retained in accordance with regulatory requirements.</p>
+<h3 class="section-heading">Stop Work Authority</h3>
+<p class="policy-para">All workers have the authority to stop work if unsafe benzene conditions exist.</p>
+<p class="policy-para">Work shall not resume until hazards are reassessed and controls implemented.</p>
+<h3 class="section-heading">Training</h3>
+<p class="policy-para">Benzene training shall be provided prior to exposure and refreshed as required. Training records shall be maintained.</p>
+<h3 class="section-heading">References</h3>
+<h3 class="section-heading">Applicable Canadian occupational health and safety legislation</h3>
+<h3 class="section-heading">Applicable U.S. occupational safety and health regulations</h3>
+<h3 class="section-heading">WHMIS / HazCom requirements</h3>
+<h3 class="section-heading">Respiratory Protection Code of Practice</h3>
+<h3 class="section-heading">Related Forms</h3>
+<h3 class="section-heading">Benzene Hazard Assessment</h3>
+<h3 class="section-heading">Exposure Monitoring Records</h3>
+<h3 class="section-heading">Confined Space Entry Permit</h3>
+<h3 class="section-heading">Training Records</h3>
+<h3 class="section-heading">Review</h3>
+<h3 class="section-heading">This Code of Practice shall be reviewed:</h3>
+<h3 class="section-heading">At least every three years</h3>
+<h3 class="section-heading">When regulatory requirements change</h3>
+<h3 class="section-heading">Following benzene-related incidents or near misses</h3>
+<h3 class="section-heading">When operational conditions change</h3>
+<h3 class="section-heading">Amendments/Revision History</h3>
+<table class="policy-table">
+<tr><th>Revision Number</th><th>Revision Date</th><th>Summary of Changes</th></tr>
+<tr><td>0</td><td>June 2026</td><td>Initial adoption — DS Home Computing Ltd</td></tr>
+</table>
+<div class="sig-table-note">Sign-off — Doug Senger, CEO</div>
+
+</div>
+
+<div class="ack-section" id="ack">
+  <h3>Acknowledgement — B.118</h3>
+  <label class="ack-check"><input type="checkbox" id="c1"><span>I have read and understood this policy in full.</span></label>
+  <label class="ack-check"><input type="checkbox" id="c2"><span>I agree to comply with all requirements set out in this policy.</span></label>
+  <label class="ack-check"><input type="checkbox" id="c3"><span>I understand non-compliance may result in disciplinary action.</span></label>
+  <div class="sig-grid">
+    <div class="sig-field"><label>Employee Name</label><input type="text" id="emp" placeholder="Full name" autocomplete="off"></div>
+    <div class="sig-field"><label>Position / Trade</label><input type="text" id="pos" placeholder="Position" autocomplete="off"></div>
+    <div class="sig-field"><label>Date</label><input type="date" id="dt"></div>
+    <div class="sig-field"><label>Supervisor</label><input type="text" id="sup" placeholder="Supervisor name" autocomplete="off"></div>
+  </div>
+  <div style="margin-top:14px;">
+    <div class="sig-field"><label>Employee Signature</label><input class="sig-line" type="text" placeholder="Type name or leave for handwritten signature"></div>
+  </div>
+</div>
+</main>
+
+<footer>DS Home Computing · SA03 SECOR · HSMS Wiki · For internal use only</footer>
+<script>
+const srch = document.getElementById('srch');
+srch.addEventListener('input', () => {
+  const q = srch.value.toLowerCase().trim();
+  document.querySelectorAll('.policy-para, .section-heading').forEach(el => {
+    el.style.background = (q && el.textContent.toLowerCase().includes(q)) ? '#fef08a' : '';
+  });
+});
+document.getElementById('emp').addEventListener('input', function() {
+  const name = this.value.trim().replace(/\s+/g,'_') || '[name]';
+  const date = new Date().toISOString().slice(0,10);
+  document.getElementById('fn').textContent = 'B118-benzene-code-of-practice_' + name + '_' + date + '.pdf';
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>B.113 Sustainable Procurement Risk Assessment — HSMS</title>
+<link rel="stylesheet" href="../hsms.css">
+<style>
+.policy-para { font-size:.875rem; line-height:1.65; margin:0 0 8px; }
+.policy-list { font-size:.875rem; line-height:1.6; padding-left:20px; margin:0 0 10px; }
+.section-heading {
+  font-size:.95rem; font-weight:700; color:var(--navy);
+  background:#f1f5f9; padding:8px 16px; margin:16px 0 0;
+  border-left:3px solid var(--blue);
+}
+.policy-table { border-collapse:collapse; font-size:.8rem; width:100%; margin:10px 0; }
+.policy-table th { background:var(--navy); color:#fff; padding:5px 8px; text-align:left; }
+.policy-table td { border:1px solid var(--border); padding:5px 8px; vertical-align:top; }
+.policy-table tr:nth-child(even) td { background:#f8fafc; }
+.sig-table-note {
+  background:#f0fdf4; border:1px solid #bbf7d0; border-radius:6px;
+  padding:10px 14px; font-size:.8rem; color:#166534; margin:16px 0;
+}
+.policy-body { padding:16px; }
+.save-bar {
+  position:sticky; top:0; z-index:50;
+  background:#1e3a5f; color:#fff; padding:8px 16px;
+  display:flex; align-items:center; justify-content:space-between;
+  font-size:.78rem; gap:12px; flex-wrap:wrap;
+}
+.save-bar .save-path { opacity:.8; font-size:.7rem; word-break:break-all; }
+.save-bar button {
+  background:var(--blue); color:#fff; border:none; border-radius:6px;
+  padding:6px 14px; font-size:.8rem; font-weight:600; cursor:pointer;
+}
+.save-bar button:hover { background:#1d4ed8; }
+.filename-hint { font-size:.7rem; opacity:.75; margin-top:2px; }
+.doc-header { background:#fff; padding:16px; border-bottom:1px solid var(--border); }
+.doc-badge { font-size:.7rem; font-weight:700; letter-spacing:.05em; text-transform:uppercase; color:var(--blue); margin-bottom:4px; }
+.doc-header h2 { font-size:1.2rem; font-weight:700; color:var(--navy); margin:0 0 4px; }
+.doc-sub { font-size:.78rem; color:var(--muted); }
+.ack-section {
+  margin:20px 16px; padding:16px;
+  border:2px solid var(--navy); border-radius:10px;
+}
+.ack-section h3 { font-size:.9rem; font-weight:700; color:var(--navy); margin:0 0 12px; }
+.ack-check { display:flex; align-items:flex-start; gap:10px; margin-bottom:10px; cursor:pointer; }
+.ack-check input { flex-shrink:0; margin-top:2px; accent-color:var(--blue); width:16px; height:16px; }
+.ack-check span { font-size:.8rem; line-height:1.4; }
+.sig-grid { display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-top:14px; }
+.sig-field { display:flex; flex-direction:column; gap:4px; }
+.sig-field label { font-size:.72rem; font-weight:600; color:var(--muted); }
+.sig-field input { border:1px solid var(--border); border-radius:6px; padding:7px 10px; font:inherit; font-size:.85rem; }
+.sig-line { border:none; border-bottom:1px solid var(--body); width:100%; padding:6px 0; font:inherit; font-size:.85rem; background:transparent; }
+@media (max-width:480px) { .sig-grid { grid-template-columns:1fr; } }
+@media print {
+  .site-header, .save-bar, footer, .search-wrap { display:none !important; }
+  body { font-size:11pt; }
+}
+</style>
+</head>
+<body>
+<header class="site-header">
+  <span class="logo">🛡️</span>
+  <div><h1>HSMS Wiki</h1><p>DS Home Computing</p></div>
+  <a href="../B/index.html" style="margin-left:auto;color:#fff;font-size:.8rem;">← B Series</a>
+</header>
+
+<div class="save-bar">
+  <div>
+    <div>Save completed acknowledgement as PDF</div>
+    <div class="save-path">📁 G:\My Drive\DS Home\SA Safety and Security\SA03 SECOR\2026 Forms</div>
+    <div class="filename-hint">Suggested: <span id="fn">B113-sustainable-procurement-risk-assessment_[name]_[date].pdf</span></div>
+  </div>
+  <button onclick="window.print()">🖨 Print / Save PDF</button>
+</div>
+
+<div class="doc-header">
+  <nav style="font-size:.75rem;color:var(--muted);margin-bottom:8px;">
+    <a href="../index.html">HSMS Wiki</a> › <a href="index.html">B Series</a> › B.113 Sustainable Procurement Risk Assessment
+  </nav>
+  <div class="doc-badge">B.113 · POLICY</div>
+  <h2>Sustainable Procurement Risk Assessment</h2>
+  <div class="doc-sub">DS Home Computing Ltd · SA03 SECOR · For internal use</div>
+</div>
+
+<div class="search-wrap">
+  <span class="search-icon">🔍</span>
+  <input type="search" id="srch" placeholder="Search policy text…" autocomplete="off">
+</div>
+
+<main>
+<div class="policy-body">
+<h3 class="section-heading">ESG-SUP-RA-001_2025 Sustainable Procurement Risk Assessment</h3>
+<h3 class="section-heading">Reporting Period: January 1- December 31 2025</h3>
+<h3 class="section-heading">Geographic Scope: Canada and United States</h3>
+<h3 class="section-heading">Introduction</h3>
+<p class="policy-para">DS Home Computing Ltd recognises that responsible procurement is a critical component of its environmental, social, and governance (ESG) commitments. As a commissioning and technical services company operating across Canada and the United States, DS Home Computing relies on a network of suppliers, subcontractors, and service providers to support its operations. The sustainability practices of these third parties can influence the company’s overall risk profile and impact.</p>
+<p class="policy-para">This Sustainable Procurement Risk Assessment outlines DS Home Computing Ltd’s structured and proportionate approach to identifying, evaluating, and managing potential sustainability risks within its supply chain. The assessment focuses on risks related to labour and human rights, health and safety, environmental impact, ethical conduct, and community considerations, and supports informed supplier selection and oversight.</p>
+<p class="policy-para">Given the service-based nature of DS Home Computing Ltd’s operations and its limited procurement of raw materials or manufactured goods, this assessment is designed to be risk-based and scalable. It prioritises higher-risk supplier categories while avoiding unnecessary burden on low-risk suppliers, ensuring alignment with stakeholder expectations, client requirements, and recognised ESG best practices.</p>
+<p class="policy-para">This risk assessment is implemented in accordance with the DS Home Computing Ltd Sustainable Procurement Policy (ESG-SUP-POL-002) and is supported by the Supplier Code of Conduct (ESG-SUP-POL-001), which establishes minimum sustainability and ethical expectations for suppliers.</p>
+<h3 class="section-heading">Purpose</h3>
+<h3 class="section-heading">The purpose of this Sustainable Procurement Risk Assessment is to identify, evaluate, and manage potential adverse sustainability impacts within DS Home Computing Ltd’s supply chain.</h3>
+<h3 class="section-heading">This assessment supports responsible sourcing by identifying supplier types, purchasing categories, and geographic factors that may expose the company to environmental, labour, human rights, ethical, or health and safety risks, and by determining whether enhanced due diligence or additional controls are required.</h3>
+<h3 class="section-heading">Scope</h3>
+<h3 class="section-heading">This risk assessment applies to:</h3>
+<h3 class="section-heading">Subcontractors and labour providers</h3>
+<h3 class="section-heading">Equipment and service rental providers</h3>
+<h3 class="section-heading">Professional and technical service suppliers</h3>
+<h3 class="section-heading">Office, administrative, and support services</h3>
+<h3 class="section-heading">Due to the service-based nature of DS Home Computing Ltd’s operations, procurement of raw materials and manufactured goods is limited. This assessment therefore focuses on services, labour, and third-party operational support.</h3>
+<h3 class="section-heading">Roles and Responsibilities</h3>
+<table class="policy-table">
+<tr><th>Role</th><th>Responsibility</th></tr>
+<tr><td>Executive Management</td><td>Oversight and approval</td></tr>
+<tr><td>Procurement / Management</td><td>Supplier selection and approval</td></tr>
+<tr><td>HSE / Quality / ESG</td><td>Sustainability risk screening and documentation</td></tr>
+<tr><td>Project Leads</td><td>Identification of supplier risks at project level</td></tr>
+</table>
+<h3 class="section-heading">Risk Assessment Methodology</h3>
+<h3 class="section-heading">DS Home Computing Ltd applies a qualitative, risk-based screening approach aligned with recognized ESG and sustainable procurement principles.</h3>
+<h3 class="section-heading">Supplier sustainability risk is evaluated based on:</h3>
+<h3 class="section-heading">Nature of goods or services provided</h3>
+<h3 class="section-heading">Geographic location of supplier operations</h3>
+<h3 class="section-heading">Labour intensity and subcontracting practices</h3>
+<h3 class="section-heading">Environmental impact of services</h3>
+<h3 class="section-heading">Visibility into supplier compliance practices</h3>
+<h3 class="section-heading">Risks are categorized as Low, Medium, or High, triggering proportionate due diligence actions.</h3>
+<h3 class="section-heading">Sustainability Risk Categories</h3>
+<h3 class="section-heading">The following sustainability risk categories are considered during supplier assessment:</h3>
+<h3 class="section-heading">Labour and human rights (forced labour, child labour, fair treatment)</h3>
+<h3 class="section-heading">Health and safety practices</h3>
+<h3 class="section-heading">Environmental impact (emissions, waste, energy use)</h3>
+<h3 class="section-heading">Ethics and compliance (bribery, corruption, data protection)</h3>
+<h3 class="section-heading">Indigenous and community impacts (where applicable)</h3>
+<h3 class="section-heading">Supplier Sustainability Risk Screening Matrix</h3>
+<table class="policy-table">
+<tr><th>Risk Factor</th><th>Low Risk</th><th>Medium Risk</th><th>High Risk</th></tr>
+<tr><td>Supplier Type</td><td>Office / admin services</td><td>Field services</td><td>Labour-intensive subcontractors</td></tr>
+<tr><td>Geographic Exposure</td><td>Canada / USA</td><td>Mixed regions</td><td>High-risk regions</td></tr>
+<tr><td>Workforce Model</td><td>Direct employees</td><td>Mixed</td><td>Heavy subcontracting</td></tr>
+<tr><td>Environmental Impact</td><td>Minimal</td><td>Moderate</td><td>Fuel / emissions intensive</td></tr>
+<tr><td>Compliance Visibility</td><td>ISN / Avetta / Veriforce</td><td>Partial</td><td>Limited / none</td></tr>
+</table>
+<h3 class="section-heading">Risk Rating &amp; Required Actions</h3>
+<table class="policy-table">
+<tr><th>Risk Level</th><th>Description</th><th>Required Action</th></tr>
+<tr><td>Low</td><td>Minimal sustainability exposure</td><td>Supplier Code of Conduct acknowledgement</td></tr>
+<tr><td>Medium</td><td>Moderate exposure</td><td>Questionnaire or platform verification</td></tr>
+<tr><td>High</td><td>Elevated sustainability risk</td><td>Enhanced review, client-required platforms, or monitoring</td></tr>
+</table>
+<h3 class="section-heading">Execution- Example Supplier Risk Assessments</h3>
+<h3 class="section-heading">Example 1 – Field Labour Subcontractor</h3>
+<h3 class="section-heading">Supplier Type: Labour-intensive field services</h3>
+<h3 class="section-heading">Geography: Canada / USA</h3>
+<h3 class="section-heading">Risk Level: Medium</h3>
+<h3 class="section-heading">Action Taken: ISN verification and Code of Conduct acceptance</h3>
+<h3 class="section-heading">Status: Approved</h3>
+<h3 class="section-heading">Example 2 – Equipment Rental Provider</h3>
+<h3 class="section-heading">Supplier Type: Equipment rental</h3>
+<h3 class="section-heading">Environmental Impact: Moderate (fuel use)</h3>
+<h3 class="section-heading">Risk Level: Medium</h3>
+<h3 class="section-heading">Action Taken: Client-mandated qualification platform review</h3>
+<h3 class="section-heading">Status: Approved</h3>
+<h3 class="section-heading">Example 3 – Office Services Provider</h3>
+<h3 class="section-heading">Supplier Type: Administrative services</h3>
+<h3 class="section-heading">Sustainability Impact: Minimal</h3>
+<h3 class="section-heading">Risk Level: Low</h3>
+<h3 class="section-heading">Action Taken: Code of Conduct acknowledgement</h3>
+<h3 class="section-heading">Status: Approved</h3>
+<h3 class="section-heading">Integration with Supplier Onboarding</h3>
+<h3 class="section-heading">This risk assessment is conducted:</h3>
+<h3 class="section-heading">Prior to onboarding new suppliers where practicable</h3>
+<h3 class="section-heading">During supplier pre-qualification</h3>
+<h3 class="section-heading">When supplier scope or geographic exposure changes</h3>
+<h3 class="section-heading">When client or regulatory requirements dictate enhanced review</h3>
+<h3 class="section-heading">Results are documented and retained as part of supplier record</h3>
+<h3 class="section-heading">Monitoring and Review</h3>
+<h3 class="section-heading">Sustainability risks within the supply chain are reviewed:</h3>
+<h3 class="section-heading">Annually as part of ESG program review</h3>
+<h3 class="section-heading">When new supplier categories are introduced</h3>
+<h3 class="section-heading">Following significant operational or regulatory changes</h3>
+<p class="policy-para">Where sustainability practices are not aligned with expectations, additional monitoring or corrective actions may be implemented.</p>
+<h3 class="section-heading">Conclusion</h3>
+<p class="policy-para">This Sustainable Procurement Risk Assessment demonstrates DS Home Computing Ltd’s structured and proportionate approach to identifying and managing sustainability risks within its supply chain. The assessment supports responsible sourcing decisions and aligns with stakeholder, client, and ESG expectations.</p>
+<h3 class="section-heading">Amendments/Revision History</h3>
+<table class="policy-table">
+<tr><th>Revision Number</th><th>Revision Date</th><th>Summary of Changes</th></tr>
+<tr><td>0</td><td>June 2026</td><td>Initial adoption — DS Home Computing Ltd</td></tr>
+</table>
+<div class="sig-table-note">Sign-off — Doug Senger, CEO</div>
+
+</div>
+
+<div class="ack-section" id="ack">
+  <h3>Acknowledgement — B.113</h3>
+  <label class="ack-check"><input type="checkbox" id="c1"><span>I have read and understood this policy in full.</span></label>
+  <label class="ack-check"><input type="checkbox" id="c2"><span>I agree to comply with all requirements set out in this policy.</span></label>
+  <label class="ack-check"><input type="checkbox" id="c3"><span>I understand non-compliance may result in disciplinary action.</span></label>
+  <div class="sig-grid">
+    <div class="sig-field"><label>Employee Name</label><input type="text" id="emp" placeholder="Full name" autocomplete="off"></div>
+    <div class="sig-field"><label>Position / Trade</label><input type="text" id="pos" placeholder="Position" autocomplete="off"></div>
+    <div class="sig-field"><label>Date</label><input type="date" id="dt"></div>
+    <div class="sig-field"><label>Supervisor</label><input type="text" id="sup" placeholder="Supervisor name" autocomplete="off"></div>
+  </div>
+  <div style="margin-top:14px;">
+    <div class="sig-field"><label>Employee Signature</label><input class="sig-line" type="text" placeholder="Type name or leave for handwritten signature"></div>
+  </div>
+</div>
+</main>
+
+<footer>DS Home Computing · SA03 SECOR · HSMS Wiki · For internal use only</footer>
+<script>
+const srch = document.getElementById('srch');
+srch.addEventListener('input', () => {
+  const q = srch.value.toLowerCase().trim();
+  document.querySelectorAll('.policy-para, .section-heading').forEach(el => {
+    el.style.background = (q && el.textContent.toLowerCase().includes(q)) ? '#fef08a' : '';
+  });
+});
+document.getElementById('emp').addEventListener('input', function() {
+  const name = this.value.trim().replace(/\s+/g,'_') || '[name]';
+  const date = new Date().toISOString().slice(0,10);
+  document.getElementById('fn').textContent = 'B113-sustainable-procurement-risk-assessment_' + name + '_' + date + '.pdf';
+});
+</script>
+</body>
+</html>

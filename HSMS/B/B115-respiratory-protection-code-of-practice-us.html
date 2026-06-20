@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>B.115 Respiratory Protection Code of Practice- US — HSMS</title>
+<link rel="stylesheet" href="../hsms.css">
+<style>
+.policy-para { font-size:.875rem; line-height:1.65; margin:0 0 8px; }
+.policy-list { font-size:.875rem; line-height:1.6; padding-left:20px; margin:0 0 10px; }
+.section-heading {
+  font-size:.95rem; font-weight:700; color:var(--navy);
+  background:#f1f5f9; padding:8px 16px; margin:16px 0 0;
+  border-left:3px solid var(--blue);
+}
+.policy-table { border-collapse:collapse; font-size:.8rem; width:100%; margin:10px 0; }
+.policy-table th { background:var(--navy); color:#fff; padding:5px 8px; text-align:left; }
+.policy-table td { border:1px solid var(--border); padding:5px 8px; vertical-align:top; }
+.policy-table tr:nth-child(even) td { background:#f8fafc; }
+.sig-table-note {
+  background:#f0fdf4; border:1px solid #bbf7d0; border-radius:6px;
+  padding:10px 14px; font-size:.8rem; color:#166534; margin:16px 0;
+}
+.policy-body { padding:16px; }
+.save-bar {
+  position:sticky; top:0; z-index:50;
+  background:#1e3a5f; color:#fff; padding:8px 16px;
+  display:flex; align-items:center; justify-content:space-between;
+  font-size:.78rem; gap:12px; flex-wrap:wrap;
+}
+.save-bar .save-path { opacity:.8; font-size:.7rem; word-break:break-all; }
+.save-bar button {
+  background:var(--blue); color:#fff; border:none; border-radius:6px;
+  padding:6px 14px; font-size:.8rem; font-weight:600; cursor:pointer;
+}
+.save-bar button:hover { background:#1d4ed8; }
+.filename-hint { font-size:.7rem; opacity:.75; margin-top:2px; }
+.doc-header { background:#fff; padding:16px; border-bottom:1px solid var(--border); }
+.doc-badge { font-size:.7rem; font-weight:700; letter-spacing:.05em; text-transform:uppercase; color:var(--blue); margin-bottom:4px; }
+.doc-header h2 { font-size:1.2rem; font-weight:700; color:var(--navy); margin:0 0 4px; }
+.doc-sub { font-size:.78rem; color:var(--muted); }
+.ack-section {
+  margin:20px 16px; padding:16px;
+  border:2px solid var(--navy); border-radius:10px;
+}
+.ack-section h3 { font-size:.9rem; font-weight:700; color:var(--navy); margin:0 0 12px; }
+.ack-check { display:flex; align-items:flex-start; gap:10px; margin-bottom:10px; cursor:pointer; }
+.ack-check input { flex-shrink:0; margin-top:2px; accent-color:var(--blue); width:16px; height:16px; }
+.ack-check span { font-size:.8rem; line-height:1.4; }
+.sig-grid { display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-top:14px; }
+.sig-field { display:flex; flex-direction:column; gap:4px; }
+.sig-field label { font-size:.72rem; font-weight:600; color:var(--muted); }
+.sig-field input { border:1px solid var(--border); border-radius:6px; padding:7px 10px; font:inherit; font-size:.85rem; }
+.sig-line { border:none; border-bottom:1px solid var(--body); width:100%; padding:6px 0; font:inherit; font-size:.85rem; background:transparent; }
+@media (max-width:480px) { .sig-grid { grid-template-columns:1fr; } }
+@media print {
+  .site-header, .save-bar, footer, .search-wrap { display:none !important; }
+  body { font-size:11pt; }
+}
+</style>
+</head>
+<body>
+<header class="site-header">
+  <span class="logo">🛡️</span>
+  <div><h1>HSMS Wiki</h1><p>DS Home Computing</p></div>
+  <a href="../B/index.html" style="margin-left:auto;color:#fff;font-size:.8rem;">← B Series</a>
+</header>
+
+<div class="save-bar">
+  <div>
+    <div>Save completed acknowledgement as PDF</div>
+    <div class="save-path">📁 G:\My Drive\DS Home\SA Safety and Security\SA03 SECOR\2026 Forms</div>
+    <div class="filename-hint">Suggested: <span id="fn">B115-respiratory-protection-code-of-practice-us_[name]_[date].pdf</span></div>
+  </div>
+  <button onclick="window.print()">🖨 Print / Save PDF</button>
+</div>
+
+<div class="doc-header">
+  <nav style="font-size:.75rem;color:var(--muted);margin-bottom:8px;">
+    <a href="../index.html">HSMS Wiki</a> › <a href="index.html">B Series</a> › B.115 Respiratory Protection Code of Practice- US
+  </nav>
+  <div class="doc-badge">B.115 · POLICY</div>
+  <h2>Respiratory Protection Code of Practice- US</h2>
+  <div class="doc-sub">DS Home Computing Ltd · SA03 SECOR · For internal use</div>
+</div>
+
+<div class="search-wrap">
+  <span class="search-icon">🔍</span>
+  <input type="search" id="srch" placeholder="Search policy text…" autocomplete="off">
+</div>
+
+<main>
+<div class="policy-body">
+<h3 class="section-heading">HSE-COP-002Respiratory Protection Code of Practice- US</h3>
+<h3 class="section-heading">Introduction</h3>
+<p class="policy-para">DS Home Computing recognizes that exposure to airborne contaminants and oxygen-deficient atmospheres presents a significant health risk to workers. Respiratory hazards may arise during commissioning, construction, maintenance, testing, troubleshooting, confined space entry, emergency response, and work involving dusts, fumes, mists, gases, vapours, sprays, or oxygen displacement.</p>
+<h3 class="section-heading">This Code of Practice establishes the requirements for a comprehensive Respiratory Protection Program in accordance with U.S. Occupational Safety and Health Administration (OSHA) regulations. The program addresses hazard evaluation, respirator selection, medical evaluation, fit testing, training, use, inspection, maintenance, recordkeeping, and program review.</h3>
+<h3 class="section-heading">Respiratory protection shall be used only when engineering and administrative controls are not feasible, are insufficient, or during emergency conditions.</h3>
+<h3 class="section-heading">Purpose</h3>
+<h3 class="section-heading">The purpose of this Code of Practice is to:</h3>
+<h3 class="section-heading">Protect workers from inhalation hazards and oxygen-deficient atmospheres</h3>
+<h3 class="section-heading">Prevent occupational illness, injury, and long-term health effects</h3>
+<h3 class="section-heading">Establish uniform respiratory protection requirements across U.S. operations</h3>
+<h3 class="section-heading">Ensure compliance with applicable OSHA regulations and recognized standards</h3>
+<h3 class="section-heading">Define roles, responsibilities, procedures, and documentation requirements</h3>
+<h3 class="section-heading">Ensure respirators are selected, used, and maintained correctly</h3>
+<h3 class="section-heading">Roles &amp; Responsibilities</h3>
+<h3 class="section-heading">Management</h3>
+<h3 class="section-heading">Establishing, implementing, and maintaining a written Respiratory Protection Program</h3>
+<h3 class="section-heading">Ensuring respiratory hazards are identified and evaluated</h3>
+<h3 class="section-heading">Ensuring engineering and administrative controls are implemented where feasible</h3>
+<h3 class="section-heading">Providing appropriate NIOSH-approved respirators at no cost to employees</h3>
+<h3 class="section-heading">Appointing a qualified Respiratory Protection Coordinator</h3>
+<h3 class="section-heading">Ensuring employees receive required medical evaluations, fit testing, and training</h3>
+<h3 class="section-heading">Ensuring respirators are properly stored, maintained, inspected, repaired, and replaced</h3>
+<h3 class="section-heading">Ensuring program records are maintained and protected</h3>
+<h3 class="section-heading">Supporting enforcement and corrective actions</h3>
+<h3 class="section-heading">Reviewing program effectiveness</h3>
+<h3 class="section-heading">Supervisors</h3>
+<h3 class="section-heading">Verifying respiratory hazards are identified prior to work</h3>
+<h3 class="section-heading">Ensuring workers use respiratory protection when required</h3>
+<h3 class="section-heading">Confirming workers are medically cleared, fit-tested, and trained</h3>
+<h3 class="section-heading">Ensuring correct respirator type, cartridge, or filter selection</h3>
+<h3 class="section-heading">Enforcing compliance with facial hair, seal, and use requirements</h3>
+<h3 class="section-heading">Ensuring respirators are inspected prior to use</h3>
+<h3 class="section-heading">Removing defective respirators from service</h3>
+<h3 class="section-heading">Stopping work when respiratory protection requirements are not met</h3>
+<h3 class="section-heading">Reporting respirator-related incidents or failures</h3>
+<h3 class="section-heading">Workers</h3>
+<h3 class="section-heading">Participating in medical evaluations, fit testing, and training</h3>
+<h3 class="section-heading">Using respirators in accordance with training and manufacturer instructions</h3>
+<h3 class="section-heading">Inspecting respirators before each use</h3>
+<h3 class="section-heading">Performing user seal checks each time a respirator is donned</h3>
+<h3 class="section-heading">Maintaining facial hair so it does not interfere with the seal</h3>
+<h3 class="section-heading">Cleaning, maintaining, and storing respirators properly</h3>
+<h3 class="section-heading">Leaving the work area immediately if respirator effectiveness is compromised</h3>
+<h3 class="section-heading">Reporting defects, malfunctions, or concerns immediately</h3>
+<h3 class="section-heading">Not modifying or misusing respiratory equipment</h3>
+<h3 class="section-heading">Health and Safety Team</h3>
+<h3 class="section-heading">Administer the Respiratory Protection Program</h3>
+<h3 class="section-heading">Maintain medical, fit-testing, and training records</h3>
+<h3 class="section-heading">Assist with hazard assessments and respirator selection</h3>
+<h3 class="section-heading">Ensure availability of appropriate respirators</h3>
+<h3 class="section-heading">Coordinate fit testing and training</h3>
+<h3 class="section-heading">Evaluate program effectiveness and recommend improvements</h3>
+<h3 class="section-heading">Scope</h3>
+<p class="policy-para">This Code of Practice applies to all DS Home Computing employees and U.S. job sites where:</p>
+<h3 class="section-heading">Respiratory protection is required, or</h3>
+<h3 class="section-heading">Respiratory protection is used voluntarily, except for voluntary use of filtering facepiece respirators where no respiratory hazard exists</h3>
+<p class="policy-para">This applies to all respirator types, including APRs, PAPRs, SARs, SCBA, and escape-only respirators.</p>
+<h3 class="section-heading">Terms and Definitions</h3>
+<h3 class="section-heading">Air-Purifying Respirator (APR)</h3>
+<p class="policy-para">A respirator that removes specific air contaminants by passing ambient air through filters, cartridges, or canisters before inhalation. APRs do not supply oxygen and shall not be used in oxygen-deficient or IDLH atmospheres.</p>
+<h3 class="section-heading">Assigned Protection Factor (APF)</h3>
+<p class="policy-para">The level of respiratory protection that a properly functioning respirator is expected to provide to a user when the respirator is correctly selected, fitted, used, and maintained. APFs are established by OSHA and are used to determine the suitability of a respirator for a specific exposure.</p>
+<h3 class="section-heading">Atmosphere-Supplying Respirator (SAR)</h3>
+<p class="policy-para">A respirator that supplies breathable air to the user from a source independent of the ambient atmosphere, including supplied-air respirators and self-contained breathing apparatus.</p>
+<h3 class="section-heading">Breakthrough</h3>
+<p class="policy-para">The point at which a contaminant passes through a respirator’s filter, cartridge, or canister and is detected by the user, indicating loss of effective protection.</p>
+<h3 class="section-heading">End-of-Service-Life Indicator (ESLI)</h3>
+<p class="policy-para">A system that warns the respirator user that the filter, cartridge, or canister has reached the end of its useful service life.</p>
+<h3 class="section-heading">Fit Test</h3>
+<p class="policy-para">A qualitative or quantitative evaluation conducted to verify that a specific make, model, style, and size of respirator properly seals to an individual’s face.</p>
+<h3 class="section-heading">Fit Factor</h3>
+<p class="policy-para">A numerical value that represents the level of protection provided by a respirator during quantitative fit testing. The fit factor must meet or exceed OSHA minimum requirements for the respirator type.</p>
+<h3 class="section-heading">Filtering Facepiece Respirator (FFR)</h3>
+<p class="policy-para">A negative-pressure particulate respirator with a filter as an integral part of the facepiece or with the entire facepiece composed of the filtering medium (commonly referred to as a “dust mask”).</p>
+<h3 class="section-heading">Immediately Dangerous to Life or Health (IDLH)</h3>
+<p class="policy-para">An atmosphere that poses an immediate or delayed threat to life, would cause irreversible adverse health effects, or would impair an individual’s ability to escape from a hazardous environment.</p>
+<h3 class="section-heading">Maximum Use Concentration (MUC)</h3>
+<p class="policy-para">The maximum airborne concentration of a contaminant from which a respirator can protect a user. The MUC is calculated by multiplying the APF of the respirator by the applicable exposure limit.</p>
+<h3 class="section-heading">Medical Evaluation</h3>
+<p class="policy-para">An assessment conducted by a Physician or Licensed Health Care Professional (PLHCP) to determine an employee’s ability to safely wear a respirator without adverse health effects.</p>
+<h3 class="section-heading">Negative-Pressure Respirator</h3>
+<p class="policy-para">A respirator in which air is drawn through the filter, cartridge, or canister by the user’s inhalation, creating negative pressure inside the facepiece.</p>
+<h3 class="section-heading">Oxygen-Deficient Atmosphere</h3>
+<p class="policy-para">An atmosphere containing less than 19.5 percent oxygen by volume, which is considered hazardous and typically classified as IDLH.</p>
+<h3 class="section-heading">Physician or Licensed Health Care Professional (PLHCP)</h3>
+<p class="policy-para">An individual whose legally permitted scope of practice allows them to independently provide or be delegated responsibility for health care services, including medical evaluations for respirator use.</p>
+<h3 class="section-heading">Powered Air-Purifying Respirator (PAPR)</h3>
+<p class="policy-para">An air-purifying respirator that uses a blower to force ambient air through filters or cartridges to the facepiece, hood, or helmet.</p>
+<h3 class="section-heading">Pressure-Demand Respirator</h3>
+<p class="policy-para">A respirator that maintains positive pressure inside the facepiece during inhalation and exhalation, reducing the likelihood of contaminant leakage.</p>
+<h3 class="section-heading">Qualitative Fit Test (QLFT)</h3>
+<p class="policy-para">A pass/fail fit test that relies on the wearer’s subjective response to a test agent (e.g., saccharin, Bitrex, isoamyl acetate) to detect leakage into the respirator.</p>
+<h3 class="section-heading">Quantitative Fit Test (QNFT)</h3>
+<p class="policy-para">A fit test that uses an instrument to measure the amount of leakage into the respirator and provides a numerical fit factor.</p>
+<h3 class="section-heading">Self-Contained Breathing Apparatus (SCBA)</h3>
+<p class="policy-para">An atmosphere-supplying respirator in which the user carries the breathing air supply, designed for use in IDLH or oxygen-deficient atmospheres.</p>
+<h3 class="section-heading">Service Life</h3>
+<p class="policy-para">The period of time during which a respirator filter, cartridge, or canister provides adequate protection against contaminants.</p>
+<h3 class="section-heading">Supplied-Air Respirator (SAR)</h3>
+<p class="policy-para">A respirator that supplies breathable air to the user from a remote source through an air hose, with or without an auxiliary escape air supply.</p>
+<h3 class="section-heading">User Seal Check</h3>
+<p class="policy-para">An action conducted by the respirator wearer to verify that the respirator is properly seated and sealed to the face before entering a contaminated atmosphere.</p>
+<h3 class="section-heading">Voluntary Respirator Use</h3>
+<p class="policy-para">The use of a respirator when it is not required by hazard assessment or regulation, but is worn at the employee’s discretion.</p>
+<h3 class="section-heading">Procedures</h3>
+<h3 class="section-heading">Respiratory Hazard Identification and Exposure Assessment</h3>
+<p class="policy-para">Respiratory hazards shall be identified before work begins and whenever work conditions change.</p>
+<h3 class="section-heading">Hazard identification shall consider:</h3>
+<h3 class="section-heading">Nature of airborne contaminants (dusts, fumes, mists, gases, vapours, sprays)</h3>
+<h3 class="section-heading">Physical and chemical properties of contaminants</h3>
+<h3 class="section-heading">Potential for oxygen displacement or consumption</h3>
+<h3 class="section-heading">Likelihood of IDLH conditions</h3>
+<h3 class="section-heading">Duration, frequency, and intensity of exposure</h3>
+<h3 class="section-heading">Activities requiring evaluation include, but are not limited to:</h3>
+<h3 class="section-heading">Hydrocarbon sampling and testing</h3>
+<h3 class="section-heading">Venting or bleeding of process systems</h3>
+<h3 class="section-heading">Instrumentation installation, calibration, and maintenance</h3>
+<h3 class="section-heading">Emergency response to uncontrolled releases</h3>
+<h3 class="section-heading">Confined space entry</h3>
+<h3 class="section-heading">Pumping, transfer, or disposal of fluids</h3>
+<h3 class="section-heading">Painting, welding, abrasive blasting, or chemical handling</h3>
+<p class="policy-para">Where monitoring data is unavailable, exposure shall be assumed to be worst-case.</p>
+<h3 class="section-heading">Respiratory protection shall be required when:</h3>
+<h3 class="section-heading">Engineering controls are infeasible or insufficient</h3>
+<h3 class="section-heading">Administrative controls do not adequately reduce exposure</h3>
+<h3 class="section-heading">Emergency or non-routine work is performed</h3>
+<h3 class="section-heading">Selection of Respiratory Protective Equipment</h3>
+<h3 class="section-heading">Respirators shall be selected based on:</h3>
+<h3 class="section-heading">Identified hazards and concentrations</h3>
+<h3 class="section-heading">Oxygen concentration</h3>
+<h3 class="section-heading">Assigned Protection Factors (APFs)</h3>
+<h3 class="section-heading">Maximum Use Concentrations (MUCs)</h3>
+<h3 class="section-heading">Work conditions and duration</h3>
+<p class="policy-para">Only NIOSH-approved respirators shall be used.</p>
+<p class="policy-para">Respirators shall be selected and approved by the Respiratory Protection Coordinator or designated competent person.</p>
+<p class="policy-para">Selection shall ensure that respirators provide protection greater than the anticipated exposure, not equal to it.</p>
+<h3 class="section-heading">IDLH and Unknown Atmospheres</h3>
+<h3 class="section-heading">Atmospheres shall be classified as IDLH when:</h3>
+<h3 class="section-heading">Contaminant concentrations are unknown</h3>
+<h3 class="section-heading">Oxygen concentration is &lt;19.5%</h3>
+<h3 class="section-heading">There is potential for sudden release or atmospheric change</h3>
+<h3 class="section-heading">Only the following respirators are permitted:</h3>
+<h3 class="section-heading">Pressure-demand SCBA</h3>
+<h3 class="section-heading">Pressure-demand supplied-air respirator with auxiliary SCBA</h3>
+<h3 class="section-heading">Entry into IDLH atmospheres requires:</h3>
+<h3 class="section-heading">At least one trained attendant stationed outside the atmosphere</h3>
+<h3 class="section-heading">Continuous communication capability</h3>
+<h3 class="section-heading">Pre-planned rescue procedures</h3>
+<h3 class="section-heading">Emergency response capability appropriate to the hazard</h3>
+<p class="policy-para">Escape-only respirators shall be suitable for the specific hazard and shall not be used to continue work.</p>
+<h3 class="section-heading">Oxygen-Deficient Atmospheres</h3>
+<p class="policy-para">Oxygen concentrations below 19.5% are prohibited without atmosphere-supplying respirators.</p>
+<p class="policy-para">Oxygen-deficient atmospheres shall be treated as IDLH unless proven otherwise.</p>
+<p class="policy-para">Air-purifying respirators are strictly prohibited.</p>
+<p class="policy-para">Continuous oxygen monitoring shall be implemented where oxygen-deficient conditions may develop.</p>
+<h3 class="section-heading">Use of Air-Purifying Respirators (APRs)</h3>
+<h3 class="section-heading">APRs may only be used when:</h3>
+<h3 class="section-heading">Oxygen levels are ≥19.5%</h3>
+<h3 class="section-heading">Contaminants and concentrations are known</h3>
+<h3 class="section-heading">Respirator APF exceeds the required MUC</h3>
+<p class="policy-para">Cartridge and filter selection shall be specific to the contaminant.</p>
+<h3 class="section-heading">APRs shall not be used:</h3>
+<h3 class="section-heading">In IDLH atmospheres</h3>
+<h3 class="section-heading">Where warning properties are inadequate without ESLI</h3>
+<h3 class="section-heading">Cartridge change-out shall be controlled by:</h3>
+<h3 class="section-heading">End-of-Service-Life Indicators (ESLI), or</h3>
+<h3 class="section-heading">A written, data-driven change-out schedule</h3>
+<h3 class="section-heading">Change-out schedules shall account for:</h3>
+<h3 class="section-heading">Contaminant concentration</h3>
+<h3 class="section-heading">Breathing rate</h3>
+<h3 class="section-heading">Environmental conditions</h3>
+<h3 class="section-heading">Cartridge capacity</h3>
+<h3 class="section-heading">Cartridges shall be replaced immediately if:</h3>
+<h3 class="section-heading">Breakthrough is detected</h3>
+<h3 class="section-heading">Odour, taste, or irritation occurs</h3>
+<h3 class="section-heading">Resistance increases</h3>
+<h3 class="section-heading">Breathing Air Quality and Supplied-Air Systems</h3>
+<p class="policy-para">Supplied breathing air shall meet ANSI/CGA G-7.1 Grade D requirements.</p>
+<h3 class="section-heading">Air supply systems shall be designed to prevent:</h3>
+<h3 class="section-heading">Contaminated intake air</h3>
+<h3 class="section-heading">Backflow</h3>
+<h3 class="section-heading">Moisture accumulation</h3>
+<h3 class="section-heading">Compressors shall be:</h3>
+<h3 class="section-heading">Maintained per manufacturer requirements</h3>
+<h3 class="section-heading">Equipped with CO monitoring and audible/visual alarms</h3>
+<h3 class="section-heading">Cylinders shall be:</h3>
+<h3 class="section-heading">Maintained and hydrostatically tested per DOT 49 CFR Parts 173 and 178</h3>
+<h3 class="section-heading">Clearly marked and traceable</h3>
+<p class="policy-para">Breathing air quality documentation shall be retained and available.</p>
+<h3 class="section-heading">Medical Evaluation Procedures</h3>
+<p class="policy-para">Employees shall complete a medical evaluation prior to fit testing or respirator use.</p>
+<p class="policy-para">Evaluations shall be conducted by a PLHCP.</p>
+<h3 class="section-heading">Follow-up evaluations shall be conducted when:</h3>
+<h3 class="section-heading">Symptoms related to respirator use occur</h3>
+<h3 class="section-heading">Work conditions change</h3>
+<h3 class="section-heading">A supervisor or PLHCP identifies concern</h3>
+<p class="policy-para">Employees shall not be permitted to wear respirators without medical clearance.</p>
+<h3 class="section-heading">Fit Testing Procedures</h3>
+<h3 class="section-heading">Fit testing shall be conducted:</h3>
+<h3 class="section-heading">Before initial respirator use</h3>
+<h3 class="section-heading">Annually</h3>
+<h3 class="section-heading">When respirator type, model, or size changes</h3>
+<h3 class="section-heading">After facial changes affecting fit</h3>
+<p class="policy-para">Fit testing shall follow OSHA-accepted protocols.</p>
+<p class="policy-para">Fit test results shall be documented and retained.</p>
+<p class="policy-para">Employees failing fit testing shall not be permitted to use the respirator until a proper fit is achieved.</p>
+<h3 class="section-heading">Respirator Use Requirements</h3>
+<p class="policy-para">Respirators shall be donned, adjusted, and worn according to manufacturer instructions.</p>
+<p class="policy-para">User seal checks shall be conducted every time the respirator is donned.</p>
+<p class="policy-para">Facial hair or apparel interfering with the seal is prohibited.</p>
+<h3 class="section-heading">Employees shall immediately leave the contaminated area if:</h3>
+<h3 class="section-heading">Respirator malfunction occurs</h3>
+<h3 class="section-heading">Breakthrough is detected</h3>
+<h3 class="section-heading">Physical distress occurs</h3>
+<h3 class="section-heading">Inspection, Maintenance, and Repair</h3>
+<h3 class="section-heading">Respirators shall be inspected:</h3>
+<h3 class="section-heading">Before each use</h3>
+<h3 class="section-heading">After cleaning</h3>
+<h3 class="section-heading">Monthly for emergency-use respirators</h3>
+<h3 class="section-heading">Inspections shall include:</h3>
+<h3 class="section-heading">Facepiece integrity</h3>
+<h3 class="section-heading">Valves and seals</h3>
+<h3 class="section-heading">Head straps and harness</h3>
+<h3 class="section-heading">Cylinders and regulators</h3>
+<p class="policy-para">Defective respirators shall be removed from service immediately.</p>
+<p class="policy-para">Repairs shall only be performed by qualified personnel using manufacturer-approved parts.</p>
+<h3 class="section-heading">Cleaning and Storage</h3>
+<p class="policy-para">Respirators shall be cleaned and disinfected after each use.</p>
+<p class="policy-para">Cleaning shall follow OSHA Appendix B-2 or manufacturer guidance.</p>
+<h3 class="section-heading">Respirators shall be stored:</h3>
+<h3 class="section-heading">In a clean, dry location</h3>
+<h3 class="section-heading">Protected from sunlight, chemicals, and deformation</h3>
+<p class="policy-para">Emergency-use respirators shall be stored for immediate access.</p>
+<h3 class="section-heading">Training and Competency Verification</h3>
+<p class="policy-para">Employees shall receive training prior to respirator use.</p>
+<h3 class="section-heading">Training shall be repeated:</h3>
+<h3 class="section-heading">Annually</h3>
+<h3 class="section-heading">When hazards or equipment change</h3>
+<p class="policy-para">Training shall include hands-on demonstrations.</p>
+<p class="policy-para">Competency shall be verified and documented.</p>
+<h3 class="section-heading">Program Evaluation and Continuous Improvement</h3>
+<p class="policy-para">The Respiratory Protection Program shall be evaluated periodically.</p>
+<h3 class="section-heading">Evaluations shall consider:</h3>
+<h3 class="section-heading">User feedback</h3>
+<h3 class="section-heading">Incident reports</h3>
+<h3 class="section-heading">Fit test failure trends</h3>
+<p class="policy-para">Corrective actions shall be implemented and documented.</p>
+<h3 class="section-heading">Emergency Response and Unplanned Releases</h3>
+<p class="policy-para">Respiratory protection requirements for emergency response shall be determined prior to response activities, where feasible.</p>
+<h3 class="section-heading">Emergency response situations include, but are not limited to:</h3>
+<h3 class="section-heading">Uncontrolled releases of gases, vapours, or liquids</h3>
+<h3 class="section-heading">Oxygen-deficient atmospheres</h3>
+<h3 class="section-heading">Confined space emergencies</h3>
+<h3 class="section-heading">Fire, explosion, or chemical release incidents</h3>
+<h3 class="section-heading">Emergency responders shall:</h3>
+<h3 class="section-heading">Use pressure-demand SCBA or pressure-demand SAR with auxiliary SCBA</h3>
+<h3 class="section-heading">Be trained specifically in emergency respirator use</h3>
+<h3 class="section-heading">Be medically cleared and fit-tested for the equipment used</h3>
+<h3 class="section-heading">Escape-only respirators shall:</h3>
+<h3 class="section-heading">Be suitable for the specific hazard</h3>
+<h3 class="section-heading">Be clearly labelled for escape use only</h3>
+<h3 class="section-heading">Not be used to continue work or perform rescue</h3>
+<h3 class="section-heading">Emergency respiratory protection procedures shall be coordinated with:</h3>
+<h3 class="section-heading">Site Emergency Response Plans</h3>
+<h3 class="section-heading">Confined Space Programs</h3>
+<h3 class="section-heading">Hazard Communication Programs</h3>
+<h3 class="section-heading">Confined Space Entry Integration</h3>
+<p class="policy-para">Respiratory protection requirements for confined space entry shall be determined as part of the confined space hazard assessment.</p>
+<h3 class="section-heading">Respiratory hazards shall be evaluated for:</h3>
+<h3 class="section-heading">Oxygen deficiency or enrichment</h3>
+<h3 class="section-heading">Toxic atmospheres</h3>
+<h3 class="section-heading">Potential for atmospheric changes during entry</h3>
+<h3 class="section-heading">Where respiratory hazards are present or may develop:</h3>
+<h3 class="section-heading">Atmosphere-supplying respirators shall be used</h3>
+<h3 class="section-heading">Continuous atmospheric monitoring shall be implemented</h3>
+<h3 class="section-heading">Respirator selection shall be compatible with:</h3>
+<h3 class="section-heading">Rescue procedures</h3>
+<h3 class="section-heading">Retrieval systems</h3>
+<h3 class="section-heading">Communications equipment</h3>
+<p class="policy-para">Respiratory protection requirements shall be documented on the confined space entry permit.</p>
+<h3 class="section-heading">Multi-Employer and Contractor Worksites</h3>
+<h3 class="section-heading">Where DS Home Computing operates on multi-employer worksites:</h3>
+<h3 class="section-heading">Respiratory protection requirements shall be communicated to affected employers</h3>
+<h3 class="section-heading">Host employer respiratory requirements shall be reviewed</h3>
+<h3 class="section-heading">Contractors required to use respiratory protection shall:</h3>
+<h3 class="section-heading">Demonstrate compliance with OSHA respiratory protection requirements, or</h3>
+<h3 class="section-heading">Comply with DS Home Computing respiratory protection requirements</h3>
+<h3 class="section-heading">Contractor respirator use shall not be permitted unless:</h3>
+<h3 class="section-heading">Medical evaluation, fit testing, and training are verified</h3>
+<h3 class="section-heading">Respirator selection is appropriate for the hazard</h3>
+<p class="policy-para">Conflicting respiratory protection requirements shall be resolved prior to work.</p>
+<h3 class="section-heading">Voluntary Respirator Use Procedures</h3>
+<h3 class="section-heading">Voluntary respirator use shall be permitted only when:</h3>
+<h3 class="section-heading">No respiratory hazard exists, and</h3>
+<h3 class="section-heading">Use does not create additional hazards</h3>
+<h3 class="section-heading">Employees voluntarily using respirators other than filtering facepieces shall:</h3>
+<h3 class="section-heading">Receive a medical evaluation</h3>
+<h3 class="section-heading">Be provided OSHA Appendix D information</h3>
+<h3 class="section-heading">Maintain respirators in a clean and sanitary condition</h3>
+<h3 class="section-heading">Voluntary use of filtering facepiece respirators does not require:</h3>
+<h3 class="section-heading">Medical evaluation</h3>
+<h3 class="section-heading">Fit testing</h3>
+<h3 class="section-heading">Inclusion in the written program</h3>
+<p class="policy-para">Voluntary respirator use shall be documented where applicable.</p>
+<h3 class="section-heading">Respirator Issuance and Control</h3>
+<h3 class="section-heading">Respirators shall be issued and controlled to ensure:</h3>
+<h3 class="section-heading">Correct model, size, and configuration</h3>
+<h3 class="section-heading">Traceability to fit test records</h3>
+<h3 class="section-heading">Issued respirators shall not be shared unless:</h3>
+<h3 class="section-heading">Cleaned and disinfected prior to reuse</h3>
+<h3 class="section-heading">Re-inspected before use</h3>
+<h3 class="section-heading">Emergency-use respirators shall be:</h3>
+<h3 class="section-heading">Clearly identified</h3>
+<h3 class="section-heading">Stored for immediate access</h3>
+<h3 class="section-heading">Inspected and documented monthly</h3>
+<h3 class="section-heading">Recordkeeping and Documentation</h3>
+<h3 class="section-heading">The following records shall be maintained:</h3>
+<h3 class="section-heading">Medical clearance documentation</h3>
+<h3 class="section-heading">Fit test records</h3>
+<h3 class="section-heading">Training records</h3>
+<h3 class="section-heading">Inspection and maintenance records</h3>
+<h3 class="section-heading">Breathing air quality documentation</h3>
+<h3 class="section-heading">Medical records shall be retained for:</h3>
+<h3 class="section-heading">Duration of employment plus 30 years</h3>
+<h3 class="section-heading">Fit test and training records shall be retained for:</h3>
+<h3 class="section-heading">At least the duration of employment</h3>
+<h3 class="section-heading">Records shall be:</h3>
+<h3 class="section-heading">Legible</h3>
+<h3 class="section-heading">Secure</h3>
+<h3 class="section-heading">Available upon request to employees or regulators</h3>
+<h3 class="section-heading">Program Audits and Effectiveness Evaluation</h3>
+<h3 class="section-heading">The Respiratory Protection Program shall be evaluated periodically to ensure:</h3>
+<h3 class="section-heading">Proper respirator selection</h3>
+<h3 class="section-heading">Continued effectiveness</h3>
+<h3 class="section-heading">Employee compliance</h3>
+<h3 class="section-heading">Program evaluations shall consider:</h3>
+<h3 class="section-heading">Changes in workplace conditions</h3>
+<h3 class="section-heading">Fit test failure trends</h3>
+<h3 class="section-heading">Incident and near-miss reports</h3>
+<h3 class="section-heading">Employee feedback</h3>
+<h3 class="section-heading">Deficiencies identified during evaluations shall:</h3>
+<h3 class="section-heading">Be documented</h3>
+<h3 class="section-heading">Result in corrective action</h3>
+<h3 class="section-heading">Be tracked to completion</h3>
+<h3 class="section-heading">Non-Compliance and Corrective Action</h3>
+<h3 class="section-heading">Failure to comply with respiratory protection requirements may result in:</h3>
+<h3 class="section-heading">Removal from the work area</h3>
+<h3 class="section-heading">Retraining</h3>
+<h3 class="section-heading">Disciplinary action in accordance with company policy</h3>
+<p class="policy-para">Supervisors shall intervene immediately where improper respirator use is observed.</p>
+<p class="policy-para">Repeated or serious violations shall be escalated to management.</p>
+<h3 class="section-heading">Stop Work Authority</h3>
+<h3 class="section-heading">All employees have the authority to stop work if:</h3>
+<h3 class="section-heading">Respiratory protection requirements are not met</h3>
+<h3 class="section-heading">Atmospheric conditions become unsafe</h3>
+<h3 class="section-heading">Required equipment is unavailable or defective</h3>
+<h3 class="section-heading">Work shall not resume until:</h3>
+<h3 class="section-heading">Hazards are reassessed</h3>
+<h3 class="section-heading">Controls are implemented</h3>
+<h3 class="section-heading">Appropriate respiratory protection is in place</h3>
+<h3 class="section-heading">Interface With Other Safety Programs</h3>
+<h3 class="section-heading">This Respiratory Protection Code of Practice shall be implemented in coordination with:</h3>
+<h3 class="section-heading">Hazard Communication Program</h3>
+<h3 class="section-heading">Confined Space Program</h3>
+<h3 class="section-heading">Emergency Response Program</h3>
+<h3 class="section-heading">Personal Protective Equipment Program</h3>
+<h3 class="section-heading">Job Safety Analysis / Permit-to-Work Systems</h3>
+<h3 class="section-heading">Training</h3>
+<p class="policy-para">Training shall be provided before initial use, annually, and when conditions change. Training shall include hazards, respirator limitations, donning/doffing, inspection, maintenance, emergency response, and regulatory requirements.</p>
+<h3 class="section-heading">References</h3>
+<h3 class="section-heading">OSHA 29 CFR 1910.134</h3>
+<h3 class="section-heading">OSHA 29 CFR 1926.103</h3>
+<h3 class="section-heading">NIOSH 42 CFR Part 84</h3>
+<h3 class="section-heading">ANSI/CGA G-7.1</h3>
+<h3 class="section-heading">Related Forms</h3>
+<h3 class="section-heading">Respirator Medical Evaluation Questionnaire</h3>
+<h3 class="section-heading">Respirator Fit Test Record</h3>
+<h3 class="section-heading">Respirator Inspection and Cleaning Record</h3>
+<h3 class="section-heading">Cartridge Change-Out Schedule</h3>
+<h3 class="section-heading">Voluntary Respirator Use Acknowledgement</h3>
+<h3 class="section-heading">Training Records</h3>
+<h3 class="section-heading">Review</h3>
+<p class="policy-para">This Code of Practice shall be reviewed at least every three years or when regulatory, operational, or hazard changes occur.</p>
+<h3 class="section-heading">Amendments/Revision History</h3>
+<table class="policy-table">
+<tr><th>Revision Number</th><th>Revision Date</th><th>Summary of Changes</th></tr>
+<tr><td>0</td><td>June 2026</td><td>Initial adoption — DS Home Computing Ltd</td></tr>
+</table>
+<div class="sig-table-note">Sign-off — Doug Senger, CEO</div>
+
+</div>
+
+<div class="ack-section" id="ack">
+  <h3>Acknowledgement — B.115</h3>
+  <label class="ack-check"><input type="checkbox" id="c1"><span>I have read and understood this policy in full.</span></label>
+  <label class="ack-check"><input type="checkbox" id="c2"><span>I agree to comply with all requirements set out in this policy.</span></label>
+  <label class="ack-check"><input type="checkbox" id="c3"><span>I understand non-compliance may result in disciplinary action.</span></label>
+  <div class="sig-grid">
+    <div class="sig-field"><label>Employee Name</label><input type="text" id="emp" placeholder="Full name" autocomplete="off"></div>
+    <div class="sig-field"><label>Position / Trade</label><input type="text" id="pos" placeholder="Position" autocomplete="off"></div>
+    <div class="sig-field"><label>Date</label><input type="date" id="dt"></div>
+    <div class="sig-field"><label>Supervisor</label><input type="text" id="sup" placeholder="Supervisor name" autocomplete="off"></div>
+  </div>
+  <div style="margin-top:14px;">
+    <div class="sig-field"><label>Employee Signature</label><input class="sig-line" type="text" placeholder="Type name or leave for handwritten signature"></div>
+  </div>
+</div>
+</main>
+
+<footer>DS Home Computing · SA03 SECOR · HSMS Wiki · For internal use only</footer>
+<script>
+const srch = document.getElementById('srch');
+srch.addEventListener('input', () => {
+  const q = srch.value.toLowerCase().trim();
+  document.querySelectorAll('.policy-para, .section-heading').forEach(el => {
+    el.style.background = (q && el.textContent.toLowerCase().includes(q)) ? '#fef08a' : '';
+  });
+});
+document.getElementById('emp').addEventListener('input', function() {
+  const name = this.value.trim().replace(/\s+/g,'_') || '[name]';
+  const date = new Date().toISOString().slice(0,10);
+  document.getElementById('fn').textContent = 'B115-respiratory-protection-code-of-practice-us_' + name + '_' + date + '.pdf';
+});
+</script>
+</body>
+</html>

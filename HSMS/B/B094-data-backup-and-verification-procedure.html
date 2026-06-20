@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>B.094 Data Backup and Verification Procedure — HSMS</title>
+<link rel="stylesheet" href="../hsms.css">
+<style>
+.policy-para { font-size:.875rem; line-height:1.65; margin:0 0 8px; }
+.policy-list { font-size:.875rem; line-height:1.6; padding-left:20px; margin:0 0 10px; }
+.section-heading {
+  font-size:.95rem; font-weight:700; color:var(--navy);
+  background:#f1f5f9; padding:8px 16px; margin:16px 0 0;
+  border-left:3px solid var(--blue);
+}
+.policy-table { border-collapse:collapse; font-size:.8rem; width:100%; margin:10px 0; }
+.policy-table th { background:var(--navy); color:#fff; padding:5px 8px; text-align:left; }
+.policy-table td { border:1px solid var(--border); padding:5px 8px; vertical-align:top; }
+.policy-table tr:nth-child(even) td { background:#f8fafc; }
+.sig-table-note {
+  background:#f0fdf4; border:1px solid #bbf7d0; border-radius:6px;
+  padding:10px 14px; font-size:.8rem; color:#166534; margin:16px 0;
+}
+.policy-body { padding:16px; }
+.save-bar {
+  position:sticky; top:0; z-index:50;
+  background:#1e3a5f; color:#fff; padding:8px 16px;
+  display:flex; align-items:center; justify-content:space-between;
+  font-size:.78rem; gap:12px; flex-wrap:wrap;
+}
+.save-bar .save-path { opacity:.8; font-size:.7rem; word-break:break-all; }
+.save-bar button {
+  background:var(--blue); color:#fff; border:none; border-radius:6px;
+  padding:6px 14px; font-size:.8rem; font-weight:600; cursor:pointer;
+}
+.save-bar button:hover { background:#1d4ed8; }
+.filename-hint { font-size:.7rem; opacity:.75; margin-top:2px; }
+.doc-header { background:#fff; padding:16px; border-bottom:1px solid var(--border); }
+.doc-badge { font-size:.7rem; font-weight:700; letter-spacing:.05em; text-transform:uppercase; color:var(--blue); margin-bottom:4px; }
+.doc-header h2 { font-size:1.2rem; font-weight:700; color:var(--navy); margin:0 0 4px; }
+.doc-sub { font-size:.78rem; color:var(--muted); }
+.ack-section {
+  margin:20px 16px; padding:16px;
+  border:2px solid var(--navy); border-radius:10px;
+}
+.ack-section h3 { font-size:.9rem; font-weight:700; color:var(--navy); margin:0 0 12px; }
+.ack-check { display:flex; align-items:flex-start; gap:10px; margin-bottom:10px; cursor:pointer; }
+.ack-check input { flex-shrink:0; margin-top:2px; accent-color:var(--blue); width:16px; height:16px; }
+.ack-check span { font-size:.8rem; line-height:1.4; }
+.sig-grid { display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-top:14px; }
+.sig-field { display:flex; flex-direction:column; gap:4px; }
+.sig-field label { font-size:.72rem; font-weight:600; color:var(--muted); }
+.sig-field input { border:1px solid var(--border); border-radius:6px; padding:7px 10px; font:inherit; font-size:.85rem; }
+.sig-line { border:none; border-bottom:1px solid var(--body); width:100%; padding:6px 0; font:inherit; font-size:.85rem; background:transparent; }
+@media (max-width:480px) { .sig-grid { grid-template-columns:1fr; } }
+@media print {
+  .site-header, .save-bar, footer, .search-wrap { display:none !important; }
+  body { font-size:11pt; }
+}
+</style>
+</head>
+<body>
+<header class="site-header">
+  <span class="logo">🛡️</span>
+  <div><h1>HSMS Wiki</h1><p>DS Home Computing</p></div>
+  <a href="../B/index.html" style="margin-left:auto;color:#fff;font-size:.8rem;">← B Series</a>
+</header>
+
+<div class="save-bar">
+  <div>
+    <div>Save completed acknowledgement as PDF</div>
+    <div class="save-path">📁 G:\My Drive\DS Home\SA Safety and Security\SA03 SECOR\2026 Forms</div>
+    <div class="filename-hint">Suggested: <span id="fn">B094-data-backup-and-verification-procedure_[name]_[date].pdf</span></div>
+  </div>
+  <button onclick="window.print()">🖨 Print / Save PDF</button>
+</div>
+
+<div class="doc-header">
+  <nav style="font-size:.75rem;color:var(--muted);margin-bottom:8px;">
+    <a href="../index.html">HSMS Wiki</a> › <a href="index.html">B Series</a> › B.094 Data Backup and Verification Procedure
+  </nav>
+  <div class="doc-badge">B.094 · POLICY</div>
+  <h2>Data Backup and Verification Procedure</h2>
+  <div class="doc-sub">DS Home Computing Ltd · SA03 SECOR · For internal use</div>
+</div>
+
+<div class="search-wrap">
+  <span class="search-icon">🔍</span>
+  <input type="search" id="srch" placeholder="Search policy text…" autocomplete="off">
+</div>
+
+<main>
+<div class="policy-body">
+<h3 class="section-heading">IT-PROC-003Data Backup and Verification Procedure</h3>
+<h3 class="section-heading">Introduction</h3>
+<p class="policy-para">Data is a critical asset for DS Home Computing Ltd, and its availability, integrity, and security are essential to business continuity and regulatory compliance. Loss, corruption, or unauthorized access to data can disrupt operations and expose the organization to financial, legal, and reputational risk.</p>
+<p class="policy-para">This procedure establishes a structured approach for manually backing up critical business data, verifying backup integrity, and confirming data restoration capability using approved cloud storage solutions.</p>
+<h3 class="section-heading">Purpose</h3>
+<h3 class="section-heading">The purpose of this procedure is to:</h3>
+<h3 class="section-heading">Protect critical business data from loss, corruption, or cyber threats</h3>
+<h3 class="section-heading">Define consistent requirements for manual data backups</h3>
+<h3 class="section-heading">Ensure backups are verifiable, accessible, and restorable</h3>
+<h3 class="section-heading">Support business continuity, cybersecurity, and data protection obligations</h3>
+<h3 class="section-heading">Roles &amp; Responsibilities</h3>
+<h3 class="section-heading">Management</h3>
+<h3 class="section-heading">Ensure backup and verification requirements are implemented</h3>
+<h3 class="section-heading">Review backup performance and address identified issues</h3>
+<h3 class="section-heading">Approve archive or restoration requests where required</h3>
+<h3 class="section-heading">Backup Coordinator (Designated Role)</h3>
+<h3 class="section-heading">Perform scheduled manual backups</h3>
+<h3 class="section-heading">Transfer backup files to approved cloud storage</h3>
+<h3 class="section-heading">Verify backup completeness and integrity</h3>
+<h3 class="section-heading">Maintain backup and verification records</h3>
+<h3 class="section-heading">Workers Handling Critical Data</h3>
+<h3 class="section-heading">Ensure files are stored in designated backup locations prior to scheduled backups</h3>
+<h3 class="section-heading">Report missing, corrupted, or inaccessible files promptly</h3>
+<h3 class="section-heading">Scope</h3>
+<p class="policy-para">This procedure applies to all DS Home Computing Ltd employees and contractors responsible for managing, storing, or backing up critical business data.</p>
+<h3 class="section-heading">It covers:</h3>
+<h3 class="section-heading">Manual backup of critical data</h3>
+<h3 class="section-heading">Secure cloud storage of backups</h3>
+<h3 class="section-heading">Backup verification and restoration testing</h3>
+<h3 class="section-heading">Terms and Definitions</h3>
+<h3 class="section-heading">BackupA copy of critical data stored separately to protect against loss, corruption, or cyber threats.</h3>
+<h3 class="section-heading">Backup CoordinatorThe designated role responsible for executing and verifying manual backups.</h3>
+<h3 class="section-heading">Data IntegrityThe accuracy, completeness, and consistency of data throughout its lifecycle.</h3>
+<h3 class="section-heading">Data RestorationThe process of retrieving and recovering backed-up data following data loss or corruption.</h3>
+<h3 class="section-heading">EncryptionThe process of converting data into a secure format to prevent unauthorized access.</h3>
+<h3 class="section-heading">Manual BackupA non-automated process in which data is manually saved, organized, and transferred to secure storage.</h3>
+<h3 class="section-heading">Verification CheckA review performed to confirm backup files are complete, accessible, and usable.</h3>
+<h3 class="section-heading">Procedure</h3>
+<h3 class="section-heading">Backup Frequency</h3>
+<p class="policy-para">Weekly Backups:Critical business data shall be backed up weekly at the end of the workweek.</p>
+<p class="policy-para">Monthly Full Backup:A full backup of essential documents and records shall be completed monthly.</p>
+<h3 class="section-heading">Data Backup Process</h3>
+<h3 class="section-heading">Identify Critical Data</h3>
+<h3 class="section-heading">Critical data may include, but is not limited to:</h3>
+<h3 class="section-heading">Financial records</h3>
+<h3 class="section-heading">Project documentation</h3>
+<h3 class="section-heading">Compliance and regulatory records</h3>
+<h3 class="section-heading">Employee and client data</h3>
+<h3 class="section-heading">Prepare Data for Backup</h3>
+<h3 class="section-heading">Ensure files are current and stored in designated backup folders</h3>
+<h3 class="section-heading">Remove duplicate or unnecessary files where appropriate</h3>
+<h3 class="section-heading">Transfer to Cloud Storage</h3>
+<p class="policy-para">Backup files shall be uploaded to an approved cloud storage location within the DS Home Computing Ltd environment</p>
+<h3 class="section-heading">At present, Google Drive is used as the primary cloud storage platform for manual backups</h3>
+<p class="policy-para">File naming conventions shall be applied to support traceability (e.g., Project ID – Client – File Name)</p>
+<h3 class="section-heading">Confirm Backup Completion</h3>
+<h3 class="section-heading">Backup completion shall be verified by confirming file upload and accessibility</h3>
+<h3 class="section-heading">Backup details shall be recorded, including date, file size, and verification status</h3>
+<h3 class="section-heading">Backup Verification</h3>
+<h3 class="section-heading">Routine Verification</h3>
+<h3 class="section-heading">Following weekly backups, random files shall be opened to confirm successful transfer</h3>
+<h3 class="section-heading">Following monthly backups, a full integrity check shall be completed</h3>
+<h3 class="section-heading">Restoration Testing</h3>
+<p class="policy-para">Quarterly restoration testing shall be conducted by selecting sample files and confirming successful retrieval and usability</p>
+<h3 class="section-heading">Any restoration failures shall trigger investigation and corrective action</h3>
+<h3 class="section-heading">Security Controls</h3>
+<h3 class="section-heading">Access to backup storage shall be restricted to authorized personnel</h3>
+<h3 class="section-heading">Sensitive or confidential files shall be encrypted prior to upload where feasible</h3>
+<h3 class="section-heading">Backup records shall be reviewed periodically for anomalies or gaps</h3>
+<h3 class="section-heading">Training</h3>
+<h3 class="section-heading">Initial Training</h3>
+<h3 class="section-heading">Personnel responsible for handling or backing up critical data shall receive training on:</h3>
+<h3 class="section-heading">Manual backup procedures</h3>
+<h3 class="section-heading">Secure cloud storage practices</h3>
+<h3 class="section-heading">Verification and restoration testing</h3>
+<h3 class="section-heading">Data protection and encryption requirements</h3>
+<h3 class="section-heading">Ongoing Training and Awareness</h3>
+<h3 class="section-heading">Periodic refresher training shall be provided</h3>
+<h3 class="section-heading">Awareness activities may address emerging cyber threats affecting data backups</h3>
+<h3 class="section-heading">Restoration Testing Participation</h3>
+<p class="policy-para">Backup coordinators and authorized personnel shall participate in quarterly restoration testing to maintain readiness</p>
+<h3 class="section-heading">References</h3>
+<h3 class="section-heading">Cyber Security Policy</h3>
+<h3 class="section-heading">Data Protection Policy</h3>
+<h3 class="section-heading">Cyber Incident Management Program</h3>
+<h3 class="section-heading">Cyber Security Risk Management Procedure</h3>
+<h3 class="section-heading">ISO/IEC 27001 – Information Security Management Systems</h3>
+<h3 class="section-heading">Related Forms</h3>
+<h3 class="section-heading">Backup Log</h3>
+<h3 class="section-heading">Restoration Test Record</h3>
+<h3 class="section-heading">Review</h3>
+<h3 class="section-heading">This procedure shall be reviewed every three (3) years, or sooner if required due to:</h3>
+<h3 class="section-heading">Changes in backup practices or technology</h3>
+<h3 class="section-heading">Cybersecurity incidents</h3>
+<h3 class="section-heading">Regulatory or audit findings</h3>
+<h3 class="section-heading">Amendments/Revision History</h3>
+<table class="policy-table">
+<tr><th>Revision Number</th><th>Revision Date</th><th>Summary of Changes</th></tr>
+<tr><td>0</td><td>June 2026</td><td>Initial adoption — DS Home Computing Ltd</td></tr>
+</table>
+<div class="sig-table-note">Sign-off — Doug Senger, CEO</div>
+
+</div>
+
+<div class="ack-section" id="ack">
+  <h3>Acknowledgement — B.094</h3>
+  <label class="ack-check"><input type="checkbox" id="c1"><span>I have read and understood this policy in full.</span></label>
+  <label class="ack-check"><input type="checkbox" id="c2"><span>I agree to comply with all requirements set out in this policy.</span></label>
+  <label class="ack-check"><input type="checkbox" id="c3"><span>I understand non-compliance may result in disciplinary action.</span></label>
+  <div class="sig-grid">
+    <div class="sig-field"><label>Employee Name</label><input type="text" id="emp" placeholder="Full name" autocomplete="off"></div>
+    <div class="sig-field"><label>Position / Trade</label><input type="text" id="pos" placeholder="Position" autocomplete="off"></div>
+    <div class="sig-field"><label>Date</label><input type="date" id="dt"></div>
+    <div class="sig-field"><label>Supervisor</label><input type="text" id="sup" placeholder="Supervisor name" autocomplete="off"></div>
+  </div>
+  <div style="margin-top:14px;">
+    <div class="sig-field"><label>Employee Signature</label><input class="sig-line" type="text" placeholder="Type name or leave for handwritten signature"></div>
+  </div>
+</div>
+</main>
+
+<footer>DS Home Computing · SA03 SECOR · HSMS Wiki · For internal use only</footer>
+<script>
+const srch = document.getElementById('srch');
+srch.addEventListener('input', () => {
+  const q = srch.value.toLowerCase().trim();
+  document.querySelectorAll('.policy-para, .section-heading').forEach(el => {
+    el.style.background = (q && el.textContent.toLowerCase().includes(q)) ? '#fef08a' : '';
+  });
+});
+document.getElementById('emp').addEventListener('input', function() {
+  const name = this.value.trim().replace(/\s+/g,'_') || '[name]';
+  const date = new Date().toISOString().slice(0,10);
+  document.getElementById('fn').textContent = 'B094-data-backup-and-verification-procedure_' + name + '_' + date + '.pdf';
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>B.117 Silica Protection Code of Practice — HSMS</title>
+<link rel="stylesheet" href="../hsms.css">
+<style>
+.policy-para { font-size:.875rem; line-height:1.65; margin:0 0 8px; }
+.policy-list { font-size:.875rem; line-height:1.6; padding-left:20px; margin:0 0 10px; }
+.section-heading {
+  font-size:.95rem; font-weight:700; color:var(--navy);
+  background:#f1f5f9; padding:8px 16px; margin:16px 0 0;
+  border-left:3px solid var(--blue);
+}
+.policy-table { border-collapse:collapse; font-size:.8rem; width:100%; margin:10px 0; }
+.policy-table th { background:var(--navy); color:#fff; padding:5px 8px; text-align:left; }
+.policy-table td { border:1px solid var(--border); padding:5px 8px; vertical-align:top; }
+.policy-table tr:nth-child(even) td { background:#f8fafc; }
+.sig-table-note {
+  background:#f0fdf4; border:1px solid #bbf7d0; border-radius:6px;
+  padding:10px 14px; font-size:.8rem; color:#166534; margin:16px 0;
+}
+.policy-body { padding:16px; }
+.save-bar {
+  position:sticky; top:0; z-index:50;
+  background:#1e3a5f; color:#fff; padding:8px 16px;
+  display:flex; align-items:center; justify-content:space-between;
+  font-size:.78rem; gap:12px; flex-wrap:wrap;
+}
+.save-bar .save-path { opacity:.8; font-size:.7rem; word-break:break-all; }
+.save-bar button {
+  background:var(--blue); color:#fff; border:none; border-radius:6px;
+  padding:6px 14px; font-size:.8rem; font-weight:600; cursor:pointer;
+}
+.save-bar button:hover { background:#1d4ed8; }
+.filename-hint { font-size:.7rem; opacity:.75; margin-top:2px; }
+.doc-header { background:#fff; padding:16px; border-bottom:1px solid var(--border); }
+.doc-badge { font-size:.7rem; font-weight:700; letter-spacing:.05em; text-transform:uppercase; color:var(--blue); margin-bottom:4px; }
+.doc-header h2 { font-size:1.2rem; font-weight:700; color:var(--navy); margin:0 0 4px; }
+.doc-sub { font-size:.78rem; color:var(--muted); }
+.ack-section {
+  margin:20px 16px; padding:16px;
+  border:2px solid var(--navy); border-radius:10px;
+}
+.ack-section h3 { font-size:.9rem; font-weight:700; color:var(--navy); margin:0 0 12px; }
+.ack-check { display:flex; align-items:flex-start; gap:10px; margin-bottom:10px; cursor:pointer; }
+.ack-check input { flex-shrink:0; margin-top:2px; accent-color:var(--blue); width:16px; height:16px; }
+.ack-check span { font-size:.8rem; line-height:1.4; }
+.sig-grid { display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-top:14px; }
+.sig-field { display:flex; flex-direction:column; gap:4px; }
+.sig-field label { font-size:.72rem; font-weight:600; color:var(--muted); }
+.sig-field input { border:1px solid var(--border); border-radius:6px; padding:7px 10px; font:inherit; font-size:.85rem; }
+.sig-line { border:none; border-bottom:1px solid var(--body); width:100%; padding:6px 0; font:inherit; font-size:.85rem; background:transparent; }
+@media (max-width:480px) { .sig-grid { grid-template-columns:1fr; } }
+@media print {
+  .site-header, .save-bar, footer, .search-wrap { display:none !important; }
+  body { font-size:11pt; }
+}
+</style>
+</head>
+<body>
+<header class="site-header">
+  <span class="logo">🛡️</span>
+  <div><h1>HSMS Wiki</h1><p>DS Home Computing</p></div>
+  <a href="../B/index.html" style="margin-left:auto;color:#fff;font-size:.8rem;">← B Series</a>
+</header>
+
+<div class="save-bar">
+  <div>
+    <div>Save completed acknowledgement as PDF</div>
+    <div class="save-path">📁 G:\My Drive\DS Home\SA Safety and Security\SA03 SECOR\2026 Forms</div>
+    <div class="filename-hint">Suggested: <span id="fn">B117-silica-protection-code-of-practice_[name]_[date].pdf</span></div>
+  </div>
+  <button onclick="window.print()">🖨 Print / Save PDF</button>
+</div>
+
+<div class="doc-header">
+  <nav style="font-size:.75rem;color:var(--muted);margin-bottom:8px;">
+    <a href="../index.html">HSMS Wiki</a> › <a href="index.html">B Series</a> › B.117 Silica Protection Code of Practice
+  </nav>
+  <div class="doc-badge">B.117 · POLICY</div>
+  <h2>Silica Protection Code of Practice</h2>
+  <div class="doc-sub">DS Home Computing Ltd · SA03 SECOR · For internal use</div>
+</div>
+
+<div class="search-wrap">
+  <span class="search-icon">🔍</span>
+  <input type="search" id="srch" placeholder="Search policy text…" autocomplete="off">
+</div>
+
+<main>
+<div class="policy-body">
+<h3 class="section-heading">HSE-COP-006Silica Protection Code of Practice</h3>
+<h3 class="section-heading">REGULATORY STANDARD: OSHA – 29 CFR 1910.1053</h3>
+<h3 class="section-heading">29 CFR 1926.1153</h3>
+<h3 class="section-heading">Introduction</h3>
+<p class="policy-para">Silica dust can cause respiratory disease, if you have significant exposure to high levels or consistent exposure to intermediate levels of the dust. This program outlines the exposure types and actions to be taken in the event that the company has silica exposures.</p>
+<h3 class="section-heading">Training</h3>
+<p class="policy-para">Where exposures above the PEL (permissible exposure limit) occur, employees will be trained, as appropriate, in the method of respiratory protection provided by the company.</p>
+<p class="policy-para">Where exposures above the AL (action level) occur, employees must be informed of the hazards posed by respirable crystalline silica. This may occur separately or as part of the hazard communication training for the company.</p>
+<h3 class="section-heading">Activities</h3>
+<h3 class="section-heading">Determine if silica exposure levels are of concern for employee job tasks</h3>
+<p class="policy-para">Implement exposure monitoring program for each employee who may reasonably be expected to be exposed to respirable crystalline silica at or above the action level</p>
+<h3 class="section-heading">Utilize engineering and work practice controls to reduce exposure wherever feasible</h3>
+<p class="policy-para">In general industry applications only, you must post signs and limit access to regulated areas where silica exposure levels may exceed the Permissible Exposure Limit (PEL)</p>
+<h3 class="section-heading">Establish and implement a Silica Exposure Control Plan</h3>
+<h3 class="section-heading">Implement a medical surveillance program appropriate to exposure levels</h3>
+<p class="policy-para">Provide personal protective equipment, including respirators when required.</p>
+<h3 class="section-heading">Maintain records of all exposure measurements taken during the exposure assessment</h3>
+<h3 class="section-heading">Train employees and document the training</h3>
+<h3 class="section-heading">Forms</h3>
+<h3 class="section-heading">Authorization for Crystalline Silica Exposure information to the Employer</h3>
+<h3 class="section-heading">Silica Exposure Control Plan</h3>
+<h3 class="section-heading">Written Medical Opinion from PLHCP to Employee</h3>
+<h3 class="section-heading">Written Medical Opinion from PLHCP to Employer</h3>
+<h3 class="section-heading">Silica Text of the Regulatory Standard</h3>
+<h3 class="section-heading">Training Attendance Roster</h3>
+<h3 class="section-heading">Silica Safety Program</h3>
+<h3 class="section-heading">Purpose.</h3>
+<p class="policy-para">This document outlines the requirements for reducing or eliminating exposure to respirable crystalline silica.</p>
+<h3 class="section-heading">Scope.</h3>
+<p class="policy-para">This document applies to all occupational exposures to respirable crystalline silica in general industry and in construction work, except where employee exposure will remain below the action level (AL) of 25 micrograms per cubic meter of air (25 μg/m3) as an 8-hour time- weighted average (TWA) under any foreseeable conditions. Any exposure at or above the permissible exposure limit (PEL) of 50 ug/m3, calculated as an 8-hour TWA.</p>
+<h3 class="section-heading">Responsibilities</h3>
+<h3 class="section-heading">Management/Supervisors</h3>
+<p class="policy-para">Ensure compliance with the requirements of this standard.</p>
+<p class="policy-para">Assess exposure levels and provide PPE as needed or required, including respirators and/or ventilation.</p>
+<p class="policy-para">For construction activities, management will (for tasks performed indoors or in enclosed areas) provide a means of exhaust as needed to minimize the accumulation of visible airborne dust</p>
+<p class="policy-para">For tasks performed using wet methods, apply water at flow rates sufficient to minimize release of visible dust;</p>
+<h3 class="section-heading">Employees</h3>
+<h3 class="section-heading">Will use protective equipment as required</h3>
+<p class="policy-para">Report any exposure concerns to management.</p>
+<h3 class="section-heading">Procedure</h3>
+<h3 class="section-heading">Exposure Determination</h3>
+<p class="policy-para">The table below identifies, engineering controls, work practices, and respiratory protection applicable to silica exposure. Note that when combinations of tasks requiring protection or controls are performed, the highest level of protection indicated will be used.</p>
+<h3 class="section-heading">For any activity not in the table, comply by using alternative exposure assessment</h3>
+<h3 class="section-heading">For measures that include an enclosed cab or booth, ensure that the cab or booth:</h3>
+<h3 class="section-heading">Is maintained as free as practicable from settled dust;</h3>
+<h3 class="section-heading">Has door seals and closing mechanisms that work properly;</h3>
+<h3 class="section-heading">Has gaskets and seals that are in good condition and working properly;</h3>
+<h3 class="section-heading">Is under positive pressure through continuous delivery of fresh air;</h3>
+<p class="policy-para">Has intake air that is filtered through a filter that is 95% efficient in the 0.3-10.0 μm range (e.g., MERV-16 or better); and</p>
+<p class="policy-para">Has heating and cooling capabilities.</p>
+<p class="policy-para">SPECIFIED EXPOSURE CONTROL METHODS WHEN WORKING WITH MATERIALS CONTAINING CRYSTALLINE SILICA</p>
+<div class="sig-table-note">Sign-off — Doug Senger, CEO</div>
+<div class="sig-table-note">Sign-off — Doug Senger, CEO</div>
+<div class="sig-table-note">Sign-off — Doug Senger, CEO</div>
+<h3 class="section-heading">Alternative Exposure Assessment</h3>
+<p class="policy-para">The employer shall assess the exposure of each employee who is or may reasonably be expected to be exposed to respirable crystalline silica at or above the action level. This may be done by evaluating and characterizing exposure levels using objective data over an 8 hour TWA or by physical monitoring of exposure levels.</p>
+<p class="policy-para">When monitoring, breathing zone air samples will be taken from one or more employees on each shift, for each job classification, in each work area. Employees expected to have the highest exposure to respirable crystalline silica will be sampled. All samples taken will be analyzed by approved laboratory methods.</p>
+<p class="policy-para">If monitoring is below the action level, no action needs to be taken.</p>
+<p class="policy-para">If monitoring is above the action level but below the PEL, monitoring will be repeated within 6 months. When levels are reduced to below the action level, monitoring will take place untiltwo consecutive measurements taken 7 (or more) days apart show exposures below the action level.</p>
+<p class="policy-para">If monitoring is above the PEL, monitoring will be repeated within 3 months until the levels are below the PEL</p>
+<h3 class="section-heading">Exposure Re-Assessment</h3>
+<p class="policy-para">The employer shall reassess exposures whenever a change in the production, process, control equipment, personnel, or work practices may reasonably be expected to result in new or additional exposures at or above the action level, or when the employer has any reason to believe that new or additional exposures at or above the action level have occurred.</p>
+<h3 class="section-heading">Notification of Sampling Results</h3>
+<p class="policy-para">For employees in General Industry, each affected employee will be notified of the sampling results within 15 working days after completion of the exposure assessment.</p>
+<p class="policy-para">For employees in Construction, each affected employee will be notified of the sampling results within 5 working days after completion of the exposure assessment.</p>
+<p class="policy-para">Notification can be made through posting the results in an area accessible to all affected employees or through a written notification to each affected employee.</p>
+<p class="policy-para">Where results are over the PEL, the corrective action to be taken to reduce exposures to levels below the PEL will be included in the notification.</p>
+<h3 class="section-heading">Sampling Observation and Protection</h3>
+<p class="policy-para">Employees affected by the sampling processes have the right to observe the monitoring process.</p>
+<p class="policy-para">Any person involved or observing the monitoring must be appropriately protected from exposure and personal protective equipment (and suitable training in the use of the equipment) must be provided.</p>
+<h3 class="section-heading">Regulated Areas (General Industry Only)</h3>
+<p class="policy-para">The employer shall establish a regulated area wherever an employee’s exposure to airborne concentrations of respirable silica is, or can reasonably be expected to be, in excess of the PEL.</p>
+<p class="policy-para">The employer shall demarcate regulated areas from the rest of the workplace in a manner that minimizes the number of employees exposed to respirable crystalline silica within the regulated area, and shall post signs at all entrances to regulated areas that bear the legend specified in the Communication section of this program.</p>
+<h3 class="section-heading">The employer shall limit access to regulated areas to:</h3>
+<p class="policy-para">Persons authorized by the employer and required by work duties to be present in the regulated area.</p>
+<p class="policy-para">Designated representatives of employees for the purpose of exercising the right to observe monitoring procedures.</p>
+<p class="policy-para">Any person authorized by the Occupational Safety and Health Act or regulations issued under it to be in a regulated area.</p>
+<p class="policy-para">The employer shall provide each employee and the employee’s designated representative entering a regulated area with an appropriate respirator and shall require each employee and the employee’s designated representative to use the respirator while in a regulated area.</p>
+<h3 class="section-heading">Safety Information</h3>
+<p class="policy-para">The employer shall use engineering and work practice controls to reduce and maintain employee exposure to respirable crystalline silica to or below the PEL, unless the employer can demonstrate that such controls are not feasible. Wherever such feasible engineering and work practice controls are not sufficient to reduce employee exposure to or below the PEL, the employer shall nonetheless use them to reduce employee exposure to the lowest feasible level and shall supplement them with the use of respiratory protection that complies with this section.</p>
+<p class="policy-para">Fracking activities will have appropriate engineering controls in place to reduce or eliminate exposure to below the PEL. Controls are required to be in place on or before June 23, 2021. Until this time, respirators will be provided as protective measures when needed.</p>
+<p class="policy-para">Other standards may be applicable where abrasive blasting is conducted, using crystalline silica-containing blasting agents, or where abrasive blasting is conducted on substrates that contain crystalline silica.</p>
+<h3 class="section-heading">Respiratory protection</h3>
+<p class="policy-para">Where required, respirators will be provided at no cost to the employee.</p>
+<p class="policy-para">Will be used during the implementation, testing, maintenance or repair of engineering controls whenever there is exposure potential.</p>
+<p class="policy-para">In general Industry, respirators must be worn during periods when an employee is in a regulated area, or when exposed to levels at or above the action level for more than 30 days</p>
+<p class="policy-para">In construction, respirators will be provided whenever exposure occurs for more than 30 days per year.</p>
+<p class="policy-para">When feasible engineering controls and work practice controls are not sufficient to reduce exposures below the PEL.</p>
+<p class="policy-para">Respirator programs will comply with OSHA requirements for respiratory protection.</p>
+<h3 class="section-heading">Housekeeping</h3>
+<p class="policy-para">The employer shall not allow dry sweeping or dry brushing where such activity could contribute to employee exposure to respirable crystalline silica unless wet sweeping, HEPA-filtered vacuuming or other methods that minimize the likelihood of exposure are not feasible.</p>
+<p class="policy-para">The employer shall not allow compressed air to be used to clean clothing or surfaces where such activity could contribute to employee exposure to respirable crystalline silica unless:</p>
+<p class="policy-para">The compressed air is used in conjunction with a ventilation system that effectively captures the dust cloud created by the compressed air; or</p>
+<p class="policy-para">No alternative method is feasible.</p>
+<h3 class="section-heading">Written exposure control plan</h3>
+<p class="policy-para">The employer shall establish and implement a written exposure control plan that contains at least the following elements:</p>
+<p class="policy-para">A description of the tasks in the workplace that involve exposure to respirable crystalline silica;</p>
+<p class="policy-para">A description of the engineering controls, work practices, and respiratory protection used to limit employee exposure to respirable crystalline silica for each task;</p>
+<p class="policy-para">A description of the housekeeping measures used to limit employee exposure to respirable crystalline silica; and</p>
+<p class="policy-para">When performing construction activities, a description of the procedures used to restrict access to work areas, when necessary, to minimize the number of employees exposed to respirable crystalline silica and their level of exposure, including exposures generated by other employers or sole proprietors.</p>
+<p class="policy-para">The employer shall review and evaluate the effectiveness of the written exposure control plan at least annually and update it as necessary.</p>
+<p class="policy-para">The employer shall make the written exposure control plan readily available for examination and copying, upon request.</p>
+<p class="policy-para">When performing construction activities, the employer shall designate a competent person to make frequent and regular inspections of job sites, materials, and equipment to implement the written exposure control plan.</p>
+<h3 class="section-heading">Medical surveillance</h3>
+<p class="policy-para">The employer shall make medical surveillance available at no cost to the employee, and at a reasonable time and place, for each employee:</p>
+<p class="policy-para">For General Industry: as of June 23, 2018 above the PEL and June 23, 2020 if above the Action Level.</p>
+<p class="policy-para">For Construction: as of June 23, 2017.</p>
+<p class="policy-para">The employer shall ensure that all medical examinations and procedures required by this section are performed by a physician or other licensed health care professional (PLHCP).</p>
+<p class="policy-para">The employer shall make available an initial (baseline) medical examination within 30 days after initial assignment, unless the employee has received a medical examination that meets the requirements of this section within the last three years. The examination shall consist of:</p>
+<p class="policy-para">A medical and work history, with emphasis on: Past, present, and anticipated exposure to respirable crystalline silica, dust, and other agents affecting the respiratory system; any history of respiratory system dysfunction, including signs and symptoms of respiratory disease (e.g., shortness of breath, cough, wheezing); history of tuberculosis; and smoking status and history;</p>
+<h3 class="section-heading">A physical examination with special emphasis on the respiratory system;</h3>
+<h3 class="section-heading">A chest X-ray;</h3>
+<h3 class="section-heading">A pulmonary function test;</h3>
+<h3 class="section-heading">Testing for latent tuberculosis infection; and</h3>
+<p class="policy-para">Any other tests deemed appropriate by the PLHCP.</p>
+<p class="policy-para">The employer shall make available medical examinations that include the initial examination procedures (except latent tuberculosis infection testing) at least every three years, or more frequently if recommended by the PLHCP.</p>
+<p class="policy-para">The employer shall ensure that the examining PLHCP has a copy of this standard, and shall provide the PLHCP with the following information:</p>
+<p class="policy-para">A description of the employee's former, current, and anticipated duties as they relate to the employee's occupational exposure to respirable crystalline silica;</p>
+<p class="policy-para">The employee's former, current, and anticipated levels of occupational exposure to respirable crystalline silica;</p>
+<p class="policy-para">A description of any personal protective equipment used or to be used by the employee, including when and for how long the employee has used or will use that equipment; and</p>
+<p class="policy-para">Information from records of employment-related medical examinations previously provided to the employee and currently within the control of the employer.</p>
+<p class="policy-para">The employer shall ensure that the PLHCP explains to the employee the results of the medical examination and provides each employee with a written medical report within 30 days of each medical examination performed. The written report shall contain:</p>
+<p class="policy-para">A statement indicating the results of the medical examination, including any medical condition(s) that would place the employee at increased risk of material impairment to health from exposure to respirable crystalline silica and any medical conditions that require further evaluation or treatment;</p>
+<h3 class="section-heading">Any recommended limitations on the employee's use of respirators;</h3>
+<p class="policy-para">Any recommended limitations on the employee's exposure to respirable crystalline silica; and;</p>
+<p class="policy-para">A statement that the employee should be examined by a specialist if the chest X-ray indicates it is needed.</p>
+<p class="policy-para">The employer shall obtain a written medical opinion from the PLHCP within 30 days of the medical examination. The written opinion shall contain only the following:</p>
+<h3 class="section-heading">The date of the examination;</h3>
+<h3 class="section-heading">A statement that the examination has met the requirements of this section; and</h3>
+<p class="policy-para">Any recommended limitations on the employee's use of respirators.</p>
+<p class="policy-para">If the employee provides written authorization, the written opinion shall also contain either or both of the following:</p>
+<h3 class="section-heading">Any recommended limitations on the employee's exposure to respirable crystalline silica;</h3>
+<p class="policy-para">A statement that the employee should be examined by a specialist if the chest X-ray indicates it is needed.</p>
+<p class="policy-para">The employer shall ensure that each employee receives a copy of the written medical opinion within 30 days of each medical examination performed.</p>
+<h3 class="section-heading">Additional examinations</h3>
+<p class="policy-para">If the PLHCP's written medical opinion indicates that an employee should be examined by a specialist, the employer shall make available a medical examination by a specialist within 30 days after receiving the PLHCP's written opinion.</p>
+<p class="policy-para">The employer shall ensure that the examining specialist is provided with all of the information that the employer is obligated to provide to the PLHCP.</p>
+<p class="policy-para">The employer shall ensure that the specialist explains to the employee the results of the medical examination and provides each employee with a written medical report within 30 days of the examination. The written report shall meet the requirements of the PLHCP’s written medical report for the employee.</p>
+<p class="policy-para">The employer shall obtain a written opinion from the specialist within 30 days of the medical examination. The written opinion shall meet the requirements of the PLHCP’s written medical opinion for the employer.</p>
+<h3 class="section-heading">Recordkeeping</h3>
+<h3 class="section-heading">Air monitoring data</h3>
+<p class="policy-para">The employer shall make and maintain an accurate record of all exposure measurements taken during the exposure assessment.</p>
+<h3 class="section-heading">This record shall include at least the following information:</h3>
+<h3 class="section-heading">The date of measurement for each sample taken;</h3>
+<h3 class="section-heading">The task monitored;</h3>
+<h3 class="section-heading">Sampling and analytical methods used;</h3>
+<h3 class="section-heading">Number, duration, and results of samples taken;</h3>
+<h3 class="section-heading">Identity of the laboratory that performed the analysis;</h3>
+<p class="policy-para">Type of personal protective equipment, such as respirators, worn by the employees monitored; and</p>
+<p class="policy-para">Name, social security number, and job classification of all employees represented by the monitoring, indicating which employees were actually monitored.</p>
+<p class="policy-para">The employer shall ensure that exposure records are maintained and made available in accordance with regulatory requirements.</p>
+<h3 class="section-heading">Objective data</h3>
+<p class="policy-para">The employer shall make and maintain an accurate record of all objective data relied upon to comply with the requirements of this section.</p>
+<h3 class="section-heading">This record shall include at least the following information:</h3>
+<h3 class="section-heading">The crystalline silica-containing material in question;</h3>
+<h3 class="section-heading">The source of the objective data;</h3>
+<h3 class="section-heading">The testing protocol and results of testing;</h3>
+<p class="policy-para">A description of the process, task, or activity on which the objective data were based; and</p>
+<p class="policy-para">Other data relevant to the process, task, activity, material, or exposures on which the objective data were based.</p>
+<p class="policy-para">The employer shall ensure that objective data are maintained and made available in accordance with regulatory requirement.</p>
+<h3 class="section-heading">Medical surveillance</h3>
+<p class="policy-para">The employer shall make and maintain an accurate record for each employee covered by medical surveillance.</p>
+<h3 class="section-heading">The record shall include the following information about the employee:</h3>
+<h3 class="section-heading">Name and social security number;</h3>
+<h3 class="section-heading">A copy of the PLHCPs' and specialists' written medical opinions; and</h3>
+<p class="policy-para">A copy of the information provided to the PLHCPs and specialists.</p>
+<p class="policy-para">The employer shall ensure that medical records are maintained and made available in accordance with regulatory requirements.</p>
+<p class="policy-para">.</p>
+<h3 class="section-heading">Training and Information</h3>
+<h3 class="section-heading">Communication of respirable crystalline silica hazards to employees</h3>
+<p class="policy-para">The company will either provide separate training or include respirable crystalline silica in the program established to comply with the hazard communication standard (HCS). This includes labeling of containers that have silica, access to safety data sheets, and training. At a minimum the following hazards must be addressed: Cancer, lung effects, immune system effects, and kidney effects.</p>
+<p class="policy-para">Where respirators are used, the company will comply with the provisions of the respiratory protection standard. This includes training, fit testing, and medical clearance for respirator use.</p>
+<h3 class="section-heading">Employee information and training</h3>
+<p class="policy-para">The employer shall ensure that each employee covered by this section can demonstrate knowledge and understanding of at least the following:</p>
+<h3 class="section-heading">The health hazards associated with exposure to respirable crystalline silica;</h3>
+<p class="policy-para">Specific tasks in the workplace that could result in exposure to respirable crystalline silica;</p>
+<p class="policy-para">Specific measures the employer has implemented to protect employees from exposure to respirable crystalline silica, including engineering controls, work practices, and respirators to be used;</p>
+<h3 class="section-heading">The contents of this section;</h3>
+<h3 class="section-heading">The identity of the competent person designated by the employer; and</h3>
+<p class="policy-para">The purpose and a description of the medical surveillance program.</p>
+<p class="policy-para">The employer shall ensure a copy of the standard regarding respirable silica is available without cost to each employee covered by this section.</p>
+<p class="policy-para">In general industry, the employer shall post signs at all entrances to regulated areas that bear the following legend:</p>
+<h3 class="section-heading">DANGER</h3>
+<h3 class="section-heading">RESPIRABLE CRYSTALLINE SILICA MAY CAUSE CANCER</h3>
+<h3 class="section-heading">CAUSES DAMAGE TO LUNGS</h3>
+<h3 class="section-heading">WEAR RESPIRATORY PROTECTION IN THIS AREA AUTHORIZED PERSONNEL ONLY</h3>
+<h3 class="section-heading">Definitions</h3>
+<h3 class="section-heading">Action level - means a concentration of airborne respirable crystalline silica of 25 μg/m3, calculated as an 8-hour TWA.</h3>
+<h3 class="section-heading">Competent person - means an individual who is capable of identifying existing and foreseeable respirable crystalline silica hazards in the workplace and who has authorization to take prompt corrective measures to eliminate or minimize them.</h3>
+<h3 class="section-heading">Employee exposure - means the exposure to airborne respirable crystalline silica that would occur if the employee were not using a respirator.</h3>
+<h3 class="section-heading">High-efficiency particulate air [HEPA] filter - means a filter that is at least 99.97 percent efficient in removing mono-dispersed particles of 0.3 micrometers in diameter.</h3>
+<h3 class="section-heading">Objective data - means information, such as air monitoring data from industry-wide surveys or calculations based on the composition of a substance, demonstrating employee exposure to respirable crystalline silica associated with a particular product or material or a specific process, task, or activity. The data must reflect workplace conditions closely resembling or with a higher exposure potential than the processes, types of material, control methods, work practices, and environmental conditions in the employer's current operations.</h3>
+<h3 class="section-heading">Physician or other licensed health care professional [PLHCP] - means an individual who is legally permitted scope of practice (i.e., license, registration, or certification) allows him or her to independently provide or be delegated the responsibility to provide some or all of the particular health care services required.</h3>
+<h3 class="section-heading">Respirable crystalline silica - means quartz, cristobalite, and/or tridymite contained in airborne particles that are determined to be respirable by a sampling device designed to meet the characteristics for industry accepted respirable-particle-size-selective samplers.</h3>
+<h3 class="section-heading">Specialist - means an American Board Certified Specialist in Pulmonary Disease or an American Board Certified Specialist in Occupational Medicine.</h3>
+<p class="policy-para">This form must be filled out by employees who undergo medical surveillance for silica exposure. It must be given to the health care provider who is providing the medical surveillance to the employee.</p>
+<h3 class="section-heading">AUTHORIZATION FOR CRYSTALLINE SILICA OPINION TO EMPLOYER</h3>
+<p class="policy-para">Your medical surveillance exam for Respirable Crystalline Silica could potentially reveal to your employer a medical condition that you may have which could result in:</p>
+<p class="policy-para">limitations on respirator use,</p>
+<p class="policy-para">limitations on exposure to crystalline silica, or</p>
+<p class="policy-para">the need for an examination by a specialist in pulmonary disease or occupational medicine.</p>
+<p class="policy-para">Recommended limitations on respirator use will be included in the written opinion to the employer. If you want your employer to know about limitations on crystalline silica exposure or recommendations for a specialist examination, you will need to give authorization and/or permission for the written opinion to the employer to include one or both of those recommendations.</p>
+<p class="policy-para">I hereby authorize the opinion to the employer to contain the following information, if relevant: (please check all that apply):</p>
+<p class="policy-para">☐Recommendations for limitations on crystalline silica exposure Recommendation for a specialist examination</p>
+<h3 class="section-heading">OR</h3>
+<p class="policy-para">☐I do not authorize the opinion to the employer to contain anything other than recommended limitations on respirator use.</p>
+<h3 class="section-heading">Please read and initial:</h3>
+<p class="policy-para">I understand that if I do not authorize my employer to receive the recommendation for specialist examination, the employer will not be responsible for arranging and covering costs of a specialist examination.</p>
+<h3 class="section-heading">Name (printed)</h3>
+<h3 class="section-heading">SignatureDate</h3>
+<div class="sig-table-note">Sign-off — Doug Senger, CEO</div>
+<p class="policy-para">This form is filled out by the evaluation physician and provided to the employee.</p>
+<h3 class="section-heading">WRITTEN MEDICAL OPINION FROM PLHCP FOR EMPLOYEE</h3>
+<h3 class="section-heading">Employee Name: Date of Exam:</h3>
+<h3 class="section-heading">TYPE OF EXAMINATION:</h3>
+<h3 class="section-heading">[ ] Initial examination[ ] Periodic examination[ ] Specialist examination[ ] Other:</h3>
+<h3 class="section-heading">RESULTS OF MEDICAL EXAMINATION:</h3>
+<p class="policy-para">Physical Examination – [ ] Normal  [ ] Abnormal (see below) [ ] Not performed Chest X-Ray – [ ] Normal  [ ] Abnormal (see below)[ ] Not performed Breathing Test (Spirometry) – [ ] Normal  [ ] Abnormal (see below) [ ] Not performed Test for Tuberculosis –[ ] Normal    [ ] Abnormal (see below) [ ] Not performed</p>
+<h3 class="section-heading">Other: Results reported as abnormal:</h3>
+<h3 class="section-heading">[ ] Normal[ ] Abnormal (see below)[ ] Not performed</h3>
+<p class="policy-para">[ ] Your health may be at increased risk from exposure to respirable crystalline silica due to the following:</p>
+<h3 class="section-heading">RECOMMENDATIONS:</h3>
+<h3 class="section-heading">[ ] No limitations on respirator use</h3>
+<p class="policy-para">[ ] Recommended limitations on use of respirator:  [ ] Recommended limitations on exposure to respirable crystalline silica:</p>
+<h3 class="section-heading">Dates for recommended limitations, if applicable: to</h3>
+<p class="policy-para">[ ] I recommend that you be examined by a Board Certified Specialist in Pulmonary Disease or Occupational Medicine</p>
+<h3 class="section-heading">[ ] Other recommendations*:</h3>
+<h3 class="section-heading">Your next periodic examination for silica exposure should be in: [ ] 3 years[ ] Other:</h3>
+<h3 class="section-heading">Examining Provider: Date:</h3>
+<h3 class="section-heading">(signature)</h3>
+<h3 class="section-heading">Provider Name:  Office Address: Phone:</h3>
+<p class="policy-para">*These findings may not be related to respirable crystalline silica exposure or may not be work-related, and therefore may not be covered by the employer. These findings may necessitate follow-up and treatment by your personal physician. Respirable Crystalline Silica standard (§ 1910.1053 or 1926.1153)</p>
+<p class="policy-para">This form will be filled out by the evaluating physician and provided to the employer.</p>
+<h3 class="section-heading">WRITTEN MEDICAL OPINION FROM PLHCP TO EMPLOYER</h3>
+<h3 class="section-heading">EMPLOYER:  EMPLOYEE NAME:  EXAMINATION DATE:</h3>
+<h3 class="section-heading">TYPE OF EXAMINATION:  [  ] Initial examination  [  ] Periodic examination</h3>
+<h3 class="section-heading">[] Specialist examination[] Other:</h3>
+<h3 class="section-heading">USE OF RESPIRATOR:</h3>
+<h3 class="section-heading">[] No limitations on respirator use</h3>
+<h3 class="section-heading">[  ] Recommended limitations on use of respirator:</h3>
+<h3 class="section-heading">Dates for recommended limitations (if applicable):</h3>
+<p class="policy-para">mm/dd/yyyy</p>
+<p class="policy-para">to</p>
+<p class="policy-para">mm/dd/yyyy</p>
+<p class="policy-para">The employee has provided written authorization for disclosure of the following to the employer (as applicable Authorization for Crystalline Silica Opinion to Employer_FORM):</p>
+<p class="policy-para">[] This employee should be examined by an American Board Certified Specialist in Pulmonary Disease or Occupational Medicine</p>
+<h3 class="section-heading">[ ] Recommended limitations on exposure to respirable crystalline silica:</h3>
+<h3 class="section-heading">Dates for exposure limitations noted above:</h3>
+<p class="policy-para">to</p>
+<p class="policy-para">mm/dd/yyyy</p>
+<p class="policy-para">mm/dd/yyyy</p>
+<h3 class="section-heading">NEXT PERIODIC EVALUATION: [] 3 years [] Other (date):  [] I attest that the results have been explained to the employee.</h3>
+<h3 class="section-heading">The following is required to be checked by the Physician or other Licensed Health Care Professional (PLHCP):</h3>
+<p class="policy-para">[] I attest that this medical examination has met the requirements of the medical surveillance section of the OSHA Respirable Crystalline Silica standard (§ 1910.1053(h) or 1926.1153(h)).</p>
+<h3 class="section-heading">Examining Provider: Date:</h3>
+<h3 class="section-heading">(signature)</h3>
+<h3 class="section-heading">Provider Name:  Provider’s specialty:  Office Address:  Office Phone:</h3>
+<h3 class="section-heading">SILICA TEXT OF THE REGULATORY STANDARD</h3>
+<h3 class="section-heading">§1926.1153 Respirable crystalline silica.</h3>
+<h3 class="section-heading">Scope and application. This section applies to all occupational exposures to respirable</h3>
+<p class="policy-para">crystalline silica in construction work, except where employee exposure will remain below 25 micrograms per cubic meter of air (25 μg/m3) as an 8-hour time-weighted average (TWA) under any foreseeable conditions.</p>
+<h3 class="section-heading">Definitions. For the purposes of this section the following definitions apply:</h3>
+<p class="policy-para">Action level means a concentration of airborne respirable crystalline silica of 25 μg/m3, calculated as an 8-hour TWA.</p>
+<p class="policy-para">Assistant Secretary means the Assistant Secretary of Labor for Occupational Safety and Health, U.S. Department of Labor, or designee.</p>
+<p class="policy-para">Director means the Director of the National Institute for Occupational Safety and Health (NIOSH), U.S. Department of Health and Human Services, or designee.</p>
+<h3 class="section-heading">Competent person means an individual who is capable of identifying existing and</h3>
+<p class="policy-para">foreseeable respirable crystalline silica hazards in the workplace and who has authorization to take prompt corrective measures to eliminate or minimize them. The competent person must have the knowledge and ability necessary to fulfill the responsibilities set forth in paragraph (g) of this section.</p>
+<p class="policy-para">Employee exposure means the exposure to airborne respirable crystalline silica that would occur if the employee were not using a respirator.</p>
+<p class="policy-para">High-efficiency particulate air [HEPA] filter means a filter that is at least 99.97 percent efficient in removing mono-dispersed particles of 0.3 micrometers in diameter.</p>
+<p class="policy-para">Objective data means information, such as air monitoring data from industry-wide surveys or calculations based on the composition of a substance, demonstrating employee</p>
+<p class="policy-para">exposure to respirable crystalline silica associated with a particular product or material or a specific process, task, or activity. The data must reflect workplace conditions closely resembling or with a higher exposure potential than the processes, types of material, control methods, work practices, and environmental conditions in the employer's current operations.</p>
+<p class="policy-para">Physician or other licensed health care professional [PLHCP] means an individual whose legally permitted scope of practice (i.e., license, registration, or certification) allows him or her</p>
+<p class="policy-para">to independently provide or be delegated the responsibility to provide some or all of the particular health care services required by paragraph (h) of this section.</p>
+<p class="policy-para">Respirable crystalline silica means quartz, cristobalite, and/or tridymite contained in airborne particles that are determined to be respirable by a sampling device designed to meet the</p>
+<p class="policy-para">characteristics for respirable-particle-size-selective samplers specified in the International Organization for Standardization (ISO) 7708:1995: Air Quality – Particle Size Fraction Definitions for Health-Related Sampling.</p>
+<p class="policy-para">Specialist means an American Board Certified Specialist in Pulmonary Disease or an American Board Certified Specialist in Occupational Medicine.</p>
+<p class="policy-para">This section means this respirable crystalline silica standard, 29 CFR 1926.1153.</p>
+<h3 class="section-heading">Specified exposure control methods. (1) For each employee engaged in a task identified on</h3>
+<p class="policy-para">Table 1, the employer shall fully and properly implement the engineering controls, work practices, and respiratory protection specified for the task on Table 1, unless the employer assesses and limits the exposure of the employee to respirable crystalline silica in accordance with paragraph (d) of this section.</p>
+<h3 class="section-heading">TABLE 1: SPECIFIED EXPOSURE CONTROL METHODSWHEN WORKING WITH MATERIALS CONTAINING CRYSTALLINE SILICA</h3>
+<div class="sig-table-note">Sign-off — Doug Senger, CEO</div>
+<table class="policy-table">
+<tr><th>(v) Drivable saws</th><th>For tasks performed outdoors only:Use saw equipped with integrated water delivery system that continuously feeds water to the blade.Operate and maintain tool in accordance with manufacturer's instructions to minimize dust emissions.</th><th>None</th><th>None</th></tr>
+<tr><td>(vi) Rig-mounted core saws or drills</td><td>Use tool equipped with integrated water delivery system that supplies water to cutting surface.Operate and maintain tool in accordance with manufacturer's instructions to minimize dust emissions.</td><td>None</td><td>None</td></tr>
+<tr><td>(vii) Handheld and stand-mounted drills (including impact and rotary hammer drills)</td><td>Use drill equipped with commercially available shroud or cowling with dust collection system.Operate and maintain tool in accordance with manufacturer's instructions to minimize dust emissions.</td><td>None</td><td>None</td></tr>
+<tr><td></td><td>Dust collector must provide the air flow recommended by the tool manufacturer, or greater, and have a filter with 99% or greater efficiency and a filter-cleaning mechanism.</td><td></td><td></td></tr>
+<tr><td></td><td>Use a HEPA-filtered vacuum when cleaning holes.</td><td></td><td></td></tr>
+<tr><td>(viii) Dowel drilling rigs for concrete</td><td>For tasks performed outdoors only:Use shroud around drill bit with a dust collection system. Dust collector must have a filter with 99% or greater efficiency and a filter-cleaning mechanism.Use a HEPA-filtered vacuum when cleaning holes.</td><td>APF 10</td><td>APF 10</td></tr>
+<tr><td>(ix) Vehicle- mounted drilling rigs for rock and concrete</td><td>Use dust collection system with close capture hood or shroud around drill bit with a low-flow water spray to wet the dust at the discharge point from the dust collector.</td><td>None</td><td>None</td></tr>
+<tr><td></td><td>OR</td><td></td><td></td></tr>
+<tr><td></td><td>Operate from within an enclosed cab and use water for dust suppression on drill bit.</td><td>None</td><td>None</td></tr>
+</table>
+<table class="policy-table">
+<tr><th>(x) Jackhammers and handheld powered chipping tools</th><th>Use tool with water delivery system that supplies a continuous stream or spray of water at the point of impact.When used outdoors.When used indoors or in an enclosed area.ORUse tool equipped with commercially available shroud and dust collection system.Operate and maintain tool in accordance with manufacturer's instructions to minimize dust emissions.Dust collector must provide the air flow recommended by the tool manufacturer, or greater, and have a filter with 99% or greater efficiency and a filter-cleaning mechanism.When used outdoors.When used indoors or in an enclosed area.</th><th>None</th><th>APF 10</th></tr>
+<tr><td></td><td></td><td>APF 10</td><td>APF 10</td></tr>
+<tr><td></td><td></td><td>None</td><td>APF 10</td></tr>
+<tr><td></td><td></td><td>APF 10</td><td>APF 10</td></tr>
+<tr><td>(xi) Handheld grinders for mortar removal (i.e., tuckpointing)</td><td>Use grinder equipped with commercially available shroud and dust collection system.Operate and maintain tool in accordance with manufacturer's instructions to minimize dust emissions.</td><td>APF 10</td><td>APF 25</td></tr>
+<tr><td></td><td>Dust collector must provide 25 cubic feet per minute (cfm) or greater of airflow per inch of wheel diameter and have a filter with 99% or greater efficiency and a cyclonic pre-separator or filter-cleaning mechanism.</td><td></td><td></td></tr>
+<tr><td>(xii) Handheld grinders for uses other than mortar removal</td><td>For tasks performed outdoors only:Use grinder equipped with integrated water delivery system that continuously feeds water to the grinding surface.Operate and maintain tool in accordance with manufacturer’s instructions to minimize dust emissions.ORUse grinder equipped with commercially available</td><td>None</td><td>None</td></tr>
+</table>
+<div class="sig-table-note">Sign-off — Doug Senger, CEO</div>
+<div class="sig-table-note">Sign-off — Doug Senger, CEO</div>
+<div class="sig-table-note">Sign-off — Doug Senger, CEO</div>
+<h3 class="section-heading">When implementing the control measures specified in Table 1, each employer shall:</h3>
+<p class="policy-para">For tasks performed indoors or in enclosed areas, provide a means of exhaust as needed to minimize the accumulation of visible airborne dust;</p>
+<p class="policy-para">For tasks performed using wet methods, apply water at flow rates sufficient to minimize release of visible dust;</p>
+<p class="policy-para">For measures implemented that include an enclosed cab or booth, ensure that the enclosed cab or booth:</p>
+<h3 class="section-heading">Is maintained as free as practicable from settled dust;</h3>
+<h3 class="section-heading">Has door seals and closing mechanisms that work properly;</h3>
+<h3 class="section-heading">Has gaskets and seals that are in good condition and working properly;</h3>
+<h3 class="section-heading">Is under positive pressure maintained through continuous delivery of fresh air;</h3>
+<p class="policy-para">Has intake air that is filtered through a filter that is 95% efficient in the 0.3-10.0 µm range (e.g., MERV-16 or better); and</p>
+<p class="policy-para">Has heating and cooling capabilities.</p>
+<p class="policy-para">Where an employee performs more than one task on Table 1 during the course of a shift, and the total duration of all tasks combined is more than four hours, the required respiratory protection for each task is the respiratory protection specified for more than four hours per shift. If the total duration of all tasks on Table 1 combined is less than four hours, the required respiratory protection for each task is the respiratory protection specified for less than four hours per shift.</p>
+<p class="policy-para">Alternative exposure control methods. For tasks not listed in Table 1, or where the employer</p>
+<p class="policy-para">does not fully and properly implement the engineering controls, work practices, and respiratory protection described in Table 1:</p>
+<p class="policy-para">Permissible exposure limit (PEL). The employer shall ensure that no employee is exposed to an airborne concentration of respirable crystalline silica in excess of 50 μg/m3, calculated as an 8- hour TWA.</p>
+<h3 class="section-heading">Exposure assessment—(i) General. The employer shall assess the exposure of each</h3>
+<p class="policy-para">employee who is or may reasonably be expected to be exposed to respirable crystalline silica at or above the action level in accordance with either the performance option in paragraph (d)(2)(ii) or the scheduled monitoring option in paragraph (d)(2)(iii) of this section.</p>
+<p class="policy-para">Performance option. The employer shall assess the 8-hour TWA exposure for each employee on the basis of any combination of air monitoring data or objective data sufficient to accurately characterize employee exposures to respirable crystalline silica.</p>
+<p class="policy-para">Scheduled monitoring option. (A) The employer shall perform initial monitoring to assess the 8- hour TWA exposure for each employee on the basis of one or more personal breathing zone air samples that reflect the exposures of employees on each shift, for each job classification, in each work area. Where several employees perform the same tasks on the same shift and in the same work area, the employer may sample a representative fraction of these employees in order to meet this requirement. In representative sampling, the employer shall sample the employee(s) who are expected to have the highest exposure to respirable crystalline silica.</p>
+<p class="policy-para">If initial monitoring indicates that employee exposures are below the action level, the employer may discontinue monitoring for those employees whose exposures are represented by such monitoring.</p>
+<p class="policy-para">Where the most recent exposure monitoring indicates that employee exposures are at or above the action level but at or below the PEL, the employer shall repeat such monitoring within six months of the most recent monitoring.</p>
+<p class="policy-para">Where the most recent exposure monitoring indicates that employee exposures are above the PEL, the employer shall repeat such monitoring within three months of the most recent monitoring.</p>
+<p class="policy-para">Where the most recent (non-initial) exposure monitoring indicates that employee exposures are below the action level, the employer shall repeat such monitoring within six months of the most recent monitoring until two consecutive measurements, taken seven or more days apart, are below the action level, at which time the employer may discontinue monitoring for those employees whose exposures are represented by such monitoring, except as otherwise provided in paragraph (d)(2)(iv) of this section.</p>
+<h3 class="section-heading">Reassessment of exposures. The employer shall reassess exposures whenever a</h3>
+<p class="policy-para">change in the production, process, control equipment, personnel, or work practices may reasonably be expected to result in new or additional exposures at or above the action level, or when the employer has any reason to believe that new or additional exposures at or above the action level have occurred.</p>
+<h3 class="section-heading">Methods of sample analysis. The employer shall ensure that all samples taken to</h3>
+<p class="policy-para">satisfy the monitoring requirements of paragraph (d)(2) of this section are evaluated by a laboratory that analyzes air samples for respirable crystalline silica in accordance with the procedures in Appendix A to this section.</p>
+<h3 class="section-heading">Employee notification of assessment results. (A) Within five working days after</h3>
+<p class="policy-para">completing an exposure assessment in accordance with paragraph (d)(2) of this section, the employer shall individually notify each affected employee in writing of the results of that assessment or post the results in an appropriate location accessible to all affected employees.</p>
+<p class="policy-para">(B) Whenever an exposure assessment indicates that employee exposure is above the PEL, the employer shall describe in the written notification the corrective action being taken to reduce employee exposure to or below the PEL.</p>
+<h3 class="section-heading">Observation of monitoring. (A) Where air monitoring is performed to comply with</h3>
+<p class="policy-para">the requirements of this section, the employer shall provide affected employees or their designated representatives an opportunity to observe any monitoring of employee exposure to respirable crystalline silica.</p>
+<p class="policy-para">(B) When observation of monitoring requires entry into an area where the use of protective clothing or equipment is required for any workplace hazard, the employer shall provide the observer with protective clothing and equipment at no cost and shall ensure that the observer uses such clothing and equipment.</p>
+<h3 class="section-heading">Methods of compliance—(i) Engineering and work practice controls. The employer</h3>
+<p class="policy-para">shall use engineering and work practice controls to reduce and maintain employee exposure to respirable crystalline silica to or below the PEL, unless the employer can demonstrate that such controls are not feasible. Wherever such feasible engineering and work practice controls are not sufficient to reduce employee exposure to or below the PEL, the employer shall nonetheless use them to reduce employee exposure to the lowest feasible level and shall supplement them with the use of respiratory protection that complies with the requirements of paragraph (e) of this section.</p>
+<h3 class="section-heading">(ii) Abrasive blasting. In addition to the requirements of paragraph (d)(3)(i) of this</h3>
+<p class="policy-para">section, the employer shall comply with other OSHA standards, when applicable, such as 29 CFR 1926.57 (Ventilation), where abrasive blasting is conducted using crystalline silica- containing blasting agents, or where abrasive blasting is conducted on substrates that contain crystalline silica.</p>
+<p class="policy-para">Respiratory protection—(1) General. Where respiratory protection is required by this section,</p>
+<p class="policy-para">the employer must provide each employee an appropriate respirator that complies with the requirements of this paragraph and 29 CFR 1910.134. Respiratory protection is required:</p>
+<h3 class="section-heading">Where specified by Table 1 of paragraph (c) of this section; or</h3>
+<p class="policy-para">For tasks not listed in Table 1, or where the employer does not fully and properly implement the engineering controls, work practices, and respiratory protection described in Table 1:</p>
+<p class="policy-para">Where exposures exceed the PEL during periods necessary to install or implement feasible engineering and work practice controls;</p>
+<p class="policy-para">Where exposures exceed the PEL during tasks, such as certain maintenance and repair tasks, for which engineering and work practice controls are not feasible; and</p>
+<p class="policy-para">During tasks for which an employer has implemented all feasible engineering and work practice controls and such controls are not sufficient to reduce exposures to or below the PEL.</p>
+<p class="policy-para">Respiratory protection program. Where respirator use is required by this section, the employer shall institute a respiratory protection program in accordance with 29 CFR 1910.134.</p>
+<h3 class="section-heading">Specified exposure control methods. For the tasks listed in Table 1 in paragraph (c) of</h3>
+<p class="policy-para">this section, if the employer fully and properly implements the engineering controls, work practices, and respiratory protection described in Table 1, the employer shall be considered to be in compliance with paragraph (e)(1) of this section and the requirements for selection of respirators in 29 CFR 1910.134(d)(1)(iii) and (d)(3) with regard to exposure to respirable crystalline silica.</p>
+<p class="policy-para">Housekeeping. (1) The employer shall not allow dry sweeping or dry brushing where such activity could contribute to employee exposure to respirable crystalline silica unless wet sweeping,</p>
+<p class="policy-para">HEPA-filtered vacuuming or other methods that minimize the likelihood of exposure are not feasible.</p>
+<p class="policy-para">The employer shall not allow compressed air to be used to clean clothing or surfaces where such activity could contribute to employee exposure to respirable crystalline silica unless:</p>
+<p class="policy-para">The compressed air is used in conjunction with a ventilation system that effectively captures the dust cloud created by the compressed air; or</p>
+<p class="policy-para">No alternative method is feasible.</p>
+<p class="policy-para">Written exposure control plan. (1) The employer shall establish and implement a written exposure control plan that contains at least the following elements:</p>
+<p class="policy-para">A description of the tasks in the workplace that involve exposure to respirable crystalline silica;</p>
+<p class="policy-para">A description of the engineering controls, work practices, and respiratory protection used to limit employee exposure to respirable crystalline silica for each task;</p>
+<p class="policy-para">A description of the housekeeping measures used to limit employee exposure to respirable crystalline silica; and</p>
+<p class="policy-para">A description of the procedures used to restrict access to work areas, when necessary, to minimize the number of employees exposed to respirable crystalline silica and their level of exposure, including exposures generated by other employers or sole proprietors.</p>
+<p class="policy-para">The employer shall review and evaluate the effectiveness of the written exposure control plan at least annually and update it as necessary.</p>
+<p class="policy-para">The employer shall make the written exposure control plan readily available for examination and copying, upon request, to each employee covered by this section, their designated representatives, the Assistant Secretary and the Director.</p>
+<p class="policy-para">The employer shall designate a competent person to make frequent and regular inspections of job sites, materials, and equipment to implement the written exposure control plan.</p>
+<h3 class="section-heading">Medical surveillance—(1) General. (i) The employer shall make medical surveillance</h3>
+<p class="policy-para">available at no cost to the employee, and at a reasonable time and place, for each employee who will be required under this section to use a respirator for 30 or more days per year.</p>
+<p class="policy-para">(ii) The employer shall ensure that all medical examinations and procedures required by this section are performed by a PLHCP as defined in paragraph (b) of this section.</p>
+<p class="policy-para">Initial examination. The employer shall make available an initial (baseline) medical examination within 30 days after initial assignment, unless the employee has received a medical examination that meets the requirements of this section within the last three years. The examination shall consist of:</p>
+<p class="policy-para">A medical and work history, with emphasis on: past, present, and anticipated exposure to respirable crystalline silica, dust, and other agents affecting the respiratory system; any history of respiratory system dysfunction, including signs and symptoms of respiratory disease (e.g., shortness of breath, cough, wheezing); history of tuberculosis; and smoking status</p>
+<p class="policy-para">and history;</p>
+<h3 class="section-heading">A physical examination with special emphasis on the respiratory system;</h3>
+<p class="policy-para">A chest X-ray (a single posteroanterior radiographic projection or radiograph of the chest at full inspiration recorded on either film (no less than 14 x 17 inches and no more than 16 x 17 inches) or digital radiography systems), interpreted and classified according to the International Labour Office (ILO) International Classification of Radiographs of Pneumoconioses by a NIOSH-certified B Reader;</p>
+<p class="policy-para">A pulmonary function test to include forced vital capacity (FVC) and forced expiratory volume in one second (FEV1) and FEV1/FVC ratio, administered by a spirometry technician with a current certificate from a NIOSH-approved spirometry course;</p>
+<h3 class="section-heading">Testing for latent tuberculosis infection; and</h3>
+<p class="policy-para">Any other tests deemed appropriate by the PLHCP.</p>
+<h3 class="section-heading">Periodic examinations. The employer shall make available medical examinations that</h3>
+<p class="policy-para">include the procedures described in paragraph (h)(2) of this section (except paragraph (h)(2)(v)) at least every three years, or more frequently if recommended by the PLHCP.</p>
+<p class="policy-para">Information provided to the PLHCP. The employer shall ensure that the examining PLHCP has a copy of this standard, and shall provide the PLHCP with the following information:</p>
+<p class="policy-para">A description of the employee’s former, current, and anticipated duties as they relate to the employee’s occupational exposure to respirable crystalline silica;</p>
+<p class="policy-para">The employee’s former, current, and anticipated levels of occupational exposure to respirable crystalline silica;</p>
+<p class="policy-para">A description of any personal protective equipment used or to be used by the employee, including when and for how long the employee has used or will use that equipment; and</p>
+<p class="policy-para">Information from records of employment-related medical examinations previously provided to the employee and currently within the control of the employer.</p>
+<h3 class="section-heading">PLHCP’s written medical report for the employee. The employer shall ensure that the</h3>
+<p class="policy-para">PLHCP explains to the employee the results of the medical examination and provides each employee with a written medical report within 30 days of each medical examination performed. The written report shall contain:</p>
+<p class="policy-para">A statement indicating the results of the medical examination, including any medical condition(s) that would place the employee at increased risk of material impairment to health from exposure to respirable crystalline silica and any medical conditions that require further evaluation or treatment;</p>
+<h3 class="section-heading">Any recommended limitations on the employee’s use of respirators;</h3>
+<p class="policy-para">Any recommended limitations on the employee’s exposure to respirable crystalline silica; and</p>
+<p class="policy-para">A statement that the employee should be examined by a specialist (pursuant to paragraph (h)(7) of this section) if the chest X-ray provided in accordance with this section is classified as 1/0 or higher by the B Reader, or if referral to a specialist is otherwise deemed appropriate by the PLHCP.PLHCP’s written medical opinion for the employer. (i) The employer shall obtain a</p>
+<p class="policy-para">written medical opinion from the PLHCP within 30 days of the medical examination. The written opinion shall contain only the following:</p>
+<h3 class="section-heading">The date of the examination;</h3>
+<h3 class="section-heading">A statement that the examination has met the requirements of this section; and</h3>
+<p class="policy-para">Any recommended limitations on the employee’s use of respirators.</p>
+<p class="policy-para">If the employee provides written authorization, the written opinion shall also contain either or both of the following:</p>
+<h3 class="section-heading">Any recommended limitations on the employee’s exposure to respirable crystalline</h3>
+<p class="policy-para">silica;</p>
+<p class="policy-para">A statement that the employee should be examined by a specialist (pursuant to paragraph (h)(7) of this section) if the chest X-ray provided in accordance with this section is classified as 1/0 or higher by the B Reader, or if referral to a specialist is otherwise deemed appropriate by the PLHCP.</p>
+<p class="policy-para">The employer shall ensure that each employee receives a copy of the written medical opinion described in paragraph (h)(6)(i) and (ii) of this section within 30 days of each medical examination performed.</p>
+<p class="policy-para">Additional examinations. (i) If the PLHCP’s written medical opinion indicates that an employee should be examined by a specialist, the employer shall make available a medical examination by a specialist within 30 days after receiving the PLHCP’s written opinion.</p>
+<p class="policy-para">The employer shall ensure that the examining specialist is provided with all of the information that the employer is obligated to provide to the PLHCP in accordance with paragraph (h)(4) of this section. The employer shall ensure that the specialist explains to the employee the results of the medical examination and provides each employee with a written medical report within 30 days of the examination. The written report shall meet the requirements of paragraph (h)(5) (except paragraph (h)(5)(iv)) of this section.</p>
+<p class="policy-para">The employer shall obtain a written opinion from the specialist within 30 days of the medical examination. The written opinion shall meet the requirements of paragraph (h)(6) (except paragraph (h)(6)(i)(B) and (ii)(B)) of this section.</p>
+<p class="policy-para">Communication of respirable crystalline silica hazards to employees—(1) Hazard communication. The employer shall include respirable crystalline silica in the program</p>
+<p class="policy-para">established to comply with the hazard communication standard (HCS) (29 CFR 1910.1200). The employer shall ensure that each employee has access to labels on containers of crystalline silica and safety data sheets, and is trained in accordance with the provisions of HCS and paragraph (i)(2) of this section. The employer shall ensure that at least the following hazards are</p>
+<p class="policy-para">addressed: Cancer, lung effects, immune system effects, and kidney effects.</p>
+<p class="policy-para">Employee information and training. (i) The employer shall ensure that each employee covered by this section can demonstrate knowledge and understanding of at least the following:</p>
+<h3 class="section-heading">The health hazards associated with exposure to respirable crystalline silica;</h3>
+<p class="policy-para">Specific tasks in the workplace that could result in exposure to respirable crystalline silica;</p>
+<p class="policy-para">Specific measures the employer has implemented to protect employees from exposure to respirable crystalline silica, including engineering controls, work practices, and respirators to be used;</p>
+<p class="policy-para">The contents of this section; The identity of the competent person designated by the employer in accordance with paragraph (g)(4) of this section; and</p>
+<h3 class="section-heading">The purpose and a description of the medical surveillance program required by paragraph</h3>
+<p class="policy-para">(h) of this section.</p>
+<p class="policy-para">(ii) The employer shall make a copy of this section readily available without cost to each employee covered by this section.</p>
+<h3 class="section-heading">Recordkeeping—(1) Air monitoring data. (i) The employer shall make and maintain an</h3>
+<p class="policy-para">accurate record of all exposure measurements taken to assess employee exposure to respirable crystalline silica, as prescribed in paragraph (d)(2) of this section.</p>
+<h3 class="section-heading">This record shall include at least the following information:</h3>
+<h3 class="section-heading">The date of measurement for each sample taken;</h3>
+<h3 class="section-heading">The task monitored;</h3>
+<h3 class="section-heading">Sampling and analytical methods used;</h3>
+<h3 class="section-heading">Number, duration, and results of samples taken;</h3>
+<h3 class="section-heading">Identity of the laboratory that performed the analysis;</h3>
+<p class="policy-para">Type of personal protective equipment, such as respirators, worn by the employees monitored; and</p>
+<p class="policy-para">Name, social security number, and job classification of all employees represented by the monitoring, indicating which employees were actually monitored.</p>
+<p class="policy-para">The employer shall ensure that exposure records are maintained and made available in accordance with 29 CFR 1910.1020.</p>
+<h3 class="section-heading">Objective data. (i) The employer shall make and maintain an accurate record of all</h3>
+<p class="policy-para">objective data relied upon to comply with the requirements of this section. This record shall include at least the following information:</p>
+<h3 class="section-heading">The crystalline silica-containing material in question;</h3>
+<h3 class="section-heading">The source of the objective data;</h3>
+<h3 class="section-heading">The testing protocol and results of testing;</h3>
+<p class="policy-para">and</p>
+<h3 class="section-heading">A description of the process, task, or activity on which the objective data were based;</h3>
+<p class="policy-para">Other data relevant to the process, task, activity, material, or exposures on which the objective</p>
+<p class="policy-para">data were based.</p>
+<p class="policy-para">(iii) The employer shall ensure that objective data are maintained and made available in accordance with 29 CFR 1910.1020.</p>
+<p class="policy-para">Medical surveillance. (i) The employer shall make and maintain an accurate record for each employee covered by medical surveillance under paragraph (h) of this section.</p>
+<h3 class="section-heading">The record shall include the following information about the employee:</h3>
+<h3 class="section-heading">Name and social security number;</h3>
+<h3 class="section-heading">A copy of the PLHCPs’ and specialists’ written medical opinions; and</h3>
+<p class="policy-para">A copy of the information provided to the PLHCPs and specialists.</p>
+<p class="policy-para">The employer shall ensure that medical records are maintained and made available in accordance with 29 CFR 1910.1020.</p>
+<p class="policy-para">Dates. (1) This section shall become effective June 23, 2016.</p>
+<p class="policy-para">All obligations of this section, except requirements for methods of sample analysis in paragraph (d)(2)(v), shall commence June 23, 2017.</p>
+<p class="policy-para">Requirements for methods of sample analysis in paragraph (d)(2)(v) of this section commence June 23, 2018.</p>
+<div class="sig-table-note">Sign-off — Doug Senger, CEO</div>
+<h3 class="section-heading">Name of Interpreter, if utilized:</h3>
+
+</div>
+
+<div class="ack-section" id="ack">
+  <h3>Acknowledgement — B.117</h3>
+  <label class="ack-check"><input type="checkbox" id="c1"><span>I have read and understood this policy in full.</span></label>
+  <label class="ack-check"><input type="checkbox" id="c2"><span>I agree to comply with all requirements set out in this policy.</span></label>
+  <label class="ack-check"><input type="checkbox" id="c3"><span>I understand non-compliance may result in disciplinary action.</span></label>
+  <div class="sig-grid">
+    <div class="sig-field"><label>Employee Name</label><input type="text" id="emp" placeholder="Full name" autocomplete="off"></div>
+    <div class="sig-field"><label>Position / Trade</label><input type="text" id="pos" placeholder="Position" autocomplete="off"></div>
+    <div class="sig-field"><label>Date</label><input type="date" id="dt"></div>
+    <div class="sig-field"><label>Supervisor</label><input type="text" id="sup" placeholder="Supervisor name" autocomplete="off"></div>
+  </div>
+  <div style="margin-top:14px;">
+    <div class="sig-field"><label>Employee Signature</label><input class="sig-line" type="text" placeholder="Type name or leave for handwritten signature"></div>
+  </div>
+</div>
+</main>
+
+<footer>DS Home Computing · SA03 SECOR · HSMS Wiki · For internal use only</footer>
+<script>
+const srch = document.getElementById('srch');
+srch.addEventListener('input', () => {
+  const q = srch.value.toLowerCase().trim();
+  document.querySelectorAll('.policy-para, .section-heading').forEach(el => {
+    el.style.background = (q && el.textContent.toLowerCase().includes(q)) ? '#fef08a' : '';
+  });
+});
+document.getElementById('emp').addEventListener('input', function() {
+  const name = this.value.trim().replace(/\s+/g,'_') || '[name]';
+  const date = new Date().toISOString().slice(0,10);
+  document.getElementById('fn').textContent = 'B117-silica-protection-code-of-practice_' + name + '_' + date + '.pdf';
+});
+</script>
+</body>
+</html>

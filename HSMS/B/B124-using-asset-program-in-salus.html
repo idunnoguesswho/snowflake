@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>B.124 Using Asset Program in Salus — HSMS</title>
+<link rel="stylesheet" href="../hsms.css">
+<style>
+.policy-para { font-size:.875rem; line-height:1.65; margin:0 0 8px; }
+.policy-list { font-size:.875rem; line-height:1.6; padding-left:20px; margin:0 0 10px; }
+.section-heading {
+  font-size:.95rem; font-weight:700; color:var(--navy);
+  background:#f1f5f9; padding:8px 16px; margin:16px 0 0;
+  border-left:3px solid var(--blue);
+}
+.policy-table { border-collapse:collapse; font-size:.8rem; width:100%; margin:10px 0; }
+.policy-table th { background:var(--navy); color:#fff; padding:5px 8px; text-align:left; }
+.policy-table td { border:1px solid var(--border); padding:5px 8px; vertical-align:top; }
+.policy-table tr:nth-child(even) td { background:#f8fafc; }
+.sig-table-note {
+  background:#f0fdf4; border:1px solid #bbf7d0; border-radius:6px;
+  padding:10px 14px; font-size:.8rem; color:#166534; margin:16px 0;
+}
+.policy-body { padding:16px; }
+.save-bar {
+  position:sticky; top:0; z-index:50;
+  background:#1e3a5f; color:#fff; padding:8px 16px;
+  display:flex; align-items:center; justify-content:space-between;
+  font-size:.78rem; gap:12px; flex-wrap:wrap;
+}
+.save-bar .save-path { opacity:.8; font-size:.7rem; word-break:break-all; }
+.save-bar button {
+  background:var(--blue); color:#fff; border:none; border-radius:6px;
+  padding:6px 14px; font-size:.8rem; font-weight:600; cursor:pointer;
+}
+.save-bar button:hover { background:#1d4ed8; }
+.filename-hint { font-size:.7rem; opacity:.75; margin-top:2px; }
+.doc-header { background:#fff; padding:16px; border-bottom:1px solid var(--border); }
+.doc-badge { font-size:.7rem; font-weight:700; letter-spacing:.05em; text-transform:uppercase; color:var(--blue); margin-bottom:4px; }
+.doc-header h2 { font-size:1.2rem; font-weight:700; color:var(--navy); margin:0 0 4px; }
+.doc-sub { font-size:.78rem; color:var(--muted); }
+.ack-section {
+  margin:20px 16px; padding:16px;
+  border:2px solid var(--navy); border-radius:10px;
+}
+.ack-section h3 { font-size:.9rem; font-weight:700; color:var(--navy); margin:0 0 12px; }
+.ack-check { display:flex; align-items:flex-start; gap:10px; margin-bottom:10px; cursor:pointer; }
+.ack-check input { flex-shrink:0; margin-top:2px; accent-color:var(--blue); width:16px; height:16px; }
+.ack-check span { font-size:.8rem; line-height:1.4; }
+.sig-grid { display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-top:14px; }
+.sig-field { display:flex; flex-direction:column; gap:4px; }
+.sig-field label { font-size:.72rem; font-weight:600; color:var(--muted); }
+.sig-field input { border:1px solid var(--border); border-radius:6px; padding:7px 10px; font:inherit; font-size:.85rem; }
+.sig-line { border:none; border-bottom:1px solid var(--body); width:100%; padding:6px 0; font:inherit; font-size:.85rem; background:transparent; }
+@media (max-width:480px) { .sig-grid { grid-template-columns:1fr; } }
+@media print {
+  .site-header, .save-bar, footer, .search-wrap { display:none !important; }
+  body { font-size:11pt; }
+}
+</style>
+</head>
+<body>
+<header class="site-header">
+  <span class="logo">🛡️</span>
+  <div><h1>HSMS Wiki</h1><p>DS Home Computing</p></div>
+  <a href="../B/index.html" style="margin-left:auto;color:#fff;font-size:.8rem;">← B Series</a>
+</header>
+
+<div class="save-bar">
+  <div>
+    <div>Save completed acknowledgement as PDF</div>
+    <div class="save-path">📁 G:\My Drive\DS Home\SA Safety and Security\SA03 SECOR\2026 Forms</div>
+    <div class="filename-hint">Suggested: <span id="fn">B124-using-asset-program-in-salus_[name]_[date].pdf</span></div>
+  </div>
+  <button onclick="window.print()">🖨 Print / Save PDF</button>
+</div>
+
+<div class="doc-header">
+  <nav style="font-size:.75rem;color:var(--muted);margin-bottom:8px;">
+    <a href="../index.html">HSMS Wiki</a> › <a href="index.html">B Series</a> › B.124 Using Asset Program in Salus
+  </nav>
+  <div class="doc-badge">B.124 · POLICY</div>
+  <h2>Using Asset Program in Salus</h2>
+  <div class="doc-sub">DS Home Computing Ltd · SA03 SECOR · For internal use</div>
+</div>
+
+<div class="search-wrap">
+  <span class="search-icon">🔍</span>
+  <input type="search" id="srch" placeholder="Search policy text…" autocomplete="off">
+</div>
+
+<main>
+<div class="policy-body">
+<h3 class="section-heading">QA-PRO-5.2.3 Using Asset Program in Salus</h3>
+<h3 class="section-heading">Purpose</h3>
+<p class="policy-para">The purpose of this procedure is to establish a standardized method for managing DS Home Computing-owned assets within Salus, including vehicles, trailers, tools, safety equipment, and specialized commissioning equipment.</p>
+<p class="policy-para">This procedure ensures compliance with COR preventative maintenance requirements, supports safe operation, centralizes documentation, and enables accurate tracking of maintenance, inspections, fuel use, mileage/kilometres, and equipment location.</p>
+<h3 class="section-heading">Scope</h3>
+<p class="policy-para">This procedure applies to all DS Home Computing-owned assets used in Canada and the USA, including but not limited to:</p>
+<h3 class="section-heading">Vehicles and trailers</h3>
+<h3 class="section-heading">Gas monitors and calibratable equipment</h3>
+<h3 class="section-heading">Rubber insulating gloves (Arc Flash gloves)</h3>
+<h3 class="section-heading">Tools and test instruments (e.g., flukes, meters, generators)</h3>
+<h3 class="section-heading">Any other asset requiring tracking, recertification, maintenance, or documentation</h3>
+<h3 class="section-heading">This procedure applies to Company Admin, Lead, and Worker user levels in Salus, with permissions defined below.</h3>
+<h3 class="section-heading">Roles &amp; Responsibilities</h3>
+<h3 class="section-heading">Company Admin</h3>
+<h3 class="section-heading">Create and manage all assets within Salus</h3>
+<h3 class="section-heading">Assign and archive assets</h3>
+<h3 class="section-heading">Upload insurance, registration, calibration, certificates, and supporting documents</h3>
+<h3 class="section-heading">Review maintenance cases and verify completion</h3>
+<h3 class="section-heading">Ensure assets are removed from service when unsafe or expired</h3>
+<h3 class="section-heading">Build and maintain custom forms (logbooks, maintenance uploads, fuel tracking)</h3>
+<h3 class="section-heading">Leads</h3>
+<h3 class="section-heading">Update asset information as required (mileage, notes, site assignment)</h3>
+<h3 class="section-heading">Create logbook entries and maintenance cases</h3>
+<h3 class="section-heading">Upload maintenance documents</h3>
+<h3 class="section-heading">Send reminders for required maintenance</h3>
+<h3 class="section-heading">Assign assets to workers or sites</h3>
+<h3 class="section-heading">Ensure compliance with inspection and calibration schedules</h3>
+<h3 class="section-heading">Workers</h3>
+<h3 class="section-heading">Complete vehicle inspections and assign the correct asset</h3>
+<h3 class="section-heading">Submit maintenance or logbook forms as required</h3>
+<h3 class="section-heading">Report deficiencies or damage immediately</h3>
+<h3 class="section-heading">Record fuel, mileage, or maintenance details using assigned forms</h3>
+<h3 class="section-heading">Definitions</h3>
+<h3 class="section-heading">Asset: Any DS Home Computing-owned equipment tracked in Salus (vehicles, tools, PPE requiring certification, etc.)</h3>
+<h3 class="section-heading">Maintenance Case: A structured record of preventative or corrective maintenance, including pending, in-progress, and completed statuses.</h3>
+<h3 class="section-heading">Logbook: A digital record for mileage, usage notes, maintenance details, and attachments.</h3>
+<h3 class="section-heading">Preventative Maintenance: Scheduled maintenance required to ensure assets remain in safe working condition and compliant with COR, OSHA, and CSA standards.</h3>
+<h3 class="section-heading">Procedures</h3>
+<h3 class="section-heading">Accessing the Asset Tab (Lead &amp; Company Admin Only)</h3>
+<p class="policy-para">Log into Salus.</p>
+<p class="policy-para">Select Assets from the left-side navigation menu.</p>
+<h3 class="section-heading">Review the following tabs as needed:</h3>
+<h3 class="section-heading">Active Assets</h3>
+<h3 class="section-heading">Archived Assets</h3>
+<h3 class="section-heading">Maintenance Records</h3>
+<h3 class="section-heading">Types (asset categories)</h3>
+<p class="policy-para">Note: Workers cannot access the Asset tab but can still submit inspections and asset-linked forms.</p>
+<h3 class="section-heading">Creating Asset Types (Company Admin Only)</h3>
+<p class="policy-para">Select Types.</p>
+<p class="policy-para">Click New Type.</p>
+<p class="policy-para">Enter the category (e.g., Vehicles, Trailers, Gas Monitors, Rubber Gloves).</p>
+<p class="policy-para">Save.</p>
+<p class="policy-para">Asset types help organize equipment and ensure consistency in maintenance records.</p>
+<h3 class="section-heading">Creating or Updating an Asset</h3>
+<p class="policy-para">Navigate to Active Assets.</p>
+<p class="policy-para">Select Add New Asset (Company Admin) or choose an existing asset to update.</p>
+<h3 class="section-heading">Enter or update:</h3>
+<h3 class="section-heading">Asset name and type</h3>
+<h3 class="section-heading">Assigned user</h3>
+<h3 class="section-heading">Vehicle details (make, model, VIN)</h3>
+<h3 class="section-heading">Current mileage/kilometres</h3>
+<h3 class="section-heading">Notes or condition details</h3>
+<p class="policy-para">Upload applicable documentation (insurance, registration, calibration).</p>
+<p class="policy-para">Save changes.</p>
+<h3 class="section-heading">Using the Logbook (Lead &amp; Company Admin)</h3>
+<p class="policy-para">Open the asset profile.</p>
+<p class="policy-para">Select Logbook.</p>
+<h3 class="section-heading">Enter details such as:</h3>
+<h3 class="section-heading">Mileage/kilometres</h3>
+<h3 class="section-heading">Site location</h3>
+<h3 class="section-heading">Notes (e.g., “Recertified,” “Calibrated April 2025”)</h3>
+<p class="policy-para">Add files (calibration certificates, photos, invoices).</p>
+<p class="policy-para">Save entry.</p>
+<p class="policy-para">Logbooks provide an ongoing record of use, condition, and history.</p>
+<h3 class="section-heading">Creating and Managing Maintenance Cases</h3>
+<p class="policy-para">Open the asset profile.</p>
+<p class="policy-para">Select Maintenance → Create Maintenance Case.</p>
+<h3 class="section-heading">Select a status:</h3>
+<h3 class="section-heading">Pending – Maintenance required</h3>
+<h3 class="section-heading">In Progress – Asset at shop or temporarily unavailable</h3>
+<h3 class="section-heading">Completed – Maintenance finished</h3>
+<h3 class="section-heading">Add:</h3>
+<h3 class="section-heading">Notes</h3>
+<h3 class="section-heading">Cost details</h3>
+<h3 class="section-heading">Assigned worker</h3>
+<h3 class="section-heading">Attachments (repairs, recertification, calibration)</h3>
+<p class="policy-para">Change the status as the maintenance progresses.</p>
+<p class="policy-para">Mark the asset out of service if required.</p>
+<h3 class="section-heading">Sending Maintenance Reminders</h3>
+<p class="policy-para">From within a maintenance case, select Send Reminder.</p>
+<p class="policy-para">Choose the date and recipient.</p>
+<p class="policy-para">Enter message (e.g., “Please take gloves for recertification”).</p>
+<p class="policy-para">Send email.</p>
+<p class="policy-para">A copy of the reminder is stored in the case record.</p>
+<h3 class="section-heading">Uploading and Managing Documents</h3>
+<p class="policy-para">Open the asset profile.</p>
+<p class="policy-para">Select Documents.</p>
+<h3 class="section-heading">Upload files such as:</h3>
+<h3 class="section-heading">Insurance</h3>
+<h3 class="section-heading">Registration</h3>
+<h3 class="section-heading">Calibration certificates</h3>
+<h3 class="section-heading">Maintenance invoices</h3>
+<p class="policy-para">Documents may be downloaded or emailed to workers as needed.</p>
+<h3 class="section-heading">Assigning Assets to Workers or Sites</h3>
+<p class="policy-para">Open the asset.</p>
+<p class="policy-para">Select Assign.</p>
+<p class="policy-para">Choose worker or site location.</p>
+<p class="policy-para">Save assignment.</p>
+<h3 class="section-heading">Worker-Level Processes (Without Asset Tab Access)</h3>
+<h3 class="section-heading">Workers may use forms to support asset tracking:</h3>
+<h3 class="section-heading">Vehicle inspections → Auto-attached to assigned asset</h3>
+<h3 class="section-heading">Logbook forms → Mileage, notes, fuel</h3>
+<h3 class="section-heading">Maintenance forms → Upload repairs (windshield, tires, oil changes, etc.)</h3>
+<h3 class="section-heading">Fuel tracking forms → Litres/gallons as required</h3>
+<p class="policy-para">These serve as manual workarounds when workers cannot access the Asset tab directly.</p>
+<h3 class="section-heading">Vehicles and Trailers</h3>
+<h3 class="section-heading">For vehicles and trailers, ensure:</h3>
+<h3 class="section-heading">Make/model/VIN are updated</h3>
+<h3 class="section-heading">Assigned worker is accurate</h3>
+<h3 class="section-heading">Mileage is updated during inspections</h3>
+<h3 class="section-heading">Oil changes and repairs are logged under Maintenance</h3>
+<h3 class="section-heading">Photos are uploaded as necessary</h3>
+<p class="policy-para">All inspections automatically attach to the asset.</p>
+<h3 class="section-heading">References</h3>
+<h3 class="section-heading">COR Audit Requirements – Preventative Maintenance</h3>
+<h3 class="section-heading">OSHA 1910 &amp; CSA applicable standards for equipment maintenance, calibration, and PPE</h3>
+<p class="policy-para">DS Home Computing Vehicle Inspection Procedure</p>
+<h3 class="section-heading">References</h3>
+<h3 class="section-heading">Salus Forms</h3>
+<h3 class="section-heading">Video Link</h3>
+<h3 class="section-heading">Frequency and Review Period</h3>
+<p class="policy-para">Logbook entries should be updated as required based on usage.</p>
+<p class="policy-para">Maintenance cases must be opened immediately when maintenance is required.</p>
+<p class="policy-para">Asset documentation should be reviewed monthly by the Safety/QA Team.</p>
+<p class="policy-para">Vehicle and trailer details must be verified semi-annually.</p>
+<p class="policy-para">This procedure will be reviewed annually or as regulatory requirements change.</p>
+<h3 class="section-heading">Amendments/Revision History</h3>
+<table class="policy-table">
+<tr><th>Revision Number</th><th>Revision Date</th><th>Summary of Changes</th></tr>
+<tr><td>0</td><td>June 2026</td><td>Initial adoption — DS Home Computing Ltd</td></tr>
+</table>
+<div class="sig-table-note">Sign-off — Doug Senger, CEO</div>
+
+</div>
+
+<div class="ack-section" id="ack">
+  <h3>Acknowledgement — B.124</h3>
+  <label class="ack-check"><input type="checkbox" id="c1"><span>I have read and understood this policy in full.</span></label>
+  <label class="ack-check"><input type="checkbox" id="c2"><span>I agree to comply with all requirements set out in this policy.</span></label>
+  <label class="ack-check"><input type="checkbox" id="c3"><span>I understand non-compliance may result in disciplinary action.</span></label>
+  <div class="sig-grid">
+    <div class="sig-field"><label>Employee Name</label><input type="text" id="emp" placeholder="Full name" autocomplete="off"></div>
+    <div class="sig-field"><label>Position / Trade</label><input type="text" id="pos" placeholder="Position" autocomplete="off"></div>
+    <div class="sig-field"><label>Date</label><input type="date" id="dt"></div>
+    <div class="sig-field"><label>Supervisor</label><input type="text" id="sup" placeholder="Supervisor name" autocomplete="off"></div>
+  </div>
+  <div style="margin-top:14px;">
+    <div class="sig-field"><label>Employee Signature</label><input class="sig-line" type="text" placeholder="Type name or leave for handwritten signature"></div>
+  </div>
+</div>
+</main>
+
+<footer>DS Home Computing · SA03 SECOR · HSMS Wiki · For internal use only</footer>
+<script>
+const srch = document.getElementById('srch');
+srch.addEventListener('input', () => {
+  const q = srch.value.toLowerCase().trim();
+  document.querySelectorAll('.policy-para, .section-heading').forEach(el => {
+    el.style.background = (q && el.textContent.toLowerCase().includes(q)) ? '#fef08a' : '';
+  });
+});
+document.getElementById('emp').addEventListener('input', function() {
+  const name = this.value.trim().replace(/\s+/g,'_') || '[name]';
+  const date = new Date().toISOString().slice(0,10);
+  document.getElementById('fn').textContent = 'B124-using-asset-program-in-salus_' + name + '_' + date + '.pdf';
+});
+</script>
+</body>
+</html>

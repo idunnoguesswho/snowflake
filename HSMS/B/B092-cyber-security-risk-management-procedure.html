@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>B.092 Cyber Security Risk Management Procedure — HSMS</title>
+<link rel="stylesheet" href="../hsms.css">
+<style>
+.policy-para { font-size:.875rem; line-height:1.65; margin:0 0 8px; }
+.policy-list { font-size:.875rem; line-height:1.6; padding-left:20px; margin:0 0 10px; }
+.section-heading {
+  font-size:.95rem; font-weight:700; color:var(--navy);
+  background:#f1f5f9; padding:8px 16px; margin:16px 0 0;
+  border-left:3px solid var(--blue);
+}
+.policy-table { border-collapse:collapse; font-size:.8rem; width:100%; margin:10px 0; }
+.policy-table th { background:var(--navy); color:#fff; padding:5px 8px; text-align:left; }
+.policy-table td { border:1px solid var(--border); padding:5px 8px; vertical-align:top; }
+.policy-table tr:nth-child(even) td { background:#f8fafc; }
+.sig-table-note {
+  background:#f0fdf4; border:1px solid #bbf7d0; border-radius:6px;
+  padding:10px 14px; font-size:.8rem; color:#166534; margin:16px 0;
+}
+.policy-body { padding:16px; }
+.save-bar {
+  position:sticky; top:0; z-index:50;
+  background:#1e3a5f; color:#fff; padding:8px 16px;
+  display:flex; align-items:center; justify-content:space-between;
+  font-size:.78rem; gap:12px; flex-wrap:wrap;
+}
+.save-bar .save-path { opacity:.8; font-size:.7rem; word-break:break-all; }
+.save-bar button {
+  background:var(--blue); color:#fff; border:none; border-radius:6px;
+  padding:6px 14px; font-size:.8rem; font-weight:600; cursor:pointer;
+}
+.save-bar button:hover { background:#1d4ed8; }
+.filename-hint { font-size:.7rem; opacity:.75; margin-top:2px; }
+.doc-header { background:#fff; padding:16px; border-bottom:1px solid var(--border); }
+.doc-badge { font-size:.7rem; font-weight:700; letter-spacing:.05em; text-transform:uppercase; color:var(--blue); margin-bottom:4px; }
+.doc-header h2 { font-size:1.2rem; font-weight:700; color:var(--navy); margin:0 0 4px; }
+.doc-sub { font-size:.78rem; color:var(--muted); }
+.ack-section {
+  margin:20px 16px; padding:16px;
+  border:2px solid var(--navy); border-radius:10px;
+}
+.ack-section h3 { font-size:.9rem; font-weight:700; color:var(--navy); margin:0 0 12px; }
+.ack-check { display:flex; align-items:flex-start; gap:10px; margin-bottom:10px; cursor:pointer; }
+.ack-check input { flex-shrink:0; margin-top:2px; accent-color:var(--blue); width:16px; height:16px; }
+.ack-check span { font-size:.8rem; line-height:1.4; }
+.sig-grid { display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-top:14px; }
+.sig-field { display:flex; flex-direction:column; gap:4px; }
+.sig-field label { font-size:.72rem; font-weight:600; color:var(--muted); }
+.sig-field input { border:1px solid var(--border); border-radius:6px; padding:7px 10px; font:inherit; font-size:.85rem; }
+.sig-line { border:none; border-bottom:1px solid var(--body); width:100%; padding:6px 0; font:inherit; font-size:.85rem; background:transparent; }
+@media (max-width:480px) { .sig-grid { grid-template-columns:1fr; } }
+@media print {
+  .site-header, .save-bar, footer, .search-wrap { display:none !important; }
+  body { font-size:11pt; }
+}
+</style>
+</head>
+<body>
+<header class="site-header">
+  <span class="logo">🛡️</span>
+  <div><h1>HSMS Wiki</h1><p>DS Home Computing</p></div>
+  <a href="../B/index.html" style="margin-left:auto;color:#fff;font-size:.8rem;">← B Series</a>
+</header>
+
+<div class="save-bar">
+  <div>
+    <div>Save completed acknowledgement as PDF</div>
+    <div class="save-path">📁 G:\My Drive\DS Home\SA Safety and Security\SA03 SECOR\2026 Forms</div>
+    <div class="filename-hint">Suggested: <span id="fn">B092-cyber-security-risk-management-procedure_[name]_[date].pdf</span></div>
+  </div>
+  <button onclick="window.print()">🖨 Print / Save PDF</button>
+</div>
+
+<div class="doc-header">
+  <nav style="font-size:.75rem;color:var(--muted);margin-bottom:8px;">
+    <a href="../index.html">HSMS Wiki</a> › <a href="index.html">B Series</a> › B.092 Cyber Security Risk Management Procedure
+  </nav>
+  <div class="doc-badge">B.092 · POLICY</div>
+  <h2>Cyber Security Risk Management Procedure</h2>
+  <div class="doc-sub">DS Home Computing Ltd · SA03 SECOR · For internal use</div>
+</div>
+
+<div class="search-wrap">
+  <span class="search-icon">🔍</span>
+  <input type="search" id="srch" placeholder="Search policy text…" autocomplete="off">
+</div>
+
+<main>
+<div class="policy-body">
+<h3 class="section-heading">ESG-IT-PROC-001 Cyber Security Risk Management Procedure</h3>
+<h3 class="section-heading">Introduction</h3>
+<p class="policy-para">Cybersecurity risks present a significant threat to the confidentiality, integrity, and availability of DS Home Computing Ltd information assets. As DS Home Computing Ltd operates primarily within a cloud-based environment and permits the use of personal devices, cybersecurity risk management focuses on access controls, cloud security, threat monitoring, and user compliance rather than direct endpoint ownership.</p>
+<p class="policy-para">This procedure establishes a structured and proactive approach to identifying, assessing, controlling, and reviewing cybersecurity risks to support business continuity, regulatory compliance, and the protection of organizational data.</p>
+<h3 class="section-heading">Purpose</h3>
+<h3 class="section-heading">The purpose of this procedure is to:</h3>
+<h3 class="section-heading">Identify and assess cybersecurity risks affecting DS Home Computing Ltd</h3>
+<h3 class="section-heading">Implement appropriate controls to mitigate identified risks</h3>
+<h3 class="section-heading">Monitor cybersecurity threats and control effectiveness</h3>
+<p class="policy-para">Support compliance with applicable cybersecurity, privacy, and data protection requirements</p>
+<h3 class="section-heading">Roles &amp; Responsibilities</h3>
+<h3 class="section-heading">Management</h3>
+<h3 class="section-heading">Ensure cybersecurity risk management practices are implemented and maintained</h3>
+<h3 class="section-heading">Review cybersecurity risk assessments and approve mitigation strategies</h3>
+<h3 class="section-heading">Allocate resources for cybersecurity controls and training</h3>
+<h3 class="section-heading">Human Resources / Safety / Quality / ESG</h3>
+<h3 class="section-heading">Coordinate access changes related to onboarding, role changes, and terminations</h3>
+<h3 class="section-heading">Support compliance monitoring and awareness activities</h3>
+<h3 class="section-heading">Escalate cybersecurity concerns as required</h3>
+<h3 class="section-heading">Information Technology / Cybersecurity Function</h3>
+<h3 class="section-heading">Monitor cloud-based systems and threat alerts</h3>
+<h3 class="section-heading">Conduct cybersecurity risk assessments and reviews</h3>
+<h3 class="section-heading">Implement and maintain security configurations and controls</h3>
+<h3 class="section-heading">Support incident investigation and remediation</h3>
+<h3 class="section-heading">Workers and Contractors</h3>
+<h3 class="section-heading">Comply with cybersecurity policies and procedures</h3>
+<h3 class="section-heading">Report suspected or actual cybersecurity threats promptly</h3>
+<h3 class="section-heading">Complete required cybersecurity training</h3>
+<h3 class="section-heading">Scope</h3>
+<p class="policy-para">This procedure applies to all DS Home Computing Ltd employees, contractors, subcontractors, and third parties with access to DS Home Computing Ltd digital infrastructure, including cloud-based systems, applications, and data.</p>
+<h3 class="section-heading">Terms and Definitions</h3>
+<h3 class="section-heading">Access ControlControls that restrict access to systems, data, or resources based on authorization.</h3>
+<h3 class="section-heading">Cybersecurity RiskThe potential for unauthorized access, data loss, disruption, or compromise of digital assets.</h3>
+<h3 class="section-heading">Multi-Factor Authentication (MFA)A security mechanism requiring two or more forms of authentication.</h3>
+<h3 class="section-heading">PhishingA cyberattack involving deceptive communications intended to obtain sensitive information.</h3>
+<h3 class="section-heading">Data Loss Prevention (DLP)Controls designed to prevent unauthorized disclosure or loss of sensitive data.</h3>
+<h3 class="section-heading">Role-Based Access Control (RBAC)Access control based on job roles and responsibilities.</h3>
+<h3 class="section-heading">Threat IntelligenceInformation used to identify, assess, and respond to cybersecurity threats.</h3>
+<h3 class="section-heading">Procedure</h3>
+<h3 class="section-heading">Risk Identification</h3>
+<h3 class="section-heading">Cybersecurity risks shall be identified through:</h3>
+<h3 class="section-heading">Continuous system and cloud monitoring</h3>
+<h3 class="section-heading">Employee reporting of suspicious activity</h3>
+<h3 class="section-heading">Periodic internal audits and reviews</h3>
+<h3 class="section-heading">Common risk categories include:</h3>
+<h3 class="section-heading">Unauthorized access or credential compromise</h3>
+<h3 class="section-heading">Phishing and social engineering attacks</h3>
+<h3 class="section-heading">Data breaches or data leakage</h3>
+<h3 class="section-heading">Malware or ransomware affecting cloud services</h3>
+<h3 class="section-heading">Regulatory and compliance risks</h3>
+<h3 class="section-heading">Risk Assessment</h3>
+<h3 class="section-heading">Identified risks shall be evaluated based on:</h3>
+<h3 class="section-heading">Likelihood: Low, Medium, or High</h3>
+<h3 class="section-heading">Impact: Low, Medium, or High</h3>
+<p class="policy-para">Risk assessments shall consider potential operational disruption, data loss, regulatory exposure, and reputational impact.</p>
+<p class="policy-para">Where available, cloud security analytics and secure score tools may be used to support assessments.</p>
+<h3 class="section-heading">Risk Control Measures</h3>
+<h3 class="section-heading">Access Control and Authentication</h3>
+<h3 class="section-heading">Multi-factor authentication shall be enforced for cloud-based systems</h3>
+<h3 class="section-heading">Role-based access shall be applied to limit access to sensitive data</h3>
+<h3 class="section-heading">User access shall be reviewed periodically</h3>
+<h3 class="section-heading">Personal Device Considerations</h3>
+<h3 class="section-heading">Where personal devices are used:</h3>
+<h3 class="section-heading">Users are expected to maintain up-to-date antivirus protection</h3>
+<h3 class="section-heading">Secure network connections shall be used when accessing company systems</h3>
+<h3 class="section-heading">Use of unsecured public networks without appropriate protection is discouraged</h3>
+<h3 class="section-heading">Threat Monitoring and Incident Response</h3>
+<h3 class="section-heading">Cloud-based threat monitoring tools shall be used to identify anomalies</h3>
+<h3 class="section-heading">High-risk alerts shall be reviewed within a reasonable timeframe</h3>
+<p class="policy-para">Suspected incidents shall be managed in accordance with the Cyber Incident Management Program</p>
+<h3 class="section-heading">Email and Phishing Protection</h3>
+<h3 class="section-heading">Anti-phishing and malicious email filtering controls shall be implemented</h3>
+<h3 class="section-heading">Periodic phishing awareness activities may be conducted</h3>
+<h3 class="section-heading">Suspicious communications shall be reported promptly</h3>
+<h3 class="section-heading">Data Protection and Compliance</h3>
+<h3 class="section-heading">Data loss prevention controls shall be implemented where feasible</h3>
+<h3 class="section-heading">Sensitive data shall be protected through encryption and access restrictions</h3>
+<h3 class="section-heading">Compliance with applicable data protection legislation shall be monitored</h3>
+<h3 class="section-heading">Risk Review and Continuous Improvement</h3>
+<h3 class="section-heading">Cybersecurity risks and incidents shall be reviewed periodically</h3>
+<h3 class="section-heading">Lessons learned shall inform control improvements and training updates</h3>
+<h3 class="section-heading">Security posture metrics may be reviewed to support continuous improvement</h3>
+<h3 class="section-heading">Training</h3>
+<h3 class="section-heading">Cybersecurity training shall include:</h3>
+<h3 class="section-heading">Onboarding cybersecurity awareness training</h3>
+<h3 class="section-heading">Periodic refresher training on emerging threats</h3>
+<h3 class="section-heading">Targeted training for roles with elevated access or responsibilities</h3>
+<h3 class="section-heading">References</h3>
+<h3 class="section-heading">ESG-POL-005 Cyber Security Policy</h3>
+<h3 class="section-heading">ESG-POL-006 Data Protection Policy</h3>
+<h3 class="section-heading">ESG-POL-015 Cyber Incident Management Program</h3>
+<h3 class="section-heading">ESG-POL-023 Cyber Access Control and Account Monitoring Policy</h3>
+<h3 class="section-heading">ISO/IEC 27001 – Information Security Management Systems</h3>
+<h3 class="section-heading">Related Forms</h3>
+<h3 class="section-heading">N/A</h3>
+<h3 class="section-heading">Review</h3>
+<h3 class="section-heading">This procedure shall be reviewed every three (3) years, or sooner if required due to:</h3>
+<h3 class="section-heading">Significant changes in cybersecurity risk</h3>
+<h3 class="section-heading">Regulatory or legislative updates</h3>
+<h3 class="section-heading">Cybersecurity incidents or audit findings</h3>
+<h3 class="section-heading">Amendments/Revision History</h3>
+<table class="policy-table">
+<tr><th>Revision Number</th><th>Revision Date</th><th>Summary of Changes</th></tr>
+<tr><td>0</td><td>June 2026</td><td>Initial adoption — DS Home Computing Ltd</td></tr>
+</table>
+<div class="sig-table-note">Sign-off — Doug Senger, CEO</div>
+
+</div>
+
+<div class="ack-section" id="ack">
+  <h3>Acknowledgement — B.092</h3>
+  <label class="ack-check"><input type="checkbox" id="c1"><span>I have read and understood this policy in full.</span></label>
+  <label class="ack-check"><input type="checkbox" id="c2"><span>I agree to comply with all requirements set out in this policy.</span></label>
+  <label class="ack-check"><input type="checkbox" id="c3"><span>I understand non-compliance may result in disciplinary action.</span></label>
+  <div class="sig-grid">
+    <div class="sig-field"><label>Employee Name</label><input type="text" id="emp" placeholder="Full name" autocomplete="off"></div>
+    <div class="sig-field"><label>Position / Trade</label><input type="text" id="pos" placeholder="Position" autocomplete="off"></div>
+    <div class="sig-field"><label>Date</label><input type="date" id="dt"></div>
+    <div class="sig-field"><label>Supervisor</label><input type="text" id="sup" placeholder="Supervisor name" autocomplete="off"></div>
+  </div>
+  <div style="margin-top:14px;">
+    <div class="sig-field"><label>Employee Signature</label><input class="sig-line" type="text" placeholder="Type name or leave for handwritten signature"></div>
+  </div>
+</div>
+</main>
+
+<footer>DS Home Computing · SA03 SECOR · HSMS Wiki · For internal use only</footer>
+<script>
+const srch = document.getElementById('srch');
+srch.addEventListener('input', () => {
+  const q = srch.value.toLowerCase().trim();
+  document.querySelectorAll('.policy-para, .section-heading').forEach(el => {
+    el.style.background = (q && el.textContent.toLowerCase().includes(q)) ? '#fef08a' : '';
+  });
+});
+document.getElementById('emp').addEventListener('input', function() {
+  const name = this.value.trim().replace(/\s+/g,'_') || '[name]';
+  const date = new Date().toISOString().slice(0,10);
+  document.getElementById('fn').textContent = 'B092-cyber-security-risk-management-procedure_' + name + '_' + date + '.pdf';
+});
+</script>
+</body>
+</html>

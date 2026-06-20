@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>B.088 Cyber Incident Management Program — HSMS</title>
+<link rel="stylesheet" href="../hsms.css">
+<style>
+.policy-para { font-size:.875rem; line-height:1.65; margin:0 0 8px; }
+.policy-list { font-size:.875rem; line-height:1.6; padding-left:20px; margin:0 0 10px; }
+.section-heading {
+  font-size:.95rem; font-weight:700; color:var(--navy);
+  background:#f1f5f9; padding:8px 16px; margin:16px 0 0;
+  border-left:3px solid var(--blue);
+}
+.policy-table { border-collapse:collapse; font-size:.8rem; width:100%; margin:10px 0; }
+.policy-table th { background:var(--navy); color:#fff; padding:5px 8px; text-align:left; }
+.policy-table td { border:1px solid var(--border); padding:5px 8px; vertical-align:top; }
+.policy-table tr:nth-child(even) td { background:#f8fafc; }
+.sig-table-note {
+  background:#f0fdf4; border:1px solid #bbf7d0; border-radius:6px;
+  padding:10px 14px; font-size:.8rem; color:#166534; margin:16px 0;
+}
+.policy-body { padding:16px; }
+.save-bar {
+  position:sticky; top:0; z-index:50;
+  background:#1e3a5f; color:#fff; padding:8px 16px;
+  display:flex; align-items:center; justify-content:space-between;
+  font-size:.78rem; gap:12px; flex-wrap:wrap;
+}
+.save-bar .save-path { opacity:.8; font-size:.7rem; word-break:break-all; }
+.save-bar button {
+  background:var(--blue); color:#fff; border:none; border-radius:6px;
+  padding:6px 14px; font-size:.8rem; font-weight:600; cursor:pointer;
+}
+.save-bar button:hover { background:#1d4ed8; }
+.filename-hint { font-size:.7rem; opacity:.75; margin-top:2px; }
+.doc-header { background:#fff; padding:16px; border-bottom:1px solid var(--border); }
+.doc-badge { font-size:.7rem; font-weight:700; letter-spacing:.05em; text-transform:uppercase; color:var(--blue); margin-bottom:4px; }
+.doc-header h2 { font-size:1.2rem; font-weight:700; color:var(--navy); margin:0 0 4px; }
+.doc-sub { font-size:.78rem; color:var(--muted); }
+.ack-section {
+  margin:20px 16px; padding:16px;
+  border:2px solid var(--navy); border-radius:10px;
+}
+.ack-section h3 { font-size:.9rem; font-weight:700; color:var(--navy); margin:0 0 12px; }
+.ack-check { display:flex; align-items:flex-start; gap:10px; margin-bottom:10px; cursor:pointer; }
+.ack-check input { flex-shrink:0; margin-top:2px; accent-color:var(--blue); width:16px; height:16px; }
+.ack-check span { font-size:.8rem; line-height:1.4; }
+.sig-grid { display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-top:14px; }
+.sig-field { display:flex; flex-direction:column; gap:4px; }
+.sig-field label { font-size:.72rem; font-weight:600; color:var(--muted); }
+.sig-field input { border:1px solid var(--border); border-radius:6px; padding:7px 10px; font:inherit; font-size:.85rem; }
+.sig-line { border:none; border-bottom:1px solid var(--body); width:100%; padding:6px 0; font:inherit; font-size:.85rem; background:transparent; }
+@media (max-width:480px) { .sig-grid { grid-template-columns:1fr; } }
+@media print {
+  .site-header, .save-bar, footer, .search-wrap { display:none !important; }
+  body { font-size:11pt; }
+}
+</style>
+</head>
+<body>
+<header class="site-header">
+  <span class="logo">🛡️</span>
+  <div><h1>HSMS Wiki</h1><p>DS Home Computing</p></div>
+  <a href="../B/index.html" style="margin-left:auto;color:#fff;font-size:.8rem;">← B Series</a>
+</header>
+
+<div class="save-bar">
+  <div>
+    <div>Save completed acknowledgement as PDF</div>
+    <div class="save-path">📁 G:\My Drive\DS Home\SA Safety and Security\SA03 SECOR\2026 Forms</div>
+    <div class="filename-hint">Suggested: <span id="fn">B088-cyber-incident-management-program_[name]_[date].pdf</span></div>
+  </div>
+  <button onclick="window.print()">🖨 Print / Save PDF</button>
+</div>
+
+<div class="doc-header">
+  <nav style="font-size:.75rem;color:var(--muted);margin-bottom:8px;">
+    <a href="../index.html">HSMS Wiki</a> › <a href="index.html">B Series</a> › B.088 Cyber Incident Management Program
+  </nav>
+  <div class="doc-badge">B.088 · POLICY</div>
+  <h2>Cyber Incident Management Program</h2>
+  <div class="doc-sub">DS Home Computing Ltd · SA03 SECOR · For internal use</div>
+</div>
+
+<div class="search-wrap">
+  <span class="search-icon">🔍</span>
+  <input type="search" id="srch" placeholder="Search policy text…" autocomplete="off">
+</div>
+
+<main>
+<div class="policy-body">
+<h3 class="section-heading">ESG-IT-POL-005Cyber Incident Management Program</h3>
+<h3 class="section-heading">Introduction</h3>
+<p class="policy-para">DS Home Computing Ltd operates in an increasingly digital environment where cybersecurity incidents present a persistent risk to information security, business operations, and stakeholder trust. Cyber incidents may include data breaches, unauthorized access, system compromises, malware attacks, or service disruptions.</p>
+<p class="policy-para">This Cyber Incident Management Program establishes a structured, coordinated approach for identifying, responding to, monitoring, and reviewing cybersecurity incidents to minimize impact, support business continuity, and maintain regulatory compliance.</p>
+<h3 class="section-heading">Purpose</h3>
+<h3 class="section-heading">The purpose of this program is to:</h3>
+<h3 class="section-heading">Provide a consistent framework for managing cybersecurity incidents</h3>
+<h3 class="section-heading">Minimize disruption to business operations and services</h3>
+<h3 class="section-heading">Protect the confidentiality, integrity, and availability of information assets</h3>
+<h3 class="section-heading">Support regulatory, contractual, and stakeholder obligations</h3>
+<h3 class="section-heading">Promote continuous improvement in cybersecurity resilience</h3>
+<h3 class="section-heading">Roles &amp; Responsibilities</h3>
+<h3 class="section-heading">Management</h3>
+<h3 class="section-heading">Provide oversight and authority for cyber incident response</h3>
+<h3 class="section-heading">Ensure appropriate resources and support are available</h3>
+<h3 class="section-heading">Review significant incidents and corrective actions</h3>
+<h3 class="section-heading">Incident Response Team</h3>
+<h3 class="section-heading">Coordinate identification, response, containment, and recovery activities</h3>
+<h3 class="section-heading">Assess incident severity and business impact</h3>
+<h3 class="section-heading">Maintain documentation and incident records</h3>
+<h3 class="section-heading">Operations/ IT Support</h3>
+<h3 class="section-heading">Conduct technical analysis, containment, and recovery activities</h3>
+<h3 class="section-heading">Support system monitoring, restoration, and validation</h3>
+<h3 class="section-heading">Human Resources/Safety/Quality/ESG Coordinator</h3>
+<h3 class="section-heading">Support internal and external communications</h3>
+<h3 class="section-heading">Coordinate employee notifications and awareness activities</h3>
+<h3 class="section-heading">Support post-incident review and improvement actions</h3>
+<h3 class="section-heading">Workers and Contractors</h3>
+<h3 class="section-heading">Promptly report suspected or confirmed cyber incidents</h3>
+<h3 class="section-heading">Comply with cybersecurity policies and response instructions</h3>
+<h3 class="section-heading">Participate in required training and awareness activities</h3>
+<h3 class="section-heading">Scope</h3>
+<p class="policy-para">This program applies to all DS Home Computing Ltd employees, contractors, subcontractors, third-party vendors, and service providers who interact with DS Home Computing Ltd information systems, networks, or data.</p>
+<h3 class="section-heading">It covers all cybersecurity incidents, including but not limited to:</h3>
+<h3 class="section-heading">Data breaches</h3>
+<h3 class="section-heading">Malware or ransomware attacks</h3>
+<h3 class="section-heading">Unauthorized access attempts</h3>
+<h3 class="section-heading">Denial-of-service attacks</h3>
+<h3 class="section-heading">System or network compromises</h3>
+<h3 class="section-heading">Terms and Definitions</h3>
+<h3 class="section-heading">Cybersecurity IncidentAny event that compromises, or has the potential to compromise, the confidentiality, integrity, or availability of information systems or data.</h3>
+<h3 class="section-heading">Incident Response Team (IRT)A designated group responsible for coordinating the response to cybersecurity incidents.</h3>
+<h3 class="section-heading">Incident ClassificationThe process of categorizing incidents based on severity, impact, and urgency.</h3>
+<h3 class="section-heading">ContainmentActions taken to limit the scope and impact of a cybersecurity incident.</h3>
+<h3 class="section-heading">Post-Incident ReviewA structured evaluation conducted after an incident to identify lessons learned and improvement opportunities.</h3>
+<h3 class="section-heading">Program Requirements</h3>
+<h3 class="section-heading">Incident Identification and Reporting</h3>
+<h3 class="section-heading">Cyber incidents may be identified through system monitoring tools or user reporting</h3>
+<h3 class="section-heading">All suspected or confirmed incidents must be reported promptly</h3>
+<h3 class="section-heading">Secure and confidential reporting mechanisms shall be available</h3>
+<h3 class="section-heading">Incident Classification and Prioritization</h3>
+<h3 class="section-heading">Incidents shall be assessed based on severity, scope, and potential impact</h3>
+<h3 class="section-heading">Response actions shall be prioritized based on criticality and regulatory obligations</h3>
+<h3 class="section-heading">Incident Response and Containment</h3>
+<h3 class="section-heading">The IRT shall be notified upon incident confirmation</h3>
+<h3 class="section-heading">Containment measures shall be implemented to prevent further impact</h3>
+<h3 class="section-heading">Response actions shall be documented throughout the incident lifecycle</h3>
+<h3 class="section-heading">Monitoring and Communication</h3>
+<h3 class="section-heading">Affected systems shall be monitored to track incident progression</h3>
+<h3 class="section-heading">Stakeholders shall be updated as appropriate based on incident severity</h3>
+<h3 class="section-heading">Communications shall be factual, timely, and coordinated</h3>
+<h3 class="section-heading">Reporting and Documentation</h3>
+<h3 class="section-heading">All actions, decisions, and timelines shall be recorded</h3>
+<h3 class="section-heading">Regulatory and contractual reporting obligations shall be fulfilled where required</h3>
+<h3 class="section-heading">Post-Incident Review and Improvement</h3>
+<h3 class="section-heading">A post-incident review shall be conducted following significant incidents</h3>
+<h3 class="section-heading">Lessons learned shall be documented and used to improve controls, training, or processes</h3>
+<h3 class="section-heading">Policies and procedures shall be updated where necessary</h3>
+<h3 class="section-heading">Training</h3>
+<h3 class="section-heading">Cyber incident management training shall include:</h3>
+<h3 class="section-heading">Role-specific training for Incident Response Team members</h3>
+<h3 class="section-heading">Periodic simulated incident exercises</h3>
+<h3 class="section-heading">General cybersecurity awareness training for all personnel</h3>
+<p class="policy-para">Training frequency shall be based on role, risk, and organizational needs.</p>
+<h3 class="section-heading">References</h3>
+<h3 class="section-heading">ISO/IEC 27001 – Information Security Management Systems</h3>
+<h3 class="section-heading">ISO/IEC 27035 – Information Security Incident Management</h3>
+<h3 class="section-heading">ISO 22301 – Business Continuity Management Systems</h3>
+<h3 class="section-heading">Applicable federal, state/provincial, and local cybersecurity regulations</h3>
+<h3 class="section-heading">Related Forms</h3>
+<h3 class="section-heading">N/A</h3>
+<h3 class="section-heading">Review</h3>
+<h3 class="section-heading">This program shall be reviewed every three (3) years, or sooner if required due to:</h3>
+<h3 class="section-heading">Significant cybersecurity incidents</h3>
+<h3 class="section-heading">Regulatory or legal changes</h3>
+<h3 class="section-heading">Organizational or technological changes</h3>
+<h3 class="section-heading">Amendments/Revision History</h3>
+<table class="policy-table">
+<tr><th>Revision Number</th><th>Revision Date</th><th>Summary of Changes</th></tr>
+<tr><td>0</td><td>June 2026</td><td>Initial adoption — DS Home Computing Ltd</td></tr>
+</table>
+<div class="sig-table-note">Sign-off — Doug Senger, CEO</div>
+
+</div>
+
+<div class="ack-section" id="ack">
+  <h3>Acknowledgement — B.088</h3>
+  <label class="ack-check"><input type="checkbox" id="c1"><span>I have read and understood this policy in full.</span></label>
+  <label class="ack-check"><input type="checkbox" id="c2"><span>I agree to comply with all requirements set out in this policy.</span></label>
+  <label class="ack-check"><input type="checkbox" id="c3"><span>I understand non-compliance may result in disciplinary action.</span></label>
+  <div class="sig-grid">
+    <div class="sig-field"><label>Employee Name</label><input type="text" id="emp" placeholder="Full name" autocomplete="off"></div>
+    <div class="sig-field"><label>Position / Trade</label><input type="text" id="pos" placeholder="Position" autocomplete="off"></div>
+    <div class="sig-field"><label>Date</label><input type="date" id="dt"></div>
+    <div class="sig-field"><label>Supervisor</label><input type="text" id="sup" placeholder="Supervisor name" autocomplete="off"></div>
+  </div>
+  <div style="margin-top:14px;">
+    <div class="sig-field"><label>Employee Signature</label><input class="sig-line" type="text" placeholder="Type name or leave for handwritten signature"></div>
+  </div>
+</div>
+</main>
+
+<footer>DS Home Computing · SA03 SECOR · HSMS Wiki · For internal use only</footer>
+<script>
+const srch = document.getElementById('srch');
+srch.addEventListener('input', () => {
+  const q = srch.value.toLowerCase().trim();
+  document.querySelectorAll('.policy-para, .section-heading').forEach(el => {
+    el.style.background = (q && el.textContent.toLowerCase().includes(q)) ? '#fef08a' : '';
+  });
+});
+document.getElementById('emp').addEventListener('input', function() {
+  const name = this.value.trim().replace(/\s+/g,'_') || '[name]';
+  const date = new Date().toISOString().slice(0,10);
+  document.getElementById('fn').textContent = 'B088-cyber-incident-management-program_' + name + '_' + date + '.pdf';
+});
+</script>
+</body>
+</html>

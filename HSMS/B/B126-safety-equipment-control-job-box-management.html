@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>B.126 Safety Equipment Control &amp; Job Box Management — HSMS</title>
+<link rel="stylesheet" href="../hsms.css">
+<style>
+.policy-para { font-size:.875rem; line-height:1.65; margin:0 0 8px; }
+.policy-list { font-size:.875rem; line-height:1.6; padding-left:20px; margin:0 0 10px; }
+.section-heading {
+  font-size:.95rem; font-weight:700; color:var(--navy);
+  background:#f1f5f9; padding:8px 16px; margin:16px 0 0;
+  border-left:3px solid var(--blue);
+}
+.policy-table { border-collapse:collapse; font-size:.8rem; width:100%; margin:10px 0; }
+.policy-table th { background:var(--navy); color:#fff; padding:5px 8px; text-align:left; }
+.policy-table td { border:1px solid var(--border); padding:5px 8px; vertical-align:top; }
+.policy-table tr:nth-child(even) td { background:#f8fafc; }
+.sig-table-note {
+  background:#f0fdf4; border:1px solid #bbf7d0; border-radius:6px;
+  padding:10px 14px; font-size:.8rem; color:#166534; margin:16px 0;
+}
+.policy-body { padding:16px; }
+.save-bar {
+  position:sticky; top:0; z-index:50;
+  background:#1e3a5f; color:#fff; padding:8px 16px;
+  display:flex; align-items:center; justify-content:space-between;
+  font-size:.78rem; gap:12px; flex-wrap:wrap;
+}
+.save-bar .save-path { opacity:.8; font-size:.7rem; word-break:break-all; }
+.save-bar button {
+  background:var(--blue); color:#fff; border:none; border-radius:6px;
+  padding:6px 14px; font-size:.8rem; font-weight:600; cursor:pointer;
+}
+.save-bar button:hover { background:#1d4ed8; }
+.filename-hint { font-size:.7rem; opacity:.75; margin-top:2px; }
+.doc-header { background:#fff; padding:16px; border-bottom:1px solid var(--border); }
+.doc-badge { font-size:.7rem; font-weight:700; letter-spacing:.05em; text-transform:uppercase; color:var(--blue); margin-bottom:4px; }
+.doc-header h2 { font-size:1.2rem; font-weight:700; color:var(--navy); margin:0 0 4px; }
+.doc-sub { font-size:.78rem; color:var(--muted); }
+.ack-section {
+  margin:20px 16px; padding:16px;
+  border:2px solid var(--navy); border-radius:10px;
+}
+.ack-section h3 { font-size:.9rem; font-weight:700; color:var(--navy); margin:0 0 12px; }
+.ack-check { display:flex; align-items:flex-start; gap:10px; margin-bottom:10px; cursor:pointer; }
+.ack-check input { flex-shrink:0; margin-top:2px; accent-color:var(--blue); width:16px; height:16px; }
+.ack-check span { font-size:.8rem; line-height:1.4; }
+.sig-grid { display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-top:14px; }
+.sig-field { display:flex; flex-direction:column; gap:4px; }
+.sig-field label { font-size:.72rem; font-weight:600; color:var(--muted); }
+.sig-field input { border:1px solid var(--border); border-radius:6px; padding:7px 10px; font:inherit; font-size:.85rem; }
+.sig-line { border:none; border-bottom:1px solid var(--body); width:100%; padding:6px 0; font:inherit; font-size:.85rem; background:transparent; }
+@media (max-width:480px) { .sig-grid { grid-template-columns:1fr; } }
+@media print {
+  .site-header, .save-bar, footer, .search-wrap { display:none !important; }
+  body { font-size:11pt; }
+}
+</style>
+</head>
+<body>
+<header class="site-header">
+  <span class="logo">🛡️</span>
+  <div><h1>HSMS Wiki</h1><p>DS Home Computing</p></div>
+  <a href="../B/index.html" style="margin-left:auto;color:#fff;font-size:.8rem;">← B Series</a>
+</header>
+
+<div class="save-bar">
+  <div>
+    <div>Save completed acknowledgement as PDF</div>
+    <div class="save-path">📁 G:\My Drive\DS Home\SA Safety and Security\SA03 SECOR\2026 Forms</div>
+    <div class="filename-hint">Suggested: <span id="fn">B126-safety-equipment-control-job-box-management_[name]_[date].pdf</span></div>
+  </div>
+  <button onclick="window.print()">🖨 Print / Save PDF</button>
+</div>
+
+<div class="doc-header">
+  <nav style="font-size:.75rem;color:var(--muted);margin-bottom:8px;">
+    <a href="../index.html">HSMS Wiki</a> › <a href="index.html">B Series</a> › B.126 Safety Equipment Control &amp; Job Box Management
+  </nav>
+  <div class="doc-badge">B.126 · POLICY</div>
+  <h2>Safety Equipment Control &amp; Job Box Management</h2>
+  <div class="doc-sub">DS Home Computing Ltd · SA03 SECOR · For internal use</div>
+</div>
+
+<div class="search-wrap">
+  <span class="search-icon">🔍</span>
+  <input type="search" id="srch" placeholder="Search policy text…" autocomplete="off">
+</div>
+
+<main>
+<div class="policy-body">
+<h3 class="section-heading">QA-PRO-5.2.5Safety Equipment Control &amp; Job Box Management</h3>
+<h3 class="section-heading">Purpose</h3>
+<p class="policy-para">The purpose of this procedure is to establish a standardized system for the distribution, control, tracking, and recovery of safety equipment used on DS Home Computing projects.</p>
+<h3 class="section-heading">This procedure introduces the Safety Job Box program, which centralizes safety equipment management at the project level to improve accountability, reduce unnecessary purchasing, ensure inspection compliance, and maintain control of life-critical safety equipment.</h3>
+<h3 class="section-heading">Scope</h3>
+<p class="policy-para">This procedure applies to all DS Home Computing operations where safety equipment or personal protective equipment (PPE) is issued for project work.</p>
+<h3 class="section-heading">It applies to:</h3>
+<h3 class="section-heading">Field technicians</h3>
+<h3 class="section-heading">Site Leads</h3>
+<h3 class="section-heading">Resource Coordinators</h3>
+<h3 class="section-heading">Warehouse / shop personnel</h3>
+<h3 class="section-heading">Project management staff</h3>
+<h3 class="section-heading">The procedure governs all safety equipment issued to project sites, including equipment transported in Safety Job Boxes.</h3>
+<h3 class="section-heading">Roles &amp; Responsibilities</h3>
+<h3 class="section-heading">Warehouse / Shop</h3>
+<h3 class="section-heading">Preparing Safety Job Boxes prior to project mobilization</h3>
+<h3 class="section-heading">Verifying equipment inventory before shipment</h3>
+<h3 class="section-heading">Inspecting returned equipment after project completion</h3>
+<h3 class="section-heading">Managing long-term storage of safety equipment</h3>
+<h3 class="section-heading">Resource Coordinator</h3>
+<h3 class="section-heading">Coordinating Safety Job Box shipment to project locations</h3>
+<h3 class="section-heading">Assigning equipment to projects</h3>
+<h3 class="section-heading">Maintaining tracking records where applicable</h3>
+<h3 class="section-heading">Site Lead</h3>
+<h3 class="section-heading">Receiving the Safety Job Box at the project site</h3>
+<h3 class="section-heading">Maintaining control of equipment while on site</h3>
+<h3 class="section-heading">Issuing equipment to workers when required</h3>
+<h3 class="section-heading">Ensuring controlled safety equipment is returned at project completion</h3>
+<h3 class="section-heading">Workers</h3>
+<h3 class="section-heading">Proper use and care of issued equipment</h3>
+<h3 class="section-heading">Returning equipment to the Site Lead when no longer required</h3>
+<h3 class="section-heading">Management</h3>
+<h3 class="section-heading">Supporting implementation of this program</h3>
+<h3 class="section-heading">Ensuring compliance with equipment accountability requirements</h3>
+<h3 class="section-heading">Definitions</h3>
+<h3 class="section-heading">Safety Job BoxA project-specific container that holds required safety equipment and consumable PPE for a project site.</h3>
+<h3 class="section-heading">Controlled Safety EquipmentSafety equipment that must be returned, tracked, inspected, and maintained due to its critical safety function.</h3>
+<h3 class="section-heading">Examples include:</h3>
+<h3 class="section-heading">Fall protection harnesses</h3>
+<h3 class="section-heading">Arc flash suits</h3>
+<h3 class="section-heading">Gas monitors</h3>
+<h3 class="section-heading">Specialty electrical PPE</h3>
+<h3 class="section-heading">Consumable PPEPersonal protective equipment intended for single use or short-term use that is not expected to be returned.</h3>
+<h3 class="section-heading">Examples include:</h3>
+<h3 class="section-heading">Safety glasses</h3>
+<h3 class="section-heading">Hearing protection</h3>
+<h3 class="section-heading">Gloves</h3>
+<h3 class="section-heading">Employee-Issued PPEClothing or equipment issued directly to an employee for personal use during employment.</h3>
+<h3 class="section-heading">Examples include:</h3>
+<h3 class="section-heading">FR pants</h3>
+<h3 class="section-heading">FR shirts</h3>
+<h3 class="section-heading">Chain of CustodyThe documented transfer of responsibility for equipment between personnel throughout a project lifecycle.</h3>
+<h3 class="section-heading">Gas MonitorA portable safety device used to detect hazardous gas concentrations in the work environment.</h3>
+<h3 class="section-heading">Procedures</h3>
+<h3 class="section-heading">Safety Job Box Program</h3>
+<p class="policy-para">DS Home Computing will utilize project-specific Safety Job Boxes to distribute and control safety equipment.</p>
+<p class="policy-para">Each project will receive a prepared job box containing necessary safety equipment and PPE required for the scope of work. The job box will remain on site for the duration of the project and will be returned to the warehouse upon project completion.</p>
+<h3 class="section-heading">Safety Equipment Classification</h3>
+<p class="policy-para">Safety equipment is categorized into three primary groups.</p>
+<h3 class="section-heading">Employee-Issued PPE</h3>
+<h3 class="section-heading">Items issued directly to individual employees:</h3>
+<h3 class="section-heading">FR pants</h3>
+<h3 class="section-heading">FR shirts</h3>
+<h3 class="section-heading">Standard PPE clothing</h3>
+<p class="policy-para">These items are not expected to be returned.</p>
+<h3 class="section-heading">Consumable PPE</h3>
+<h3 class="section-heading">Items used and replaced regularly:</h3>
+<h3 class="section-heading">Safety glasses</h3>
+<h3 class="section-heading">Hearing protection</h3>
+<h3 class="section-heading">Gloves</h3>
+<p class="policy-para">These items are supplied within the Safety Job Box but are not tracked as returnable assets.</p>
+<h3 class="section-heading">Controlled Safety Equipment</h3>
+<h3 class="section-heading">Critical safety equipment that must be tracked and returned:</h3>
+<h3 class="section-heading">Fall protection harnesses</h3>
+<h3 class="section-heading">Arc flash suits</h3>
+<h3 class="section-heading">Gas monitors</h3>
+<h3 class="section-heading">Specialty electrical PPE</h3>
+<p class="policy-para">These items remain property of DS Home Computing and must be returned after project completion.</p>
+<h3 class="section-heading">Equipment Accountability Process</h3>
+<h3 class="section-heading">The following chain of custody will be used for all Safety Job Box equipment:</h3>
+<p class="policy-para">Warehouse / Shop→ Resource Coordinator→ Site Lead→ Worker→ Site Lead→ Resource Coordinator→ Warehouse</p>
+<p class="policy-para">This process ensures that responsibility for equipment is clearly defined at every stage of the project.</p>
+<h3 class="section-heading">Equipment Inspection and Maintenance</h3>
+<p class="policy-para">Controlled safety equipment must be inspected according to manufacturer recommendations and applicable safety standards.</p>
+<p class="policy-para">Returned equipment will be inspected prior to being redeployed to another project.</p>
+<p class="policy-para">Any damaged or expired equipment will be removed from service.</p>
+<h3 class="section-heading">Gas Monitor Standardization</h3>
+<p class="policy-para">Gas monitors are considered life-critical safety equipment and must be reliable, serviceable, and capable of supporting calibration programs.</p>
+<p class="policy-para">DS Home Computing will prioritize the use of serviceable gas monitors within the Safety Job Box program.</p>
+<h3 class="section-heading">Serviceable monitors allow:</h3>
+<h3 class="section-heading">Sensor replacement</h3>
+<h3 class="section-heading">Battery replacement or recharge</h3>
+<h3 class="section-heading">Full calibration capability</h3>
+<h3 class="section-heading">Extended service life through maintenance</h3>
+<p class="policy-para">This supports long-term equipment management and improved operational reliability.</p>
+<h3 class="section-heading">Benefits</h3>
+<h3 class="section-heading">Implementation of the Safety Job Box program provides several operational improvements:</h3>
+<h3 class="section-heading">Reduced unnecessary PPE purchasing</h3>
+<h3 class="section-heading">Improved accountability for safety equipment</h3>
+<h3 class="section-heading">Better inspection and maintenance control</h3>
+<h3 class="section-heading">Faster project mobilization</h3>
+<h3 class="section-heading">Standardization of safety equipment across projects</h3>
+<h3 class="section-heading">References</h3>
+<h3 class="section-heading">Salus Asset Management System</h3>
+<h3 class="section-heading">QA-PRO-5.2.3 Using Asset Program in Salus</h3>
+<h3 class="section-heading">Frequency and Review Period</h3>
+<h3 class="section-heading">This procedure shall be reviewed every three (3) years or sooner if operational changes require revision.</h3>
+<h3 class="section-heading">Amendments/Revision History</h3>
+<table class="policy-table">
+<tr><th>Revision Number</th><th>Revision Date</th><th>Summary of Changes</th></tr>
+<tr><td>0</td><td>June 2026</td><td>Initial adoption — DS Home Computing Ltd</td></tr>
+</table>
+<div class="sig-table-note">Sign-off — Doug Senger, CEO</div>
+
+</div>
+
+<div class="ack-section" id="ack">
+  <h3>Acknowledgement — B.126</h3>
+  <label class="ack-check"><input type="checkbox" id="c1"><span>I have read and understood this policy in full.</span></label>
+  <label class="ack-check"><input type="checkbox" id="c2"><span>I agree to comply with all requirements set out in this policy.</span></label>
+  <label class="ack-check"><input type="checkbox" id="c3"><span>I understand non-compliance may result in disciplinary action.</span></label>
+  <div class="sig-grid">
+    <div class="sig-field"><label>Employee Name</label><input type="text" id="emp" placeholder="Full name" autocomplete="off"></div>
+    <div class="sig-field"><label>Position / Trade</label><input type="text" id="pos" placeholder="Position" autocomplete="off"></div>
+    <div class="sig-field"><label>Date</label><input type="date" id="dt"></div>
+    <div class="sig-field"><label>Supervisor</label><input type="text" id="sup" placeholder="Supervisor name" autocomplete="off"></div>
+  </div>
+  <div style="margin-top:14px;">
+    <div class="sig-field"><label>Employee Signature</label><input class="sig-line" type="text" placeholder="Type name or leave for handwritten signature"></div>
+  </div>
+</div>
+</main>
+
+<footer>DS Home Computing · SA03 SECOR · HSMS Wiki · For internal use only</footer>
+<script>
+const srch = document.getElementById('srch');
+srch.addEventListener('input', () => {
+  const q = srch.value.toLowerCase().trim();
+  document.querySelectorAll('.policy-para, .section-heading').forEach(el => {
+    el.style.background = (q && el.textContent.toLowerCase().includes(q)) ? '#fef08a' : '';
+  });
+});
+document.getElementById('emp').addEventListener('input', function() {
+  const name = this.value.trim().replace(/\s+/g,'_') || '[name]';
+  const date = new Date().toISOString().slice(0,10);
+  document.getElementById('fn').textContent = 'B126-safety-equipment-control-job-box-management_' + name + '_' + date + '.pdf';
+});
+</script>
+</body>
+</html>

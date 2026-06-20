@@ -1,0 +1,992 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Académie des Détectives · Gr. 6 FI · Logan</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Baloo+2:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'Nunito',sans-serif;background:#f5f1ea;color:#1a1a2e;min-height:100vh}
+
+/* HEADER */
+.det-header{background:linear-gradient(135deg,#1a1a2e 0%,#16213e 60%,#0f3460 100%);padding:18px 16px 14px;color:white;position:relative;overflow:hidden}
+.det-header::before{content:'';position:absolute;inset:0;background:repeating-linear-gradient(45deg,rgba(201,168,0,.04) 0px,rgba(201,168,0,.04) 1px,transparent 1px,transparent 8px)}
+.det-badge{display:inline-flex;align-items:center;gap:6px;background:rgba(201,168,0,.15);border:1px solid rgba(201,168,0,.4);border-radius:20px;padding:3px 10px;font-size:10px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;color:#c9a800;margin-bottom:8px}
+.det-title{font-family:'Baloo 2',sans-serif;font-size:20px;font-weight:800;color:white;line-height:1.2}
+.det-sub{font-size:12px;color:rgba(255,255,255,.55);margin-top:3px}
+.det-prog-wrap{margin-top:12px}
+.det-prog-bar{background:rgba(255,255,255,.12);border-radius:4px;height:5px;overflow:hidden}
+.det-prog-fill{height:100%;background:linear-gradient(90deg,#c9a800,#f5d020);border-radius:4px;transition:width .5s ease}
+.det-prog-labels{display:flex;justify-content:space-between;font-size:10px;color:rgba(255,255,255,.45);margin-top:4px}
+
+/* FILTER BAR */
+.filter-bar{background:white;border-bottom:1px solid #e5e0d8;display:flex;overflow-x:auto;padding:0 10px;position:sticky;top:0;z-index:50;box-shadow:0 2px 6px rgba(0,0,0,.06);-webkit-overflow-scrolling:touch;scrollbar-width:none}
+.filter-bar::-webkit-scrollbar{display:none}
+.fbtn{flex-shrink:0;padding:11px 12px;border:none;background:transparent;font-family:'Nunito',sans-serif;font-size:12px;font-weight:700;color:#888;cursor:pointer;border-bottom:3px solid transparent;transition:all .15s;white-space:nowrap}
+.fbtn:hover{color:#1a1a2e}
+.fbtn.active{color:#1a1a2e;border-bottom-color:#c9a800}
+
+/* STATS */
+.stats-row{display:flex;gap:8px;padding:12px 14px;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+.stats-row::-webkit-scrollbar{display:none}
+.stat-chip{flex-shrink:0;background:white;border-radius:12px;padding:9px 14px;text-align:center;box-shadow:0 2px 6px rgba(0,0,0,.06);min-width:68px}
+.stat-num{font-family:'Baloo 2',sans-serif;font-size:20px;font-weight:800;line-height:1}
+.stat-lbl{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:#888;margin-top:1px}
+
+/* CASE LIST */
+.case-list-wrap{padding:4px 14px 80px;max-width:680px;margin:0 auto}
+.sec-heading{font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:1.5px;color:#aaa;margin:14px 0 7px}
+
+/* CASE CARD */
+.case-card{background:white;border-radius:13px;margin-bottom:9px;box-shadow:0 2px 7px rgba(0,0,0,.07);overflow:hidden;border-left:4px solid #ddd;cursor:pointer;transition:transform .12s,box-shadow .12s;display:flex;align-items:center;gap:10px;padding:12px 14px}
+.case-card:hover{transform:translateY(-1px);box-shadow:0 4px 14px rgba(0,0,0,.1)}
+.case-card:active{transform:translateY(0)}
+.case-card.s-pass{border-left-color:#52c4a0}
+.case-card.s-fail{border-left-color:#f07060}
+.case-card.s-retry{border-left-color:#c9a800;background:#fffdf5}
+.case-icon{width:40px;height:40px;border-radius:11px;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:17px;flex-shrink:0;line-height:1}
+.case-icon-code{font-size:7px;font-weight:800;letter-spacing:.5px;text-transform:uppercase;margin-top:1px}
+.case-meta{flex:1;min-width:0}
+.case-id{font-size:9px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;color:#bbb;margin-bottom:1px}
+.case-title{font-size:13px;font-weight:800;color:#1a1a2e;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.case-sub{font-size:11px;color:#888;margin-top:1px}
+.case-right{display:flex;flex-direction:column;align-items:flex-end;gap:3px;flex-shrink:0}
+.pill{font-size:9px;font-weight:800;text-transform:uppercase;letter-spacing:.8px;padding:2px 8px;border-radius:20px}
+.pill-pending{background:#f0f0f0;color:#999}
+.pill-pass{background:#d1fae5;color:#065f46}
+.pill-fail{background:#fee2e2;color:#991b1b}
+.pill-retry{background:#fef3c7;color:#92400e}
+.case-time{font-size:10px;color:#ccc;font-weight:700}
+.case-score-num{font-family:'Baloo 2',sans-serif;font-size:16px;font-weight:800}
+
+/* LESSON VIEW */
+#viewLesson{min-height:100vh;background:#f5f1ea;display:none}
+.lesson-topbar{background:white;padding:12px 14px;display:flex;align-items:center;gap:10px;border-bottom:1px solid #e5e0d8;position:sticky;top:0;z-index:50;box-shadow:0 2px 6px rgba(0,0,0,.06)}
+.back-btn{width:34px;height:34px;border:none;background:#f5f1ea;border-radius:10px;font-size:15px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.lesson-topbar-title{font-size:13px;font-weight:800;flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.topbar-badge{font-size:10px;font-weight:800;padding:3px 9px;border-radius:20px;background:#f5f1ea;color:#666;flex-shrink:0}
+.lesson-wrap{max-width:680px;margin:0 auto;padding:14px 14px 80px}
+
+/* DOSSIER (reading card) */
+.dossier-card{background:#fdf8f0;border:1px solid #e0d4bc;border-radius:14px;padding:18px;margin-bottom:14px;position:relative;box-shadow:0 3px 10px rgba(0,0,0,.07)}
+.dossier-card::before{content:'';position:absolute;top:0;left:0;right:0;height:4px;background:var(--sc,#c9a800);border-radius:14px 14px 0 0}
+.dossier-header{display:flex;align-items:flex-start;gap:10px;margin-bottom:12px}
+.dossier-stamp{background:var(--sl,#fef7d5);border:2px solid var(--sc,#c9a800);border-radius:10px;padding:6px 10px;text-align:center;flex-shrink:0}
+.dossier-stamp-icon{font-size:18px}
+.dossier-stamp-code{font-size:8px;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:var(--sc,#c9a800);margin-top:1px}
+.dossier-label{font-size:8px;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:#bbb;margin-bottom:3px}
+.dossier-title{font-family:'Baloo 2',sans-serif;font-size:17px;font-weight:800;color:#1a1a2e;line-height:1.2}
+.dossier-sub{font-size:11px;color:#888;margin-top:2px}
+.dossier-body{font-size:13.5px;line-height:1.75;color:#2d2d44}
+.dossier-body p{margin-bottom:9px}
+.dossier-body p:last-child{margin-bottom:0}
+.dossier-body strong{color:#1a1a2e}
+.dossier-body em{font-style:normal;font-weight:800;color:var(--sc,#c9a800)}
+.dossier-footer{display:flex;align-items:center;justify-content:space-between;margin-top:14px;padding-top:12px;border-top:1px solid #e0d4bc}
+.dossier-time{font-size:11px;color:#bbb;font-weight:700}
+.start-btn{background:linear-gradient(135deg,#1a1a2e,#0f3460);color:white;border:none;border-radius:11px;padding:10px 18px;font-family:'Nunito',sans-serif;font-size:13px;font-weight:800;cursor:pointer;display:flex;align-items:center;gap:6px;transition:transform .12s}
+.start-btn:hover{transform:translateY(-1px)}
+
+/* QUIZ */
+#phaseQuiz{display:none}
+.quiz-header{background:white;border-radius:13px;padding:13px 15px;margin-bottom:12px;display:flex;align-items:center;gap:10px;box-shadow:0 2px 6px rgba(0,0,0,.06)}
+.q-card{background:white;border-radius:13px;padding:15px;margin-bottom:9px;box-shadow:0 2px 6px rgba(0,0,0,.05);border-left:3px solid #e0d4bc;transition:border-left-color .2s}
+.q-card.answered{border-left-color:var(--sc,#c9a800)}
+.q-num{font-size:9px;font-weight:800;text-transform:uppercase;letter-spacing:1.5px;color:#bbb;margin-bottom:7px}
+.q-text{font-size:14px;font-weight:700;color:#1a1a2e;line-height:1.5;margin-bottom:11px}
+.mc-opts{display:flex;flex-direction:column;gap:5px}
+.mc-opt{display:flex;align-items:center;gap:9px;padding:9px 13px;border:2px solid #e5e0d8;border-radius:10px;cursor:pointer;transition:border-color .12s,background .12s;font-size:13px;font-weight:600;color:#374151;text-align:left;width:100%;background:white}
+.mc-opt:hover{border-color:var(--sc,#c9a800);background:#fffbf0}
+.mc-opt.sel{border-color:var(--sc,#c9a800);background:#fffbf0}
+.mc-opt.res-correct{border-color:#52c4a0;background:#f0fdf9}
+.mc-opt.res-wrong{border-color:#f07060;background:#fff5f5}
+.mc-opt.res-missed{border-color:#52c4a0;background:#f0fdf9;opacity:.7}
+.mc-dot{width:15px;height:15px;border-radius:50%;border:2px solid #ccc;flex-shrink:0;transition:all .12s;display:flex;align-items:center;justify-content:center}
+.mc-opt.sel .mc-dot{border-color:var(--sc,#c9a800);background:var(--sc,#c9a800)}
+.mc-opt.sel .mc-dot::after{content:'';width:5px;height:5px;border-radius:50%;background:white;display:block}
+.fitb-in{width:100%;border:2px solid #e5e0d8;border-radius:10px;padding:9px 13px;font-family:'Nunito',sans-serif;font-size:14px;font-weight:700;color:#1a1a2e;background:#fafafa;outline:none;transition:border-color .12s}
+.fitb-in:focus{border-color:var(--sc,#c9a800);background:white}
+.fitb-in.res-correct{border-color:#52c4a0;background:#f0fdf9}
+.fitb-in.res-wrong{border-color:#f07060;background:#fff5f5}
+
+.submit-btn{width:100%;background:linear-gradient(135deg,#c9a800,#e5bf00);color:#1a1a2e;border:none;border-radius:13px;padding:15px;font-family:'Nunito',sans-serif;font-size:15px;font-weight:900;cursor:pointer;margin-top:14px;transition:transform .12s;display:flex;align-items:center;justify-content:center;gap:7px}
+.submit-btn:hover{transform:translateY(-1px)}
+
+/* RESULTS */
+#phaseResults{display:none}
+.score-card{background:white;border-radius:16px;padding:22px 18px;margin-bottom:12px;box-shadow:0 4px 16px rgba(0,0,0,.09);border:2px solid #e0d4bc;text-align:center}
+.score-big{font-family:'Baloo 2',sans-serif;font-size:60px;font-weight:800;line-height:1}
+.score-big.pass{color:#52c4a0}
+.score-big.fail{color:#f07060}
+.score-sub{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:#bbb;margin-top:2px}
+.verdict{border-radius:11px;padding:11px 16px;text-align:center;margin:12px 0;font-size:15px;font-weight:900;letter-spacing:.5px}
+.verdict.pass{background:#d1fae5;color:#065f46;border:2px solid #6ee7b7}
+.verdict.fail{background:#fee2e2;color:#991b1b;border:2px solid #fca5a5}
+
+/* FLIP CARD */
+.flip-wrap{perspective:1200px;margin-bottom:12px}
+.flip-card{width:100%;transform-style:preserve-3d;transition:transform .55s cubic-bezier(.4,0,.2,1);position:relative}
+.flip-card.flipped{transform:rotateY(180deg)}
+.flip-face{border-radius:16px;padding:18px;backface-visibility:hidden;-webkit-backface-visibility:hidden}
+.flip-front-face{background:white;box-shadow:0 4px 16px rgba(0,0,0,.09);border:2px solid #e0d4bc}
+.flip-back-face{background:linear-gradient(135deg,#1a1a2e,#16213e);color:white;transform:rotateY(180deg);box-shadow:0 4px 16px rgba(0,0,0,.18);position:absolute;top:0;left:0;width:100%}
+.flip-hint{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:#aaa;text-align:center;margin-bottom:14px}
+.flip-hint-back{color:rgba(255,255,255,.4)}
+.flip-btn{width:100%;background:rgba(201,168,0,.18);color:#c9a800;border:2px solid rgba(201,168,0,.35);border-radius:11px;padding:11px;font-family:'Nunito',sans-serif;font-size:13px;font-weight:800;cursor:pointer;transition:background .12s;display:flex;align-items:center;justify-content:center;gap:7px;margin-top:12px}
+.flip-btn:hover{background:rgba(201,168,0,.28)}
+
+.ans-row{padding:8px 0;border-bottom:1px solid rgba(255,255,255,.08)}
+.ans-row:last-child{border-bottom:none}
+.ans-q{font-size:12px;font-weight:700;margin-bottom:3px;color:rgba(255,255,255,.85)}
+.ans-val{font-size:13px;font-weight:800;color:#c9a800}
+.ans-explain{font-size:11px;color:rgba(255,255,255,.5);margin-top:2px;font-style:italic;line-height:1.4}
+
+.res-row{padding:8px 0;border-bottom:1px solid #f0ece4;display:flex;align-items:flex-start;gap:9px}
+.res-row:last-child{border-bottom:none}
+.res-icon{font-size:15px;flex-shrink:0;margin-top:1px}
+.res-text{flex:1}
+.res-q-text{font-size:12px;font-weight:700;color:#1a1a2e;margin-bottom:2px}
+.res-your-ans{font-size:11px;color:#888}
+.res-your-ans span{font-weight:800}
+
+.action-btns{display:flex;flex-direction:column;gap:8px;margin-top:12px}
+.act-btn{width:100%;border:none;border-radius:13px;padding:13px;font-family:'Nunito',sans-serif;font-size:14px;font-weight:800;cursor:pointer;transition:transform .12s;display:flex;align-items:center;justify-content:center;gap:7px}
+.act-btn:hover{transform:translateY(-1px)}
+.btn-home{background:linear-gradient(135deg,#1a1a2e,#0f3460);color:white}
+.btn-retry{background:linear-gradient(135deg,#c9a800,#e5bf00);color:#1a1a2e}
+
+/* TOAST */
+.toast-wrap{position:fixed;bottom:22px;left:50%;transform:translateX(-50%);z-index:999;display:flex;flex-direction:column;align-items:center;gap:7px;pointer-events:none}
+.toast{background:#1a1a2e;color:white;border-radius:22px;padding:9px 18px;font-size:12px;font-weight:700;box-shadow:0 4px 18px rgba(0,0,0,.2);animation:toastIn .25s ease,toastOut .25s ease 2.75s forwards;white-space:nowrap}
+@keyframes toastIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+@keyframes toastOut{to{opacity:0;transform:translateY(8px)}}
+
+@media(max-width:480px){.det-title{font-size:18px}.score-big{font-size:48px}.dossier-title{font-size:15px}}
+</style>
+</head>
+<body>
+
+<!-- ══ DASHBOARD VIEW ══ -->
+<div id="viewDashboard">
+  <header class="det-header">
+    <div class="det-badge">🔍 Académie des Détectives</div>
+    <div class="det-title">Dossiers Secrets · Année 6 FI</div>
+    <div class="det-sub">👦 Logan · Immersion française · Alberta</div>
+    <div class="det-prog-wrap">
+      <div class="det-prog-bar"><div class="det-prog-fill" id="progFill" style="width:0%"></div></div>
+      <div class="det-prog-labels"><span id="progText">0 dossiers résolus</span><span id="progPct">0%</span></div>
+    </div>
+  </header>
+
+  <nav class="filter-bar">
+    <button class="fbtn active" onclick="setFilter('ALL')">📁 Tous</button>
+    <button class="fbtn" onclick="setFilter('FR')">🇫🇷 Français</button>
+    <button class="fbtn" onclick="setFilter('EN')">🔤 English</button>
+    <button class="fbtn" onclick="setFilter('MA')">🔢 Maths</button>
+    <button class="fbtn" onclick="setFilter('SC')">🔬 Sciences</button>
+    <button class="fbtn" onclick="setFilter('SH')">🗺️ Sc. humaines</button>
+    <button class="fbtn" onclick="setFilter('HL')">💚 Santé</button>
+  </nav>
+
+  <div class="stats-row">
+    <div class="stat-chip"><div class="stat-num" id="statTotal">0</div><div class="stat-lbl">Dossiers</div></div>
+    <div class="stat-chip"><div class="stat-num" style="color:#52c4a0" id="statPass">0</div><div class="stat-lbl">Résolus ✓</div></div>
+    <div class="stat-chip"><div class="stat-num" style="color:#f07060" id="statFail">0</div><div class="stat-lbl">Froids ✗</div></div>
+    <div class="stat-chip"><div class="stat-num" style="color:#c9a800" id="statRetry">0</div><div class="stat-lbl">Rétentats</div></div>
+    <div class="stat-chip"><div class="stat-num" style="color:#9b7fd4" id="statPct">—</div><div class="stat-lbl">Moy. score</div></div>
+  </div>
+
+  <div class="case-list-wrap">
+    <div class="sec-heading">📋 Dossiers actifs</div>
+    <div id="caseList"></div>
+    <div id="retrySection" style="display:none">
+      <div class="sec-heading" style="color:#c9a800">⚠️ Dossiers froids — Rétentats requis</div>
+      <div id="retryList"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ LESSON VIEW ══ -->
+<div id="viewLesson">
+  <div class="lesson-topbar">
+    <button class="back-btn" onclick="goHome()">←</button>
+    <div class="lesson-topbar-title" id="topbarTitle">Dossier</div>
+    <div class="topbar-badge" id="topbarBadge">15 min</div>
+  </div>
+
+  <div class="lesson-wrap">
+    <!-- Phase 1: Reading -->
+    <div id="phaseReading">
+      <div class="dossier-card" id="dossierCard">
+        <div class="dossier-header">
+          <div class="dossier-stamp">
+            <div class="dossier-stamp-icon" id="dossierIcon">📖</div>
+            <div class="dossier-stamp-code" id="dossierCode">6FR.1</div>
+          </div>
+          <div>
+            <div class="dossier-label">Dossier confidentiel</div>
+            <div class="dossier-title" id="dossierTitle">Titre</div>
+            <div class="dossier-sub" id="dossierSub">Matière</div>
+          </div>
+        </div>
+        <div class="dossier-body" id="dossierBody"></div>
+        <div class="dossier-footer">
+          <span class="dossier-time">⏱ 15 minutes</span>
+          <button class="start-btn" onclick="startQuiz()">✏️ Commencer le quiz</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Phase 2: Quiz -->
+    <div id="phaseQuiz">
+      <div class="quiz-header">
+        <div style="font-size:22px">🔎</div>
+        <div>
+          <div style="font-size:14px;font-weight:800;color:#1a1a2e">Interrogatoire — Répondez aux questions</div>
+          <div style="font-size:12px;color:#888">Répondez à toutes les questions, puis vérifiez.</div>
+        </div>
+      </div>
+      <div id="quizQuestions"></div>
+      <button class="submit-btn" onclick="submitQuiz()">🔍 Vérifier mes réponses</button>
+    </div>
+
+    <!-- Phase 3: Results -->
+    <div id="phaseResults">
+      <div class="score-card">
+        <div class="score-big" id="scoreBig">—</div>
+        <div class="score-sub">Score du dossier</div>
+        <div class="verdict" id="verdictBanner">—</div>
+        <div id="scoreBreakdown" style="text-align:left;margin-top:10px"></div>
+      </div>
+
+      <!-- Flip card -->
+      <div class="flip-wrap">
+        <div class="flip-card" id="flipCard">
+          <div class="flip-face flip-front-face">
+            <div class="flip-hint">👆 Vos réponses — appuyez pour voir les corrections</div>
+            <div id="flipFrontContent"></div>
+            <button class="flip-btn" onclick="flipCard()">🔄 Voir la correction complète</button>
+          </div>
+          <div class="flip-face flip-back-face" id="flipBack">
+            <div class="flip-hint flip-hint-back">🔑 Clé de correction officielle</div>
+            <div id="flipBackContent"></div>
+            <button class="flip-btn" onclick="flipCard()">↩ Retour à vos réponses</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="action-btns">
+        <button class="act-btn btn-home" onclick="goHome()">← Retour aux dossiers</button>
+        <button class="act-btn btn-retry" id="retryBtn" style="display:none" onclick="retryLesson()">🔁 Réessayer ce dossier</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="toast-wrap" id="toasts"></div>
+
+<script>
+/* ─── LESSON DATA ─── */
+const LESSONS = [
+// ═══ FRANÇAIS ═══
+{id:'6FR.AL.1',subject:'FR',icon:'📖',color:'#9b7fd4',light:'#ede8f9',
+ title:'Les stratégies de lecture',subtitle:'Français · Arts du langage',time:15,
+ reading:`<p>La détective Isabelle Beaumont n'a jamais raté une affaire. Son secret ? Elle utilise les <strong>sept stratégies de lecture</strong> pour analyser chaque indice.</p>
+<p><em>Prédire</em> : avant de lire, elle se demande ce qui va se passer. <em>Faire des liens</em> : elle relie les informations à ce qu'elle sait déjà. <em>Poser des questions</em> : elle interroge le texte en lisant. <em>Visualiser</em> : elle crée des images mentales.</p>
+<p><em>Inférer</em> : elle déduit des informations qui ne sont pas écrites directement — c'est « lire entre les lignes ». <em>Déterminer l'idée principale</em> : elle identifie l'information la plus importante. <em>Synthétiser</em> : elle combine toutes les informations pour former une nouvelle compréhension.</p>
+<p>Les textes qu'elle analyse sont de plusieurs types : <strong>narratif</strong> (une histoire), <strong>informatif</strong> (des faits), <strong>persuasif</strong> (une opinion) et <strong>poétique</strong> (un poème). Chaque type demande une approche différente.</p>`,
+ questions:[
+  {type:'mc',q:'Quelle stratégie consiste à "lire entre les lignes" ?',opts:['Prédire','Inférer','Visualiser','Synthétiser'],ans:1,explain:'Inférer = déduire des informations non écrites directement dans le texte.'},
+  {type:'mc',q:'Un article de journal qui présente des faits est un texte de type…',opts:['Narratif','Persuasif','Informatif','Poétique'],ans:2,explain:'Un texte informatif transmet des faits et des connaissances.'},
+  {type:'mc',q:'Quelle est la DERNIÈRE étape de la lecture selon les 7 stratégies ?',opts:['Prédire','Faire des liens','Inférer','Synthétiser'],ans:3,explain:'Synthétiser = combiner toutes les informations pour créer une nouvelle compréhension.'},
+  {type:'fitb',q:'La stratégie de ________ consiste à former des images mentales pendant la lecture.',ans:'visualiser',explain:'Visualiser : créer des images mentales du texte.'},
+  {type:'fitb',q:'Un texte qui cherche à changer ton opinion est un texte ________.',ans:'persuasif',explain:'Un texte persuasif argumente pour convaincre le lecteur.'}
+ ]
+},
+{id:'6FR.GR.1',subject:'FR',icon:'✏️',color:'#9b7fd4',light:'#ede8f9',
+ title:'L\'accord sujet-verbe',subtitle:'Français · Grammaire',time:15,
+ reading:`<p>Dans l'atelier de l'agent grammatical, chaque phrase doit être parfaitement accordée. La règle fondamentale : <strong>le verbe s'accorde toujours avec son sujet</strong> en personne (1re, 2e, 3e) et en nombre (singulier ou pluriel).</p>
+<p>Si le sujet est singulier, le verbe est singulier. Si le sujet est pluriel, le verbe est pluriel. Par exemple : « La détective <em>examine</em> les indices. » (singulier) vs « Les détectives <em>examinent</em> les indices. » (pluriel).</p>
+<p>Attention aux sujets inversés ! Dans « Où <em>courent</em> les suspects ? », le sujet est <em>les suspects</em>, pas <em>où</em>.</p>
+<p>Les <strong>adjectifs</strong> s'accordent aussi avec le nom qu'ils accompagnent en <strong>genre</strong> (masculin/féminin) et en <strong>nombre</strong> (singulier/pluriel). Exemples : un <em>beau</em> garçon → une <em>belle</em> fille → de <em>belles</em> filles.</p>
+<p>Au pluriel, on ajoute généralement un <strong>-s</strong> au nom et à l'adjectif. Les noms déjà terminés en <strong>-s</strong>, <strong>-x</strong> ou <strong>-z</strong> ne changent pas au pluriel.</p>`,
+ questions:[
+  {type:'mc',q:'Choisissez la bonne forme : « Les élèves ________ attentifs. »',opts:['est','sont','a','ont'],ans:1,explain:'Sujet pluriel "les élèves" → verbe "être" au pluriel → "sont".'},
+  {type:'mc',q:'Quel est le genre et le nombre de "belles fleurs" ?',opts:['masculin singulier','féminin singulier','masculin pluriel','féminin pluriel'],ans:3,explain:'"Fleurs" est féminin pluriel → "belles" (féminin pluriel).'},
+  {type:'fitb',q:'Le verbe s\'accorde avec son sujet en personne et en ________.',ans:'nombre',explain:'Le verbe s\'accorde en personne (1re, 2e, 3e) et en nombre (singulier/pluriel).'},
+  {type:'fitb',q:'« Les garçons sont grand___. » Écrivez la terminaison correcte de l\'adjectif.',ans:'s',explain:'"Grands" — accord avec "garçons" (masculin pluriel) → grand + s = grands.'},
+  {type:'mc',q:'Dans « Courent vite les trois chats. » Quel est le sujet du verbe ?',opts:['Courent','Vite','Les trois chats','Trois'],ans:2,explain:'Le sujet est "les trois chats" — le verbe s\'accorde avec lui, pas avec les autres mots.'}
+ ]
+},
+{id:'6FR.GR.2',subject:'FR',icon:'🕐',color:'#9b7fd4',light:'#ede8f9',
+ title:'Le passé composé et l\'imparfait',subtitle:'Français · Conjugaison',time:15,
+ reading:`<p>L'agent du temps maîtrise deux passés essentiels : le <strong>passé composé</strong> et l'<strong>imparfait</strong>.</p>
+<p>Le <strong>passé composé</strong> décrit une action <em>complète et terminée</em> dans le passé. Il se forme avec un auxiliaire (<em>avoir</em> ou <em>être</em>) + le participe passé. Exemples : « J'<em>ai mangé</em> une pomme. » / « Elle <em>est partie</em> hier. »</p>
+<p>Les verbes avec <em>être</em> : aller, venir, partir, arriver, entrer, sortir, naître, mourir, et les verbes pronominaux (se laver, se coucher…).</p>
+<p>L'<strong>imparfait</strong> décrit une action <em>habituelle</em>, <em>répétée</em> ou <em>continue</em> dans le passé. Il se forme avec le radical + terminaisons : <em>-ais, -ais, -ait, -ions, -iez, -aient</em>.</p>
+<p>Exemple : « Chaque soir, je <em>lisais</em> (habitude) un livre jusqu'à ce qu'un bruit étrange me <em>fit</em> lever la tête — j'<em>avais entendu</em> quelque chose dans le couloir. »</p>
+<p>Astuce : passé composé = action ponctuelle → imparfait = décor ou habitude.</p>`,
+ questions:[
+  {type:'mc',q:'Quelle phrase utilise correctement le passé composé ?',opts:['Je mangeais chaque matin.','J\'ai mangé ce matin.','Je mangerais demain.','Je mange en ce moment.'],ans:1,explain:'Le passé composé = action terminée. "J\'ai mangé ce matin" = action complète dans le passé.'},
+  {type:'mc',q:'Quel auxiliaire utilise-t-on pour conjuguer "partir" au passé composé ?',opts:['Avoir','Être','Aller','Faire'],ans:1,explain:'"Partir" se conjugue avec "être" → "il est parti".'},
+  {type:'fitb',q:'Conjuguez "finir" au passé composé, 1re personne singulier : j\'ai ________.',ans:'fini',explain:'Passé composé de "finir" : j\'ai fini (auxiliaire avoir + participe passé fini).'},
+  {type:'fitb',q:'L\'imparfait décrit une action ________ ou répétée dans le passé.',ans:'habituelle',explain:'L\'imparfait = habitude, répétition, ou état continu dans le passé.'},
+  {type:'mc',q:'Choisissez l\'imparfait : « Quand j\'étais jeune, je ________ au hockey chaque hiver. »',opts:['ai joué','joue','jouais','jouerai'],ans:2,explain:'"Jouais" = imparfait, car c\'est une habitude dans le passé ("chaque hiver").'}
+ ]
+},
+{id:'6FR.CO.1',subject:'FR',icon:'🎤',color:'#9b7fd4',light:'#ede8f9',
+ title:'L\'exposé oral',subtitle:'Français · Communication orale',time:15,
+ reading:`<p>La détective Lafleur doit présenter ses conclusions à l'équipe. Elle sait qu'un bon <strong>exposé oral</strong> suit trois parties essentielles.</p>
+<p><strong>1. L'introduction</strong> : captiver l'auditoire avec une accroche (question, citation, fait surprenant), présenter le sujet clairement et annoncer le plan.</p>
+<p><strong>2. Le développement</strong> : présenter 2 ou 3 points principaux avec des arguments et des exemples concrets. Utiliser des <em>mots de transition</em> : « premièrement », « ensuite », « de plus », « par conséquent ».</p>
+<p><strong>3. La conclusion</strong> : résumer les points principaux et terminer avec une phrase marquante ou une ouverture.</p>
+<p>Pour un exposé réussi, il faut : parler clairement et à une vitesse modérée, maintenir le contact visuel avec l'auditoire, varier le ton pour montrer l'intérêt, et utiliser des gestes naturels.</p>
+<p>Dans un <strong>débat</strong>, on défend une position avec des <em>arguments</em> (raisons) et des <em>preuves</em>. Il faut aussi prévoir les contre-arguments et préparer des <em>réfutations</em>.</p>`,
+ questions:[
+  {type:'mc',q:'Quelle est la structure correcte d\'un exposé oral ?',opts:['Développement → Introduction → Conclusion','Introduction → Conclusion → Développement','Introduction → Développement → Conclusion','Conclusion → Introduction → Développement'],ans:2,explain:'La structure est toujours : Introduction → Développement → Conclusion.'},
+  {type:'mc',q:'Quel mot de transition peut-on utiliser pour introduire un deuxième point ?',opts:['Pourtant','Ensuite','Cependant','Donc'],ans:1,explain:'"Ensuite" est un mot de transition pour passer d\'un point au suivant.'},
+  {type:'fitb',q:'Dans un débat, une ________ est une réponse à l\'argument de l\'adversaire.',ans:'réfutation',explain:'Une réfutation répond et contredit l\'argument opposé.'},
+  {type:'fitb',q:'L\'________ commence l\'exposé et capte l\'attention du public.',ans:'introduction',explain:'L\'introduction présente le sujet et accroche l\'auditoire.'},
+  {type:'mc',q:'Qu\'est-ce qu\'une "accroche" dans un exposé ?',opts:['Le résumé final','Une phrase au début pour capter l\'attention','Une liste de faits','Un mot de transition'],ans:1,explain:'L\'accroche est l\'élément au début de l\'introduction pour captiver l\'auditoire.'}
+ ]
+},
+
+// ═══ ENGLISH ═══
+{id:'6EN.RC.1',subject:'EN',icon:'📚',color:'#5b9bd5',light:'#e3effa',
+ title:'Literary Devices',subtitle:'English Language Arts · Reading',time:15,
+ reading:`<p>Every great mystery writer uses literary devices to make their stories come alive. These are special techniques that make language more vivid and meaningful.</p>
+<p>A <strong>simile</strong> compares two things using "like" or "as" — "Her eyes were like storm clouds." A <strong>metaphor</strong> makes a direct comparison without those words — "The night was a black blanket."</p>
+<p><strong>Personification</strong> gives human qualities to non-human things — "The wind whispered warnings." <strong>Alliteration</strong> repeats consonant sounds at the start of words — "Six slippery suspects slipped silently."</p>
+<p><strong>Onomatopoeia</strong> are words that sound like what they describe — <em>crash, buzz, thud, sizzle</em>. <strong>Hyperbole</strong> is extreme exaggeration used for effect — "I've told you a million times!"</p>
+<p><strong>Foreshadowing</strong> hints at what will happen later. <strong>Symbolism</strong> uses an object to represent a bigger idea — a broken clock might symbolize wasted time. <strong>Imagery</strong> appeals to the five senses to create a vivid picture.</p>`,
+ questions:[
+  {type:'mc',q:'"The detective\'s hands were ice." What literary device is this?',opts:['Simile','Metaphor','Personification','Alliteration'],ans:1,explain:'A metaphor makes a direct comparison — no "like" or "as". Hands ARE ice (not like ice).'},
+  {type:'mc',q:'Which sentence uses personification?',opts:['The fog was thick like cotton.','The stars danced across the sky.','Buzz! The alarm went off.','I have a million things to do.'],ans:1,explain:'"Stars danced" — stars can\'t really dance. This gives human action to a non-human thing = personification.'},
+  {type:'mc',q:'"Buzz, crash, thud" — what literary device do these words represent?',opts:['Alliteration','Hyperbole','Onomatopoeia','Symbolism'],ans:2,explain:'Onomatopoeia = words that sound like what they mean.'},
+  {type:'fitb',q:'A ________ compares two things using "like" or "as".',ans:'simile',explain:'Simile: "Her smile was like sunshine." Uses like/as.'},
+  {type:'fitb',q:'When a clue in a story hints at future events, this is called ________.',ans:'foreshadowing',explain:'Foreshadowing plants hints about what will happen later in the story.'}
+ ]
+},
+{id:'6EN.WF.1',subject:'EN',icon:'✍️',color:'#5b9bd5',light:'#e3effa',
+ title:'The Writing Process',subtitle:'English Language Arts · Writing',time:15,
+ reading:`<p>Agent Harrison never rushes a report. He follows the five-step writing process every time — and it always produces excellent results.</p>
+<p><strong>Step 1 — Pre-write:</strong> Brainstorm ideas, plan your structure, and gather information. You might use a mind map or an outline.</p>
+<p><strong>Step 2 — Draft:</strong> Write your first version without worrying about perfection. Just get your ideas on paper.</p>
+<p><strong>Step 3 — Revise:</strong> Improve the BIG PICTURE — ideas, organization, and clarity. Add details, rearrange paragraphs, and strengthen your argument. This is NOT about fixing spelling.</p>
+<p><strong>Step 4 — Edit:</strong> Fix the small errors — spelling, grammar, punctuation, and capitalization. Use a checklist.</p>
+<p><strong>Step 5 — Publish:</strong> Share your final, polished piece with your audience.</p>
+<p>Key paragraph structure: <strong>Topic Sentence</strong> → 2–3 Supporting Details → <strong>Concluding Sentence</strong>. A strong <strong>thesis statement</strong> tells the reader exactly what your essay will argue.</p>`,
+ questions:[
+  {type:'mc',q:'In which step do you fix spelling and punctuation errors?',opts:['Pre-write','Draft','Revise','Edit'],ans:3,explain:'Editing = fixing surface errors (spelling, grammar, punctuation). Revising = improving ideas.'},
+  {type:'mc',q:'What is the CORRECT order of the writing process?',opts:['Draft → Pre-write → Revise → Edit → Publish','Pre-write → Draft → Revise → Edit → Publish','Revise → Draft → Edit → Pre-write → Publish','Pre-write → Edit → Draft → Revise → Publish'],ans:1,explain:'Always: Pre-write → Draft → Revise → Edit → Publish.'},
+  {type:'fitb',q:'A ________ statement tells the reader the main argument of your essay.',ans:'thesis',explain:'The thesis statement is usually at the end of the introduction and states your main argument.'},
+  {type:'fitb',q:'When you reorganize paragraphs and strengthen your ideas, you are doing the ________ step.',ans:'revise',explain:'Revising = improving content, ideas, and organization (big picture).'},
+  {type:'mc',q:'What belongs in the BODY of a paragraph?',opts:['A thesis statement','Topic sentence and supporting details','A title and author','An introduction and conclusion'],ans:1,explain:'A body paragraph has: topic sentence + 2–3 supporting details + concluding sentence.'}
+ ]
+},
+{id:'6EN.WS.1',subject:'EN',icon:'🔤',color:'#5b9bd5',light:'#e3effa',
+ title:'Prefixes, Suffixes & Context Clues',subtitle:'English Language Arts · Word Study',time:15,
+ reading:`<p>A skilled detective can figure out an unknown word's meaning from context — just like solving a puzzle. Two powerful tools are <strong>prefixes</strong> and <strong>suffixes</strong>.</p>
+<p>A <strong>prefix</strong> is added to the BEGINNING of a word and changes its meaning: <em>un-</em> (not), <em>re-</em> (again), <em>pre-</em> (before), <em>mis-</em> (wrongly), <em>inter-</em> (between).</p>
+<p>A <strong>suffix</strong> is added to the END of a word: <em>-tion</em> (action/result), <em>-ful</em> (having), <em>-less</em> (without), <em>-ment</em> (result of), <em>-er/-or</em> (one who).</p>
+<p>Examples: re + write = rewrite (write again); hope + less = hopeless (without hope).</p>
+<p><strong>Context clues</strong> help you figure out unknown words from surrounding text. Types: <em>definition</em> ("X, which means..."), <em>example</em> ("such as X"), and <em>contrast</em> ("unlike X, Y is...").</p>
+<p><strong>Denotation</strong> is the dictionary definition. <strong>Connotation</strong> is the emotional feeling a word carries. "Home" and "shack" both mean a building to live in, but they feel very different.</p>`,
+ questions:[
+  {type:'mc',q:'What does the prefix "mis-" mean?',opts:['Not','Again','Wrongly','Before'],ans:2,explain:'"Mis-" means wrongly or badly — misunderstand, mistake, misbehave.'},
+  {type:'mc',q:'What does the suffix "-less" mean?',opts:['Having','Without','Result of','One who'],ans:1,explain:'"-less" means without — hopeless (without hope), fearless (without fear).'},
+  {type:'fitb',q:'The dictionary meaning of a word is called its ________.',ans:'denotation',explain:'Denotation = the literal/dictionary definition of a word.'},
+  {type:'fitb',q:'The emotional feeling a word carries is called its ________.',ans:'connotation',explain:'Connotation = the emotional or cultural associations of a word.'},
+  {type:'mc',q:'"The detective was astute, meaning she was very clever and quick to understand." What type of context clue is used?',opts:['Example','Contrast','Definition','Synonym'],ans:2,explain:'A definition context clue directly explains the word using "meaning", "which means", or a comma.'}
+ ]
+},
+
+// ═══ MATHÉMATIQUES ═══
+{id:'6MA.N.1',subject:'MA',icon:'🔢',color:'#f07060',light:'#fdecea',
+ title:'Fractions, décimaux et pourcentages',subtitle:'Mathématiques · Nombres',time:15,
+ reading:`<p>L'agent des nombres doit convertir rapidement entre les fractions, les décimaux et les pourcentages — trois façons différentes de représenter la même quantité.</p>
+<p><strong>Fraction → Décimal :</strong> divise le numérateur par le dénominateur. ¾ = 3 ÷ 4 = <em>0,75</em>.</p>
+<p><strong>Décimal → Pourcentage :</strong> multiplie par 100. 0,75 × 100 = <em>75%</em>.</p>
+<p><strong>Fraction → Pourcentage :</strong> convertis en décimal d'abord, puis multiplie par 100. ⅝ = 0,625 = <em>62,5%</em>.</p>
+<p>Pour <strong>additionner des fractions</strong> avec des dénominateurs différents, trouve le <strong>plus petit commun dénominateur (PPCD)</strong>. Exemple : ½ + ⅓. PPCD = 6. Donc ½ = 3/6 et ⅓ = 2/6. Réponse : 3/6 + 2/6 = <em>5/6</em>.</p>
+<p>Un <strong>nombre mixte</strong> (ex. : 2¾) se convertit en fraction impropre : 2¾ = (2×4+3)/4 = <em>11/4</em>.</p>
+<p>Pour trouver <strong>un pourcentage d'un nombre</strong> : 30% de 80 = 0,30 × 80 = <em>24</em>.</p>`,
+ questions:[
+  {type:'fitb',q:'Convertis ¾ en décimal : ¾ = ________.',ans:'0.75',explain:'3 ÷ 4 = 0.75. En notation française : 0,75.'},
+  {type:'fitb',q:'Convertis 0,75 en pourcentage : ________%.',ans:'75',explain:'0,75 × 100 = 75%.'},
+  {type:'mc',q:'Calcule ½ + ¼ = ?',opts:['2/6','3/4','3/6','2/4'],ans:1,explain:'PPCD = 4. ½ = 2/4. 2/4 + 1/4 = 3/4.'},
+  {type:'fitb',q:'Convertis 1½ en fraction impropre : ________.',ans:'3/2',explain:'1½ = (1×2+1)/2 = 3/2.'},
+  {type:'mc',q:'Trouve 25% de 80.',opts:['20','25','40','8'],ans:0,explain:'25% de 80 = 0,25 × 80 = 20.'}
+ ]
+},
+{id:'6MA.A.1',subject:'MA',icon:'🔣',color:'#f07060',light:'#fdecea',
+ title:'Algèbre et PEDMAS',subtitle:'Mathématiques · Algèbre',time:15,
+ reading:`<p>L'agent algébriste résout toujours les équations dans le bon ordre, grâce à <strong>PEDMAS</strong> (aussi appelé BEDMAS).</p>
+<p><strong>P</strong> = Parenthèses d'abord. <strong>E</strong> = Exposants. <strong>D/M</strong> = Division et Multiplication (de gauche à droite). <strong>A/S</strong> = Addition et Soustraction (de gauche à droite).</p>
+<p>Exemple : 3 + 4 × 2 = 3 + 8 = <em>11</em> (PAS 14 ! On multiplie avant d'additionner).</p>
+<p>Exemple avec parenthèses : (3 + 4) × 2 = 7 × 2 = <em>14</em>.</p>
+<p>Une <strong>expression algébrique</strong> contient des variables : 3n + 5. Une <strong>équation</strong> a un signe égal : 3n + 5 = 20.</p>
+<p>Pour résoudre une équation, isole la variable avec des <strong>opérations inverses</strong>. Exemple : 3n + 5 = 20 → soustrais 5 des deux côtés → 3n = 15 → divise par 3 → <em>n = 5</em>. Vérifie : 3(5) + 5 = 20 ✓.</p>`,
+ questions:[
+  {type:'fitb',q:'Calcule avec PEDMAS : 2 + 3 × 4 = ________.',ans:'14',explain:'Multiplication d\'abord : 3 × 4 = 12. Puis addition : 2 + 12 = 14.'},
+  {type:'fitb',q:'Résous pour n : 2n + 6 = 14. n = ________.',ans:'4',explain:'2n + 6 = 14 → soustrais 6 → 2n = 8 → divise par 2 → n = 4.'},
+  {type:'mc',q:'Calcule : (5 + 3) × 2 - 4 = ?',opts:['12','6','8','14'],ans:0,explain:'Parenthèses : 5+3=8. Puis × 2 = 16. Puis - 4 = 12.'},
+  {type:'mc',q:'Quelle est la différence entre une expression et une équation ?',opts:['Une équation a des variables','Une expression a un signe égal','Une équation a un signe égal','Il n\'y a aucune différence'],ans:2,explain:'Une équation a un signe égal (=). Une expression algébrique n\'en a pas.'},
+  {type:'fitb',q:'Résous pour n : 5n - 10 = 15. n = ________.',ans:'5',explain:'5n - 10 = 15 → + 10 → 5n = 25 → ÷ 5 → n = 5.'}
+ ]
+},
+{id:'6MA.G.1',subject:'MA',icon:'📐',color:'#f07060',light:'#fdecea',
+ title:'Aire et géométrie',subtitle:'Mathématiques · Géométrie',time:15,
+ reading:`<p>L'agent géomètre mesure chaque pièce à conviction avec précision. Voici les formules d'<strong>aire</strong> qu'il utilise :</p>
+<p><strong>Rectangle :</strong> A = longueur × largeur (l × w).</p>
+<p><strong>Triangle :</strong> A = ½ × base × hauteur.</p>
+<p><strong>Parallélogramme :</strong> A = base × hauteur.</p>
+<p><strong>Cercle :</strong> A = π × r² (r = rayon). Circonférence = 2πr. Utilise π ≈ 3,14.</p>
+<p>Pour le <strong>volume</strong> d'un prisme rectangulaire : V = longueur × largeur × hauteur.</p>
+<p>Rappels sur les angles : un triangle = 180°, un quadrilatère = 360°. Les <strong>transformations</strong> : translation (glissement), réflexion (flip/miroir), rotation (rotation autour d'un point).</p>
+<p>Exemple : triangle avec base = 8 cm et hauteur = 5 cm → A = ½ × 8 × 5 = <em>20 cm²</em>.</p>`,
+ questions:[
+  {type:'fitb',q:'Calcule l\'aire d\'un rectangle de 7 cm × 4 cm. A = ________ cm².',ans:'28',explain:'A = 7 × 4 = 28 cm².'},
+  {type:'fitb',q:'Calcule l\'aire d\'un triangle : base = 10 cm, hauteur = 6 cm. A = ________ cm².',ans:'30',explain:'A = ½ × 10 × 6 = 30 cm².'},
+  {type:'mc',q:'La formule pour l\'aire d\'un cercle est…',opts:['A = 2πr','A = πr²','A = π × d','A = r²'],ans:1,explain:'Aire du cercle = π × r² (r = rayon). La circonférence = 2πr.'},
+  {type:'mc',q:'Deux angles d\'un triangle mesurent 65° et 75°. Quel est le 3e angle ?',opts:['50°','40°','45°','60°'],ans:1,explain:'La somme des angles d\'un triangle = 180°. 180 - 65 - 75 = 40°.'},
+  {type:'fitb',q:'Volume d\'un prisme : 5 cm × 3 cm × 4 cm = ________ cm³.',ans:'60',explain:'V = 5 × 3 × 4 = 60 cm³.'}
+ ]
+},
+{id:'6MA.SP.1',subject:'MA',icon:'📊',color:'#f07060',light:'#fdecea',
+ title:'Statistiques et probabilités',subtitle:'Mathématiques · Stats & Proba',time:15,
+ reading:`<p>L'agent statisticien analyse les données du dossier avec rigueur. Il utilise quatre mesures de tendance centrale.</p>
+<p><strong>Moyenne</strong> : somme de toutes les valeurs ÷ nombre de valeurs.</p>
+<p><strong>Médiane</strong> : valeur du milieu quand les données sont en ordre. Si deux valeurs sont au milieu, calcule leur moyenne.</p>
+<p><strong>Mode</strong> : valeur qui apparaît le plus souvent. Il peut y avoir plusieurs modes ou aucun.</p>
+<p><strong>Étendue</strong> : valeur maximale − valeur minimale.</p>
+<p>Exemple : données 4, 7, 3, 9, 7, 2, 8. En ordre : 2, 3, 4, 7, 7, 8, 9. Moyenne = 40 ÷ 7 ≈ 5,7. Médiane = 7. Mode = 7. Étendue = 9 - 2 = 7.</p>
+<p><strong>Probabilité théorique</strong> = résultats favorables ÷ résultats possibles totaux. P(rouge) dans un sac de 5 rouges et 5 bleus = 5/10 = ½ = 50%.</p>`,
+ questions:[
+  {type:'fitb',q:'Données : 3, 5, 7, 5, 10. Quel est le mode ? ________.',ans:'5',explain:'Le mode est la valeur la plus fréquente. 5 apparaît deux fois.'},
+  {type:'fitb',q:'Données : 2, 4, 6, 8, 10. Quelle est la médiane ? ________.',ans:'6',explain:'Données déjà en ordre. 5 valeurs : la valeur du milieu (3e) = 6.'},
+  {type:'mc',q:'Données : 10, 2, 8, 4, 6. Quelle est la moyenne ?',opts:['5','6','7','8'],ans:1,explain:'Somme = 10+2+8+4+6 = 30. 30 ÷ 5 = 6.'},
+  {type:'mc',q:'Un dé à 6 faces. P(obtenir un nombre pair) = ?',opts:['1/6','1/3','1/2','2/3'],ans:2,explain:'Nombres pairs sur un dé : 2, 4, 6 = 3 résultats. P = 3/6 = 1/2.'},
+  {type:'fitb',q:'Étendue des données 15, 3, 9, 21, 7 : ________.',ans:'18',explain:'Étendue = max - min = 21 - 3 = 18.'}
+ ]
+},
+
+// ═══ SCIENCES ═══
+{id:'6SC.E.1',subject:'SC',icon:'⚡',color:'#52c4a0',light:'#e1f5ee',
+ title:'Les circuits électriques',subtitle:'Sciences · Électricité',time:15,
+ reading:`<p>Dans le laboratoire de l'agent Volta, deux types de circuits sont à l'étude.</p>
+<p>Un <strong>circuit en série</strong> n'a qu'un seul chemin pour le courant électrique. Si un composant s'arrête, <em>tout le circuit s'arrête</em>. C'est comme une chaîne — un maillon cassé brise tout.</p>
+<p>Un <strong>circuit en parallèle</strong> a plusieurs chemins. Si un composant s'arrête, le courant continue par les autres chemins. C'est pourquoi les ampoules de ta maison sont branchées en parallèle.</p>
+<p>Les <strong>conducteurs</strong> laissent passer le courant : cuivre, aluminium, eau salée. Les <strong>isolants</strong> bloquent le courant : caoutchouc, bois, plastique.</p>
+<p>Trois mesures importantes : <strong>voltage (V)</strong> = la "poussée" de l'électricité. <strong>Courant (A)</strong> = le flux d'électrons. <strong>Résistance (Ω)</strong> = opposition au courant.</p>
+<p>Sécurité : ne jamais insérer d'objets métalliques dans une prise. Tenir les appareils électriques loin de l'eau.</p>`,
+ questions:[
+  {type:'mc',q:'Dans un circuit en série, que se passe-t-il si une ampoule brûle ?',opts:['Les autres continuent à briller.','Toutes les ampoules s\'éteignent.','Seulement cette ampoule s\'éteint.','Le courant double.'],ans:1,explain:'Circuit en série = un seul chemin. Si un composant s\'arrête, tout le circuit s\'éteint.'},
+  {type:'mc',q:'Pourquoi les ampoules d\'une maison sont-elles branchées en parallèle ?',opts:['Pour économiser l\'énergie','Pour que chaque ampoule ait son propre circuit','Parce que c\'est moins cher','Pour augmenter la résistance'],ans:1,explain:'En parallèle, chaque ampoule a son propre chemin. Éteindre une n\'affecte pas les autres.'},
+  {type:'fitb',q:'Le cuivre est un exemple de ________ électrique.',ans:'conducteur',explain:'Les conducteurs (cuivre, aluminium) laissent passer le courant électrique.'},
+  {type:'fitb',q:'Le caoutchouc est un exemple d\'________ électrique.',ans:'isolant',explain:'Les isolants (caoutchouc, plastique, bois) bloquent le courant électrique.'},
+  {type:'mc',q:'Quelle mesure correspond au "flux d\'électrons" ?',opts:['Voltage (V)','Résistance (Ω)','Courant (A)','Puissance (W)'],ans:2,explain:'Le courant (ampères, A) mesure le flux d\'électrons dans le circuit.'}
+ ]
+},
+{id:'6SC.SS.1',subject:'SC',icon:'🌌',color:'#52c4a0',light:'#e1f5ee',
+ title:'Le système solaire',subtitle:'Sciences · Astronomie',time:15,
+ reading:`<p>L'agent cosmique étudie notre système solaire. Le <strong>Soleil</strong> est au centre, et 8 planètes gravitent autour de lui.</p>
+<p>Dans l'ordre, du Soleil vers l'extérieur : <em>Mercure, Vénus, Terre, Mars, Jupiter, Saturne, Uranus, Neptune</em>. Moyen mnémotechnique : « Mon Vélo Tout Mauve Joue Sur Un Nuage. »</p>
+<p>Les quatre premières sont des <strong>planètes telluriques</strong> (rocheuses, petites) : Mercure, Vénus, Terre, Mars. Les quatre dernières sont des <strong>planètes gazeuses</strong> (très grandes, composées principalement de gaz) : Jupiter, Saturne, Uranus, Neptune.</p>
+<p>La <strong>Lune</strong> tourne autour de la Terre en environ 29,5 jours. Ses phases : nouvelle lune → croissant → premier quartier → gibbeuse → pleine lune → (décroissant).</p>
+<p><strong>Éclipse solaire</strong> : la Lune se place entre le Soleil et la Terre, bloquant la lumière du Soleil. <strong>Éclipse lunaire</strong> : la Terre se place entre le Soleil et la Lune, projetant son ombre sur la Lune.</p>`,
+ questions:[
+  {type:'mc',q:'Quelle est la 5e planète du Soleil ?',opts:['Mars','Saturne','Jupiter','Uranus'],ans:2,explain:'Ordre : Mercure, Vénus, Terre, Mars, Jupiter. Jupiter est la 5e.'},
+  {type:'mc',q:'Quelle est la différence entre une planète tellurique et une planète gazeuse ?',opts:['Les planètes gazeuses sont plus proches du Soleil','Les planètes telluriques sont rocheuses, les gazeuses sont grandes et gazeuses','Les planètes telluriques n\'ont pas de lunes','Les planètes gazeuses sont plus petites'],ans:1,explain:'Telluriques = rocheuses, petites (Mercure à Mars). Gazeuses = grandes, composées de gaz (Jupiter à Neptune).'},
+  {type:'fitb',q:'Lors d\'une éclipse solaire, c\'est la ________ qui bloque la lumière du Soleil.',ans:'lune',explain:'Éclipse solaire : Lune entre Soleil et Terre → la Lune bloque le Soleil.'},
+  {type:'fitb',q:'Nomme la planète qui suit Mars dans l\'ordre du Soleil : ________.',ans:'jupiter',explain:'Ordre : Mercure, Vénus, Terre, Mars, Jupiter. Après Mars vient Jupiter.'},
+  {type:'mc',q:'Combien de jours dure approximativement le cycle lunaire ?',opts:['7 jours','14 jours','29,5 jours','365 jours'],ans:2,explain:'Le cycle complet de la Lune (nouvelle lune à nouvelle lune) dure environ 29,5 jours.'}
+ ]
+},
+{id:'6SC.AA.1',subject:'SC',icon:'🌬️',color:'#52c4a0',light:'#e1f5ee',
+ title:'L\'aérodynamique et le vol',subtitle:'Sciences · Air et aérodynamique',time:15,
+ reading:`<p>L'agent aéronautique étudie pourquoi les avions volent. Quatre forces agissent sur un avion en vol.</p>
+<p><strong>Portance (↑)</strong> : force vers le haut créée par les ailes. <strong>Poids/Gravité (↓)</strong> : force vers le bas causée par la masse. <strong>Poussée (→)</strong> : force vers l'avant créée par les moteurs. <strong>Traînée (←)</strong> : résistance de l'air.</p>
+<p>Pour voler, la portance doit dépasser le poids, et la poussée doit dépasser la traînée.</p>
+<p>Le <strong>principe de Bernoulli</strong> explique la portance : l'air au-dessus de l'aile courbée se déplace <em>plus vite</em> → pression <em>plus basse</em>. L'air en dessous se déplace plus lentement → pression <em>plus haute</em>. Cette différence de pression pousse l'aile vers le haut.</p>
+<p>Les <strong>formes aérodynamiques</strong> (profilées, arrondies à l'avant) réduisent la traînée en divisant l'air efficacement. Plus la traînée est faible, moins il faut d'énergie pour avancer.</p>`,
+ questions:[
+  {type:'mc',q:'Quelle force s\'oppose au mouvement vers l\'avant d\'un avion ?',opts:['Portance','Poids','Poussée','Traînée'],ans:3,explain:'La traînée (résistance de l\'air) s\'oppose au mouvement vers l\'avant.'},
+  {type:'mc',q:'Selon le principe de Bernoulli, l\'air qui se déplace plus vite exerce une pression…',opts:['Plus haute','Plus basse','Identique','Variable'],ans:1,explain:'Bernoulli : vitesse plus élevée = pression plus basse. C\'est ce qui crée la portance.'},
+  {type:'fitb',q:'La force vers le haut créée par les ailes d\'un avion s\'appelle la ________.',ans:'portance',explain:'La portance est la force ascendante créée par la forme des ailes (principe de Bernoulli).'},
+  {type:'fitb',q:'Pour qu\'un avion monte, la portance doit être ________ que le poids.',ans:'plus grande',explain:'Portance > poids = l\'avion monte. Portance = poids = l\'avion vole à altitude constante.'},
+  {type:'mc',q:'Pourquoi les voitures de course ont-elles une forme profilée (aérodynamique) ?',opts:['Pour paraître plus belles','Pour réduire la traînée et aller plus vite','Pour augmenter le poids','Pour améliorer la portance'],ans:1,explain:'Une forme aérodynamique réduit la résistance de l\'air (traînée), ce qui permet d\'aller plus vite avec moins d\'énergie.'}
+ ]
+},
+{id:'6SC.AF.1',subject:'SC',icon:'🌲',color:'#52c4a0',light:'#e1f5ee',
+ title:'La photosynthèse et les forêts',subtitle:'Sciences · Arbres et forêts',time:15,
+ reading:`<p>Les arbres sont des usines naturelles. Ils fabriquent leur propre nourriture grâce à la <strong>photosynthèse</strong>.</p>
+<p>Équation en mots : <em>eau + dioxyde de carbone + énergie solaire → glucose + oxygène</em>. La photosynthèse se produit dans les <strong>chloroplastes</strong> des feuilles, qui contiennent la <strong>chlorophylle</strong> (pigment vert).</p>
+<p>La <strong>transpiration</strong> : les arbres libèrent de la vapeur d'eau par de petits pores appelés <em>stomates</em>. Cela contribue au cycle de l'eau et aux précipitations.</p>
+<p>Il existe trois types principaux de forêts : <strong>boréale</strong> (conifères — épinettes, pins — nord du Canada, climat froid), <strong>tempérée</strong> (mixte, 4 saisons), <strong>tropicale</strong> (chaude, humide, la plus grande biodiversité).</p>
+<p>La <strong>déforestation</strong> libère du CO₂ stocké et réduit la capacité d'absorption du carbone → accélère les changements climatiques. Le <strong>reboisement</strong> (planter de nouveaux arbres) aide à compenser ces effets.</p>`,
+ questions:[
+  {type:'mc',q:'Quel pigment vert dans les feuilles capte l\'énergie solaire ?',opts:['Glucose','Chlorophylle','Stomate','Chloroplaste'],ans:1,explain:'La chlorophylle est le pigment vert dans les chloroplastes qui capte l\'énergie lumineuse.'},
+  {type:'fitb',q:'L\'équation de la photosynthèse : eau + CO₂ + soleil → ________ + oxygène.',ans:'glucose',explain:'La photosynthèse produit du glucose (nourriture pour l\'arbre) et de l\'oxygène.'},
+  {type:'mc',q:'Quel type de forêt trouve-t-on principalement dans le nord du Canada ?',opts:['Tropicale','Tempérée','Boréale','Méditerranéenne'],ans:2,explain:'La forêt boréale (taïga) : conifères (épinettes, pins), climat froid, nord du Canada/Alberta.'},
+  {type:'fitb',q:'La libération de vapeur d\'eau par les stomates des feuilles s\'appelle la ________.',ans:'transpiration',explain:'La transpiration = les arbres libèrent de la vapeur d\'eau par les stomates.'},
+  {type:'mc',q:'Comment la déforestation affecte-t-elle le cycle du carbone ?',opts:['Elle réduit le CO₂','Elle augmente le CO₂ et réduit l\'absorption','Elle n\'a aucun effet','Elle aide à la photosynthèse'],ans:1,explain:'Déforestation = libère du CO₂ stocké + supprime des arbres qui absorbaient le CO₂ → augmente les GES.'}
+ ]
+},
+
+// ═══ SCIENCES HUMAINES ═══
+{id:'6SH.GE.1',subject:'SH',icon:'🗺️',color:'#c9a800',light:'#fef7d5',
+ title:'Les régions géographiques du Canada',subtitle:'Sciences humaines · Géographie',time:15,
+ reading:`<p>Le Canada est divisé en <strong>7 régions géographiques</strong>, chacune avec son propre climat, ses ressources et sa population.</p>
+<p><strong>1. La Cordillère</strong> : montagnes Rocheuses, Colombie-Britannique. Ressources : bois, poisson, mines. <strong>2. Les Plaines intérieures</strong> : prairies plates — Alberta, Saskatchewan, Manitoba. Ressources : pétrole, gaz, céréales (blé, canola). <em>L'Alberta est dans les Plaines intérieures.</em></p>
+<p><strong>3. Le Bouclier canadien</strong> : roche ancienne, forêts, mines d'or et de nickel. <strong>4. Les Basses-terres des Grands Lacs</strong> : la région <em>la plus densément peuplée</em> (Toronto, Montréal, Ottawa). Commerce, agriculture, industrie.</p>
+<p><strong>5. Les Appalaches</strong> : vieilles montagnes, Maritimes, pêche et tourisme. <strong>6. Les Basses-terres arctiques</strong> : toundra, pergélisol, peuples Inuits. <strong>7. Les Basses-terres de la baie d'Hudson</strong> : zones humides subarctiques.</p>`,
+ questions:[
+  {type:'mc',q:'Dans quelle région géographique se trouve l\'Alberta ?',opts:['La Cordillère','Le Bouclier canadien','Les Plaines intérieures','Les Appalaches'],ans:2,explain:'L\'Alberta est dans les Plaines intérieures (prairies) — pétrole, gaz, agriculture.'},
+  {type:'mc',q:'Quelle région est la plus densément peuplée du Canada ?',opts:['La Cordillère','Les Plaines intérieures','Le Bouclier canadien','Les Basses-terres des Grands Lacs'],ans:3,explain:'Les Basses-terres des Grands Lacs (Toronto, Montréal, Ottawa) = la région la plus peuplée.'},
+  {type:'fitb',q:'Combien de régions géographiques le Canada compte-t-il ? ________.',ans:'7',explain:'Le Canada a 7 grandes régions géographiques.'},
+  {type:'fitb',q:'Les peuples ________ vivent traditionnellement dans la région arctique du Canada.',ans:'inuits',explain:'Les Inuits sont les peuples autochtones du nord du Canada (région arctique).'},
+  {type:'mc',q:'Quelle est la principale ressource des Plaines intérieures ?',opts:['Poisson','Pétrole/gaz et céréales','Or et nickel','Bois de construction'],ans:1,explain:'Les Plaines intérieures (Alberta, Saskatchewan, Manitoba) : pétrole, gaz, blé, canola, élevage.'}
+ ]
+},
+{id:'6SH.PA.1',subject:'SH',icon:'🪶',color:'#c9a800',light:'#fef7d5',
+ title:'Les peuples autochtones du Canada',subtitle:'Sciences humaines · Histoire',time:15,
+ reading:`<p>Le Canada reconnaît trois groupes de peuples autochtones, chacun avec une identité, une culture et une histoire distinctes.</p>
+<p>Les <strong>Premières Nations</strong> comprennent des centaines de nations distinctes avec leurs propres langues et cultures. En Alberta : les Cris, les Blackfoot (Pieds-Noirs), les Stoney Nakoda.</p>
+<p>Les <strong>Métis</strong> ont une ascendance mixte — européenne et autochtone. Louis Riel est un leader Métis célèbre qui a défendu les droits de son peuple au Manitoba et en Saskatchewan.</p>
+<p>Les <strong>Inuits</strong> vivent principalement dans le nord du Canada. « Inuit » signifie « les gens » en Inuktitut.</p>
+<p>Les <strong>traités</strong> sont des accords juridiques entre la Couronne et les nations autochtones concernant l'utilisation des terres. Beaucoup n'ont pas été respectés.</p>
+<p>Les <strong>pensionnats indiens</strong> (années 1870–1990) ont séparé les enfants autochtones de leurs familles → perte de langue, de culture et traumatisme intergénérationnel. La <strong>réconciliation</strong> est le processus de guérison et de reconstruction de ces relations.</p>`,
+ questions:[
+  {type:'mc',q:'Quels sont les trois groupes de peuples autochtones reconnus au Canada ?',opts:['Cris, Métis, Algonquins','Premières Nations, Métis, Inuits','Blackfoot, Inuits, Ojibwés','Premières Nations, Inuits, Européens'],ans:1,explain:'Les trois groupes reconnus : Premières Nations, Métis et Inuits.'},
+  {type:'fitb',q:'Louis Riel est un leader célèbre du groupe des ________.',ans:'métis',explain:'Louis Riel était un leader Métis qui a défendu les droits de son peuple.'},
+  {type:'mc',q:'Qu\'est-ce qu\'un traité ?',opts:['Un type de cérémonie autochtone','Un accord juridique sur l\'utilisation des terres','Une langue autochtone','Un style de maison traditionnelle'],ans:1,explain:'Un traité est un accord juridique entre le gouvernement et les nations autochtones sur les terres et les droits.'},
+  {type:'fitb',q:'Le processus de réparation des relations entre les Autochtones et les non-Autochtones s\'appelle la ________.',ans:'réconciliation',explain:'La réconciliation = reconnaître les torts causés et reconstruire des relations équitables.'},
+  {type:'mc',q:'Quelle était la conséquence principale des pensionnats indiens ?',opts:['Ils amélioraient l\'éducation autochtone','Ils préservaient les langues autochtones','Ils causaient la perte de langue, de culture et des traumatismes','Ils aidaient les familles à se réunir'],ans:2,explain:'Les pensionnats = séparation forcée des enfants de leurs familles → perte culturelle et traumatisme intergénérationnel.'}
+ ]
+},
+{id:'6SH.CF.1',subject:'SH',icon:'🍁',color:'#c9a800',light:'#fef7d5',
+ title:'La Confédération (1867)',subtitle:'Sciences humaines · Histoire canadienne',time:15,
+ reading:`<p>En <strong>1867</strong>, quatre colonies britanniques se sont unies pour former le <strong>Dominion du Canada</strong> : l'Ontario, le Québec, la Nouvelle-Écosse et le Nouveau-Brunswick. Cet événement s'appelle la <em>Confédération</em>.</p>
+<p>Les principales raisons de se confédérer : se défendre contre une possible invasion américaine (après la guerre civile américaine), former une union économique plus forte, construire un chemin de fer transcontinental, et établir un gouvernement central plus puissant.</p>
+<p>Le premier Premier ministre du Canada fut <strong>John A. Macdonald</strong>. <strong>George-Étienne Cartier</strong> représentait le Québec francophone.</p>
+<p>D'autres provinces ont rejoint plus tard : Manitoba (1870), Colombie-Britannique (1871, après la promesse d'un chemin de fer), Île-du-Prince-Édouard (1873), Alberta et Saskatchewan (1905), Terre-Neuve (1949). Le Nunavut est devenu un territoire en <strong>1999</strong>.</p>
+<p>Aujourd'hui, le Canada compte <strong>10 provinces</strong> et <strong>3 territoires</strong>. La <strong>Charte canadienne des droits et libertés (1982)</strong> garantit les droits fondamentaux de tous les Canadiens.</p>`,
+ questions:[
+  {type:'mc',q:'En quelle année a eu lieu la Confédération canadienne ?',opts:['1837','1867','1905','1949'],ans:1,explain:'La Confédération = 1867. L\'Alberta et la Saskatchewan ont rejoint en 1905.'},
+  {type:'fitb',q:'Combien y a-t-il de provinces au Canada aujourd\'hui ? ________.',ans:'10',explain:'Le Canada compte 10 provinces et 3 territoires.'},
+  {type:'mc',q:'Quelles étaient les 4 premières provinces de la Confédération ?',opts:['Alberta, CB, Manitoba, Ontario','Ontario, Québec, Nouvelle-Écosse, Nouveau-Brunswick','Alberta, Saskatchewan, Manitoba, Ontario','Québec, Ontario, Terre-Neuve, Manitoba'],ans:1,explain:'Les 4 fondateurs (1867) : Ontario, Québec, Nouvelle-Écosse, Nouveau-Brunswick.'},
+  {type:'fitb',q:'Le premier ________ du Canada était John A. Macdonald.',ans:'premier ministre',explain:'John A. Macdonald = premier Premier ministre du Canada (1867).'},
+  {type:'mc',q:'En quelle année l\'Alberta est-elle devenue une province ?',opts:['1867','1871','1905','1949'],ans:2,explain:'L\'Alberta et la Saskatchewan sont devenues des provinces en 1905.'}
+ ]
+},
+{id:'6SH.GV.1',subject:'SH',icon:'🏛️',color:'#c9a800',light:'#fef7d5',
+ title:'Le gouvernement canadien',subtitle:'Sciences humaines · Gouvernement',time:15,
+ reading:`<p>Le Canada est une <strong>démocratie parlementaire</strong> et une <strong>monarchie constitutionnelle</strong>. Le gouvernement est divisé en <strong>trois paliers</strong>.</p>
+<p>Le <strong>palier fédéral</strong> (Ottawa) : responsable de la défense nationale, de l'immigration, de la monnaie, des lois criminelles, et des affaires avec les Premières Nations.</p>
+<p>Le <strong>palier provincial</strong> (ex. : Edmonton pour l'Alberta) : responsable de l'éducation, de la santé, des routes, des ressources naturelles, et du droit civil.</p>
+<p>Le <strong>palier municipal</strong> (ta ville) : responsable des parcs, des bibliothèques, de la collecte des ordures, des routes locales, et du service des incendies.</p>
+<p>Le <strong>Parlement</strong> fédéral comprend : la <em>Chambre des communes</em> (élue par les citoyens), le <em>Sénat</em> (nommé), et le <em>Gouverneur général</em> (représentant du roi).</p>
+<p>Pour voter, tu choisis ton <strong>député</strong> (Membre du Parlement — MP). Le parti qui obtient le plus de sièges forme le gouvernement, et son chef devient <strong>Premier ministre</strong>.</p>`,
+ questions:[
+  {type:'mc',q:'Quel palier de gouvernement est responsable de l\'éducation en Alberta ?',opts:['Fédéral','Provincial','Municipal','International'],ans:1,explain:'L\'éducation est une responsabilité provinciale. En Alberta, c\'est le gouvernement provincial (Edmonton).'},
+  {type:'mc',q:'Quel palier est responsable de la collecte des ordures ?',opts:['Fédéral','Provincial','Municipal','Territorial'],ans:2,explain:'La collecte des ordures, les parcs, et les routes locales = responsabilité municipale (ville).'},
+  {type:'fitb',q:'La Chambre des communes et le Sénat sont les deux chambres du ________ fédéral.',ans:'parlement',explain:'Le Parlement canadien = Chambre des communes + Sénat + Gouverneur général.'},
+  {type:'fitb',q:'Le chef du parti qui obtient le plus de sièges aux élections devient le ________.',ans:'premier ministre',explain:'Le Premier ministre = le chef du parti qui remporte le plus de sièges à la Chambre des communes.'},
+  {type:'mc',q:'L\'immigration est la responsabilité de quel palier ?',opts:['Municipal','Provincial','Fédéral','Les trois paliers ensemble'],ans:2,explain:'L\'immigration est une responsabilité fédérale (Ottawa), tout comme la défense et la monnaie.'}
+ ]
+},
+
+// ═══ SANTÉ ═══
+{id:'6HL.WB.1',subject:'HL',icon:'💚',color:'#e8650a',light:'#fdeede',
+ title:'La santé et les systèmes du corps',subtitle:'Santé · Bien-être physique',time:15,
+ reading:`<p>L'agent santé doit connaître son corps pour fonctionner à son plein potentiel. Le corps humain comprend plusieurs <strong>systèmes</strong> qui travaillent ensemble.</p>
+<p><strong>Système digestif</strong> : transforme les aliments en énergie. Bouche → œsophage → estomac → intestin grêle (absorption) → gros intestin.</p>
+<p><strong>Système circulatoire</strong> : le cœur pompe le sang dans tout le corps via les artères (du cœur) et les veines (vers le cœur). Le sang transporte l'oxygène et les nutriments.</p>
+<p><strong>Système respiratoire</strong> : les poumons échangent les gaz — absorbe l'O₂, expulse le CO₂. Nez/bouche → trachée → poumons → alvéoles.</p>
+<p><strong>Système musculo-squelettique</strong> : les os donnent la structure, les muscles permettent le mouvement. Les tendons relient les muscles aux os.</p>
+<p>La <strong>santé complète</strong> comprend quatre dimensions : physique (exercice, alimentation, sommeil), mentale (pensées), émotionnelle (sentiments), et sociale (relations).</p>`,
+ questions:[
+  {type:'mc',q:'Quel organe pompe le sang dans tout le corps ?',opts:['Poumon','Rein','Cœur','Foie'],ans:2,explain:'Le cœur est la pompe du système circulatoire. Il envoie le sang par les artères.'},
+  {type:'mc',q:'Dans quel organe les nutriments sont-ils principalement absorbés ?',opts:['Estomac','Bouche','Intestin grêle','Gros intestin'],ans:2,explain:'L\'absorption des nutriments se fait principalement dans l\'intestin grêle.'},
+  {type:'fitb',q:'Les ________ transportent le sang DU cœur vers le reste du corps.',ans:'artères',explain:'Artères = du cœur vers le corps. Veines = du corps vers le cœur.'},
+  {type:'fitb',q:'L\'échange entre O₂ et CO₂ dans les poumons se fait dans les ________.',ans:'alvéoles',explain:'Les alvéoles sont les petits sacs dans les poumons où se font les échanges gazeux.'},
+  {type:'mc',q:'Quelles sont les quatre dimensions de la santé complète ?',opts:['Physique, mentale, émotionnelle, sociale','Physique, académique, sociale, spirituelle','Mentale, physique, scolaire, familiale','Physique, nutritionnelle, sportive, sociale'],ans:0,explain:'Les 4 dimensions : physique, mentale, émotionnelle, et sociale.'}
+ ]
+},
+{id:'6HL.LS.1',subject:'HL',icon:'🎯',color:'#e8650a',light:'#fdeede',
+ title:'Prise de décision et gestion du stress',subtitle:'Santé · Compétences de vie',time:15,
+ reading:`<p>Un bon agent sait prendre des décisions intelligentes, même sous pression. Le modèle de <strong>prise de décision en 5 étapes</strong> aide à faire de bons choix.</p>
+<p><strong>1. Identifier le problème</strong> : Quelle est la décision à prendre ? <strong>2. Identifier les options</strong> : Quelles sont les choix possibles ? <strong>3. Peser le pour et le contre</strong> : Quelles sont les conséquences de chaque option ? <strong>4. Choisir et agir</strong> : Prendre la meilleure décision et passer à l'action. <strong>5. Évaluer le résultat</strong> : Est-ce que ça a bien fonctionné ?</p>
+<p>La <strong>gestion du stress</strong> : le stress est une réaction normale. Des stratégies saines incluent : l'exercice physique, la respiration profonde, parler à quelqu'un de confiance, le sommeil suffisant, et organiser son temps.</p>
+<p>Les <strong>compétences sociales</strong> incluent : l'écoute active, la résolution de conflits (trouver un compromis), l'empathie (comprendre le point de vue des autres), et le refus positif (dire non avec respect).</p>`,
+ questions:[
+  {type:'mc',q:'Quelle est la PREMIÈRE étape du modèle de prise de décision ?',opts:['Choisir une option','Identifier le problème','Peser le pour et le contre','Évaluer le résultat'],ans:1,explain:'Étape 1 : identifier clairement le problème ou la décision à prendre.'},
+  {type:'mc',q:'Laquelle de ces stratégies est une façon SAINE de gérer le stress ?',opts:['Ignorer le problème','Regarder des écrans jusqu\'à minuit','Pratiquer la respiration profonde','Tout garder pour soi'],ans:2,explain:'La respiration profonde est une stratégie saine. L\'exercice, le sommeil, et parler à quelqu\'un le sont aussi.'},
+  {type:'fitb',q:'Comprendre et partager les sentiments d\'une autre personne s\'appelle l\'________.',ans:'empathie',explain:'L\'empathie = comprendre et respecter les émotions et le point de vue des autres.'},
+  {type:'fitb',q:'La dernière étape de la prise de décision consiste à ________ le résultat.',ans:'évaluer',explain:'Étape 5 : évaluer si la décision a été bonne et ce qu\'on pourrait améliorer.'},
+  {type:'mc',q:'Qu\'est-ce que le "refus positif" ?',opts:['Refuser toujours de participer','Dire non poliment et avec respect','Ignorer une demande','Mentir pour éviter un conflit'],ans:1,explain:'Le refus positif = dire non de façon assertive et respectueuse, sans agressivité ni culpabilité.'}
+ ]
+}
+];
+
+/* ─── SUBJECT CONFIG ─── */
+const SUBJ = {
+  FR:{name:'Français',color:'#9b7fd4',light:'#ede8f9'},
+  EN:{name:'English',color:'#5b9bd5',light:'#e3effa'},
+  MA:{name:'Maths',color:'#f07060',light:'#fdecea'},
+  SC:{name:'Sciences',color:'#52c4a0',light:'#e1f5ee'},
+  SH:{name:'Sc. Humaines',color:'#c9a800',light:'#fef7d5'},
+  HL:{name:'Santé',color:'#e8650a',light:'#fdeede'}
+};
+
+/* ─── STATE ─── */
+let progress = {};
+let currentLesson = null;
+let currentFilter = 'ALL';
+let quizAnswers = {};
+let quizResults = {};
+let isFlipped = false;
+
+function loadProgress() {
+  try { progress = JSON.parse(localStorage.getItem('sf_fi6_progress') || '{}'); } catch(e) { progress = {}; }
+}
+function saveProgress() {
+  localStorage.setItem('sf_fi6_progress', JSON.stringify(progress));
+}
+
+/* ─── RENDER DASHBOARD ─── */
+function renderDashboard() {
+  loadProgress();
+  const all = LESSONS;
+  const passes = all.filter(l => (progress[l.id]||{}).status === 'pass').length;
+  const fails = all.filter(l => (progress[l.id]||{}).status === 'fail').length;
+  const scores = all.map(l => (progress[l.id]||{}).score).filter(s => s !== undefined);
+  const avgScore = scores.length ? Math.round(scores.reduce((a,b)=>a+b,0)/scores.length) : null;
+  const retries = all.filter(l => (progress[l.id]||{}).status === 'fail').length;
+
+  document.getElementById('statTotal').textContent = all.length;
+  document.getElementById('statPass').textContent = passes;
+  document.getElementById('statFail').textContent = fails;
+  document.getElementById('statRetry').textContent = retries;
+  document.getElementById('statPct').textContent = avgScore !== null ? avgScore + '%' : '—';
+
+  const pct = Math.round(passes / all.length * 100);
+  document.getElementById('progFill').style.width = pct + '%';
+  document.getElementById('progText').textContent = `${passes} / ${all.length} dossiers résolus`;
+  document.getElementById('progPct').textContent = pct + '%';
+
+  const filtered = currentFilter === 'ALL' ? all : all.filter(l => l.subject === currentFilter);
+
+  const caseList = document.getElementById('caseList');
+  caseList.innerHTML = filtered.map(l => caseCardHTML(l)).join('');
+
+  // Reattempts
+  const failedLessons = all.filter(l => (progress[l.id]||{}).status === 'fail');
+  const retrySection = document.getElementById('retrySection');
+  const retryList = document.getElementById('retryList');
+  if (failedLessons.length > 0 && (currentFilter === 'ALL' || failedLessons.some(l => l.subject === currentFilter))) {
+    retrySection.style.display = 'block';
+    const retryFiltered = currentFilter === 'ALL' ? failedLessons : failedLessons.filter(l => l.subject === currentFilter);
+    retryList.innerHTML = retryFiltered.map(l => caseCardHTML(l, true)).join('');
+  } else {
+    retrySection.style.display = 'none';
+  }
+}
+
+function caseCardHTML(l, isRetry = false) {
+  const p = progress[l.id] || {};
+  const sc = SUBJ[l.subject].color;
+  const sl = SUBJ[l.subject].light;
+  const statusClass = p.status ? 's-' + p.status : '';
+  const retryClass = isRetry ? 's-retry' : '';
+  const pill = isRetry ? '<span class="pill pill-retry">🔁 Réessayer</span>' :
+               p.status === 'pass' ? '<span class="pill pill-pass">✓ Résolu</span>' :
+               p.status === 'fail' ? '<span class="pill pill-fail">✗ Froid</span>' :
+               '<span class="pill pill-pending">○ Ouvert</span>';
+  const scoreDisp = p.score !== undefined ? `<span class="case-score-num" style="color:${p.status==='pass'?'#52c4a0':'#f07060'}">${p.score}%</span>` : '';
+  return `<div class="case-card ${isRetry ? retryClass : statusClass}" onclick="openLesson('${l.id}', ${isRetry})">
+    <div class="case-icon" style="background:${sl}">
+      <span>${l.icon}</span>
+      <span class="case-icon-code" style="color:${sc}">${l.subject}</span>
+    </div>
+    <div class="case-meta">
+      <div class="case-id">${l.id}</div>
+      <div class="case-title">${l.title}</div>
+      <div class="case-sub">${SUBJ[l.subject].name}</div>
+    </div>
+    <div class="case-right">
+      ${pill}
+      ${scoreDisp}
+      <span class="case-time">⏱ ${l.time} min</span>
+    </div>
+  </div>`;
+}
+
+/* ─── FILTER ─── */
+function setFilter(f) {
+  currentFilter = f;
+  document.querySelectorAll('.fbtn').forEach(b => b.classList.remove('active'));
+  const map = {ALL:0,FR:1,EN:2,MA:3,SC:4,SH:5,HL:6};
+  document.querySelectorAll('.fbtn')[map[f]].classList.add('active');
+  renderDashboard();
+}
+
+/* ─── OPEN LESSON ─── */
+function openLesson(id, isRetry = false) {
+  const lesson = LESSONS.find(l => l.id === id);
+  if (!lesson) return;
+  currentLesson = lesson;
+  isFlipped = false;
+  quizAnswers = {};
+  quizResults = {};
+
+  const sc = lesson.color;
+  const sl = lesson.light;
+
+  document.getElementById('viewDashboard').style.display = 'none';
+  document.getElementById('viewLesson').style.display = 'block';
+
+  document.getElementById('topbarTitle').textContent = lesson.title;
+  document.getElementById('topbarBadge').textContent = lesson.subject + ' · ' + lesson.time + ' min';
+
+  // Set CSS vars
+  const dossier = document.getElementById('dossierCard');
+  dossier.style.setProperty('--sc', sc);
+  dossier.style.setProperty('--sl', sl);
+
+  document.getElementById('dossierIcon').textContent = lesson.icon;
+  document.getElementById('dossierCode').textContent = lesson.id;
+  document.getElementById('dossierTitle').textContent = lesson.title;
+  document.getElementById('dossierSub').textContent = lesson.subtitle;
+  document.getElementById('dossierBody').innerHTML = lesson.reading;
+
+  // Show reading, hide quiz and results
+  document.getElementById('phaseReading').style.display = 'block';
+  document.getElementById('phaseQuiz').style.display = 'none';
+  document.getElementById('phaseResults').style.display = 'none';
+
+  // Scroll to top
+  window.scrollTo(0,0);
+}
+
+/* ─── START QUIZ ─── */
+function startQuiz() {
+  const l = currentLesson;
+  const sc = l.color;
+
+  document.getElementById('phaseReading').style.display = 'none';
+  document.getElementById('phaseQuiz').style.display = 'block';
+
+  // Build questions HTML
+  const container = document.getElementById('quizQuestions');
+  container.innerHTML = l.questions.map((q, i) => {
+    if (q.type === 'mc') {
+      return `<div class="q-card" id="qcard-${i}" style="--sc:${sc}">
+        <div class="q-num">Question ${i+1} · Choix multiple</div>
+        <div class="q-text">${q.q}</div>
+        <div class="mc-opts">
+          ${q.opts.map((opt, oi) => `<button class="mc-opt" id="mc-${i}-${oi}" onclick="selectMC(${i},${oi})" type="button">
+            <span class="mc-dot"></span>${opt}
+          </button>`).join('')}
+        </div>
+      </div>`;
+    } else {
+      return `<div class="q-card" id="qcard-${i}" style="--sc:${sc}">
+        <div class="q-num">Question ${i+1} · Réponse courte</div>
+        <div class="q-text">${q.q}</div>
+        <input class="fitb-in" id="fitb-${i}" type="text" placeholder="Écris ta réponse ici…" oninput="updateFITB(${i}, this.value)" style="--sc:${sc}">
+      </div>`;
+    }
+  }).join('');
+
+  window.scrollTo(0,0);
+}
+
+function selectMC(qIdx, optIdx) {
+  const l = currentLesson;
+  quizAnswers[qIdx] = optIdx;
+  // Update UI
+  const q = l.questions[qIdx];
+  q.opts.forEach((_, oi) => {
+    const btn = document.getElementById(`mc-${qIdx}-${oi}`);
+    btn.classList.toggle('sel', oi === optIdx);
+  });
+  document.getElementById(`qcard-${qIdx}`).classList.add('answered');
+}
+
+function updateFITB(qIdx, val) {
+  quizAnswers[qIdx] = val;
+  if (val.trim()) document.getElementById(`qcard-${qIdx}`).classList.add('answered');
+  else document.getElementById(`qcard-${qIdx}`).classList.remove('answered');
+}
+
+/* ─── SUBMIT QUIZ ─── */
+function submitQuiz() {
+  const l = currentLesson;
+  let correct = 0;
+  const total = l.questions.length;
+
+  l.questions.forEach((q, i) => {
+    const userAns = quizAnswers[i];
+    let isCorrect = false;
+
+    if (q.type === 'mc') {
+      isCorrect = userAns === q.ans;
+      // Mark options
+      q.opts.forEach((_, oi) => {
+        const btn = document.getElementById(`mc-${i}-${oi}`);
+        if (oi === q.ans) btn.classList.add('res-correct');
+        else if (oi === userAns && userAns !== q.ans) btn.classList.add('res-wrong');
+        btn.onclick = null;
+      });
+    } else {
+      const cleaned = s => String(s||'').toLowerCase().trim().normalize('NFD').replace(/[̀-ͯ]/g,'').replace(/[^a-z0-9\s/]/g,'').trim();
+      const userClean = cleaned(userAns);
+      const ansClean = cleaned(q.ans);
+      // Accept if user answer contains the key answer or vice versa
+      isCorrect = userClean === ansClean || userClean.includes(ansClean) || ansClean.includes(userClean);
+      const inp = document.getElementById(`fitb-${i}`);
+      if (inp) {
+        inp.classList.add(isCorrect ? 'res-correct' : 'res-wrong');
+        inp.readOnly = true;
+      }
+    }
+
+    quizResults[i] = isCorrect;
+    if (isCorrect) correct++;
+  });
+
+  const score = Math.round(correct / total * 100);
+  const passed = score >= 60;
+
+  // Show results
+  document.getElementById('phaseQuiz').style.display = 'none';
+  document.getElementById('phaseResults').style.display = 'block';
+
+  const scoreBig = document.getElementById('scoreBig');
+  scoreBig.textContent = score + '%';
+  scoreBig.className = 'score-big ' + (passed ? 'pass' : 'fail');
+
+  const verdict = document.getElementById('verdictBanner');
+  verdict.className = 'verdict ' + (passed ? 'pass' : 'fail');
+  verdict.textContent = passed
+    ? `🏆 DOSSIER RÉSOLU — ${correct}/${total} bonnes réponses`
+    : `❌ DOSSIER FROID — ${correct}/${total} — Réessaie pour progresser`;
+
+  // Score breakdown
+  document.getElementById('scoreBreakdown').innerHTML = l.questions.map((q, i) => {
+    const ok = quizResults[i];
+    const ua = quizAnswers[i];
+    const displayAns = q.type === 'mc' ? (ua !== undefined ? q.opts[ua] : '(sans réponse)') : (ua || '(sans réponse)');
+    return `<div class="res-row">
+      <span class="res-icon">${ok ? '✅' : '❌'}</span>
+      <div class="res-text">
+        <div class="res-q-text">Q${i+1}: ${q.q.substring(0,60)}${q.q.length>60?'…':''}</div>
+        <div class="res-your-ans">Ta réponse : <span>${displayAns}</span></div>
+      </div>
+    </div>`;
+  }).join('');
+
+  // Flip front
+  document.getElementById('flipFrontContent').innerHTML = `
+    <div style="font-size:13px;font-weight:700;color:#1a1a2e;margin-bottom:12px">📋 Résumé de tes réponses</div>
+    ${l.questions.map((q, i) => {
+      const ok = quizResults[i];
+      const ua = quizAnswers[i];
+      const displayAns = q.type === 'mc' ? (ua !== undefined ? q.opts[ua] : '—') : (ua || '—');
+      return `<div class="res-row" style="padding:7px 0;border-bottom:1px solid #f0ece4">
+        <span style="font-size:14px">${ok ? '✅' : '❌'}</span>
+        <div style="flex:1;font-size:12px;color:#374151"><strong>Q${i+1}</strong> — ${displayAns}</div>
+      </div>`;
+    }).join('')}`;
+
+  // Flip back (answer key)
+  document.getElementById('flipBackContent').innerHTML = l.questions.map((q, i) => {
+    const ok = quizResults[i];
+    const correctAns = q.type === 'mc' ? q.opts[q.ans] : q.ans;
+    return `<div class="ans-row">
+      <div class="ans-q">${ok ? '✅' : '❌'} Q${i+1}: ${q.q.substring(0,50)}${q.q.length>50?'…':''}</div>
+      <div class="ans-val">→ ${correctAns}</div>
+      <div class="ans-explain">${q.explain}</div>
+    </div>`;
+  }).join('');
+
+  // Save to progress
+  progress[l.id] = { status: passed ? 'pass' : 'fail', score, attempts: ((progress[l.id]||{}).attempts || 0) + 1, lastDate: new Date().toISOString().slice(0,10) };
+  saveProgress();
+
+  // Show retry button if failed
+  document.getElementById('retryBtn').style.display = passed ? 'none' : 'block';
+
+  if (passed) toast('🏆 Dossier résolu ! +' + score + '%');
+  else toast('📁 Dossier froid — copié dans la liste de rétentats');
+
+  window.scrollTo(0,0);
+  isFlipped = false;
+  // Adjust flip card height
+  adjustFlipHeight();
+}
+
+function adjustFlipHeight() {
+  const front = document.querySelector('.flip-front-face');
+  const back = document.querySelector('.flip-back-face');
+  if (front && back) {
+    back.style.position = 'absolute';
+    back.style.top = '0';
+    back.style.left = '0';
+    back.style.width = '100%';
+  }
+}
+
+/* ─── FLIP CARD ─── */
+function flipCard() {
+  isFlipped = !isFlipped;
+  document.getElementById('flipCard').classList.toggle('flipped', isFlipped);
+  // Adjust container height to show whichever face is visible
+  const front = document.querySelector('.flip-front-face');
+  const back = document.querySelector('.flip-back-face');
+  const wrap = document.querySelector('.flip-wrap');
+  if (isFlipped) {
+    back.style.position = 'relative';
+    front.style.position = 'absolute';
+    back.style.visibility = 'visible';
+  } else {
+    front.style.position = 'relative';
+    back.style.position = 'absolute';
+  }
+}
+
+/* ─── GO HOME ─── */
+function goHome() {
+  document.getElementById('viewLesson').style.display = 'none';
+  document.getElementById('viewDashboard').style.display = 'block';
+  currentLesson = null;
+  renderDashboard();
+  window.scrollTo(0,0);
+}
+
+/* ─── RETRY ─── */
+function retryLesson() {
+  if (!currentLesson) return;
+  openLesson(currentLesson.id, true);
+}
+
+/* ─── TOAST ─── */
+function toast(msg) {
+  const c = document.getElementById('toasts');
+  const el = document.createElement('div');
+  el.className = 'toast';
+  el.textContent = msg;
+  c.appendChild(el);
+  setTimeout(() => el.remove(), 3200);
+}
+
+/* ─── INIT ─── */
+loadProgress();
+renderDashboard();
+</script>
+</body>
+</html>

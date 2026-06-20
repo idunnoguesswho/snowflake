@@ -161,6 +161,7 @@ body{font-family:'Nunito',sans-serif;background:linear-gradient(160deg,#fff8e1 0
 <div id="confettiWrap"></div>
 <div id="toastArea"></div>
 
+<script src="snowflake-config.js"></script>
 <script>
 /* ───────────────────────────────────────────────────────────
    REWARD CATALOG — edit freely! Each reward needs:
@@ -220,8 +221,9 @@ function spentTotal(u) { return loadRedeemed(u).reduce((sum,r)=>sum+r.cost, 0); 
 function balance(u) { return Math.max(0, (earnedPoints[u]||0) - spentTotal(u)); }
 
 /* ── Sheet fetch (same source as oliver.html / logan.html) ── */
-const SHEET_ID  = '11A5NsScePEbtN9dujN3tILb_Q2TU5tsf6I0MbT11kDY';
-const SHEET_GID = '553696854';
+const CFG       = window.SNOWFLAKE_CONFIG || {};
+const SHEET_ID  = CFG.sheetId  || '1GZv91Npf9i0y6AtCQcjYUyiYrDq3aqQ3zSNE2QGAxfE';
+const SHEET_GID = CFG.sheetGid || '0';
 const YES = new Set(['yes','true','1','✓','✅']);
 
 function parseCSV(raw){

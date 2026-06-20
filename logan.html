@@ -114,6 +114,7 @@
   <button class="hub-tab"        data-tab="learn"   onclick="showTab('learn')">🧠 Learn</button>
   <button class="hub-tab"        data-tab="study"   onclick="showTab('study')">📚 Study</button>
   <button class="hub-tab"        data-tab="bible"   onclick="showTab('bible')">✝️ Bible</button>
+  <a class="hub-tab" href="store.html">🎁 Store</a>
 </nav>
 
 <!-- ══ TASKS ══ -->
@@ -537,6 +538,7 @@
 
 <div class="toast-wrap" id="toasts"></div>
 
+<script src="snowflake-config.js"></script>
 <script>
 /* ── Date ── */
 document.getElementById('hero-date').textContent = new Date().toLocaleDateString('en-CA', { month: 'long', day: 'numeric', year: 'numeric' });
@@ -964,8 +966,9 @@ function toggleBible(i) {
 renderBible();
 
 /* ── Sheet / Tasks ── */
-const SHEET_ID  = '11A5NsScePEbtN9dujN3tILb_Q2TU5tsf6I0MbT11kDY';
-const SHEET_GID = '553696854';
+const CFG       = window.SNOWFLAKE_CONFIG || {};
+const SHEET_ID  = CFG.sheetId  || '1GZv91Npf9i0y6AtCQcjYUyiYrDq3aqQ3zSNE2QGAxfE';
+const SHEET_GID = CFG.sheetGid || '0';
 const PERSON    = 'Logan';
 const STORE_KEY = `sf_logan_done_${TODAY_KEY}`;
 

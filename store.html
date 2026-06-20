@@ -161,6 +161,7 @@ body{font-family:'Nunito',sans-serif;background:linear-gradient(160deg,#fff8e1 0
 <div id="confettiWrap"></div>
 <div id="toastArea"></div>
 
+<script src="snowflake-config.js"></script>
 <script>
 /* ───────────────────────────────────────────────────────────
    REWARD CATALOG — edit freely! Each reward needs:
@@ -210,18 +211,19 @@ const USERS = { oliver:{label:'Oliver', sheetName:'Oliver'}, logan:{label:'Logan
 let currentUser = localStorage.getItem('sf_store_user') || 'oliver';
 let activeFilter = 'all';
 let earnedPoints = { oliver:0, logan:0 };
+let history = { oliver:[], logan:[] };   // redemption/refund ledger entries, read live from the sheet
+let sessionLedgerRows = new Set();        // rowNumbers created THIS session — only these can be undone
 let loaded = false;
 let modalReward = null;
+let busy = false;
 
-/* ── Redemption log (local, per user) ── */
-function loadRedeemed(u) { try { return JSON.parse(localStorage.getItem('sf_store_redeemed_'+u)||'[]'); } catch(e) { return []; } }
-function saveRedeemed(u, log) { localStorage.setItem('sf_store_redeemed_'+u, JSON.stringify(log)); }
-function spentTotal(u) { return loadRedeemed(u).reduce((sum,r)=>sum+r.cost, 0); }
-function balance(u) { return Math.max(0, (earnedPoints[u]||0) - spentTotal(u)); }
+function balance(u){ return Math.max(0, Math.round(earnedPoints[u]||0)); }
 
 /* ── Sheet fetch (same source as oliver.html / logan.html) ── */
-const SHEET_ID  = '11A5NsScePEbtN9dujN3tILb_Q2TU5tsf6I0MbT11kDY';
-const SHEET_GID = '553696854';
+const CFG             = window.SNOWFLAKE_CONFIG || {};
+const SHEET_ID         = CFG.sheetId  || '1GZv91Npf9i0y6AtCQcjYUyiYrDq3aqQ3zSNE2QGAxfE';
+const SHEET_GID        = CFG.sheetGid || '0';
+const APPS_SCRIPT_URL  = CFG.appsScriptUrl || '';
 const YES = new Set(['yes','true','1','✓','✅']);
 
 function parseCSV(raw){
@@ -249,24 +251,75 @@ function loadGviz(){
   });
 }
 
-// Sums the Points column for every completed task, by Responsible person.
-function buildEarned(rows){
+// Sums Points for every completed task by Responsible person, AND pulls out
+// the Redemption/Refund ledger rows for the history list. Redemption rows
+// already carry negative Points, so this sum IS the live balance — no
+// separate local "spent" tracking is needed anymore.
+function buildFromRows(rows){
   const totals = { oliver:0, logan:0 };
-  if (rows.length<2) return totals;
+  const log    = { oliver:[], logan:[] };
+  if (rows.length<2) return { totals, log };
   const h=rows[0].map(x=>x.toLowerCase().trim()), col=kw=>h.findIndex(c=>c.includes(kw));
-  const iResp = col('responsible')!==-1 ? col('responsible') : 2;
-  const iDone = col('isdone')!==-1 ? col('isdone') : 11;
-  const iPts  = col('points')!==-1 ? col('points') : 12;
+  const iResp  = col('responsible')!==-1 ? col('responsible') : 2;
+  const iCat   = col('category')!==-1 ? col('category') : 3;
+  const iTitle = col('task name')!==-1 ? col('task name') : 5;
+  const iDesc  = col('description')!==-1 ? col('description') : 6;
+  const iDone  = col('isdone')!==-1 ? col('isdone') : 11;
+  const iPts   = col('points')!==-1 ? col('points') : 12;
+  const iDate  = col('date completed')!==-1 ? col('date completed') : 10;
   const get=(r,i)=>(i>=0&&i<r.length?r[i]:'').trim();
-  rows.slice(1).forEach(r=>{
+  rows.slice(1).forEach((r,idx)=>{
     const resp = get(r,iResp);
     const done = (get(r,iDone)||'').toLowerCase().trim();
     if (!YES.has(done)) return;
     const pts = parseFloat(get(r,iPts)) || 0;
-    if (resp==='Oliver') totals.oliver += pts;
-    else if (resp==='Logan') totals.logan += pts;
+    const key = resp==='Oliver' ? 'oliver' : resp==='Logan' ? 'logan' : null;
+    if (!key) return;
+    totals[key] += pts;
+    const title = get(r,iTitle).toLowerCase();
+    if ((title==='redemption' || title==='refund') && get(r,iCat)==='Side Quest'){
+      log[key].push({
+        rowNumber: idx+2, // +1 for header row, +1 for 1-based sheet rows
+        kind: title==='refund' ? 'Refund' : 'Redemption',
+        item: get(r,iDesc).replace(/^point redemption:\s*/i,'').replace(/^refund:\s*/i,'') || 'Reward',
+        points: pts,
+        date: get(r,iDate)
+      });
+    }
   });
-  return totals;
+  return { totals, log };
+}
+
+/* ── Write to sheet — GET with URL params, same pattern as tasks.html's
+   doComplete(), which avoids the CORS preflight that POST triggers ── */
+async function writeLedger(person, item, points, kind){
+  if (!APPS_SCRIPT_URL) throw new Error('Apps Script URL not configured');
+  const params = new URLSearchParams({
+    action: 'redeem',
+    person, item, kind,
+    points: String(points),
+    date: new Date().toISOString().slice(0,10)
+  });
+  const res = await fetch(`${APPS_SCRIPT_URL}?${params}`);
+  if (!res.ok) throw new Error(`HTTP ${res.status}`);
+  const payload = await res.json();
+  if (payload.ok === false) throw new Error(payload.error || 'Sheet write failed');
+  return payload;
+}
+
+async function refreshFromSheet(){
+  try{
+    const rows = await loadSheet();
+    const built = buildFromRows(rows);
+    earnedPoints = built.totals;
+    history = built.log;
+    loaded = true;
+  } catch(e){
+    if (!loaded) document.getElementById('balanceSub').textContent = 'Could not load points from the sheet — check connection.';
+    else toast('⚠️ Could not refresh from sheet — showing last known balance.');
+  } finally {
+    refreshAll();
+  }
 }
 
 /* ── Rendering ── */
@@ -293,7 +346,7 @@ function updateBalance(){
     return;
   }
   document.getElementById('balanceNum').textContent = balance(currentUser);
-  document.getElementById('balanceSub').textContent = `${earnedPoints[currentUser]||0} earned all-time · ${spentTotal(currentUser)} spent so far`;
+  document.getElementById('balanceSub').textContent = 'Synced live from your task list';
 }
 
 function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
@@ -317,19 +370,21 @@ function renderRewards(){
 }
 
 function renderHistory(){
-  const log = loadRedeemed(currentUser).slice().reverse();
+  const log = (history[currentUser]||[]).slice().sort((a,b)=> b.rowNumber - a.rowNumber);
   const list = document.getElementById('historyList');
   if (!log.length){
     list.innerHTML = '<div class="history-empty">No rewards redeemed yet — earn points and treat yourself!</div>';
     return;
   }
   list.innerHTML = log.map(entry=>{
+    const isRefund = entry.kind==='Refund';
+    const canUndo = sessionLedgerRows.has(entry.rowNumber);
     return '<div class="history-row">'+
-      '<div class="history-icon">'+entry.icon+'</div>'+
-      '<div class="history-info"><div class="history-name">'+esc(entry.name)+'</div>'+
-      '<div class="history-date">'+entry.date+'</div></div>'+
-      '<div class="history-cost">−'+entry.cost+'</div>'+
-      '<button class="history-undo" title="Undo this redemption" onclick="undoRedeem(\''+entry.uid+'\')">↺</button>'+
+      '<div class="history-icon">'+(isRefund?'↩️':'🎁')+'</div>'+
+      '<div class="history-info"><div class="history-name">'+esc(entry.item)+'</div>'+
+      '<div class="history-date">'+esc(entry.date)+'</div></div>'+
+      '<div class="history-cost" style="color:'+(isRefund?'#16a34a':'#dc2626')+'">'+(isRefund?'+':'')+Math.round(entry.points)+'</div>'+
+      (canUndo ? '<button class="history-undo" title="Undo this redemption" onclick="undoRedeem('+entry.rowNumber+')">↺</button>' : '')+
       '</div>';
   }).join('');
 }
@@ -356,29 +411,42 @@ function openModal(id){
   document.getElementById('modal').classList.remove('hidden');
 }
 
-function redeem(){
-  if (!modalReward) return;
-  const log = loadRedeemed(currentUser);
-  log.push({
-    uid: Date.now()+'_'+modalReward.id,
-    id: modalReward.id,
-    name: modalReward.name,
-    icon: modalReward.icon,
-    cost: modalReward.cost,
-    date: new Date().toLocaleDateString('en-CA', { weekday:'short', month:'short', day:'numeric' })
-  });
-  saveRedeemed(currentUser, log);
-  celebrate();
-  toast('🎉 Redeemed: '+modalReward.name+'!');
-  hideModal();
-  refreshAll();
+async function redeem(){
+  if (!modalReward || busy) return;
+  busy = true;
+  const btn = document.getElementById('mBtn');
+  const prevLabel = btn.textContent;
+  btn.disabled = true; btn.textContent = 'Saving…';
+  try{
+    const payload = await writeLedger(USERS[currentUser].sheetName, modalReward.name, -modalReward.cost, 'Redemption');
+    if (payload.entry && payload.entry.rowNumber) sessionLedgerRows.add(payload.entry.rowNumber);
+    celebrate();
+    toast('🎉 Redeemed: '+modalReward.name+'!');
+    hideModal();
+    await refreshFromSheet();
+  } catch(err){
+    toast('⚠️ Could not save to sheet: '+err.message);
+    btn.disabled = false; btn.textContent = prevLabel;
+  } finally {
+    busy = false;
+  }
 }
 
-function undoRedeem(uid){
-  const log = loadRedeemed(currentUser).filter(e=>e.uid!==uid);
-  saveRedeemed(currentUser, log);
-  toast('Redemption undone.');
-  refreshAll();
+async function undoRedeem(rowNumber){
+  if (busy) return;
+  const entry = (history[currentUser]||[]).find(e=>e.rowNumber===rowNumber);
+  if (!entry || !sessionLedgerRows.has(rowNumber)) return;
+  busy = true;
+  try{
+    await writeLedger(USERS[currentUser].sheetName, entry.item, Math.abs(entry.points), 'Refund');
+    sessionLedgerRows.delete(rowNumber);
+    toast('Redemption undone.');
+    await refreshFromSheet();
+  } catch(err){
+    toast('⚠️ Could not undo: '+err.message);
+  } finally {
+    busy = false;
+  }
 }
 
 function hideModal(){ document.getElementById('modal').classList.add('hidden'); modalReward=null; }
@@ -413,18 +481,8 @@ document.getElementById('catTabs').addEventListener('click', e=>{
 document.querySelector('.user-btn[data-user="'+currentUser+'"]').classList.add('active');
 document.getElementById('balanceCard').className = 'balance-card '+currentUser;
 refreshAll();
+refreshFromSheet();
 
-(async()=>{
-  try{
-    const rows = await loadSheet();
-    earnedPoints = buildEarned(rows);
-  } catch(e){
-    document.getElementById('balanceSub').textContent = 'Could not load points from the sheet — check connection.';
-  } finally {
-    loaded = true;
-    refreshAll();
-  }
-})();
 </script>
 </body>
 </html>

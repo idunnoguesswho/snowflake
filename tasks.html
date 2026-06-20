@@ -12,6 +12,8 @@
 <div class="page-header">
   <div class="page-title">🌟 Quest Board</div>
   <a href="store.html" class="sync-btn" style="background:#a855f7;text-decoration:none">🎁 Store</a>
+  <button class="sync-btn" style="background:#38d9a9" onclick="openAddTask()">+ Add Task</button>
+  <button class="sync-btn" style="background:#4dabf7" onclick="exportJson()" title="Download tasks.json">⬇ Export</button>
   <button class="sync-btn" id="syncBtn" onclick="sync()">
     <span class="sync-icon">↻</span> Sync Sheet
   </button>
@@ -51,6 +53,47 @@
 </div>
 
 <div class="toast-wrap" id="toasts"></div>
+
+<!-- Add Task Modal -->
+<div class="worksheet-modal" id="addTaskModal" hidden>
+  <div class="worksheet-backdrop" onclick="closeAddTask()"></div>
+  <section class="worksheet-sheet" style="max-width:480px;padding:24px" role="dialog" aria-modal="true">
+    <div style="font-family:'Baloo 2',cursive;font-size:1.3rem;font-weight:800;margin-bottom:16px">+ Add Task</div>
+    <form id="addTaskForm" onsubmit="submitAddTask(event)">
+      <div style="display:grid;gap:10px">
+        <label style="font-weight:700;font-size:.85rem">Task Title *
+          <input name="title" required placeholder="e.g. Clean the kitchen" style="display:block;width:100%;margin-top:4px;padding:8px 10px;border:2px solid #d8dee6;border-radius:10px;font-size:.95rem;font-family:inherit">
+        </label>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+          <label style="font-weight:700;font-size:.85rem">Person
+            <input name="person" placeholder="Mom / Oliver / Logan" style="display:block;width:100%;margin-top:4px;padding:8px 10px;border:2px solid #d8dee6;border-radius:10px;font-size:.95rem;font-family:inherit">
+          </label>
+          <label style="font-weight:700;font-size:.85rem">Category
+            <input name="topic" placeholder="Chores / School…" style="display:block;width:100%;margin-top:4px;padding:8px 10px;border:2px solid #d8dee6;border-radius:10px;font-size:.95rem;font-family:inherit">
+          </label>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+          <label style="font-weight:700;font-size:.85rem">Points
+            <input name="points" type="number" min="0" value="10" style="display:block;width:100%;margin-top:4px;padding:8px 10px;border:2px solid #d8dee6;border-radius:10px;font-size:.95rem;font-family:inherit">
+          </label>
+          <label style="font-weight:700;font-size:.85rem">Est. Time
+            <input name="estTime" placeholder="15 min" style="display:block;width:100%;margin-top:4px;padding:8px 10px;border:2px solid #d8dee6;border-radius:10px;font-size:.95rem;font-family:inherit">
+          </label>
+        </div>
+        <label style="font-weight:700;font-size:.85rem">Description
+          <textarea name="description" rows="3" placeholder="Steps or notes…" style="display:block;width:100%;margin-top:4px;padding:8px 10px;border:2px solid #d8dee6;border-radius:10px;font-size:.95rem;font-family:inherit;resize:vertical"></textarea>
+        </label>
+        <label style="font-weight:700;font-size:.85rem">Link (optional)
+          <input name="link" placeholder="https://…" style="display:block;width:100%;margin-top:4px;padding:8px 10px;border:2px solid #d8dee6;border-radius:10px;font-size:.95rem;font-family:inherit">
+        </label>
+      </div>
+      <div style="display:flex;gap:8px;margin-top:16px">
+        <button type="submit" class="sync-btn" style="background:#38d9a9;flex:1">Save Task</button>
+        <button type="button" class="sync-btn" style="background:#adb5bd" onclick="closeAddTask()">Cancel</button>
+      </div>
+    </form>
+  </section>
+</div>
 
 <div class="worksheet-modal" id="worksheetModal" hidden>
   <div class="worksheet-backdrop" onclick="closeWorksheet()"></div>
@@ -765,27 +808,46 @@ async function sync() {
   const btn = document.getElementById('syncBtn');
   btn.classList.add('spinning');
   setErr('');
-  setStatus('Syncing with Google Sheet…');
+  setStatus('Loading tasks…');
+
+  // Try tasks.json first, fall back to Google Sheets
+  try {
+    await loadFromJson();
+    renderLB(); renderPersonFilters(); renderCategoryBreakdown(); renderTasks(); renderActivity(); completePendingTask();
+    const done = G.tasks.filter(t=>t.sheetDone||t.isDone).length;
+    const totalPts = Object.values(G.players).reduce((s,p)=>s+p.pts,0);
+    setStatus(`${G.tasks.length} tasks · ${done} completed · ${totalPts} total points earned · source: tasks.json`);
+    toast(`✅ Loaded ${G.tasks.length} tasks from tasks.json`);
+    btn.classList.remove('spinning');
+    return;
+  } catch(jsonErr) {
+    setStatus(`tasks.json empty or missing — trying Google Sheet…`);
+  }
 
   try {
     const rows = await loadRowsFromSheet();
     if(rows.length < 2) throw new Error('No data rows found in sheet');
 
     buildFromRows(rows);
-    renderLB();
-    renderPersonFilters();
-    renderCategoryBreakdown();
-    renderTasks();
-    renderActivity();
-    completePendingTask();
+
+    // Merge any locally-added tasks on top of sheet tasks
+    const localTasks = loadLocalTasks();
+    localTasks.forEach((lt, i) => {
+      const key = `local_${i}_${String(lt.title||'').slice(0,10).replace(/\W/g,'_')}`;
+      if(!G.tasks.find(t => t.title === lt.title && t.dateAdded === lt.dateAdded)) {
+        const localDone = !!G.completions[key];
+        G.tasks.push({ ...lt, key, rowNumber: -1, desc: lt.description||lt.desc||'', pts: lt.points||lt.pts||0, isDone: localDone, isAssigned: false, sheetDone: false, completedDate: '', dateAssigned: '' });
+      }
+    });
+
+    renderLB(); renderPersonFilters(); renderCategoryBreakdown(); renderTasks(); renderActivity(); completePendingTask();
     const done = G.tasks.filter(t=>t.sheetDone).length;
     const totalPts = Object.values(G.players).reduce((s,p)=>s+p.pts,0);
-    setStatus(`${G.tasks.length} tasks · ${done} completed · ${totalPts} total points earned`);
-    toast(`✅ Loaded ${G.tasks.length} tasks`);
+    setStatus(`${G.tasks.length} tasks · ${done} completed · ${totalPts} total points earned · source: Google Sheet`);
+    toast(`✅ Loaded ${G.tasks.length} tasks from Sheet`);
   } catch(e) {
     setErr(`<strong>Could not reach the sheet.</strong> Make sure it's shared as "Anyone with the link → Viewer".<br><small>Error: ${e.message}</small>`);
     setStatus('Sync failed — see error above');
-    // show fallback players if we have local completions
     buildPlayers(); renderLB(); renderTasks();
   }
   btn.classList.remove('spinning');
@@ -811,6 +873,120 @@ function burst() {
     document.body.appendChild(el);
     setTimeout(()=>el.remove(),1600);
   }
+}
+
+/* ── Local tasks (added via UI) ── */
+function loadLocalTasks() {
+  try { return JSON.parse(localStorage.getItem('sf_local_tasks') || '[]'); } catch(e) { return []; }
+}
+
+function saveLocalTasks(arr) {
+  localStorage.setItem('sf_local_tasks', JSON.stringify(arr));
+}
+
+function openAddTask() {
+  document.getElementById('addTaskForm').reset();
+  document.getElementById('addTaskModal').hidden = false;
+}
+
+function closeAddTask() {
+  document.getElementById('addTaskModal').hidden = true;
+}
+
+function submitAddTask(e) {
+  e.preventDefault();
+  const fd = new FormData(e.target);
+  const title = fd.get('title').trim();
+  if(!title) return;
+
+  const localTasks = loadLocalTasks();
+  const newTask = {
+    title,
+    titleFR: '',
+    person: fd.get('person').trim(),
+    topic: fd.get('topic').trim(),
+    description: fd.get('description').trim(),
+    points: Math.max(0, parseInt(fd.get('points')) || 0),
+    estTime: fd.get('estTime').trim(),
+    dateAdded: todayIsoDate(),
+    links: fd.get('link').trim() ? [{ label: fd.get('link').trim().replace(/^https?:\/\//,''), url: fd.get('link').trim() }] : [],
+    _local: true
+  };
+
+  localTasks.push(newTask);
+  saveLocalTasks(localTasks);
+
+  // merge into live task list
+  const key = `local_${Date.now()}_${title.slice(0,10).replace(/\W/g,'_')}`;
+  G.tasks.push({ ...newTask, key, rowNumber: -1, isDone: false, isAssigned: false, sheetDone: false, completedDate: '', dateAssigned: '' });
+  buildPlayers(); renderLB(); renderPersonFilters(); renderTasks();
+  closeAddTask();
+  toast(`✅ "${title}" added`);
+}
+
+/* ── JSON-first loading ── */
+async function loadFromJson() {
+  const r = await fetch('tasks.json', { cache: 'no-store' });
+  if(!r.ok) throw new Error(`tasks.json not found (${r.status})`);
+  const arr = await r.json();
+  if(!Array.isArray(arr) || arr.length === 0) throw new Error('tasks.json is empty — falling back to Sheets');
+
+  // Merge local tasks on top of JSON tasks
+  const local = loadLocalTasks();
+  const all = [...arr, ...local];
+
+  G.tasks = all.map((t, i) => {
+    const key = t.key || `json_${i}_${String(t.title||'').slice(0,14).replace(/\W/g,'_')}`;
+    const localDone = !!G.completions[key];
+    return {
+      key,
+      rowNumber: t.rowNumber || -1,
+      title: t.title || '',
+      titleFR: t.titleFR || '',
+      person: t.person || '',
+      topic: t.topic || '',
+      desc: t.description || t.desc || '',
+      pts: Math.max(0, parseInt(t.points ?? t.pts) || 0),
+      estTime: t.estTime || '',
+      dateAdded: t.dateAdded || '',
+      dateAssigned: t.dateAssigned || '',
+      completedDate: t.completedDate || '',
+      links: t.links || [],
+      sheetDone: !!t.isDone,
+      isDone: !!t.isDone || localDone,
+      isAssigned: !!(t.dateAssigned) && !t.isDone && !localDone,
+      _local: !!t._local
+    };
+  });
+  buildPlayers();
+}
+
+/* ── Export ── */
+function exportJson() {
+  const localTasks = loadLocalTasks();
+  // Combine sheet tasks (non-local) with local tasks, strip runtime-only fields
+  const exportData = G.tasks
+    .filter(t => !t._local)
+    .map(t => ({
+      title: t.title, titleFR: t.titleFR, person: t.person, topic: t.topic,
+      description: t.desc, points: t.pts, estTime: t.estTime,
+      dateAdded: t.dateAdded, dateAssigned: t.dateAssigned,
+      isDone: t.isDone, completedDate: t.completedDate, links: t.links
+    }));
+
+  // append local tasks
+  localTasks.forEach(lt => {
+    if(!exportData.find(t => t.title === lt.title && t.dateAdded === lt.dateAdded)) {
+      exportData.push(lt);
+    }
+  });
+
+  const blob = new Blob([JSON.stringify(exportData, null, 2)], { type: 'application/json' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'tasks.json';
+  a.click();
+  toast('⬇ tasks.json downloaded — commit it to make tasks permanent');
 }
 
 /* ── Init ── */

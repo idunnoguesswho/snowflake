@@ -57,24 +57,26 @@
 </div>
 
 <script>
-// ── AUTH (client-side demo — replace with real backend for production) ──
 const USERS = {
-  "katie":  { pass: "dshome2025", display: "Katie Snow" },
-  "robyn":  { pass: "dshome2025", display: "Robyn Morales" },
-  "doug":   { pass: "dshome2025", display: "Doug Senger" },
-  "admin":  { pass: "admin2025",  display: "Administrator" }
+  "f0f7945e0e1f2877cdc5957724e67ba40aaf70af7d792c5daf9cb5462bb9e2fd": "Katie Snow",
+  "d883d07c59d5da52b79cc4e5a9817e3301979861cfe1056caaeed7ce2bc9fb98": "Robyn Morales",
+  "a9b433697d22dd1e22732f32c01309465fd7b8c06b9c70ffdb31172c82bea9ed": "Doug Senger",
+  "6dc1a8e55d1bf1016e46a6941fe72be20c16fb2765036fe933be3d39540bdcb1": "Administrator"
 };
 
-function tryLogin() {
+async function tryLogin() {
   const u = document.getElementById("username").value.trim().toLowerCase();
   const p = document.getElementById("password").value;
   const err = document.getElementById("login-err");
-  if (!USERS[u] || USERS[u].pass !== p) {
+  const enc = new TextEncoder();
+  const buf = await crypto.subtle.digest("SHA-256", enc.encode(u + ":" + p));
+  const hash = Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2,"0")).join("");
+  if (!USERS[hash]) {
     err.textContent = "Incorrect username or password.";
     return;
   }
-  sessionStorage.setItem("dc_user", USERS[u].display);
-  showApp(USERS[u].display);
+  sessionStorage.setItem("dc_user", USERS[hash]);
+  showApp(USERS[hash]);
 }
 
 function showApp(name) {

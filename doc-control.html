@@ -1,0 +1,255 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DS Home &mdash; Document Control</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body class="doc-page">
+
+<!-- NAV -->
+<nav class="doc-nav">
+  <img src="logo-navy.png" alt="DS Home Computing" class="nav-logo">
+  <span class="nav-title">&#128194; Document Control</span>
+  <span id="user-display"></span>
+  <button id="logout-btn" onclick="logout()" style="display:none">Sign Out</button>
+  <a href="index.html" class="back">&#8592; dshome.ca</a>
+</nav>
+
+<!-- LOGIN -->
+<div id="login-screen">
+  <div class="login-box">
+    <img src="logo-navy.png" alt="DS Home Computing" class="login-logo">
+    <h2>Document Control</h2>
+    <p>Sign in with your DS Home credentials to access internal documents.</p>
+    <label for="username">Username</label>
+    <input type="text" id="username" placeholder="your name" autocomplete="username">
+    <label for="password">Password</label>
+    <input type="password" id="password" placeholder="password" autocomplete="current-password" onkeydown="if(event.key==='Enter')tryLogin()">
+    <button class="login-btn" onclick="tryLogin()">Sign In</button>
+    <div class="login-err" id="login-err"></div>
+    <div class="login-footer">Need access? Contact <a href="mailto:Katie@DSHome.ca">Katie@DSHome.ca</a></div>
+  </div>
+</div>
+
+<!-- APP -->
+<div id="app">
+  <div class="layout">
+    <nav class="sidebar">
+      <div class="sidebar-title">Categories</div>
+      <button class="cat-btn active" onclick="showCat('home')" id="btn-home"><span class="cat-icon">&#127968;</span> All Categories</button>
+      <button class="cat-btn" onclick="showCat('AD')" id="btn-AD"><span class="cat-icon">&#9992;</span> Administration <span class="cat-code">AD</span></button>
+      <button class="cat-btn" onclick="showCat('CO')" id="btn-CO"><span class="cat-icon">&#127963;</span> Corporate Gov. <span class="cat-code">CO</span></button>
+      <button class="cat-btn" onclick="showCat('CU')" id="btn-CU"><span class="cat-icon">&#128101;</span> Customers <span class="cat-code">CU</span></button>
+      <button class="cat-btn" onclick="showCat('FI')" id="btn-FI"><span class="cat-icon">&#128176;</span> Financial Mgmt <span class="cat-code">FI</span></button>
+      <button class="cat-btn" onclick="showCat('HU')" id="btn-HU"><span class="cat-icon">&#129332;</span> Human Resources <span class="cat-code">HU</span></button>
+      <button class="cat-btn" onclick="showCat('IN')" id="btn-IN"><span class="cat-icon">&#128187;</span> Information Mgmt <span class="cat-code">IN</span></button>
+      <button class="cat-btn" onclick="showCat('LE')" id="btn-LE"><span class="cat-icon">&#9878;</span> Legal <span class="cat-code">LE</span></button>
+      <button class="cat-btn" onclick="showCat('RE')" id="btn-RE"><span class="cat-icon">&#128203;</span> Regulatory <span class="cat-code">RE</span></button>
+      <button class="cat-btn" onclick="showCat('SA')" id="btn-SA"><span class="cat-icon">&#128737;</span> Safety &amp; Security <span class="cat-code">SA</span></button>
+      <div style="margin-top:1.5rem;padding:.5rem;border-top:1px solid var(--border)">
+        <div id="search-wrap"><input id="search" type="text" placeholder="Search folders&#8230;" oninput="doSearch(this.value)" autocomplete="off"></div>
+      </div>
+    </nav>
+    <main id="main"></main>
+  </div>
+</div>
+
+<script>
+// ── AUTH (client-side demo — replace with real backend for production) ──
+const USERS = {
+  "katie":  { pass: "dshome2025", display: "Katie Snow" },
+  "robyn":  { pass: "dshome2025", display: "Robyn Morales" },
+  "doug":   { pass: "dshome2025", display: "Doug Senger" },
+  "admin":  { pass: "admin2025",  display: "Administrator" }
+};
+
+function tryLogin() {
+  const u = document.getElementById("username").value.trim().toLowerCase();
+  const p = document.getElementById("password").value;
+  const err = document.getElementById("login-err");
+  if (!USERS[u] || USERS[u].pass !== p) {
+    err.textContent = "Incorrect username or password.";
+    return;
+  }
+  sessionStorage.setItem("dc_user", USERS[u].display);
+  showApp(USERS[u].display);
+}
+
+function showApp(name) {
+  document.getElementById("login-screen").style.display = "none";
+  document.getElementById("app").style.display = "block";
+  document.getElementById("user-display").textContent = name;
+  document.getElementById("logout-btn").style.display = "inline-block";
+  renderMain("home");
+}
+
+function logout() {
+  sessionStorage.removeItem("dc_user");
+  document.getElementById("login-screen").style.display = "flex";
+  document.getElementById("app").style.display = "none";
+  document.getElementById("logout-btn").style.display = "none";
+  document.getElementById("user-display").textContent = "";
+  document.getElementById("password").value = "";
+  document.getElementById("login-err").textContent = "";
+}
+
+// Auto-login if session active
+window.addEventListener("DOMContentLoaded", () => {
+  const u = sessionStorage.getItem("dc_user");
+  if (u) showApp(u);
+});
+
+// ── DATA ──
+const ROOT = "G:\\My Drive\\DS Home";
+const CATS = {
+  AD: { name:"Administration", icon:"&#9992;", desc:"Aviation ops, fleet, office, procurement, insurance, travel", folders:[
+    {code:"AD01",name:"Aviation Operations"},{code:"AD02",name:"Business Units Tracking"},
+    {code:"AD04",name:"Contacts"},{code:"AD05",name:"Fleet Operations"},
+    {code:"AD06",name:"Insurance Administration"},{code:"AD07",name:"Internal Meetings"},
+    {code:"AD09",name:"Membership and Association Participation"},{code:"AD10",name:"Office"},
+    {code:"AD11",name:"Procurement"},{code:"AD12",name:"Property Management"},
+    {code:"AD13",name:"Travel Administration"},{code:"AD15",name:"Procurement - Capital"}
+  ]},
+  CO: { name:"Corporate Governance", icon:"&#127963;", desc:"Board, auditing, policies, risk management, shareholder relations, strategic planning", folders:[
+    {code:"CO01",name:"Board of Directors"},{code:"CO02",name:"Corporate Auditing"},
+    {code:"CO03",name:"Corporate Establishment"},{code:"CO04",name:"Corporate Reporting"},
+    {code:"CO05",name:"Policies and Procedures"},{code:"CO06",name:"Risk Management"},
+    {code:"CO07",name:"Shareholder and Investor Administration"},{code:"CO08",name:"Stocks and Securities"},
+    {code:"CO09",name:"Strategic Planning"},{code:"CO10",name:"Performance Measurement"},
+    {code:"CO11",name:"Cancelled Certificates + Warrants"}
+  ]},
+  CU: { name:"Customers", icon:"&#128101;", desc:"Consulting, customer accounts, information services, installations", folders:[
+    {code:"CU01",name:"Consulting and Training"},{code:"CU03",name:"Customer Account Administration"},
+    {code:"CU04",name:"Customer Information Services"},{code:"CU05",name:"Customer Installations"}
+  ]},
+  FI: { name:"Financial Management", icon:"&#128176;", desc:"AP/AR, banking, budgeting, payroll, tax, investments, debt and equity", folders:[
+    {code:"FI01",name:"Accounts Payable"},{code:"FI02",name:"Accounts Receivable"},
+    {code:"FI03",name:"Banking"},{code:"FI04",name:"Budgeting"},
+    {code:"FI05",name:"Capital and Fixed Asset Accounting"},{code:"FI06",name:"Cash Control"},
+    {code:"FI07",name:"Commodity Accounting"},{code:"FI08",name:"Corporate Credit Monitoring"},
+    {code:"FI09",name:"Debt and Equity Financing"},{code:"FI10",name:"Employee Credit Card Monitoring"},
+    {code:"FI11",name:"General Ledger"},{code:"FI12",name:"Inter Company Transaction Reporting"},
+    {code:"FI13",name:"Investments"},{code:"FI14",name:"Tax Filing"}
+  ]},
+  HU: { name:"Human Resources", icon:"&#129332;", desc:"Employee administration, payroll, training and development", folders:[
+    {code:"HU04",name:"Employee Administration"},{code:"HU11",name:"Payroll Administration"},
+    {code:"HU16",name:"Training and Development"}
+  ]},
+  IN: { name:"Information Management", icon:"&#128187;", desc:"Forms, records, IT infrastructure, security, research, backups, telecom", folders:[
+    {code:"IN01",name:"Business Forms Control"},{code:"IN03",name:"Information Security Control"},
+    {code:"IN04",name:"Hardware Control"},{code:"IN07",name:"Internet - Web Site Administration"},
+    {code:"IN08",name:"Knowledge Sharing and Collaboration"},{code:"IN11",name:"Records Administration"},
+    {code:"IN12",name:"Research and Reference Materials"},{code:"IN13",name:"Technology Infrastructure Management"},
+    {code:"IN14",name:"Telecommunications"},{code:"IN17",name:"Records Retention and Disposition"},
+    {code:"IN18",name:"Data Backups"}
+  ]},
+  LE: { name:"Legal", icon:"&#9878;", desc:"Contracts, licensing, litigation, IP, legal advisory, precedents", folders:[
+    {code:"LE01",name:"Contracts and Agreements"},{code:"LE02",name:"Legal Advisory Service"},
+    {code:"LE03",name:"License and Permit"},{code:"LE04",name:"Litigation and Dispute Resolution"},
+    {code:"LE05",name:"Precedents Monitoring"},{code:"LE06",name:"Intellectual Property"}
+  ]},
+  RE: { name:"Regulatory and Government Relations", icon:"&#128203;", desc:"Government relations and regulatory compliance management", folders:[] },
+  SA: { name:"Safety and Security", icon:"&#128737;", desc:"Access control, emergency preparedness, SECOR certification", folders:[
+    {code:"SA01",name:"Access and Security Control"},{code:"SA02",name:"Emergency Preparedness"},
+    {code:"SA03",name:"SECOR"}
+  ]}
+};
+
+const ALL_FOLDERS = [];
+Object.entries(CATS).forEach(([key,cat]) => {
+  cat.folders.forEach(f => ALL_FOLDERS.push({catKey:key, catName:cat.name, catIcon:cat.icon, ...f}));
+});
+
+let currentCat = "home";
+
+function showCat(key) {
+  currentCat = key;
+  document.getElementById("search").value = "";
+  document.querySelectorAll(".cat-btn").forEach(b => b.classList.remove("active"));
+  document.getElementById("btn-" + (key==="home"?"home":key)).classList.add("active");
+  renderMain(key);
+}
+
+function renderMain(key) {
+  const main = document.getElementById("main");
+  if (key === "home") {
+    const total = ALL_FOLDERS.length;
+    main.innerHTML = `
+      <div class="breadcrumb">&#127968; DS Home</div>
+      <div class="section-header">
+        <div>
+          <div class="section-title">Document Control</div>
+          <div class="section-desc">G:\\My Drive\\DS Home &mdash; ${Object.keys(CATS).length} categories &bull; ${total} indexed folders</div>
+        </div>
+      </div>
+      <div class="overview-grid">
+        ${Object.entries(CATS).map(([k,c]) => `
+          <div class="ov-card" onclick="showCat('${k}')">
+            <div class="ov-icon">${c.icon}</div>
+            <div class="ov-code">${k}</div>
+            <div class="ov-name">${c.name}</div>
+            <div class="ov-count">${c.folders.length} subfolder${c.folders.length!==1?"s":""}</div>
+          </div>`).join("")}
+      </div>
+      <a class="drive-link" href="file:///G:/My Drive/DS Home" target="_blank">&#128194; Open in File Explorer</a>`;
+    return;
+  }
+  const cat = CATS[key];
+  main.innerHTML = `
+    <div class="breadcrumb">
+      <a href="#" onclick="showCat('home');return false;">DS Home</a> &rsaquo; ${cat.icon} ${cat.name}
+    </div>
+    <div class="section-header">
+      <div>
+        <div class="section-title">${cat.icon} ${cat.name}</div>
+        <div class="section-desc">${cat.desc}</div>
+      </div>
+      <div class="badge">${cat.folders.length} subfolder${cat.folders.length!==1?"s":""}</div>
+    </div>
+    ${cat.folders.length===0
+      ? `<div class="empty-state">No indexed subfolders for this category yet.</div>`
+      : `<div class="folder-grid">${cat.folders.map(f=>folderCard(key,cat,f)).join("")}</div>`}
+    <a class="drive-link" href="file:///G:/My%20Drive/DS%20Home/${encodeURIComponent(key+' '+cat.name)}" target="_blank">
+      &#128194; Open ${key} in File Explorer
+    </a>`;
+}
+
+function folderCard(catKey, cat, f) {
+  const href = `file:///G:/My%20Drive/DS%20Home/${encodeURIComponent(catKey+' '+cat.name)}/${encodeURIComponent(f.code+' '+f.name)}`;
+  return `<div class="folder-card" onclick="window.open('${href}','_blank')">
+    <div class="fi">&#128193;</div>
+    <div class="fc-body"><div class="fc-code">${f.code}</div><div class="fc-name">${f.name}</div></div>
+  </div>`;
+}
+
+function doSearch(q) {
+  const main = document.getElementById("main");
+  q = q.trim();
+  if (!q) { showCat(currentCat); return; }
+  document.querySelectorAll(".cat-btn").forEach(b => b.classList.remove("active"));
+  const ql = q.toLowerCase();
+  const results = ALL_FOLDERS.filter(f =>
+    f.name.toLowerCase().includes(ql) || f.code.toLowerCase().includes(ql) || f.catName.toLowerCase().includes(ql)
+  );
+  function hl(str) {
+    return str.replace(new RegExp(`(${q.replace(/[.*+?^${}()|[\]\\]/g,"\\$&")})`, "gi"), "<mark>$1</mark>");
+  }
+  main.innerHTML = `
+    <div class="breadcrumb">&#128269; Search &ldquo;${q}&rdquo;</div>
+    <div class="section-header"><div class="section-title">Results</div><div class="badge">${results.length} found</div></div>
+    ${results.length===0
+      ? `<div class="empty-state">No folders matched &ldquo;${q}&rdquo;.</div>`
+      : `<div class="search-list">${results.map(f => {
+          const cat = CATS[f.catKey];
+          const href = `file:///G:/My%20Drive/DS%20Home/${encodeURIComponent(f.catKey+' '+cat.name)}/${encodeURIComponent(f.code+' '+f.name)}`;
+          return `<div class="sr-item" onclick="window.open('${href}','_blank')">
+            <div class="sr-icon">&#128193;</div>
+            <div><div class="sr-path">${f.catIcon} ${hl(f.catName)}</div><div class="sr-name">${hl(f.code)} &mdash; ${hl(f.name)}</div></div>
+          </div>`;
+        }).join("")}</div>`}`;
+}
+</script>
+</body>
+</html>

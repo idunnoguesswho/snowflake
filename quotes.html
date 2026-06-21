@@ -189,8 +189,34 @@
     <button class="nav-btn" id="prev-day" title="Previous day">&#8592;</button>
     <div class="page-subtitle" id="page-date"></div>
     <button class="nav-btn" id="next-day" title="Next day">&#8594;</button>
-    <button class="nav-btn" id="refresh-btn" title="Refresh quotes for this date">&#8635;</button>
-  </div>
+    <button id="refreshQuotes">↻</button>
+
+<script>
+async function loadQuotes() {
+  const res = await fetch(`quotes.json?cacheBust=${Date.now()}`);
+  const quotes = await res.json();
+
+  const today = new Date().toLocaleDateString("en-CA", {
+    timeZone: "America/Edmonton"
+  });
+
+  const todaysQuotes = quotes.filter(q => q.date === today);
+
+  if (!todaysQuotes.length) {
+    document.querySelector("#quoteBox").innerHTML =
+      "Today’s quotes are not in quotes.json yet. Run the GitHub Action refresh.";
+    return;
+  }
+
+  document.querySelector("#quoteBox").innerHTML = todaysQuotes
+    .map(q => `<h3>${q.source}</h3><p>${q.text}</p>`)
+    .join("");
+}
+
+document.querySelector("#refreshQuotes").addEventListener("click", loadQuotes);
+
+loadQuotes();
+</script> </div>
   <div class="refresh-status" id="refresh-status"></div>
 </div>
 

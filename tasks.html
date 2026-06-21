@@ -66,22 +66,50 @@
         </label>
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
           <label style="font-weight:700;font-size:.85rem">Person
-            <input name="person" placeholder="Mom / Oliver / Logan" style="display:block;width:100%;margin-top:4px;padding:8px 10px;border:2px solid #d8dee6;border-radius:10px;font-size:.95rem;font-family:inherit">
+            <select name="person" style="display:block;width:100%;margin-top:4px;padding:8px 10px;border:2px solid #d8dee6;border-radius:10px;font-size:.95rem;font-family:inherit;background:#fff">
+              <option value="Mom">Mom</option>
+              <option value="Dad">Dad</option>
+              <option value="Oliver">Oliver</option>
+              <option value="Logan">Logan</option>
+              <option value="Family">Family</option>
+            </select>
           </label>
           <label style="font-weight:700;font-size:.85rem">Category
-            <input name="topic" placeholder="Chores / School…" style="display:block;width:100%;margin-top:4px;padding:8px 10px;border:2px solid #d8dee6;border-radius:10px;font-size:.95rem;font-family:inherit">
+            <select name="topic" onchange="toggleCategoryOther(this.value)" style="display:block;width:100%;margin-top:4px;padding:8px 10px;border:2px solid #d8dee6;border-radius:10px;font-size:.95rem;font-family:inherit;background:#fff">
+              <option value="Art">Art</option>
+              <option value="Language">Language</option>
+              <option value="Math">Math</option>
+              <option value="Science">Science</option>
+              <option value="Side Quest">Side Quest</option>
+              <option value="Social Studies">Social Studies</option>
+              <option value="Wellness">Wellness</option>
+              <option value="__other__">+ Other…</option>
+            </select>
           </label>
         </div>
+        <label id="categoryOtherWrap" style="font-weight:700;font-size:.85rem;display:none">New category name
+          <input name="topicOther" id="categoryOther" placeholder="Type a new category" style="display:block;width:100%;margin-top:4px;padding:8px 10px;border:2px solid #d8dee6;border-radius:10px;font-size:.95rem;font-family:inherit">
+        </label>
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
-          <label style="font-weight:700;font-size:.85rem">Points
-            <input name="points" type="number" min="0" value="10" style="display:block;width:100%;margin-top:4px;padding:8px 10px;border:2px solid #d8dee6;border-radius:10px;font-size:.95rem;font-family:inherit">
+          <label style="font-weight:700;font-size:.85rem">Est. Time (min)
+            <input name="estTime" id="estTimeInput" type="number" min="0" placeholder="15" oninput="autoCalcPoints(this.value)" style="display:block;width:100%;margin-top:4px;padding:8px 10px;border:2px solid #d8dee6;border-radius:10px;font-size:.95rem;font-family:inherit">
           </label>
-          <label style="font-weight:700;font-size:.85rem">Est. Time
-            <input name="estTime" placeholder="15 min" style="display:block;width:100%;margin-top:4px;padding:8px 10px;border:2px solid #d8dee6;border-radius:10px;font-size:.95rem;font-family:inherit">
+          <label style="font-weight:700;font-size:.85rem">Points
+            <input name="points" id="pointsInput" type="number" min="0" value="0" style="display:block;width:100%;margin-top:4px;padding:8px 10px;border:2px solid #d8dee6;border-radius:10px;font-size:.95rem;font-family:inherit">
+            <span style="display:block;margin-top:3px;font-size:.72rem;font-weight:400;color:var(--muted)">Auto: 2 pts / 5 min — edit if needed</span>
           </label>
         </div>
         <label style="font-weight:700;font-size:.85rem">Description
           <textarea name="description" rows="3" placeholder="Steps or notes…" style="display:block;width:100%;margin-top:4px;padding:8px 10px;border:2px solid #d8dee6;border-radius:10px;font-size:.95rem;font-family:inherit;resize:vertical"></textarea>
+        </label>
+        <label style="font-weight:700;font-size:.85rem">Question(s)
+          <textarea name="questions" rows="3" placeholder="Q1: …&#10;Answer: …" style="display:block;width:100%;margin-top:4px;padding:8px 10px;border:2px solid #d8dee6;border-radius:10px;font-size:.95rem;font-family:inherit;resize:vertical"></textarea>
+        </label>
+        <label style="font-weight:700;font-size:.85rem">Answer(s)
+          <textarea name="answers" rows="2" placeholder="Answer key, if kept separate…" style="display:block;width:100%;margin-top:4px;padding:8px 10px;border:2px solid #d8dee6;border-radius:10px;font-size:.95rem;font-family:inherit;resize:vertical"></textarea>
+        </label>
+        <label style="font-weight:700;font-size:.85rem">Worksheet (optional)
+          <input name="worksheet" placeholder="Link, or worksheet notes" style="display:block;width:100%;margin-top:4px;padding:8px 10px;border:2px solid #d8dee6;border-radius:10px;font-size:.95rem;font-family:inherit">
         </label>
         <label style="font-weight:700;font-size:.85rem">Link (optional)
           <input name="link" placeholder="https://…" style="display:block;width:100%;margin-top:4px;padding:8px 10px;border:2px solid #d8dee6;border-radius:10px;font-size:.95rem;font-family:inherit">
@@ -114,8 +142,8 @@ const SHEET_ID  = CFG.sheetId  || '1GZv91Npf9i0y6AtCQcjYUyiYrDq3aqQ3zSNE2QGAxfE'
 const SHEET_GID = CFG.sheetGid || '0';
 const LV_PTS    = 50;   // pts per level up
 
-const AVATARS = { mom:'🧑‍💼', oliver:'🧒', logan:'👦', family:'👨‍👩‍👦', default:'🌟' };
-const COLORS  = { mom:'#336699', oliver:'#d94b4b', logan:'#7b4bd9', family:'#c9b8ff', default:'#ffd166' };
+const AVATARS = { mom:'🧑‍💼', dad:'🧑‍🔧', oliver:'🧒', logan:'👦', family:'👨‍👩‍👦', default:'🌟' };
+const COLORS  = { mom:'#336699', dad:'#2a9d8f', oliver:'#d94b4b', logan:'#7b4bd9', family:'#c9b8ff', default:'#ffd166' };
 const CATEGORY_COLORS = ['#ffd166','#6bcb77','#7ec8e3','#c9b8ff','#ff6b6b','#f4a261','#2a9d8f','#b56576','#4d96ff','#8ac926'];
 const RANKS   = ['🥇','🥈','🥉','🎖️'];
 const CONFETTI_CLR = ['#ffd166','#6bcb77','#7ec8e3','#c9b8ff','#ff6b6b','#ffb347'];
@@ -334,6 +362,8 @@ function autoMap(headers) {
     estTime:       first(['est time','est.','time','duration','minutes']),
     youtubeLink:   exact(['youtube link']) !== -1 ? exact(['youtube link']) : first(['youtube']),
     worksheet:     exact(['worksheet']) !== -1 ? exact(['worksheet']) : first(['worksheet','work sheet']),
+    questions:     exact(['questions']) !== -1 ? exact(['questions']) : first(['questions','question']),
+    answers:       exact(['answers']) !== -1 ? exact(['answers']) : first(['answers','answer']),
     links:         first(['website','web site','url','resource'])
   };
 }
@@ -364,6 +394,9 @@ function buildFromRows(rows) {
     const rawPts        = get(map.points);
     const pts           = Math.max(0, parseInt(rawPts) || 0);  // honour 0-pt tasks
     const links         = taskLinks(row, map, desc);
+    const questions     = get(map.questions);
+    const answers       = get(map.answers);
+    const worksheetText = get(map.worksheet);
 
     // Determine done: check IsDone (boolean) first, then Date Completed (date string)
     const rawIsDone     = get(map.isDone);
@@ -378,6 +411,7 @@ function buildFromRows(rows) {
 
     return {
       key, rowNumber: i + 2, title, titleFR, person, topic, desc, pts, dateAdd, dateAssigned: assignedDate, estTime, links,
+      questions, answers, worksheetText,
       completedDate: rawCompleted || (boolDone ? rawIsDone : ''),
       sheetDone,
       isDone: sheetDone || localDone,
@@ -760,6 +794,21 @@ function openWorksheet(t) {
         </ul>
       </section>` : ''}
 
+      ${t.worksheetText && !normalizeUrl(t.worksheetText) ? `<section class="worksheet-block">
+        <h2>Worksheet</h2>
+        <p style="white-space:pre-wrap">${x(t.worksheetText)}</p>
+      </section>` : ''}
+
+      ${t.questions ? `<section class="worksheet-block">
+        <h2>Questions</h2>
+        <p style="white-space:pre-wrap">${x(t.questions)}</p>
+      </section>` : ''}
+
+      ${t.answers ? `<section class="worksheet-block">
+        <h2>Answers</h2>
+        <p style="white-space:pre-wrap">${x(t.answers)}</p>
+      </section>` : ''}
+
       <section class="worksheet-workspace" aria-label="Writing space">
         <div></div><div></div><div></div><div></div><div></div>
       </section>
@@ -886,11 +935,24 @@ function saveLocalTasks(arr) {
 
 function openAddTask() {
   document.getElementById('addTaskForm').reset();
+  document.getElementById('categoryOtherWrap').style.display = 'none';
+  document.getElementById('pointsInput').value = 0;
   document.getElementById('addTaskModal').hidden = false;
 }
 
 function closeAddTask() {
   document.getElementById('addTaskModal').hidden = true;
+}
+
+function toggleCategoryOther(value) {
+  document.getElementById('categoryOtherWrap').style.display = value === '__other__' ? 'block' : 'none';
+}
+
+function autoCalcPoints(minutesStr) {
+  const minutes = parseFloat(minutesStr);
+  const pointsField = document.getElementById('pointsInput');
+  if(!pointsField) return;
+  pointsField.value = minutes > 0 ? Math.round(minutes * 0.4) : 0;  // 2 pts per 5 min
 }
 
 function submitAddTask(e) {
@@ -899,15 +961,21 @@ function submitAddTask(e) {
   const title = fd.get('title').trim();
   if(!title) return;
 
+  const topicRaw = fd.get('topic');
+  const topic = topicRaw === '__other__' ? fd.get('topicOther').trim() : topicRaw.trim();
+
   const localTasks = loadLocalTasks();
   const newTask = {
     title,
     titleFR: '',
     person: fd.get('person').trim(),
-    topic: fd.get('topic').trim(),
+    topic,
     description: fd.get('description').trim(),
     points: Math.max(0, parseInt(fd.get('points')) || 0),
     estTime: fd.get('estTime').trim(),
+    questions: fd.get('questions').trim(),
+    answers: fd.get('answers').trim(),
+    worksheetText: fd.get('worksheet').trim(),
     dateAdded: todayIsoDate(),
     links: fd.get('link').trim() ? [{ label: fd.get('link').trim().replace(/^https?:\/\//,''), url: fd.get('link').trim() }] : [],
     _local: true
@@ -952,6 +1020,9 @@ async function loadFromJson() {
       dateAssigned: t.dateAssigned || '',
       completedDate: t.completedDate || '',
       links: t.links || [],
+      questions: t.questions || '',
+      answers: t.answers || '',
+      worksheetText: t.worksheetText || '',
       sheetDone: !!t.isDone,
       isDone: !!t.isDone || localDone,
       isAssigned: !!(t.dateAssigned) && !t.isDone && !localDone,

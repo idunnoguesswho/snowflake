@@ -14,6 +14,8 @@
   <a href="store.html" class="sync-btn" style="background:#a855f7;text-decoration:none">🎁 Store</a>
   <button class="sync-btn" style="background:#38d9a9" onclick="openAddTask()">+ Add Task</button>
   <button class="sync-btn" style="background:#4dabf7" onclick="exportJson()" title="Download tasks.json">⬇ Export</button>
+  <button class="sync-btn" style="background:#f59f00" onclick="document.getElementById('jsonUploadInput').click()" title="Upload JSON to add tasks">⬆ Import</button>
+  <input type="file" id="jsonUploadInput" accept=".json,application/json" multiple hidden onchange="handleJsonUpload(this.files)">
   <button class="sync-btn" id="syncBtn" onclick="sync()">
     <span class="sync-icon">↻</span> Sync Sheet
   </button>
@@ -1042,7 +1044,8 @@ function exportJson() {
       title: t.title, titleFR: t.titleFR, person: t.person, topic: t.topic,
       description: t.desc, points: t.pts, estTime: t.estTime,
       dateAdded: t.dateAdded, dateAssigned: t.dateAssigned,
-      isDone: t.isDone, completedDate: t.completedDate, links: t.links
+      isDone: t.isDone, completedDate: t.completedDate, links: t.links,
+      questions: t.questions || '', answers: t.answers || '', worksheetText: t.worksheetText || ''
     }));
 
   // append local tasks
@@ -1058,6 +1061,73 @@ function exportJson() {
   a.download = 'tasks.json';
   a.click();
   toast('⬇ tasks.json downloaded — commit it to make tasks permanent');
+}
+
+/* ── Import JSON ── */
+async function handleJsonUpload(fileList) {
+  if(!fileList || !fileList.length) return;
+  let added = 0;
+  let errors = [];
+
+  for(const file of fileList) {
+    try {
+      const text = await file.text();
+      let data = JSON.parse(text);
+      if(!Array.isArray(data)) data = [data];
+
+      const existing = G.tasks;
+      data.forEach(t => {
+        if(!t.title) return;
+        const dup = existing.find(e => e.title === t.title && (e.person||'') === (t.person||'') && (e.dateAdded || e.dateAdd || '') === (t.dateAdded || ''));
+        if(dup) return;
+
+        const key = `import_${Date.now()}_${added}_${String(t.title).slice(0,10).replace(/\W/g,'_')}`;
+        const pts = Math.max(0, parseInt(t.points ?? t.pts) || 0);
+        const localDone = !!G.completions[key];
+        G.tasks.push({
+          key,
+          rowNumber: t.rowNumber || -1,
+          title: t.title || '',
+          titleFR: t.titleFR || '',
+          person: t.person || '',
+          topic: t.topic || t.category || '',
+          desc: t.description || t.desc || '',
+          pts,
+          estTime: t.estTime || '',
+          dateAdded: t.dateAdded || todayIsoDate(),
+          dateAssigned: t.dateAssigned || '',
+          completedDate: t.completedDate || '',
+          links: t.links || [],
+          questions: t.questions || '',
+          answers: t.answers || '',
+          worksheetText: t.worksheetText || '',
+          sheetDone: !!t.isDone,
+          isDone: !!t.isDone || localDone,
+          isAssigned: !!(t.dateAssigned) && !t.isDone && !localDone,
+          _imported: true
+        });
+        added++;
+      });
+    } catch(e) {
+      errors.push(`${file.name}: ${e.message}`);
+    }
+  }
+
+  document.getElementById('jsonUploadInput').value = '';
+
+  if(errors.length) toast(`⚠️ ${errors.join('; ')}`);
+  if(added > 0) {
+    buildPlayers(); renderLB(); renderPersonFilters(); renderCategoryBreakdown(); renderTasks(); renderActivity(); renderTodayByCategory();
+    toast(`✅ Imported ${added} new task${added !== 1 ? 's' : ''}`);
+    promptExportAfterImport(added);
+  } else if(!errors.length) {
+    toast('ℹ️ No new tasks found — all tasks already exist');
+  }
+}
+
+function promptExportAfterImport(count) {
+  const bar = document.getElementById('statusBar');
+  bar.innerHTML = `Imported ${count} task${count !== 1 ? 's' : ''}. <a href="#" style="color:#4dabf7;font-weight:700" onclick="event.preventDefault();exportJson()">Download updated tasks.json</a> to save permanently.`;
 }
 
 /* ── Init ── */

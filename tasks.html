@@ -14,6 +14,8 @@
   <a href="store.html" class="sync-btn" style="background:#a855f7;text-decoration:none">🎁 Store</a>
   <button class="sync-btn" style="background:#38d9a9" onclick="openAddTask()">+ Add Task</button>
   <button class="sync-btn" style="background:#4dabf7" onclick="exportJson()" title="Download tasks.json">⬇ Export</button>
+  <button class="sync-btn" style="background:#f59f00" onclick="document.getElementById('importJsonInput').click()" title="Upload a JSON file of tasks to add">⬆ Import</button>
+  <input type="file" id="importJsonInput" accept="application/json,.json" style="display:none" onchange="importJsonTasks(this.files[0])">
   <button class="sync-btn" id="syncBtn" onclick="sync()">
     <span class="sync-icon">↻</span> Sync Sheet
   </button>
@@ -1042,7 +1044,8 @@ function exportJson() {
       title: t.title, titleFR: t.titleFR, person: t.person, topic: t.topic,
       description: t.desc, points: t.pts, estTime: t.estTime,
       dateAdded: t.dateAdded, dateAssigned: t.dateAssigned,
-      isDone: t.isDone, completedDate: t.completedDate, links: t.links
+      isDone: t.isDone, completedDate: t.completedDate, links: t.links,
+      questions: t.questions || '', answers: t.answers || '', worksheetText: t.worksheetText || ''
     }));
 
   // append local tasks
@@ -1058,6 +1061,82 @@ function exportJson() {
   a.download = 'tasks.json';
   a.click();
   toast('⬇ tasks.json downloaded — commit it to make tasks permanent');
+}
+
+/* ── Import (bulk add from JSON file, appends — never deletes) ── */
+function importJsonTasks(file) {
+  if(!file) return;
+  const norm = s => String(s||'').trim().toLowerCase();
+
+  const reader = new FileReader();
+  reader.onload = () => {
+    let parsed;
+    try {
+      parsed = JSON.parse(reader.result);
+    } catch(e) {
+      toast('❌ Not valid JSON — import cancelled');
+      document.getElementById('importJsonInput').value = '';
+      return;
+    }
+
+    const incoming = Array.isArray(parsed) ? parsed
+                    : (parsed && Array.isArray(parsed.tasks)) ? parsed.tasks
+                    : null;
+    if(!incoming) {
+      toast('❌ Expected a JSON array of tasks (or {"tasks":[...]})');
+      document.getElementById('importJsonInput').value = '';
+      return;
+    }
+
+    const localTasks = loadLocalTasks();
+    let added = 0, skipped = 0;
+
+    incoming.forEach((raw, i) => {
+      const title = String((raw && raw.title) || '').trim();
+      if(!title) { skipped++; return; }
+      const person = String((raw && raw.person) || '').trim();
+
+      // A task only counts as a duplicate if a matching (same title + person)
+      // existing task is found that is NOT yet completed. If every match is
+      // already done, this is treated as a fresh (re-)occurrence and added.
+      const matches = G.tasks.filter(t => norm(t.title) === norm(title) && norm(t.person) === norm(person));
+      const isDup = matches.length > 0 && matches.some(t => !(t.isDone || t.sheetDone));
+      if(isDup) { skipped++; return; }
+
+      const newTask = {
+        title,
+        titleFR: raw.titleFR || '',
+        person,
+        topic: raw.topic || '',
+        description: raw.description || raw.desc || '',
+        points: Math.max(0, parseInt(raw.points ?? raw.pts) || 0),
+        estTime: String(raw.estTime || ''),
+        questions: raw.questions || '',
+        answers: raw.answers || '',
+        worksheetText: raw.worksheetText || '',
+        dateAdded: raw.dateAdded || todayIsoDate(),
+        links: Array.isArray(raw.links) ? raw.links : [],
+        _local: true
+      };
+
+      localTasks.push(newTask);
+      const key = `import_${Date.now()}_${i}_${title.slice(0,10).replace(/\W/g,'_')}`;
+      G.tasks.push({ ...newTask, key, rowNumber: -1, isDone: false, isAssigned: false, sheetDone: false, completedDate: '', dateAssigned: '' });
+      added++;
+    });
+
+    saveLocalTasks(localTasks);
+    buildPlayers(); renderLB(); renderPersonFilters(); renderCategoryBreakdown(); renderTasks();
+
+    const skipMsg = skipped ? `, skipped ${skipped} duplicate${skipped === 1 ? '' : 's'}` : '';
+    toast(`⬆ Imported ${added} task${added === 1 ? '' : 's'}${skipMsg}`);
+    document.getElementById('importJsonInput').value = '';
+  };
+  reader.onerror = () => {
+    toast('❌ Could not read file');
+    document.getElementById('importJsonInput').value = '';
+  };
+  reader.readAsText(file);
 }
 
 /* ── Init ── */

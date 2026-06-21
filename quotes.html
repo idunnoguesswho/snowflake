@@ -49,6 +49,16 @@
 }
 .nav-btn:hover { background: var(--lavender, #c9b8ff); border-color: var(--lavender, #c9b8ff); color: #3d2f7f; }
 .nav-btn:disabled { opacity: .3; cursor: default; }
+.nav-btn#refresh-btn { font-size: 1.05rem; }
+.nav-btn#refresh-btn.spinning { animation: spin .75s linear infinite; }
+
+.refresh-status {
+  text-align: center; font-size: .75rem; font-weight: 700;
+  color: var(--muted, #667085); min-height: 16px; margin: 2px 0 0;
+  opacity: 0; transition: opacity .3s;
+}
+.refresh-status.show { opacity: 1; }
+.refresh-status.error { color: var(--rose, #c35465); }
 
 /* ── Calendar ─────────────────────────────────────────────────── */
 .cal-toggle {
@@ -179,7 +189,9 @@
     <button class="nav-btn" id="prev-day" title="Previous day">&#8592;</button>
     <div class="page-subtitle" id="page-date"></div>
     <button class="nav-btn" id="next-day" title="Next day">&#8594;</button>
+    <button class="nav-btn" id="refresh-btn" title="Refresh quotes for this date">&#8635;</button>
   </div>
+  <div class="refresh-status" id="refresh-status"></div>
 </div>
 
 <div class="cal-wrap" id="cal-wrap" style="display:none">
@@ -434,6 +446,33 @@ document.getElementById("next-day").addEventListener("click", () => {
   const next = addDays(selectedDate, 1);
   if (next > todayISO()) return;
   goToDate(next);
+});
+
+document.getElementById("refresh-btn").addEventListener("click", async () => {
+  const btn = document.getElementById("refresh-btn");
+  const status = document.getElementById("refresh-status");
+  if (btn.disabled) return;
+
+  btn.disabled = true;
+  btn.classList.add("spinning");
+  status.className = "refresh-status";
+  status.textContent = "";
+
+  try {
+    allQuotes = await loadAllFromGviz();
+    renderCalendar();
+    renderQuotesForDate(selectedDate);
+    const now = new Date().toLocaleTimeString([], { hour: "numeric", minute: "2-digit" });
+    status.textContent = `Updated for ${formatDisplay(selectedDate)} · ${now}`;
+    status.classList.add("show");
+  } catch (e) {
+    status.textContent = "Couldn't refresh: " + e.message;
+    status.classList.add("show", "error");
+  } finally {
+    btn.disabled = false;
+    btn.classList.remove("spinning");
+    setTimeout(() => status.classList.remove("show"), 4000);
+  }
 });
 
 document.getElementById("cal-prev").addEventListener("click", () => {

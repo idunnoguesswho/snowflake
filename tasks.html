@@ -75,6 +75,9 @@
             <label style="display:flex;align-items:center;gap:5px;padding:6px 12px;border:2px solid #d8dee6;border-radius:20px;font-size:.85rem;font-weight:600;cursor:pointer;background:#fff"><input type="checkbox" name="person" value="Family" style="margin:0"> Family</label>
           </div>
         </div>
+        <label style="display:flex;align-items:center;gap:8px;padding:8px 12px;border:2px solid #d8dee6;border-radius:10px;font-size:.85rem;font-weight:700;cursor:pointer;background:#fffbeb;width:fit-content">
+          <input type="checkbox" name="assignToday" value="yes" style="margin:0;width:16px;height:16px"> 📌 Assign to today
+        </label>
         <div style="display:grid;grid-template-columns:1fr;gap:10px">
           <label style="font-weight:700;font-size:.85rem">Category
             <select name="topic" onchange="toggleCategoryOther(this.value)" style="display:block;width:100%;margin-top:4px;padding:8px 10px;border:2px solid #d8dee6;border-radius:10px;font-size:.95rem;font-family:inherit;background:#fff">
@@ -971,6 +974,8 @@ function submitAddTask(e) {
 
   const topicRaw = fd.get('topic');
   const topic = topicRaw === '__other__' ? fd.get('topicOther').trim() : topicRaw.trim();
+  const assignToday = fd.get('assignToday') === 'yes';
+  const today = todayIsoDate();
 
   const shared = {
     titleFR: '',
@@ -981,7 +986,8 @@ function submitAddTask(e) {
     questions: fd.get('questions').trim(),
     answers: fd.get('answers').trim(),
     worksheetText: fd.get('worksheet').trim(),
-    dateAdded: todayIsoDate(),
+    dateAdded: today,
+    dateAssigned: assignToday ? today : '',
     links: fd.get('link').trim() ? [{ label: fd.get('link').trim().replace(/^https?:\/\//,''), url: fd.get('link').trim() }] : [],
     _local: true
   };
@@ -991,13 +997,15 @@ function submitAddTask(e) {
     const newTask = { title, person, ...shared };
     localTasks.push(newTask);
     const key = `local_${Date.now()}_${i}_${title.slice(0,10).replace(/\W/g,'_')}`;
-    G.tasks.push({ ...newTask, key, rowNumber: -1, isDone: false, isAssigned: false, sheetDone: false, completedDate: '', dateAssigned: '' });
+    G.tasks.push({ ...newTask, key, rowNumber: -1, isDone: false, isAssigned: assignToday, sheetDone: false, completedDate: '' });
+    if(assignToday) G.assignments[key] = today;
   });
   saveLocalTasks(localTasks);
+  if(assignToday) save();
 
   buildPlayers(); renderLB(); renderPersonFilters(); renderTasks();
   closeAddTask();
-  toast(`✅ "${title}" added for ${people.length} ${people.length === 1 ? 'person' : 'people'}`);
+  toast(`✅ "${title}" added for ${people.length} ${people.length === 1 ? 'person' : 'people'}${assignToday ? ' · assigned to today' : ''}`);
 }
 
 /* ── JSON-first loading ── */

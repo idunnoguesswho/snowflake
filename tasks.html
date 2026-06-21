@@ -642,6 +642,15 @@ function assignTask(task, assignedDate) {
   G.assignments[task.key] = assignedDate;
 }
 
+function assignTaskToday(key) {
+  const t = G.tasks.find(t => t.key === key);
+  if(!t || t.isDone || t.isAssigned) return;
+  assignTask(t, todayIsoDate());
+  save();
+  renderTasks(); renderLB();
+  toast(`📌 "${t.title}" assigned to today`);
+}
+
 function renderTasks() {
   const grid = document.getElementById('taskGrid');
   const q = (document.getElementById('searchBox')?.value||'').toLowerCase();
@@ -687,9 +696,12 @@ function renderTasks() {
       ${resourceLinks ? `<div class="task-resource-links">${resourceLinks}</div>` : ''}
       <div class="task-foot">
         <span class="date-hint">${t.dateAssigned ? 'Assigned '+x(t.dateAssigned) : ''}</span>
-        <button class="complete-btn${t.isDone?' done-btn':''}" onclick="event.stopPropagation();${t.isDone?'':` doComplete('${x(t.key)}')`}">
-          ${t.isDone ? '✓ Done' : '+ Complete'}
-        </button>
+        <div style="display:flex;gap:6px">
+          ${(!t.isDone && !t.isAssigned) ? `<button class="complete-btn" style="background:#fff0dc;color:#7a5500;border:1.5px solid #ffd166" onclick="event.stopPropagation();assignTaskToday('${x(t.key)}')">📌 Assign Today</button>` : ''}
+          <button class="complete-btn${t.isDone?' done-btn':''}" onclick="event.stopPropagation();${t.isDone?'':` doComplete('${x(t.key)}')`}">
+            ${t.isDone ? '✓ Done' : '+ Complete'}
+          </button>
+        </div>
       </div>
     </div>`;
   }).join('');

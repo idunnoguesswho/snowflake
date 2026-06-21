@@ -1078,7 +1078,7 @@ async function handleJsonUpload(fileList) {
       const existing = G.tasks;
       data.forEach(t => {
         if(!t.title) return;
-        const dup = existing.find(e => e.title === t.title && (e.person||'') === (t.person||'') && (e.dateAdded || e.dateAdd || '') === (t.dateAdded || ''));
+        const dup = existing.find(e => e.title === t.title && (e.person||'') === (t.person||'') && (e.dateAdded || e.dateAdd || '') === (t.dateAdded || '') && !e.isDone);
         if(dup) return;
 
         const key = `import_${Date.now()}_${added}_${String(t.title).slice(0,10).replace(/\W/g,'_')}`;

@@ -66,16 +66,16 @@
         <label style="font-weight:700;font-size:.85rem">Task Title *
           <input name="title" required placeholder="e.g. Clean the kitchen" style="display:block;width:100%;margin-top:4px;padding:8px 10px;border:2px solid #d8dee6;border-radius:10px;font-size:.95rem;font-family:inherit">
         </label>
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
-          <label style="font-weight:700;font-size:.85rem">Person
-            <select name="person" style="display:block;width:100%;margin-top:4px;padding:8px 10px;border:2px solid #d8dee6;border-radius:10px;font-size:.95rem;font-family:inherit;background:#fff">
-              <option value="Mom">Mom</option>
-              <option value="Dad">Dad</option>
-              <option value="Oliver">Oliver</option>
-              <option value="Logan">Logan</option>
-              <option value="Family">Family</option>
-            </select>
-          </label>
+        <div style="font-weight:700;font-size:.85rem">Person(s) — pick one or more
+          <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:4px">
+            <label style="display:flex;align-items:center;gap:5px;padding:6px 12px;border:2px solid #d8dee6;border-radius:20px;font-size:.85rem;font-weight:600;cursor:pointer;background:#fff"><input type="checkbox" name="person" value="Mom" style="margin:0"> Mom</label>
+            <label style="display:flex;align-items:center;gap:5px;padding:6px 12px;border:2px solid #d8dee6;border-radius:20px;font-size:.85rem;font-weight:600;cursor:pointer;background:#fff"><input type="checkbox" name="person" value="Dad" style="margin:0"> Dad</label>
+            <label style="display:flex;align-items:center;gap:5px;padding:6px 12px;border:2px solid #d8dee6;border-radius:20px;font-size:.85rem;font-weight:600;cursor:pointer;background:#fff"><input type="checkbox" name="person" value="Oliver" style="margin:0"> Oliver</label>
+            <label style="display:flex;align-items:center;gap:5px;padding:6px 12px;border:2px solid #d8dee6;border-radius:20px;font-size:.85rem;font-weight:600;cursor:pointer;background:#fff"><input type="checkbox" name="person" value="Logan" style="margin:0"> Logan</label>
+            <label style="display:flex;align-items:center;gap:5px;padding:6px 12px;border:2px solid #d8dee6;border-radius:20px;font-size:.85rem;font-weight:600;cursor:pointer;background:#fff"><input type="checkbox" name="person" value="Family" style="margin:0"> Family</label>
+          </div>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr;gap:10px">
           <label style="font-weight:700;font-size:.85rem">Category
             <select name="topic" onchange="toggleCategoryOther(this.value)" style="display:block;width:100%;margin-top:4px;padding:8px 10px;border:2px solid #d8dee6;border-radius:10px;font-size:.95rem;font-family:inherit;background:#fff">
               <option value="Art">Art</option>
@@ -963,14 +963,17 @@ function submitAddTask(e) {
   const title = fd.get('title').trim();
   if(!title) return;
 
+  const people = fd.getAll('person').map(p => p.trim()).filter(Boolean);
+  if(people.length === 0) {
+    toast('⚠️ Pick at least one person');
+    return;
+  }
+
   const topicRaw = fd.get('topic');
   const topic = topicRaw === '__other__' ? fd.get('topicOther').trim() : topicRaw.trim();
 
-  const localTasks = loadLocalTasks();
-  const newTask = {
-    title,
+  const shared = {
     titleFR: '',
-    person: fd.get('person').trim(),
     topic,
     description: fd.get('description').trim(),
     points: Math.max(0, parseInt(fd.get('points')) || 0),
@@ -983,15 +986,18 @@ function submitAddTask(e) {
     _local: true
   };
 
-  localTasks.push(newTask);
+  const localTasks = loadLocalTasks();
+  people.forEach((person, i) => {
+    const newTask = { title, person, ...shared };
+    localTasks.push(newTask);
+    const key = `local_${Date.now()}_${i}_${title.slice(0,10).replace(/\W/g,'_')}`;
+    G.tasks.push({ ...newTask, key, rowNumber: -1, isDone: false, isAssigned: false, sheetDone: false, completedDate: '', dateAssigned: '' });
+  });
   saveLocalTasks(localTasks);
 
-  // merge into live task list
-  const key = `local_${Date.now()}_${title.slice(0,10).replace(/\W/g,'_')}`;
-  G.tasks.push({ ...newTask, key, rowNumber: -1, isDone: false, isAssigned: false, sheetDone: false, completedDate: '', dateAssigned: '' });
   buildPlayers(); renderLB(); renderPersonFilters(); renderTasks();
   closeAddTask();
-  toast(`✅ "${title}" added`);
+  toast(`✅ "${title}" added for ${people.length} ${people.length === 1 ? 'person' : 'people'}`);
 }
 
 /* ── JSON-first loading ── */

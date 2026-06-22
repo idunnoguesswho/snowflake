@@ -28,8 +28,6 @@
 <div class="leaderboard-section">
   <div class="section-label">🏆 Points Leaderboard</div>
   <div class="leaderboard" id="leaderboard"></div>
-  <div class="section-label category-label">Category Breakdown</div>
-  <div class="category-breakdown" id="categoryBreakdown"></div>
   <div class="section-label category-label" id="todayCategoryLabel" style="display:none">⚡ Today's Points by Category</div>
   <div class="today-category" id="todayCategory"></div>
 </div>
@@ -42,6 +40,7 @@
   <button class="filter-chip"        data-status="done" onclick="setStatusFilter('done')">Done</button>
   <input class="search-box" id="searchBox" placeholder="🔍 Search…" oninput="renderTasks()" />
 </div>
+<div class="category-breakdown" id="categoryBreakdown"></div>
 
 <!-- Tasks -->
 <div class="task-section">

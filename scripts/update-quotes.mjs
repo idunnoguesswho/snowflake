@@ -17,7 +17,7 @@ function parseCSV(text) {
     const c = text[i], n = text[i + 1];
 
     if (c === '"' && n === '"') {
-      cell += '"";
+      cell += '"';
       i++;
     } else if (c === '"') {
       quote = !quote;

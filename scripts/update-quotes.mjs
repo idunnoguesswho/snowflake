@@ -50,6 +50,9 @@ if (!res.ok) throw new Error(`Could not fetch sheet: ${res.status}`);
 const csv = await res.text();
 const rows = parseCSV(csv).slice(1);
 
+console.log(`Sheet rows: ${rows.length}`);
+if (rows.length > 0) console.log(`First row sample: ${JSON.stringify(rows[0])}`);
+
 let quotes = [];
 if (fs.existsSync(QUOTES_FILE)) {
   try {
@@ -61,10 +64,12 @@ if (fs.existsSync(QUOTES_FILE)) {
 }
 
 const today = todayKey();
+console.log(`Today: ${today}`);
 const alreadyHasToday = quotes.some(q => q.date === today);
 
 if (!alreadyHasToday) {
   const todaysRows = rows.filter(r => normalizeDate(r[0]) === today);
+  console.log(`Rows matching today: ${todaysRows.length}`);
 
   for (const r of todaysRows) {
     quotes.push({

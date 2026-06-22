@@ -9,14 +9,15 @@
 </head>
 <body>
 
-<div class="page-header">
-  <div class="page-title">🌟 Quest Board</div>
-  <a href="store.html" class="sync-btn" style="background:#a855f7;text-decoration:none">🎁 Store</a>
-  <button class="sync-btn" style="background:#38d9a9" onclick="openAddTask()">+ Add Task</button>
-  <button class="sync-btn" style="background:#4dabf7" onclick="exportJson()" title="Download tasks.json">⬇ Export</button>
-  <button class="sync-btn" style="background:#f59f00" onclick="document.getElementById('importJsonInput').click()" title="Upload a JSON file of tasks to add">⬆ Import</button>
+<div class="page-header" style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;padding:12px 16px">
+  <div class="page-title" style="font-family:'Baloo 2',cursive;font-weight:800;font-size:1.3rem;margin-right:6px">🌟 Quest Board</div>
+  <a href="index.html" class="sync-btn" style="background:#6c757d;text-decoration:none;padding:4px 10px;font-size:.75rem">🏠 Home</a>
+  <a href="store.html" class="sync-btn" style="background:#a855f7;text-decoration:none;padding:4px 10px;font-size:.75rem">🎁 Store</a>
+  <button class="sync-btn" style="background:#38d9a9;padding:4px 10px;font-size:.75rem" onclick="openAddTask()">+ Add Task</button>
+  <button class="sync-btn" style="background:#4dabf7;padding:4px 10px;font-size:.75rem" onclick="exportJson()" title="Download tasks.json">⬇ Export</button>
+  <button class="sync-btn" style="background:#f59f00;padding:4px 10px;font-size:.75rem" onclick="document.getElementById('importJsonInput').click()" title="Upload a JSON file of tasks to add">⬆ Import</button>
   <input type="file" id="importJsonInput" accept="application/json,.json" style="display:none" onchange="importJsonTasks(this.files[0])">
-  <button class="sync-btn" id="syncBtn" onclick="sync()">
+  <button class="sync-btn" id="syncBtn" style="padding:4px 10px;font-size:.75rem" onclick="sync()">
     <span class="sync-icon">↻</span> Sync Sheet
   </button>
 </div>
@@ -512,7 +513,7 @@ function renderCategoryBreakdown() {
   const el = document.getElementById('categoryBreakdown');
   if(!el) return;
 
-  const categories = {};
+  const categories = { Uncategorized: { name: 'Uncategorized', total: 0, done: 0, points: 0 } };
   G.tasks.forEach(t => {
     const name = t.topic || 'Uncategorized';
     if(!categories[name]) categories[name] = { name, total: 0, done: 0, points: 0 };
@@ -523,7 +524,11 @@ function renderCategoryBreakdown() {
     }
   });
 
-  const items = Object.values(categories).sort((a,b)=>b.points-a.points || b.done-a.done || a.name.localeCompare(b.name));
+  const items = Object.values(categories).sort((a, b) => {
+    if(a.name === 'Uncategorized') return 1;
+    if(b.name === 'Uncategorized') return -1;
+    return b.points - a.points || b.done - a.done || a.name.localeCompare(b.name);
+  });
   if(!items.length) {
     el.innerHTML = '';
     return;

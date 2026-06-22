@@ -671,7 +671,8 @@ function renderTasks() {
     return;
   }
 
-  grid.innerHTML = tasks.map(t => {
+  grid.innerHTML = tasks.map(raw => {
+    const t = applyTaskEdits(raw);
     const personCol = personColor(t.person);
     const topicCol = categoryColor(t.topic);
     const ptsLabel = t.pts > 0 ? `⭐ ${t.pts}pt` : '—';
@@ -701,6 +702,7 @@ function renderTasks() {
           <button class="complete-btn${t.isDone?' done-btn':''}" onclick="event.stopPropagation();${t.isDone?'':` doComplete('${x(t.key)}')`}">
             ${t.isDone ? '✓ Done' : '+ Complete'}
           </button>
+          <button class="complete-btn" style="background:#f0f4ff;color:#4a6fa5;border:1.5px solid #c5d3f0" onclick="event.stopPropagation();openEdit('${x(t.key)}')">✏️</button>
         </div>
       </div>
     </div>`;
@@ -1165,12 +1167,124 @@ function importJsonTasks(file) {
   reader.readAsText(file);
 }
 
+/* ── Task edits (localStorage overrides) ── */
+let taskEdits = {};
+try { taskEdits = JSON.parse(localStorage.getItem('sf_task_edits') || '{}'); } catch(e) {}
+
+function saveTaskEdits() { localStorage.setItem('sf_task_edits', JSON.stringify(taskEdits)); }
+
+function applyTaskEdits(task) {
+  const e = taskEdits[task.key];
+  if (!e) return task;
+  return {
+    ...task,
+    title:     e.title     !== undefined ? e.title     : task.title,
+    desc:      e.desc      !== undefined ? e.desc      : task.desc,
+    person:    e.person    !== undefined ? e.person    : task.person,
+    topic:     e.topic     !== undefined ? e.topic     : task.topic,
+    estTime:   e.estTime   !== undefined ? e.estTime   : task.estTime,
+    pts:       e.pts       !== undefined ? e.pts       : task.pts,
+    questions: e.questions !== undefined ? e.questions : task.questions,
+    answers:   e.answers   !== undefined ? e.answers   : task.answers,
+  };
+}
+
+let _editKey = null;
+
+function openEdit(key) {
+  const raw = G.tasks.find(t => t.key === key);
+  if (!raw) return;
+  const t = applyTaskEdits(raw);
+  _editKey = key;
+  document.getElementById('et-title').value     = t.title     || '';
+  document.getElementById('et-desc').value      = t.desc      || '';
+  document.getElementById('et-person').value    = t.person    || '';
+  document.getElementById('et-topic').value     = t.topic     || '';
+  document.getElementById('et-time').value      = t.estTime   || '';
+  document.getElementById('et-pts').value       = t.pts       ?? '';
+  document.getElementById('et-questions').value = t.questions || '';
+  document.getElementById('et-answers').value   = t.answers   || '';
+  document.getElementById('editTaskModal').hidden = false;
+}
+
+function closeEditTask(e) {
+  if (e && e.target !== document.getElementById('editTaskModal')) return;
+  document.getElementById('editTaskModal').hidden = true;
+  _editKey = null;
+}
+
+function closeEditTaskBtn() {
+  document.getElementById('editTaskModal').hidden = true;
+  _editKey = null;
+}
+
+function saveTaskEdit() {
+  if (!_editKey) return;
+  const ptsVal = parseInt(document.getElementById('et-pts').value);
+  taskEdits[_editKey] = {
+    title:     document.getElementById('et-title').value.trim(),
+    desc:      document.getElementById('et-desc').value.trim(),
+    person:    document.getElementById('et-person').value.trim(),
+    topic:     document.getElementById('et-topic').value.trim(),
+    estTime:   document.getElementById('et-time').value.trim(),
+    pts:       isNaN(ptsVal) ? undefined : Math.max(0, ptsVal),
+    questions: document.getElementById('et-questions').value.trim(),
+    answers:   document.getElementById('et-answers').value.trim(),
+  };
+  saveTaskEdits();
+  closeEditTaskBtn();
+  buildPlayers(); renderLB(); renderPersonFilters(); renderTasks();
+  toast('✏️ Task updated');
+}
+
 /* ── Init ── */
 renderLB();
 renderTasks();
 renderActivity();
 sync();
 </script>
+
+<!-- Edit Task Modal -->
+<div class="worksheet-modal" id="editTaskModal" hidden onclick="closeEditTask(event)">
+  <div class="worksheet-backdrop"></div>
+  <section class="worksheet-sheet" style="max-width:480px;padding:24px" role="dialog" aria-modal="true" onclick="event.stopPropagation()">
+    <div style="font-family:'Baloo 2',cursive;font-size:1.3rem;font-weight:800;margin-bottom:16px">✏️ Edit Task</div>
+    <div style="display:grid;gap:10px">
+      <label style="font-weight:700;font-size:.85rem">Title
+        <input id="et-title" type="text" style="display:block;width:100%;margin-top:4px;padding:8px 10px;border:2px solid #d8dee6;border-radius:10px;font-size:.95rem;font-family:inherit">
+      </label>
+      <label style="font-weight:700;font-size:.85rem">Description
+        <textarea id="et-desc" rows="3" style="display:block;width:100%;margin-top:4px;padding:8px 10px;border:2px solid #d8dee6;border-radius:10px;font-size:.95rem;font-family:inherit;resize:vertical"></textarea>
+      </label>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+        <label style="font-weight:700;font-size:.85rem">Person
+          <input id="et-person" type="text" style="display:block;width:100%;margin-top:4px;padding:8px 10px;border:2px solid #d8dee6;border-radius:10px;font-size:.95rem;font-family:inherit">
+        </label>
+        <label style="font-weight:700;font-size:.85rem">Category
+          <input id="et-topic" type="text" style="display:block;width:100%;margin-top:4px;padding:8px 10px;border:2px solid #d8dee6;border-radius:10px;font-size:.95rem;font-family:inherit">
+        </label>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+        <label style="font-weight:700;font-size:.85rem">Est. Time
+          <input id="et-time" type="text" style="display:block;width:100%;margin-top:4px;padding:8px 10px;border:2px solid #d8dee6;border-radius:10px;font-size:.95rem;font-family:inherit">
+        </label>
+        <label style="font-weight:700;font-size:.85rem">Points
+          <input id="et-pts" type="number" min="0" style="display:block;width:100%;margin-top:4px;padding:8px 10px;border:2px solid #d8dee6;border-radius:10px;font-size:.95rem;font-family:inherit">
+        </label>
+      </div>
+      <label style="font-weight:700;font-size:.85rem">Questions
+        <textarea id="et-questions" rows="2" style="display:block;width:100%;margin-top:4px;padding:8px 10px;border:2px solid #d8dee6;border-radius:10px;font-size:.95rem;font-family:inherit;resize:vertical"></textarea>
+      </label>
+      <label style="font-weight:700;font-size:.85rem">Answers
+        <textarea id="et-answers" rows="2" style="display:block;width:100%;margin-top:4px;padding:8px 10px;border:2px solid #d8dee6;border-radius:10px;font-size:.95rem;font-family:inherit;resize:vertical"></textarea>
+      </label>
+    </div>
+    <div style="display:flex;gap:8px;margin-top:16px">
+      <button type="button" class="sync-btn" style="background:#38d9a9;flex:1" onclick="saveTaskEdit()">Save</button>
+      <button type="button" class="sync-btn" style="background:#adb5bd" onclick="closeEditTaskBtn()">Cancel</button>
+    </div>
+  </section>
+</div>
 </body>
 </html>
 

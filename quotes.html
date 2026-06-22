@@ -189,34 +189,8 @@
     <button class="nav-btn" id="prev-day" title="Previous day">&#8592;</button>
     <div class="page-subtitle" id="page-date"></div>
     <button class="nav-btn" id="next-day" title="Next day">&#8594;</button>
-    <button id="refreshQuotes">↻</button>
-
-<script>
-async function loadQuotes() {
-  const res = await fetch(`quotes.json?cacheBust=${Date.now()}`);
-  const quotes = await res.json();
-
-  const today = new Date().toLocaleDateString("en-CA", {
-    timeZone: "America/Edmonton"
-  });
-
-  const todaysQuotes = quotes.filter(q => q.date === today);
-
-  if (!todaysQuotes.length) {
-    document.querySelector("#quoteBox").innerHTML =
-      "Today’s quotes are not in quotes.json yet. Run the GitHub Action refresh.";
-    return;
-  }
-
-  document.querySelector("#quoteBox").innerHTML = todaysQuotes
-    .map(q => `<h3>${q.source}</h3><p>${q.text}</p>`)
-    .join("");
-}
-
-document.querySelector("#refreshQuotes").addEventListener("click", loadQuotes);
-
-loadQuotes();
-</script> </div>
+    <button class="nav-btn" id="refresh-btn" title="Refresh">↻</button>
+</div>
   <div class="refresh-status" id="refresh-status"></div>
 </div>
 
@@ -299,37 +273,18 @@ let calViewYear, calViewMonth;  // calendar display month
 let selectedDate = "";
 
 // ── Data loading ───────────────────────────────────────────────────────────────
-function loadAllFromGviz() {
-  return new Promise((resolve, reject) => {
-    const cb = `_qcb${Math.random().toString(36).slice(2)}`;
-    const script = document.createElement("script");
-    const timer = setTimeout(() => { cleanup(); reject(new Error("Timed out")); }, 15000);
-    function cleanup() { clearTimeout(timer); delete window[cb]; script.remove(); }
-    window[cb] = payload => {
-      cleanup();
-      if (!payload || payload.status === "error") {
-        reject(new Error(payload?.errors?.[0]?.detailed_message || "Sheet error")); return;
-      }
-      const cols = (payload.table.cols||[]).map(c=>(c.label||c.id||"").trim().toLowerCase());
-      const di = cols.findIndex(c=>c.includes("date"));
-      const si = cols.findIndex(c=>c.includes("source"));
-      const xi = cols.findIndex(c=>c.includes("description"));
-      if (di<0||si<0||xi<0) { reject(new Error("Missing columns: "+cols.join(", "))); return; }
-      const map = {};
-      (payload.table.rows||[]).forEach(r => {
-        const row = (r.c||[]).map(cell=>cell?String(cell.f??cell.v??"").trim():"");
-        const date = normalizeDate(row[di]);
-        if (!date) return;
-        if (!map[date]) map[date] = [];
-        const desc = row[xi];
-        if (desc) map[date].push({ source: row[si], description: desc });
-      });
-      resolve(map);
-    };
-    script.onerror = () => { cleanup(); reject(new Error("Script load failed")); };
-    script.src = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?gid=${SHEET_GID}&tqx=responseHandler:${cb}`;
-    document.head.append(script);
-  });
+async function loadAllFromGviz() {
+  const res = await fetch(`quotes.json?_=${Date.now()}`);
+  if (!res.ok) throw new Error(`HTTP ${res.status}`);
+  const arr = await res.json();
+  const map = {};
+  for (const q of arr) {
+    if (!q.date) continue;
+    if (!map[q.date]) map[q.date] = [];
+    const desc = q.text || q.description || "";
+    if (desc) map[q.date].push({ source: q.source || "", description: desc });
+  }
+  return map;
 }
 
 // ── Calendar ───────────────────────────────────────────────────────────────────

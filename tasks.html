@@ -1195,6 +1195,12 @@ function applyTaskEdits(task) {
 
 let _editKey = null;
 
+const KNOWN_TOPICS = ['Art','Chore','Language','Math','Science','Side Quest','Social Studies','Wellness'];
+
+function toggleEditCategoryOther(val) {
+  document.getElementById('et-topic-other-wrap').style.display = val === '__other__' ? 'block' : 'none';
+}
+
 function openEdit(key) {
   const raw = G.tasks.find(t => t.key === key);
   if (!raw) return;
@@ -1202,12 +1208,33 @@ function openEdit(key) {
   _editKey = key;
   document.getElementById('et-title').value     = t.title     || '';
   document.getElementById('et-desc').value      = t.desc      || '';
-  document.getElementById('et-person').value    = t.person    || '';
-  document.getElementById('et-topic').value     = t.topic     || '';
-  document.getElementById('et-time').value      = t.estTime   || '';
-  document.getElementById('et-pts').value       = t.pts       ?? '';
   document.getElementById('et-questions').value = t.questions || '';
   document.getElementById('et-answers').value   = t.answers   || '';
+  document.getElementById('et-time').value      = t.estTime   || '';
+  document.getElementById('et-pts').value       = t.pts       ?? '';
+
+  // Person select
+  const personSel = document.getElementById('et-person');
+  personSel.value = t.person || '';
+  if (personSel.value !== (t.person || '')) personSel.value = '';
+
+  // Category select — fall back to __other__ if not in the known list
+  const topicSel = document.getElementById('et-topic');
+  const topicVal = t.topic || '';
+  if (KNOWN_TOPICS.includes(topicVal)) {
+    topicSel.value = topicVal;
+    document.getElementById('et-topic-other').value = '';
+    toggleEditCategoryOther(topicVal);
+  } else if (topicVal) {
+    topicSel.value = '__other__';
+    document.getElementById('et-topic-other').value = topicVal;
+    toggleEditCategoryOther('__other__');
+  } else {
+    topicSel.value = '';
+    document.getElementById('et-topic-other').value = '';
+    toggleEditCategoryOther('');
+  }
+
   document.getElementById('editTaskModal').hidden = false;
 }
 
@@ -1225,11 +1252,15 @@ function closeEditTaskBtn() {
 function saveTaskEdit() {
   if (!_editKey) return;
   const ptsVal = parseInt(document.getElementById('et-pts').value);
+  const topicRaw = document.getElementById('et-topic').value;
+  const topic = topicRaw === '__other__'
+    ? document.getElementById('et-topic-other').value.trim()
+    : topicRaw;
   taskEdits[_editKey] = {
     title:     document.getElementById('et-title').value.trim(),
     desc:      document.getElementById('et-desc').value.trim(),
     person:    document.getElementById('et-person').value.trim(),
-    topic:     document.getElementById('et-topic').value.trim(),
+    topic,
     estTime:   document.getElementById('et-time').value.trim(),
     pts:       isNaN(ptsVal) ? undefined : Math.max(0, ptsVal),
     questions: document.getElementById('et-questions').value.trim(),
@@ -1262,12 +1293,33 @@ sync();
       </label>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
         <label style="font-weight:700;font-size:.85rem">Person
-          <input id="et-person" type="text" style="display:block;width:100%;margin-top:4px;padding:8px 10px;border:2px solid #d8dee6;border-radius:10px;font-size:.95rem;font-family:inherit">
+          <select id="et-person" style="display:block;width:100%;margin-top:4px;padding:8px 10px;border:2px solid #d8dee6;border-radius:10px;font-size:.95rem;font-family:inherit;background:#fff">
+            <option value="">— none —</option>
+            <option value="Mom">Mom</option>
+            <option value="Dad">Dad</option>
+            <option value="Oliver">Oliver</option>
+            <option value="Logan">Logan</option>
+            <option value="Family">Family</option>
+          </select>
         </label>
         <label style="font-weight:700;font-size:.85rem">Category
-          <input id="et-topic" type="text" style="display:block;width:100%;margin-top:4px;padding:8px 10px;border:2px solid #d8dee6;border-radius:10px;font-size:.95rem;font-family:inherit">
+          <select id="et-topic" onchange="toggleEditCategoryOther(this.value)" style="display:block;width:100%;margin-top:4px;padding:8px 10px;border:2px solid #d8dee6;border-radius:10px;font-size:.95rem;font-family:inherit;background:#fff">
+            <option value="">— none —</option>
+            <option value="Art">Art</option>
+            <option value="Chore">Chore</option>
+            <option value="Language">Language</option>
+            <option value="Math">Math</option>
+            <option value="Science">Science</option>
+            <option value="Side Quest">Side Quest</option>
+            <option value="Social Studies">Social Studies</option>
+            <option value="Wellness">Wellness</option>
+            <option value="__other__">+ Other…</option>
+          </select>
         </label>
       </div>
+      <label id="et-topic-other-wrap" style="font-weight:700;font-size:.85rem;display:none">New category name
+        <input id="et-topic-other" type="text" placeholder="Type a new category" style="display:block;width:100%;margin-top:4px;padding:8px 10px;border:2px solid #d8dee6;border-radius:10px;font-size:.95rem;font-family:inherit">
+      </label>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
         <label style="font-weight:700;font-size:.85rem">Est. Time
           <input id="et-time" type="text" style="display:block;width:100%;margin-top:4px;padding:8px 10px;border:2px solid #d8dee6;border-radius:10px;font-size:.95rem;font-family:inherit">

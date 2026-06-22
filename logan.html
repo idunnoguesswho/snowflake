@@ -110,10 +110,6 @@
 <nav class="hub-nav">
   <button class="hub-tab active" data-tab="tasks"   onclick="showTab('tasks')">📋 Tasks</button>
   <button class="hub-tab"        data-tab="routine" onclick="showTab('routine')">🌅 Routine</button>
-  <button class="hub-tab"        data-tab="menu"    onclick="showTab('menu')">🍽️ Menu</button>
-  <button class="hub-tab"        data-tab="learn"   onclick="showTab('learn')">🧠 Learn</button>
-  <button class="hub-tab"        data-tab="study"   onclick="showTab('study')">📚 Study</button>
-  <button class="hub-tab"        data-tab="bible"   onclick="showTab('bible')">✝️ Bible</button>
   <a class="hub-tab" href="store.html">🎁 Store</a>
 </nav>
 
@@ -129,6 +125,8 @@
   </div>
   <div class="section-label">🧹 Today's Chores</div>
   <div class="task-list" id="choreList"></div>
+  <div class="section-label">🏠 Assigned Chores</div>
+  <div class="task-list" id="assignedChoreList"><div style="padding:20px;text-align:center;color:var(--muted);font-weight:700;">Loading…</div></div>
   <div class="section-label">📋 Open Tasks</div>
   <div class="task-list" id="taskList"><div style="padding:20px;text-align:center;color:var(--muted);font-weight:700;">Loading from sheet…</div></div>
 </div>
@@ -1065,9 +1063,18 @@ function renderList(container,tasks){
 
 function render(){
   renderList(document.getElementById('choreList'), NEW_CHORES);
-  const tl=document.getElementById('taskList');
-  if(!TASKS.length) tl.innerHTML='<div style="padding:20px;text-align:center;color:var(--muted);font-weight:700;">🎉 No open sheet tasks!</div>';
-  else renderList(tl, TASKS);
+
+  const choreTasks = TASKS.filter(t => /chore/i.test(t.category));
+  const otherTasks = TASKS.filter(t => !/chore/i.test(t.category));
+
+  const acl = document.getElementById('assignedChoreList');
+  if(!choreTasks.length) acl.innerHTML='<div style="padding:20px;text-align:center;color:var(--muted);font-weight:700;">🎉 No assigned chores!</div>';
+  else renderList(acl, choreTasks);
+
+  const tl = document.getElementById('taskList');
+  if(!otherTasks.length) tl.innerHTML='<div style="padding:20px;text-align:center;color:var(--muted);font-weight:700;">🎉 No open tasks!</div>';
+  else renderList(tl, otherTasks);
+
   updateProgress();
 }
 

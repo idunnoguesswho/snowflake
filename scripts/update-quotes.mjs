@@ -52,7 +52,12 @@ const rows = parseCSV(csv).slice(1);
 
 let quotes = [];
 if (fs.existsSync(QUOTES_FILE)) {
-  quotes = JSON.parse(fs.readFileSync(QUOTES_FILE, "utf8"));
+  try {
+    const parsed = JSON.parse(fs.readFileSync(QUOTES_FILE, "utf8"));
+    quotes = Array.isArray(parsed) ? parsed : [];
+  } catch {
+    quotes = [];
+  }
 }
 
 const today = todayKey();

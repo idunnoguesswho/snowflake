@@ -153,6 +153,15 @@ const CATEGORY_COLORS = ['#ffd166','#6bcb77','#7ec8e3','#c9b8ff','#ff6b6b','#f4a
 const RANKS   = ['🥇','🥈','🥉','🎖️'];
 const CONFETTI_CLR = ['#ffd166','#6bcb77','#7ec8e3','#c9b8ff','#ff6b6b','#ffb347'];
 
+/* ── Safe points helper ── */
+// Always use this when reading pts from any task or completion record.
+// Prevents NaN from propagating into totals when a value is missing,
+// empty-string, or was stored before the pts field existed.
+function safePts(value) {
+  const n = Number(value);
+  return isFinite(n) && n >= 0 ? Math.floor(n) : 0;
+}
+
 /* ── State ── */
 let G = {
   tasks: [], players: {}, activity: [], completions: {}, assignments: {},
@@ -315,39 +324,27 @@ async function loadRowsFromSheet() {
 }
 
 /* ── Map sheet columns ── */
-// Exact column names from this sheet:
-// ID, Date Added, Responsible, Category, Est Time,
-// Task Name EN, Task Name FR, Description EN, Description FR,
-// Date assigned, Date Completed, IsDone, Points
 function autoMap(headers) {
   const h = headers.map(x => x.toLowerCase().trim());
-  // Find last match wins for specificity; first-match for ambiguous
   const first = kws => { for(const k of kws){ const i=h.findIndex(c=>c.includes(k)); if(i>=0)return i; } return -1; };
-  // Prefer exact or more-specific match
   const exact = kws => { for(const k of kws){ const i=h.findIndex(c=>c===k); if(i>=0)return i; } return -1; };
 
-  // Title: prefer "task name en" over plain "task name"
   const titleIdx = exact(['task name en']) !== -1 ? exact(['task name en'])
                  : exact(['task name'])    !== -1 ? exact(['task name'])
                  : first(['task name','task','title','action','item']);
 
-  // Title FR: "task name fr"
   const titleFRIdx = exact(['task name fr']) !== -1 ? exact(['task name fr'])
                    : h.findIndex(c => c.includes('task') && c.includes('fr'));
 
-  // Description: prefer EN
   const descIdx = exact(['description en']) !== -1 ? exact(['description en'])
                 : first(['desc','detail','note','body','info','comment']);
 
-  // IsDone boolean column (Yes/No)
   const isDoneIdx = exact(['isdone']) !== -1 ? exact(['isdone'])
                   : h.findIndex(c => c === 'done' || c === 'is done' || c === 'isdone');
 
-  // Date completed (actual date string)
   const completedIdx = exact(['date completed']) !== -1 ? exact(['date completed'])
                      : h.findIndex(c => c.includes('complet') && c.includes('date'));
 
-  // Date added: prefer "date added" over other date cols
   const dateAddedIdx = exact(['date added']) !== -1 ? exact(['date added'])
                      : h.findIndex(c => c.includes('date') && c.includes('add'));
   const dateAssignedIdx = exact(['date assigned']) !== -1 ? exact(['date assigned'])
@@ -385,7 +382,6 @@ function buildFromRows(rows) {
   G.tasks = dataRows.map((row, i) => {
     const get = idx => (idx >= 0 && idx < row.length ? (row[idx]||'') : '').trim();
 
-    // Title (EN preferred)
     const title = get(map.title >= 0 ? map.title : 5);
     if(!title) return null;
 
@@ -397,13 +393,12 @@ function buildFromRows(rows) {
     const dateAssigned  = get(map.dateAssigned);
     const estTime       = get(map.estTime);
     const rawPts        = get(map.points);
-    const pts           = Math.max(0, parseInt(rawPts) || 0);  // honour 0-pt tasks
+    const pts           = safePts(rawPts);  // ← NaN-safe
     const links         = taskLinks(row, map, desc);
     const questions     = get(map.questions);
     const answers       = get(map.answers);
     const worksheetText = get(map.worksheet);
 
-    // Determine done: check IsDone (boolean) first, then Date Completed (date string)
     const rawIsDone     = get(map.isDone);
     const rawCompleted  = get(map.completedDate);
     const boolDone      = !!rawIsDone && YES_KW.some(k => rawIsDone.toLowerCase() === k);
@@ -435,9 +430,10 @@ function buildPlayers() {
     if(!t.person) return;
     en(t.person); P[t.person].total++;
     if(t.sheetDone) {
-      P[t.person].pts += t.pts; P[t.person].done++;
+      const p = safePts(t.pts);                                    // ← NaN-safe
+      P[t.person].pts += p; P[t.person].done++;
       const cat = t.topic || 'Uncategorized';
-      P[t.person].cats[cat] = (P[t.person].cats[cat] || 0) + t.pts;
+      P[t.person].cats[cat] = (P[t.person].cats[cat] || 0) + p;  // ← NaN-safe
     }
   });
 
@@ -446,9 +442,10 @@ function buildPlayers() {
     en(info.person);
     const task = G.tasks.find(t=>t.key===key);
     if(!task||!task.sheetDone) {
-      P[info.person].pts += info.pts; P[info.person].done++;
+      const p = safePts(info.pts);                                 // ← NaN-safe (was the main culprit)
+      P[info.person].pts += p; P[info.person].done++;
       const cat = info.topic || 'Uncategorized';
-      P[info.person].cats[cat] = (P[info.person].cats[cat] || 0) + info.pts;
+      P[info.person].cats[cat] = (P[info.person].cats[cat] || 0) + p;  // ← NaN-safe
     }
   });
 
@@ -520,7 +517,7 @@ function renderCategoryBreakdown() {
     categories[name].total++;
     if(t.isDone) {
       categories[name].done++;
-      categories[name].points += t.pts;
+      categories[name].points += safePts(t.pts);  // ← NaN-safe
     }
   });
 
@@ -556,21 +553,19 @@ function renderTodayByCategory() {
   const today = todayIsoDate();
   const cats = {};
 
-  // Sheet-completed tasks where completedDate contains today's ISO date
   G.tasks.forEach(t => {
     if (!t.sheetDone || !t.completedDate) return;
     if (!t.completedDate.includes(today)) return;
     const cat = t.topic || 'Uncategorized';
-    cats[cat] = (cats[cat] || 0) + t.pts;
+    cats[cat] = (cats[cat] || 0) + safePts(t.pts);  // ← NaN-safe
   });
 
-  // Local completions done today (this session or saved with a date)
   Object.entries(G.completions).forEach(([key, info]) => {
     if (info.date && info.date !== today) return;
     const task = G.tasks.find(t => t.key === key);
-    if (task && task.sheetDone) return; // already counted above
+    if (task && task.sheetDone) return;
     const cat = info.topic || 'Uncategorized';
-    cats[cat] = (cats[cat] || 0) + info.pts;
+    cats[cat] = (cats[cat] || 0) + safePts(info.pts);  // ← NaN-safe
   });
 
   const items = Object.entries(cats).sort((a, b) => b[1] - a[1]);
@@ -578,7 +573,7 @@ function renderTodayByCategory() {
   if (label) label.style.display = '';
 
   const todayTotal = items.reduce((s, [, pts]) => s + pts, 0);
-  const overallTotal = Object.values(G.players).reduce((s, p) => s + p.pts, 0);
+  const overallTotal = Object.values(G.players).reduce((s, p) => s + safePts(p.pts), 0);  // ← NaN-safe
   el.innerHTML = items.map(([name, pts]) => {
     const color = categoryColor(name);
     return `<div class="today-cat-row">
@@ -720,23 +715,22 @@ async function doComplete(key) {
   const today = todayIsoDate();
   const nextTask = nextTaskInCategory(t);
 
-  // 1. Optimistically update UI immediately
   t.isDone = true;
   t.isAssigned = false;
   t.completedDate = today;
   delete G.assignments[key];
   if(nextTask) assignTask(nextTask, today);
-  G.completions[key] = { person: t.person||'Family', pts: t.pts, topic: t.topic||'Uncategorized', date: today };
-  G.activity.push({ person: t.person||'Family', title: t.title, pts: t.pts });
+  // Store pts through safePts so a bad value in t.pts never pollutes localStorage
+  G.completions[key] = { person: t.person||'Family', pts: safePts(t.pts), topic: t.topic||'Uncategorized', date: today };
+  G.activity.push({ person: t.person||'Family', title: t.title, pts: safePts(t.pts) });
   save(); buildPlayers(); renderLB(); renderTasks(); renderActivity(); renderTodayByCategory();
-  toast(`🎉 ${t.pts} pt${t.pts!==1?'s':''} for ${t.person||'the family'}!`);
+  toast(`🎉 ${safePts(t.pts)} pt${safePts(t.pts)!==1?'s':''} for ${t.person||'the family'}!`);
   if(nextTask) {
     toast(`Assigned next ${nextTask.topic || 'category'} task: ${nextTask.title}`);
     openWorksheet(nextTask);
   }
   burst();
 
-  // 2. Write to sheet via GET with URL params — works cross-origin, no CORS preflight
   const endpoint = sheetEndpoint();
   if(!endpoint) return;
 
@@ -882,12 +876,11 @@ async function sync() {
   setErr('');
   setStatus('Loading tasks…');
 
-  // Try tasks.json first, fall back to Google Sheets
   try {
     await loadFromJson();
     renderLB(); renderPersonFilters(); renderCategoryBreakdown(); renderTasks(); renderActivity(); completePendingTask();
     const done = G.tasks.filter(t=>t.sheetDone||t.isDone).length;
-    const totalPts = Object.values(G.players).reduce((s,p)=>s+p.pts,0);
+    const totalPts = Object.values(G.players).reduce((s,p)=>s+safePts(p.pts),0);
     setStatus(`${G.tasks.length} tasks · ${done} completed · ${totalPts} total points earned · source: tasks.json`);
     toast(`✅ Loaded ${G.tasks.length} tasks from tasks.json`);
     btn.classList.remove('spinning');
@@ -902,19 +895,18 @@ async function sync() {
 
     buildFromRows(rows);
 
-    // Merge any locally-added tasks on top of sheet tasks
     const localTasks = loadLocalTasks();
     localTasks.forEach((lt, i) => {
       const key = `local_${i}_${String(lt.title||'').slice(0,10).replace(/\W/g,'_')}`;
       if(!G.tasks.find(t => t.title === lt.title && t.dateAdded === lt.dateAdded)) {
         const localDone = !!G.completions[key];
-        G.tasks.push({ ...lt, key, rowNumber: -1, desc: lt.description||lt.desc||'', pts: lt.points||lt.pts||0, isDone: localDone, isAssigned: false, sheetDone: false, completedDate: '', dateAssigned: '' });
+        G.tasks.push({ ...lt, key, rowNumber: -1, desc: lt.description||lt.desc||'', pts: safePts(lt.points ?? lt.pts), isDone: localDone, isAssigned: false, sheetDone: false, completedDate: '', dateAssigned: '' });
       }
     });
 
     renderLB(); renderPersonFilters(); renderCategoryBreakdown(); renderTasks(); renderActivity(); completePendingTask();
     const done = G.tasks.filter(t=>t.sheetDone).length;
-    const totalPts = Object.values(G.players).reduce((s,p)=>s+p.pts,0);
+    const totalPts = Object.values(G.players).reduce((s,p)=>s+safePts(p.pts),0);
     setStatus(`${G.tasks.length} tasks · ${done} completed · ${totalPts} total points earned · source: Google Sheet`);
     toast(`✅ Loaded ${G.tasks.length} tasks from Sheet`);
   } catch(e) {
@@ -975,7 +967,7 @@ function autoCalcPoints(minutesStr) {
   const minutes = parseFloat(minutesStr);
   const pointsField = document.getElementById('pointsInput');
   if(!pointsField) return;
-  pointsField.value = minutes > 0 ? Math.round(minutes * 0.4) : 0;  // 2 pts per 5 min
+  pointsField.value = minutes > 0 ? Math.round(minutes * 0.4) : 0;
 }
 
 function submitAddTask(e) {
@@ -999,7 +991,7 @@ function submitAddTask(e) {
     titleFR: '',
     topic,
     description: fd.get('description').trim(),
-    points: Math.max(0, parseInt(fd.get('points')) || 0),
+    points: safePts(fd.get('points')),  // ← NaN-safe at entry point
     estTime: fd.get('estTime').trim(),
     questions: fd.get('questions').trim(),
     answers: fd.get('answers').trim(),
@@ -1033,7 +1025,6 @@ async function loadFromJson() {
   const arr = await r.json();
   if(!Array.isArray(arr) || arr.length === 0) throw new Error('tasks.json is empty — falling back to Sheets');
 
-  // Merge local tasks on top of JSON tasks
   const local = loadLocalTasks();
   const all = [...arr, ...local];
 
@@ -1048,7 +1039,7 @@ async function loadFromJson() {
       person: t.person || '',
       topic: t.topic || '',
       desc: t.description || t.desc || '',
-      pts: Math.max(0, parseInt(t.points ?? t.pts) || 0),
+      pts: safePts(t.points ?? t.pts),  // ← NaN-safe
       estTime: t.estTime || '',
       dateAdded: t.dateAdded || '',
       dateAssigned: t.dateAssigned || '',
@@ -1069,7 +1060,6 @@ async function loadFromJson() {
 /* ── Export ── */
 function exportJson() {
   const localTasks = loadLocalTasks();
-  // Combine sheet tasks (non-local) with local tasks, strip runtime-only fields
   const exportData = G.tasks
     .filter(t => !t._local)
     .map(t => ({
@@ -1080,7 +1070,6 @@ function exportJson() {
       questions: t.questions || '', answers: t.answers || '', worksheetText: t.worksheetText || ''
     }));
 
-  // append local tasks
   localTasks.forEach(lt => {
     if(!exportData.find(t => t.title === lt.title && t.dateAdded === lt.dateAdded)) {
       exportData.push(lt);
@@ -1095,7 +1084,7 @@ function exportJson() {
   toast('⬇ tasks.json downloaded — commit it to make tasks permanent');
 }
 
-/* ── Import (bulk add from JSON file, appends — never deletes) ── */
+/* ── Import ── */
 function importJsonTasks(file) {
   if(!file) return;
   const norm = s => String(s||'').trim().toLowerCase();
@@ -1128,9 +1117,6 @@ function importJsonTasks(file) {
       if(!title) { skipped++; return; }
       const person = String((raw && raw.person) || '').trim();
 
-      // A task only counts as a duplicate if a matching (same title + person)
-      // existing task is found that is NOT yet completed. If every match is
-      // already done, this is treated as a fresh (re-)occurrence and added.
       const matches = G.tasks.filter(t => norm(t.title) === norm(title) && norm(t.person) === norm(person));
       const isDup = matches.length > 0 && matches.some(t => !(t.isDone || t.sheetDone));
       if(isDup) { skipped++; return; }
@@ -1141,7 +1127,7 @@ function importJsonTasks(file) {
         person,
         topic: raw.topic || '',
         description: raw.description || raw.desc || '',
-        points: Math.max(0, parseInt(raw.points ?? raw.pts) || 0),
+        points: safePts(raw.points ?? raw.pts),  // ← NaN-safe at import
         estTime: String(raw.estTime || ''),
         questions: raw.questions || '',
         answers: raw.answers || '',
@@ -1187,7 +1173,7 @@ function applyTaskEdits(task) {
     person:    e.person    !== undefined ? e.person    : task.person,
     topic:     e.topic     !== undefined ? e.topic     : task.topic,
     estTime:   e.estTime   !== undefined ? e.estTime   : task.estTime,
-    pts:       e.pts       !== undefined ? e.pts       : task.pts,
+    pts:       e.pts       !== undefined ? safePts(e.pts) : task.pts,  // ← NaN-safe
     questions: e.questions !== undefined ? e.questions : task.questions,
     answers:   e.answers   !== undefined ? e.answers   : task.answers,
   };
@@ -1213,12 +1199,10 @@ function openEdit(key) {
   document.getElementById('et-time').value      = t.estTime   || '';
   document.getElementById('et-pts').value       = t.pts       ?? '';
 
-  // Person select
   const personSel = document.getElementById('et-person');
   personSel.value = t.person || '';
   if (personSel.value !== (t.person || '')) personSel.value = '';
 
-  // Category select — fall back to __other__ if not in the known list
   const topicSel = document.getElementById('et-topic');
   const topicVal = t.topic || '';
   if (KNOWN_TOPICS.includes(topicVal)) {

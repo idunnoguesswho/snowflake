@@ -15,6 +15,7 @@
   <a href="store.html" class="sync-btn" style="background:#a855f7;text-decoration:none;padding:4px 10px;font-size:.75rem">🎁 Store</a>
   <button class="sync-btn" style="background:#38d9a9;padding:4px 10px;font-size:.75rem" onclick="openAddTask()">+ Add Task</button>
   <button class="sync-btn" style="background:#4dabf7;padding:4px 10px;font-size:.75rem" onclick="exportJson()" title="Download tasks.json">⬇ Export</button>
+  <button class="sync-btn" id="ghSaveBtn" style="background:#238636;padding:4px 10px;font-size:.75rem" onclick="saveToGitHub()" title="Save tasks.json directly to GitHub">💾 Save</button>
   <button class="sync-btn" style="background:#f59f00;padding:4px 10px;font-size:.75rem" onclick="document.getElementById('importJsonInput').click()" title="Upload a JSON file of tasks to add">⬆ Import</button>
   <input type="file" id="importJsonInput" accept="application/json,.json" style="display:none" onchange="importJsonTasks(this.files[0])">
   <button class="sync-btn" id="syncBtn" style="padding:4px 10px;font-size:.75rem" onclick="sync()">
@@ -1082,6 +1083,79 @@ function exportJson() {
   a.download = 'tasks.json';
   a.click();
   toast('⬇ tasks.json downloaded — commit it to make tasks permanent');
+}
+
+/* ── Save to GitHub ── */
+async function saveToGitHub() {
+  const REPO = 'idunnoguesswho/snowflake';
+  const FILE = 'tasks.json';
+  const BRANCH = 'main';
+
+  let pat = localStorage.getItem('sf_github_pat') || '';
+  if (!pat) {
+    pat = prompt('Enter your GitHub PAT (saved locally for this session):');
+    if (!pat) return;
+    localStorage.setItem('sf_github_pat', pat);
+  }
+
+  const btn = document.getElementById('ghSaveBtn');
+  btn.textContent = '⏳ Saving…';
+  btn.disabled = true;
+
+  try {
+    // Build the same export data as exportJson()
+    const localTasks = loadLocalTasks();
+    const exportData = G.tasks
+      .filter(t => !t._local)
+      .map(t => ({
+        title: t.title, titleFR: t.titleFR, person: t.person, topic: t.topic,
+        description: t.desc, points: t.pts, estTime: t.estTime,
+        dateAdded: t.dateAdded, dateAssigned: t.dateAssigned,
+        isDone: t.isDone, completedDate: t.completedDate, links: t.links,
+        questions: t.questions || '', answers: t.answers || '', worksheetText: t.worksheetText || ''
+      }));
+    localTasks.forEach(lt => {
+      if (!exportData.find(t => t.title === lt.title && t.dateAdded === lt.dateAdded)) {
+        exportData.push(lt);
+      }
+    });
+
+    const content = JSON.stringify(exportData, null, 2);
+    const encoded = btoa(unescape(encodeURIComponent(content)));
+
+    // Get current SHA (needed for update)
+    const metaRes = await fetch(`https://api.github.com/repos/${REPO}/contents/${FILE}?ref=${BRANCH}`, {
+      headers: { Authorization: `token ${pat}`, Accept: 'application/vnd.github.v3+json' }
+    });
+    const meta = await metaRes.json();
+    const sha = meta.sha || undefined;
+
+    // PUT new content
+    const putRes = await fetch(`https://api.github.com/repos/${REPO}/contents/${FILE}`, {
+      method: 'PUT',
+      headers: { Authorization: `token ${pat}`, Accept: 'application/vnd.github.v3+json', 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        message: `chore: update tasks.json [${new Date().toISOString().slice(0,10)}]`,
+        content: encoded,
+        branch: BRANCH,
+        ...(sha ? { sha } : {})
+      })
+    });
+
+    if (!putRes.ok) {
+      const err = await putRes.json();
+      // Bad PAT — clear it so user can re-enter
+      if (putRes.status === 401) localStorage.removeItem('sf_github_pat');
+      throw new Error(err.message || putRes.status);
+    }
+
+    toast('✅ tasks.json saved to GitHub!');
+  } catch(e) {
+    toast(`❌ GitHub save failed: ${e.message}`);
+  } finally {
+    btn.textContent = '💾 Save';
+    btn.disabled = false;
+  }
 }
 
 /* ── Import ── */

@@ -1,509 +1,10 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>How Are You Feeling?</title>
-<style>
-:root {
-  --bg:       #eaf5fd;
-  --bg2:      #ffffff;
-  --border:   #cce0f0;
-  --text:     #1a2340;
-  --muted:    #7a90b0;
-  --coral:    #f0573a;
-  --yellow:   #f5c535;
-  --green:    #3dba78;
-  --lavender: #9b78f5;
-  --sky:      #3aabf0;
-  --r:        16px;
-  --rs:       10px;
-}
-
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-body {
-  background: var(--bg);
-  color: var(--text);
-  font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-  min-height: 100vh;
-  font-size: 16px;
-  -webkit-font-smoothing: antialiased;
-}
-
-/* ── Header ── */
-.header {
-  background: var(--bg2);
-  border-bottom: 2px solid var(--border);
-  padding: 18px 28px 14px;
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  flex-wrap: wrap;
-}
-
-.header-title {
-  font-size: 22px;
-  font-weight: 800;
-  letter-spacing: -0.02em;
-  color: var(--text);
-  flex: 1;
-}
-
-.header-date {
-  font-size: 13px;
-  color: var(--muted);
-  font-weight: 500;
-}
-
-.header-actions { display: flex; gap: 8px; align-items: center; }
-
-.sync-pill {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  background: var(--bg);
-  border: 1px solid var(--border);
-  border-radius: 20px;
-  padding: 5px 12px;
-  font-size: 12px;
-  color: var(--muted);
-  font-weight: 500;
-}
-
-.sync-dot {
-  width: 7px; height: 7px;
-  border-radius: 50%;
-  background: var(--border);
-  flex-shrink: 0;
-}
-.sync-dot.ok   { background: var(--green); }
-.sync-dot.err  { background: var(--coral); }
-.sync-dot.busy { background: var(--yellow); animation: blink 0.9s infinite; }
-
-@keyframes blink { 0%,100% { opacity:1; } 50% { opacity:0.25; } }
-
-.btn-settings {
-  background: var(--bg);
-  border: 1px solid var(--border);
-  border-radius: var(--rs);
-  color: var(--muted);
-  cursor: pointer;
-  padding: 7px 12px;
-  font-size: 15px;
-  line-height: 1;
-  transition: background 0.15s;
-}
-.btn-settings:hover { background: var(--border); }
-.btn-settings:focus-visible { outline: 2px solid var(--sky); outline-offset: 2px; }
-
-/* ── Settings panel ── */
-.settings-panel {
-  background: var(--bg2);
-  border-bottom: 2px solid var(--border);
-  padding: 16px 28px;
-  display: none;
-  flex-direction: column;
-  gap: 10px;
-}
-.settings-panel.open { display: flex; }
-
-.settings-row {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  flex-wrap: wrap;
-}
-
-.settings-label {
-  font-size: 13px;
-  color: var(--muted);
-  font-weight: 500;
-  min-width: 130px;
-  flex-shrink: 0;
-}
-
-.settings-input {
-  background: var(--bg);
-  border: 1.5px solid var(--border);
-  border-radius: var(--rs);
-  color: var(--text);
-  font-family: monospace;
-  font-size: 13px;
-  padding: 8px 12px;
-  flex: 1;
-  min-width: 200px;
-  outline: none;
-}
-.settings-input:focus { border-color: var(--sky); }
-
-.settings-note {
-  font-size: 12px;
-  color: var(--muted);
-  line-height: 1.5;
-}
-.settings-note a { color: var(--sky); }
-
-/* ── Page ── */
-.page {
-  max-width: 680px;
-  margin: 0 auto;
-  padding: 28px 20px 60px;
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
-}
-
-/* ── Big face picker (main) ── */
-.face-hero {
-  background: var(--bg2);
-  border-radius: var(--r);
-  border: 2px solid var(--border);
-  padding: 24px 20px 22px;
-  text-align: center;
-}
-
-.face-hero-q {
-  font-size: 20px;
-  font-weight: 800;
-  letter-spacing: -0.01em;
-  margin-bottom: 20px;
-  text-wrap: balance;
-}
-
-.face-row {
-  display: flex;
-  justify-content: center;
-  gap: 8px;
-  flex-wrap: wrap;
-}
-
-.face-btn {
-  background: var(--bg);
-  border: 2.5px solid transparent;
-  border-radius: 14px;
-  cursor: pointer;
-  padding: 10px 12px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 6px;
-  font-size: 36px;
-  line-height: 1;
-  transition: background 0.12s, border-color 0.12s, transform 0.1s;
-  min-width: 72px;
-}
-
-.face-btn span.lbl {
-  font-size: 11px;
-  font-weight: 600;
-  color: var(--muted);
-  letter-spacing: 0.03em;
-  text-transform: uppercase;
-  line-height: 1;
-}
-
-.face-btn:hover { background: var(--border); transform: scale(1.06); }
-.face-btn.selected { border-color: var(--sky); background: #dff0fb; }
-.face-btn:focus-visible { outline: 2px solid var(--sky); outline-offset: 2px; }
-
-/* ── Category cards ── */
-.cat-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 12px;
-}
-
-.cat-card {
-  background: var(--bg2);
-  border: 2px solid var(--border);
-  border-radius: var(--r);
-  padding: 16px 14px 14px;
-  transition: border-color 0.15s;
-}
-
-.cat-card:focus-within { border-color: var(--sky); }
-
-.cat-title {
-  font-size: 14px;
-  font-weight: 700;
-  margin-bottom: 12px;
-  display: flex;
-  align-items: center;
-  gap: 7px;
-}
-
-.cat-title-icon { font-size: 18px; line-height: 1; }
-
-.cat-faces {
-  display: flex;
-  gap: 4px;
-  justify-content: space-between;
-}
-
-.cat-face-btn {
-  background: var(--bg);
-  border: 2px solid transparent;
-  border-radius: 10px;
-  cursor: pointer;
-  padding: 6px 4px;
-  font-size: 22px;
-  line-height: 1;
-  flex: 1;
-  text-align: center;
-  transition: background 0.12s, border-color 0.12s, transform 0.1s;
-}
-
-.cat-face-btn:hover { background: var(--border); transform: scale(1.1); }
-.cat-face-btn.selected { border-color: var(--sky); background: #dff0fb; }
-.cat-face-btn:focus-visible { outline: 2px solid var(--sky); outline-offset: 2px; }
-
-/* ── Notes ── */
-.notes-card {
-  background: var(--bg2);
-  border: 2px solid var(--border);
-  border-radius: var(--r);
-  padding: 18px;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-.notes-qs {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 10px;
-}
-
-.notes-q { display: flex; flex-direction: column; gap: 6px; }
-
-.notes-label {
-  font-size: 13px;
-  font-weight: 700;
-  color: var(--text);
-}
-
-textarea {
-  background: var(--bg);
-  border: 1.5px solid var(--border);
-  border-radius: var(--rs);
-  color: var(--text);
-  font-family: inherit;
-  font-size: 14px;
-  padding: 10px 12px;
-  resize: none;
-  height: 72px;
-  outline: none;
-  line-height: 1.5;
-  transition: border-color 0.15s;
-  width: 100%;
-}
-textarea::placeholder { color: var(--muted); font-style: italic; }
-textarea:focus { border-color: var(--sky); }
-
-/* ── Submit ── */
-.submit-row {
-  display: flex;
-  justify-content: flex-end;
-  gap: 10px;
-}
-
-.btn-submit {
-  background: var(--coral);
-  color: #fff;
-  border: none;
-  border-radius: var(--rs);
-  padding: 13px 28px;
-  font-size: 16px;
-  font-weight: 700;
-  cursor: pointer;
-  letter-spacing: -0.01em;
-  transition: opacity 0.15s, transform 0.1s;
-}
-.btn-submit:hover { opacity: 0.88; }
-.btn-submit:active { transform: scale(0.97); }
-.btn-submit:disabled { opacity: 0.35; cursor: not-allowed; }
-.btn-submit:focus-visible { outline: 2px solid var(--coral); outline-offset: 3px; }
-
-.btn-clear {
-  background: transparent;
-  color: var(--muted);
-  border: 1.5px solid var(--border);
-  border-radius: var(--rs);
-  padding: 13px 18px;
-  font-size: 15px;
-  cursor: pointer;
-  font-weight: 500;
-  transition: color 0.15s, border-color 0.15s;
-}
-.btn-clear:hover { color: var(--text); border-color: var(--muted); }
-.btn-clear:focus-visible { outline: 2px solid var(--sky); outline-offset: 2px; }
-
-/* ── Log section ── */
-.log-section {
-  border-top: 2px solid var(--border);
-  padding-top: 28px;
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-
-.log-heading {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.log-title {
-  font-size: 16px;
-  font-weight: 800;
-  letter-spacing: -0.01em;
-}
-
-.log-count { font-size: 13px; color: var(--muted); font-weight: 500; }
-
-.log-empty {
-  text-align: center;
-  padding: 40px 0;
-  font-size: 15px;
-  color: var(--muted);
-  font-style: italic;
-}
-
-/* ── Report cards ── */
-.rc {
-  background: var(--bg2);
-  border: 2px solid var(--border);
-  border-radius: var(--r);
-  overflow: hidden;
-}
-
-.rc-head {
-  padding: 14px 18px 12px;
-  border-bottom: 1.5px solid var(--border);
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: 12px;
-}
-
-.rc-left {}
-
-.rc-date {
-  font-size: 11px;
-  color: var(--muted);
-  font-weight: 600;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-  margin-bottom: 4px;
-}
-
-.rc-overall {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.rc-main-face { font-size: 34px; line-height: 1; }
-.rc-main-label { font-size: 14px; font-weight: 700; color: var(--text); }
-
-.rc-stars {
-  font-size: 22px;
-  letter-spacing: 1px;
-  line-height: 1;
-  flex-shrink: 0;
-}
-
-.rc-body {
-  padding: 12px 18px 14px;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-.rc-cats {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 8px;
-}
-
-.rc-cat {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  font-size: 12px;
-  font-weight: 600;
-  color: var(--muted);
-}
-
-.rc-cat-icon { font-size: 14px; line-height: 1; }
-.rc-cat-face { font-size: 18px; line-height: 1; }
-
-.rc-notes {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 8px;
-  padding-top: 10px;
-  border-top: 1.5px solid var(--border);
-}
-
-.rc-note-block { display: flex; flex-direction: column; gap: 3px; }
-.rc-note-lbl { font-size: 10px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em; }
-.rc-note-val { font-size: 12px; color: var(--text); font-style: italic; line-height: 1.4; }
-
-.rc-foot {
-  padding: 7px 18px;
-  border-top: 1.5px solid var(--border);
-  display: flex;
-  justify-content: flex-end;
-}
-
-.btn-del {
-  background: transparent;
-  border: none;
-  color: var(--muted);
-  cursor: pointer;
-  font-size: 12px;
-  padding: 0;
-  opacity: 0.4;
-  transition: opacity 0.15s, color 0.15s;
-}
-.btn-del:hover { opacity: 1; color: var(--coral); }
-
-/* ── Toast ── */
-.toast {
-  position: fixed;
-  bottom: 24px; right: 24px;
-  background: var(--text);
-  color: #fff;
-  border-radius: var(--rs);
-  padding: 10px 16px;
-  font-size: 13px;
-  font-weight: 600;
-  box-shadow: 0 6px 24px rgba(26,35,64,0.18);
-  opacity: 0;
-  transform: translateY(8px);
-  transition: opacity 0.2s, transform 0.2s;
-  pointer-events: none;
-  z-index: 100;
-}
-.toast.show { opacity: 1; transform: translateY(0); }
-
-/* ── Responsive ── */
-@media (max-width: 500px) {
-  .cat-grid { grid-template-columns: 1fr; }
-  .notes-qs { grid-template-columns: 1fr; }
-  .rc-cats  { grid-template-columns: repeat(2,1fr); }
-  .rc-notes { grid-template-columns: 1fr; }
-  .face-btn { min-width: 56px; font-size: 30px; }
-  .header { padding: 14px 16px; }
-  .page { padding: 18px 14px 48px; }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after { transition: none !important; animation: none !important; }
-}
-</style>
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
 
@@ -516,7 +17,7 @@ textarea:focus { border-color: var(--sky); }
       <div class="sync-dot" id="sync-dot"></div>
       <span id="sync-text">Local</span>
     </div>
-    <button class="btn-settings" id="btn-settings" title="Sync settings" aria-expanded="false">⚙</button>
+    <button class="btn-settings" id="btn-settings" title="Sync settings" aria-expanded="false">âš™</button>
   </div>
 </header>
 
@@ -532,7 +33,7 @@ textarea:focus { border-color: var(--sky); }
   <p class="settings-note">
     Needs <strong>Contents: read &amp; write</strong> on <code>idunnoguesswho/snowflake</code>.
     Saves to <code>kids/log.json</code>.
-    <a href="https://github.com/settings/tokens/new?scopes=repo&description=Kids+Tracker" target="_blank" rel="noopener">Create token ↗</a>
+    <a href="https://github.com/settings/tokens/new?scopes=repo&description=Kids+Tracker" target="_blank" rel="noopener">Create token â†—</a>
   </p>
 </div>
 
@@ -552,12 +53,12 @@ textarea:focus { border-color: var(--sky); }
   <div class="notes-card">
     <div class="notes-qs">
       <div class="notes-q">
-        <label class="notes-label" for="note-good">⭐ What was the best part of today?</label>
-        <textarea id="note-good" placeholder="Something that made me smile…" rows="3"></textarea>
+        <label class="notes-label" for="note-good">â­ What was the best part of today?</label>
+        <textarea id="note-good" placeholder="Something that made me smileâ€¦" rows="3"></textarea>
       </div>
       <div class="notes-q">
-        <label class="notes-label" for="note-hard">💭 What was hard today?</label>
-        <textarea id="note-hard" placeholder="Something that felt tough…" rows="3"></textarea>
+        <label class="notes-label" for="note-hard">ðŸ’­ What was hard today?</label>
+        <textarea id="note-hard" placeholder="Something that felt toughâ€¦" rows="3"></textarea>
       </div>
     </div>
   </div>
@@ -565,7 +66,7 @@ textarea:focus { border-color: var(--sky); }
   <!-- Submit -->
   <div class="submit-row">
     <button class="btn-clear" id="btn-clear">Clear</button>
-    <button class="btn-submit" id="btn-submit">Save my feelings ✓</button>
+    <button class="btn-submit" id="btn-submit">Save my feelings âœ“</button>
   </div>
 
   <!-- Log -->
@@ -575,7 +76,7 @@ textarea:focus { border-color: var(--sky); }
       <div class="log-count" id="log-count"></div>
     </div>
     <div id="log-empty" class="log-empty" style="display:none">
-      No entries yet — fill in how you feel above!
+      No entries yet â€” fill in how you feel above!
     </div>
     <div id="log-grid"></div>
   </div>
@@ -590,20 +91,20 @@ const LOG_PATH = 'kids/log.json';
 const API_BASE = 'https://api.github.com';
 
 const FACES = [
-  { emoji: '😢', label: 'Really sad',   score: 1, stars: '★☆☆☆☆' },
-  { emoji: '😕', label: 'A bit sad',    score: 2, stars: '★★☆☆☆' },
-  { emoji: '😐', label: 'Okay',         score: 3, stars: '★★★☆☆' },
-  { emoji: '🙂', label: 'Pretty good',  score: 4, stars: '★★★★☆' },
-  { emoji: '😄', label: 'Amazing!',     score: 5, stars: '★★★★★' },
+  { emoji: 'ðŸ˜¢', label: 'Really sad',   score: 1, stars: 'â˜…â˜†â˜†â˜†â˜†' },
+  { emoji: 'ðŸ˜•', label: 'A bit sad',    score: 2, stars: 'â˜…â˜…â˜†â˜†â˜†' },
+  { emoji: 'ðŸ˜', label: 'Okay',         score: 3, stars: 'â˜…â˜…â˜…â˜†â˜†' },
+  { emoji: 'ðŸ™‚', label: 'Pretty good',  score: 4, stars: 'â˜…â˜…â˜…â˜…â˜†' },
+  { emoji: 'ðŸ˜„', label: 'Amazing!',     score: 5, stars: 'â˜…â˜…â˜…â˜…â˜…' },
 ];
 
 const CATS = [
-  { id: 'school',   label: 'School',   icon: '📚' },
-  { id: 'friends',  label: 'Friends',  icon: '👫' },
-  { id: 'family',   label: 'Home',     icon: '🏠' },
-  { id: 'energy',   label: 'Energy',   icon: '⚡' },
-  { id: 'body',     label: 'Body',     icon: '💪' },
-  { id: 'sleep',    label: 'Sleep',    icon: '😴' },
+  { id: 'school',   label: 'School',   icon: 'ðŸ“š' },
+  { id: 'friends',  label: 'Friends',  icon: 'ðŸ‘«' },
+  { id: 'family',   label: 'Home',     icon: 'ðŸ ' },
+  { id: 'energy',   label: 'Energy',   icon: 'âš¡' },
+  { id: 'body',     label: 'Body',     icon: 'ðŸ’ª' },
+  { id: 'sleep',    label: 'Sleep',    icon: 'ðŸ˜´' },
 ];
 
 // State
@@ -670,7 +171,7 @@ function clearForm() {
 
 document.getElementById('btn-clear').addEventListener('click', clearForm);
 
-// ── GitHub helpers ──
+// â”€â”€ GitHub helpers â”€â”€
 let fileSha = null;
 
 function getPAT() { return localStorage.getItem('kids-tracker-pat') || ''; }
@@ -697,7 +198,7 @@ async function fetchLog() {
   const pat = getPAT();
   if (!pat) { setSyncStatus('', 'Local only'); return getLocal(); }
 
-  setSyncStatus('busy', 'Loading…');
+  setSyncStatus('busy', 'Loadingâ€¦');
   try {
     const res = await fetch(`${API_BASE}/repos/${REPO}/contents/${LOG_PATH}`, {
       headers: { Authorization: `Bearer ${pat}`, Accept: 'application/vnd.github+json' }
@@ -711,7 +212,7 @@ async function fetchLog() {
     return log;
   } catch (err) {
     setSyncStatus('err', err.message);
-    showToast('⚠ ' + err.message);
+    showToast('âš  ' + err.message);
     return getLocal();
   }
 }
@@ -720,7 +221,7 @@ async function pushLog(log) {
   const pat = getPAT();
   if (!pat) { saveLocal(log); return; }
 
-  setSyncStatus('busy', 'Saving…');
+  setSyncStatus('busy', 'Savingâ€¦');
   try {
     fileSha = await fetchFileSha(pat);
     const res = await fetch(`${API_BASE}/repos/${REPO}/contents/${LOG_PATH}`, {
@@ -731,7 +232,7 @@ async function pushLog(log) {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        message: `Kids log — ${new Date().toISOString().slice(0, 10)}`,
+        message: `Kids log â€” ${new Date().toISOString().slice(0, 10)}`,
         content: toBase64(JSON.stringify(log, null, 2)),
         ...(fileSha ? { sha: fileSha } : {})
       })
@@ -740,10 +241,10 @@ async function pushLog(log) {
     const data = await res.json();
     fileSha = data.content.sha;
     saveLocal(log);
-    setSyncStatus('ok', 'Saved ✓');
+    setSyncStatus('ok', 'Saved âœ“');
   } catch (err) {
     setSyncStatus('err', err.message);
-    showToast('⚠ Save failed: ' + err.message);
+    showToast('âš  Save failed: ' + err.message);
     saveLocal(log);
   }
 }
@@ -781,7 +282,7 @@ document.getElementById('btn-submit').addEventListener('click', async () => {
   currentLog.unshift(entry);
   renderLog();
   await pushLog(currentLog);
-  showToast('Saved! 🎉');
+  showToast('Saved! ðŸŽ‰');
   clearForm();
   btn.disabled = false;
 });
@@ -814,18 +315,18 @@ function renderLog() {
       return `<div class="rc-cat">
         <span class="rc-cat-icon">${cat.icon}</span>
         <span>${cat.label}</span>
-        <span class="rc-cat-face">${f ? f.emoji : '—'}</span>
+        <span class="rc-cat-face">${f ? f.emoji : 'â€”'}</span>
       </div>`;
     }).join('');
 
     const notesHtml = (entry.noteGood || entry.noteHard) ? `
       <div class="rc-notes">
         ${entry.noteGood ? `<div class="rc-note-block">
-          <div class="rc-note-lbl">⭐ Best part</div>
+          <div class="rc-note-lbl">â­ Best part</div>
           <div class="rc-note-val">"${entry.noteGood}"</div>
         </div>` : ''}
         ${entry.noteHard ? `<div class="rc-note-block">
-          <div class="rc-note-lbl">💭 What was hard</div>
+          <div class="rc-note-lbl">ðŸ’­ What was hard</div>
           <div class="rc-note-val">"${entry.noteHard}"</div>
         </div>` : ''}
       </div>` : '';
@@ -835,7 +336,7 @@ function renderLog() {
     card.innerHTML = `
       <div class="rc-head">
         <div class="rc-left">
-          <div class="rc-date">${dateStr} · ${timeStr}</div>
+          <div class="rc-date">${dateStr} Â· ${timeStr}</div>
           <div class="rc-overall">
             <span class="rc-main-face">${face.emoji}</span>
             <span class="rc-main-label">${face.label}</span>
@@ -878,7 +379,7 @@ document.getElementById('btn-save-pat').addEventListener('click', async () => {
   localStorage.setItem('kids-tracker-pat', val);
   settingsPanel.classList.remove('open');
   settingsBtn.setAttribute('aria-expanded', 'false');
-  showToast('Token saved — loading…');
+  showToast('Token saved â€” loadingâ€¦');
   await loadAndRender();
 });
 

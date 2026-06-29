@@ -1,0 +1,1086 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>BPD Mood Tracker</title>
+<style>
+:root {
+  --bg: #0c0f17;
+  --surface: #131826;
+  --surface-2: #1a2235;
+  --border: #222d42;
+  --border-2: #2e3d58;
+  --text: #d5dcef;
+  --muted: #58638a;
+  --accent: #c49a3c;
+  --accent-dim: rgba(196,154,60,0.13);
+  --green:  #52b27e;
+  --teal:   #38b8ae;
+  --yellow: #d4b030;
+  --orange: #d87230;
+  --red:    #d44e32;
+  --r: 10px;
+  --rs: 6px;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+  min-height: 100vh;
+  font-size: 14px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── Header ── */
+.site-header {
+  padding: 22px 40px 16px;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.site-title {
+  font-size: 17px;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+
+.site-title em { font-style: normal; color: var(--accent); }
+
+.site-date {
+  font-size: 11px;
+  color: var(--muted);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  margin-right: auto;
+}
+
+.header-actions { display: flex; align-items: center; gap: 10px; }
+
+.sync-status {
+  font-size: 11px;
+  color: var(--muted);
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.sync-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--muted);
+  flex-shrink: 0;
+}
+.sync-dot.ok  { background: var(--green); }
+.sync-dot.err { background: var(--red); }
+.sync-dot.busy { background: var(--yellow); animation: pulse 1s infinite; }
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.3; }
+}
+
+.btn-icon {
+  background: transparent;
+  border: 1px solid var(--border);
+  border-radius: var(--rs);
+  color: var(--muted);
+  cursor: pointer;
+  padding: 6px 10px;
+  font-size: 13px;
+  line-height: 1;
+  transition: color 0.15s, border-color 0.15s;
+}
+
+.btn-icon:hover { color: var(--text); border-color: var(--border-2); }
+.btn-icon:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+/* ── Settings panel ── */
+.settings-panel {
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  padding: 18px 40px;
+  display: none;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.settings-panel.open { display: flex; }
+
+.settings-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.settings-label {
+  font-size: 12px;
+  color: var(--muted);
+  min-width: 140px;
+  flex-shrink: 0;
+}
+
+.settings-input {
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: var(--rs);
+  color: var(--text);
+  font-family: monospace;
+  font-size: 12px;
+  padding: 7px 11px;
+  outline: none;
+  flex: 1;
+  min-width: 200px;
+  transition: border-color 0.15s;
+}
+
+.settings-input:focus { border-color: var(--border-2); }
+
+.settings-note {
+  font-size: 11px;
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+.settings-note a { color: var(--accent); text-decoration: none; }
+.settings-note a:hover { text-decoration: underline; }
+
+/* ── Page grid ── */
+.page {
+  max-width: 1060px;
+  margin: 0 auto;
+  padding: 34px 40px 56px;
+  display: grid;
+  grid-template-columns: 154px 1fr;
+  grid-template-rows: auto auto;
+  column-gap: 52px;
+}
+
+/* ── Thermometer ── */
+.thermo-panel {
+  grid-column: 1;
+  grid-row: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  position: sticky;
+  top: 32px;
+  align-self: start;
+}
+
+.thermo-eyebrow {
+  font-size: 9px;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--muted);
+  text-align: center;
+}
+
+.thermo-big {
+  font-size: 56px;
+  font-weight: 700;
+  letter-spacing: -0.05em;
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+  color: var(--accent);
+  text-align: center;
+  transition: color 0.25s;
+}
+
+.thermo-desc {
+  font-size: 11px;
+  color: var(--muted);
+  font-style: italic;
+  text-align: center;
+  min-height: 30px;
+  line-height: 1.4;
+  max-width: 120px;
+}
+
+.thermo-range-label {
+  font-size: 9px;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--muted);
+  text-align: center;
+}
+
+/* ── Form panel ── */
+.form-panel {
+  grid-column: 2;
+  grid-row: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 26px;
+}
+
+.panel-eyebrow {
+  font-size: 9px;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--muted);
+  margin-bottom: 12px;
+}
+
+.score-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.score-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r);
+  padding: 13px 15px 14px;
+  transition: border-color 0.15s;
+}
+
+.score-card:focus-within { border-color: var(--border-2); }
+
+.score-card-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 9px;
+  gap: 8px;
+}
+
+.score-name {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--text);
+  line-height: 1.3;
+}
+
+.score-val {
+  font-size: 12px;
+  font-variant-numeric: tabular-nums;
+  font-weight: 700;
+  color: var(--muted);
+  min-width: 14px;
+  text-align: right;
+  flex-shrink: 0;
+  transition: color 0.2s;
+}
+
+/* ── Range inputs ── */
+input[type=range] {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 3px;
+  border-radius: 2px;
+  background: var(--border);
+  outline: none;
+  cursor: pointer;
+}
+
+input[type=range]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--thumb-color, var(--accent));
+  border: 2px solid var(--bg);
+  cursor: grab;
+  transition: transform 0.1s;
+}
+
+input[type=range]::-webkit-slider-thumb:hover { transform: scale(1.25); }
+input[type=range]::-webkit-slider-thumb:active { cursor: grabbing; transform: scale(1.35); }
+input[type=range]:focus-visible::-webkit-slider-thumb { box-shadow: 0 0 0 3px var(--accent-dim); }
+
+/* ── Notes ── */
+.notes-wrap { display: flex; flex-direction: column; gap: 8px; }
+
+textarea {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r);
+  color: var(--text);
+  font-family: inherit;
+  font-size: 13px;
+  padding: 12px 14px;
+  resize: vertical;
+  min-height: 68px;
+  outline: none;
+  line-height: 1.6;
+  transition: border-color 0.15s;
+  width: 100%;
+}
+
+textarea::placeholder { color: var(--muted); }
+textarea:focus { border-color: var(--border-2); }
+
+/* ── Actions ── */
+.actions {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 10px;
+}
+
+.btn-primary {
+  background: var(--accent);
+  color: #0a0d13;
+  border: none;
+  border-radius: var(--rs);
+  padding: 9px 22px;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  cursor: pointer;
+  transition: opacity 0.15s, transform 0.1s;
+}
+
+.btn-primary:hover { opacity: 0.88; }
+.btn-primary:active { transform: scale(0.97); }
+.btn-primary:disabled { opacity: 0.4; cursor: not-allowed; }
+.btn-primary:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+.btn-ghost {
+  background: transparent;
+  color: var(--muted);
+  border: 1px solid var(--border);
+  border-radius: var(--rs);
+  padding: 9px 16px;
+  font-size: 13px;
+  cursor: pointer;
+  transition: color 0.15s, border-color 0.15s;
+}
+
+.btn-ghost:hover { color: var(--text); border-color: var(--border-2); }
+.btn-ghost:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+/* ── Log section ── */
+.log-section {
+  grid-column: 1 / -1;
+  grid-row: 2;
+  margin-top: 44px;
+  padding-top: 36px;
+  border-top: 1px solid var(--border);
+}
+
+.log-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.log-count {
+  font-size: 11px;
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.log-empty {
+  text-align: center;
+  padding: 56px 0;
+  color: var(--muted);
+  font-size: 13px;
+  font-style: italic;
+}
+
+.log-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+  gap: 14px;
+}
+
+/* ── Report cards ── */
+.report-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transition: border-color 0.15s;
+}
+
+.report-card:hover { border-color: var(--border-2); }
+
+.rc-head {
+  padding: 14px 16px 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  border-bottom: 1px solid var(--border);
+  gap: 12px;
+}
+
+.rc-meta { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+
+.rc-date {
+  font-size: 10px;
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.02em;
+}
+
+.rc-emotion-row { display: flex; align-items: baseline; gap: 7px; }
+
+.rc-emotion-num {
+  font-size: 26px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.04em;
+  line-height: 1;
+}
+
+.rc-emotion-label {
+  font-size: 11px;
+  color: var(--muted);
+  font-style: italic;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 110px;
+}
+
+.rc-grade-wrap { text-align: right; flex-shrink: 0; }
+
+.rc-grade {
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: 38px;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -0.02em;
+}
+
+.rc-grade-sub {
+  font-size: 9px;
+  color: var(--muted);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  margin-top: 2px;
+}
+
+.rc-body { padding: 12px 16px; flex: 1; }
+
+.rc-bars {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px 14px;
+}
+
+.rc-bar { display: flex; flex-direction: column; gap: 3px; }
+
+.rc-bar-name {
+  font-size: 9px;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: var(--muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.rc-bar-track {
+  height: 3px;
+  background: var(--border);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.rc-bar-fill { height: 100%; border-radius: 2px; min-width: 1px; }
+
+.rc-note {
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px solid var(--border);
+  font-size: 12px;
+  color: var(--muted);
+  font-style: italic;
+  line-height: 1.5;
+}
+
+.rc-foot {
+  padding: 7px 16px;
+  border-top: 1px solid var(--border);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.rc-avg { font-size: 10px; color: var(--muted); font-variant-numeric: tabular-nums; }
+
+.btn-delete {
+  background: transparent;
+  border: none;
+  color: var(--muted);
+  cursor: pointer;
+  font-size: 11px;
+  padding: 0;
+  opacity: 0.45;
+  transition: opacity 0.15s, color 0.15s;
+}
+
+.btn-delete:hover { opacity: 1; color: var(--red); }
+
+/* ── Safety note ── */
+.safety-note {
+  max-width: 1060px;
+  margin: 0 auto;
+  padding: 18px 40px 36px;
+  font-size: 11px;
+  color: var(--muted);
+  line-height: 1.6;
+  border-top: 1px solid var(--border);
+}
+
+.safety-note strong { color: var(--text); font-weight: 500; }
+
+/* ── Toast ── */
+.toast {
+  position: fixed;
+  bottom: 28px;
+  right: 28px;
+  background: var(--surface-2);
+  border: 1px solid var(--border-2);
+  border-radius: var(--rs);
+  padding: 10px 16px;
+  font-size: 12px;
+  color: var(--text);
+  box-shadow: 0 8px 32px rgba(0,0,0,0.5);
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity 0.2s, transform 0.2s;
+  pointer-events: none;
+  z-index: 200;
+}
+
+.toast.show { opacity: 1; transform: translateY(0); }
+
+/* ── Responsive ── */
+@media (max-width: 660px) {
+  .page {
+    grid-template-columns: 1fr;
+    padding: 24px 18px 48px;
+  }
+
+  .thermo-panel {
+    position: static;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 16px 24px;
+    padding-bottom: 28px;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 28px;
+  }
+
+  .thermo-panel .thermo-eyebrow,
+  .thermo-panel .thermo-range-label { display: none; }
+
+  .form-panel { grid-column: 1; grid-row: 2; }
+  .log-section { grid-row: 3; }
+  .score-grid { grid-template-columns: 1fr; }
+  .site-header, .settings-panel, .safety-note { padding-left: 18px; padding-right: 18px; }
+}
+
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; animation: none !important; } }
+</style>
+</head>
+<body>
+
+<!-- ── Header ── -->
+<header class="site-header">
+  <h1 class="site-title">BPD <em>Mood Tracker</em></h1>
+  <span class="site-date" id="today-label"></span>
+  <div class="header-actions">
+    <div class="sync-status" id="sync-status">
+      <div class="sync-dot" id="sync-dot"></div>
+      <span id="sync-text">Not configured</span>
+    </div>
+    <button class="btn-icon" id="btn-settings" title="GitHub sync settings" aria-expanded="false">⚙</button>
+  </div>
+</header>
+
+<!-- ── Settings panel ── -->
+<div class="settings-panel" id="settings-panel" role="region" aria-label="Sync settings">
+  <div class="settings-row">
+    <span class="settings-label">GitHub Personal Access Token</span>
+    <input type="password" class="settings-input" id="pat-input"
+           placeholder="ghp_xxxxxxxxxxxxxxxxxxxx"
+           autocomplete="off" spellcheck="false">
+    <button class="btn-ghost" id="btn-save-pat" style="flex-shrink:0">Save token</button>
+    <button class="btn-ghost" id="btn-clear-pat" style="flex-shrink:0">Remove</button>
+  </div>
+  <p class="settings-note">
+    Token needs <strong>Contents: read &amp; write</strong> scope on the
+    <code>idunnoguesswho/snowflake</code> repo. Entries are committed to
+    <code>bpd/log.json</code>.
+    <a href="https://github.com/settings/tokens/new?scopes=repo&description=BPD+Tracker" target="_blank" rel="noopener">
+      Create a token ↗
+    </a>
+    — your token stays in <code>localStorage</code> and is never sent anywhere except GitHub's API.
+  </p>
+</div>
+
+<!-- ── Main ── -->
+<div class="page">
+
+  <!-- Thermometer -->
+  <aside class="thermo-panel" role="group" aria-label="Emotional intensity">
+    <div class="thermo-eyebrow">Emotional Intensity</div>
+
+    <svg viewBox="0 0 100 330" width="72" height="238" aria-hidden="true">
+      <defs>
+        <clipPath id="tc">
+          <rect x="38" y="10" width="24" height="258" rx="12"/>
+          <circle cx="50" cy="285" r="27"/>
+        </clipPath>
+        <linearGradient id="tg" x1="0" y1="1" x2="0" y2="0">
+          <stop offset="0%"   stop-color="#38b8ae"/>
+          <stop offset="35%"  stop-color="#d4b030"/>
+          <stop offset="65%"  stop-color="#d87230"/>
+          <stop offset="100%" stop-color="#d44e32"/>
+        </linearGradient>
+      </defs>
+      <rect x="38" y="10" width="24" height="258" rx="12" fill="#131826" stroke="#222d42" stroke-width="1.5"/>
+      <circle cx="50" cy="285" r="27" fill="#131826" stroke="#222d42" stroke-width="1.5"/>
+      <rect id="tf" x="30" y="268" width="40" height="80" fill="url(#tg)" clip-path="url(#tc)"/>
+      <!-- Ticks at 0,2,4,6,8,10 — y = 268 - v*25.8 -->
+      <line x1="62" y1="268"   x2="69" y2="268"   stroke="#222d42" stroke-width="1"/>
+      <line x1="62" y1="216.4" x2="68" y2="216.4" stroke="#222d42" stroke-width="0.8"/>
+      <line x1="62" y1="164.8" x2="68" y2="164.8" stroke="#222d42" stroke-width="0.8"/>
+      <line x1="62" y1="113.2" x2="68" y2="113.2" stroke="#222d42" stroke-width="0.8"/>
+      <line x1="62" y1="61.6"  x2="68" y2="61.6"  stroke="#222d42" stroke-width="0.8"/>
+      <line x1="62" y1="10"    x2="69" y2="10"    stroke="#222d42" stroke-width="1"/>
+      <text x="71" y="272" font-size="8" fill="#58638a" font-family="monospace">0</text>
+      <text x="71" y="220" font-size="8" fill="#58638a" font-family="monospace">2</text>
+      <text x="71" y="168" font-size="8" fill="#58638a" font-family="monospace">4</text>
+      <text x="71" y="116" font-size="8" fill="#58638a" font-family="monospace">6</text>
+      <text x="71" y="65"  font-size="8" fill="#58638a" font-family="monospace">8</text>
+      <text x="71" y="14"  font-size="8" fill="#58638a" font-family="monospace">10</text>
+      <rect x="42" y="14" width="5" height="252" rx="2.5" fill="rgba(255,255,255,0.05)" clip-path="url(#tc)"/>
+    </svg>
+
+    <div class="thermo-big" id="thermo-big">0</div>
+    <div class="thermo-desc" id="thermo-desc">Completely calm</div>
+
+    <div style="width:100%">
+      <div class="thermo-range-label" style="margin-bottom:6px">Drag to set</div>
+      <input type="range" id="thermo-inp" min="0" max="10" step="1" value="0"
+             aria-label="Emotional intensity 0 to 10">
+    </div>
+  </aside>
+
+  <!-- Scorecard -->
+  <section class="form-panel" aria-label="Symptom scorecard">
+    <div>
+      <div class="panel-eyebrow">Symptom Scorecard — 0 (none) to 10 (extreme)</div>
+      <div class="score-grid" id="score-grid"></div>
+    </div>
+
+    <div class="notes-wrap">
+      <div class="panel-eyebrow">Notes</div>
+      <textarea id="notes" placeholder="Triggers, context, what helped…" rows="3"></textarea>
+    </div>
+
+    <div class="actions">
+      <button class="btn-ghost" id="btn-clear">Clear</button>
+      <button class="btn-primary" id="btn-log">Log Entry</button>
+    </div>
+  </section>
+
+  <!-- Log -->
+  <section class="log-section" aria-label="Entry log">
+    <div class="log-header">
+      <div class="panel-eyebrow" style="margin:0">Entry Log</div>
+      <div class="log-count" id="log-count"></div>
+    </div>
+    <div id="log-empty" class="log-empty" style="display:none">
+      No entries yet. Complete a check-in above to start your log.
+    </div>
+    <div class="log-grid" id="log-grid"></div>
+  </section>
+
+</div>
+
+<footer class="safety-note">
+  <strong>In crisis?</strong> Call or text <strong>988</strong> (Suicide &amp; Crisis Lifeline).
+  This tool supports self-awareness — it is not a substitute for professional care.
+</footer>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+const REPO    = 'idunnoguesswho/snowflake';
+const LOG_PATH = 'bpd/log.json';
+const API_BASE = 'https://api.github.com';
+
+const DESCRIPTORS = [
+  'Completely calm','Very settled','Mild awareness',
+  'Low tension','Noticeable distress','Moderate dysregulation',
+  'Significant distress','High dysregulation','Severe distress',
+  'Near-crisis','Crisis level'
+];
+
+const SYMPTOMS = [
+  { id:'dysregulation', label:'Emotional Dysregulation' },
+  { id:'impulsivity',   label:'Impulsivity Urges'       },
+  { id:'abandonment',   label:'Fear of Abandonment'     },
+  { id:'selfharm',      label:'Self-Harm Urges'         },
+  { id:'dissociation',  label:'Dissociation'            },
+  { id:'anger',         label:'Anger Intensity'         },
+  { id:'identity',      label:'Identity Confusion'      },
+  { id:'relationships', label:'Interpersonal Chaos'     },
+];
+
+function scoreColor(s) {
+  if (s <= 2) return '#52b27e';
+  if (s <= 4) return '#38b8ae';
+  if (s <= 6) return '#d4b030';
+  if (s <= 8) return '#d87230';
+  return '#d44e32';
+}
+
+function gradeInfo(avg) {
+  if (avg <= 1)   return { grade:'A+', label:'Highly regulated',      color:'#52b27e' };
+  if (avg <= 2)   return { grade:'A',  label:'Well regulated',         color:'#52b27e' };
+  if (avg <= 3.5) return { grade:'B',  label:'Mostly manageable',      color:'#38b8ae' };
+  if (avg <= 5)   return { grade:'C',  label:'Struggling',             color:'#d4b030' };
+  if (avg <= 6.5) return { grade:'D',  label:'Significant difficulty', color:'#d87230' };
+  return               { grade:'F',  label:'Reach out for support',  color:'#d44e32' };
+}
+
+function setTrack(inp, v, max) {
+  const pct = (v / max) * 100;
+  const c = scoreColor(v);
+  inp.style.background = `linear-gradient(to right,${c} ${pct}%,var(--border) ${pct}%)`;
+  inp.style.setProperty('--thumb-color', c);
+}
+
+// ── Thermometer ──
+function updateThermo(v) {
+  const y = 268 - (v / 10) * 258;
+  const fill = document.getElementById('tf');
+  fill.setAttribute('y', y);
+  fill.setAttribute('height', 340 - y);
+  const big = document.getElementById('thermo-big');
+  big.textContent = v;
+  big.style.color = scoreColor(v);
+  document.getElementById('thermo-desc').textContent = DESCRIPTORS[v];
+  setTrack(document.getElementById('thermo-inp'), v, 10);
+}
+
+document.getElementById('thermo-inp').addEventListener('input', function() {
+  updateThermo(parseInt(this.value));
+});
+updateThermo(0);
+
+// ── Symptom cards ──
+const scoreGrid = document.getElementById('score-grid');
+SYMPTOMS.forEach(sym => {
+  const card = document.createElement('div');
+  card.className = 'score-card';
+  card.innerHTML = `
+    <div class="score-card-top">
+      <label class="score-name" for="inp-${sym.id}">${sym.label}</label>
+      <span class="score-val" id="val-${sym.id}">0</span>
+    </div>
+    <input type="range" id="inp-${sym.id}" min="0" max="10" step="1" value="0"
+           aria-label="${sym.label} 0 to 10">`;
+  scoreGrid.appendChild(card);
+
+  const inp = card.querySelector('input');
+  const valEl = document.getElementById(`val-${sym.id}`);
+  inp.addEventListener('input', function() {
+    const v = parseInt(this.value);
+    valEl.textContent = v;
+    valEl.style.color = scoreColor(v);
+    setTrack(this, v, 10);
+  });
+});
+
+// ── Clear form ──
+document.getElementById('btn-clear').addEventListener('click', () => {
+  document.getElementById('thermo-inp').value = 0;
+  updateThermo(0);
+  SYMPTOMS.forEach(sym => {
+    const inp = document.getElementById(`inp-${sym.id}`);
+    const valEl = document.getElementById(`val-${sym.id}`);
+    inp.value = 0;
+    valEl.textContent = '0';
+    valEl.style.color = '';
+    inp.style.background = '';
+    inp.style.removeProperty('--thumb-color');
+  });
+  document.getElementById('notes').value = '';
+});
+
+// ── GitHub API ──
+let fileSha = null; // SHA of log.json on GitHub (needed for updates)
+
+function getPAT() {
+  return localStorage.getItem('bpd-tracker-pat') || '';
+}
+
+function setSyncStatus(state, text) {
+  const dot = document.getElementById('sync-dot');
+  const label = document.getElementById('sync-text');
+  dot.className = 'sync-dot' + (state ? ` ${state}` : '');
+  label.textContent = text;
+}
+
+async function fetchLog() {
+  const pat = getPAT();
+  if (!pat) {
+    setSyncStatus('', 'No token — using local storage');
+    return getLocalLog();
+  }
+
+  setSyncStatus('busy', 'Loading…');
+  try {
+    const res = await fetch(`${API_BASE}/repos/${REPO}/contents/${LOG_PATH}`, {
+      headers: { Authorization: `Bearer ${pat}`, Accept: 'application/vnd.github+json' }
+    });
+
+    if (res.status === 404) {
+      // File doesn't exist yet — start fresh
+      fileSha = null;
+      setSyncStatus('ok', 'Ready (new log)');
+      return [];
+    }
+
+    if (!res.ok) throw new Error(`GitHub API ${res.status}`);
+
+    const data = await res.json();
+    fileSha = data.sha;
+    const decoded = JSON.parse(atob(data.content.replace(/\n/g, '')));
+    setSyncStatus('ok', 'Synced with GitHub');
+    return decoded;
+  } catch (err) {
+    setSyncStatus('err', 'Sync error — using local storage');
+    console.error('fetchLog:', err);
+    return getLocalLog();
+  }
+}
+
+async function pushLog(log) {
+  const pat = getPAT();
+  if (!pat) {
+    saveLocalLog(log);
+    return;
+  }
+
+  setSyncStatus('busy', 'Saving…');
+  try {
+    const content = btoa(unescape(encodeURIComponent(JSON.stringify(log, null, 2))));
+    const body = {
+      message: `BPD log update — ${new Date().toISOString().slice(0,10)}`,
+      content,
+      ...(fileSha ? { sha: fileSha } : {})
+    };
+
+    const res = await fetch(`${API_BASE}/repos/${REPO}/contents/${LOG_PATH}`, {
+      method: 'PUT',
+      headers: {
+        Authorization: `Bearer ${pat}`,
+        Accept: 'application/vnd.github+json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(body)
+    });
+
+    if (!res.ok) {
+      const errData = await res.json().catch(() => ({}));
+      throw new Error(errData.message || `GitHub API ${res.status}`);
+    }
+
+    const data = await res.json();
+    fileSha = data.content.sha;
+    saveLocalLog(log); // keep local cache in sync
+    setSyncStatus('ok', 'Saved to GitHub');
+  } catch (err) {
+    setSyncStatus('err', 'Save failed — stored locally');
+    saveLocalLog(log);
+    showToast('⚠ GitHub save failed — entry kept locally');
+    console.error('pushLog:', err);
+  }
+}
+
+// ── Local storage fallback ──
+function getLocalLog() {
+  try { return JSON.parse(localStorage.getItem('bpd-tracker-log') || '[]'); }
+  catch { return []; }
+}
+
+function saveLocalLog(log) {
+  localStorage.setItem('bpd-tracker-log', JSON.stringify(log));
+}
+
+// ── In-memory log (loaded from GitHub or localStorage) ──
+let currentLog = [];
+
+async function loadAndRender() {
+  currentLog = await fetchLog();
+  renderLog();
+}
+
+// ── Log entry ──
+document.getElementById('btn-log').addEventListener('click', async () => {
+  const btn = document.getElementById('btn-log');
+  btn.disabled = true;
+
+  const entry = {
+    id: Date.now(),
+    ts: new Date().toISOString(),
+    emotion: parseInt(document.getElementById('thermo-inp').value),
+    scores: {},
+    notes: document.getElementById('notes').value.trim(),
+  };
+  SYMPTOMS.forEach(sym => {
+    entry.scores[sym.id] = parseInt(document.getElementById(`inp-${sym.id}`).value);
+  });
+
+  currentLog.unshift(entry);
+  renderLog();
+  await pushLog(currentLog);
+  showToast('Entry logged');
+  btn.disabled = false;
+});
+
+// ── Render log ──
+function renderLog() {
+  const grid = document.getElementById('log-grid');
+  const empty = document.getElementById('log-empty');
+  const count = document.getElementById('log-count');
+
+  count.textContent = currentLog.length
+    ? `${currentLog.length} entr${currentLog.length === 1 ? 'y' : 'ies'}`
+    : '';
+
+  if (!currentLog.length) {
+    empty.style.display = 'block';
+    grid.innerHTML = '';
+    return;
+  }
+  empty.style.display = 'none';
+  grid.innerHTML = '';
+
+  currentLog.forEach(entry => {
+    const vals = SYMPTOMS.map(s => entry.scores[s.id] || 0);
+    const avg = vals.reduce((a, b) => a + b, 0) / vals.length;
+    const gi = gradeInfo(avg);
+
+    const d = new Date(entry.ts);
+    const dateStr = d.toLocaleDateString('en-US', {
+      weekday:'short', month:'short', day:'numeric', year:'numeric'
+    });
+    const timeStr = d.toLocaleTimeString('en-US', { hour:'numeric', minute:'2-digit' });
+
+    const barsHtml = SYMPTOMS.map((sym, i) => {
+      const v = vals[i];
+      const pct = (v / 10) * 100;
+      const shortName = sym.label.replace('Urges','').replace('Intensity','').trim();
+      return `<div class="rc-bar">
+        <div class="rc-bar-name">${shortName}</div>
+        <div class="rc-bar-track">
+          <div class="rc-bar-fill" style="width:${pct}%;background:${scoreColor(v)}"></div>
+        </div>
+      </div>`;
+    }).join('');
+
+    const noteHtml = entry.notes
+      ? `<div class="rc-note">"${entry.notes}"</div>`
+      : '';
+
+    const card = document.createElement('div');
+    card.className = 'report-card';
+    card.innerHTML = `
+      <div class="rc-head">
+        <div class="rc-meta">
+          <div class="rc-date">${dateStr} · ${timeStr}</div>
+          <div class="rc-emotion-row">
+            <span class="rc-emotion-num" style="color:${scoreColor(entry.emotion)}">${entry.emotion}</span>
+            <span class="rc-emotion-label">${DESCRIPTORS[entry.emotion]}</span>
+          </div>
+        </div>
+        <div class="rc-grade-wrap">
+          <div class="rc-grade" style="color:${gi.color}">${gi.grade}</div>
+          <div class="rc-grade-sub">${gi.label}</div>
+        </div>
+      </div>
+      <div class="rc-body">
+        <div class="rc-bars">${barsHtml}</div>
+        ${noteHtml}
+      </div>
+      <div class="rc-foot">
+        <span class="rc-avg">Avg symptom score: ${avg.toFixed(1)} / 10</span>
+        <button class="btn-delete" data-id="${entry.id}" aria-label="Delete entry">Delete</button>
+      </div>`;
+
+    card.querySelector('.btn-delete').addEventListener('click', async () => {
+      currentLog = currentLog.filter(e => e.id !== entry.id);
+      renderLog();
+      await pushLog(currentLog);
+      showToast('Entry deleted');
+    });
+
+    grid.appendChild(card);
+  });
+}
+
+// ── Settings panel ──
+const settingsBtn   = document.getElementById('btn-settings');
+const settingsPanel = document.getElementById('settings-panel');
+const patInput      = document.getElementById('pat-input');
+
+settingsBtn.addEventListener('click', () => {
+  const open = settingsPanel.classList.toggle('open');
+  settingsBtn.setAttribute('aria-expanded', open);
+  if (open && getPAT()) patInput.value = getPAT();
+});
+
+document.getElementById('btn-save-pat').addEventListener('click', async () => {
+  const val = patInput.value.trim();
+  if (!val) return;
+  localStorage.setItem('bpd-tracker-pat', val);
+  settingsPanel.classList.remove('open');
+  settingsBtn.setAttribute('aria-expanded', 'false');
+  showToast('Token saved — loading log from GitHub…');
+  await loadAndRender();
+});
+
+document.getElementById('btn-clear-pat').addEventListener('click', () => {
+  localStorage.removeItem('bpd-tracker-pat');
+  patInput.value = '';
+  fileSha = null;
+  setSyncStatus('', 'No token — using local storage');
+  showToast('Token removed');
+});
+
+// ── Toast ──
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2600);
+}
+
+// ── Init ──
+document.getElementById('today-label').textContent =
+  new Date().toLocaleDateString('en-US', {
+    weekday:'long', month:'long', day:'numeric', year:'numeric'
+  });
+
+loadAndRender();
+</script>
+</body>
+</html>

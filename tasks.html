@@ -35,6 +35,12 @@
 </div>
 
 <!-- Filters -->
+<!-- Mom / Kids tab switcher -->
+<div id="tabBar" style="display:flex;gap:8px;padding:8px 16px 0;border-bottom:2px solid #e9ecef;margin-bottom:0">
+  <button class="tab-btn active" id="tab-kids" onclick="setTab('kids')" style="padding:6px 18px;border:none;border-radius:10px 10px 0 0;font-family:inherit;font-weight:700;font-size:.9rem;cursor:pointer;background:#4dabf7;color:#fff">🧒 Oliver & Logan</button>
+  <button class="tab-btn" id="tab-mom" onclick="setTab('mom')" style="padding:6px 18px;border:none;border-radius:10px 10px 0 0;font-family:inherit;font-weight:700;font-size:.9rem;cursor:pointer;background:#e9ecef;color:#555">🌸 Mom</button>
+</div>
+
 <div class="filter-bar" id="filterBar">
   <button class="filter-chip active" data-status="all"  onclick="setStatusFilter('all')">All</button>
   <button class="filter-chip"        data-status="open" onclick="setStatusFilter('open')">Open</button>
@@ -70,7 +76,7 @@
         <div style="font-weight:700;font-size:.85rem">Person(s) — pick one or more
           <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:4px">
             <label style="display:flex;align-items:center;gap:5px;padding:6px 12px;border:2px solid #d8dee6;border-radius:20px;font-size:.85rem;font-weight:600;cursor:pointer;background:#fff"><input type="checkbox" name="person" value="Mom" style="margin:0"> Mom</label>
-            <label style="display:flex;align-items:center;gap:5px;padding:6px 12px;border:2px solid #d8dee6;border-radius:20px;font-size:.85rem;font-weight:600;cursor:pointer;background:#fff"><input type="checkbox" name="person" value="Dad" style="margin:0"> Dad</label>
+
             <label style="display:flex;align-items:center;gap:5px;padding:6px 12px;border:2px solid #d8dee6;border-radius:20px;font-size:.85rem;font-weight:600;cursor:pointer;background:#fff"><input type="checkbox" name="person" value="Oliver" style="margin:0"> Oliver</label>
             <label style="display:flex;align-items:center;gap:5px;padding:6px 12px;border:2px solid #d8dee6;border-radius:20px;font-size:.85rem;font-weight:600;cursor:pointer;background:#fff"><input type="checkbox" name="person" value="Logan" style="margin:0"> Logan</label>
             <label style="display:flex;align-items:center;gap:5px;padding:6px 12px;border:2px solid #d8dee6;border-radius:20px;font-size:.85rem;font-weight:600;cursor:pointer;background:#fff"><input type="checkbox" name="person" value="Family" style="margin:0"> Family</label>
@@ -167,6 +173,7 @@ function safePts(value) {
 let G = {
   tasks: [], players: {}, activity: [], completions: {}, assignments: {},
   filters: { status: 'all', person: '', category: '' },
+  activeTab: 'kids',  // 'kids' or 'mom'
   pendingCompleteKey: new URLSearchParams(location.search).get('complete') || ''
 };
 
@@ -471,7 +478,9 @@ function catChart(p) {
 /* ── Render leaderboard ── */
 function renderLB() {
   const el = document.getElementById('leaderboard');
-  const players = Object.values(G.players).sort((a,b)=>b.pts-a.pts);
+  // Only show players that have tasks in the current tab
+  const tabPersons = new Set(G.tasks.filter(t => !G.activeTab || t._group === G.activeTab).map(t => t.person).filter(Boolean));
+  const players = Object.values(G.players).filter(p => tabPersons.has(p.name)).sort((a,b)=>b.pts-a.pts);
 
   if(!players.length) {
     el.innerHTML = `<div class="empty" style="grid-column:1/-1"><div class="e-icon">👥</div><h3>No players yet</h3><p>Sync your sheet to load data</p></div>`;
@@ -512,7 +521,7 @@ function renderCategoryBreakdown() {
   if(!el) return;
 
   const categories = { Uncategorized: { name: 'Uncategorized', total: 0, done: 0, points: 0 } };
-  G.tasks.forEach(t => {
+  G.tasks.filter(t => !G.activeTab || t._group === G.activeTab).forEach(t => {
     const name = t.topic || 'Uncategorized';
     if(!categories[name]) categories[name] = { name, total: 0, done: 0, points: 0 };
     categories[name].total++;
@@ -589,7 +598,7 @@ function renderTodayByCategory() {
 function renderPersonFilters() {
   document.querySelectorAll('#filterBar .pf').forEach(b=>b.remove());
   const srch = document.getElementById('searchBox');
-  const people = [...new Set(G.tasks.map(t=>t.person).filter(Boolean))].sort((a,b)=>a.localeCompare(b));
+  const people = [...new Set(G.tasks.filter(t => !G.activeTab || t._group === G.activeTab).map(t=>t.person).filter(Boolean))].sort((a,b)=>a.localeCompare(b));
   people.forEach(p => {
     const btn2 = document.createElement('button');
     btn2.className = 'filter-chip pf';
@@ -628,6 +637,27 @@ function toggleCategoryFilter(category) {
   renderTasks();
 }
 
+function setTab(tab) {
+  G.activeTab = tab;
+  G.filters.person = '';  // reset person filter on tab switch
+  G.filters.category = '';
+  document.querySelectorAll('.tab-btn').forEach(b => {
+    b.classList.remove('active');
+    b.style.background = '#e9ecef';
+    b.style.color = '#555';
+  });
+  const active = document.getElementById('tab-' + tab);
+  if (active) {
+    active.classList.add('active');
+    active.style.background = tab === 'mom' ? '#f783ac' : '#4dabf7';
+    active.style.color = '#fff';
+  }
+  renderPersonFilters();
+  renderCategoryBreakdown();
+  renderTasks();
+  updateFilterButtons();
+}
+
 function nextTaskInCategory(task) {
   const topic = task.topic || 'Uncategorized';
   const start = G.tasks.findIndex(item => item.key === task.key);
@@ -657,6 +687,7 @@ function renderTasks() {
   const f = G.filters;
 
   let tasks = G.tasks.filter(t => {
+    if(G.activeTab && t._group !== G.activeTab) return false;
     if(f.status==='open' && t.isDone)  return false;
     if(f.status==='done' && !t.isDone) return false;
     if(f.status==='assigned' && (!t.isAssigned || t.isDone)) return false;
@@ -882,12 +913,12 @@ async function sync() {
     renderLB(); renderPersonFilters(); renderCategoryBreakdown(); renderTasks(); renderActivity(); completePendingTask();
     const done = G.tasks.filter(t=>t.sheetDone||t.isDone).length;
     const totalPts = Object.values(G.players).reduce((s,p)=>s+safePts(p.pts),0);
-    setStatus(`${G.tasks.length} tasks · ${done} completed · ${totalPts} total points earned · source: tasks.json`);
-    toast(`✅ Loaded ${G.tasks.length} tasks from tasks.json`);
+    setStatus(`${G.tasks.length} tasks · ${done} completed · ${totalPts} total points earned · source: tasks_kids.json + tasks_mom.json`);
+    toast(`✅ Loaded ${G.tasks.length} tasks (${G.tasks.filter(t=>t._group==='kids').length} kids · ${G.tasks.filter(t=>t._group==='mom').length} mom)`);
     btn.classList.remove('spinning');
     return;
   } catch(jsonErr) {
-    setStatus(`tasks.json empty or missing — trying Google Sheet…`);
+    setStatus(`tasks_kids.json / tasks_mom.json missing — trying Google Sheet…`);
   }
 
   try {
@@ -1021,13 +1052,42 @@ function submitAddTask(e) {
 
 /* ── JSON-first loading ── */
 async function loadFromJson() {
-  const r = await fetch('tasks.json', { cache: 'no-store' });
-  if(!r.ok) throw new Error(`tasks.json not found (${r.status})`);
-  const arr = await r.json();
-  if(!Array.isArray(arr) || arr.length === 0) throw new Error('tasks.json is empty — falling back to Sheets');
+  // Load both kids and mom JSON files; fall back to legacy tasks.json if neither exists
+  let kidsArr = [], momArr = [], usedFiles = [];
+
+  const tryFetch = async (file) => {
+    try {
+      const r = await fetch(file, { cache: 'no-store' });
+      if (!r.ok) return [];
+      const a = await r.json();
+      if (!Array.isArray(a) || a.length === 0) return [];
+      usedFiles.push(file);
+      return a;
+    } catch(e) { return []; }
+  };
+
+  [kidsArr, momArr] = await Promise.all([tryFetch('tasks_kids.json'), tryFetch('tasks_mom.json')]);
+
+  // Tag each task with its source group
+  kidsArr = kidsArr.map(t => ({ ...t, _group: 'kids' }));
+  momArr  = momArr.map(t => ({ ...t, _group: 'mom' }));
+
+  let arr = [...kidsArr, ...momArr];
+  if (arr.length === 0) {
+    // Fallback to legacy single file
+    const r = await fetch('tasks.json', { cache: 'no-store' });
+    if(!r.ok) throw new Error(`tasks.json not found (${r.status})`);
+    arr = await r.json();
+    if(!Array.isArray(arr) || arr.length === 0) throw new Error('tasks.json is empty — falling back to Sheets');
+    arr = arr.map(t => ({
+      ...t,
+      _group: (t.person === 'Mom') ? 'mom' : 'kids'
+    }));
+    usedFiles.push('tasks.json');
+  }
 
   const local = loadLocalTasks();
-  const all = [...arr, ...local];
+  const all = [...arr, ...local.map(t => ({ ...t, _group: t.person === 'Mom' ? 'mom' : 'kids' }))];
 
   G.tasks = all.map((t, i) => {
     const key = t.key || `json_${i}_${String(t.title||'').slice(0,14).replace(/\W/g,'_')}`;
@@ -1038,6 +1098,7 @@ async function loadFromJson() {
       title: t.title || '',
       titleFR: t.titleFR || '',
       person: t.person || '',
+      _group: t._group || (t.person === 'Mom' ? 'mom' : 'kids'),
       topic: t.topic || '',
       desc: t.description || t.desc || '',
       pts: safePts(t.points ?? t.pts),  // ← NaN-safe
@@ -1061,34 +1122,38 @@ async function loadFromJson() {
 /* ── Export ── */
 function exportJson() {
   const localTasks = loadLocalTasks();
-  const exportData = G.tasks
-    .filter(t => !t._local)
-    .map(t => ({
-      title: t.title, titleFR: t.titleFR, person: t.person, topic: t.topic,
-      description: t.desc, points: t.pts, estTime: t.estTime,
-      dateAdded: t.dateAdded, dateAssigned: t.dateAssigned,
-      isDone: t.isDone, completedDate: t.completedDate, links: t.links,
-      questions: t.questions || '', answers: t.answers || '', worksheetText: t.worksheetText || ''
-    }));
-
-  localTasks.forEach(lt => {
-    if(!exportData.find(t => t.title === lt.title && t.dateAdded === lt.dateAdded)) {
-      exportData.push(lt);
-    }
+  const toExport = t => ({
+    title: t.title, titleFR: t.titleFR, person: t.person, topic: t.topic,
+    description: t.desc, points: t.pts, estTime: t.estTime,
+    dateAdded: t.dateAdded, dateAssigned: t.dateAssigned,
+    isDone: t.isDone, completedDate: t.completedDate, links: t.links,
+    questions: t.questions || '', answers: t.answers || '', worksheetText: t.worksheetText || ''
   });
 
-  const blob = new Blob([JSON.stringify(exportData, null, 2)], { type: 'application/json' });
-  const a = document.createElement('a');
-  a.href = URL.createObjectURL(blob);
-  a.download = 'tasks.json';
-  a.click();
-  toast('⬇ tasks.json downloaded — commit it to make tasks permanent');
+  const kidsData = G.tasks.filter(t => !t._local && t._group === 'kids').map(toExport);
+  const momData  = G.tasks.filter(t => !t._local && t._group === 'mom').map(toExport);
+
+  localTasks.forEach(lt => {
+    const group = (lt.person === 'Mom') ? 'mom' : 'kids';
+    const arr = group === 'mom' ? momData : kidsData;
+    if(!arr.find(t => t.title === lt.title && t.dateAdded === lt.dateAdded)) arr.push(lt);
+  });
+
+  const dl = (data, filename) => {
+    const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = filename;
+    a.click();
+  };
+  dl(kidsData, 'tasks_kids.json');
+  setTimeout(() => dl(momData, 'tasks_mom.json'), 500);
+  toast('⬇ tasks_kids.json & tasks_mom.json downloaded');
 }
 
 /* ── Save to GitHub ── */
 async function saveToGitHub() {
   const REPO = 'idunnoguesswho/snowflake';
-  const FILE = 'tasks.json';
   const BRANCH = 'main';
 
   let pat = localStorage.getItem('sf_github_pat') || '';
@@ -1103,53 +1168,52 @@ async function saveToGitHub() {
   btn.disabled = true;
 
   try {
-    // Build the same export data as exportJson()
     const localTasks = loadLocalTasks();
-    const exportData = G.tasks
-      .filter(t => !t._local)
-      .map(t => ({
-        title: t.title, titleFR: t.titleFR, person: t.person, topic: t.topic,
-        description: t.desc, points: t.pts, estTime: t.estTime,
-        dateAdded: t.dateAdded, dateAssigned: t.dateAssigned,
-        isDone: t.isDone, completedDate: t.completedDate, links: t.links,
-        questions: t.questions || '', answers: t.answers || '', worksheetText: t.worksheetText || ''
-      }));
+    const toExport = t => ({
+      title: t.title, titleFR: t.titleFR, person: t.person, topic: t.topic,
+      description: t.desc, points: t.pts, estTime: t.estTime,
+      dateAdded: t.dateAdded, dateAssigned: t.dateAssigned,
+      isDone: t.isDone, completedDate: t.completedDate, links: t.links,
+      questions: t.questions || '', answers: t.answers || '', worksheetText: t.worksheetText || ''
+    });
+
+    const kidsData = G.tasks.filter(t => !t._local && t._group === 'kids').map(toExport);
+    const momData  = G.tasks.filter(t => !t._local && t._group === 'mom').map(toExport);
     localTasks.forEach(lt => {
-      if (!exportData.find(t => t.title === lt.title && t.dateAdded === lt.dateAdded)) {
-        exportData.push(lt);
+      const group = lt.person === 'Mom' ? 'mom' : 'kids';
+      const arr = group === 'mom' ? momData : kidsData;
+      if (!arr.find(t => t.title === lt.title && t.dateAdded === lt.dateAdded)) arr.push(lt);
+    });
+
+    const saveFile = async (filename, data) => {
+      const content = JSON.stringify(data, null, 2);
+      const encoded = btoa(unescape(encodeURIComponent(content)));
+      const metaRes = await fetch(`https://api.github.com/repos/${REPO}/contents/${filename}?ref=${BRANCH}`, {
+        headers: { Authorization: `token ${pat}`, Accept: 'application/vnd.github.v3+json' }
+      });
+      const meta = await metaRes.json();
+      const sha = meta.sha || undefined;
+      const putRes = await fetch(`https://api.github.com/repos/${REPO}/contents/${filename}`, {
+        method: 'PUT',
+        headers: { Authorization: `token ${pat}`, Accept: 'application/vnd.github.v3+json', 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          message: `chore: update ${filename} [${new Date().toISOString().slice(0,10)}]`,
+          content: encoded,
+          branch: BRANCH,
+          ...(sha ? { sha } : {})
+        })
+      });
+      if (!putRes.ok) {
+        const err = await putRes.json();
+        if (putRes.status === 401) localStorage.removeItem('sf_github_pat');
+        throw new Error(err.message || putRes.status);
       }
-    });
+    };
 
-    const content = JSON.stringify(exportData, null, 2);
-    const encoded = btoa(unescape(encodeURIComponent(content)));
+    await saveFile('tasks_kids.json', kidsData);
+    await saveFile('tasks_mom.json', momData);
 
-    // Get current SHA (needed for update)
-    const metaRes = await fetch(`https://api.github.com/repos/${REPO}/contents/${FILE}?ref=${BRANCH}`, {
-      headers: { Authorization: `token ${pat}`, Accept: 'application/vnd.github.v3+json' }
-    });
-    const meta = await metaRes.json();
-    const sha = meta.sha || undefined;
-
-    // PUT new content
-    const putRes = await fetch(`https://api.github.com/repos/${REPO}/contents/${FILE}`, {
-      method: 'PUT',
-      headers: { Authorization: `token ${pat}`, Accept: 'application/vnd.github.v3+json', 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        message: `chore: update tasks.json [${new Date().toISOString().slice(0,10)}]`,
-        content: encoded,
-        branch: BRANCH,
-        ...(sha ? { sha } : {})
-      })
-    });
-
-    if (!putRes.ok) {
-      const err = await putRes.json();
-      // Bad PAT — clear it so user can re-enter
-      if (putRes.status === 401) localStorage.removeItem('sf_github_pat');
-      throw new Error(err.message || putRes.status);
-    }
-
-    toast('✅ tasks.json saved to GitHub!');
+    toast('✅ tasks_kids.json & tasks_mom.json saved to GitHub!');
   } catch(e) {
     toast(`❌ GitHub save failed: ${e.message}`);
   } finally {

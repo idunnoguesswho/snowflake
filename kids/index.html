@@ -1,0 +1,908 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>How Are You Feeling?</title>
+<style>
+:root {
+  --bg:       #eaf5fd;
+  --bg2:      #ffffff;
+  --border:   #cce0f0;
+  --text:     #1a2340;
+  --muted:    #7a90b0;
+  --coral:    #f0573a;
+  --yellow:   #f5c535;
+  --green:    #3dba78;
+  --lavender: #9b78f5;
+  --sky:      #3aabf0;
+  --r:        16px;
+  --rs:       10px;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+  min-height: 100vh;
+  font-size: 16px;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── Header ── */
+.header {
+  background: var(--bg2);
+  border-bottom: 2px solid var(--border);
+  padding: 18px 28px 14px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+
+.header-title {
+  font-size: 22px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: var(--text);
+  flex: 1;
+}
+
+.header-date {
+  font-size: 13px;
+  color: var(--muted);
+  font-weight: 500;
+}
+
+.header-actions { display: flex; gap: 8px; align-items: center; }
+
+.sync-pill {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 5px 12px;
+  font-size: 12px;
+  color: var(--muted);
+  font-weight: 500;
+}
+
+.sync-dot {
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  background: var(--border);
+  flex-shrink: 0;
+}
+.sync-dot.ok   { background: var(--green); }
+.sync-dot.err  { background: var(--coral); }
+.sync-dot.busy { background: var(--yellow); animation: blink 0.9s infinite; }
+
+@keyframes blink { 0%,100% { opacity:1; } 50% { opacity:0.25; } }
+
+.btn-settings {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--rs);
+  color: var(--muted);
+  cursor: pointer;
+  padding: 7px 12px;
+  font-size: 15px;
+  line-height: 1;
+  transition: background 0.15s;
+}
+.btn-settings:hover { background: var(--border); }
+.btn-settings:focus-visible { outline: 2px solid var(--sky); outline-offset: 2px; }
+
+/* ── Settings panel ── */
+.settings-panel {
+  background: var(--bg2);
+  border-bottom: 2px solid var(--border);
+  padding: 16px 28px;
+  display: none;
+  flex-direction: column;
+  gap: 10px;
+}
+.settings-panel.open { display: flex; }
+
+.settings-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.settings-label {
+  font-size: 13px;
+  color: var(--muted);
+  font-weight: 500;
+  min-width: 130px;
+  flex-shrink: 0;
+}
+
+.settings-input {
+  background: var(--bg);
+  border: 1.5px solid var(--border);
+  border-radius: var(--rs);
+  color: var(--text);
+  font-family: monospace;
+  font-size: 13px;
+  padding: 8px 12px;
+  flex: 1;
+  min-width: 200px;
+  outline: none;
+}
+.settings-input:focus { border-color: var(--sky); }
+
+.settings-note {
+  font-size: 12px;
+  color: var(--muted);
+  line-height: 1.5;
+}
+.settings-note a { color: var(--sky); }
+
+/* ── Page ── */
+.page {
+  max-width: 680px;
+  margin: 0 auto;
+  padding: 28px 20px 60px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+/* ── Big face picker (main) ── */
+.face-hero {
+  background: var(--bg2);
+  border-radius: var(--r);
+  border: 2px solid var(--border);
+  padding: 24px 20px 22px;
+  text-align: center;
+}
+
+.face-hero-q {
+  font-size: 20px;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  margin-bottom: 20px;
+  text-wrap: balance;
+}
+
+.face-row {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.face-btn {
+  background: var(--bg);
+  border: 2.5px solid transparent;
+  border-radius: 14px;
+  cursor: pointer;
+  padding: 10px 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  font-size: 36px;
+  line-height: 1;
+  transition: background 0.12s, border-color 0.12s, transform 0.1s;
+  min-width: 72px;
+}
+
+.face-btn span.lbl {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--muted);
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  line-height: 1;
+}
+
+.face-btn:hover { background: var(--border); transform: scale(1.06); }
+.face-btn.selected { border-color: var(--sky); background: #dff0fb; }
+.face-btn:focus-visible { outline: 2px solid var(--sky); outline-offset: 2px; }
+
+/* ── Category cards ── */
+.cat-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.cat-card {
+  background: var(--bg2);
+  border: 2px solid var(--border);
+  border-radius: var(--r);
+  padding: 16px 14px 14px;
+  transition: border-color 0.15s;
+}
+
+.cat-card:focus-within { border-color: var(--sky); }
+
+.cat-title {
+  font-size: 14px;
+  font-weight: 700;
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.cat-title-icon { font-size: 18px; line-height: 1; }
+
+.cat-faces {
+  display: flex;
+  gap: 4px;
+  justify-content: space-between;
+}
+
+.cat-face-btn {
+  background: var(--bg);
+  border: 2px solid transparent;
+  border-radius: 10px;
+  cursor: pointer;
+  padding: 6px 4px;
+  font-size: 22px;
+  line-height: 1;
+  flex: 1;
+  text-align: center;
+  transition: background 0.12s, border-color 0.12s, transform 0.1s;
+}
+
+.cat-face-btn:hover { background: var(--border); transform: scale(1.1); }
+.cat-face-btn.selected { border-color: var(--sky); background: #dff0fb; }
+.cat-face-btn:focus-visible { outline: 2px solid var(--sky); outline-offset: 2px; }
+
+/* ── Notes ── */
+.notes-card {
+  background: var(--bg2);
+  border: 2px solid var(--border);
+  border-radius: var(--r);
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.notes-qs {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.notes-q { display: flex; flex-direction: column; gap: 6px; }
+
+.notes-label {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text);
+}
+
+textarea {
+  background: var(--bg);
+  border: 1.5px solid var(--border);
+  border-radius: var(--rs);
+  color: var(--text);
+  font-family: inherit;
+  font-size: 14px;
+  padding: 10px 12px;
+  resize: none;
+  height: 72px;
+  outline: none;
+  line-height: 1.5;
+  transition: border-color 0.15s;
+  width: 100%;
+}
+textarea::placeholder { color: var(--muted); font-style: italic; }
+textarea:focus { border-color: var(--sky); }
+
+/* ── Submit ── */
+.submit-row {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.btn-submit {
+  background: var(--coral);
+  color: #fff;
+  border: none;
+  border-radius: var(--rs);
+  padding: 13px 28px;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  letter-spacing: -0.01em;
+  transition: opacity 0.15s, transform 0.1s;
+}
+.btn-submit:hover { opacity: 0.88; }
+.btn-submit:active { transform: scale(0.97); }
+.btn-submit:disabled { opacity: 0.35; cursor: not-allowed; }
+.btn-submit:focus-visible { outline: 2px solid var(--coral); outline-offset: 3px; }
+
+.btn-clear {
+  background: transparent;
+  color: var(--muted);
+  border: 1.5px solid var(--border);
+  border-radius: var(--rs);
+  padding: 13px 18px;
+  font-size: 15px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: color 0.15s, border-color 0.15s;
+}
+.btn-clear:hover { color: var(--text); border-color: var(--muted); }
+.btn-clear:focus-visible { outline: 2px solid var(--sky); outline-offset: 2px; }
+
+/* ── Log section ── */
+.log-section {
+  border-top: 2px solid var(--border);
+  padding-top: 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.log-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.log-title {
+  font-size: 16px;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+}
+
+.log-count { font-size: 13px; color: var(--muted); font-weight: 500; }
+
+.log-empty {
+  text-align: center;
+  padding: 40px 0;
+  font-size: 15px;
+  color: var(--muted);
+  font-style: italic;
+}
+
+/* ── Report cards ── */
+.rc {
+  background: var(--bg2);
+  border: 2px solid var(--border);
+  border-radius: var(--r);
+  overflow: hidden;
+}
+
+.rc-head {
+  padding: 14px 18px 12px;
+  border-bottom: 1.5px solid var(--border);
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.rc-left {}
+
+.rc-date {
+  font-size: 11px;
+  color: var(--muted);
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  margin-bottom: 4px;
+}
+
+.rc-overall {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.rc-main-face { font-size: 34px; line-height: 1; }
+.rc-main-label { font-size: 14px; font-weight: 700; color: var(--text); }
+
+.rc-stars {
+  font-size: 22px;
+  letter-spacing: 1px;
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+.rc-body {
+  padding: 12px 18px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.rc-cats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+}
+
+.rc-cat {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--muted);
+}
+
+.rc-cat-icon { font-size: 14px; line-height: 1; }
+.rc-cat-face { font-size: 18px; line-height: 1; }
+
+.rc-notes {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  padding-top: 10px;
+  border-top: 1.5px solid var(--border);
+}
+
+.rc-note-block { display: flex; flex-direction: column; gap: 3px; }
+.rc-note-lbl { font-size: 10px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em; }
+.rc-note-val { font-size: 12px; color: var(--text); font-style: italic; line-height: 1.4; }
+
+.rc-foot {
+  padding: 7px 18px;
+  border-top: 1.5px solid var(--border);
+  display: flex;
+  justify-content: flex-end;
+}
+
+.btn-del {
+  background: transparent;
+  border: none;
+  color: var(--muted);
+  cursor: pointer;
+  font-size: 12px;
+  padding: 0;
+  opacity: 0.4;
+  transition: opacity 0.15s, color 0.15s;
+}
+.btn-del:hover { opacity: 1; color: var(--coral); }
+
+/* ── Toast ── */
+.toast {
+  position: fixed;
+  bottom: 24px; right: 24px;
+  background: var(--text);
+  color: #fff;
+  border-radius: var(--rs);
+  padding: 10px 16px;
+  font-size: 13px;
+  font-weight: 600;
+  box-shadow: 0 6px 24px rgba(26,35,64,0.18);
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity 0.2s, transform 0.2s;
+  pointer-events: none;
+  z-index: 100;
+}
+.toast.show { opacity: 1; transform: translateY(0); }
+
+/* ── Responsive ── */
+@media (max-width: 500px) {
+  .cat-grid { grid-template-columns: 1fr; }
+  .notes-qs { grid-template-columns: 1fr; }
+  .rc-cats  { grid-template-columns: repeat(2,1fr); }
+  .rc-notes { grid-template-columns: 1fr; }
+  .face-btn { min-width: 56px; font-size: 30px; }
+  .header { padding: 14px 16px; }
+  .page { padding: 18px 14px 48px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { transition: none !important; animation: none !important; }
+}
+</style>
+</head>
+<body>
+
+<!-- Header -->
+<header class="header">
+  <h1 class="header-title">How Are You Feeling Today?</h1>
+  <span class="header-date" id="today-label"></span>
+  <div class="header-actions">
+    <div class="sync-pill">
+      <div class="sync-dot" id="sync-dot"></div>
+      <span id="sync-text">Local</span>
+    </div>
+    <button class="btn-settings" id="btn-settings" title="Sync settings" aria-expanded="false">⚙</button>
+  </div>
+</header>
+
+<!-- Settings -->
+<div class="settings-panel" id="settings-panel">
+  <div class="settings-row">
+    <span class="settings-label">GitHub Token</span>
+    <input type="password" class="settings-input" id="pat-input"
+           placeholder="ghp_xxxxxxxxxxxxxxxxxxxx" autocomplete="off">
+    <button class="btn-clear" id="btn-save-pat" style="flex-shrink:0;padding:9px 14px;font-size:13px">Save</button>
+    <button class="btn-clear" id="btn-clear-pat" style="flex-shrink:0;padding:9px 14px;font-size:13px">Remove</button>
+  </div>
+  <p class="settings-note">
+    Needs <strong>Contents: read &amp; write</strong> on <code>idunnoguesswho/snowflake</code>.
+    Saves to <code>kids/log.json</code>.
+    <a href="https://github.com/settings/tokens/new?scopes=repo&description=Kids+Tracker" target="_blank" rel="noopener">Create token ↗</a>
+  </p>
+</div>
+
+<!-- Main form -->
+<div class="page">
+
+  <!-- Overall feeling -->
+  <div class="face-hero">
+    <div class="face-hero-q">How are you feeling overall?</div>
+    <div class="face-row" id="main-face-row" role="group" aria-label="Overall feeling"></div>
+  </div>
+
+  <!-- Category grid -->
+  <div class="cat-grid" id="cat-grid"></div>
+
+  <!-- Notes -->
+  <div class="notes-card">
+    <div class="notes-qs">
+      <div class="notes-q">
+        <label class="notes-label" for="note-good">⭐ What was the best part of today?</label>
+        <textarea id="note-good" placeholder="Something that made me smile…" rows="3"></textarea>
+      </div>
+      <div class="notes-q">
+        <label class="notes-label" for="note-hard">💭 What was hard today?</label>
+        <textarea id="note-hard" placeholder="Something that felt tough…" rows="3"></textarea>
+      </div>
+    </div>
+  </div>
+
+  <!-- Submit -->
+  <div class="submit-row">
+    <button class="btn-clear" id="btn-clear">Clear</button>
+    <button class="btn-submit" id="btn-submit">Save my feelings ✓</button>
+  </div>
+
+  <!-- Log -->
+  <div class="log-section">
+    <div class="log-heading">
+      <div class="log-title">My Feeling Journal</div>
+      <div class="log-count" id="log-count"></div>
+    </div>
+    <div id="log-empty" class="log-empty" style="display:none">
+      No entries yet — fill in how you feel above!
+    </div>
+    <div id="log-grid"></div>
+  </div>
+
+</div>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+const REPO     = 'idunnoguesswho/snowflake';
+const LOG_PATH = 'kids/log.json';
+const API_BASE = 'https://api.github.com';
+
+const FACES = [
+  { emoji: '😢', label: 'Really sad',   score: 1, stars: '★☆☆☆☆' },
+  { emoji: '😕', label: 'A bit sad',    score: 2, stars: '★★☆☆☆' },
+  { emoji: '😐', label: 'Okay',         score: 3, stars: '★★★☆☆' },
+  { emoji: '🙂', label: 'Pretty good',  score: 4, stars: '★★★★☆' },
+  { emoji: '😄', label: 'Amazing!',     score: 5, stars: '★★★★★' },
+];
+
+const CATS = [
+  { id: 'school',   label: 'School',   icon: '📚' },
+  { id: 'friends',  label: 'Friends',  icon: '👫' },
+  { id: 'family',   label: 'Home',     icon: '🏠' },
+  { id: 'energy',   label: 'Energy',   icon: '⚡' },
+  { id: 'body',     label: 'Body',     icon: '💪' },
+  { id: 'sleep',    label: 'Sleep',    icon: '😴' },
+];
+
+// State
+const selected = { main: 0 };
+CATS.forEach(c => { selected[c.id] = 0; });
+
+// Build main face row
+const mainRow = document.getElementById('main-face-row');
+FACES.forEach(f => {
+  const btn = document.createElement('button');
+  btn.className = 'face-btn';
+  btn.type = 'button';
+  btn.setAttribute('aria-label', f.label);
+  btn.dataset.score = f.score;
+  btn.innerHTML = `${f.emoji}<span class="lbl">${f.label}</span>`;
+  btn.addEventListener('click', () => {
+    selected.main = f.score;
+    mainRow.querySelectorAll('.face-btn').forEach(b => b.classList.remove('selected'));
+    btn.classList.add('selected');
+  });
+  mainRow.appendChild(btn);
+});
+
+// Build category cards
+const catGrid = document.getElementById('cat-grid');
+CATS.forEach(cat => {
+  const card = document.createElement('div');
+  card.className = 'cat-card';
+  card.innerHTML = `
+    <div class="cat-title">
+      <span class="cat-title-icon">${cat.icon}</span>
+      ${cat.label}
+    </div>
+    <div class="cat-faces" role="group" aria-label="${cat.label} feeling"></div>`;
+
+  const faceRow = card.querySelector('.cat-faces');
+  FACES.forEach(f => {
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'cat-face-btn';
+    btn.title = f.label;
+    btn.textContent = f.emoji;
+    btn.dataset.score = f.score;
+    btn.setAttribute('aria-label', f.label);
+    btn.addEventListener('click', () => {
+      selected[cat.id] = f.score;
+      faceRow.querySelectorAll('.cat-face-btn').forEach(b => b.classList.remove('selected'));
+      btn.classList.add('selected');
+    });
+    faceRow.appendChild(btn);
+  });
+
+  catGrid.appendChild(card);
+});
+
+// Clear form
+function clearForm() {
+  selected.main = 0;
+  CATS.forEach(c => { selected[c.id] = 0; });
+  document.querySelectorAll('.face-btn, .cat-face-btn').forEach(b => b.classList.remove('selected'));
+  document.getElementById('note-good').value = '';
+  document.getElementById('note-hard').value = '';
+}
+
+document.getElementById('btn-clear').addEventListener('click', clearForm);
+
+// ── GitHub helpers ──
+let fileSha = null;
+
+function getPAT() { return localStorage.getItem('kids-tracker-pat') || ''; }
+
+function setSyncStatus(state, text) {
+  document.getElementById('sync-dot').className = 'sync-dot' + (state ? ' ' + state : '');
+  document.getElementById('sync-text').textContent = text;
+}
+
+function toBase64(str) {
+  return btoa(Array.from(new TextEncoder().encode(str), b => String.fromCharCode(b)).join(''));
+}
+
+async function fetchFileSha(pat) {
+  const res = await fetch(`${API_BASE}/repos/${REPO}/contents/${LOG_PATH}`, {
+    headers: { Authorization: `Bearer ${pat}`, Accept: 'application/vnd.github+json' }
+  });
+  if (res.status === 404) return null;
+  if (!res.ok) { const e = await res.json().catch(() => ({})); throw new Error(`GitHub ${res.status}: ${e.message}`); }
+  return (await res.json()).sha;
+}
+
+async function fetchLog() {
+  const pat = getPAT();
+  if (!pat) { setSyncStatus('', 'Local only'); return getLocal(); }
+
+  setSyncStatus('busy', 'Loading…');
+  try {
+    const res = await fetch(`${API_BASE}/repos/${REPO}/contents/${LOG_PATH}`, {
+      headers: { Authorization: `Bearer ${pat}`, Accept: 'application/vnd.github+json' }
+    });
+    if (res.status === 404) { fileSha = null; setSyncStatus('ok', 'Ready'); return []; }
+    if (!res.ok) { const e = await res.json().catch(() => ({})); throw new Error(`GitHub ${res.status}: ${e.message}`); }
+    const data = await res.json();
+    fileSha = data.sha;
+    const log = JSON.parse(atob(data.content.replace(/\n/g, '')));
+    setSyncStatus('ok', 'Synced');
+    return log;
+  } catch (err) {
+    setSyncStatus('err', err.message);
+    showToast('⚠ ' + err.message);
+    return getLocal();
+  }
+}
+
+async function pushLog(log) {
+  const pat = getPAT();
+  if (!pat) { saveLocal(log); return; }
+
+  setSyncStatus('busy', 'Saving…');
+  try {
+    fileSha = await fetchFileSha(pat);
+    const res = await fetch(`${API_BASE}/repos/${REPO}/contents/${LOG_PATH}`, {
+      method: 'PUT',
+      headers: {
+        Authorization: `Bearer ${pat}`,
+        Accept: 'application/vnd.github+json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        message: `Kids log — ${new Date().toISOString().slice(0, 10)}`,
+        content: toBase64(JSON.stringify(log, null, 2)),
+        ...(fileSha ? { sha: fileSha } : {})
+      })
+    });
+    if (!res.ok) { const e = await res.json().catch(() => ({})); throw new Error(`GitHub ${res.status}: ${e.message}`); }
+    const data = await res.json();
+    fileSha = data.content.sha;
+    saveLocal(log);
+    setSyncStatus('ok', 'Saved ✓');
+  } catch (err) {
+    setSyncStatus('err', err.message);
+    showToast('⚠ Save failed: ' + err.message);
+    saveLocal(log);
+  }
+}
+
+function getLocal() {
+  try { return JSON.parse(localStorage.getItem('kids-tracker-log') || '[]'); } catch { return []; }
+}
+function saveLocal(log) { localStorage.setItem('kids-tracker-log', JSON.stringify(log)); }
+
+// In-memory log
+let currentLog = [];
+
+async function loadAndRender() {
+  currentLog = await fetchLog();
+  renderLog();
+}
+
+// Submit
+document.getElementById('btn-submit').addEventListener('click', async () => {
+  if (!selected.main) { showToast('Pick how you're feeling overall first!'); return; }
+
+  const btn = document.getElementById('btn-submit');
+  btn.disabled = true;
+
+  const entry = {
+    id: Date.now(),
+    ts: new Date().toISOString(),
+    main: selected.main,
+    cats: {},
+    noteGood: document.getElementById('note-good').value.trim(),
+    noteHard: document.getElementById('note-hard').value.trim(),
+  };
+  CATS.forEach(c => { entry.cats[c.id] = selected[c.id]; });
+
+  currentLog.unshift(entry);
+  renderLog();
+  await pushLog(currentLog);
+  showToast('Saved! 🎉');
+  clearForm();
+  btn.disabled = false;
+});
+
+// Render log
+function renderLog() {
+  const grid   = document.getElementById('log-grid');
+  const empty  = document.getElementById('log-empty');
+  const count  = document.getElementById('log-count');
+
+  count.textContent = currentLog.length
+    ? `${currentLog.length} entr${currentLog.length === 1 ? 'y' : 'ies'}`
+    : '';
+
+  if (!currentLog.length) { empty.style.display = 'block'; grid.innerHTML = ''; return; }
+  empty.style.display = 'none';
+  grid.innerHTML = '';
+
+  currentLog.forEach(entry => {
+    const face = FACES.find(f => f.score === entry.main) || FACES[2];
+    const d = new Date(entry.ts);
+    const dateStr = d.toLocaleDateString('en-US', {
+      weekday: 'long', month: 'short', day: 'numeric', year: 'numeric'
+    });
+    const timeStr = d.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
+
+    const catsHtml = CATS.map(cat => {
+      const score = entry.cats[cat.id] || 0;
+      const f = FACES.find(f => f.score === score);
+      return `<div class="rc-cat">
+        <span class="rc-cat-icon">${cat.icon}</span>
+        <span>${cat.label}</span>
+        <span class="rc-cat-face">${f ? f.emoji : '—'}</span>
+      </div>`;
+    }).join('');
+
+    const notesHtml = (entry.noteGood || entry.noteHard) ? `
+      <div class="rc-notes">
+        ${entry.noteGood ? `<div class="rc-note-block">
+          <div class="rc-note-lbl">⭐ Best part</div>
+          <div class="rc-note-val">"${entry.noteGood}"</div>
+        </div>` : ''}
+        ${entry.noteHard ? `<div class="rc-note-block">
+          <div class="rc-note-lbl">💭 What was hard</div>
+          <div class="rc-note-val">"${entry.noteHard}"</div>
+        </div>` : ''}
+      </div>` : '';
+
+    const card = document.createElement('div');
+    card.className = 'rc';
+    card.innerHTML = `
+      <div class="rc-head">
+        <div class="rc-left">
+          <div class="rc-date">${dateStr} · ${timeStr}</div>
+          <div class="rc-overall">
+            <span class="rc-main-face">${face.emoji}</span>
+            <span class="rc-main-label">${face.label}</span>
+          </div>
+        </div>
+        <div class="rc-stars" title="${face.label}">${face.stars}</div>
+      </div>
+      <div class="rc-body">
+        <div class="rc-cats">${catsHtml}</div>
+        ${notesHtml}
+      </div>
+      <div class="rc-foot">
+        <button class="btn-del" data-id="${entry.id}" aria-label="Delete entry">Delete</button>
+      </div>`;
+
+    card.querySelector('.btn-del').addEventListener('click', async () => {
+      currentLog = currentLog.filter(e => e.id !== entry.id);
+      renderLog();
+      await pushLog(currentLog);
+    });
+
+    grid.appendChild(card);
+  });
+}
+
+// Settings
+const settingsBtn   = document.getElementById('btn-settings');
+const settingsPanel = document.getElementById('settings-panel');
+const patInput      = document.getElementById('pat-input');
+
+settingsBtn.addEventListener('click', () => {
+  const open = settingsPanel.classList.toggle('open');
+  settingsBtn.setAttribute('aria-expanded', open);
+  if (open && getPAT()) patInput.value = getPAT();
+});
+
+document.getElementById('btn-save-pat').addEventListener('click', async () => {
+  const val = patInput.value.trim();
+  if (!val) return;
+  localStorage.setItem('kids-tracker-pat', val);
+  settingsPanel.classList.remove('open');
+  settingsBtn.setAttribute('aria-expanded', 'false');
+  showToast('Token saved — loading…');
+  await loadAndRender();
+});
+
+document.getElementById('btn-clear-pat').addEventListener('click', () => {
+  localStorage.removeItem('kids-tracker-pat');
+  patInput.value = '';
+  fileSha = null;
+  setSyncStatus('', 'Local only');
+  showToast('Token removed');
+});
+
+// Toast
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2600);
+}
+
+// Init
+document.getElementById('today-label').textContent =
+  new Date().toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' });
+
+loadAndRender();
+</script>
+</body>
+</html>

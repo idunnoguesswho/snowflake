@@ -825,7 +825,7 @@ document.getElementById('btn-clear').addEventListener('click', () => {
 });
 
 // ── GitHub API ──
-let fileSha = null; // SHA of log.json on GitHub (needed for updates)
+let fileSha = null;
 
 function getPAT() {
   return localStorage.getItem('bpd-tracker-pat') || '';
@@ -836,6 +836,25 @@ function setSyncStatus(state, text) {
   const label = document.getElementById('sync-text');
   dot.className = 'sync-dot' + (state ? ` ${state}` : '');
   label.textContent = text;
+}
+
+// Safe base64 encode that handles Unicode
+function toBase64(str) {
+  return btoa(Array.from(new TextEncoder().encode(str), b => String.fromCharCode(b)).join(''));
+}
+
+// Fetch current SHA from GitHub (always fresh — avoids stale SHA 422 errors)
+async function fetchFileSha(pat) {
+  const res = await fetch(`${API_BASE}/repos/${REPO}/contents/${LOG_PATH}`, {
+    headers: { Authorization: `Bearer ${pat}`, Accept: 'application/vnd.github+json' }
+  });
+  if (res.status === 404) return null;
+  if (!res.ok) {
+    const e = await res.json().catch(() => ({}));
+    throw new Error(`GitHub ${res.status}: ${e.message || res.statusText}`);
+  }
+  const data = await res.json();
+  return data.sha;
 }
 
 async function fetchLog() {
@@ -852,13 +871,15 @@ async function fetchLog() {
     });
 
     if (res.status === 404) {
-      // File doesn't exist yet — start fresh
       fileSha = null;
       setSyncStatus('ok', 'Ready (new log)');
       return [];
     }
 
-    if (!res.ok) throw new Error(`GitHub API ${res.status}`);
+    if (!res.ok) {
+      const e = await res.json().catch(() => ({}));
+      throw new Error(`GitHub ${res.status}: ${e.message || res.statusText}`);
+    }
 
     const data = await res.json();
     fileSha = data.sha;
@@ -866,7 +887,8 @@ async function fetchLog() {
     setSyncStatus('ok', 'Synced with GitHub');
     return decoded;
   } catch (err) {
-    setSyncStatus('err', 'Sync error — using local storage');
+    setSyncStatus('err', `Load error: ${err.message}`);
+    showToast(`⚠ ${err.message}`);
     console.error('fetchLog:', err);
     return getLocalLog();
   }
@@ -881,9 +903,12 @@ async function pushLog(log) {
 
   setSyncStatus('busy', 'Saving…');
   try {
-    const content = btoa(unescape(encodeURIComponent(JSON.stringify(log, null, 2))));
+    // Always fetch a fresh SHA before writing — prevents 422 on stale SHA
+    fileSha = await fetchFileSha(pat);
+
+    const content = toBase64(JSON.stringify(log, null, 2));
     const body = {
-      message: `BPD log update — ${new Date().toISOString().slice(0,10)}`,
+      message: `BPD log update — ${new Date().toISOString().slice(0, 10)}`,
       content,
       ...(fileSha ? { sha: fileSha } : {})
     };
@@ -899,18 +924,18 @@ async function pushLog(log) {
     });
 
     if (!res.ok) {
-      const errData = await res.json().catch(() => ({}));
-      throw new Error(errData.message || `GitHub API ${res.status}`);
+      const e = await res.json().catch(() => ({}));
+      throw new Error(`GitHub ${res.status}: ${e.message || res.statusText}`);
     }
 
     const data = await res.json();
     fileSha = data.content.sha;
-    saveLocalLog(log); // keep local cache in sync
+    saveLocalLog(log);
     setSyncStatus('ok', 'Saved to GitHub');
   } catch (err) {
-    setSyncStatus('err', 'Save failed — stored locally');
+    setSyncStatus('err', `Save failed: ${err.message}`);
     saveLocalLog(log);
-    showToast('⚠ GitHub save failed — entry kept locally');
+    showToast(`⚠ Save failed: ${err.message}`);
     console.error('pushLog:', err);
   }
 }

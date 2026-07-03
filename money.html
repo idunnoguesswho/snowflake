@@ -1,4 +1,4 @@
-﻿<!doctype html>
+<!doctype html>
 <html lang="en">
 <head>
 <meta charset="utf-8">
@@ -85,6 +85,7 @@
   const DEFAULT_SHEET_GID = "1103141659";
   const LIVE_SHEET_URL = "https://docs.google.com/spreadsheets/d/11A5NsScePEbtN9dujN3tILb_Q2TU5tsf6I0MbT11kDY/edit?gid=1103141659#gid=1103141659";
   const STORAGE_KEY = "snowflake-money-viewer";
+  const DEFAULT_SOURCE_VERSION = 2;
   const SAMPLE_ROWS = [
     ["Date", "Bill", "Category", "Amount", "Due Date", "Status"],
     ["2026-06-01", "Telus", "Utilities", "100.00", "2026-06-16", "Planned"],
@@ -132,7 +133,8 @@
     localStorage.setItem(STORAGE_KEY, JSON.stringify({
       source: sourceInput.value.trim(),
       gid: gidInput.value.trim(),
-      filtersOpen: !controlPanel.hidden
+      filtersOpen: !controlPanel.hidden,
+      sourceVersion: DEFAULT_SOURCE_VERSION
     }));
   }
 
@@ -631,8 +633,9 @@
 
   function init() {
     const saved = savedSettings();
-    sourceInput.value = saved.source || defaultSource();
-    gidInput.value = saved.gid || defaultGid();
+    const isStale = (saved.sourceVersion || 0) < DEFAULT_SOURCE_VERSION;
+    sourceInput.value = (!isStale && saved.source) || defaultSource();
+    gidInput.value = (!isStale && saved.gid) || defaultGid();
     setFiltersOpen(Boolean(saved.filtersOpen));
 
     filterToggle.addEventListener("click", () => setFiltersOpen(controlPanel.hidden));

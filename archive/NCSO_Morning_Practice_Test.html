@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NCSO Morning Practice Test</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --steel-900:#14181d;
+    --steel-800:#1c222a;
+    --steel-700:#262e38;
+    --steel-600:#3a4552;
+    --steel-500:#5a6875;
+    --paper:#eef1f3;
+    --safety-yellow:#f4c21a;
+    --safety-orange:#e8630a;
+    --hazard-red:#c0392b;
+    --go-green:#3f9a5c;
+    --tag-string:#8a94a0;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:
+      radial-gradient(ellipse at top left, #1e252d 0%, var(--steel-900) 55%);
+    color:var(--paper);
+    font-family:'Inter',sans-serif;
+    min-height:100vh;
+    padding:28px 16px 80px;
+  }
+  .wrap{max-width:640px;margin:0 auto;}
+
+  /* Header — printed hazard-plate style */
+  header{
+    background:repeating-linear-gradient(135deg, var(--safety-yellow) 0 18px, var(--steel-900) 18px 36px);
+    border-radius:6px;
+    padding:4px;
+    margin-bottom:22px;
+  }
+  header .inner{
+    background:var(--steel-800);
+    border-radius:4px;
+    padding:22px 22px 18px;
+  }
+  .eyebrow{
+    font-family:'JetBrains Mono',monospace;
+    font-size:11px;
+    letter-spacing:.16em;
+    color:var(--safety-yellow);
+    text-transform:uppercase;
+  }
+  h1{
+    font-family:'Oswald',sans-serif;
+    font-weight:700;
+    font-size:28px;
+    letter-spacing:.01em;
+    text-transform:uppercase;
+    margin:6px 0 4px;
+    color:var(--paper);
+  }
+  .sub{color:var(--steel-500);font-size:14px;}
+
+  /* Progress gauge */
+  .gauge-row{
+    display:flex;align-items:center;gap:12px;
+    margin:18px 0 26px;
+  }
+  .gauge-track{
+    flex:1;height:10px;border-radius:6px;
+    background:var(--steel-700);
+    overflow:hidden;
+    box-shadow:inset 0 0 0 1px var(--steel-600);
+  }
+  .gauge-fill{
+    height:100%;width:0%;
+    background:linear-gradient(90deg,var(--safety-orange),var(--safety-yellow));
+    transition:width .35s ease;
+  }
+  .gauge-label{
+    font-family:'JetBrains Mono',monospace;
+    font-size:12px;color:var(--steel-500);
+    white-space:nowrap;
+  }
+
+  /* Hazard tag question card */
+  .tag{
+    position:relative;
+    background:var(--paper);
+    color:var(--steel-900);
+    border-radius:8px;
+    padding:26px 24px 22px 40px;
+    margin-bottom:16px;
+    box-shadow:0 10px 24px rgba(0,0,0,.35);
+    display:none;
+  }
+  .tag.active{display:block;animation:swing .4s ease;}
+  @keyframes swing{
+    0%{transform:rotate(-1.2deg) translateY(-6px);opacity:0;}
+    100%{transform:rotate(0) translateY(0);opacity:1;}
+  }
+  .tag::before{
+    content:"";
+    position:absolute;left:14px;top:24px;
+    width:14px;height:14px;
+    border-radius:50%;
+    background:var(--steel-900);
+    box-shadow:0 0 0 3px var(--paper), 0 0 0 4px var(--steel-600);
+  }
+  .tag .topic{
+    font-family:'JetBrains Mono',monospace;
+    font-size:11px;letter-spacing:.1em;text-transform:uppercase;
+    color:var(--hazard-red);font-weight:700;margin-bottom:10px;
+  }
+  .tag .q-num{
+    font-family:'Oswald',sans-serif;
+    font-size:13px;color:var(--steel-500);
+    margin-bottom:2px;
+  }
+  .tag .q-text{
+    font-family:'Oswald',sans-serif;
+    font-weight:600;font-size:19px;line-height:1.35;
+    margin-bottom:18px;
+  }
+  .opt{
+    display:flex;align-items:flex-start;gap:12px;
+    width:100%;text-align:left;
+    background:#fff;
+    border:2px solid #d8dde1;
+    border-radius:7px;
+    padding:12px 14px;
+    margin-bottom:10px;
+    font-family:'Inter',sans-serif;
+    font-size:15px;font-weight:500;
+    color:var(--steel-900);
+    cursor:pointer;
+    transition:border-color .15s, background .15s;
+  }
+  .opt:hover{border-color:var(--safety-orange);}
+  .opt .letter{
+    font-family:'JetBrains Mono',monospace;
+    font-weight:700;
+    color:var(--steel-500);
+    flex-shrink:0;
+  }
+  .opt.correct{border-color:var(--go-green);background:#eaf7ee;}
+  .opt.wrong{border-color:var(--hazard-red);background:#fbeceb;}
+  .opt[disabled]{cursor:default;}
+
+  .explain{
+    display:none;
+    margin-top:6px;
+    padding:12px 14px;
+    background:#f4f1e6;
+    border-left:4px solid var(--safety-orange);
+    border-radius:4px;
+    font-size:14px;line-height:1.5;
+    color:var(--steel-800);
+  }
+  .explain.show{display:block;}
+
+  .nav-row{
+    display:flex;justify-content:flex-end;margin-top:16px;
+  }
+  .next-btn{
+    font-family:'Oswald',sans-serif;
+    text-transform:uppercase;
+    letter-spacing:.05em;
+    font-size:14px;font-weight:600;
+    background:var(--safety-yellow);
+    color:var(--steel-900);
+    border:none;border-radius:6px;
+    padding:11px 22px;
+    cursor:pointer;
+    opacity:.4;pointer-events:none;
+    transition:opacity .15s, transform .1s;
+  }
+  .next-btn.ready{opacity:1;pointer-events:auto;}
+  .next-btn:active{transform:scale(.97);}
+
+  /* Results */
+  .results{display:none;text-align:center;padding:30px 10px;}
+  .results.show{display:block;}
+  .score-ring{
+    width:150px;height:150px;margin:0 auto 18px;
+    border-radius:50%;
+    display:flex;align-items:center;justify-content:center;
+    background:var(--steel-800);
+    border:6px solid var(--steel-700);
+  }
+  .score-ring .pct{
+    font-family:'Oswald',sans-serif;font-weight:700;font-size:38px;
+  }
+  .verdict{
+    font-family:'Oswald',sans-serif;font-size:20px;font-weight:600;
+    text-transform:uppercase;margin-bottom:6px;
+  }
+  .breakdown{
+    text-align:left;
+    background:var(--steel-800);
+    border-radius:8px;
+    padding:16px 18px;
+    margin-top:20px;
+    font-size:14px;
+  }
+  .breakdown div{
+    display:flex;justify-content:space-between;
+    padding:6px 0;border-bottom:1px solid var(--steel-700);
+  }
+  .breakdown div:last-child{border-bottom:none;}
+  .miss{color:var(--safety-orange);font-weight:600;}
+  .restart-btn{
+    margin-top:22px;
+    font-family:'Oswald',sans-serif;text-transform:uppercase;
+    letter-spacing:.05em;font-weight:600;font-size:14px;
+    background:transparent;border:2px solid var(--safety-yellow);
+    color:var(--safety-yellow);border-radius:6px;
+    padding:11px 22px;cursor:pointer;
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <div class="inner">
+      <div class="eyebrow">ACSA · NCSO Exam Prep</div>
+      <h1>Morning Practice Test</h1>
+      <div class="sub">30 questions across all 11 study topics — closed book, no rereading the guide.</div>
+    </div>
+  </header>
+
+  <div class="gauge-row">
+    <span class="gauge-label" id="gaugeCount">Q1 / 30</span>
+    <div class="gauge-track"><div class="gauge-fill" id="gaugeFill"></div></div>
+  </div>
+
+  <div id="quiz"></div>
+
+  <div class="results" id="results">
+    <div class="score-ring"><span class="pct" id="pctText">0%</span></div>
+    <div class="verdict" id="verdictText"></div>
+    <div class="sub" id="scoreSub"></div>
+    <div class="breakdown" id="breakdown"></div>
+    <button class="restart-btn" onclick="restart()">Retake Test</button>
+  </div>
+
+</div>
+
+<script>
+const QUESTIONS = [
+{topic:"HSMS Fundamentals", q:"What best describes a mature Health and Safety Management System?", opts:[
+  "One with the most paperwork on file",
+  "One where every part is interconnected and continuously improves based on findings",
+  "One where the safety manager alone is responsible for every part",
+  "One that has never had a reported incident"
+], correct:1, explain:"An HSMS is judged on connected parts (policy, training, inspections, investigation, auditing) working together and improving over time — not on volume of paperwork or a spotless record alone."},
+
+{topic:"Hazard Assessments", q:"An FLHA is best described as:", opts:[
+  "A general risk assessment written for the whole project in advance",
+  "A task-specific hazard assessment done at the job site before work starts",
+  "The company's annual safety audit",
+  "A form only supervisors are permitted to complete"
+], correct:1, explain:"Field Level Hazard Assessments are done by the workers doing the task, at the location, immediately before starting — distinct from a broader pre-written hazard and risk assessment."},
+
+{topic:"Hazard Assessments", q:"Correct order of the hierarchy of controls, most to least effective:", opts:[
+  "PPE, administrative, engineering, substitution, elimination",
+  "Elimination, substitution, engineering, administrative, PPE",
+  "Substitution, elimination, PPE, engineering, administrative",
+  "Engineering, elimination, substitution, PPE, administrative"
+], correct:1, explain:"Elimination removes the hazard entirely and sits at the top; PPE only protects the individual worker and sits at the bottom."},
+
+{topic:"Training", q:"Site-specific orientation is different from general safety training because it:", opts:[
+  "Replaces the need for any certification",
+  "Covers site hazards, emergency procedures, and reporting lines for that specific site",
+  "Is optional for experienced workers",
+  "Only needs to happen once per company, not per site"
+], correct:1, explain:"Orientation is location-specific — it doesn't replace certification or general training, and it's required at each new site regardless of experience."},
+
+{topic:"Training", q:"Competency, as used on the NCSO exam, means:", opts:[
+  "The worker attended a training session",
+  "The worker holds a certificate",
+  "The worker has demonstrated the knowledge, skill, and ability to do the task safely",
+  "The worker has more than one year of experience"
+], correct:2, explain:"Attendance and certificates are inputs; competency is the demonstrated ability to actually apply the training to the task."},
+
+{topic:"Inspections", q:"Inspection frequency should primarily be based on:", opts:[
+  "A fixed monthly calendar for every site",
+  "The risk level of the work being performed",
+  "Whichever schedule is easiest to staff",
+  "Client request only"
+], correct:1, explain:"Higher-risk work and areas need more frequent inspection; a flat calendar rule ignores actual risk."},
+
+{topic:"Inspections", q:"When an inspection finds a hazard, what is required beyond noting it?", opts:[
+  "Nothing further if it's minor",
+  "A documented corrective action with a responsible person and timeline, followed up to closure",
+  "A verbal reminder to the crew",
+  "Waiting until the next scheduled inspection to confirm"
+], correct:1, explain:"Findings need an assigned owner, a timeline, and confirmed close-out — not just documentation of the hazard."},
+
+{topic:"Incident Investigation", q:"The root cause of an incident is:", opts:[
+  "The first unsafe act observed",
+  "Whichever factor is easiest to fix",
+  "The underlying system failure that allowed the incident to occur",
+  "Always operator error"
+], correct:2, explain:"Root cause sits below surface conditions (contributing factors) — it's the systemic gap, like missing training or inadequate controls, that let the incident happen."},
+
+{topic:"Incident Investigation", q:"Wet floors and poor lighting present at an incident scene are examples of:", opts:[
+  "Root causes",
+  "Contributing factors",
+  "Corrective actions",
+  "Due diligence"
+], correct:1, explain:"These are surface-level conditions that played a role but aren't the underlying system failure — that's the root cause distinction the exam tests heavily."},
+
+{topic:"Incident Investigation", q:"The primary purpose of an incident investigation is to:", opts:[
+  "Determine who should be disciplined",
+  "Satisfy insurance requirements",
+  "Prevent recurrence by identifying root cause",
+  "Close the file as quickly as possible"
+], correct:2, explain:"Investigations are prevention-focused, not blame-focused — that framing matters for exam answer choices."},
+
+{topic:"Auditing / COR", q:"COR stands for:", opts:[
+  "Code of Regulation",
+  "Certificate of Recognition",
+  "Corrective Oversight Report",
+  "Compliance Operations Review"
+], correct:1, explain:"COR — Certificate of Recognition — is Alberta's certification that a company's HSMS meets a recognized standard."},
+
+{topic:"Auditing / COR", q:"A maintenance audit differs from a certification audit in that it:", opts:[
+  "Is always done internally with no external auditor",
+  "Happens in following years to keep an existing certification active",
+  "Is only required if an incident occurs",
+  "Replaces the need for annual inspections"
+], correct:1, explain:"Certification audits establish COR status initially; maintenance audits occur in subsequent years to keep it active."},
+
+{topic:"Auditing / COR", q:"A typical COR passing threshold is:", opts:[
+  "50% overall, no element minimum",
+  "75% overall and 75% on the highest weighted element",
+  "90% on every element",
+  "There is no minimum threshold"
+], correct:1, explain:"Generally a 75% overall score and 75% on the highest-weighted element are required to pass — know this figure."},
+
+{topic:"Documentation", q:"In the documentation hierarchy, procedures and programs sit:", opts:[
+  "Above policy",
+  "Below policy but above supporting records like FLHAs and inspection reports",
+  "At the same level as records, with no hierarchy",
+  "Only required for certified companies"
+], correct:1, explain:"Policy sets commitment at the top; procedures/programs explain how it's carried out; records sit underneath as evidence."},
+
+{topic:"Documentation", q:"If a safety program requires an activity but no record of it exists, an auditor will typically treat this as:", opts:[
+  "Acceptable, since the activity likely happened",
+  "Evidence the activity did not occur",
+  "Irrelevant to the audit score",
+  "Grounds to only deduct half a point"
+], correct:1, explain:"Missing records are treated as non-occurrence for audit purposes, regardless of what actually happened on site."},
+
+{topic:"WHMIS / GHS", q:"WHMIS aligns with which international system for classifying hazardous products?", opts:[
+  "ISO 45001",
+  "GHS — Globally Harmonized System",
+  "OSHA 1910",
+  "CSA Z1000"
+], correct:1, explain:"WHMIS is aligned with the Globally Harmonized System (GHS) for classification and labelling."},
+
+{topic:"WHMIS / GHS", q:"How many standard sections does a Safety Data Sheet (SDS) have, and in what order?", opts:[
+  "10 sections, order varies by supplier",
+  "16 sections, in a fixed standard order",
+  "8 sections, alphabetical",
+  "12 sections, set by the employer"
+], correct:1, explain:"An SDS has 16 sections in a fixed order — identification, hazards, composition, first aid, and so on."},
+
+{topic:"WHMIS / GHS", q:"A workplace label (as opposed to a supplier label) can be used when:", opts:[
+  "Any product is moved to a new container, no conditions apply",
+  "A product is transferred to a secondary container and used within one shift by the person who decanted it",
+  "The original label is simply hard to read",
+  "Workplace labels are never permitted under WHMIS"
+], correct:1, explain:"Workplace labels are simpler and only valid under specific conditions — same-shift use by the person who transferred the product is a key one."},
+
+{topic:"WHMIS / GHS", q:"GHS pictograms are shaped as:", opts:[
+  "Circles with a blue border",
+  "Diamonds with a red border",
+  "Squares with a black border",
+  "Triangles with a yellow border"
+], correct:1, explain:"GHS pictograms are red-bordered diamonds — flame, corrosion, skull and crossbones, health hazard, etc."},
+
+{topic:"Legislation", q:"Alberta's OHS legal framework hierarchy, from highest to most detailed, is:", opts:[
+  "Code, Regulation, Act",
+  "Act, Regulation, Code",
+  "Regulation, Act, Code",
+  "Code, Act, Regulation"
+], correct:1, explain:"The Act sets broad law, the Regulation adds legal requirements, and the Code gives detailed technical requirements."},
+
+{topic:"Legislation", q:"The Internal Responsibility System (IRS) means:", opts:[
+  "Only the employer is legally responsible for safety",
+  "Everyone on site shares responsibility for safety according to their role and authority",
+  "Only government inspectors enforce safety",
+  "Workers are responsible only for their own PPE"
+], correct:1, explain:"IRS distributes safety responsibility across everyone on site, proportional to their role and authority — not just to one party."},
+
+{topic:"Legislation", q:"Due diligence is best defined as:", opts:[
+  "Having zero incidents in a calendar year",
+  "Taking all reasonable steps to prevent a hazard or incident",
+  "Completing a COR audit",
+  "Reporting every near miss to the regulator"
+], correct:1, explain:"Due diligence is the legal defense of having taken all reasonable steps — it's a standard of effort, not a record of zero incidents."},
+
+{topic:"Legislation", q:"A worker's right to refuse dangerous work requires them to:", opts:[
+  "Simply stop work and go home",
+  "Notify a supervisor, and if unresolved, involve the regulator",
+  "Only refuse if a union representative is present",
+  "Get written permission in advance from the employer"
+], correct:1, explain:"Refusal follows a defined process — notify the supervisor first, escalate to the regulator if unresolved."},
+
+{topic:"Emergency Preparedness", q:"An emergency response plan should cover:", opts:[
+  "Fire only, since it's the most common emergency",
+  "Foreseeable emergencies including fire, medical, spills, and evacuation",
+  "Only emergencies that have happened before at that site",
+  "Only events requiring external emergency services"
+], correct:1, explain:"Plans need to address the range of foreseeable emergencies for that site, not just fire or past events."},
+
+{topic:"Emergency Preparedness", q:"Required first aid level and kit contents on a site are primarily determined by:", opts:[
+  "Company preference only",
+  "Number of workers, distance to medical care, and hazard level",
+  "The age of the newest employee",
+  "Whether the site has ever had an injury before"
+], correct:1, explain:"Alberta's first aid requirements scale with worker count, distance to definitive care, and the hazard level of the work."},
+
+{topic:"Criminal Code / Bill C-45", q:"Bill C-45 (the Westray Amendments) primarily changed the Criminal Code so that:", opts:[
+  "Only front-line workers can be held criminally liable",
+  "Organizations and individuals who direct work can face criminal liability for safety failures causing serious harm",
+  "OHS regulatory penalties were eliminated",
+  "Only fatalities, not injuries, can trigger criminal charges"
+], correct:1, explain:"Bill C-45 extended criminal liability to organizations and to anyone with authority to direct how work is done, not just individual workers."},
+
+{topic:"Criminal Code / Bill C-45", q:"Criminal Code liability under Bill C-45 relates to provincial OHS law by:", opts:[
+  "Replacing provincial OHS law entirely",
+  "Applying only in provinces without an OHS Act",
+  "Sitting alongside provincial law — a single incident can trigger both OHS and criminal charges",
+  "Only applying to companies with more than 500 employees"
+], correct:2, explain:"Criminal liability is layered on top of, not instead of, provincial regulatory law — both can apply to the same incident."},
+
+{topic:"Criminal Code / Bill C-45", q:"Under Bill C-45, who has a legal duty to take reasonable steps to prevent bodily harm to workers?", opts:[
+  "Only the company's CEO",
+  "Only certified safety officers",
+  "Anyone with the authority to direct how work is done",
+  "Only the government regulator"
+], correct:2, explain:"The duty attaches to anyone directing work, including supervisors — not just executives or safety staff."},
+
+{topic:"Mixed Review", q:"An audit finds a program requiring monthly inspections, but records only show inspections every other month. This is scored as:", opts:[
+  "A minor formatting issue, no impact on score",
+  "A gap — missing records mean the required activity is treated as not having occurred as specified",
+  "Acceptable since bi-monthly is close enough",
+  "Not something an auditor would check"
+], correct:1, explain:"This combines the documentation and auditing concepts: a stated program requirement without matching records is scored as a gap."},
+
+{topic:"Mixed Review", q:"A supervisor sees a hazard, correctly applies engineering controls, documents it, and the crew is trained on the change. Which principle does this scenario demonstrate together?", opts:[
+  "COR certification",
+  "Hierarchy of controls plus due diligence plus documentation",
+  "Bill C-45 only",
+  "Right to refuse"
+], correct:1, explain:"This ties together several exam topics at once — choosing an effective control, documenting it, and training on it is the kind of reasonable-steps behavior that supports due diligence."}
+];
+
+let current = 0;
+let score = 0;
+let answered = false;
+const results = [];
+
+function renderQuestion(){
+  const quiz = document.getElementById('quiz');
+  quiz.innerHTML = '';
+  const item = QUESTIONS[current];
+  answered = false;
+
+  const tag = document.createElement('div');
+  tag.className = 'tag active';
+
+  const letters = ['A','B','C','D'];
+  let optsHtml = '';
+  item.opts.forEach((opt,i)=>{
+    optsHtml += `<div class="opt" data-i="${i}" onclick="selectOption(${i})">
+      <span class="letter">${letters[i]}</span><span>${opt}</span>
+    </div>`;
+  });
+
+  tag.innerHTML = `
+    <div class="topic">${item.topic}</div>
+    <div class="q-num">Question ${current+1} of ${QUESTIONS.length}</div>
+    <div class="q-text">${item.q}</div>
+    <div id="optsWrap">${optsHtml}</div>
+    <div class="explain" id="explainBox">${item.explain}</div>
+    <div class="nav-row"><button class="next-btn" id="nextBtn" onclick="nextQuestion()">${current === QUESTIONS.length-1 ? 'See results' : 'Next question'}</button></div>
+  `;
+  quiz.appendChild(tag);
+  updateGauge();
+}
+
+function selectOption(i){
+  if(answered) return;
+  answered = true;
+  const item = QUESTIONS[current];
+  const opts = document.querySelectorAll('#optsWrap .opt');
+  opts.forEach(o=>o.setAttribute('disabled','true'));
+  opts[i].classList.add(i===item.correct ? 'correct' : 'wrong');
+  if(i!==item.correct){
+    opts[item.correct].classList.add('correct');
+  } else {
+    score++;
+  }
+  results.push({topic:item.topic, correct: i===item.correct});
+  document.getElementById('explainBox').classList.add('show');
+  document.getElementById('nextBtn').classList.add('ready');
+}
+
+function nextQuestion(){
+  if(!answered) return;
+  current++;
+  if(current >= QUESTIONS.length){
+    showResults();
+  } else {
+    renderQuestion();
+  }
+}
+
+function updateGauge(){
+  document.getElementById('gaugeCount').textContent = `Q${current+1} / ${QUESTIONS.length}`;
+  document.getElementById('gaugeFill').style.width = `${(current/QUESTIONS.length)*100}%`;
+}
+
+function showResults(){
+  document.getElementById('quiz').style.display = 'none';
+  document.querySelector('.gauge-row').style.display = 'none';
+  const res = document.getElementById('results');
+  res.classList.add('show');
+
+  const pct = Math.round((score/QUESTIONS.length)*100);
+  document.getElementById('pctText').textContent = `${pct}%`;
+  const ring = document.querySelector('.score-ring');
+  const color = pct>=75 ? 'var(--go-green)' : pct>=60 ? 'var(--safety-yellow)' : 'var(--hazard-red)';
+  ring.style.borderColor = color;
+
+  const verdict = document.getElementById('verdictText');
+  const sub = document.getElementById('scoreSub');
+  if(pct>=75){
+    verdict.textContent = 'Passing range';
+    sub.textContent = `${score} of ${QUESTIONS.length} correct — at or above the typical 75% pass mark.`;
+  } else {
+    verdict.textContent = 'Below pass mark';
+    sub.textContent = `${score} of ${QUESTIONS.length} correct — typical pass mark is 75%. Review the topics below.`;
+  }
+
+  const byTopic = {};
+  results.forEach(r=>{
+    if(!byTopic[r.topic]) byTopic[r.topic] = {right:0,total:0};
+    byTopic[r.topic].total++;
+    if(r.correct) byTopic[r.topic].right++;
+  });
+  const breakdown = document.getElementById('breakdown');
+  breakdown.innerHTML = Object.keys(byTopic).map(t=>{
+    const d = byTopic[t];
+    const weak = d.right < d.total;
+    return `<div><span>${t}</span><span class="${weak?'miss':''}">${d.right}/${d.total}</span></div>`;
+  }).join('');
+}
+
+function restart(){
+  current = 0; score = 0; answered = false;
+  results.length = 0;
+  document.getElementById('quiz').style.display = 'block';
+  document.querySelector('.gauge-row').style.display = 'flex';
+  document.getElementById('results').classList.remove('show');
+  renderQuestion();
+}
+
+renderQuestion();
+</script>
+</body>
+</html>

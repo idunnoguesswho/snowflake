@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NCSO 120-Question Full Practice Exam</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --steel-900:#14181d; --steel-800:#1c222a; --steel-700:#262e38;
+    --steel-600:#3a4552; --steel-500:#5a6875; --paper:#eef1f3;
+    --safety-yellow:#f4c21a; --safety-orange:#e8630a; --hazard-red:#c0392b; --go-green:#3f9a5c;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;background:radial-gradient(ellipse at top left,#1e252d 0%,var(--steel-900) 55%);color:var(--paper);font-family:'Inter',sans-serif;min-height:100vh;padding:28px 16px 80px;}
+  .wrap{max-width:660px;margin:0 auto;}
+  header{background:repeating-linear-gradient(135deg,var(--safety-yellow) 0 18px,var(--steel-900) 18px 36px);border-radius:6px;padding:4px;margin-bottom:18px;}
+  header .inner{background:var(--steel-800);border-radius:4px;padding:22px 22px 18px;}
+  .eyebrow{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.16em;color:var(--safety-yellow);text-transform:uppercase;}
+  h1{font-family:'Oswald',sans-serif;font-weight:700;font-size:26px;text-transform:uppercase;margin:6px 0 4px;}
+  .sub{color:var(--steel-500);font-size:13.5px;line-height:1.5;}
+
+  .cat-legend{display:flex;flex-wrap:wrap;gap:6px;margin:16px 0 22px;}
+  .cat-chip{font-family:'JetBrains Mono',monospace;font-size:10.5px;padding:4px 9px;border-radius:20px;background:var(--steel-700);color:var(--steel-500);border:1px solid var(--steel-600);}
+
+  .gauge-row{display:flex;align-items:center;gap:12px;margin:0 0 22px;}
+  .gauge-track{flex:1;height:10px;border-radius:6px;background:var(--steel-700);overflow:hidden;box-shadow:inset 0 0 0 1px var(--steel-600);}
+  .gauge-fill{height:100%;width:0%;background:linear-gradient(90deg,var(--safety-orange),var(--safety-yellow));transition:width .35s ease;}
+  .gauge-label{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--steel-500);white-space:nowrap;}
+
+  .tag{position:relative;background:var(--paper);color:var(--steel-900);border-radius:8px;padding:26px 24px 22px 40px;margin-bottom:16px;box-shadow:0 10px 24px rgba(0,0,0,.35);display:none;}
+  .tag.active{display:block;animation:swing .35s ease;}
+  @keyframes swing{0%{transform:rotate(-1.2deg) translateY(-6px);opacity:0;}100%{transform:rotate(0) translateY(0);opacity:1;}}
+  .tag::before{content:"";position:absolute;left:14px;top:24px;width:14px;height:14px;border-radius:50%;background:var(--steel-900);box-shadow:0 0 0 3px var(--paper),0 0 0 4px var(--steel-600);}
+  .tag .topic{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--hazard-red);font-weight:700;margin-bottom:10px;}
+  .tag .q-num{font-family:'Oswald',sans-serif;font-size:13px;color:var(--steel-500);margin-bottom:2px;}
+  .tag .q-text{font-family:'Oswald',sans-serif;font-weight:600;font-size:18px;line-height:1.35;margin-bottom:18px;}
+  .opt{display:flex;align-items:flex-start;gap:12px;width:100%;text-align:left;background:#fff;border:2px solid #d8dde1;border-radius:7px;padding:12px 14px;margin-bottom:10px;font-family:'Inter',sans-serif;font-size:14.5px;font-weight:500;color:var(--steel-900);cursor:pointer;transition:border-color .15s,background .15s;}
+  .opt:hover{border-color:var(--safety-orange);}
+  .opt .letter{font-family:'JetBrains Mono',monospace;font-weight:700;color:var(--steel-500);flex-shrink:0;}
+  .opt.correct{border-color:var(--go-green);background:#eaf7ee;}
+  .opt.wrong{border-color:var(--hazard-red);background:#fbeceb;}
+  .opt[disabled]{cursor:default;}
+  .explain{display:none;margin-top:6px;padding:12px 14px;background:#f4f1e6;border-left:4px solid var(--safety-orange);border-radius:4px;font-size:13.5px;line-height:1.5;color:var(--steel-800);}
+  .explain.show{display:block;}
+  .nav-row{display:flex;justify-content:flex-end;margin-top:16px;}
+  .next-btn{font-family:'Oswald',sans-serif;text-transform:uppercase;letter-spacing:.05em;font-size:14px;font-weight:600;background:var(--safety-yellow);color:var(--steel-900);border:none;border-radius:6px;padding:11px 22px;cursor:pointer;opacity:.4;pointer-events:none;transition:opacity .15s,transform .1s;}
+  .next-btn.ready{opacity:1;pointer-events:auto;}
+  .next-btn:active{transform:scale(.97);}
+
+  .results{display:none;text-align:center;padding:30px 10px;}
+  .results.show{display:block;}
+  .score-ring{width:150px;height:150px;margin:0 auto 18px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:var(--steel-800);border:6px solid var(--steel-700);}
+  .score-ring .pct{font-family:'Oswald',sans-serif;font-weight:700;font-size:36px;}
+  .verdict{font-family:'Oswald',sans-serif;font-size:20px;font-weight:600;text-transform:uppercase;margin-bottom:6px;}
+  .breakdown{text-align:left;background:var(--steel-800);border-radius:8px;padding:16px 18px;margin-top:20px;font-size:13.5px;}
+  .breakdown div{display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid var(--steel-700);}
+  .breakdown div:last-child{border-bottom:none;}
+  .miss{color:var(--safety-orange);font-weight:600;}
+  .restart-btn{margin-top:22px;font-family:'Oswald',sans-serif;text-transform:uppercase;letter-spacing:.05em;font-weight:600;font-size:14px;background:transparent;border:2px solid var(--safety-yellow);color:var(--safety-yellow);border-radius:6px;padding:11px 22px;cursor:pointer;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="inner">
+      <div class="eyebrow">ACSA · NCSO Exam Prep · Full-Length Practice Exam</div>
+      <h1>120-Question Practice Exam</h1>
+      <div class="sub">Matches the real NCSO exam length of 120 multiple-choice questions across all 12 blueprint categories, weighted toward Documentation, WHMIS, and Legislation. Try to complete it in 2 hours, closed book, to mirror real exam conditions.</div>
+    </div>
+  </header>
+
+  <div class="cat-legend" id="catLegend"></div>
+
+  <div class="gauge-row">
+    <span class="gauge-label" id="gaugeCount">Q1 / 60</span>
+    <div class="gauge-track"><div class="gauge-fill" id="gaugeFill"></div></div>
+  </div>
+
+  <div id="quiz"></div>
+
+  <div class="results" id="results">
+    <div class="score-ring"><span class="pct" id="pctText">0%</span></div>
+    <div class="verdict" id="verdictText"></div>
+    <div class="sub" id="scoreSub"></div>
+    <div class="breakdown" id="breakdown"></div>
+    <button class="restart-btn" onclick="restart()">Retake Test</button>
+  </div>
+</div>
+
+<script>
+const QUESTIONS = [
+// ---------- HSMS / Health & Safety Programs (4) ----------
+{topic:"HSMS / Programs", q:"An HSMS is best described as:", opts:["A binder of forms kept in the site trailer","A complete system maintaining high standards throughout every part of the organization","The safety manager's personal responsibility","A document only reviewed after an incident"], correct:1, explain:"An HSMS (Health and Safety Management System) is a complete, organization-wide system — not a single binder or one person's job."},
+{topic:"HSMS / Programs", q:"For employers with 10 or fewer employees, the HSMS is typically evaluated through:", opts:["A full COR audit only","SECOR","No formal evaluation is required","The NHSA program"], correct:1, explain:"Small employers (10 or fewer) are generally evaluated through SECOR rather than a full COR audit."},
+{topic:"HSMS / Programs", q:"What principle should drive updates to a company's health and safety program?", opts:["Updating only when required by law","Continuous improvement based on inspection, audit, and investigation findings","Updating once every five years regardless of findings","Waiting for a client to request changes"], correct:1, explain:"A mature HSMS improves continuously based on what its own inspections, audits, and investigations reveal."},
+{topic:"HSMS / Programs", q:"On a multi-employer project, which document typically governs how every employer on site participates in the overall HSMS?", opts:["Each subcontractor's individual company safety manual", "The prime contractor's overarching project health and safety program", "The lowest-tier subcontractor's FLHA", "There is no single governing document"], correct:1, explain:"The prime contractor's project-level H&S program is the guiding document that all employers on a multi-employer site participate under."},
+{topic:"HSMS / Programs", q:"Which of the following exemplifies the 'check' phase of plan-do-check-act in an HSMS?", opts:["Writing the safety policy","Conducting an internal audit","Delivering toolbox talks","Purchasing PPE"], correct:1, explain:"Auditing and inspecting are how a system 'checks' itself — writing policy is 'plan', and delivering training or buying PPE is 'do'."},
+{topic:"HSMS / Programs", q:"A company's health and safety policy should primarily communicate:", opts:["Detailed step-by-step procedures for every task","The organization's overall commitment and objectives for health and safety","The exact wording required by the regulator","A list of all PPE required on site"], correct:1, explain:"Policy sets the high-level commitment; the how-to detail belongs in programs and procedures beneath it."},
+{topic:"HSMS / Programs", q:"Which best distinguishes a program from a procedure within an HSMS?", opts:["A program is a broad area of activity (e.g., a fall protection program) while a procedure is the specific step-by-step method within it","They are interchangeable terms","A procedure always outranks a program","Programs apply only to office staff"], correct:0, explain:"Programs are the broader framework for a topic area; procedures are the specific steps carried out under that program."},
+{topic:"HSMS / Programs", q:"What is the main purpose of setting measurable health and safety objectives within an HSMS?", opts:["To satisfy the auditor's checklist only","To track progress and drive continuous improvement","To reduce insurance premiums exclusively","To assign blame if targets are missed"], correct:1, explain:"Measurable objectives exist to track real progress and feed continuous improvement, not just to check an audit box."},
+
+// ---------- Hazard Assessments & Controls (12) ----------
+{topic:"Hazard Assessments", q:"An FLHA is completed:", opts:["Once per project, before mobilization","At the job site, by the workers doing the task, before work starts","Only by the site supervisor","Only if the task is classified as high-risk"], correct:1, explain:"FLHAs are task- and site-specific, completed by the workers performing the task immediately before starting."},
+{topic:"Hazard Assessments", q:"Hierarchy of controls, most to least effective:", opts:["PPE, administrative, engineering, substitution, elimination","Elimination, substitution, engineering, administrative, PPE","Substitution, elimination, PPE, engineering, administrative","Administrative, elimination, engineering, PPE, substitution"], correct:1, explain:"Elimination removes the hazard entirely; PPE only protects the individual and is the last resort."},
+{topic:"Hazard Assessments", q:"The nine-step formal hazard assessment model begins with:", opts:["Selecting PPE for the crew","Figuring out what people actually do on the task","Filing the paperwork with the prime contractor","Scheduling a toolbox talk"], correct:1, explain:"The formal model starts by understanding the actual work being performed before hazards can be properly identified."},
+{topic:"Hazard Assessments", q:"The final step of the nine-step formal hazard assessment model is:", opts:["Reviewing and revising the assessment as conditions change","Submitting the assessment to the regulator","Archiving the document permanently","Assigning blame if a hazard was missed"], correct:0, explain:"Hazard assessments are living documents — the process ends with ongoing review and revision as conditions change."},
+{topic:"Hazard Assessments", q:"A five-step site-specific hazard assessment differs from the nine-step formal model mainly in that it is:", opts:["Used only by auditors", "A more streamlined version suited to routine, site-level tasks", "Legally required only for excavation work", "Not accepted for COR purposes"], correct:1, explain:"The five-step model is a streamlined, practical version for routine site-level hazard identification, versus the more formal nine-step process."},
+{topic:"Hazard Assessments", q:"A crew chooses to fence off an excavation rather than rely on workers remembering to stay back. This is an example of which control?", opts:["Administrative control","Engineering control","PPE","Substitution"], correct:1, explain:"A physical barrier is an engineering control — it changes the environment rather than relying on behaviour (administrative) or worker gear (PPE)."},
+{topic:"Hazard Assessments", q:"Which control type changes the process itself so the hazard no longer exists at all?", opts:["Elimination","Administrative control","PPE","Engineering control"], correct:0, explain:"Elimination removes the hazard entirely, unlike engineering controls which isolate or reduce it while it still exists."},
+{topic:"Hazard Assessments", q:"A JSA most closely refers to:", opts:["Job Safety Analysis — breaking a task into steps and identifying hazards/controls for each","A formal COR audit tool","A WHMIS classification method","An emergency response checklist"], correct:0, explain:"A JSA (Job Safety Analysis) breaks a task down step by step to identify hazards and controls at each stage."},
+{topic:"Hazard Assessments", q:"If a hazard cannot be eliminated or substituted, which control should be considered next, before administrative controls or PPE?", opts:["Engineering controls","Jump straight to PPE","Skip to administrative controls","No further controls are needed"], correct:0, explain:"The hierarchy is followed in order — engineering controls come before administrative controls and PPE."},
+{topic:"Hazard Assessments", q:"An FLHA identifies a new hazard mid-task that wasn't present at the start of the shift. The correct response is to:", opts:["Finish the task and note it on tomorrow's FLHA","Stop and reassess the hazard and controls before continuing","Ignore it if the task is almost done","Only report it if an injury occurs"], correct:1, explain:"FLHAs are living assessments — a new hazard mid-task requires stopping to reassess before continuing, not deferring to the next shift."},
+{topic:"Hazard Assessments", q:"Requiring workers to rotate tasks to reduce repetitive strain exposure is an example of which control?", opts:["Engineering control","Administrative control","Substitution","Elimination"], correct:1, explain:"Task rotation is a work-practice/scheduling change — an administrative control, not a physical change to equipment or process."},
+{topic:"Hazard Assessments", q:"Which of the following is the best example of substitution as a hazard control?", opts:["Replacing a solvent-based product with a water-based one of lower toxicity","Installing a ventilation system","Requiring a respirator","Posting warning signage"], correct:0, explain:"Substitution replaces the hazardous material or process with a less hazardous one — ventilation is engineering, a respirator is PPE, signage is administrative."},
+
+// ---------- Training & Orientations (8) ----------
+{topic:"Training", q:"Site-specific orientation must cover:", opts:["Only the company's general safety policy","Site hazards, emergency procedures, and reporting lines specific to that site","Only WHMIS content","Nothing beyond what was covered in certification courses"], correct:1, explain:"Orientation is location-specific and distinct from general certification or company-wide training."},
+{topic:"Training", q:"Competency, in the NCSO context, means:", opts:["Holding a valid certificate","Having attended the required training session","Demonstrated knowledge, skill, and ability to safely perform the task","Having more than 2 years of industry experience"], correct:2, explain:"Certificates and attendance are inputs; competency is the demonstrated ability to actually apply that training on the task."},
+{topic:"Training", q:"On-the-job training is most effective when it follows a structured instructional sequence rather than:", opts:["Formal classroom-only delivery","Informal, unstructured 'watch and learn' exposure","Written testing at the end","Supervisor sign-off"], correct:1, explain:"Effective OJT follows deliberate instructional steps (tell, show, do, review) rather than unstructured observation alone."},
+{topic:"Training", q:"A worker completed general WHMIS training two years ago at a previous employer. For a new hazardous product on today's site, they still need:", opts:["Nothing further — general WHMIS covers all products","Workplace-specific WHMIS training on that particular product","Only a supplier label review","A completely new general WHMIS certificate"], correct:1, explain:"Workplace-specific WHMIS training on the actual products in use is required in addition to generic WHMIS training — one does not replace the other."},
+{topic:"Training", q:"A toolbox talk is best described as:", opts:["A formal certification course","A brief, regular safety discussion focused on a specific topic relevant to current work","An annual company-wide safety audit","A disciplinary meeting following an incident"], correct:1, explain:"Toolbox talks are short, frequent, focused discussions — not formal courses, audits, or disciplinary sessions."},
+{topic:"Training", q:"Which of the following would NOT normally be considered adequate evidence of training competency?", opts:["A signed attendance sheet alone, with no skills demonstration","A supervisor's documented observation of the worker correctly performing the task","A practical skills evaluation with a pass result","A combination of classroom instruction and supervised hands-on practice"], correct:0, explain:"Attendance alone proves presence, not competency — competency needs some demonstrated or observed performance."},
+{topic:"Training", q:"Refresher training is generally required when:", opts:["A worker requests it for personal interest only","There is a significant time gap since original training, a process change, or after an incident/near miss","Never, since original training is valid indefinitely","Only if mandated by a union contract"], correct:1, explain:"Refreshers are triggered by time elapsed, process changes, or incidents/near misses — not left indefinite or purely optional."},
+{topic:"Training", q:"New and young workers, per Alberta OHS requirements, generally require:", opts:["The same orientation as experienced workers with no additional measures","Additional training and closer supervision due to increased risk","No orientation until they've worked 90 days","Orientation only if they are under 16"], correct:1, explain:"New and young workers are recognized as higher-risk and require additional training and closer supervision."},
+
+// ---------- Inspections (8) ----------
+{topic:"Inspections", q:"Inspection frequency should primarily be based on:", opts:["A fixed monthly calendar for every site","The risk level of the work being performed","Whichever schedule is easiest to staff","Client request only"], correct:1, explain:"Higher-risk work needs more frequent inspection; a flat calendar rule ignores actual risk level."},
+{topic:"Inspections", q:"Formal scheduled inspections most often involve:", opts:["Only the site supervisor, informally","A joint health and safety committee or health and safety representative, using a checklist","External auditors exclusively","No documentation, only verbal notes"], correct:1, explain:"Formal inspections are typically structured, checklist-based, and often involve the JHSC or HSR, unlike informal daily walk-arounds."},
+{topic:"Inspections", q:"When an inspection finds a hazard, the required next step beyond noting it is:", opts:["Nothing further if it seems minor","A documented corrective action with an owner and timeline, followed up to closure","A verbal reminder to the crew only","Waiting for the next scheduled inspection to re-check"], correct:1, explain:"Findings need an assigned owner, a timeline, and confirmed close-out — not just a note in the report."},
+{topic:"Inspections", q:"Informal daily inspections differ from formal scheduled inspections mainly in that they:", opts:["Are conducted by workers/supervisors as part of routine work, without a formal checklist process","Replace the need for any formal inspection","Are only required on unionized sites","Must be conducted by an external auditor"], correct:0, explain:"Informal inspections are routine, day-to-day observation; formal inspections are scheduled and checklist-driven, often with committee involvement."},
+{topic:"Inspections", q:"A pre-use equipment inspection, such as checking a ladder before each use, is an example of:", opts:["A formal scheduled inspection","An informal daily inspection","An external audit","A maintenance audit"], correct:1, explain:"Pre-use checks are routine, worker-level, informal inspections — distinct from a scheduled formal inspection."},
+{topic:"Inspections", q:"Who is generally responsible for participating in formal workplace inspections alongside management?", opts:["Only the prime contractor","The joint health and safety committee or health and safety representative","Only external auditors","Only new workers"], correct:1, explain:"Formal inspections typically involve the JHSC or HSR working alongside management, not any single party acting alone."},
+{topic:"Inspections", q:"An inspection checklist should be tailored to:", opts:["A single generic template used company-wide regardless of site","The specific hazards and work being performed at that site","Only equipment older than 5 years","Insurance requirements exclusively"], correct:1, explain:"A generic template misses site-specific hazards — checklists should reflect the actual work and conditions at that location."},
+{topic:"Inspections", q:"If a hazard identified during inspection poses immediate danger, the correct first step is:", opts:["Document it and address it at the next scheduled meeting","Take immediate action to control the hazard, such as stopping the work or isolating the area","Wait for a corrective action assignment before doing anything","Notify the regulator before taking any local action"], correct:1, explain:"Immediate danger requires immediate action — documentation and formal corrective-action tracking follow, they don't come first."},
+
+// ---------- Incident Investigation (12) ----------
+{topic:"Incident Investigation", q:"The root cause of an incident is:", opts:["The first unsafe act observed","Whichever factor is easiest to fix","The underlying system failure that allowed the incident to occur","Always attributable to worker error"], correct:2, explain:"Root cause is the systemic gap — like missing training or inadequate controls — that allowed the incident to happen, not just the immediate act."},
+{topic:"Incident Investigation", q:"Wet floors and poor lighting present at an incident scene are examples of:", opts:["Root causes","Contributing factors","Corrective actions","Due diligence"], correct:1, explain:"These are surface-level conditions that played a role but aren't the underlying system failure — that's the root cause distinction."},
+{topic:"Incident Investigation", q:"The primary purpose of an incident investigation is to:", opts:["Determine who should be disciplined","Satisfy insurance paperwork requirements","Identify root cause to prevent recurrence","Close the file as quickly as possible"], correct:2, explain:"Investigations are prevention-focused, not blame-focused — this framing matters for exam answer choices."},
+{topic:"Incident Investigation", q:"The five whys technique is used to:", opts:["Determine legal liability","Keep asking why until you reach a system-level root cause rather than stopping at the surface","Assign a dollar value to losses","Satisfy the WHMIS labelling requirement"], correct:1, explain:"Repeatedly asking 'why' moves the investigation past surface-level answers toward the true systemic cause."},
+{topic:"Incident Investigation", q:"Absolute losses, in incident cost terminology, refer to:", opts:["Costs that are directly and fully associated with a loss-type incident","Only insurance premium increases","Costs that cannot be measured","Costs covered entirely by government compensation"], correct:0, explain:"Absolute losses are the costs directly tied to the loss-type incident itself, as distinct from indirect or hidden costs."},
+{topic:"Incident Investigation", q:"Which formula correctly calculates the Total Recordable Incident Frequency (TRIF)?", opts:["(Lost time cases × 200,000) / total employee hours of exposure","(Lost work days × 200,000) / total employee hours of exposure","(Lost time cases + medical aids + modified work cases) × 200,000 / total employee hours of exposure","(Fatalities × 200,000) / total employee hours of exposure"], correct:2, explain:"TRIF combines lost time cases, medical aids, and modified work cases, multiplied by 200,000, divided by total exposure hours."},
+{topic:"Incident Investigation", q:"A 'near miss' is best defined as:", opts:["An incident that resulted in a minor injury","An event that had the potential to cause harm but did not","An incident where root cause could not be determined","Any incident under regulatory reporting thresholds"], correct:1, explain:"A near miss is an event with potential for harm where no actual injury or damage occurred this time."},
+{topic:"Incident Investigation", q:"Near misses should be investigated because:", opts:["They are not worth investigating since no harm occurred","They reveal the same system gaps that could later cause a serious incident","Regulation prohibits investigating them","They only need investigation if repeated three times"], correct:1, explain:"Near misses expose the same underlying gaps as actual incidents — investigating them is proactive prevention."},
+{topic:"Incident Investigation", q:"Which of the following is a leading indicator, as opposed to a lagging indicator?", opts:["Number of lost-time injuries","Number of completed FLHAs and inspections","Total recordable incident frequency","Fatality rate"], correct:1, explain:"Leading indicators measure proactive activity (like FLHAs completed); lagging indicators measure outcomes after the fact, like injury counts."},
+{topic:"Incident Investigation", q:"Which of the following is a lagging indicator?", opts:["Number of safety training sessions delivered","Number of near misses reported","Number of incidents/injuries recorded","Percentage of FLHAs completed on time"], correct:2, explain:"Injuries and incidents are outcomes that have already happened — a lagging indicator, unlike proactive measures like training or FLHA completion."},
+{topic:"Incident Investigation", q:"In an investigation interview, the primary goal is to:", opts:["Determine fault and assign discipline","Gather factual information about what happened and why, without bias","Confirm the supervisor's version of events only","Complete the interview as quickly as possible"], correct:1, explain:"Investigation interviews aim for an unbiased factual account, not assigning blame or rubber-stamping one party's version."},
+{topic:"Incident Investigation", q:"Investigation findings and lessons learned should generally be shared with:", opts:["Only senior management, kept confidential from workers","Relevant workers and stakeholders so lessons learned can help prevent recurrence","No one, to avoid liability","Only the regulator, never internally"], correct:1, explain:"Sharing findings with affected workers and stakeholders is what turns an investigation into actual prevention, not just a filed report."},
+
+// ---------- Auditing / COR (10) ----------
+{topic:"Auditing / COR", q:"COR stands for:", opts:["Code of Regulation","Certificate of Recognition","Corrective Oversight Report","Compliance Operations Review"], correct:1, explain:"COR — Certificate of Recognition — is Alberta's certification that a company's HSMS meets a recognized standard."},
+{topic:"Auditing / COR", q:"The COR audit tool is organized around how many elements?", opts:["7","10","13","15"], correct:1, explain:"The standard COR audit tool is organized around 10 elements."},
+{topic:"Auditing / COR", q:"The SECOR program (for small employers) is organized around how many elements?", opts:["10","13","8","20"], correct:1, explain:"SECOR is organized around 13 elements, distinct from the 10-element COR structure."},
+{topic:"Auditing / COR", q:"In the nine-step audit process, which step comes immediately after the documentation review?", opts:["Post-audit meeting","Interviews","Site familiarization","Pre-audit preparation"], correct:1, explain:"Order: pre-audit prep, pre-audit meeting, site familiarization, documentation review, interviews, observations, post-audit meeting."},
+{topic:"Auditing / COR", q:"During an audit, observations primarily serve to:", opts:["Replace the need for interviews","Verify that what's in the documentation and interviews is actually happening on site","Determine the final audit fee","Substitute for a maintenance audit"], correct:1, explain:"Observations confirm, on the ground, that the paper trail and what people said in interviews match reality."},
+{topic:"Auditing / COR", q:"A COR certification is generally valid for how long before requiring a maintenance audit?", opts:["1 year","3 years, with maintenance audits in the intervening years","10 years","Indefinitely, no further audits required"], correct:1, explain:"COR certification runs on a roughly 3-year cycle, with maintenance audits required in the years between full certification audits."},
+{topic:"Auditing / COR", q:"Internal audits, conducted by the company itself, are used primarily to:", opts:["Replace the need for external certification/maintenance audits","Prepare for and self-assess readiness ahead of an external audit","Satisfy legal requirements exclusively","Determine COR eligibility on their own"], correct:1, explain:"Internal audits are a self-check tool to gauge readiness — they don't substitute for the external audit required for COR."},
+{topic:"Auditing / COR", q:"Which best describes the role of a Certifying Partner in the COR process?", opts:["A government inspector who issues OHS violation tickets","An organization authorized to conduct health and safety audits for COR certification","A union representative overseeing audits","An insurance adjuster reviewing claims"], correct:1, explain:"A Certifying Partner is the organization authorized to conduct the audits that lead to COR certification — not a regulator or insurer."},
+{topic:"Auditing / COR", q:"If a company scores 80% overall but only 60% on its highest weighted element, the audit result is:", opts:["A pass, since the overall score exceeds 75%","Generally a fail, since the highest weighted element also needs to meet the threshold","Automatically a pass regardless of element scores","Irrelevant — only overall score matters"], correct:1, explain:"Both the overall score and the highest weighted element need to meet the 75% threshold — a strong overall score alone isn't enough."},
+{topic:"Auditing / COR", q:"What is the primary purpose of a COR audit, beyond certification itself?", opts:["To identify strengths and gaps in the HSMS to drive improvement","To generate revenue for the certifying partner","To replace the need for inspections going forward","To satisfy client procurement requirements only, with no safety value"], correct:0, explain:"Beyond the certificate itself, the audit's real value is surfacing strengths and gaps that drive continued improvement."},
+
+// ---------- Documentation (14 — emphasized) ----------
+{topic:"Documentation", q:"In the documentation hierarchy, what sits directly below policy?", opts:["Supporting records like FLHAs and inspection reports","Programs and procedures that explain how the policy is carried out","Nothing — policy and records are the only two levels","The regulator's enforcement orders"], correct:1, explain:"Policy (commitment) → programs/procedures (how it's carried out) → records (proof it happened)."},
+{topic:"Documentation", q:"A program requires monthly inspections, but records show inspections happening every other month. How is this scored?", opts:["Acceptable, since bi-monthly is close enough","As a gap — the stated program requirement wasn't met, regardless of whether inspections informally occurred","Not something an auditor checks","A formatting issue only"], correct:1, explain:"Missing or inconsistent records against a stated requirement are scored as non-compliance, not a minor formatting note."},
+{topic:"Documentation", q:"An FLHA is completed correctly but is missing a worker signature and date. This is treated as:", opts:["A minor issue with no scoring impact","Equivalent to the FLHA not having been done, since it can't be verified","Acceptable if the crew verbally confirms it happened","Only a problem if an incident later occurs on that task"], correct:1, explain:"Without verifiable signatures/dates, documentation can't be confirmed as having occurred — it's treated the same as missing."},
+{topic:"Documentation", q:"On a multi-employer site, the document that governs how every employer participates in the project HSMS is generally:", opts:["Each subcontractor's own internal safety manual","The prime contractor's project-level health and safety program","Whichever document was created first","There is no single governing document required"], correct:1, explain:"The prime contractor's overarching program is the guiding document each employer on site participates under."},
+{topic:"Documentation", q:"If a company claims an activity occurred but has no record of it, an auditor will typically:", opts:["Take the claim at face value","Treat it as evidence the activity did not occur", "Give partial credit automatically", "Ignore the discrepancy if the company has a good safety record overall"], correct:1, explain:"Documentation review treats unverifiable claims as non-occurrence — this is a heavily tested exam concept."},
+{topic:"Documentation", q:"Corrective actions identified through documentation review or inspection should follow which format?", opts:["Verbal only, no written record required","SMART — specific, measurable, attainable, relevant, time-bound","Whatever format the supervisor prefers","A format determined only by the regulator"], correct:1, explain:"Corrective actions should be SMART so they can be tracked, verified, and closed out with evidence."},
+{topic:"Documentation", q:"Which best describes the relationship between a health and safety program and its supporting records?", opts:["Records exist independently of the program and don't need to match it","Records serve as evidence the program's stated requirements are actually being carried out","Programs are optional if records are thorough","Records are only needed during a certification audit, not a maintenance audit"], correct:1, explain:"Records are the proof layer under the program layer — this relationship is the core of documentation-hierarchy questions."},
+{topic:"Documentation", q:"Meeting minutes from a joint health and safety committee meeting serve primarily as:", opts:["A record proving the committee met and addressed specific items, for accountability","An optional courtesy document with no audit relevance","A replacement for formal inspection reports","A legal defense document only used in court"], correct:0, explain:"Minutes are the accountability record showing the committee actually met and addressed its business — not an optional extra."},
+{topic:"Documentation", q:"Which of the following is the best example of a 'record', as opposed to a policy or program?", opts:["A completed and signed FLHA form","The company's overall safety policy statement","The fall protection program document","The organizational chart"], correct:0, explain:"A completed, signed FLHA is a record — evidence something happened — unlike the policy or program documents that sit above it."},
+{topic:"Documentation", q:"A retention period for safety records, such as training records and inspection reports, matters because:", opts:["Records have no retention requirements and can be discarded anytime","They may be needed to demonstrate due diligence or during an audit/investigation well after the fact","Only electronic records need to be retained","Retention only matters for financial records"], correct:1, explain:"Records may need to be produced long after the fact to demonstrate due diligence or support an investigation or audit."},
+{topic:"Documentation", q:"When documentation and worker interviews disagree during an audit, an auditor will typically:", opts:["Automatically trust the documentation over interviews","Investigate further, often through observation, to resolve the discrepancy","Automatically trust interviews over documentation","Ignore the discrepancy if the company is COR certified"], correct:1, explain:"Discrepancies get resolved through further verification, typically observation — neither source is automatically trusted over the other."},
+{topic:"Documentation", q:"A corrective action log should track:", opts:["Only actions that were successfully completed","The hazard/finding, assigned responsible person, target date, and confirmed closure status","Only the name of the person who found the hazard","Nothing — verbal follow-up is sufficient"], correct:1, explain:"A proper log tracks the finding, an owner, a timeline, and confirmed closure — not just completed items or a name."},
+{topic:"Documentation", q:"A company has a documented fall protection program but no completed fall protection training records for several workers performing at-heights work. This represents:", opts:["A minor administrative gap with no real risk","A significant compliance gap, since the documented program isn't being verifiably followed","Acceptable, since the program itself exists","Only a concern if a fall actually occurs"], correct:1, explain:"A program with no matching training records is exactly the documentation-hierarchy gap the exam tests — the program exists on paper but isn't verifiably followed."},
+{topic:"Documentation", q:"Which statement best describes why signatures and dates matter on safety documentation?", opts:["They are a formality with no real purpose","They provide verifiable evidence of who completed or reviewed the activity, and when","They are only required for legal contracts","They are optional if a supervisor verbally confirms the activity"], correct:1, explain:"Signatures and dates are what make a record verifiable — without them, an auditor has no way to confirm the activity actually occurred."},
+
+// ---------- WHMIS / GHS (16 — emphasized) ----------
+{topic:"WHMIS / GHS", q:"WHMIS aligns with which international system for classifying and labelling hazardous products?", opts:["ISO 45001","GHS — Globally Harmonized System","OSHA 1910","CSA Z1000"], correct:1, explain:"WHMIS is aligned with GHS (the Globally Harmonized System) for classification and labelling."},
+{topic:"WHMIS / GHS", q:"How many standard sections does an SDS have, and in what order?", opts:["10 sections, order varies by supplier","16 sections, in a fixed standard order","8 sections, alphabetical","12 sections, set by the employer"], correct:1, explain:"An SDS has 16 sections in a fixed order, from identification through regulatory information."},
+{topic:"WHMIS / GHS", q:"Which SDS section would you expect to find near the beginning, right after identification?", opts:["Regulatory information","Hazard identification","Disposal considerations","Transport information"], correct:1, explain:"Hazard identification comes early in the fixed SDS order, right after product/supplier identification."},
+{topic:"WHMIS / GHS", q:"A workplace label (versus a supplier label) is valid only when:", opts:["Any product is moved to a new container, no conditions apply","The product is transferred to a secondary container and used entirely within one shift by the person who transferred it","The original label is simply hard to read","Workplace labels are never permitted"], correct:1, explain:"Workplace labels are a simplified alternative valid only under specific same-shift, same-person conditions."},
+{topic:"WHMIS / GHS", q:"GHS pictograms are shaped and bordered as:", opts:["Circles with a blue border","Diamonds with a red border on white background","Squares with a black border","Triangles with a yellow border"], correct:1, explain:"GHS pictograms are red-bordered diamonds on white — recognize the shape as well as the names."},
+{topic:"WHMIS / GHS", q:"A pictogram showing a skull and crossbones indicates:", opts:["Environmental hazard","Acute toxicity","Corrosive material","Flammable material"], correct:1, explain:"Skull and crossbones specifically signals acute toxicity — distinct from corrosion or flammability pictograms."},
+{topic:"WHMIS / GHS", q:"Generic WHMIS training and workplace-specific WHMIS training are:", opts:["Interchangeable — either one satisfies the full requirement","Both required — one covers the overall system, the other covers actual products used on site","Only required for supervisors, not workers","No longer required under GHS alignment"], correct:1, explain:"Generic training covers the WHMIS system broadly; workplace-specific training covers the actual hazardous products on that site. Both are required."},
+{topic:"WHMIS / GHS", q:"An SDS section on 'handling and storage' would appear:", opts:["Before hazard identification","After first aid measures, in the middle portion of the fixed order","As the final section","It is not a standard SDS section"], correct:1, explain:"Handling and storage falls in the middle of the fixed 16-section order, after identification, hazards, composition, and first aid."},
+{topic:"WHMIS / GHS", q:"Which SDS section specifically addresses first aid measures?", opts:["Section 1","Section 4","Section 16","Section 9"], correct:1, explain:"Section 4 of the standard 16-section SDS format covers first aid measures."},
+{topic:"WHMIS / GHS", q:"Which SDS section is typically the very last section?", opts:["Section 1 — Identification","Section 16 — Other information","Section 8 — Exposure controls/PPE","Section 3 — Composition"], correct:1, explain:"Section 16, 'Other information', closes out the fixed 16-section SDS order."},
+{topic:"WHMIS / GHS", q:"The GHS pictogram showing a tree and a dead fish indicates:", opts:["Environmental hazard","Acute toxicity","Corrosive material","Oxidizing material"], correct:0, explain:"The tree-and-fish pictogram specifically flags environmental hazard, distinct from the acute toxicity or corrosion pictograms."},
+{topic:"WHMIS / GHS", q:"The GHS pictogram showing a gas cylinder indicates:", opts:["Gases under pressure","Flammable material","Corrosive material","Health hazard"], correct:0, explain:"The gas cylinder pictogram flags gases under pressure — separate from the flame (flammable) or corrosion pictograms."},
+{topic:"WHMIS / GHS", q:"Under WHMIS, who is generally responsible for ensuring an SDS is available at the workplace for a hazardous product in use?", opts:["The worker using the product","The employer","The product manufacturer only, with no workplace obligation","The regulator"], correct:1, explain:"The employer is responsible for making sure current SDSs are available at the workplace for hazardous products in use."},
+{topic:"WHMIS / GHS", q:"A supplier label must include which of the following elements?", opts:["Product identifier, pictograms, signal word, hazard statements, and supplier information","Only the product name","Only a pictogram, with no text required","Only the manufacturer's phone number"], correct:0, explain:"A full supplier label requires the product identifier, applicable pictograms, a signal word, hazard statements, and supplier info — not a stripped-down version."},
+{topic:"WHMIS / GHS", q:"The exclamation mark GHS pictogram most commonly indicates:", opts:["Acute toxicity (severe)","Irritant, less severe health effects, or narcotic effects","Explosive material","Oxidizer"], correct:1, explain:"The exclamation mark signals less-severe hazards like irritation, not the more severe acute toxicity, which uses the skull and crossbones."},
+{topic:"WHMIS / GHS", q:"How current must an SDS generally be for continued workplace use?", opts:["There is no expectation of currency once received","Reviewed and updated periodically, generally not older than 3 years","Valid indefinitely regardless of age","Must be replaced every 6 months regardless of changes"], correct:1, explain:"WHMIS generally expects SDSs to be kept current, with a common benchmark of not older than 3 years unless updated sooner."},
+
+// ---------- Legislation (12 — emphasized) ----------
+{topic:"Legislation", q:"Alberta's OHS legal framework hierarchy, from highest to most detailed, is:", opts:["Code, Regulation, Act","Act, Regulation, Code","Regulation, Act, Code","Code, Act, Regulation"], correct:1, explain:"The Act sets broad law, the Regulation adds legal requirements, and the Code gives detailed technical requirements."},
+{topic:"Legislation", q:"The Internal Responsibility System (IRS) means:", opts:["Only the employer is legally responsible for safety","Everyone on site shares responsibility for safety according to their role and authority","Only government inspectors enforce safety","Workers are responsible only for their own PPE"], correct:1, explain:"IRS distributes safety responsibility across everyone on site, proportional to role and authority."},
+{topic:"Legislation", q:"The three factors typically assessed together when evaluating due diligence are:", opts:["Cost, time, and convenience","Foreseeability, preventability, and control","Training, PPE, and signage","Legislation, policy, and procedure"], correct:1, explain:"Due diligence is evaluated on whether the hazard was foreseeable, preventable, and within the party's control."},
+{topic:"Legislation", q:"A worker's right to refuse dangerous work requires them to:", opts:["Simply stop work and leave site immediately","Notify a supervisor, and if unresolved, escalate to involve the regulator","Only refuse if a union representative is present","Get written pre-approval before ever refusing"], correct:1, explain:"Refusal follows a defined process — notify the supervisor first, escalate to the regulator if unresolved."},
+{topic:"Legislation", q:"Due diligence is best defined as:", opts:["Having zero incidents in a calendar year","Taking all reasonable steps to prevent a hazard or incident","Completing a COR audit","Reporting every near miss to the regulator"], correct:1, explain:"Due diligence is a standard of reasonable effort, not a record of zero incidents."},
+{topic:"Legislation", q:"Which of the following is set out at the Regulation level rather than the Act level?", opts:["Broad worker rights and general duties","Specific additional legal requirements building on the Act","Highly detailed technical specifications for a single hazard type","Nothing — the Regulation and Act cover identical content"], correct:1, explain:"The Regulation sits between the Act (broad) and the Code (highly technical/detailed), adding specific legal requirements."},
+{topic:"Legislation", q:"Which of the following best describes 'duty of care' as applied to a supervisor under Alberta OHS legislation?", opts:["A moral suggestion with no legal weight","A legal obligation to take reasonable steps to protect workers under their direction","Applies only to unionized workplaces","Only applies to employers, not supervisors"], correct:1, explain:"Duty of care is a legal obligation, and it extends to supervisors directing work, not just to the employer as an entity."},
+{topic:"Legislation", q:"An employer's general duties under the Act typically include:", opts:["Ensuring, as far as reasonably practicable, the health and safety of workers","Only providing PPE, with no further obligation","Only complying with client contract terms","Delegating all safety responsibility to workers"], correct:0, explain:"The employer's general duty is broad — reasonably practicable protection of workers — not limited to PPE or contract terms."},
+{topic:"Legislation", q:"A worker's general duties under the Act typically include:", opts:["No duties — safety is entirely the employer's responsibility","Taking reasonable care to protect their own health and safety and that of others affected by their work","Only wearing PPE when convenient","Reporting hazards only if asked"], correct:1, explain:"Workers also carry a duty of reasonable care for themselves and others — safety isn't solely the employer's obligation under IRS."},
+{topic:"Legislation", q:"The Alberta OHS Code is best described as:", opts:["Optional best-practice guidance with no legal force","Legally enforceable detailed technical requirements made under the Regulation and Act","A voluntary industry standard","Only applicable to government worksites"], correct:1, explain:"The Code is legally enforceable, providing detailed technical requirements that sit under the Regulation and Act."},
+{topic:"Legislation", q:"A joint health and safety committee (JHSC) is generally required when a workplace has:", opts:["Any number of workers, no threshold","A certain minimum number of workers, as set by the Act/Regulation","Only if requested by a client","Only on unionized sites"], correct:1, explain:"JHSC requirements are triggered by a minimum worker-count threshold set in legislation, not client request or union status."},
+{topic:"Legislation", q:"Which of the following scenarios best demonstrates the 'control' factor of due diligence?", opts:["A hazard existed but the party had no authority or ability to address it","A party had full authority to correct a known hazard but failed to act","A hazard was completely unforeseeable","A worker acted outside their training with no supervisor knowledge"], correct:1, explain:"The 'control' factor asks whether the party had the authority to act — failing to use that authority is the clearest failure of due diligence."},
+
+// ---------- Adopted Standards (8 — new topic) ----------
+{topic:"Adopted Standards", q:"When the Alberta OHS Code references an outside CSA standard and adopts it, that standard becomes:", opts:["Optional guidance only","A legally enforceable requirement","Relevant only to unionized sites","Superseded automatically by the Act"], correct:1, explain:"Standards adopted by reference in the Code carry the same legal weight as the Code provisions that reference them."},
+{topic:"Adopted Standards", q:"A question describing hard hat classification systems is most likely testing your knowledge of:", opts:["The Canadian Criminal Code","An adopted CSA standard for industrial protective headwear","The COR audit tool structure","The five whys technique"], correct:1, explain:"Equipment classification (hard hats, eye protection, footwear) is governed by adopted CSA product standards, a distinct exam category."},
+{topic:"Adopted Standards", q:"Lockout and tagout procedures for controlling hazardous energy are primarily governed by:", opts:["A WHMIS requirement","An adopted CSA standard for the control of hazardous energy","The Canadian Criminal Code","The COR maintenance audit schedule"], correct:1, explain:"Lockout/tagout falls under an adopted CSA standard specifically addressing hazardous energy control."},
+{topic:"Adopted Standards", q:"Fall protection equipment requirements (harnesses, anchor points, lanyards) are governed by:", opts:["A series of adopted CSA fall protection standards","Only the company's internal policy, with no external standard","The WHMIS labelling system","The Criminal Code's due diligence provisions"], correct:0, explain:"Fall protection equipment is covered by a series of adopted CSA standards referenced in the OHS Code."},
+{topic:"Adopted Standards", q:"A CSA standard referenced in the OHS Code for confined space entry would most likely address:", opts:["Atmospheric testing, ventilation, and entry/rescue procedures","Fall arrest anchor point ratings only","WHMIS labelling requirements","COR audit scoring"], correct:0, explain:"Confined space standards focus on atmospheric hazards, ventilation, and safe entry/rescue procedures."},
+{topic:"Adopted Standards", q:"Hearing protector requirements and ratings are governed primarily by:", opts:["An adopted CSA standard for hearing protectors","The Canadian Criminal Code","A WHMIS pictogram","The prime contractor's discretion alone"], correct:0, explain:"Hearing protection is a CSA-adopted equipment standard, the same category as head, eye, and foot protection standards."},
+{topic:"Adopted Standards", q:"Protective footwear standards, such as steel-toe rating, are set out in:", opts:["An adopted CSA standard for protective footwear","The COR audit tool","A first aid regulation","A WHMIS SDS section"], correct:0, explain:"Footwear ratings fall under an adopted CSA product standard, not the audit tool, first aid rules, or WHMIS."},
+{topic:"Adopted Standards", q:"When exam questions ask about a specific equipment certification marking, such as a rating stamped inside a hard hat, they are testing knowledge of:", opts:["Adopted standards","The Canadian Criminal Code","Incident investigation techniques","Auditing element weighting"], correct:0, explain:"Equipment certification markings map to adopted CSA product standards — this is the distinct exam category to think of first."},
+
+// ---------- First Aid & Emergency Preparedness (6) ----------
+{topic:"First Aid / Emergency", q:"An emergency response plan should cover:", opts:["Fire only, since it's most common","Foreseeable emergencies including fire, medical, spills, and evacuation","Only events that have happened at that site before","Only emergencies requiring external services"], correct:1, explain:"Plans need to address the range of foreseeable emergencies for that site, not just past events or fire alone."},
+{topic:"First Aid / Emergency", q:"Required first aid level and kit contents on a site are primarily determined by:", opts:["Company preference only","Number of workers, distance to medical care, and hazard level of the work","The age of the newest employee","Whether the site has had a prior injury"], correct:1, explain:"Alberta's first aid requirements scale with worker count, distance to definitive care, and hazard level."},
+{topic:"First Aid / Emergency", q:"A well-structured emergency response plan should clearly define:", opts:["Only who calls 911","Roles, communication procedures, evacuation routes, and muster points","Only the location of fire extinguishers","Only after-incident disciplinary steps"], correct:1, explain:"A complete ERP defines roles, communication, evacuation routes, and muster points — not just a single contact step."},
+{topic:"First Aid / Emergency", q:"Alberta's first aid requirements scale primarily with:", opts:["Company size only, regardless of hazard","Number of workers, distance to medical treatment, and hazard level of work","Weather conditions only","Union status of the workplace"], correct:1, explain:"First aid level requirements are driven by worker count, distance to care, and hazard level — not company size or union status alone."},
+{topic:"First Aid / Emergency", q:"A muster point in an emergency response plan serves to:", opts:["Provide a designated safe location for headcount and accountability after an evacuation","Store emergency equipment","Replace the need for a fire drill","Serve only as a smoking area"], correct:0, explain:"Muster points exist for accountability — confirming everyone made it out safely — not equipment storage or drill replacement."},
+{topic:"First Aid / Emergency", q:"Emergency response plans should be tested through:", opts:["Reading the document once at orientation only","Periodic drills and reviews to confirm they work in practice","No testing is required once documented","Only after an actual emergency occurs"], correct:1, explain:"Plans need periodic drills and review to confirm they actually work — a document alone doesn't guarantee readiness."},
+
+// ---------- Canadian Criminal Code / Bill C-45 (6) ----------
+{topic:"Criminal Code / Bill C-45", q:"Bill C-45 (the Westray Amendments) primarily changed the Criminal Code so that:", opts:["Only front-line workers can be held criminally liable","Organizations and individuals who direct work can face criminal liability for safety failures causing serious harm","OHS regulatory penalties were eliminated","Only fatalities, not injuries, can trigger criminal charges"], correct:1, explain:"Bill C-45 extended criminal liability to organizations and anyone with authority to direct work, not just individual workers."},
+{topic:"Criminal Code / Bill C-45", q:"Criminal Code liability under Bill C-45 relates to provincial OHS law by:", opts:["Replacing provincial OHS law entirely","Applying only where no OHS Act exists","Sitting alongside provincial law — a single incident can trigger both OHS and criminal charges","Only applying to companies over 500 employees"], correct:2, explain:"Criminal liability under Bill C-45 layers on top of, not instead of, provincial regulatory law."},
+{topic:"Criminal Code / Bill C-45", q:"Under Bill C-45, who has a legal duty to take reasonable steps to prevent bodily harm to workers?", opts:["Only the company's CEO","Only certified safety officers","Anyone with the authority to direct how work is done","Only the government regulator"], correct:2, explain:"The duty attaches to anyone directing work, including front-line supervisors, not just executives or safety staff."},
+{topic:"Criminal Code / Bill C-45", q:"Prior to Bill C-45, holding organizations criminally responsible for workplace deaths was:", opts:["Straightforward and commonly pursued","Very difficult, which is part of why the amendments were introduced","Not applicable under Canadian law at all","Handled exclusively through provincial OHS charges"], correct:1, explain:"Bill C-45 was introduced specifically because holding organizations criminally responsible was very difficult beforehand."},
+{topic:"Criminal Code / Bill C-45", q:"Bill C-45 is also commonly referred to as:", opts:["The Westray Amendments","The COR Act","The WHMIS Reform Act","The Alberta Safety Code"], correct:0, explain:"Bill C-45 is widely known as the Westray Amendments, named after the Westray mine disaster that prompted the legislative change."},
+{topic:"Criminal Code / Bill C-45", q:"A supervisor who directs work but takes no reasonable steps to prevent a foreseeable serious hazard could, under Bill C-45, face:", opts:["No possible personal liability — only the company can be liable","Potential personal criminal liability, in addition to any company liability","Liability only if they are also the owner of the company","Civil liability only, never criminal"], correct:1, explain:"Bill C-45 extends potential personal criminal liability to supervisors directing work, alongside any liability the organization faces."}
+];
+
+const CATS = [...new Set(QUESTIONS.map(q=>q.topic))];
+document.getElementById('catLegend').innerHTML = CATS.map(c=>{
+  const n = QUESTIONS.filter(q=>q.topic===c).length;
+  return `<span class="cat-chip">${c} · ${n}</span>`;
+}).join('');
+
+let current = 0, score = 0, answered = false;
+const results = [];
+
+function renderQuestion(){
+  const quiz = document.getElementById('quiz');
+  quiz.innerHTML = '';
+  const item = QUESTIONS[current];
+  answered = false;
+  const tag = document.createElement('div');
+  tag.className = 'tag active';
+  const letters = ['A','B','C','D'];
+  let optsHtml = '';
+  item.opts.forEach((opt,i)=>{
+    optsHtml += `<div class="opt" data-i="${i}" onclick="selectOption(${i})"><span class="letter">${letters[i]}</span><span>${opt}</span></div>`;
+  });
+  tag.innerHTML = `
+    <div class="topic">${item.topic}</div>
+    <div class="q-num">Question ${current+1} of ${QUESTIONS.length}</div>
+    <div class="q-text">${item.q}</div>
+    <div id="optsWrap">${optsHtml}</div>
+    <div class="explain" id="explainBox">${item.explain}</div>
+    <div class="nav-row"><button class="next-btn" id="nextBtn" onclick="nextQuestion()">${current === QUESTIONS.length-1 ? 'See results' : 'Next question'}</button></div>
+  `;
+  quiz.appendChild(tag);
+  updateGauge();
+}
+
+function selectOption(i){
+  if(answered) return;
+  answered = true;
+  const item = QUESTIONS[current];
+  const opts = document.querySelectorAll('#optsWrap .opt');
+  opts.forEach(o=>o.setAttribute('disabled','true'));
+  opts[i].classList.add(i===item.correct ? 'correct' : 'wrong');
+  if(i!==item.correct){ opts[item.correct].classList.add('correct'); } else { score++; }
+  results.push({topic:item.topic, correct: i===item.correct});
+  document.getElementById('explainBox').classList.add('show');
+  document.getElementById('nextBtn').classList.add('ready');
+}
+
+function nextQuestion(){
+  if(!answered) return;
+  current++;
+  if(current >= QUESTIONS.length){ showResults(); } else { renderQuestion(); }
+}
+
+function updateGauge(){
+  document.getElementById('gaugeCount').textContent = `Q${current+1} / ${QUESTIONS.length}`;
+  document.getElementById('gaugeFill').style.width = `${(current/QUESTIONS.length)*100}%`;
+}
+
+function showResults(){
+  document.getElementById('quiz').style.display = 'none';
+  document.querySelector('.gauge-row').style.display = 'none';
+  document.getElementById('catLegend').style.display = 'none';
+  const res = document.getElementById('results');
+  res.classList.add('show');
+  const pct = Math.round((score/QUESTIONS.length)*100);
+  document.getElementById('pctText').textContent = `${pct}%`;
+  const ring = document.querySelector('.score-ring');
+  ring.style.borderColor = pct>=75 ? 'var(--go-green)' : pct>=60 ? 'var(--safety-yellow)' : 'var(--hazard-red)';
+  const verdict = document.getElementById('verdictText');
+  const sub = document.getElementById('scoreSub');
+  if(pct>=75){
+    verdict.textContent = 'Passing range';
+    sub.textContent = `${score} of ${QUESTIONS.length} correct — at or above the typical 75% pass mark.`;
+  } else {
+    verdict.textContent = 'Below pass mark';
+    sub.textContent = `${score} of ${QUESTIONS.length} correct — typical pass mark is 75%. Review the topics below.`;
+  }
+  const byTopic = {};
+  results.forEach(r=>{
+    if(!byTopic[r.topic]) byTopic[r.topic] = {right:0,total:0};
+    byTopic[r.topic].total++;
+    if(r.correct) byTopic[r.topic].right++;
+  });
+  const breakdown = document.getElementById('breakdown');
+  breakdown.innerHTML = Object.keys(byTopic).map(t=>{
+    const d = byTopic[t];
+    const weak = d.right < d.total;
+    return `<div><span>${t}</span><span class="${weak?'miss':''}">${d.right}/${d.total}</span></div>`;
+  }).join('');
+}
+
+function restart(){
+  current = 0; score = 0; answered = false; results.length = 0;
+  document.getElementById('quiz').style.display = 'block';
+  document.querySelector('.gauge-row').style.display = 'flex';
+  document.getElementById('catLegend').style.display = 'flex';
+  document.getElementById('results').classList.remove('show');
+  renderQuestion();
+}
+
+renderQuestion();
+</script>
+</body>
+</html>

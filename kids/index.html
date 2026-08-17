@@ -1,409 +1,413 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>How Are You Feeling?</title>
-<link rel="stylesheet" href="style.css">
+<title>Feeling Thermometer</title>
+<style>
+  :root{
+    --bg:#0f1420; --card:#171d2b; --card2:#1d2434; --border:#2a3346;
+    --text:#eef1f8; --sub:#9aa5bd; --accent:#5dd6c0;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0; font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+    background:radial-gradient(circle at top,#161c2c,#0b0f18 70%);
+    color:var(--text); padding:24px 16px 60px; min-height:100vh;
+  }
+  .wrap{max-width:560px;margin:0 auto;}
+  h1{font-size:1.6rem;margin:0 0 4px;text-align:center;}
+  h1 em{color:var(--accent);font-style:normal;}
+  .sub{text-align:center;color:var(--sub);font-size:.9rem;margin-bottom:18px;}
+
+  .card{background:var(--card);border:1px solid var(--border);border-radius:16px;
+    padding:18px;margin-bottom:16px;}
+
+  /* settings */
+  .settings-toggle{display:flex;justify-content:center;margin-bottom:10px;}
+  .gear-btn{background:none;border:1px solid var(--border);color:var(--sub);
+    border-radius:10px;padding:6px 12px;font-size:.85rem;cursor:pointer;}
+  .gear-btn:hover{color:var(--text);}
+  #settingsPanel{display:none;}
+  #settingsPanel.open{display:block;}
+  #settingsPanel label{display:block;font-size:.8rem;color:var(--sub);margin-bottom:6px;}
+  #settingsPanel input{width:100%;padding:9px 10px;border-radius:8px;border:1px solid var(--border);
+    background:#10151f;color:var(--text);font-size:.85rem;margin-bottom:10px;}
+  .settings-row{display:flex;gap:8px;}
+  .settings-row button{flex:1;}
+  .status-pill{display:inline-block;font-size:.75rem;padding:3px 10px;border-radius:999px;
+    border:1px solid var(--border);color:var(--sub);}
+  .status-pill.ok{color:#7ee8b6;border-color:#2f5b46;}
+  .help-text{font-size:.75rem;color:var(--sub);line-height:1.4;margin-top:6px;}
+  .help-text a{color:var(--accent);}
+
+  /* kid selector */
+  .kid-select{display:flex;gap:8px;margin-bottom:6px;}
+  .kid-btn{flex:1;padding:10px;border-radius:12px;border:1px solid var(--border);
+    background:#10151f;color:var(--text);font-size:.95rem;cursor:pointer;text-align:center;}
+  .kid-btn.active{border-color:var(--accent);background:#15281f;color:var(--accent);}
+
+  label.field-label{font-size:.85rem;color:var(--sub);display:block;margin:14px 0 8px;}
+
+  /* thermometer */
+  .therm-row{display:flex;gap:14px;align-items:stretch;}
+  .therm-wrap{position:relative;width:56px;flex-shrink:0;}
+  .therm-tube{position:relative;width:56px;height:300px;border-radius:30px;
+    background:linear-gradient(to top,#3b82f6 0%,#22c55e 25%,#eab308 50%,#f97316 75%,#ef4444 100%);
+    border:3px solid #0a0d14;overflow:hidden;cursor:pointer;touch-action:none;}
+  /* mask covers the TOP (unfilled) portion and shrinks from the top as the
+     value rises, so colour fills upward from the bottom — matching the
+     marker key beside it (blue/calm at bottom, red/big at top). */
+  .therm-mask{position:absolute;left:0;right:0;top:0;background:#0a0d14;
+    transition:height .12s ease;border-bottom:2px solid rgba(0,0,0,.4);}
+  .therm-thumb{position:absolute;left:-6px;right:-6px;height:4px;background:#fff;
+    border-radius:3px;box-shadow:0 0 0 2px #0a0d14, 0 1px 4px rgba(0,0,0,.5);
+    transition:bottom .12s ease;pointer-events:none;}
+  .therm-buttons{display:flex;flex-direction:column;justify-content:center;gap:8px;flex-shrink:0;}
+  .step-btn{width:42px;height:42px;border-radius:12px;border:1px solid var(--border);
+    background:#10151f;color:var(--text);font-size:1rem;cursor:pointer;}
+  .step-btn:active{background:#1b2336;}
+  .markers{flex:1;display:flex;flex-direction:column;justify-content:space-between;
+    padding:4px 0;}
+  .marker{display:flex;align-items:center;gap:8px;font-size:.85rem;color:var(--sub);}
+  .marker .dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
+
+  .readout{text-align:center;margin-top:14px;}
+  .readout .num{font-size:2.6rem;font-weight:700;line-height:1;}
+  .readout .label{font-size:1.1rem;margin-top:2px;}
+  .readout .desc{font-size:.85rem;color:var(--sub);margin-top:4px;}
+
+  textarea{width:100%;min-height:70px;padding:10px;border-radius:10px;border:1px solid var(--border);
+    background:#10151f;color:var(--text);font-size:.9rem;resize:vertical;font-family:inherit;}
+
+  .chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px;}
+  .chip{padding:6px 10px;border-radius:999px;border:1px solid var(--border);background:#10151f;
+    color:var(--sub);font-size:.78rem;cursor:pointer;}
+  .chip.sel{border-color:var(--accent);color:var(--accent);background:#15281f;}
+
+  .actions{display:flex;gap:10px;margin-top:16px;}
+  button.primary{flex:1;background:var(--accent);color:#08130f;border:none;border-radius:10px;
+    padding:12px;font-weight:600;font-size:.95rem;cursor:pointer;}
+  button.primary:disabled{opacity:.5;cursor:not-allowed;}
+  button.ghost{background:none;border:1px solid var(--border);color:var(--sub);border-radius:10px;
+    padding:12px 16px;font-size:.9rem;cursor:pointer;}
+
+  .log h2{font-size:1.05rem;margin:0 0 10px;}
+  .entry{border-bottom:1px solid var(--border);padding:10px 0;display:flex;gap:12px;align-items:flex-start;}
+  .entry:last-child{border-bottom:none;}
+  .entry .ebadge{width:34px;height:34px;border-radius:50%;display:flex;align-items:center;
+    justify-content:center;font-size:1rem;flex-shrink:0;font-weight:700;}
+  .entry .emeta{font-size:.78rem;color:var(--sub);}
+  .entry .etext{font-size:.88rem;margin-top:2px;}
+  .empty{color:var(--sub);font-size:.85rem;text-align:center;padding:14px 0;}
+
+  .crisis{font-size:.78rem;color:var(--sub);text-align:center;margin-top:18px;line-height:1.5;}
+  .crisis b{color:var(--text);}
+</style>
 </head>
 <body>
+<div class="wrap">
+  <h1>Feeling <em>Thermometer</em></h1>
+  <div class="sub">Check in with how big your feelings are right now</div>
 
-<!-- Header -->
-<header class="header">
-  <h1 class="header-title">How Are You Feeling Today?</h1>
-  <span class="header-date" id="today-label"></span>
-  <div class="header-actions">
-    <div class="sync-pill">
-      <div class="sync-dot" id="sync-dot"></div>
-      <span id="sync-text">Local</span>
+  <div class="settings-toggle">
+    <button class="gear-btn" id="gearBtn">⚙ Settings <span id="statusPill" class="status-pill">Not configured</span></button>
+  </div>
+
+  <div class="card" id="settingsPanel">
+    <label>GitHub Personal Access Token</label>
+    <input type="password" id="tokenInput" placeholder="ghp_...">
+    <div class="settings-row">
+      <button class="primary" id="saveTokenBtn" style="flex:0 0 auto;">Save token</button>
+      <button class="ghost" id="removeTokenBtn">Remove</button>
     </div>
-    <button class="btn-settings" id="btn-settings" title="Sync settings" aria-expanded="false">âš™</button>
-  </div>
-</header>
-
-<!-- Settings -->
-<div class="settings-panel" id="settings-panel">
-  <div class="settings-row">
-    <span class="settings-label">GitHub Token</span>
-    <input type="password" class="settings-input" id="pat-input"
-           placeholder="ghp_xxxxxxxxxxxxxxxxxxxx" autocomplete="off">
-    <button class="btn-clear" id="btn-save-pat" style="flex-shrink:0;padding:9px 14px;font-size:13px">Save</button>
-    <button class="btn-clear" id="btn-clear-pat" style="flex-shrink:0;padding:9px 14px;font-size:13px">Remove</button>
-  </div>
-  <p class="settings-note">
-    Needs <strong>Contents: read &amp; write</strong> on <code>idunnoguesswho/snowflake</code>.
-    Saves to <code>kids/log.json</code>.
-    <a href="https://github.com/settings/tokens/new?scopes=repo&description=Kids+Tracker" target="_blank" rel="noopener">Create token â†—</a>
-  </p>
-</div>
-
-<!-- Main form -->
-<div class="page">
-
-  <!-- Overall feeling -->
-  <div class="face-hero">
-    <div class="face-hero-q">How are you feeling overall?</div>
-    <div class="face-row" id="main-face-row" role="group" aria-label="Overall feeling"></div>
+    <div class="help-text">
+      Token needs <b>Contents: read &amp; write</b> scope on the <code>idunnoguesswho/snowflake</code> repo.
+      Entries are appended as journal entries to <code>feeling-thermometer/journal.json</code> — nothing is ever overwritten, only added.
+      <a href="https://github.com/settings/tokens/new?scopes=repo&description=Feeling+Thermometer" target="_blank" rel="noopener">Create a token ↗</a>
+      — your token stays in <code>localStorage</code> and is never sent anywhere except GitHub's API.
+    </div>
   </div>
 
-  <!-- Category grid -->
-  <div class="cat-grid" id="cat-grid"></div>
+  <div class="card">
+    <div class="kid-select" id="kidSelect">
+      <button class="kid-btn active" data-kid="Oliver">Oliver</button>
+      <button class="kid-btn" data-kid="Logan">Logan</button>
+      <button class="kid-btn" data-kid="Mom">Mom</button>
+      <button class="kid-btn" data-kid="Dad">Dad</button>
+    </div>
 
-  <!-- Notes -->
-  <div class="notes-card">
-    <div class="notes-qs">
-      <div class="notes-q">
-        <label class="notes-label" for="note-good">â­ What was the best part of today?</label>
-        <textarea id="note-good" placeholder="Something that made me smileâ€¦" rows="3"></textarea>
+    <label class="field-label">Tap or drag on the thermometer</label>
+    <div class="therm-row">
+      <div class="therm-wrap" id="thermWrap">
+        <div class="therm-tube">
+          <div class="therm-mask" id="thermMask"></div>
+          <div class="therm-thumb" id="thermThumb"></div>
+        </div>
       </div>
-      <div class="notes-q">
-        <label class="notes-label" for="note-hard">ðŸ’­ What was hard today?</label>
-        <textarea id="note-hard" placeholder="Something that felt toughâ€¦" rows="3"></textarea>
+      <div class="therm-buttons">
+        <button class="step-btn" id="stepUp" aria-label="Increase">▲</button>
+        <button class="step-btn" id="stepDown" aria-label="Decrease">▼</button>
+      </div>
+      <div class="markers">
+        <div class="marker"><span class="dot" style="background:#ef4444"></span>9–10 · Volcano 🌋</div>
+        <div class="marker"><span class="dot" style="background:#f97316"></span>7–8 · Big Storm ⛈️</div>
+        <div class="marker"><span class="dot" style="background:#eab308"></span>5–6 · Bubbling Up 🫧</div>
+        <div class="marker"><span class="dot" style="background:#22c55e"></span>3–4 · A Little Wobbly 🌤️</div>
+        <div class="marker"><span class="dot" style="background:#3b82f6"></span>0–2 · Cool &amp; Calm 🧊</div>
       </div>
     </div>
-  </div>
 
-  <!-- Submit -->
-  <div class="submit-row">
-    <button class="btn-clear" id="btn-clear">Clear</button>
-    <button class="btn-submit" id="btn-submit">Save my feelings âœ“</button>
-  </div>
-
-  <!-- Log -->
-  <div class="log-section">
-    <div class="log-heading">
-      <div class="log-title">My Feeling Journal</div>
-      <div class="log-count" id="log-count"></div>
+    <div class="readout">
+      <div class="num" id="numOut">0</div>
+      <div class="label" id="labelOut">Cool &amp; Calm 🧊</div>
+      <div class="desc" id="descOut">I feel relaxed and in control.</div>
     </div>
-    <div id="log-empty" class="log-empty" style="display:none">
-      No entries yet â€” fill in how you feel above!
+
+    <label class="field-label">What's going on? (pick any that fit)</label>
+    <div class="chips" id="chipRow">
+      <div class="chip" data-c="Tired">😴 Tired</div>
+      <div class="chip" data-c="Hungry">🍎 Hungry</div>
+      <div class="chip" data-c="Homework">📚 Homework</div>
+      <div class="chip" data-c="Sibling">🧑‍🤝‍🧑 Sibling stuff</div>
+      <div class="chip" data-c="Transition">🔄 Switching tasks</div>
+      <div class="chip" data-c="Loud/Bright">🔊 Too loud / bright</div>
+      <div class="chip" data-c="Screen time">📱 Screen time ending</div>
+      <div class="chip" data-c="Friends">👫 Friend stuff</div>
+      <div class="chip" data-c="Not sure">❓ Not sure</div>
     </div>
-    <div id="log-grid"></div>
+
+    <label class="field-label">Journal entry (optional)</label>
+    <textarea id="notesInput" placeholder="Write a bit about what's going on, in your own words..."></textarea>
+
+    <div class="actions">
+      <button class="primary" id="logBtn" disabled>Log Entry</button>
+      <button class="ghost" id="clearBtn">Clear</button>
+    </div>
   </div>
 
+  <div class="card log">
+    <h2>Journal</h2>
+    <div id="logList"><div class="empty">No entries yet. Complete a check-in above to start your log.</div></div>
+  </div>
+
+  <div class="crisis">
+    <b>In crisis?</b> Call or text <b>988</b> (Suicide &amp; Crisis Lifeline).<br>
+    This tool supports self-awareness — it is not a substitute for professional care.
+  </div>
 </div>
-
-<div class="toast" id="toast" role="status" aria-live="polite"></div>
 
 <script>
-const REPO     = 'idunnoguesswho/snowflake';
-const LOG_PATH = 'kids/log.json';
-const API_BASE = 'https://api.github.com';
+const REPO = "idunnoguesswho/snowflake";
+const FILE_PATH = "feeling-thermometer/journal.json";
+const TOKEN_KEY = "ft_gh_token";
 
-const FACES = [
-  { emoji: 'ðŸ˜¢', label: 'Really sad',   score: 1, stars: 'â˜…â˜†â˜†â˜†â˜†' },
-  { emoji: 'ðŸ˜•', label: 'A bit sad',    score: 2, stars: 'â˜…â˜…â˜†â˜†â˜†' },
-  { emoji: 'ðŸ˜', label: 'Okay',         score: 3, stars: 'â˜…â˜…â˜…â˜†â˜†' },
-  { emoji: 'ðŸ™‚', label: 'Pretty good',  score: 4, stars: 'â˜…â˜…â˜…â˜…â˜†' },
-  { emoji: 'ðŸ˜„', label: 'Amazing!',     score: 5, stars: 'â˜…â˜…â˜…â˜…â˜…' },
+const LEVELS = [
+  {label:"Cool & Calm 🧊", desc:"I feel relaxed and in control.", color:"#3b82f6"},
+  {label:"Cool & Calm 🧊", desc:"Pretty settled, just noticing things.", color:"#3b82f6"},
+  {label:"Cool & Calm 🧊", desc:"Calm but starting to notice a feeling.", color:"#3b82f6"},
+  {label:"A Little Wobbly 🌤️", desc:"Something's bugging me a bit.", color:"#22c55e"},
+  {label:"A Little Wobbly 🌤️", desc:"I can feel it more now, but I'm okay.", color:"#22c55e"},
+  {label:"Bubbling Up 🫧", desc:"My feelings are getting bigger.", color:"#eab308"},
+  {label:"Bubbling Up 🫧", desc:"This is getting hard to sit with.", color:"#eab308"},
+  {label:"Big Storm ⛈️", desc:"I need a break or some help.", color:"#f97316"},
+  {label:"Big Storm ⛈️", desc:"It's really hard to think clearly right now.", color:"#f97316"},
+  {label:"Volcano 🌋", desc:"I'm about to erupt — I need support now.", color:"#ef4444"},
+  {label:"Volcano 🌋", desc:"Full meltdown. I need a safe, quiet space.", color:"#ef4444"},
 ];
 
-const CATS = [
-  { id: 'school',   label: 'School',   icon: 'ðŸ“š' },
-  { id: 'friends',  label: 'Friends',  icon: 'ðŸ‘«' },
-  { id: 'family',   label: 'Home',     icon: 'ðŸ ' },
-  { id: 'energy',   label: 'Energy',   icon: 'âš¡' },
-  { id: 'body',     label: 'Body',     icon: 'ðŸ’ª' },
-  { id: 'sleep',    label: 'Sleep',    icon: 'ðŸ˜´' },
-];
+let selectedKid = "Oliver";
+let selectedChips = new Set();
+let entries = [];
 
-// State
-const selected = { main: 0 };
-CATS.forEach(c => { selected[c.id] = 0; });
+const thermTube = document.querySelector(".therm-tube");
+const mask = document.getElementById("thermMask");
+const thumb = document.getElementById("thermThumb");
+const numOut = document.getElementById("numOut");
+const labelOut = document.getElementById("labelOut");
+const descOut = document.getElementById("descOut");
+let currentValue = 0;
 
-// Build main face row
-const mainRow = document.getElementById('main-face-row');
-FACES.forEach(f => {
-  const btn = document.createElement('button');
-  btn.className = 'face-btn';
-  btn.type = 'button';
-  btn.setAttribute('aria-label', f.label);
-  btn.dataset.score = f.score;
-  btn.innerHTML = `${f.emoji}<span class="lbl">${f.label}</span>`;
-  btn.addEventListener('click', () => {
-    selected.main = f.score;
-    mainRow.querySelectorAll('.face-btn').forEach(b => b.classList.remove('selected'));
-    btn.classList.add('selected');
+function renderLevel(v){
+  v = Math.max(0, Math.min(10, v));
+  currentValue = v;
+  const lvl = LEVELS[v];
+  numOut.textContent = v;
+  numOut.style.color = lvl.color;
+  labelOut.innerHTML = lvl.label;
+  descOut.textContent = lvl.desc;
+  const fillPct = v * 10; // % filled from bottom
+  mask.style.height = (100 - fillPct) + "%";
+  thumb.style.bottom = fillPct + "%";
+}
+renderLevel(0);
+
+function valueFromPointer(clientY){
+  const rect = thermTube.getBoundingClientRect();
+  const ratio = 1 - ((clientY - rect.top) / rect.height); // 0 at bottom, 1 at top
+  return Math.round(Math.max(0, Math.min(1, ratio)) * 10);
+}
+
+let dragging = false;
+function startDrag(e){
+  dragging = true;
+  moveDrag(e);
+}
+function moveDrag(e){
+  if(!dragging) return;
+  const y = e.touches ? e.touches[0].clientY : e.clientY;
+  renderLevel(valueFromPointer(y));
+}
+function endDrag(){ dragging = false; }
+
+thermTube.addEventListener("mousedown", startDrag);
+window.addEventListener("mousemove", moveDrag);
+window.addEventListener("mouseup", endDrag);
+thermTube.addEventListener("touchstart", startDrag, {passive:true});
+thermTube.addEventListener("touchmove", moveDrag, {passive:true});
+thermTube.addEventListener("touchend", endDrag);
+
+document.getElementById("stepUp").addEventListener("click", ()=> renderLevel(currentValue+1));
+document.getElementById("stepDown").addEventListener("click", ()=> renderLevel(currentValue-1));
+
+document.querySelectorAll(".kid-btn").forEach(btn=>{
+  btn.addEventListener("click", ()=>{
+    document.querySelectorAll(".kid-btn").forEach(b=>b.classList.remove("active"));
+    btn.classList.add("active");
+    selectedKid = btn.dataset.kid;
   });
-  mainRow.appendChild(btn);
 });
 
-// Build category cards
-const catGrid = document.getElementById('cat-grid');
-CATS.forEach(cat => {
-  const card = document.createElement('div');
-  card.className = 'cat-card';
-  card.innerHTML = `
-    <div class="cat-title">
-      <span class="cat-title-icon">${cat.icon}</span>
-      ${cat.label}
-    </div>
-    <div class="cat-faces" role="group" aria-label="${cat.label} feeling"></div>`;
-
-  const faceRow = card.querySelector('.cat-faces');
-  FACES.forEach(f => {
-    const btn = document.createElement('button');
-    btn.type = 'button';
-    btn.className = 'cat-face-btn';
-    btn.title = f.label;
-    btn.textContent = f.emoji;
-    btn.dataset.score = f.score;
-    btn.setAttribute('aria-label', f.label);
-    btn.addEventListener('click', () => {
-      selected[cat.id] = f.score;
-      faceRow.querySelectorAll('.cat-face-btn').forEach(b => b.classList.remove('selected'));
-      btn.classList.add('selected');
-    });
-    faceRow.appendChild(btn);
+document.querySelectorAll(".chip").forEach(chip=>{
+  chip.addEventListener("click", ()=>{
+    const c = chip.dataset.c;
+    if(selectedChips.has(c)){ selectedChips.delete(c); chip.classList.remove("sel"); }
+    else { selectedChips.add(c); chip.classList.add("sel"); }
   });
-
-  catGrid.appendChild(card);
 });
 
-// Clear form
-function clearForm() {
-  selected.main = 0;
-  CATS.forEach(c => { selected[c.id] = 0; });
-  document.querySelectorAll('.face-btn, .cat-face-btn').forEach(b => b.classList.remove('selected'));
-  document.getElementById('note-good').value = '';
-  document.getElementById('note-hard').value = '';
+document.getElementById("clearBtn").addEventListener("click", ()=>{
+  renderLevel(0);
+  document.getElementById("notesInput").value = "";
+  selectedChips.clear();
+  document.querySelectorAll(".chip").forEach(c=>c.classList.remove("sel"));
+});
+
+
+// ---- GitHub token / settings ----
+const gearBtn = document.getElementById("gearBtn");
+const settingsPanel = document.getElementById("settingsPanel");
+const tokenInput = document.getElementById("tokenInput");
+const statusPill = document.getElementById("statusPill");
+const logBtn = document.getElementById("logBtn");
+
+gearBtn.addEventListener("click", ()=> settingsPanel.classList.toggle("open"));
+
+function getToken(){ return localStorage.getItem(TOKEN_KEY) || ""; }
+function setStatus(){
+  const t = getToken();
+  if(t){ statusPill.textContent = "Connected"; statusPill.classList.add("ok"); logBtn.disabled = false; }
+  else { statusPill.textContent = "Not configured"; statusPill.classList.remove("ok"); logBtn.disabled = true; }
 }
+document.getElementById("saveTokenBtn").addEventListener("click", ()=>{
+  const v = tokenInput.value.trim();
+  if(v){ localStorage.setItem(TOKEN_KEY, v); tokenInput.value=""; setStatus(); loadLog(); }
+});
+document.getElementById("removeTokenBtn").addEventListener("click", ()=>{
+  localStorage.removeItem(TOKEN_KEY); setStatus();
+});
+setStatus();
 
-document.getElementById('btn-clear').addEventListener('click', clearForm);
-
-// â”€â”€ GitHub helpers â”€â”€
-let fileSha = null;
-
-function getPAT() { return localStorage.getItem('kids-tracker-pat') || ''; }
-
-function setSyncStatus(state, text) {
-  document.getElementById('sync-dot').className = 'sync-dot' + (state ? ' ' + state : '');
-  document.getElementById('sync-text').textContent = text;
-}
-
-function toBase64(str) {
-  return btoa(Array.from(new TextEncoder().encode(str), b => String.fromCharCode(b)).join(''));
-}
-
-async function fetchFileSha(pat) {
-  const res = await fetch(`${API_BASE}/repos/${REPO}/contents/${LOG_PATH}`, {
-    headers: { Authorization: `Bearer ${pat}`, Accept: 'application/vnd.github+json' }
+// ---- GitHub file read/write ----
+async function ghGet(){
+  const token = getToken();
+  const res = await fetch(`https://api.github.com/repos/${REPO}/contents/${FILE_PATH}`, {
+    headers:{ Authorization:`token ${token}`, Accept:"application/vnd.github+json" }
   });
-  if (res.status === 404) return null;
-  if (!res.ok) { const e = await res.json().catch(() => ({})); throw new Error(`GitHub ${res.status}: ${e.message}`); }
-  return (await res.json()).sha;
+  if(res.status === 404) return { sha:null, content:[] };
+  if(!res.ok) throw new Error("GitHub read failed: " + res.status);
+  const data = await res.json();
+  const decoded = decodeURIComponent(escape(atob(data.content)));
+  let content = [];
+  try { content = JSON.parse(decoded); } catch(e){ content = []; }
+  return { sha:data.sha, content };
 }
 
-async function fetchLog() {
-  const pat = getPAT();
-  if (!pat) { setSyncStatus('', 'Local only'); return getLocal(); }
-
-  setSyncStatus('busy', 'Loadingâ€¦');
-  try {
-    const res = await fetch(`${API_BASE}/repos/${REPO}/contents/${LOG_PATH}`, {
-      headers: { Authorization: `Bearer ${pat}`, Accept: 'application/vnd.github+json' }
-    });
-    if (res.status === 404) { fileSha = null; setSyncStatus('ok', 'Ready'); return []; }
-    if (!res.ok) { const e = await res.json().catch(() => ({})); throw new Error(`GitHub ${res.status}: ${e.message}`); }
-    const data = await res.json();
-    fileSha = data.sha;
-    const log = JSON.parse(atob(data.content.replace(/\n/g, '')));
-    setSyncStatus('ok', 'Synced');
-    return log;
-  } catch (err) {
-    setSyncStatus('err', err.message);
-    showToast('âš  ' + err.message);
-    return getLocal();
-  }
-}
-
-async function pushLog(log) {
-  const pat = getPAT();
-  if (!pat) { saveLocal(log); return; }
-
-  setSyncStatus('busy', 'Savingâ€¦');
-  try {
-    fileSha = await fetchFileSha(pat);
-    const res = await fetch(`${API_BASE}/repos/${REPO}/contents/${LOG_PATH}`, {
-      method: 'PUT',
-      headers: {
-        Authorization: `Bearer ${pat}`,
-        Accept: 'application/vnd.github+json',
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        message: `Kids log â€” ${new Date().toISOString().slice(0, 10)}`,
-        content: toBase64(JSON.stringify(log, null, 2)),
-        ...(fileSha ? { sha: fileSha } : {})
-      })
-    });
-    if (!res.ok) { const e = await res.json().catch(() => ({})); throw new Error(`GitHub ${res.status}: ${e.message}`); }
-    const data = await res.json();
-    fileSha = data.content.sha;
-    saveLocal(log);
-    setSyncStatus('ok', 'Saved âœ“');
-  } catch (err) {
-    setSyncStatus('err', err.message);
-    showToast('âš  Save failed: ' + err.message);
-    saveLocal(log);
-  }
-}
-
-function getLocal() {
-  try { return JSON.parse(localStorage.getItem('kids-tracker-log') || '[]'); } catch { return []; }
-}
-function saveLocal(log) { localStorage.setItem('kids-tracker-log', JSON.stringify(log)); }
-
-// In-memory log
-let currentLog = [];
-
-async function loadAndRender() {
-  currentLog = await fetchLog();
-  renderLog();
-}
-
-// Submit
-document.getElementById('btn-submit').addEventListener('click', async () => {
-  if (!selected.main) { showToast("Pick how you're feeling overall first!"); return; }
-
-  const btn = document.getElementById('btn-submit');
-  btn.disabled = true;
-
-  const entry = {
-    id: Date.now(),
-    ts: new Date().toISOString(),
-    main: selected.main,
-    cats: {},
-    noteGood: document.getElementById('note-good').value.trim(),
-    noteHard: document.getElementById('note-hard').value.trim(),
+async function ghPut(content, sha, message){
+  const token = getToken();
+  const body = {
+    message,
+    content: btoa(unescape(encodeURIComponent(JSON.stringify(content, null, 2)))),
+    ...(sha ? {sha} : {})
   };
-  CATS.forEach(c => { entry.cats[c.id] = selected[c.id]; });
-
-  currentLog.unshift(entry);
-  renderLog();
-  await pushLog(currentLog);
-  showToast('Saved! ðŸŽ‰');
-  clearForm();
-  btn.disabled = false;
-});
-
-// Render log
-function renderLog() {
-  const grid   = document.getElementById('log-grid');
-  const empty  = document.getElementById('log-empty');
-  const count  = document.getElementById('log-count');
-
-  count.textContent = currentLog.length
-    ? `${currentLog.length} entr${currentLog.length === 1 ? 'y' : 'ies'}`
-    : '';
-
-  if (!currentLog.length) { empty.style.display = 'block'; grid.innerHTML = ''; return; }
-  empty.style.display = 'none';
-  grid.innerHTML = '';
-
-  currentLog.forEach(entry => {
-    const face = FACES.find(f => f.score === entry.main) || FACES[2];
-    const d = new Date(entry.ts);
-    const dateStr = d.toLocaleDateString('en-US', {
-      weekday: 'long', month: 'short', day: 'numeric', year: 'numeric'
-    });
-    const timeStr = d.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
-
-    const catsHtml = CATS.map(cat => {
-      const score = entry.cats[cat.id] || 0;
-      const f = FACES.find(f => f.score === score);
-      return `<div class="rc-cat">
-        <span class="rc-cat-icon">${cat.icon}</span>
-        <span>${cat.label}</span>
-        <span class="rc-cat-face">${f ? f.emoji : 'â€”'}</span>
-      </div>`;
-    }).join('');
-
-    const notesHtml = (entry.noteGood || entry.noteHard) ? `
-      <div class="rc-notes">
-        ${entry.noteGood ? `<div class="rc-note-block">
-          <div class="rc-note-lbl">â­ Best part</div>
-          <div class="rc-note-val">"${entry.noteGood}"</div>
-        </div>` : ''}
-        ${entry.noteHard ? `<div class="rc-note-block">
-          <div class="rc-note-lbl">ðŸ’­ What was hard</div>
-          <div class="rc-note-val">"${entry.noteHard}"</div>
-        </div>` : ''}
-      </div>` : '';
-
-    const card = document.createElement('div');
-    card.className = 'rc';
-    card.innerHTML = `
-      <div class="rc-head">
-        <div class="rc-left">
-          <div class="rc-date">${dateStr} Â· ${timeStr}</div>
-          <div class="rc-overall">
-            <span class="rc-main-face">${face.emoji}</span>
-            <span class="rc-main-label">${face.label}</span>
-          </div>
-        </div>
-        <div class="rc-stars" title="${face.label}">${face.stars}</div>
-      </div>
-      <div class="rc-body">
-        <div class="rc-cats">${catsHtml}</div>
-        ${notesHtml}
-      </div>
-      <div class="rc-foot">
-        <button class="btn-del" data-id="${entry.id}" aria-label="Delete entry">Delete</button>
-      </div>`;
-
-    card.querySelector('.btn-del').addEventListener('click', async () => {
-      currentLog = currentLog.filter(e => e.id !== entry.id);
-      renderLog();
-      await pushLog(currentLog);
-    });
-
-    grid.appendChild(card);
+  const res = await fetch(`https://api.github.com/repos/${REPO}/contents/${FILE_PATH}`, {
+    method:"PUT",
+    headers:{ Authorization:`token ${token}`, Accept:"application/vnd.github+json", "Content-Type":"application/json" },
+    body: JSON.stringify(body)
   });
+  if(!res.ok) throw new Error("GitHub write failed: " + res.status);
+  return res.json();
 }
 
-// Settings
-const settingsBtn   = document.getElementById('btn-settings');
-const settingsPanel = document.getElementById('settings-panel');
-const patInput      = document.getElementById('pat-input');
-
-settingsBtn.addEventListener('click', () => {
-  const open = settingsPanel.classList.toggle('open');
-  settingsBtn.setAttribute('aria-expanded', open);
-  if (open && getPAT()) patInput.value = getPAT();
-});
-
-document.getElementById('btn-save-pat').addEventListener('click', async () => {
-  const val = patInput.value.trim();
-  if (!val) return;
-  localStorage.setItem('kids-tracker-pat', val);
-  settingsPanel.classList.remove('open');
-  settingsBtn.setAttribute('aria-expanded', 'false');
-  showToast('Token saved â€” loadingâ€¦');
-  await loadAndRender();
-});
-
-document.getElementById('btn-clear-pat').addEventListener('click', () => {
-  localStorage.removeItem('kids-tracker-pat');
-  patInput.value = '';
-  fileSha = null;
-  setSyncStatus('', 'Local only');
-  showToast('Token removed');
-});
-
-// Toast
-function showToast(msg) {
-  const t = document.getElementById('toast');
-  t.textContent = msg;
-  t.classList.add('show');
-  setTimeout(() => t.classList.remove('show'), 2600);
+async function loadLog(){
+  if(!getToken()) return;
+  try{
+    const { content } = await ghGet();
+    entries = Array.isArray(content) ? content : [];
+    renderLog();
+  } catch(e){ console.error(e); }
 }
 
-// Init
-document.getElementById('today-label').textContent =
-  new Date().toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' });
+function renderLog(){
+  const listEl = document.getElementById("logList");
+  if(!entries.length){
+    listEl.innerHTML = `<div class="empty">No entries yet. Complete a check-in above to start your log.</div>`;
+    return;
+  }
+  const sorted = [...entries].sort((a,b)=> new Date(b.timestamp) - new Date(a.timestamp));
+  listEl.innerHTML = sorted.slice(0,50).map(e=>{
+    const lvl = LEVELS[e.intensity] || LEVELS[0];
+    const dt = new Date(e.timestamp);
+    const when = dt.toLocaleDateString(undefined,{month:"short",day:"numeric"}) + " · " +
+                 dt.toLocaleTimeString(undefined,{hour:"numeric",minute:"2-digit"});
+    const tags = (e.tags||[]).join(", ");
+    return `<div class="entry">
+      <div class="ebadge" style="background:${lvl.color}22;color:${lvl.color};border:1px solid ${lvl.color}55;">${e.intensity}</div>
+      <div>
+        <div class="emeta">${e.kid} · ${when} · ${lvl.label}</div>
+        ${tags ? `<div class="etext">${tags}</div>` : ""}
+        ${e.notes ? `<div class="etext">${e.notes}</div>` : ""}
+      </div>
+    </div>`;
+  }).join("");
+}
 
-loadAndRender();
+document.getElementById("logBtn").addEventListener("click", async ()=>{
+  logBtn.disabled = true; logBtn.textContent = "Saving...";
+  try{
+    const { sha, content } = await ghGet();
+    const newEntry = {
+      id: Date.now().toString(36),
+      timestamp: new Date().toISOString(),
+      kid: selectedKid,
+      intensity: currentValue,
+      label: LEVELS[currentValue].label,
+      tags: Array.from(selectedChips),
+      notes: document.getElementById("notesInput").value.trim()
+    };
+    const updated = Array.isArray(content) ? [...content, newEntry] : [newEntry];
+    await ghPut(updated, sha, `Feeling Thermometer: ${selectedKid} logged ${newEntry.intensity}/10`);
+    entries = updated;
+    renderLog();
+    document.getElementById("clearBtn").click();
+  } catch(e){
+    alert("Couldn't save: " + e.message);
+  } finally {
+    logBtn.disabled = false; logBtn.textContent = "Log Entry"; setStatus();
+  }
+});
+
+loadLog();
 </script>
 </body>
 </html>

@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Frost Ledger</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%E2%9D%84%EF%B8%8F%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<script src="https://accounts.google.com/gsi/client" async defer></script>
+</head>
+<body>
+
+<!-- ============ LOGIN GATE ============ -->
+<div id="login-screen" class="login-screen">
+  <div class="frost-crystal" aria-hidden="true">❄</div>
+  <h1 class="login-title">Frost Ledger</h1>
+  <p class="login-sub">Sign in with Google to view the ledger.</p>
+  <div id="g_id_signin" class="g-signin-slot"></div>
+  <p id="login-error" class="login-error" hidden></p>
+</div>
+
+<!-- ============ APP SHELL ============ -->
+<div id="app" class="app" hidden>
+
+  <header class="topbar">
+    <div class="topbar-left">
+      <span class="brand-mark" aria-hidden="true">❄</span>
+      <span class="brand-name">Frost Ledger</span>
+    </div>
+    <nav class="topbar-tabs">
+      <button class="tab-btn active" data-view="ledger">Ledger</button>
+      <button class="tab-btn" id="tab-budget" data-view="budget">Budget</button>
+      <button class="tab-btn" data-view="reports">Reports</button>
+    </nav>
+    <div class="topbar-right">
+      <span id="user-badge" class="user-badge"></span>
+      <button id="backup-btn" class="btn-ghost small">Back Up Now</button>
+      <button id="signout-btn" class="btn-ghost small">Sign out</button>
+    </div>
+  </header>
+
+  <!-- ============ LEDGER VIEW ============ -->
+  <section id="view-ledger" class="view">
+
+    <div class="summary-row" id="summary-row">
+      <div class="summary-card owing">
+        <span class="summary-label">Total Owing</span>
+        <span class="summary-value" id="sum-owing">$0.00</span>
+      </div>
+      <div class="summary-card overdue">
+        <span class="summary-label">Overdue</span>
+        <span class="summary-value" id="sum-overdue">0</span>
+      </div>
+      <div class="summary-card next">
+        <span class="summary-label">Next Due</span>
+        <span class="summary-value" id="sum-next">—</span>
+      </div>
+    </div>
+
+    <div class="toolbar">
+      <input type="search" id="search-input" class="search-input" placeholder="Search vendor or notes…">
+      <select id="filter-category" class="select-input">
+        <option value="">All categories</option>
+      </select>
+      <label class="check-inline">
+        <input type="checkbox" id="filter-separation"> Separation-flagged only
+      </label>
+      <button id="manage-recurring-btn" class="btn-ghost">↻ Recurring</button>
+      <button id="add-bill-btn" class="btn-primary">+ Add Bill</button>
+    </div>
+
+    <div class="ledger-groups" id="ledger-groups">
+      <!-- populated by app.js -->
+    </div>
+
+  </section>
+
+  <!-- ============ BUDGET VIEW ============ -->
+  <section id="view-budget" class="view" hidden>
+    <div class="budget-header">
+      <div>
+        <h2 class="section-title">Monthly Budget</h2>
+        <p class="section-sub">Set what you expect to spend per category. The bar shows what's actually committed (paid + owing) against it.</p>
+      </div>
+      <input type="month" id="budget-month" class="select-input">
+    </div>
+
+    <div class="summary-row" id="budget-summary-row">
+      <div class="summary-card">
+        <span class="summary-label">Total Budget</span>
+        <span class="summary-value" id="budget-total-budget">$0.00</span>
+      </div>
+      <div class="summary-card">
+        <span class="summary-label">Total Spent</span>
+        <span class="summary-value" id="budget-total-spent">$0.00</span>
+      </div>
+      <div class="summary-card" id="budget-remaining-card">
+        <span class="summary-label">Remaining</span>
+        <span class="summary-value" id="budget-total-remaining">$0.00</span>
+      </div>
+    </div>
+
+    <div id="budget-rows" class="budget-rows"></div>
+  </section>
+
+  <!-- ============ REPORTS VIEW ============ -->
+  <section id="view-reports" class="view" hidden>
+    <h2 class="section-title">Financial Disclosure Report</h2>
+    <p class="section-sub">Filter, review totals, then export. Every export lists source attachments by filename for cross-reference.</p>
+
+    <div class="toolbar">
+      <label class="field-inline">From
+        <input type="date" id="report-from" class="select-input">
+      </label>
+      <label class="field-inline">To
+        <input type="date" id="report-to" class="select-input">
+      </label>
+      <select id="report-category" class="select-input">
+        <option value="">All categories</option>
+      </select>
+      <label class="check-inline">
+        <input type="checkbox" id="report-tax"> Tax-qualifying only
+      </label>
+      <label class="check-inline">
+        <input type="checkbox" id="report-separation"> Separation-flagged only
+      </label>
+      <button id="run-report-btn" class="btn-primary">Run Report</button>
+      <button id="export-csv-btn" class="btn-ghost" disabled>Export CSV</button>
+    </div>
+
+    <div id="report-totals" class="report-totals" hidden></div>
+    <div id="report-table-wrap" class="report-table-wrap"></div>
+  </section>
+
+</div>
+
+<!-- ============ ADD BILL MODAL ============ -->
+<div id="add-bill-modal" class="modal-backdrop" hidden>
+  <form id="add-bill-form" class="modal-card">
+    <h2 class="modal-title">Add Bill</h2>
+
+    <label class="field">Category
+      <select id="f-category" required></select>
+    </label>
+
+    <label class="field">Vendor
+      <input type="text" id="f-vendor" required placeholder="e.g. Fortis Alberta">
+    </label>
+
+    <div class="field-row">
+      <label class="field">Amount Owing
+        <input type="number" id="f-amount" step="0.01" min="0" required placeholder="0.00">
+      </label>
+      <label class="field">Due Date
+        <input type="date" id="f-duedate" required>
+      </label>
+    </div>
+
+    <div class="field-row checks">
+      <label class="check-inline"><input type="checkbox" id="f-tax"> Tax-qualifying</label>
+      <label class="check-inline"><input type="checkbox" id="f-separation"> Separation Agreement</label>
+    </div>
+
+    <label class="field">Invoice (optional)
+      <input type="file" id="f-invoice">
+    </label>
+    <label class="field">Receipt (optional)
+      <input type="file" id="f-receipt">
+    </label>
+
+    <label class="field">Notes
+      <textarea id="f-notes" rows="2"></textarea>
+    </label>
+
+    <p id="add-bill-error" class="form-error" hidden></p>
+
+    <div class="modal-actions">
+      <button type="button" class="btn-ghost" id="add-bill-cancel">Cancel</button>
+      <button type="submit" class="btn-primary" id="add-bill-submit">Save Bill</button>
+    </div>
+  </form>
+</div>
+
+<!-- ============ MARK PAID MODAL ============ -->
+<div id="mark-paid-modal" class="modal-backdrop" hidden>
+  <form id="mark-paid-form" class="modal-card">
+    <h2 class="modal-title">Mark Paid</h2>
+    <p class="modal-sub" id="paid-context"></p>
+
+    <label class="field">Paid From Account
+      <select id="p-account" required></select>
+    </label>
+
+    <label class="field">Payment Date
+      <input type="date" id="p-date" required>
+    </label>
+
+    <label class="field">Payment Confirmation (optional)
+      <input type="file" id="p-file">
+    </label>
+
+    <p id="mark-paid-error" class="form-error" hidden></p>
+
+    <div class="modal-actions">
+      <button type="button" class="btn-ghost" id="mark-paid-cancel">Cancel</button>
+      <button type="submit" class="btn-primary" id="mark-paid-submit">Confirm Paid</button>
+    </div>
+  </form>
+</div>
+
+<!-- ============ RECURRING BILLS MODAL ============ -->
+<div id="recurring-modal" class="modal-backdrop" hidden>
+  <div class="modal-card modal-card-wide">
+    <div class="modal-head-row">
+      <h2 class="modal-title">Recurring Bills</h2>
+      <button type="button" class="btn-ghost small" id="recurring-close">Close</button>
+    </div>
+    <p class="modal-sub">Auto-generates a new bill in the ledger on schedule, up to 30 days ahead of its due date.</p>
+
+    <div id="recurring-list" class="recurring-list"></div>
+
+    <button type="button" class="btn-ghost" id="recurring-new-btn">+ New Recurring Bill</button>
+
+    <form id="recurring-form" class="recurring-form" hidden>
+      <label class="field">Category
+        <select id="r-category" required></select>
+      </label>
+      <label class="field">Vendor
+        <input type="text" id="r-vendor" required placeholder="e.g. ATCO Gas">
+      </label>
+      <div class="field-row">
+        <label class="field">Amount
+          <input type="number" id="r-amount" step="0.01" min="0" required placeholder="0.00">
+        </label>
+        <label class="field">Frequency
+          <select id="r-frequency">
+            <option value="Monthly">Monthly</option>
+            <option value="Biweekly">Biweekly</option>
+            <option value="Weekly">Weekly</option>
+            <option value="Yearly">Yearly</option>
+          </select>
+        </label>
+      </div>
+      <label class="field">First Due Date
+        <input type="date" id="r-startdate" required>
+      </label>
+      <div class="field-row checks">
+        <label class="check-inline"><input type="checkbox" id="r-tax"> Tax-qualifying</label>
+        <label class="check-inline"><input type="checkbox" id="r-separation"> Separation Agreement</label>
+      </div>
+      <label class="field">Notes
+        <textarea id="r-notes" rows="2"></textarea>
+      </label>
+      <p id="recurring-error" class="form-error" hidden></p>
+      <div class="modal-actions">
+        <button type="button" class="btn-ghost" id="recurring-cancel">Cancel</button>
+        <button type="submit" class="btn-primary" id="recurring-submit">Save Recurring Bill</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- ============ BILL DETAIL DRAWER ============ -->
+<div id="detail-drawer" class="modal-backdrop" hidden>
+  <div class="modal-card" id="detail-card"></div>
+</div>
+
+<div id="toast" class="toast" hidden></div>
+
+<script src="config.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

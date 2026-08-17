@@ -1,0 +1,912 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Snow Ledger — Coin & Stamp Collection</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Special+Elite&family=Source+Serif+4:ital,wght@0,400;0,600;0,700;1,400&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tesseract.js/2.0.0-alpha.1/tesseract.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<style>
+  :root{
+    --navy:#1B2A3D;
+    --navy-dk:#111C29;
+    --kraft:#E7D9B9;
+    --kraft-dk:#D9C79E;
+    --cream:#FBF6EA;
+    --red:#A5362A;
+    --red-dk:#7E2A21;
+    --verdigris:#6F8265;
+    --gold:#B8912F;
+    --ink:#241F19;
+    --ink-soft:#5C5346;
+    --line: rgba(36,31,25,0.16);
+    --shadow: 0 6px 18px rgba(17,28,41,0.14);
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background: var(--kraft);
+    background-image:
+      radial-gradient(circle at 100% 0%, rgba(255,255,255,0.15), transparent 40%),
+      repeating-linear-gradient(0deg, rgba(36,31,25,0.025) 0px, rgba(36,31,25,0.025) 1px, transparent 1px, transparent 26px);
+    color: var(--ink);
+    font-family: 'Source Serif 4', serif;
+    min-height:100vh;
+    -webkit-font-smoothing: antialiased;
+  }
+  .eyebrow{
+    font-family:'Special Elite', monospace;
+    letter-spacing:0.14em;
+    text-transform:uppercase;
+    font-size:11px;
+    color: var(--ink-soft);
+  }
+  header.site{
+    background: var(--navy);
+    background-image: linear-gradient(180deg, var(--navy) 0%, var(--navy-dk) 100%);
+    color: var(--kraft);
+    padding: 22px 20px 0 20px;
+    position: sticky; top:0; z-index: 40;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.25);
+  }
+  .site-inner{ max-width: 1080px; margin:0 auto; }
+  .site-title-row{ display:flex; align-items:baseline; justify-content:space-between; flex-wrap:wrap; gap:8px; }
+  .site-title{
+    font-family:'Special Elite', monospace;
+    font-size: 26px;
+    letter-spacing:0.03em;
+    color: var(--cream);
+    margin:0;
+  }
+  .site-title small{
+    display:block; font-family:'Source Serif 4', serif; font-style:italic; font-size:13px; color: var(--kraft-dk); font-weight:400; letter-spacing:0.02em; margin-top:2px;
+  }
+  nav.tabs{
+    display:flex; gap:4px; margin-top:18px; overflow-x:auto;
+  }
+  nav.tabs button{
+    font-family:'Special Elite', monospace;
+    font-size:13px;
+    letter-spacing:0.04em;
+    text-transform:uppercase;
+    background: rgba(231,217,185,0.08);
+    color: var(--kraft-dk);
+    border:none;
+    border-top-left-radius:8px; border-top-right-radius:8px;
+    padding: 10px 18px 12px 18px;
+    cursor:pointer;
+    white-space:nowrap;
+    transition: background 0.15s, color 0.15s;
+    border-bottom: 3px solid transparent;
+  }
+  nav.tabs button:hover{ background: rgba(231,217,185,0.16); color: var(--cream); }
+  nav.tabs button.active{
+    background: var(--kraft);
+    color: var(--navy-dk);
+    border-bottom: 3px solid var(--red);
+  }
+  main{ max-width:1080px; margin: 0 auto; padding: 28px 20px 90px 20px; }
+
+  /* Dashboard */
+  .stat-grid{ display:grid; grid-template-columns: repeat(auto-fit, minmax(190px,1fr)); gap:14px; margin-bottom:28px; }
+  .stat-card{
+    background: var(--cream);
+    border:1px solid var(--line);
+    border-radius:4px;
+    padding:16px 16px 14px 16px;
+    box-shadow: var(--shadow);
+    position:relative;
+    overflow:hidden;
+  }
+  .stat-card::before{
+    content:""; position:absolute; left:0; top:0; bottom:0; width:5px; background: var(--verdigris);
+  }
+  .stat-card.red::before{ background: var(--red); }
+  .stat-card.gold::before{ background: var(--gold); }
+  .stat-card.navy::before{ background: var(--navy); }
+  .stat-label{ font-family:'Special Elite', monospace; font-size:10.5px; letter-spacing:0.09em; text-transform:uppercase; color: var(--ink-soft); }
+  .stat-value{ font-family:'IBM Plex Mono', monospace; font-size:26px; font-weight:600; color: var(--ink); margin-top:6px; }
+  .stat-sub{ font-size:11.5px; color: var(--ink-soft); margin-top:3px; font-family:'IBM Plex Mono',monospace;}
+
+  .panel{
+    background: var(--cream);
+    border:1px solid var(--line);
+    border-radius:4px;
+    box-shadow: var(--shadow);
+    padding: 18px 20px 20px 20px;
+    margin-bottom:22px;
+  }
+  .panel h2{
+    font-family:'Special Elite', monospace;
+    font-size:14px; letter-spacing:0.06em; text-transform:uppercase;
+    color: var(--navy); margin:0 0 14px 0;
+    border-bottom: 1px dashed var(--line);
+    padding-bottom:10px;
+  }
+  table.ledger{ width:100%; border-collapse:collapse; font-size:14px; }
+  table.ledger th{
+    text-align:left; font-family:'Special Elite',monospace; font-size:10.5px; letter-spacing:0.06em; text-transform:uppercase;
+    color:var(--ink-soft); padding:6px 10px; border-bottom:1px solid var(--line);
+  }
+  table.ledger td{ padding:9px 10px; border-bottom:1px solid var(--line); vertical-align:middle; }
+  table.ledger td.num, table.ledger th.num{ text-align:right; font-family:'IBM Plex Mono',monospace; }
+  .bar-track{ background: rgba(27,42,61,0.08); border-radius:3px; height:8px; width:100%; overflow:hidden; margin-top:4px;}
+  .bar-fill{ background: var(--verdigris); height:100%; }
+
+  .empty{ text-align:center; padding: 40px 20px; color: var(--ink-soft); }
+  .empty .eyebrow{ display:block; margin-bottom:6px; }
+
+  /* Collection toolbar */
+  .toolbar{ display:flex; justify-content:space-between; align-items:center; gap:10px; margin-bottom:18px; flex-wrap:wrap; }
+  .toolbar h1{ font-family:'Special Elite',monospace; font-size:20px; color:var(--navy); margin:0; }
+  .btn{
+    font-family:'Special Elite', monospace; font-size:12.5px; letter-spacing:0.03em; text-transform:uppercase;
+    background: var(--red); color: var(--cream); border:none; border-radius:3px; padding:11px 18px; cursor:pointer;
+    box-shadow: 0 3px 0 var(--red-dk);
+    transition: transform 0.08s;
+  }
+  .btn:hover{ filter:brightness(1.05); }
+  .btn:active{ transform: translateY(2px); box-shadow:none; }
+  .btn.secondary{ background: var(--navy); box-shadow:0 3px 0 var(--navy-dk); color:var(--kraft); }
+  .btn.ghost{ background: transparent; color: var(--navy); box-shadow:none; border:1px solid var(--line); }
+  .btn.small{ padding:6px 11px; font-size:11px; }
+  .btn.danger{ background: transparent; color: var(--red); box-shadow:none; border:1px solid var(--red); }
+
+  /* Card grid */
+  .card-grid{ display:grid; grid-template-columns: repeat(auto-fill, minmax(260px,1fr)); gap:16px; }
+  .item-card{ background: var(--cream); border:1px solid var(--line); border-radius:5px; box-shadow: var(--shadow); overflow:hidden; position:relative; }
+  .item-photos{ display:flex; gap:1px; background: var(--line); position:relative; }
+  .item-photos .ph{ flex:1; aspect-ratio:1/1; background:#0000000d; overflow:hidden; position:relative;}
+  .item-photos img{ width:100%; height:100%; object-fit:cover; display:block; }
+  .item-photos .ph.empty-ph{ display:flex; align-items:center; justify-content:center; font-family:'IBM Plex Mono',monospace; font-size:10px; color: var(--ink-soft); text-align:center; padding:6px;}
+  .coin-frame img, .coin-frame .empty-ph{
+    border-radius:50%;
+    margin:8%;
+    width:84%; height:84%;
+    box-shadow: 0 0 0 3px var(--cream), 0 0 0 5px repeating-conic-gradient(var(--gold) 0deg 4deg, transparent 4deg 8deg);
+  }
+  .postmark{
+    position:absolute; top:8px; right:8px; width:56px; height:56px; border-radius:50%;
+    border:2px solid var(--red); box-shadow: 0 0 0 3px var(--cream), inset 0 0 0 3px var(--cream);
+    display:flex; align-items:center; justify-content:center; flex-direction:column;
+    background: rgba(251,246,234,0.88); color: var(--red); font-family:'IBM Plex Mono',monospace;
+    text-align:center; line-height:1.05; transform: rotate(-8deg);
+  }
+  .postmark .pm-top{ font-size:7.5px; letter-spacing:0.06em; text-transform:uppercase; }
+  .postmark .pm-date{ font-size:10.5px; font-weight:600; }
+  .item-body{ padding:12px 14px 14px 14px; }
+  .item-source{ font-family:'Special Elite',monospace; font-size:10.5px; letter-spacing:0.04em; text-transform:uppercase; color: var(--navy); }
+  .item-serial{ font-family:'IBM Plex Mono',monospace; text-transform:none; letter-spacing:0; color: var(--ink-soft); }
+  .item-title-row{ display:flex; justify-content:space-between; align-items:baseline; margin-top:4px; }
+  .item-year{ font-family:'IBM Plex Mono',monospace; font-size:19px; font-weight:600; }
+  .item-quality{ font-size:11.5px; background: var(--kraft); border:1px solid var(--line); border-radius:20px; padding:2px 9px; color:var(--ink-soft); }
+  .item-values{ display:flex; gap:16px; margin-top:10px; font-family:'IBM Plex Mono',monospace; font-size:13px; }
+  .item-values div span{ display:block; font-family:'Special Elite',monospace; font-size:9px; color: var(--ink-soft); text-transform:uppercase; letter-spacing:0.05em; }
+  .item-notes{ margin-top:8px; font-size:12.5px; color: var(--ink-soft); font-style:italic; }
+  .item-actions{ display:flex; gap:8px; margin-top:12px; }
+
+  /* Receipts */
+  .receipt-card{ background:var(--cream); border:1px solid var(--line); border-radius:5px; box-shadow:var(--shadow); display:flex; gap:12px; padding:12px; }
+  .receipt-photo{ width:84px; height:84px; flex:none; border-radius:3px; overflow:hidden; background:#0000000d; }
+  .receipt-photo img{ width:100%; height:100%; object-fit:cover; }
+  .receipt-info{ flex:1; min-width:0; }
+  .receipt-vendor{ font-family:'Special Elite',monospace; font-size:13px; color:var(--navy); }
+  .receipt-meta{ font-size:12px; color:var(--ink-soft); margin-top:2px; }
+  .receipt-amount{ font-family:'IBM Plex Mono',monospace; font-size:16px; font-weight:600; margin-top:6px; }
+  .receipt-notes{ font-size:12px; color:var(--ink-soft); font-style:italic; margin-top:4px; }
+
+  /* Modal */
+  .modal-backdrop{ position:fixed; inset:0; background: rgba(17,28,41,0.55); display:flex; align-items:flex-start; justify-content:center; padding: 30px 14px; overflow-y:auto; z-index:100; }
+  .modal{ background: var(--cream); width:100%; max-width:560px; border-radius:6px; box-shadow: 0 20px 50px rgba(0,0,0,0.35); margin-bottom:40px; }
+  .modal-head{ background: var(--navy); color: var(--kraft); padding:16px 20px; border-radius:6px 6px 0 0; display:flex; justify-content:space-between; align-items:center; }
+  .modal-head h3{ margin:0; font-family:'Special Elite',monospace; font-size:15px; letter-spacing:0.03em; text-transform:uppercase; }
+  .modal-head button{ background:none; border:none; color: var(--kraft-dk); font-size:20px; cursor:pointer; line-height:1; }
+  .modal-body{ padding:18px 20px 20px 20px; }
+  .field{ margin-bottom:14px; }
+  .field label{ display:block; font-family:'Special Elite',monospace; font-size:10.5px; letter-spacing:0.05em; text-transform:uppercase; color: var(--ink-soft); margin-bottom:5px; }
+  .field input[type=text], .field input[type=number], .field input[type=date], .field select, .field textarea{
+    width:100%; font-family:'Source Serif 4',serif; font-size:14.5px; padding:9px 10px; border:1px solid var(--line); border-radius:3px; background: #fff; color: var(--ink);
+  }
+  .field textarea{ resize:vertical; min-height:52px; }
+  .row2{ display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+  .source-row{ display:flex; gap:8px; }
+  .source-row select{ flex:1; }
+  .photo-field{ border:1px dashed var(--line); border-radius:4px; padding:10px; }
+  .photo-preview{ width:100%; aspect-ratio:4/3; background:#0000000a; border-radius:3px; overflow:hidden; margin-bottom:8px; display:flex; align-items:center; justify-content:center; }
+  .photo-preview img{ width:100%; height:100%; object-fit:cover; }
+  .photo-preview .placeholder{ font-family:'IBM Plex Mono',monospace; font-size:11px; color: var(--ink-soft); }
+  .photo-actions{ display:flex; gap:8px; flex-wrap:wrap; }
+  .ocr-out{ margin-top:8px; font-family:'IBM Plex Mono',monospace; font-size:11px; background:#00000008; border-radius:3px; padding:8px; max-height:80px; overflow-y:auto; white-space:pre-wrap; color: var(--ink-soft); }
+  .modal-footer{ display:flex; justify-content:flex-end; gap:10px; margin-top:6px; }
+  input[type=file]{ font-family:'IBM Plex Mono',monospace; font-size:11px; }
+
+  @media (max-width:600px){
+    .row2{ grid-template-columns:1fr; }
+    .stat-value{ font-size:22px; }
+  }
+</style>
+</head>
+<body>
+
+<header class="site">
+  <div class="site-inner">
+    <div class="site-title-row">
+      <h1 class="site-title">The Snow Ledger<small>Coins &amp; philately, catalogued</small></h1>
+    </div>
+    <nav class="tabs" id="tabs"></nav>
+  </div>
+</header>
+
+<main id="app"></main>
+
+<div id="modalRoot"></div>
+
+<script>
+/* ---------------- Storage helpers ---------------- */
+async function sGet(key){ try{ const r = await window.storage.get(key,false); return r ? JSON.parse(r.value) : null; }catch(e){ return null; } }
+async function sSet(key, val){ try{ await window.storage.set(key, JSON.stringify(val), false); }catch(e){ console.error('storage set failed', key, e); } }
+async function sDelete(key){ try{ await window.storage.delete(key,false); }catch(e){} }
+
+function uid(){ return 'id' + Date.now().toString(36) + Math.random().toString(36).slice(2,8); }
+function money(n){ n = Number(n)||0; return '$' + n.toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:2}); }
+function esc(s){ return (s==null?'':String(s)).replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+
+/* ---------------- State ---------------- */
+let META = { itemIds: [], receiptIds: [], sources: ['2011 First Day Covers','2013 Wedding Set'], serialCounters: { coin: 0, stamp: 0 }, lastBackup: null };
+let ITEMS = [];
+let RECEIPTS = [];
+let LOG = [];
+let TAB = 'dashboard';
+let LOADED = false;
+
+const TABS = [
+  {id:'dashboard', label:'Dashboard'},
+  {id:'coins', label:'Coins'},
+  {id:'stamps', label:'Stamps'},
+  {id:'receipts', label:'Receipts'},
+  {id:'log', label:'Log & Backup'},
+];
+
+async function loadAll(){
+  const meta = await sGet('meta');
+  if(meta){ META = meta; if(!META.serialCounters) META.serialCounters = { coin: 0, stamp: 0 }; }
+  const [items, receipts, log] = await Promise.all([
+    Promise.all(META.itemIds.map(id => sGet('item:'+id))),
+    Promise.all(META.receiptIds.map(id => sGet('receipt:'+id))),
+    sGet('log'),
+  ]);
+  ITEMS = items.filter(Boolean);
+  RECEIPTS = receipts.filter(Boolean);
+  LOG = log || [];
+  LOADED = true;
+}
+async function saveMeta(){ await sSet('meta', META); }
+async function logEvent(action, detail){
+  LOG.unshift({ ts: new Date().toISOString(), action, detail: detail||'' });
+  if(LOG.length > 500) LOG = LOG.slice(0,500);
+  await sSet('log', LOG);
+}
+
+/* ---------------- Nav ---------------- */
+function renderTabs(){
+  const el = document.getElementById('tabs');
+  el.innerHTML = TABS.map(t => `<button class="${t.id===TAB?'active':''}" onclick="switchTab('${t.id}')">${t.label}</button>`).join('');
+}
+function switchTab(id){ TAB = id; render(); }
+
+/* ---------------- Main render dispatch ---------------- */
+function render(){
+  renderTabs();
+  const app = document.getElementById('app');
+  if(!LOADED){ app.innerHTML = `<div class="empty"><span class="eyebrow">One moment</span>Opening the ledger…</div>`; return; }
+  if(TAB==='dashboard') app.innerHTML = renderDashboard();
+  else if(TAB==='coins') app.innerHTML = renderCollection('coin');
+  else if(TAB==='stamps') app.innerHTML = renderCollection('stamp');
+  else if(TAB==='receipts') app.innerHTML = renderReceipts();
+  else if(TAB==='log') app.innerHTML = renderLog();
+}
+
+/* ---------------- Dashboard ---------------- */
+function renderDashboard(){
+  const coins = ITEMS.filter(i=>i.type==='coin');
+  const stamps = ITEMS.filter(i=>i.type==='stamp');
+  const coinFace = coins.reduce((s,i)=>s+(Number(i.faceValue)||0),0);
+  const stampFace = stamps.reduce((s,i)=>s+(Number(i.faceValue)||0),0);
+  const totalPaid = ITEMS.reduce((s,i)=>s+(Number(i.purchasePrice)||0),0);
+
+  const bySource = {};
+  ITEMS.forEach(i=>{
+    const src = i.source || '(unassigned)';
+    if(!bySource[src]) bySource[src] = {count:0, face:0, paid:0};
+    bySource[src].count++;
+    bySource[src].face += Number(i.faceValue)||0;
+    bySource[src].paid += Number(i.purchasePrice)||0;
+  });
+  const maxPaid = Math.max(1, ...Object.values(bySource).map(s=>s.paid));
+  const sourceRows = Object.entries(bySource).sort((a,b)=>b[1].paid-a[1].paid).map(([src,d])=>`
+    <tr>
+      <td>${esc(src)}<div class="bar-track"><div class="bar-fill" style="width:${Math.round(d.paid/maxPaid*100)}%"></div></div></td>
+      <td class="num">${d.count}</td>
+      <td class="num">${money(d.face)}</td>
+      <td class="num">${money(d.paid)}</td>
+    </tr>`).join('');
+
+  return `
+    <div class="stat-grid">
+      <div class="stat-card gold"><div class="stat-label">Coin Face Value</div><div class="stat-value">${money(coinFace)}</div><div class="stat-sub">${coins.length} coin${coins.length!==1?'s':''}</div></div>
+      <div class="stat-card navy"><div class="stat-label">Stamp Face Value</div><div class="stat-value">${money(stampFace)}</div><div class="stat-sub">${stamps.length} stamp${stamps.length!==1?'s':''} / covers</div></div>
+      <div class="stat-card red"><div class="stat-label">Total Purchase Price</div><div class="stat-value">${money(totalPaid)}</div><div class="stat-sub">across ${ITEMS.length} piece${ITEMS.length!==1?'s':''}</div></div>
+      <div class="stat-card"><div class="stat-label">Receipts Filed</div><div class="stat-value">${RECEIPTS.length}</div><div class="stat-sub">${money(RECEIPTS.reduce((s,r)=>s+(Number(r.amount)||0),0))} documented</div></div>
+    </div>
+    <div class="panel">
+      <h2>By Collection Source</h2>
+      ${ITEMS.length===0 ? `<div class="empty"><span class="eyebrow">Nothing catalogued yet</span>Add a coin or stamp to see totals here.</div>` : `
+      <table class="ledger">
+        <thead><tr><th>Source</th><th class="num">Items</th><th class="num">Face Value</th><th class="num">Paid</th></tr></thead>
+        <tbody>${sourceRows}</tbody>
+      </table>`}
+    </div>
+  `;
+}
+
+/* ---------------- Collection (coins / stamps) ---------------- */
+function renderCollection(type){
+  const list = ITEMS.filter(i=>i.type===type).sort((a,b)=>(b.dateKey||'').localeCompare(a.dateKey||''));
+  const label = type==='coin' ? 'Coins' : 'Stamps & First Day Covers';
+  const addLabel = type==='coin' ? '+ Add Coin' : '+ Add Stamp / Cover';
+  const cards = list.map(i => itemCardHTML(i)).join('');
+  return `
+    <div class="toolbar">
+      <h1>${label}</h1>
+      <button class="btn" onclick="openItemModal('${type}')">${addLabel}</button>
+    </div>
+    ${list.length===0 ? `<div class="empty panel"><span class="eyebrow">Empty drawer</span>No ${type==='coin'?'coins':'stamps'} catalogued yet.</div>` : `<div class="card-grid">${cards}</div>`}
+  `;
+}
+
+function itemCardHTML(i){
+  const isCoin = i.type==='coin';
+  const dateLabel = isCoin ? (i.year||'—') : (i.cancelDate ? formatDateShort(i.cancelDate) : '—');
+  const photoClass = isCoin ? 'coin-frame' : '';
+  const ph1 = i.photo1 ? `<img src="${i.photo1}">` : `<div class="empty-ph">no photo</div>`;
+  const ph2 = i.photo2 ? `<img src="${i.photo2}">` : `<div class="empty-ph">no photo</div>`;
+  const postmark = !isCoin ? `<div class="postmark"><div class="pm-top">Cancelled</div><div class="pm-date">${i.cancelDate ? formatDateShort(i.cancelDate) : '?'}</div></div>` : '';
+  return `
+    <div class="item-card">
+      <div class="item-photos ${photoClass}">
+        <div class="ph">${ph1}</div>
+        <div class="ph">${ph2}</div>
+        ${postmark}
+      </div>
+      <div class="item-body">
+        <div class="item-source">${esc(i.source||'Unassigned')}${i.serial ? ` <span class="item-serial">#${esc(i.serial)}</span>` : ''}</div>
+        <div class="item-title-row">
+          <div class="item-year">${esc(dateLabel)}</div>
+          <div class="item-quality">${esc(i.quality||'—')}</div>
+        </div>
+        <div class="item-values">
+          <div><span>Face Value</span>${money(i.faceValue)}</div>
+          <div><span>Paid</span>${money(i.purchasePrice)}</div>
+        </div>
+        ${i.notes ? `<div class="item-notes">${esc(i.notes)}</div>` : ''}
+        <div class="item-actions">
+          <button class="btn secondary small" onclick="openItemModal('${i.type}','${i.id}')">Edit</button>
+          <button class="btn danger small" onclick="deleteItem('${i.id}')">Delete</button>
+        </div>
+      </div>
+    </div>
+  `;
+}
+function formatDateShort(iso){
+  if(!iso) return '—';
+  const d = new Date(iso+'T00:00:00');
+  if(isNaN(d)) return iso;
+  return d.toLocaleDateString(undefined,{year:'numeric',month:'short',day:'numeric'});
+}
+
+/* ---------------- Receipts ---------------- */
+function renderReceipts(){
+  const list = [...RECEIPTS].sort((a,b)=>(b.date||'').localeCompare(a.date||''));
+  const cards = list.map(r=>`
+    <div class="receipt-card">
+      <div class="receipt-photo">${r.photo ? `<img src="${r.photo}">` : ''}</div>
+      <div class="receipt-info">
+        <div class="receipt-vendor">${esc(r.vendor||'Unknown seller')}</div>
+        <div class="receipt-meta">${r.date ? formatDateShort(r.date) : 'No date'} ${r.source ? '· '+esc(r.source) : ''}</div>
+        <div class="receipt-amount">${money(r.amount)}</div>
+        ${r.notes ? `<div class="receipt-notes">${esc(r.notes)}</div>` : ''}
+        <div class="item-actions">
+          <button class="btn secondary small" onclick="openReceiptModal('${r.id}')">Edit</button>
+          <button class="btn danger small" onclick="deleteReceipt('${r.id}')">Delete</button>
+        </div>
+      </div>
+    </div>
+  `).join('');
+  return `
+    <div class="toolbar">
+      <h1>Receipts</h1>
+      <button class="btn" onclick="openReceiptModal()">+ Add Receipt</button>
+    </div>
+    ${list.length===0 ? `<div class="empty panel"><span class="eyebrow">No paperwork filed</span>Snap a photo of a receipt to keep your purchase records together.</div>` : `<div class="card-grid">${cards}</div>`}
+  `;
+}
+
+/* ---------------- Log & Backup ---------------- */
+function renderLog(){
+  const lastBackup = META.lastBackup ? new Date(META.lastBackup).toLocaleString() : 'never';
+  const logRows = LOG.map(e => `
+    <tr>
+      <td style="white-space:nowrap;font-family:'IBM Plex Mono',monospace;font-size:11.5px;">${esc(new Date(e.ts).toLocaleString())}</td>
+      <td style="white-space:nowrap;">${esc(e.action)}</td>
+      <td>${esc(e.detail)}</td>
+    </tr>`).join('');
+  return `
+    <div class="toolbar"><h1>Log &amp; Backup</h1></div>
+    <div class="panel">
+      <h2>Back Up To Google Drive</h2>
+      <p style="font-size:13px;color:var(--ink-soft);margin:-6px 0 12px 0;">
+        Everything here is already saved automatically as you go. To keep a second, portable copy of your photos and records — one you can drop straight into Google Drive — export a backup below. The zip contains a data file plus every photo as its own image file, sorted into folders, so it stays readable outside this site too.
+      </p>
+      <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;">
+        <button class="btn" onclick="exportBackup()">Download Backup (.zip)</button>
+        <button class="btn ghost" onclick="document.getElementById('importFile').click()">Import Backup (.zip)</button>
+        <input type="file" id="importFile" accept=".zip" style="display:none" onchange="importBackupFile(this)">
+      </div>
+      <div class="stat-sub" style="margin-top:12px;">Last backup: ${esc(lastBackup)}</div>
+    </div>
+    <div class="panel">
+      <h2>Activity Log</h2>
+      ${LOG.length===0 ? `<div class="empty"><span class="eyebrow">Nothing logged yet</span>Every add, edit, delete, and backup will show up here.</div>` : `
+      <table class="ledger">
+        <thead><tr><th>When</th><th>Action</th><th>Detail</th></tr></thead>
+        <tbody>${logRows}</tbody>
+      </table>`}
+    </div>
+  `;
+}
+
+async function exportBackup(){
+  if(typeof JSZip === 'undefined'){ alert('The zip library did not load — check your connection and try again.'); return; }
+  const zip = new JSZip();
+  const manifest = { exportedAt: new Date().toISOString(), sources: META.sources, serialCounters: META.serialCounters, items: [], receipts: [] };
+
+  ITEMS.forEach((i, idx) => {
+    const folder = i.type==='coin' ? 'images/coins' : 'images/stamps';
+    const base = (i.serial || i.id).replace(/[^a-zA-Z0-9_-]/g,'_');
+    const entry = Object.assign({}, i);
+    delete entry.photo1; delete entry.photo2;
+    if(i.photo1){ const fname = `${folder}/${base}_photo1.jpg`; zip.file(fname, i.photo1.split(',')[1], {base64:true}); entry.photo1File = fname; }
+    if(i.photo2){ const fname = `${folder}/${base}_photo2.jpg`; zip.file(fname, i.photo2.split(',')[1], {base64:true}); entry.photo2File = fname; }
+    manifest.items.push(entry);
+  });
+  RECEIPTS.forEach(r => {
+    const entry = Object.assign({}, r);
+    delete entry.photo;
+    if(r.photo){ const fname = `images/receipts/${r.id}.jpg`; zip.file(fname, r.photo.split(',')[1], {base64:true}); entry.photoFile = fname; }
+    manifest.receipts.push(entry);
+  });
+
+  zip.file('ledger-data.json', JSON.stringify(manifest, null, 2));
+  const csvEsc = s => `"${String(s==null?'':s).replace(/"/g,'""')}"`;
+  const csv = ['timestamp,action,detail', ...LOG.map(e => [csvEsc(e.ts), csvEsc(e.action), csvEsc(e.detail)].join(','))].join('\n');
+  zip.file('activity-log.csv', csv);
+
+  const blob = await zip.generateAsync({type:'blob'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  const stamp = new Date().toISOString().slice(0,10);
+  a.href = url; a.download = `snow-ledger-backup-${stamp}.zip`;
+  document.body.appendChild(a); a.click(); a.remove();
+  URL.revokeObjectURL(url);
+
+  META.lastBackup = new Date().toISOString();
+  await saveMeta();
+  await logEvent('Backup exported', `${ITEMS.length} item${ITEMS.length!==1?'s':''}, ${RECEIPTS.length} receipt${RECEIPTS.length!==1?'s':''}`);
+  render();
+}
+
+async function importBackupFile(input){
+  const file = input.files[0];
+  if(!file) return;
+  if(typeof JSZip === 'undefined'){ alert('The zip library did not load — check your connection and try again.'); input.value=''; return; }
+  if(!confirm('This adds items from the backup file into your current ledger. Existing pieces are left untouched and duplicates are skipped. Continue?')){ input.value=''; return; }
+  try{
+    const zip = await JSZip.loadAsync(file);
+    const manifestFile = zip.file('ledger-data.json');
+    if(!manifestFile){ alert('That file does not look like a Snow Ledger backup.'); input.value=''; return; }
+    const manifest = JSON.parse(await manifestFile.async('string'));
+
+    (manifest.sources||[]).forEach(s => { if(!META.sources.includes(s)) META.sources.push(s); });
+
+    let addedItems = 0, addedReceipts = 0;
+    for(const entry of (manifest.items||[])){
+      if(META.itemIds.includes(entry.id)) continue;
+      const item = Object.assign({}, entry);
+      const p1 = entry.photo1File, p2 = entry.photo2File;
+      delete item.photo1File; delete item.photo2File;
+      if(p1 && zip.file(p1)) item.photo1 = 'data:image/jpeg;base64,' + await zip.file(p1).async('base64');
+      if(p2 && zip.file(p2)) item.photo2 = 'data:image/jpeg;base64,' + await zip.file(p2).async('base64');
+      await sSet('item:'+item.id, item);
+      META.itemIds.push(item.id);
+      addedItems++;
+    }
+    for(const entry of (manifest.receipts||[])){
+      if(META.receiptIds.includes(entry.id)) continue;
+      const receipt = Object.assign({}, entry);
+      const pf = entry.photoFile;
+      delete receipt.photoFile;
+      if(pf && zip.file(pf)) receipt.photo = 'data:image/jpeg;base64,' + await zip.file(pf).async('base64');
+      await sSet('receipt:'+receipt.id, receipt);
+      META.receiptIds.push(receipt.id);
+      addedReceipts++;
+    }
+    await saveMeta();
+    await loadAll();
+    await logEvent('Backup imported', `${addedItems} item${addedItems!==1?'s':''}, ${addedReceipts} receipt${addedReceipts!==1?'s':''} from ${file.name}`);
+    render();
+    alert(`Imported ${addedItems} item(s) and ${addedReceipts} receipt(s).`);
+  }catch(err){
+    alert('Could not read that backup file.');
+  }
+  input.value = '';
+}
+
+
+function resizeImage(file, maxDim, quality){
+  maxDim = maxDim || 900; quality = quality || 0.62;
+  return new Promise((resolve, reject)=>{
+    const reader = new FileReader();
+    reader.onload = e => {
+      const img = new Image();
+      img.onload = () => {
+        let w = img.width, h = img.height;
+        if(w > h){ if(w>maxDim){ h = Math.round(h*maxDim/w); w = maxDim; } }
+        else { if(h>maxDim){ w = Math.round(w*maxDim/h); h = maxDim; } }
+        const canvas = document.createElement('canvas');
+        canvas.width = w; canvas.height = h;
+        canvas.getContext('2d').drawImage(img,0,0,w,h);
+        resolve(canvas.toDataURL('image/jpeg', quality));
+      };
+      img.onerror = reject;
+      img.src = e.target.result;
+    };
+    reader.onerror = reject;
+    reader.readAsDataURL(file);
+  });
+}
+
+async function runOCR(dataUrl, outId){
+  const out = document.getElementById(outId);
+  if(!out) return;
+  out.style.display = 'block';
+  out.textContent = 'Reading image…';
+  try{
+    if(typeof Tesseract === 'undefined'){
+      out.textContent = 'OCR engine unavailable right now — enter details manually.';
+      return;
+    }
+    const result = await Tesseract.recognize(dataUrl, 'eng');
+    const text = (result && result.data && result.data.text) || (result && result.text) || '';
+    out.textContent = text.trim() || '(no text detected in image)';
+    out.dataset.text = text;
+  }catch(err){
+    out.textContent = 'OCR failed — enter details manually.';
+  }
+}
+function applyOcrYear(outId, targetId){
+  const out = document.getElementById(outId);
+  const target = document.getElementById(targetId);
+  if(!out || !target) return;
+  const text = out.dataset.text || out.textContent || '';
+  const m = text.match(/\b(1[5-9]\d{2}|20\d{2})\b/);
+  if(m){ target.value = m[0]; }
+  else{ alert('No 4-digit year found in the scanned text — enter it manually.'); }
+}
+function applyOcrSerial(outId){
+  const out = document.getElementById(outId);
+  const target = document.getElementById('f_serial');
+  if(!out || !target) return;
+  const text = out.dataset.text || out.textContent || '';
+  const m = text.match(/\b\d{8,14}\b/);
+  if(m){ target.value = m[0]; }
+  else{ alert('No barcode-length number (8–14 digits) found in the scanned text — enter it manually.'); }
+}
+async function generateSerial(type){
+  const target = document.getElementById('f_serial');
+  if(!target) return;
+  META.serialCounters[type] = (META.serialCounters[type]||0) + 1;
+  const prefix = type==='coin' ? 'CN' : 'ST';
+  target.value = prefix + '-' + String(META.serialCounters[type]).padStart(5,'0');
+  await saveMeta();
+}
+
+/* ---------------- Item modal ---------------- */
+let modalPhoto1 = null, modalPhoto2 = null;
+
+function sourceOptionsHTML(selected){
+  return META.sources.map(s=>`<option value="${esc(s)}" ${s===selected?'selected':''}>${esc(s)}</option>`).join('');
+}
+
+function openItemModal(type, id){
+  const editing = id ? ITEMS.find(i=>i.id===id) : null;
+  modalPhoto1 = editing ? editing.photo1 : null;
+  modalPhoto2 = editing ? editing.photo2 : null;
+  const isCoin = type==='coin';
+  const dateFieldLabel = isCoin ? 'Year' : 'Cancellation Date';
+  const dateFieldHTML = isCoin
+    ? `<input type="text" id="f_dateVal" inputmode="numeric" placeholder="e.g. 1964" value="${esc(editing?editing.year:'')}">`
+    : `<input type="date" id="f_dateVal" value="${esc(editing?editing.cancelDate:'')}">`;
+  const qualityList = isCoin
+    ? ['Poor','Fair','Good','Very Good','Fine','Very Fine','Extremely Fine','About Uncirculated','Uncirculated','Proof']
+    : ['Poor','Fair','Fine','Very Fine','Extremely Fine','Superb','Used','Mint Never Hinged'];
+
+  const html = `
+  <div class="modal-backdrop" onclick="if(event.target===this) closeModal()">
+    <div class="modal">
+      <div class="modal-head">
+        <h3>${editing ? 'Edit' : 'Add'} ${isCoin?'Coin':'Stamp / Cover'}</h3>
+        <button onclick="closeModal()">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="field">
+          <label>Collection Source</label>
+          <div class="source-row">
+            <select id="f_source">${sourceOptionsHTML(editing?editing.source:'')}</select>
+            <button type="button" class="btn ghost small" onclick="promptNewSource()">+ New</button>
+          </div>
+        </div>
+        <div class="row2">
+          <div class="field">
+            <label>${dateFieldLabel}</label>
+            ${dateFieldHTML}
+          </div>
+          <div class="field">
+            <label>Quality / Condition</label>
+            <input type="text" id="f_quality" list="qualityList" value="${esc(editing?editing.quality:'')}" placeholder="Choose or type">
+            <datalist id="qualityList">${qualityList.map(q=>`<option value="${q}">`).join('')}</datalist>
+          </div>
+        </div>
+        <div class="row2">
+          <div class="field">
+            <label>Face Value ($)</label>
+            <input type="number" step="0.01" id="f_faceValue" value="${editing?editing.faceValue:''}">
+          </div>
+          <div class="field">
+            <label>Purchase Price ($)</label>
+            <input type="number" step="0.01" id="f_purchasePrice" value="${editing?editing.purchasePrice:''}">
+          </div>
+        </div>
+        <div class="field">
+          <label>Serial Number / UPC <span style="text-transform:none;font-weight:400;">(optional)</span></label>
+          <div class="source-row">
+            <input type="text" id="f_serial" value="${editing?esc(editing.serial):''}" placeholder="Scan a UPC, or generate a catalog number">
+            <button type="button" class="btn ghost small" onclick="generateSerial('${type}')">Generate</button>
+          </div>
+        </div>
+        <div class="field">
+          <label>Notes</label>
+          <textarea id="f_notes" placeholder="Mint mark, series, condition notes...">${editing?esc(editing.notes):''}</textarea>
+        </div>
+        <div class="row2">
+          <div class="field photo-field">
+            <label>${isCoin?'Obverse':'Photo 1 — full item'}</label>
+            <div class="photo-preview" id="prev1">${modalPhoto1?`<img src="${modalPhoto1}">`:`<span class="placeholder">No photo yet</span>`}</div>
+            <div class="photo-actions">
+              <input type="file" accept="image/*" capture="environment" id="file1" onchange="handlePhotoInput(1)">
+              <button type="button" class="btn ghost small" onclick="ocrPhoto(1)">Scan text (OCR)</button>
+              <button type="button" class="btn ghost small" onclick="applyOcrYear('ocr1','f_dateVal')">Use as ${isCoin?'year':'date'}</button>
+              <button type="button" class="btn ghost small" onclick="applyOcrSerial('ocr1')">Use as serial/UPC</button>
+            </div>
+            <div class="ocr-out" id="ocr1" style="display:none;"></div>
+          </div>
+          <div class="field photo-field">
+            <label>${isCoin?'Reverse':'Photo 2 — cancellation / detail'}</label>
+            <div class="photo-preview" id="prev2">${modalPhoto2?`<img src="${modalPhoto2}">`:`<span class="placeholder">No photo yet</span>`}</div>
+            <div class="photo-actions">
+              <input type="file" accept="image/*" capture="environment" id="file2" onchange="handlePhotoInput(2)">
+              <button type="button" class="btn ghost small" onclick="ocrPhoto(2)">Scan text (OCR)</button>
+              <button type="button" class="btn ghost small" onclick="applyOcrYear('ocr2','f_dateVal')">Use as ${isCoin?'year':'date'}</button>
+              <button type="button" class="btn ghost small" onclick="applyOcrSerial('ocr2')">Use as serial/UPC</button>
+            </div>
+            <div class="ocr-out" id="ocr2" style="display:none;"></div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button class="btn ghost" onclick="closeModal()">Cancel</button>
+          <button class="btn" onclick="saveItem('${type}', ${editing? "'"+editing.id+"'" : 'null'})">Save ${isCoin?'Coin':'Piece'}</button>
+        </div>
+      </div>
+    </div>
+  </div>`;
+  document.getElementById('modalRoot').innerHTML = html;
+}
+
+async function handlePhotoInput(n){
+  const input = document.getElementById('file'+n);
+  if(!input.files || !input.files[0]) return;
+  const dataUrl = await resizeImage(input.files[0]);
+  if(n===1){ modalPhoto1 = dataUrl; document.getElementById('prev1').innerHTML = `<img src="${dataUrl}">`; }
+  else { modalPhoto2 = dataUrl; document.getElementById('prev2').innerHTML = `<img src="${dataUrl}">`; }
+}
+function ocrPhoto(n){
+  const dataUrl = n===1 ? modalPhoto1 : modalPhoto2;
+  if(!dataUrl){ alert('Add a photo first.'); return; }
+  runOCR(dataUrl, 'ocr'+n);
+}
+function promptNewSource(){
+  const name = prompt('New collection source name (e.g. "2011 First Day Covers" or "2013 Wedding Set")');
+  if(!name) return;
+  if(!META.sources.includes(name)) META.sources.push(name);
+  saveMeta();
+  const sel = document.getElementById('f_source');
+  if(sel){
+    sel.innerHTML = sourceOptionsHTML(name);
+  }
+}
+
+async function saveItem(type, id){
+  const isCoin = type==='coin';
+  const source = document.getElementById('f_source').value;
+  const dateVal = document.getElementById('f_dateVal').value.trim();
+  const quality = document.getElementById('f_quality').value.trim();
+  const faceValue = document.getElementById('f_faceValue').value;
+  const purchasePrice = document.getElementById('f_purchasePrice').value;
+  const notes = document.getElementById('f_notes').value.trim();
+  const serial = document.getElementById('f_serial').value.trim();
+
+  const item = {
+    id: id || uid(),
+    type,
+    source,
+    quality,
+    serial,
+    faceValue: faceValue ? Number(faceValue) : 0,
+    purchasePrice: purchasePrice ? Number(purchasePrice) : 0,
+    notes,
+    photo1: modalPhoto1,
+    photo2: modalPhoto2,
+  };
+  if(isCoin){ item.year = dateVal; item.dateKey = dateVal.padStart(4,'0'); }
+  else { item.cancelDate = dateVal; item.dateKey = dateVal; }
+
+  await sSet('item:'+item.id, item);
+  if(!id){
+    META.itemIds.push(item.id);
+    await saveMeta();
+  }
+  const desc = `${item.source||'Unassigned'} — ${isCoin ? ('Year '+(item.year||'?')) : ('Cancelled '+(item.cancelDate||'?'))}${item.serial ? (' #'+item.serial) : ''}`;
+  await logEvent(id ? `Edited ${type}` : `Added ${type}`, desc);
+  await loadAll();
+  closeModal();
+  TAB = isCoin ? 'coins' : 'stamps';
+  render();
+}
+
+async function deleteItem(id){
+  if(!confirm('Remove this piece from the ledger? This cannot be undone.')) return;
+  const item = ITEMS.find(i=>i.id===id);
+  await sDelete('item:'+id);
+  META.itemIds = META.itemIds.filter(x=>x!==id);
+  await saveMeta();
+  if(item) await logEvent(`Deleted ${item.type}`, `${item.source||'Unassigned'}${item.serial ? (' #'+item.serial) : ''}`);
+  await loadAll();
+  render();
+}
+
+/* ---------------- Receipt modal ---------------- */
+let modalReceiptPhoto = null;
+
+function openReceiptModal(id){
+  const editing = id ? RECEIPTS.find(r=>r.id===id) : null;
+  modalReceiptPhoto = editing ? editing.photo : null;
+  const html = `
+  <div class="modal-backdrop" onclick="if(event.target===this) closeModal()">
+    <div class="modal">
+      <div class="modal-head">
+        <h3>${editing?'Edit':'Add'} Receipt</h3>
+        <button onclick="closeModal()">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="row2">
+          <div class="field">
+            <label>Seller / Vendor</label>
+            <input type="text" id="r_vendor" value="${editing?esc(editing.vendor):''}">
+          </div>
+          <div class="field">
+            <label>Date</label>
+            <input type="date" id="r_date" value="${editing?esc(editing.date):''}">
+          </div>
+        </div>
+        <div class="row2">
+          <div class="field">
+            <label>Amount ($)</label>
+            <input type="number" step="0.01" id="r_amount" value="${editing?editing.amount:''}">
+          </div>
+          <div class="field">
+            <label>Related Source</label>
+            <select id="r_source"><option value="">— none —</option>${sourceOptionsHTML(editing?editing.source:'')}</select>
+          </div>
+        </div>
+        <div class="field">
+          <label>Notes</label>
+          <textarea id="r_notes" placeholder="What was purchased...">${editing?esc(editing.notes):''}</textarea>
+        </div>
+        <div class="field photo-field">
+          <label>Receipt Photo</label>
+          <div class="photo-preview" id="rprev">${modalReceiptPhoto?`<img src="${modalReceiptPhoto}">`:`<span class="placeholder">No photo yet</span>`}</div>
+          <div class="photo-actions">
+            <input type="file" accept="image/*" capture="environment" id="rfile" onchange="handleReceiptPhoto()">
+            <button type="button" class="btn ghost small" onclick="ocrReceipt()">Scan text (OCR)</button>
+          </div>
+          <div class="ocr-out" id="rocr" style="display:none;"></div>
+        </div>
+        <div class="modal-footer">
+          <button class="btn ghost" onclick="closeModal()">Cancel</button>
+          <button class="btn" onclick="saveReceipt(${editing?"'"+editing.id+"'":'null'})">Save Receipt</button>
+        </div>
+      </div>
+    </div>
+  </div>`;
+  document.getElementById('modalRoot').innerHTML = html;
+}
+async function handleReceiptPhoto(){
+  const input = document.getElementById('rfile');
+  if(!input.files || !input.files[0]) return;
+  const dataUrl = await resizeImage(input.files[0]);
+  modalReceiptPhoto = dataUrl;
+  document.getElementById('rprev').innerHTML = `<img src="${dataUrl}">`;
+}
+function ocrReceipt(){
+  if(!modalReceiptPhoto){ alert('Add a photo first.'); return; }
+  runOCR(modalReceiptPhoto, 'rocr');
+}
+async function saveReceipt(id){
+  const receipt = {
+    id: id || uid(),
+    vendor: document.getElementById('r_vendor').value.trim(),
+    date: document.getElementById('r_date').value,
+    amount: Number(document.getElementById('r_amount').value)||0,
+    source: document.getElementById('r_source').value,
+    notes: document.getElementById('r_notes').value.trim(),
+    photo: modalReceiptPhoto,
+  };
+  await sSet('receipt:'+receipt.id, receipt);
+  if(!id){
+    META.receiptIds.push(receipt.id);
+    await saveMeta();
+  }
+  await logEvent(id ? 'Edited receipt' : 'Added receipt', `${receipt.vendor||'Unknown seller'} — ${money(receipt.amount)}`);
+  await loadAll();
+  closeModal();
+  TAB = 'receipts';
+  render();
+}
+async function deleteReceipt(id){
+  if(!confirm('Remove this receipt? This cannot be undone.')) return;
+  const receipt = RECEIPTS.find(r=>r.id===id);
+  await sDelete('receipt:'+id);
+  META.receiptIds = META.receiptIds.filter(x=>x!==id);
+  await saveMeta();
+  if(receipt) await logEvent('Deleted receipt', `${receipt.vendor||'Unknown seller'} — ${money(receipt.amount)}`);
+  await loadAll();
+  render();
+}
+
+function closeModal(){
+  document.getElementById('modalRoot').innerHTML = '';
+  modalPhoto1 = null; modalPhoto2 = null; modalReceiptPhoto = null;
+}
+
+/* ---------------- Boot ---------------- */
+(async function init(){
+  render();
+  const existingMeta = await sGet('meta');
+  if(!existingMeta){ await saveMeta(); }
+  await loadAll();
+  render();
+})();
+</script>
+</body>
+</html>

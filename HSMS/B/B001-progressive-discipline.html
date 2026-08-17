@@ -153,7 +153,8 @@
 
   <div class="ack-card">
     <h3>Policy Acknowledgement</h3>
-    <p class="sub">Complete all fields, check each box, then click <strong>Save as PDF</strong>. Choose <em>Save as PDF</em> in the print dialog and navigate to the folder shown above.</p>
+    <p class="sub">Complete all fields, check each box, then click <strong>Save as PDF</strong> &mdash; a signed PDF downloads automatically, named and ready to file.</p>
+    <div id="ackBanner"></div>
     <div class="chk-row">
       <input type="checkbox" id="chk1">
       <label for="chk1">I have read and understood the full <strong>B.001 Progressive Discipline</strong> policy.</label>
@@ -169,7 +170,7 @@
     <div class="form-grid">
       <div class="form-field">
         <label>Employee Full Name</label>
-        <input type="text" id="empName" placeholder="Full legal name" oninput="sync()">
+        <input type="text" id="empName" placeholder="Full legal name" oninput="sync()" onblur="checkStatus()">
       </div>
       <div class="form-field">
         <label>Position / Title</label>
@@ -188,27 +189,76 @@
         <div class="sig-line">Sign above this line after printing &nbsp;&mdash;&nbsp; or type full name to acknowledge electronically</div>
       </div>
     </div>
-    <div class="fn-hint"><strong>Suggested filename:</strong> <span id="sfn"></span></div>
+    <div class="fn-hint"><strong>Filename on save:</strong> <span id="sfn"></span></div>
+    <div id="ackStatus" class="ack-save-status"></div>
   </div>
 </main>
 <footer>DS Home Computing &middot; SA03 SECOR &middot; B.001 Progressive Discipline &middot; For internal use only</footer>
 
+<script src="../vendor/ack.js"></script>
 <script>
-const BASE_FN = 'B001-progressive-discipline';
-function sync() {
-  const n = (document.getElementById('empName').value||'[name]').trim().replace(/\s+/g,'-');
-  const d = document.getElementById('ackDate').value||'[date]';
-  document.getElementById('sfn').textContent = BASE_FN+'_'+n+'_'+d+'.pdf';
+const DOC_CODE = 'B001';
+const DOC_NAME = 'Progressive Discipline';
+function fnDate(dstr) { return (dstr||'').replace(/-/g,'') || '[date]'; }
+function buildFilename() {
+  const n = HsmsAck.slug(document.getElementById('empName').value) || '[name]';
+  const d = fnDate(document.getElementById('ackDate').value);
+  return n+'-'+HsmsAck.slug(DOC_NAME)+'-Acknowledgement-'+d+'.pdf';
 }
-function printForm() { window.print(); }
+function sync() {
+  document.getElementById('sfn').textContent = buildFilename();
+}
+function checkStatus() {
+  const name = document.getElementById('empName').value;
+  const rec = HsmsAck.lookupSignoff(DOC_CODE, name);
+  const banner = document.getElementById('ackBanner');
+  if (rec) {
+    banner.innerHTML = '<div class="ack-banner"><span class="ico">&#9989;</span>'
+      + '<span><strong>'+rec.name+'</strong> already acknowledged this policy on '+rec.date+' ('+rec.daysAgo+' days ago).</span>'
+      + '<button type="button" class="resign-btn" onclick="document.getElementById(\'ackBanner\').innerHTML=\'\'">Sign again</button></div>';
+  } else {
+    banner.innerHTML = '';
+  }
+}
+async function printForm() {
+  const name = document.getElementById('empName').value.trim();
+  const allChecked = [...document.querySelectorAll('.chk-row input')].every(c=>c.checked);
+  const status = document.getElementById('ackStatus');
+  if (!name || !allChecked || !document.getElementById('ackDate').value) {
+    status.className = 'ack-save-status err';
+    status.textContent = 'Enter your name, pick a date, and check all boxes before saving.';
+    return;
+  }
+  const btn = document.querySelector('.btn-print');
+  btn.disabled = true;
+  status.className = 'ack-save-status busy';
+  status.textContent = 'Generating PDF…';
+  const filename = buildFilename();
+  document.body.classList.add('pdf-export');
+  try {
+    await HsmsAck.savePdfFromElement(document.querySelector('main'), filename, '../vendor/');
+    HsmsAck.recordSignoff(DOC_CODE, name, filename);
+    status.className = 'ack-save-status ok';
+    status.textContent = 'Saved '+filename;
+    checkStatus();
+  } catch (e) {
+    status.className = 'ack-save-status err';
+    status.textContent = 'Could not generate PDF: '+e.message;
+  } finally {
+    document.body.classList.remove('pdf-export');
+    btn.disabled = false;
+  }
+}
 function clearForm() {
   ['empName','empPos','ackDate','supName'].forEach(id=>document.getElementById(id).value='');
   document.querySelectorAll('.chk-row input').forEach(el=>el.checked=false);
   document.getElementById('ackDate').value=new Date().toISOString().split('T')[0];
+  document.getElementById('ackStatus').textContent='';
   sync();
 }
 document.getElementById('ackDate').value=new Date().toISOString().split('T')[0];
 sync();
+checkStatus();
 const srch=document.getElementById('policySearch');
 srch.addEventListener('input',()=>{
   const q=srch.value.toLowerCase();

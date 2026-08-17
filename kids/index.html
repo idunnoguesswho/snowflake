@@ -264,7 +264,7 @@ async function loadAndRender() {
 
 // Submit
 document.getElementById('btn-submit').addEventListener('click', async () => {
-  if (!selected.main) { showToast('Pick how you're feeling overall first!'); return; }
+  if (!selected.main) { showToast("Pick how you're feeling overall first!"); return; }
 
   const btn = document.getElementById('btn-submit');
   btn.disabled = true;

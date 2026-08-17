@@ -1,0 +1,715 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Receipt Ledger | Ekat</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Baloo+2:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ink:#1f2933; --muted:#667085; --line:#d8dee6; --card:#ffffff;
+  --amber:#f59e0b; --blue:#4dabf7; --green:#38d9a9; --purple:#a855f7;
+  --pink:#ff6b9d; --navy:#1e3a5f; --coral:#ff6b6b; --shadow:0 4px 20px rgba(31,41,51,.08);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{width:100%;overflow-x:hidden}
+body{font-family:'Nunito',sans-serif;background:linear-gradient(160deg,#fff8e1 0%,#e8f4fd 50%,#f3e8ff 100%);min-height:100vh;color:var(--ink)}
+
+.site-header{background:linear-gradient(135deg,#ff6b9d,#ffa94d,#ffd43b,#69db7c,#4dabf7,#cc5de8);background-size:300% 300%;animation:rainbow 8s ease infinite;padding:28px 20px 22px;text-align:center}
+@keyframes rainbow{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
+.site-title{font-family:'Baloo 2',cursive;font-size:clamp(2rem,7vw,2.8rem);color:white;text-shadow:0 3px 0 rgba(0,0,0,.18)}
+.site-title em{font-style:normal}
+.site-sub{color:rgba(255,255,255,.92);font-size:.95rem;margin-top:4px;font-weight:700}
+
+.page-wrap{max-width:920px;margin:0 auto;padding:20px 16px 60px;display:grid;gap:18px}
+
+.card{background:var(--card);border:1.5px solid var(--line);border-radius:18px;box-shadow:var(--shadow);padding:20px}
+.card h2{font-family:'Baloo 2',cursive;font-size:1.2rem;margin-bottom:12px}
+
+.status-line{font-size:.85rem;font-weight:800;color:var(--muted);min-height:20px;margin-top:8px}
+.status-line.ok{color:#2f8f64}
+.status-line.error{color:#c23434}
+
+/* -- Dropzone -- */
+.dropzone{border:2.5px dashed #c7d0da;border-radius:16px;padding:32px 16px;text-align:center;cursor:pointer;transition:border-color .15s,background .15s}
+.dropzone:hover,.dropzone.drag{border-color:var(--blue);background:#f3f9ff}
+.dropzone-icon{font-size:2.2rem;line-height:1}
+.dropzone-label{font-weight:800;margin-top:8px}
+.dropzone-hint{color:var(--muted);font-size:.82rem;margin-top:4px}
+
+.progress-wrap{margin-top:14px}
+.progress-track{height:10px;background:#eef2f6;border-radius:99px;overflow:hidden}
+.progress-fill{height:100%;background:linear-gradient(90deg,var(--blue),var(--green));border-radius:99px;width:0%;transition:width .2s}
+.progress-text{font-size:.8rem;color:var(--muted);font-weight:800;margin-top:6px}
+
+/* -- Receipt form -- */
+.receipt-form{display:grid;gap:14px;grid-template-columns:160px 1fr;align-items:start}
+.receipt-thumb{width:100%;border-radius:12px;border:1.5px solid var(--line);object-fit:cover;aspect-ratio:3/4;background:#f3f4f6}
+.receipt-thumb.pdf-icon{display:grid;place-items:center;font-size:2.4rem}
+.receipt-fields{display:grid;gap:10px;grid-template-columns:1fr 1fr}
+.receipt-fields .full{grid-column:1/-1}
+.field label{display:block;font-size:.72rem;font-weight:900;color:var(--muted);text-transform:uppercase;margin-bottom:5px}
+.field input,.field select{width:100%;min-height:40px;padding:9px 12px;border:1.5px solid var(--line);border-radius:10px;font:inherit;color:var(--ink)}
+.field input:focus,.field select:focus{outline:none;border-color:var(--blue);box-shadow:0 0 0 3px rgba(77,171,247,.2)}
+.receipt-id-note{grid-column:1/-1;font-size:.78rem;color:var(--muted)}
+.receipt-id-note code{background:#f3f4f6;padding:2px 6px;border-radius:6px}
+.form-actions{grid-column:1/-1;display:flex;gap:10px;align-items:center}
+
+.btn{display:inline-flex;align-items:center;justify-content:center;min-height:40px;padding:0 16px;border:0;border-radius:10px;font-weight:800;cursor:pointer;font:inherit}
+.btn-primary{background:var(--blue);color:#fff}
+.btn-primary:disabled{opacity:.6;cursor:default}
+.btn-secondary{background:#edf4ff;color:#1f5fb5}
+.btn-danger{background:#fdecef;color:#c23434}
+.btn-small{min-height:32px;padding:0 12px;font-size:.82rem}
+
+@media (max-width:560px){.receipt-form{grid-template-columns:1fr}.receipt-thumb{aspect-ratio:16/9}}
+
+/* -- Ledger -- */
+.ledger-toolbar{display:flex;gap:10px;flex-wrap:wrap;align-items:center;justify-content:space-between;margin-bottom:14px}
+.search-input{flex:1;min-width:180px;min-height:40px;padding:9px 14px;border:1.5px solid var(--line);border-radius:99px;font:inherit}
+.search-input:focus{outline:none;border-color:var(--blue)}
+
+.category-summary{display:grid;gap:10px;margin-bottom:16px;padding:14px;background:#fbfcfd;border:1.5px solid var(--line);border-radius:14px}
+.category-total-row{display:flex;justify-content:space-between;align-items:baseline}
+.category-total-row strong{font-family:'Baloo 2',cursive;font-size:1.5rem}
+.category-bars{display:grid;gap:8px}
+.category-row{display:grid;grid-template-columns:110px 1fr 80px;gap:10px;align-items:center;font-size:.82rem}
+.category-name{font-weight:800;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.bar-track{height:9px;background:#eef2f6;border-radius:99px;overflow:hidden}
+.bar-fill{height:100%;border-radius:99px}
+.category-amount{text-align:right;font-weight:800}
+
+.table-wrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:.88rem}
+th,td{padding:10px 12px;text-align:left;border-bottom:1px solid #f0f0f0;vertical-align:top;white-space:nowrap}
+th{font-size:.7rem;text-transform:uppercase;color:var(--muted);font-weight:900}
+td.wrap{white-space:normal}
+.id-code{font-family:ui-monospace,Menlo,monospace;font-size:.76rem;color:var(--muted)}
+.cat-chip{display:inline-flex;align-items:center;padding:3px 9px;border-radius:99px;font-size:.72rem;font-weight:800;color:#fff}
+.row-actions{display:flex;gap:6px}
+.empty-state{padding:34px 16px;text-align:center;color:var(--muted);font-weight:700}
+
+.back-links{display:flex;gap:8px;flex-wrap:wrap;font-size:.85rem;margin-top:4px}
+.back-links a{color:var(--muted);text-decoration:none;font-weight:700}
+.back-links a:hover{color:var(--ink)}
+.back-links span{color:var(--line)}
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="site-title">Receipts <em>🧾</em></div>
+  <div class="site-sub">Ekat's receipt ledger</div>
+</header>
+
+<div class="page-wrap">
+
+  <section class="card">
+    <h2>Upload a receipt</h2>
+    <div class="dropzone" id="dropzone" tabindex="0" role="button" aria-label="Upload a receipt image or PDF">
+      <div class="dropzone-icon">📎</div>
+      <div class="dropzone-label">Click to choose, or drag a receipt here</div>
+      <div class="dropzone-hint">Photo (JPG/PNG) or PDF — a searchable PDF is generated automatically</div>
+    </div>
+    <input type="file" id="file-input" accept="image/*,application/pdf" capture="environment" hidden>
+
+    <div class="progress-wrap" id="progress-wrap" hidden>
+      <div class="progress-track"><div class="progress-fill" id="progress-fill"></div></div>
+      <div class="progress-text" id="progress-text">Reading receipt…</div>
+    </div>
+
+    <div class="status-line" id="upload-status"></div>
+  </section>
+
+  <section class="card" id="form-card" hidden>
+    <h2>Confirm receipt details</h2>
+    <div class="receipt-form">
+      <img class="receipt-thumb" id="receipt-thumb" alt="Receipt preview">
+      <div class="receipt-fields">
+        <div class="field full">
+          <label for="vendor-input">Vendor</label>
+          <input id="vendor-input" type="text" placeholder="e.g. No Frills" autocomplete="off">
+        </div>
+        <div class="field">
+          <label for="date-input">Date of purchase</label>
+          <input id="date-input" type="date">
+        </div>
+        <div class="field">
+          <label for="total-input">Total cost</label>
+          <input id="total-input" type="number" step="0.01" min="0" placeholder="0.00">
+        </div>
+        <div class="field full">
+          <label for="category-select">Category</label>
+          <select id="category-select"></select>
+        </div>
+        <div class="receipt-id-note">Will be saved as <code id="pending-id"></code></div>
+        <div class="form-actions">
+          <button class="btn btn-primary" id="save-receipt-button" type="button">Save receipt</button>
+          <button class="btn btn-secondary" id="cancel-receipt-button" type="button">Cancel</button>
+          <span class="status-line" id="form-status"></span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="card">
+    <h2>Ledger</h2>
+    <div class="ledger-toolbar">
+      <input class="search-input" id="search-input" type="search" placeholder="Search vendor, category, date, ID, or receipt text">
+      <span class="status-line" id="ledger-count"></span>
+    </div>
+
+    <div class="category-summary">
+      <div class="category-total-row">
+        <span class="status-line" style="margin:0">Total spent</span>
+        <strong id="category-total">$0.00</strong>
+      </div>
+      <div class="category-bars" id="category-bars"></div>
+    </div>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>Vendor</th><th>Date</th><th>Category</th><th>Total</th><th>ID</th><th>Receipt</th></tr>
+        </thead>
+        <tbody id="receipts-body"></tbody>
+      </table>
+      <div class="empty-state" id="receipts-empty">No receipts uploaded yet.</div>
+    </div>
+  </section>
+
+  <div class="back-links">
+    <a href="../../money.html">Bill Log</a><span>·</span>
+    <a href="../../hustles.html">Hustles</a><span>·</span>
+    <a href="../../jobs.html">Jobs</a><span>·</span>
+    <a href="../../index.html">Snowflake home</a>
+  </div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/tesseract.js@4.1.1/dist/tesseract.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
+<script>
+const DB_NAME = "snowflake-money-ledger";
+const STORE_NAME = "receipts";
+const CATEGORIES = [
+  { name: "Groceries", color: "#38d9a9" },
+  { name: "Utilities", color: "#4dabf7" },
+  { name: "Transportation", color: "#f59e0b" },
+  { name: "Household", color: "#a855f7" },
+  { name: "Health", color: "#ff6b9d" },
+  { name: "Dining", color: "#ffa94d" },
+  { name: "Entertainment", color: "#cc5de8" },
+  { name: "Clothing", color: "#69db7c" },
+  { name: "Education", color: "#1e3a5f" },
+  { name: "Other", color: "#868e96" }
+];
+
+const dropzone = document.getElementById("dropzone");
+const fileInput = document.getElementById("file-input");
+const progressWrap = document.getElementById("progress-wrap");
+const progressFill = document.getElementById("progress-fill");
+const progressText = document.getElementById("progress-text");
+const uploadStatus = document.getElementById("upload-status");
+
+const formCard = document.getElementById("form-card");
+const receiptThumb = document.getElementById("receipt-thumb");
+const vendorInput = document.getElementById("vendor-input");
+const dateInput = document.getElementById("date-input");
+const totalInput = document.getElementById("total-input");
+const categorySelect = document.getElementById("category-select");
+const pendingIdEl = document.getElementById("pending-id");
+const saveButton = document.getElementById("save-receipt-button");
+const cancelButton = document.getElementById("cancel-receipt-button");
+const formStatus = document.getElementById("form-status");
+
+const searchInput = document.getElementById("search-input");
+const ledgerCount = document.getElementById("ledger-count");
+const categoryTotalEl = document.getElementById("category-total");
+const categoryBarsEl = document.getElementById("category-bars");
+const receiptsBody = document.getElementById("receipts-body");
+const receiptsEmpty = document.getElementById("receipts-empty");
+
+let db = null;
+let receipts = [];
+let pendingFile = null;
+
+function categoryColor(name) {
+  const match = CATEGORIES.find((category) => category.name === name);
+  return match ? match.color : "#868e96";
+}
+
+function moneyFormat(value) {
+  return new Intl.NumberFormat("en-CA", { style: "currency", currency: "CAD" }).format(value || 0);
+}
+
+function createReceiptId() {
+  const now = new Date();
+  const y = now.getFullYear();
+  const m = String(now.getMonth() + 1).padStart(2, "0");
+  const d = String(now.getDate()).padStart(2, "0");
+  const rand = (crypto.randomUUID ? crypto.randomUUID() : `${Math.random()}${Math.random()}`).replace(/-/g, "").slice(0, 8);
+  return `RCPT-${y}${m}${d}-${rand}`;
+}
+
+function openDatabase() {
+  return new Promise((resolve, reject) => {
+    const request = indexedDB.open(DB_NAME, 1);
+    request.onupgradeneeded = () => {
+      const database = request.result;
+      if (!database.objectStoreNames.contains(STORE_NAME)) {
+        database.createObjectStore(STORE_NAME, { keyPath: "id" });
+      }
+    };
+    request.onsuccess = () => resolve(request.result);
+    request.onerror = () => reject(request.error);
+  });
+}
+
+function dbAdd(record) {
+  return new Promise((resolve, reject) => {
+    const tx = db.transaction(STORE_NAME, "readwrite");
+    tx.objectStore(STORE_NAME).add(record);
+    tx.oncomplete = () => resolve();
+    tx.onerror = () => reject(tx.error);
+  });
+}
+
+function dbDelete(id) {
+  return new Promise((resolve, reject) => {
+    const tx = db.transaction(STORE_NAME, "readwrite");
+    tx.objectStore(STORE_NAME).delete(id);
+    tx.oncomplete = () => resolve();
+    tx.onerror = () => reject(tx.error);
+  });
+}
+
+function dbGetAll() {
+  return new Promise((resolve, reject) => {
+    const tx = db.transaction(STORE_NAME, "readonly");
+    const request = tx.objectStore(STORE_NAME).getAll();
+    request.onsuccess = () => resolve(request.result);
+    request.onerror = () => reject(request.error);
+  });
+}
+
+function setUploadStatus(message, kind) {
+  uploadStatus.textContent = message || "";
+  uploadStatus.className = `status-line${kind ? ` ${kind}` : ""}`;
+}
+
+function setFormStatus(message, kind) {
+  formStatus.textContent = message || "";
+  formStatus.className = `status-line${kind ? ` ${kind}` : ""}`;
+}
+
+function setProgress(visible, fraction, label) {
+  progressWrap.hidden = !visible;
+  if (visible) {
+    progressFill.style.width = `${Math.round((fraction || 0) * 100)}%`;
+    progressText.textContent = label || "Reading receipt…";
+  }
+}
+
+async function normalizeImage(file) {
+  const bitmap = await createImageBitmap(file);
+  const maxDim = 2000;
+  let { width, height } = bitmap;
+  if (Math.max(width, height) > maxDim) {
+    const ratio = maxDim / Math.max(width, height);
+    width = Math.round(width * ratio);
+    height = Math.round(height * ratio);
+  }
+  const canvas = document.createElement("canvas");
+  canvas.width = width;
+  canvas.height = height;
+  canvas.getContext("2d").drawImage(bitmap, 0, 0, width, height);
+  const blob = await new Promise((resolve) => canvas.toBlob(resolve, "image/jpeg", 0.92));
+  const dataUrl = canvas.toDataURL("image/jpeg", 0.92);
+  return { blob, dataUrl, width, height };
+}
+
+async function runOcr(dataUrl) {
+  const result = await Tesseract.recognize(dataUrl, "eng", {
+    logger: (message) => {
+      if (message.status === "recognizing text") {
+        setProgress(true, message.progress, `Reading receipt… ${Math.round(message.progress * 100)}%`);
+      } else if (message.status) {
+        setProgress(true, 0, message.status);
+      }
+    }
+  });
+  const words = (result.data.words || []).map((word) => ({
+    text: word.text,
+    confidence: word.confidence,
+    bbox: word.bbox
+  }));
+  return { text: result.data.text || "", words };
+}
+
+function guessVendor(text) {
+  const lines = text.split("\n").map((line) => line.trim()).filter(Boolean);
+  for (const line of lines.slice(0, 5)) {
+    const letters = line.replace(/[^A-Za-z]/g, "");
+    if (letters.length >= 3 && line.length <= 40) return line;
+  }
+  return lines[0] || "";
+}
+
+function guessDate(text) {
+  const isoMatch = text.match(/\b(\d{4})[-/](\d{1,2})[-/](\d{1,2})\b/);
+  if (isoMatch) {
+    const [, y, m, d] = isoMatch;
+    if (+m >= 1 && +m <= 12 && +d >= 1 && +d <= 31) {
+      return `${y}-${m.padStart(2, "0")}-${d.padStart(2, "0")}`;
+    }
+  }
+  const slashMatch = text.match(/\b(\d{1,2})[-/](\d{1,2})[-/](\d{2,4})\b/);
+  if (slashMatch) {
+    let [, a, b, y] = slashMatch;
+    a = +a; b = +b; y = +y < 100 ? 2000 + +y : +y;
+    const month = a > 12 ? b : a;
+    const day = a > 12 ? a : b;
+    if (month >= 1 && month <= 12 && day >= 1 && day <= 31) {
+      return `${y}-${String(month).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
+    }
+  }
+  return "";
+}
+
+function guessTotal(text) {
+  const lines = text.split("\n");
+  const amountPattern = /(\d{1,5}[.,]\d{2})\b/;
+  for (const line of lines) {
+    if (/total/i.test(line) && !/sub\s*-?\s*total/i.test(line)) {
+      const match = line.match(amountPattern);
+      if (match) return match[1].replace(",", ".");
+    }
+  }
+  const all = [...text.matchAll(/(\d{1,5}[.,]\d{2})\b/g)].map((match) => parseFloat(match[1].replace(",", ".")));
+  if (all.length) return Math.max(...all).toFixed(2);
+  return "";
+}
+
+function populateCategorySelect() {
+  categorySelect.innerHTML = '<option value="">Choose a category</option>';
+  CATEGORIES.forEach((category) => {
+    const option = document.createElement("option");
+    option.value = category.name;
+    option.textContent = category.name;
+    categorySelect.append(option);
+  });
+}
+
+async function handleFile(file) {
+  if (!file) return;
+  setUploadStatus("");
+  const isPdf = file.type === "application/pdf";
+
+  if (!isPdf && !file.type.startsWith("image/")) {
+    setUploadStatus("Please choose an image or PDF file.", "error");
+    return;
+  }
+
+  setProgress(true, 0, "Reading receipt…");
+
+  try {
+    if (isPdf) {
+      const bytes = new Uint8Array(await file.arrayBuffer());
+      pendingFile = { kind: "pdf", bytes, ocrText: "", suggestions: {} };
+      receiptThumb.src = "";
+      receiptThumb.classList.add("pdf-icon");
+      receiptThumb.textContent = "📄";
+      receiptThumb.alt = "PDF receipt";
+    } else {
+      const { blob, dataUrl, width, height } = await normalizeImage(file);
+      const ocr = await runOcr(dataUrl);
+      pendingFile = {
+        kind: "image",
+        blob,
+        width,
+        height,
+        ocrText: ocr.text,
+        words: ocr.words,
+        suggestions: {
+          vendor: guessVendor(ocr.text),
+          date: guessDate(ocr.text),
+          total: guessTotal(ocr.text)
+        }
+      };
+      receiptThumb.classList.remove("pdf-icon");
+      receiptThumb.textContent = "";
+      receiptThumb.src = dataUrl;
+      receiptThumb.alt = "Receipt preview";
+    }
+
+    openReceiptForm();
+  } catch (error) {
+    setUploadStatus(`Could not read receipt: ${error.message}`, "error");
+  } finally {
+    setProgress(false);
+  }
+}
+
+function openReceiptForm() {
+  pendingFile.id = createReceiptId();
+  pendingIdEl.textContent = pendingFile.id;
+  const suggestions = pendingFile.suggestions || {};
+  vendorInput.value = suggestions.vendor || "";
+  dateInput.value = suggestions.date || "";
+  totalInput.value = suggestions.total || "";
+  categorySelect.value = "";
+  setFormStatus("");
+  formCard.hidden = false;
+  formCard.scrollIntoView({ behavior: "smooth", block: "start" });
+}
+
+function closeReceiptForm() {
+  formCard.hidden = true;
+  pendingFile = null;
+}
+
+async function buildSearchablePdf(file) {
+  const { PDFDocument, StandardFonts, rgb } = PDFLib;
+  const pdfDoc = await PDFDocument.create();
+  const imageBytes = new Uint8Array(await file.blob.arrayBuffer());
+  const image = await pdfDoc.embedJpg(imageBytes);
+
+  const dpi = 150;
+  const scale = 72 / dpi;
+  const pageWidth = file.width * scale;
+  const pageHeight = file.height * scale;
+  const page = pdfDoc.addPage([pageWidth, pageHeight]);
+  page.drawImage(image, { x: 0, y: 0, width: pageWidth, height: pageHeight });
+
+  const font = await pdfDoc.embedFont(StandardFonts.Helvetica);
+  (file.words || []).forEach((word) => {
+    const text = (word.text || "").trim();
+    if (!text || word.confidence < 35) return;
+    const { x0, y0, y1 } = word.bbox;
+    const boxHeight = (y1 - y0) * scale;
+    if (boxHeight <= 0) return;
+    page.drawText(text, {
+      x: x0 * scale,
+      y: pageHeight - y1 * scale,
+      size: Math.max(4, boxHeight * 0.9),
+      font,
+      opacity: 0,
+      color: rgb(0, 0, 0)
+    });
+  });
+
+  return pdfDoc.save();
+}
+
+async function saveReceipt() {
+  const vendor = vendorInput.value.trim();
+  const date = dateInput.value;
+  const total = parseFloat(totalInput.value);
+  const category = categorySelect.value;
+
+  if (!vendor || !date || !Number.isFinite(total) || total < 0 || !category) {
+    setFormStatus("Fill in vendor, date, total, and category.", "error");
+    return;
+  }
+
+  saveButton.disabled = true;
+  setFormStatus("Building searchable PDF…");
+
+  try {
+    const pdfBytes = pendingFile.kind === "pdf" ? pendingFile.bytes : await buildSearchablePdf(pendingFile);
+    const record = {
+      id: pendingFile.id,
+      vendor,
+      date,
+      total,
+      category,
+      createdAt: new Date().toISOString(),
+      ocrText: pendingFile.ocrText || "",
+      fileName: `${pendingFile.id}.pdf`,
+      pdfBlob: new Blob([pdfBytes], { type: "application/pdf" })
+    };
+
+    await dbAdd(record);
+    closeReceiptForm();
+    await refreshReceipts();
+    setUploadStatus(`Saved receipt ${record.id}`, "ok");
+  } catch (error) {
+    setFormStatus(`Could not save: ${error.message}`, "error");
+  } finally {
+    saveButton.disabled = false;
+  }
+}
+
+async function deleteReceipt(id) {
+  if (!confirm("Delete this receipt? This cannot be undone.")) return;
+  await dbDelete(id);
+  await refreshReceipts();
+}
+
+function viewReceipt(record) {
+  const url = URL.createObjectURL(record.pdfBlob);
+  window.open(url, "_blank", "noopener");
+  setTimeout(() => URL.revokeObjectURL(url), 60000);
+}
+
+function filteredReceipts() {
+  const query = searchInput.value.trim().toLowerCase();
+  if (!query) return receipts;
+  return receipts.filter((record) => [
+    record.vendor, record.category, record.date, record.id, record.ocrText
+  ].some((value) => String(value || "").toLowerCase().includes(query)));
+}
+
+function renderCategorySummary(list) {
+  const totals = new Map();
+  list.forEach((record) => {
+    totals.set(record.category, (totals.get(record.category) || 0) + record.total);
+  });
+
+  const entries = [...totals.entries()].sort((a, b) => b[1] - a[1]);
+  const grandTotal = entries.reduce((sum, [, amount]) => sum + amount, 0);
+  const max = entries[0] ? entries[0][1] : 0;
+
+  categoryTotalEl.textContent = moneyFormat(grandTotal);
+  categoryBarsEl.innerHTML = "";
+
+  entries.forEach(([category, amount]) => {
+    const row = document.createElement("div");
+    row.className = "category-row";
+
+    const name = document.createElement("div");
+    name.className = "category-name";
+    name.textContent = category;
+
+    const track = document.createElement("div");
+    track.className = "bar-track";
+    const fill = document.createElement("div");
+    fill.className = "bar-fill";
+    fill.style.width = `${Math.max(4, (amount / max) * 100)}%`;
+    fill.style.background = categoryColor(category);
+    track.append(fill);
+
+    const amountEl = document.createElement("div");
+    amountEl.className = "category-amount";
+    amountEl.textContent = moneyFormat(amount);
+
+    row.append(name, track, amountEl);
+    categoryBarsEl.append(row);
+  });
+}
+
+function renderTable(list) {
+  receiptsBody.innerHTML = "";
+  receiptsEmpty.style.display = list.length ? "none" : "block";
+
+  list
+    .slice()
+    .sort((a, b) => (b.date || "").localeCompare(a.date || ""))
+    .forEach((record) => {
+      const tr = document.createElement("tr");
+
+      const vendorTd = document.createElement("td");
+      vendorTd.className = "wrap";
+      vendorTd.textContent = record.vendor;
+
+      const dateTd = document.createElement("td");
+      dateTd.textContent = record.date;
+
+      const categoryTd = document.createElement("td");
+      const chip = document.createElement("span");
+      chip.className = "cat-chip";
+      chip.style.background = categoryColor(record.category);
+      chip.textContent = record.category;
+      categoryTd.append(chip);
+
+      const totalTd = document.createElement("td");
+      totalTd.textContent = moneyFormat(record.total);
+
+      const idTd = document.createElement("td");
+      const idCode = document.createElement("span");
+      idCode.className = "id-code";
+      idCode.textContent = record.id;
+      idTd.append(idCode);
+
+      const actionsTd = document.createElement("td");
+      const actions = document.createElement("div");
+      actions.className = "row-actions";
+
+      const viewButton = document.createElement("button");
+      viewButton.className = "btn btn-secondary btn-small";
+      viewButton.type = "button";
+      viewButton.textContent = "View PDF";
+      viewButton.addEventListener("click", () => viewReceipt(record));
+
+      const deleteButton = document.createElement("button");
+      deleteButton.className = "btn btn-danger btn-small";
+      deleteButton.type = "button";
+      deleteButton.textContent = "Delete";
+      deleteButton.addEventListener("click", () => deleteReceipt(record.id));
+
+      actions.append(viewButton, deleteButton);
+      actionsTd.append(actions);
+
+      tr.append(vendorTd, dateTd, categoryTd, totalTd, idTd, actionsTd);
+      receiptsBody.append(tr);
+    });
+}
+
+function render() {
+  const list = filteredReceipts();
+  ledgerCount.textContent = `${list.length} of ${receipts.length} receipts`;
+  renderCategorySummary(list);
+  renderTable(list);
+}
+
+async function refreshReceipts() {
+  receipts = await dbGetAll();
+  render();
+}
+
+function bindDropzone() {
+  dropzone.addEventListener("click", () => fileInput.click());
+  dropzone.addEventListener("keydown", (event) => {
+    if (event.key === "Enter" || event.key === " ") {
+      event.preventDefault();
+      fileInput.click();
+    }
+  });
+  dropzone.addEventListener("dragover", (event) => {
+    event.preventDefault();
+    dropzone.classList.add("drag");
+  });
+  dropzone.addEventListener("dragleave", () => dropzone.classList.remove("drag"));
+  dropzone.addEventListener("drop", (event) => {
+    event.preventDefault();
+    dropzone.classList.remove("drag");
+    const file = event.dataTransfer.files && event.dataTransfer.files[0];
+    if (file) handleFile(file);
+  });
+  fileInput.addEventListener("change", (event) => {
+    const file = event.target.files[0];
+    fileInput.value = "";
+    if (file) handleFile(file);
+  });
+}
+
+async function init() {
+  populateCategorySelect();
+  bindDropzone();
+  saveButton.addEventListener("click", saveReceipt);
+  cancelButton.addEventListener("click", closeReceiptForm);
+  searchInput.addEventListener("input", render);
+
+  try {
+    db = await openDatabase();
+    await refreshReceipts();
+  } catch (error) {
+    setUploadStatus(`Could not open local receipt storage: ${error.message}`, "error");
+  }
+}
+
+init();
+</script>
+</body>
+</html>

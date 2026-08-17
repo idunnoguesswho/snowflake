@@ -444,3 +444,31 @@ footer {
 
 /* ── Hide class ── */
 .hidden { display: none !important; }
+
+/* ── Acknowledgement / signoff banner (shared across B/C/D/E) ── */
+.ack-banner {
+  display: flex; align-items: center; gap: 10px;
+  background: var(--low-bg); border: 1px solid #bbf7d0; color: #14532d;
+  border-radius: var(--radius); padding: 12px 14px; margin-bottom: 14px;
+  font-size: .85rem; box-shadow: var(--shadow);
+}
+.ack-banner .ico { font-size: 1.1rem; flex-shrink: 0; }
+.ack-banner strong { color: #166534; }
+.ack-banner .resign-btn {
+  margin-left: auto; background: transparent; border: 1px solid #86efac; color: #166534;
+  border-radius: 6px; padding: 5px 10px; font-size: .78rem; font-weight: 600; cursor: pointer; white-space: nowrap;
+}
+.ack-banner .resign-btn:hover { background: #dcfce7; }
+.ack-save-status { font-size: .78rem; margin-top: 8px; min-height: 1.1em; }
+.ack-save-status.ok { color: #166534; }
+.ack-save-status.err { color: var(--high); }
+.ack-save-status.busy { color: var(--muted); }
+.btn-print:disabled, .save-bar button:disabled { opacity: .55; cursor: not-allowed; }
+
+/* Applied to <body> for the instant html2canvas captures a page for PDF export —
+   hides page chrome that shouldn't appear in the saved/filed document. */
+.pdf-export .save-bar,
+.pdf-export .fn-hint,
+.pdf-export .ack-save-status,
+.pdf-export #ackBanner,
+.pdf-export .filename-hint { display: none !important; }

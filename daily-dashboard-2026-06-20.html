@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Daily Dashboard — June 20, 2026</title>
+<style>
+  :root {
+    --work:    #378ADD; --work-l:    #dbeafe;
+    --task:    #BA7517; --task-l:    #fef3c7;
+    --family:  #D4537E; --family-l:  #fce7f3;
+    --errand:  #1D9E75; --errand-l:  #dcfce7;
+    --bg:      #f8fafc;
+    --card-bg: #ffffff;
+    --text:    #1e293b;
+    --muted:   #64748b;
+    --border:  #e2e8f0;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+         background: var(--bg); color: var(--text); font-size: 14px; line-height: 1.5; }
+
+  .wrap { max-width: 1100px; margin: 0 auto; padding: 20px 16px; }
+
+  /* Header */
+  .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+  .header h1 { font-size: 22px; font-weight: 700; }
+  .header .date { color: var(--muted); font-size: 13px; }
+
+  /* Banner */
+  .banner { background: linear-gradient(135deg, #fbbf24, #f59e0b);
+            color: #1e293b; border-radius: 10px; padding: 10px 18px;
+            margin-bottom: 16px; font-weight: 600; font-size: 14px;
+            display: flex; align-items: center; gap: 8px; }
+
+  /* Metric Cards */
+  .metrics { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 20px; }
+  @media (max-width: 700px) { .metrics { grid-template-columns: repeat(2, 1fr); } }
+  .card { background: var(--card-bg); border-radius: 12px; padding: 16px;
+          border: 1px solid var(--border); box-shadow: 0 1px 3px rgba(0,0,0,.05); }
+  .card .label { font-size: 11px; font-weight: 600; text-transform: uppercase;
+                 letter-spacing: .05em; color: var(--muted); margin-bottom: 6px; }
+  .card .value { font-size: 28px; font-weight: 700; }
+  .card .sub { font-size: 11px; color: var(--muted); margin-top: 2px; }
+  .card.work   .value { color: var(--work); }
+  .card.task   .value { color: var(--task); }
+  .card.family .value { color: var(--family); }
+  .card.errand .value { color: var(--errand); }
+
+  /* Body grid */
+  .body { display: grid; grid-template-columns: 1fr 380px; gap: 16px; }
+  @media (max-width: 900px) { .body { grid-template-columns: 1fr; } }
+
+  /* Panel base */
+  .panel { background: var(--card-bg); border-radius: 12px;
+           border: 1px solid var(--border); box-shadow: 0 1px 3px rgba(0,0,0,.05); }
+  .panel-head { padding: 14px 16px 10px; border-bottom: 1px solid var(--border);
+                font-weight: 700; font-size: 13px; display: flex; align-items: center; gap: 6px; }
+  .panel-body { padding: 12px 16px; }
+
+  /* Timeline */
+  .timeline { display: flex; flex-direction: column; gap: 0; }
+  .tl-row { display: grid; grid-template-columns: 44px 10px 1fr; gap: 0 10px;
+             padding: 8px 0; position: relative; }
+  .tl-row:not(:last-child)::before { content:''; position:absolute; left:49px; top:24px; bottom:-8px;
+                                      width:2px; background:var(--border); }
+  .tl-time { font-size: 12px; color: var(--muted); font-weight: 600; padding-top: 2px; text-align: right; }
+  .tl-dot { width: 10px; height: 10px; border-radius: 50%; margin-top: 4px; flex-shrink: 0; }
+  .tl-content .title { font-weight: 600; font-size: 13px; display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+  .tl-content .sub { font-size: 11px; color: var(--muted); margin-top: 2px; }
+  .badge { font-size: 10px; font-weight: 700; border-radius: 99px; padding: 1px 7px; white-space: nowrap; }
+  .badge-work   { background: var(--work-l);   color: var(--work); }
+  .badge-task   { background: var(--task-l);   color: var(--task); }
+  .badge-family { background: var(--family-l); color: var(--family); }
+  .badge-errand { background: var(--errand-l); color: var(--errand); }
+  .dot-work   { background: var(--work); }
+  .dot-task   { background: var(--task); }
+  .dot-family { background: var(--family); }
+  .dot-errand { background: var(--errand); }
+
+  /* Gap notice */
+  .gap-notice { background: #fef9c3; border: 1px solid #fde047; border-radius: 8px;
+                padding: 10px 14px; font-size: 12px; color: #713f12; margin-bottom: 8px; }
+
+  /* Right panels */
+  .right { display: flex; flex-direction: column; gap: 14px; }
+
+  /* Time bar */
+  .timebar { height: 18px; border-radius: 99px; overflow: hidden; display: flex; margin: 8px 0 4px; }
+  .timebar-seg { height: 100%; transition: width .3s; }
+  .timebar-legend { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 6px; }
+  .legend-item { display: flex; align-items: center; gap: 4px; font-size: 11px; color: var(--muted); }
+  .legend-dot { width: 8px; height: 8px; border-radius: 50%; }
+
+  /* Task list */
+  .task-list { list-style: none; display: flex; flex-direction: column; gap: 6px; }
+  .task-item { display: flex; align-items: flex-start; gap: 8px; font-size: 13px; }
+  .task-item .t-time { color: var(--muted); font-size: 11px; white-space: nowrap; padding-top: 2px; min-width: 36px; }
+  .task-item .t-text { flex: 1; }
+
+  /* Inbox */
+  .inbox-list { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+  .inbox-item { display: flex; align-items: flex-start; gap: 8px; font-size: 12px; }
+  .inbox-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--family); margin-top: 4px; flex-shrink: 0; }
+  .inbox-dot.read { background: var(--border); }
+  .inbox-sender { font-weight: 600; color: var(--text); }
+  .inbox-subj { color: var(--muted); }
+
+  /* Section tabs */
+  .tabs { display: flex; gap: 4px; margin-bottom: 14px; flex-wrap: wrap; }
+  .tab { padding: 6px 14px; border-radius: 99px; font-size: 12px; font-weight: 600;
+         cursor: pointer; border: 1px solid var(--border); background: var(--card-bg);
+         color: var(--muted); transition: all .15s; }
+  .tab.active { background: var(--text); color: #fff; border-color: var(--text); }
+
+  /* Sections */
+  .section { display: none; }
+  .section.visible { display: block; }
+
+  /* Jobs table */
+  .jobs-table { width: 100%; border-collapse: collapse; font-size: 12px; }
+  .jobs-table th { background: var(--bg); text-align: left; padding: 8px 10px;
+                   font-weight: 700; font-size: 11px; text-transform: uppercase;
+                   letter-spacing: .04em; color: var(--muted); border-bottom: 2px solid var(--border); }
+  .jobs-table td { padding: 8px 10px; border-bottom: 1px solid var(--border); vertical-align: top; }
+  .jobs-table tr:last-child td { border-bottom: none; }
+  .nfg { color: #dc2626; font-weight: 700; }
+  .valid { color: var(--errand); font-weight: 700; }
+
+  /* Hustles */
+  .hustle-grid { display: flex; flex-direction: column; gap: 10px; }
+  .hustle-card { background: var(--bg); border: 1px solid var(--border); border-radius: 8px; padding: 12px; }
+  .hustle-title { font-weight: 700; font-size: 13px; margin-bottom: 3px; }
+  .hustle-meta { font-size: 11px; color: var(--muted); }
+  .hustle-note { font-size: 12px; color: var(--text); margin-top: 5px; border-top: 1px solid var(--border); padding-top: 5px; }
+
+  /* Quotes */
+  .quote-block { background: var(--bg); border-left: 3px solid var(--work); border-radius: 0 8px 8px 0;
+                 padding: 12px 14px; margin-bottom: 12px; }
+  .quote-source { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .06em;
+                  color: var(--muted); margin-bottom: 6px; }
+  .quote-text { font-size: 13px; line-height: 1.6; }
+  .quote-block.aa   { border-color: var(--task); }
+  .quote-block.bible { border-color: var(--family); }
+  .quote-block.word { border-color: var(--errand); }
+  .quote-block.hist { border-color: #8b5cf6; }
+
+  /* Hist list */
+  .hist-list { list-style: none; display: flex; flex-direction: column; gap: 6px; }
+  .hist-list li { font-size: 12px; display: flex; gap: 8px; }
+  .hist-year { font-weight: 700; color: var(--muted); min-width: 36px; }
+
+  /* Footer */
+  .footer { margin-top: 24px; font-size: 11px; color: var(--muted); text-align: center; padding-bottom: 20px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- Header -->
+  <div class="header">
+    <h1>☀️ Good Morning, Katie</h1>
+    <div class="date">Friday · June 20, 2026 · America/Edmonton (MDT)</div>
+  </div>
+
+  <!-- Banner: Summer Solstice Eve -->
+  <div class="banner">
+    🌞 Summer Solstice Weekend — longest days of the year start now. Savour the light!
+  </div>
+
+  <!-- Metric Cards -->
+  <div class="metrics">
+    <div class="card work">
+      <div class="label">Meetings Today</div>
+      <div class="value">—</div>
+      <div class="sub">Calendar not connected</div>
+    </div>
+    <div class="card task">
+      <div class="label">Tasks Scheduled</div>
+      <div class="value">—</div>
+      <div class="sub">Calendar not connected</div>
+    </div>
+    <div class="card family">
+      <div class="label">Inbox Today</div>
+      <div class="value">—</div>
+      <div class="sub">Gmail not connected</div>
+    </div>
+    <div class="card errand">
+      <div class="label">Free Hours Est.</div>
+      <div class="value">—</div>
+      <div class="sub">Based on calendar</div>
+    </div>
+  </div>
+
+  <!-- Tabs -->
+  <div class="tabs">
+    <div class="tab active" onclick="showTab('dashboard')">📅 Dashboard</div>
+    <div class="tab" onclick="showTab('jobs')">🔩 Insulator Jobs</div>
+    <div class="tab" onclick="showTab('hustles')">💡 Side Hustles</div>
+    <div class="tab" onclick="showTab('quotes')">📖 Daily Quotes</div>
+  </div>
+
+  <!-- Dashboard Section -->
+  <div id="tab-dashboard" class="section visible">
+    <div class="body">
+
+      <!-- Left: Timeline -->
+      <div>
+        <div class="panel">
+          <div class="panel-head">🗓 Today's Timeline</div>
+          <div class="panel-body">
+            <div class="gap-notice">
+              ⚠️ Google Calendar is not connected in this CLI session. Timeline below is a placeholder.
+              Run the dashboard from the desktop app (with Google tools enabled) for live calendar data.
+            </div>
+            <div class="timeline">
+              <div class="tl-row">
+                <div class="tl-time">All day</div>
+                <div class="tl-dot dot-errand"></div>
+                <div class="tl-content">
+                  <div class="title">🌞 Summer Solstice Eve <span class="badge badge-errand">Errand</span></div>
+                  <div class="sub">Longest days of the year — plan outdoor time if possible</div>
+                </div>
+              </div>
+              <div class="tl-row">
+                <div class="tl-time">?:??</div>
+                <div class="tl-dot dot-work"></div>
+                <div class="tl-content">
+                  <div class="title">Calendar events unavailable <span class="badge badge-work">Work</span></div>
+                  <div class="sub">Connect Google Calendar MCP to see live schedule</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right panels -->
+      <div class="right">
+
+        <!-- Time Breakdown -->
+        <div class="panel">
+          <div class="panel-head">⏱ Time Breakdown</div>
+          <div class="panel-body">
+            <div style="font-size:12px; color:var(--muted); margin-bottom:6px;">Estimated (calendar unavailable)</div>
+            <div class="timebar">
+              <div class="timebar-seg" style="width:30%; background:var(--work)"></div>
+              <div class="timebar-seg" style="width:25%; background:var(--task)"></div>
+              <div class="timebar-seg" style="width:20%; background:var(--family)"></div>
+              <div class="timebar-seg" style="width:25%; background:var(--errand)"></div>
+            </div>
+            <div class="timebar-legend">
+              <div class="legend-item"><div class="legend-dot" style="background:var(--work)"></div> Work ~2.5h</div>
+              <div class="legend-item"><div class="legend-dot" style="background:var(--task)"></div> Tasks ~2h</div>
+              <div class="legend-item"><div class="legend-dot" style="background:var(--family)"></div> Family ~1.5h</div>
+              <div class="legend-item"><div class="legend-dot" style="background:var(--errand)"></div> Errands ~2h</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Priority Tasks -->
+        <div class="panel">
+          <div class="panel-head">✅ Priority Tasks</div>
+          <div class="panel-body">
+            <div class="gap-notice" style="margin-bottom:8px;">Calendar not connected — check your Kanban manually.</div>
+            <ul class="task-list">
+              <li class="task-item">
+                <div class="t-time">—</div>
+                <div class="t-text">🔴 Check for Secor Audit carry-over</div>
+              </li>
+              <li class="task-item">
+                <div class="t-time">—</div>
+                <div class="t-text">NCSO study block</div>
+              </li>
+              <li class="task-item">
+                <div class="t-time">—</div>
+                <div class="t-text">Review job leads below</div>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Inbox -->
+        <div class="panel">
+          <div class="panel-head">📬 Inbox</div>
+          <div class="panel-body">
+            <div class="gap-notice">Gmail not connected in this session.</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- Jobs Section -->
+  <div id="tab-jobs" class="section">
+    <div class="panel">
+      <div class="panel-head">🔩 Insulator Job Leads — June 20, 2026</div>
+      <div class="panel-body">
+        <p style="font-size:12px;color:var(--muted);margin-bottom:12px;">
+          Sources: Indeed CA, Glassdoor, Local 110 (insulators110.com), CLAC. Sheet tab → gid=1708278958.
+          Google Sheets not connected — copy rows manually or re-run from desktop app.
+        </p>
+        <div style="overflow-x:auto;">
+        <table class="jobs-table">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Contractor</th>
+              <th>Location</th>
+              <th>Rate</th>
+              <th>Notes</th>
+              <th>Valid/NFG</th>
+              <th>Source</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>1</td>
+              <td><strong>Arpi's North Inc. / Tagg Collective</strong></td>
+              <td>Edmonton, AB</td>
+              <td>$30–$36/hr</td>
+              <td>Journeyman/woman Insulator — valid JM cert required, commercial/industrial exp</td>
+              <td class="valid">Valid</td>
+              <td>Indeed CA</td>
+            </tr>
+            <tr>
+              <td>2</td>
+              <td><strong>AWNRG Insulation Services Inc.</strong></td>
+              <td>Calgary, AB</td>
+              <td>$20–$34/hr</td>
+              <td>Mechanical Insulator — blueprints, material selection, green to journeyman</td>
+              <td class="valid">Valid</td>
+              <td>Indeed CA</td>
+            </tr>
+            <tr>
+              <td>3</td>
+              <td><strong>AWNRG Insulation Services Inc.</strong></td>
+              <td>Edmonton, AB</td>
+              <td>$28–$34/hr</td>
+              <td>Firestopping Insulator — multiple Edmonton sites</td>
+              <td class="nfg">NFG</td>
+              <td>Indeed CA</td>
+            </tr>
+            <tr>
+              <td>4</td>
+              <td><strong>A&amp;A Spray Solutions</strong></td>
+              <td>Edmonton, AB</td>
+              <td>$40/hr</td>
+              <td>Foamed Insulation Applicator — reading blueprints, selecting insulation types</td>
+              <td class="valid">Valid</td>
+              <td>Indeed CA</td>
+            </tr>
+            <tr>
+              <td>5</td>
+              <td><strong>Oil Country Insulation</strong></td>
+              <td>Edmonton, AB</td>
+              <td>$20–$30/hr</td>
+              <td>Commercial Mechanical Insulator — 4th yr to JM required</td>
+              <td class="valid">Valid</td>
+              <td>Indeed CA</td>
+            </tr>
+            <tr>
+              <td>6</td>
+              <td><strong>Local 110 Dispatch</strong></td>
+              <td>Edmonton: 9335-47 St · Calgary: 6165-6 St SE</td>
+              <td>Union rate</td>
+              <td>Call between 9:30am–3:00pm AB time for traveler/dispatch availability</td>
+              <td class="valid">Valid</td>
+              <td>insulators110.com</td>
+            </tr>
+            <tr>
+              <td>7</td>
+              <td><strong>Glassdoor Alberta Listings</strong></td>
+              <td>Alberta-wide</td>
+              <td>$39K–$127K/yr</td>
+              <td>183 active insulator postings as of June 2026 — check Glassdoor for full list</td>
+              <td class="valid">Valid</td>
+              <td>Glassdoor CA</td>
+            </tr>
+          </tbody>
+        </table>
+        </div>
+        <p style="font-size:11px;color:var(--muted);margin-top:10px;">
+          <strong>DC/Power BI leads also logged:</strong>
+          Gov't of AB Info Mgmt Analyst ($60–78K, closed Jun 16) ·
+          Doc Control Coord IV / Randstad Edmonton (closed Jun 12) ·
+          Remote Power BI Developer (CAD $150K, Kyndryl/Cameco/Enbridge via Glassdoor)
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Hustles Section -->
+  <div id="tab-hustles" class="section">
+    <div class="panel">
+      <div class="panel-head">💡 Side Hustles — June 20, 2026</div>
+      <div class="panel-body">
+        <p style="font-size:12px;color:var(--muted);margin-bottom:12px;">
+          Sheet tab → gid=1402140614. Google Sheets not connected — copy manually or re-run from desktop app.
+        </p>
+        <div class="hustle-grid">
+
+          <div class="hustle-card">
+            <div class="hustle-title">1. Freelance Power BI Developer</div>
+            <div class="hustle-meta">arc.dev · Upwork · Toptal &nbsp;|&nbsp; $55–$95/hr &nbsp;|&nbsp; <span class="valid">Active demand</span></div>
+            <div class="hustle-note">Your SafetyScrape.accdb and DSHC Power BI dashboards are portfolio gold. Lead with EPC/oil-and-gas safety data experience — rare combo on Upwork. Set up a profile this week with your DSHC sample screenshots.</div>
+          </div>
+
+          <div class="hustle-card">
+            <div class="hustle-title">2. Document Control Consultant (part-time)</div>
+            <div class="hustle-meta">LinkedIn · EPC firm direct outreach &nbsp;|&nbsp; $50–$85/hr &nbsp;|&nbsp; <span class="valid">Active demand</span></div>
+            <div class="hustle-note">Your Versys DSHC work + 192-worksheet packet = proven deliverables. DM 3 Edmonton EPC firms weekly. Frame it as "FSCC-certified doc controller, available for project or ongoing support."</div>
+          </div>
+
+          <div class="hustle-card">
+            <div class="hustle-title">3. ISO 9001 / SECOR/COR Prep Consultant</div>
+            <div class="hustle-meta">Direct outreach to small AB contractors &nbsp;|&nbsp; $65–$110/hr &nbsp;|&nbsp; <span class="valid">High margin</span></div>
+            <div class="hustle-note">NCSO study in progress = natural upsell. Small contractors (under 20 workers) need SECOR help and can't afford full-time safety people. Package: "COR-ready in 90 days" flat-fee offer.</div>
+          </div>
+
+          <div class="hustle-card">
+            <div class="hustle-title">4. Access/SQL Legacy System Migration</div>
+            <div class="hustle-meta">Upwork · local referrals &nbsp;|&nbsp; $40–$70/hr &nbsp;|&nbsp; <span class="valid">Steady</span></div>
+            <div class="hustle-note">SafetyScrape.accdb proves you build real Access apps. Post an Upwork gig: "Migrate your Access database to SQL Server or SharePoint Lists." Small businesses still running on Access are everywhere.</div>
+          </div>
+
+          <div class="hustle-card">
+            <div class="hustle-title">5. Technical SOP / Procedure Writer</div>
+            <div class="hustle-meta">Upwork · Contently · direct EPC &nbsp;|&nbsp; $45–$75/hr &nbsp;|&nbsp; <span class="valid">Steady</span></div>
+            <div class="hustle-note">Your 192-worksheet DSHC packet is literally a portfolio of SOPs. Pitch on Upwork as "Oil-and-gas/construction SOP writer, FSCC background." One good anchor client covers this side income goal.</div>
+          </div>
+
+          <div class="hustle-card">
+            <div class="hustle-title">6. Kids' Educational Worksheets (TPT/Etsy)</div>
+            <div class="hustle-meta">Teachers Pay Teachers · Etsy · Gumroad &nbsp;|&nbsp; $15–$40 passive/mo per pack</div>
+            <div class="hustle-note">Your 192-worksheet packet already exists — convert to TPT format and list it. Start with "Grade 2–4 Math" or "Bible story colouring pages." Passive once listed.</div>
+          </div>
+
+          <div class="hustle-card">
+            <div class="hustle-title">7. GoodNotes / iPad Sticker &amp; Template Designer</div>
+            <div class="hustle-meta">Etsy · Gumroad · Ko-fi &nbsp;|&nbsp; $10–$35 passive/mo per pack</div>
+            <div class="hustle-note">Your witchy sticker packs have existing proof of concept. Add a "Christian planner sticker" pack and a "Safety pro daily planner" template to hit two audiences at once.</div>
+          </div>
+
+          <div class="hustle-card">
+            <div class="hustle-title">8. Freelance Church Admin / Clerk Consultant</div>
+            <div class="hustle-meta">Direct church referrals · denomination networks &nbsp;|&nbsp; $25–$50/hr</div>
+            <div class="hustle-note">FSCC clerk work is direct portfolio evidence. Reach out to 2–3 local churches about minutes, correspondence, and archive management. Denominations that use formal clerk roles: PCCA, ACofC, Mennonite.</div>
+          </div>
+
+          <div class="hustle-card" style="border-color:#c4b5fd;">
+            <div class="hustle-title">9. ✨ AI Prompt Engineer / Dataset Labeler <em style="font-size:11px;color:var(--muted)">(fresh)</em></div>
+            <div class="hustle-meta">Scale AI · Outlier · Remotasks · Appen &nbsp;|&nbsp; $15–$45/hr CAD &nbsp;|&nbsp; <span class="valid">Hot in 2026</span></div>
+            <div class="hustle-note">Open to Canadians with no special cert. Scale AI "Tasker" program pays $20–$45/hr for domain experts reviewing AI outputs. Your safety, document control, and construction domain knowledge is exactly what they want for RLHF labeling.</div>
+          </div>
+
+          <div class="hustle-card" style="border-color:#c4b5fd;">
+            <div class="hustle-title">10. ✨ Virtual Bookkeeper (Wave/QBO) <em style="font-size:11px;color:var(--muted)">(fresh)</em></div>
+            <div class="hustle-meta">Upwork · FreshBooks Marketplace · direct small biz &nbsp;|&nbsp; $30–$55/hr CAD</div>
+            <div class="hustle-note">Wave Accounting is free for clients, so small contractors love it. A 3-month QBO cert (Intuit, free) opens the door. Pair with your doc control pitch: "I'll keep your files AND your books."</div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Quotes Section -->
+  <div id="tab-quotes" class="section">
+    <div class="panel">
+      <div class="panel-head">📖 Daily Quotes &amp; Reflections — June 20, 2026</div>
+      <div class="panel-body">
+        <p style="font-size:12px;color:var(--muted);margin-bottom:14px;">
+          Sheet tab → gid=575264347. Google Sheets not connected — copy manually or re-run from desktop app.
+        </p>
+
+        <div class="quote-block">
+          <div class="quote-source">A · Marcus Aurelius — Meditations</div>
+          <div class="quote-text">
+            <em>"You have power over your mind, not outside events. Realize this, and you will find strength."</em>
+            <br><br>
+            <strong>Context:</strong> Marcus Aurelius wrote this while commanding Roman legions on the Danube frontier — juggling military campaigns, plague, and palace politics simultaneously. He wasn't writing for publication; these were private notes to himself, reminders not to be swept away by things he couldn't control.
+            <br><br>
+            <strong>For today:</strong> On a Friday heading into a summer solstice weekend, there may be things unresolved at work or at home. You can't control what rolls over or what others do — you can only choose your response to it.
+            <br><br>
+            <strong>Practice:</strong> Before reacting to one stressful thing today, pause and ask: "Is this within my control?" If not, release it.
+          </div>
+        </div>
+
+        <div class="quote-block aa">
+          <div class="quote-source">B · AA Daily Reflection — Release from Fear</div>
+          <div class="quote-text">
+            <em>"The problem of resolving fear has two aspects. We shall have to try for all the freedom from fear that is possible for us to attain. Then we shall need to find both the courage and grace to deal constructively with whatever fears remain."</em>
+            — As Bill Sees It, p. 61
+            <br><br>
+            <strong>Reflection:</strong> Fear used to drive most decisions — and alcohol was one way people tried to silence it. Sobriety doesn't eliminate fear, but the Twelve Steps give a framework for moving through it rather than around it. After five years sober, the author of today's reflection faced a major anxiety — and found that community, the Steps, and spiritual support turned that fear into wholeness and gratitude.
+            <br><br>
+            <strong>Takeaway:</strong> You don't have to be fear-free to move forward. You just need enough courage and grace for today. The rest gets handled one day at a time.
+          </div>
+        </div>
+
+        <div class="quote-block bible">
+          <div class="quote-source">C · Bible Verse of the Day — Proverbs 3:31-32 (NIV)</div>
+          <div class="quote-text">
+            <em>"Do not envy the violent or choose any of their ways. For the Lord detests the perverse but takes the upright into his confidence."</em>
+            <br><br>
+            <strong>Context:</strong> Proverbs 3 is part of Solomon's wisdom instructions to his son — a guide for navigating a world where corrupt and aggressive people sometimes seem to prosper. The Hebrew word for "confidence" here (sod) means an intimate inner circle or secret counsel. The promise isn't wealth or ease — it's relationship: the upright are brought into God's inner confidence.
+            <br><br>
+            <strong>Application:</strong> When someone pushes ahead by cutting corners or intimidating others, it's easy to wonder if integrity is worth it. This verse says: stay the course. The reward isn't always visible, but it's real.
+          </div>
+        </div>
+
+        <div class="quote-block word">
+          <div class="quote-source">D · Merriam-Webster Word of the Day</div>
+          <div class="quote-text">
+            <strong>longueur</strong> &nbsp;/lɔ̃ˈɡɜːr/ &nbsp;<em>noun</em> (usually plural: longueurs)
+            <br><br>
+            <strong>Definition:</strong> A tedious, drawn-out passage or section in a work — a book, play, film, or speech — that drags without contributing meaning or energy.
+            <br><br>
+            <strong>Example:</strong> <em>"The documentary was compelling overall, but several longueurs in the middle third tested the audience's patience."</em>
+            <br><br>
+            <strong>Etymology:</strong> Directly from French, where <em>longueur</em> simply means "length." From Latin <em>longus</em> (long). English borrowed it in the 18th century specifically for the aesthetic sense — a stretch that goes on too long to serve its purpose. Unlike the English word "length," it has always carried a slight note of impatience.
+          </div>
+        </div>
+
+        <div class="quote-block hist">
+          <div class="quote-source">E · This Day in History — June 20</div>
+          <ul class="hist-list">
+            <li><span class="hist-year">1782</span> Congress adopted the Great Seal of the United States after six years of deliberation — the eagle, olive branch, and arrows that still appear on the dollar bill.</li>
+            <li><span class="hist-year">1829</span> The SS Savannah completed the first steam-powered Atlantic crossing — arriving in Liverpool after 27 days and 11 hours, though she used sails for most of the voyage.</li>
+            <li><span class="hist-year">1837</span> Queen Victoria, 18, ascended to the British throne upon the death of her uncle King William IV — beginning a 63-year reign that defined an era.</li>
+            <li><span class="hist-year">1867</span> President Andrew Johnson formally announced the purchase of Alaska from Russia — 586,000 sq miles for $7.2 million. Critics called it "Seward's Folly." It wasn't.</li>
+            <li><span class="hist-year">1967</span> Muhammad Ali was convicted in Houston for refusing military induction — citing religious beliefs. He lost his boxing licence and didn't fight again for 3½ years. The conviction was later unanimously overturned by the Supreme Court.</li>
+            <li><span class="hist-year">1975</span> <em>Jaws</em> opened in theatres — the first true Hollywood "blockbuster," changing how studios release films and effectively inventing the summer movie season.</li>
+            <li><span class="hist-year">1966</span> Sheila Scott became the first woman to fly solo around the world — completing the journey in 189 flying hours over 34 days in a single-engine Piper Comanche.</li>
+            <li><span class="hist-year">2015</span> Apple announced Apple Music — entering the streaming era that would reshape how music is distributed and compensated globally.</li>
+          </ul>
+        </div>
+
+        <div class="quote-block" style="border-color:#0ea5e9;">
+          <div class="quote-source">F · Britannica Fact</div>
+          <div class="quote-text">
+            <strong>The Summer Solstice isn't actually the longest day everywhere.</strong>
+            <br><br>
+            At the poles, the solstice is the midpoint of months-long "midnight sun" — the sun never sets from March to September in the High Arctic. But closer to the equator, day length varies only a few minutes year-round. The dramatic "longest day" experience is a mid-latitude phenomenon. Edmonton (53°N) gets roughly 17 hours of daylight today — compared to about 8 hours in December. That 9-hour swing is one of the defining rhythms of Prairie life, tied to planting cycles, energy use, mental health, and even crime rates (which peak in long summer evenings, a phenomenon researchers call "ambient light criminality"). The solstice was celebrated as Midsummer's Night long before Christianity — Stonehenge's alignment with the June sunrise wasn't accidental.
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <div class="footer">
+    Daily Dashboard · Katie Snow · Generated June 20, 2026 · ⚠️ Calendar & Gmail not connected (CLI session) · Sheets write pending desktop re-run
+  </div>
+</div>
+
+<script>
+function showTab(name) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('visible'));
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('tab-' + name).classList.add('visible');
+  event.target.classList.add('active');
+}
+</script>
+</body>
+</html>

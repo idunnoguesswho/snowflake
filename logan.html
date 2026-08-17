@@ -141,8 +141,13 @@
 </div>
 
 <nav class="hub-nav">
+  <a class="hub-tab" href="index.html">🏠 Home</a>
   <button class="hub-tab active" data-tab="tasks"   onclick="showTab('tasks')">📋 Tasks</button>
   <button class="hub-tab"        data-tab="routine" onclick="showTab('routine')">🌅 Routine</button>
+  <button class="hub-tab"        data-tab="menu"    onclick="showTab('menu')">🍽️ Menu</button>
+  <button class="hub-tab"        data-tab="learn"   onclick="showTab('learn')">🧠 Learn</button>
+  <button class="hub-tab"        data-tab="study"   onclick="showTab('study')">📚 FI Study</button>
+  <button class="hub-tab"        data-tab="bible"   onclick="showTab('bible')">✝️ Bible</button>
   <a class="hub-tab" href="store.html">🎁 Store</a>
 </nav>
 
@@ -1121,26 +1126,30 @@ function saveEdit() {
 
 function renderList(container,tasks){
   if(!tasks.length){container.innerHTML='';return;}
+  let openClaimed = false;
   container.innerHTML=tasks.map((t,i)=>{
     t = applyEdits(t);
     const isDone=!!done[t.id];
-    return `<div class="task-card${isDone?' done':''}" style="animation-delay:${i*.04}s">
+    const isOpen = !isDone && !openClaimed;
+    if(isOpen) openClaimed = true;
+    const locked = !isDone && !isOpen;
+    return `<div class="task-card${isDone?' done':''}${locked?' collapsed':''}" style="animation-delay:${i*.04}s" ${locked?`onclick="toast('Complete the task above first!')"`:''}>
       <div class="task-top">
         <div class="task-title">${esc(t.title)}</div>
-        <button class="edit-btn" onclick="openEdit(${JSON.stringify(t.id)})" title="Edit">✏️</button>
+        ${!locked?`<button class="edit-btn" onclick="event.stopPropagation();openEdit(${JSON.stringify(t.id)})" title="Edit">✏️</button>`:''}
       </div>
       <div class="task-tags">
         ${t.category?`<span class="tag tag-cat">📌 ${esc(t.category)}</span>`:''}
         ${t.estTime?`<span class="tag tag-time">⏱ ${esc(t.estTime)}</span>`:''}
-        <span class="tag ${isDone?'tag-done':'tag-open'}">${isDone?'✓ Done':'○ Open'}</span>
+        <span class="tag ${isDone?'tag-done':(locked?'tag-locked':'tag-open')}">${isDone?'✓ Done':(locked?'🔒 Locked':'○ Open')}</span>
       </div>
-      ${t.desc?`<div class="task-desc">${esc(t.desc)}</div>`:''}
-      <div class="task-foot">
+      ${(!locked && t.desc)?`<div class="task-desc">${esc(t.desc)}</div>`:''}
+      ${!locked?`<div class="task-foot">
         <span class="date-hint">${t.dateAssigned?'📅 '+t.dateAssigned:''}</span>
         <button class="complete-btn${isDone?' done-btn':''}" onclick="${isDone?'':`complete(${JSON.stringify(t.id)})`}">
           ${isDone?'✓ Done':'+ Complete'}
         </button>
-      </div>
+      </div>`:''}
     </div>`;
   }).join('');
 }

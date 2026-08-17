@@ -1475,6 +1475,9 @@ textarea {
 }
 .task-card:hover { box-shadow: 0 6px 20px rgba(0,0,0,.10); transform: translateY(-2px); }
 .task-card.done { opacity: 0.55; }
+.task-card.collapsed { opacity: .6; cursor: not-allowed; padding: 12px 16px; }
+.task-card.collapsed:hover { box-shadow: 0 2px 8px rgba(0,0,0,.07); transform: none; }
+.task-card.collapsed .task-top { margin-bottom: 0; }
 @keyframes cardIn { from { opacity:0; transform:translateY(6px); } to { opacity:1; transform:none; } }
 
 .task-top { margin-bottom: 8px; }
@@ -1502,6 +1505,12 @@ textarea {
   background: #6bcb7733;
   color: #2a6b35;
   border: 1px solid #6bcb77;
+}
+
+.tag-locked {
+  background: #f1f3f5;
+  color: #868e96;
+  border: 1px solid #dee2e6;
 }
 
 .progress-bar-wrap { padding: 0 16px 6px; }

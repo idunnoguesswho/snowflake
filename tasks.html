@@ -37,7 +37,8 @@
 <!-- Filters -->
 <!-- Mom / Kids tab switcher -->
 <div id="tabBar" style="display:flex;gap:8px;padding:8px 16px 0;border-bottom:2px solid #e9ecef;margin-bottom:0">
-  <button class="tab-btn active" id="tab-kids" onclick="setTab('kids')" style="padding:6px 18px;border:none;border-radius:10px 10px 0 0;font-family:inherit;font-weight:700;font-size:.9rem;cursor:pointer;background:#4dabf7;color:#fff">🧒 Oliver & Logan</button>
+  <button class="tab-btn active" id="tab-oliver" onclick="setTab('oliver')" style="padding:6px 18px;border:none;border-radius:10px 10px 0 0;font-family:inherit;font-weight:700;font-size:.9rem;cursor:pointer;background:#d94b4b;color:#fff">🧒 Oliver</button>
+  <button class="tab-btn" id="tab-logan" onclick="setTab('logan')" style="padding:6px 18px;border:none;border-radius:10px 10px 0 0;font-family:inherit;font-weight:700;font-size:.9rem;cursor:pointer;background:#e9ecef;color:#555">👦 Logan</button>
   <button class="tab-btn" id="tab-mom" onclick="setTab('mom')" style="padding:6px 18px;border:none;border-radius:10px 10px 0 0;font-family:inherit;font-weight:700;font-size:.9rem;cursor:pointer;background:#e9ecef;color:#555">🌸 Mom</button>
 </div>
 
@@ -173,7 +174,7 @@ function safePts(value) {
 let G = {
   tasks: [], players: {}, activity: [], completions: {}, assignments: {},
   filters: { status: 'all', person: '', category: '' },
-  activeTab: 'kids',  // 'kids' or 'mom'
+  activeTab: 'oliver',  // 'oliver' | 'logan' | 'mom'
   pendingCompleteKey: new URLSearchParams(location.search).get('complete') || ''
 };
 
@@ -475,11 +476,23 @@ function catChart(p) {
   return `<div class="cat-bar-wrap"><div class="cat-bar">${segs}</div></div><div class="cat-legend">${legend}</div>`;
 }
 
+/* ── Tab membership ── */
+// 'kids' _group holds both Oliver's and Logan's tasks; the Oliver/Logan tabs
+// split it further by person, showing Family tasks to both.
+function taskInTab(t, tab) {
+  if (!tab) return true;
+  if (tab === 'oliver' || tab === 'logan') {
+    const name = tab === 'oliver' ? 'Oliver' : 'Logan';
+    return t._group === 'kids' && (t.person === name || t.person === 'Family');
+  }
+  return t._group === tab;
+}
+
 /* ── Render leaderboard ── */
 function renderLB() {
   const el = document.getElementById('leaderboard');
   // Only show players that have tasks in the current tab
-  const tabPersons = new Set(G.tasks.filter(t => !G.activeTab || t._group === G.activeTab).map(t => t.person).filter(Boolean));
+  const tabPersons = new Set(G.tasks.filter(t => taskInTab(t, G.activeTab)).map(t => t.person).filter(Boolean));
   const players = Object.values(G.players).filter(p => tabPersons.has(p.name)).sort((a,b)=>b.pts-a.pts);
 
   if(!players.length) {
@@ -521,7 +534,7 @@ function renderCategoryBreakdown() {
   if(!el) return;
 
   const categories = { Uncategorized: { name: 'Uncategorized', total: 0, done: 0, points: 0 } };
-  G.tasks.filter(t => !G.activeTab || t._group === G.activeTab).forEach(t => {
+  G.tasks.filter(t => taskInTab(t, G.activeTab)).forEach(t => {
     const name = t.topic || 'Uncategorized';
     if(!categories[name]) categories[name] = { name, total: 0, done: 0, points: 0 };
     categories[name].total++;
@@ -598,7 +611,7 @@ function renderTodayByCategory() {
 function renderPersonFilters() {
   document.querySelectorAll('#filterBar .pf').forEach(b=>b.remove());
   const srch = document.getElementById('searchBox');
-  const people = [...new Set(G.tasks.filter(t => !G.activeTab || t._group === G.activeTab).map(t=>t.person).filter(Boolean))].sort((a,b)=>a.localeCompare(b));
+  const people = [...new Set(G.tasks.filter(t => taskInTab(t, G.activeTab)).map(t=>t.person).filter(Boolean))].sort((a,b)=>a.localeCompare(b));
   people.forEach(p => {
     const btn2 = document.createElement('button');
     btn2.className = 'filter-chip pf';
@@ -649,7 +662,7 @@ function setTab(tab) {
   const active = document.getElementById('tab-' + tab);
   if (active) {
     active.classList.add('active');
-    active.style.background = tab === 'mom' ? '#f783ac' : '#4dabf7';
+    active.style.background = { oliver: '#d94b4b', logan: '#7b4bd9', mom: '#f783ac' }[tab] || '#4dabf7';
     active.style.color = '#fff';
   }
   renderPersonFilters();
@@ -687,7 +700,7 @@ function renderTasks() {
   const f = G.filters;
 
   let tasks = G.tasks.filter(t => {
-    if(G.activeTab && t._group !== G.activeTab) return false;
+    if(!taskInTab(t, G.activeTab)) return false;
     if(f.status==='open' && t.isDone)  return false;
     if(f.status==='done' && !t.isDone) return false;
     if(f.status==='assigned' && (!t.isAssigned || t.isDone)) return false;
@@ -702,6 +715,7 @@ function renderTasks() {
     return;
   }
 
+  const openTopics = new Set();
   grid.innerHTML = tasks.map(raw => {
     const t = applyTaskEdits(raw);
     const personCol = personColor(t.person);
@@ -711,22 +725,29 @@ function renderTasks() {
     const resourceLinks = (t.links || []).filter(link => link.url).map(link =>
       `<a class="resource-link" href="${x(link.url)}" target="_blank" rel="noopener" onclick="event.stopPropagation()">${x(link.label || 'Resource')}</a>`
     ).join('');
-    return `<div class="task-card ${t.isDone?'done':''}" style="border-left-color:${personCol};border-bottom-color:${topicCol}" onclick="openCard('${x(t.key)}')">
+
+    // Same-topic tasks unlock one at a time - matches nextTaskInCategory's chaining.
+    const topicKey = t.topic || 'Uncategorized';
+    const isOpen = !t.isDone && !openTopics.has(topicKey);
+    if(isOpen) openTopics.add(topicKey);
+    const locked = !t.isDone && !isOpen;
+
+    return `<div class="task-card ${t.isDone?'done':''}${locked?' collapsed':''}" style="border-left-color:${personCol};border-bottom-color:${topicCol}" onclick="${locked ? `event.stopPropagation();toast('Complete the previous ${x(topicKey)} task first!')` : `openCard('${x(t.key)}')`}">
       <div class="task-top">
         <div class="task-title">${x(t.title)}</div>
         <div class="pts-pill">${ptsLabel}</div>
       </div>
-      ${t.titleFR ? `<div style="font-size:.72rem;color:var(--muted);margin:-4px 0 6px;font-style:italic">${x(t.titleFR)}</div>` : ''}
+      ${(!locked && t.titleFR) ? `<div style="font-size:.72rem;color:var(--muted);margin:-4px 0 6px;font-style:italic">${x(t.titleFR)}</div>` : ''}
       <div class="task-tags">
         ${assignedTag}
         ${t.person  ? `<span class="tag tag-person">👤 ${x(t.person)}</span>` : ''}
         ${t.topic   ? `<span class="tag tag-topic">📌 ${x(t.topic)}</span>`  : ''}
-        ${t.estTime ? `<span class="tag" style="background:#fff0dc;color:#7a5500;border:1px solid #ffd166">⏱ ${x(t.estTime)}</span>` : ''}
-        <span class="tag ${t.isDone?'tag-done':'tag-open'}">${t.isDone?'✓ Done':'○ Open'}</span>
+        ${(!locked && t.estTime) ? `<span class="tag" style="background:#fff0dc;color:#7a5500;border:1px solid #ffd166">⏱ ${x(t.estTime)}</span>` : ''}
+        <span class="tag ${t.isDone?'tag-done':(locked?'tag-locked':'tag-open')}">${t.isDone?'✓ Done':(locked?'🔒 Locked':'○ Open')}</span>
       </div>
-      ${t.desc ? `<div class="task-desc">${x(t.desc)}</div>` : ''}
-      ${resourceLinks ? `<div class="task-resource-links">${resourceLinks}</div>` : ''}
-      <div class="task-foot">
+      ${(!locked && t.desc) ? `<div class="task-desc">${x(t.desc)}</div>` : ''}
+      ${(!locked && resourceLinks) ? `<div class="task-resource-links">${resourceLinks}</div>` : ''}
+      ${!locked ? `<div class="task-foot">
         <span class="date-hint">${t.dateAssigned ? 'Assigned '+x(t.dateAssigned) : ''}</span>
         <div style="display:flex;gap:6px">
           ${(!t.isDone && !t.isAssigned) ? `<button class="complete-btn" style="background:#fff0dc;color:#7a5500;border:1.5px solid #ffd166" onclick="event.stopPropagation();assignTaskToday('${x(t.key)}')">📌 Assign Today</button>` : ''}
@@ -735,7 +756,7 @@ function renderTasks() {
           </button>
           <button class="complete-btn" style="background:#f0f4ff;color:#4a6fa5;border:1.5px solid #c5d3f0" onclick="event.stopPropagation();openEdit('${x(t.key)}')">✏️</button>
         </div>
-      </div>
+      </div>` : ''}
     </div>`;
   }).join('');
 }
@@ -929,7 +950,7 @@ async function sync() {
 
     const localTasks = loadLocalTasks();
     localTasks.forEach((lt, i) => {
-      const key = `local_${i}_${String(lt.title||'').slice(0,10).replace(/\W/g,'_')}`;
+      const key = lt.key || `local_${i}_${String(lt.title||'').slice(0,10).replace(/\W/g,'_')}`;
       if(!G.tasks.find(t => t.title === lt.title && t.dateAdded === lt.dateAdded)) {
         const localDone = !!G.completions[key];
         G.tasks.push({ ...lt, key, rowNumber: -1, desc: lt.description||lt.desc||'', pts: safePts(lt.points ?? lt.pts), isDone: localDone, isAssigned: false, sheetDone: false, completedDate: '', dateAssigned: '' });
@@ -1036,10 +1057,12 @@ function submitAddTask(e) {
 
   const localTasks = loadLocalTasks();
   people.forEach((person, i) => {
-    const newTask = { title, person, ...shared };
-    localTasks.push(newTask);
     const key = `local_${Date.now()}_${i}_${title.slice(0,10).replace(/\W/g,'_')}`;
-    G.tasks.push({ ...newTask, key, rowNumber: -1, isDone: false, isAssigned: assignToday, sheetDone: false, completedDate: '' });
+    // key must be saved into the persisted local task, not just the in-memory G.tasks
+    // entry, or a reload regenerates a different key and orphans any completion.
+    const newTask = { title, person, key, ...shared };
+    localTasks.push(newTask);
+    G.tasks.push({ ...newTask, rowNumber: -1, isDone: false, isAssigned: assignToday, sheetDone: false, completedDate: '' });
     if(assignToday) G.assignments[key] = today;
   });
   saveLocalTasks(localTasks);
@@ -1259,10 +1282,14 @@ function importJsonTasks(file) {
       const isDup = matches.length > 0 && matches.some(t => !(t.isDone || t.sheetDone));
       if(isDup) { skipped++; return; }
 
+      const key = `import_${Date.now()}_${i}_${title.slice(0,10).replace(/\W/g,'_')}`;
+      // key must be saved into the persisted local task, not just the in-memory G.tasks
+      // entry, or a reload regenerates a different key and orphans any completion.
       const newTask = {
         title,
         titleFR: raw.titleFR || '',
         person,
+        key,
         topic: raw.topic || '',
         description: raw.description || raw.desc || '',
         points: safePts(raw.points ?? raw.pts),  // ← NaN-safe at import
@@ -1276,8 +1303,7 @@ function importJsonTasks(file) {
       };
 
       localTasks.push(newTask);
-      const key = `import_${Date.now()}_${i}_${title.slice(0,10).replace(/\W/g,'_')}`;
-      G.tasks.push({ ...newTask, key, rowNumber: -1, isDone: false, isAssigned: false, sheetDone: false, completedDate: '', dateAssigned: '' });
+      G.tasks.push({ ...newTask, rowNumber: -1, isDone: false, isAssigned: false, sheetDone: false, completedDate: '', dateAssigned: '' });
       added++;
     });
 

@@ -49,6 +49,7 @@
   <button class="filter-chip"        data-status="done" onclick="setStatusFilter('done')">Done</button>
   <input class="search-box" id="searchBox" placeholder="🔍 Search…" oninput="renderTasks()" />
 </div>
+<div class="category-breakdown" id="personBreakdown"></div>
 <div class="category-breakdown" id="categoryBreakdown"></div>
 
 <!-- Tasks -->
@@ -173,10 +174,23 @@ function safePts(value) {
 /* ── State ── */
 let G = {
   tasks: [], players: {}, activity: [], completions: {}, assignments: {},
+  people: [],  // from /api/people when running under ekat.ca; [] otherwise
   filters: { status: 'all', person: '', category: '' },
   activeTab: 'oliver',  // 'oliver' | 'logan' | 'mom'
   pendingCompleteKey: new URLSearchParams(location.search).get('complete') || ''
 };
+
+// Best-effort - only resolves under ekat.ca, where /api/people is same-origin
+// and the request carries a session. Anywhere else (e.g. GitHub Pages) this
+// just fails quietly and person tiles fall back to names found in the tasks.
+async function fetchPeople() {
+  try {
+    const r = await fetch('/api/people', { cache: 'no-store' });
+    if(!r.ok) return;
+    const rows = await r.json();
+    if(Array.isArray(rows)) G.people = rows;
+  } catch(e) { /* not running under ekat.ca, or offline */ }
+}
 
 try {
   const sv = JSON.parse(localStorage.getItem('sf_quest')||'{}');
@@ -198,10 +212,6 @@ function categoryColor(name) {
   let hash = 0;
   for (let i = 0; i < key.length; i++) hash = ((hash << 5) - hash + key.charCodeAt(i)) | 0;
   return CATEGORY_COLORS[Math.abs(hash) % CATEGORY_COLORS.length];
-}
-
-function jsString(value) {
-  return JSON.stringify(String(value || ''));
 }
 
 function sheetEndpoint() {
@@ -558,7 +568,7 @@ function renderCategoryBreakdown() {
     const color = categoryColor(cat.name);
     const open = Math.max(0, cat.total - cat.done);
     const active = G.filters.category === cat.name;
-    return `<button class="category-chip${active?' active':''}" type="button" style="border-bottom-color:${color};color:${color}" onclick="toggleCategoryFilter(${jsString(cat.name)})">
+    return `<button class="category-chip${active?' active':''}" type="button" style="border-bottom-color:${color};color:${color}" onclick="toggleCategoryFilter('${x(cat.name)}')">
       <span class="category-name">${x(cat.name)}</span>
       <span class="category-meta">
         <span>${cat.done}/${cat.total} done</span>
@@ -608,27 +618,54 @@ function renderTodayByCategory() {
 }
 
 /* ── Render tasks ── */
-function renderPersonFilters() {
-  document.querySelectorAll('#filterBar .pf').forEach(b=>b.remove());
-  const srch = document.getElementById('searchBox');
-  const people = [...new Set(G.tasks.filter(t => taskInTab(t, G.activeTab)).map(t=>t.person).filter(Boolean))].sort((a,b)=>a.localeCompare(b));
-  people.forEach(p => {
-    const btn2 = document.createElement('button');
-    btn2.className = 'filter-chip pf';
-    btn2.dataset.person = p;
-    btn2.textContent = p;
-    btn2.onclick = function(){ togglePersonFilter(p); };
-    document.getElementById('filterBar').insertBefore(btn2, srch);
+// Tiles, one per person, matching renderCategoryBreakdown's look. The set of
+// people is the real people table (G.people, from /api/people) when that's
+// reachable; anyone in this tab's tasks but missing from it (e.g. "Family",
+// or when the API isn't reachable at all) is appended so nobody's tile goes
+// missing just because they aren't a row in `people` yet.
+function renderPersonBreakdown() {
+  const el = document.getElementById('personBreakdown');
+  if(!el) return;
+
+  const inTab = G.tasks.filter(t => taskInTab(t, G.activeTab));
+  const tabNames = new Set(inTab.map(t => t.person).filter(Boolean));
+
+  const known = G.people.filter(p => tabNames.has(p.name)).map(p => p.name);
+  const extra = [...tabNames].filter(name => !known.includes(name)).sort((a,b)=>a.localeCompare(b));
+  const names = [...known, ...extra];
+
+  if(!names.length) { el.innerHTML = ''; return; }
+
+  const stats = {};
+  inTab.forEach(t => {
+    if(!t.person) return;
+    if(!stats[t.person]) stats[t.person] = { total: 0, done: 0, points: 0 };
+    stats[t.person].total++;
+    if(t.isDone) {
+      stats[t.person].done++;
+      stats[t.person].points += safePts(t.pts);
+    }
   });
-  updateFilterButtons();
+
+  el.innerHTML = names.map(name => {
+    const s = stats[name] || { total: 0, done: 0, points: 0 };
+    const color = personColor(name);
+    const open = Math.max(0, s.total - s.done);
+    const active = G.filters.person === name;
+    return `<button class="category-chip${active?' active':''}" type="button" style="border-bottom-color:${color};color:${color}" onclick="togglePersonFilter('${x(name)}')">
+      <span class="category-name">${x(name)}</span>
+      <span class="category-meta">
+        <span>${s.done}/${s.total} done</span>
+        <span>${open} open</span>
+        <span>${s.points} pts</span>
+      </span>
+    </button>`;
+  }).join('');
 }
 
 function updateFilterButtons() {
   document.querySelectorAll('#filterBar .filter-chip[data-status]').forEach(b=>{
     b.classList.toggle('active', b.dataset.status === G.filters.status);
-  });
-  document.querySelectorAll('#filterBar .filter-chip[data-person]').forEach(b=>{
-    b.classList.toggle('active', b.dataset.person === G.filters.person);
   });
 }
 
@@ -641,6 +678,7 @@ function setStatusFilter(status) {
 function togglePersonFilter(person) {
   G.filters.person = G.filters.person === person ? '' : person;
   updateFilterButtons();
+  renderPersonBreakdown();
   renderTasks();
 }
 
@@ -665,7 +703,7 @@ function setTab(tab) {
     active.style.background = { oliver: '#d94b4b', logan: '#7b4bd9', mom: '#f783ac' }[tab] || '#4dabf7';
     active.style.color = '#fff';
   }
-  renderPersonFilters();
+  renderPersonBreakdown();
   renderCategoryBreakdown();
   renderTasks();
   updateFilterButtons();
@@ -929,9 +967,11 @@ async function sync() {
   setErr('');
   setStatus('Loading tasks…');
 
+  await fetchPeople();
+
   try {
     await loadFromJson();
-    renderLB(); renderPersonFilters(); renderCategoryBreakdown(); renderTasks(); renderActivity(); completePendingTask();
+    renderLB(); renderPersonBreakdown(); renderCategoryBreakdown(); renderTasks(); renderActivity(); completePendingTask();
     const done = G.tasks.filter(t=>t.sheetDone||t.isDone).length;
     const totalPts = Object.values(G.players).reduce((s,p)=>s+safePts(p.pts),0);
     setStatus(`${G.tasks.length} tasks · ${done} completed · ${totalPts} total points earned · source: tasks_kids.json + tasks_mom.json`);
@@ -957,7 +997,7 @@ async function sync() {
       }
     });
 
-    renderLB(); renderPersonFilters(); renderCategoryBreakdown(); renderTasks(); renderActivity(); completePendingTask();
+    renderLB(); renderPersonBreakdown(); renderCategoryBreakdown(); renderTasks(); renderActivity(); completePendingTask();
     const done = G.tasks.filter(t=>t.sheetDone).length;
     const totalPts = Object.values(G.players).reduce((s,p)=>s+safePts(p.pts),0);
     setStatus(`${G.tasks.length} tasks · ${done} completed · ${totalPts} total points earned · source: Google Sheet`);
@@ -1068,7 +1108,7 @@ function submitAddTask(e) {
   saveLocalTasks(localTasks);
   if(assignToday) save();
 
-  buildPlayers(); renderLB(); renderPersonFilters(); renderTasks();
+  buildPlayers(); renderLB(); renderPersonBreakdown(); renderTasks();
   closeAddTask();
   toast(`✅ "${title}" added for ${people.length} ${people.length === 1 ? 'person' : 'people'}${assignToday ? ' · assigned to today' : ''}`);
 }
@@ -1308,7 +1348,7 @@ function importJsonTasks(file) {
     });
 
     saveLocalTasks(localTasks);
-    buildPlayers(); renderLB(); renderPersonFilters(); renderCategoryBreakdown(); renderTasks();
+    buildPlayers(); renderLB(); renderPersonBreakdown(); renderCategoryBreakdown(); renderTasks();
 
     const skipMsg = skipped ? `, skipped ${skipped} duplicate${skipped === 1 ? '' : 's'}` : '';
     toast(`⬆ Imported ${added} task${added === 1 ? '' : 's'}${skipMsg}`);
@@ -1416,7 +1456,7 @@ function saveTaskEdit() {
   };
   saveTaskEdits();
   closeEditTaskBtn();
-  buildPlayers(); renderLB(); renderPersonFilters(); renderTasks();
+  buildPlayers(); renderLB(); renderPersonBreakdown(); renderTasks();
   toast('✏️ Task updated');
 }
 

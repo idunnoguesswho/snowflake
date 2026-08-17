@@ -349,6 +349,25 @@ async function ghPut(content, sha, message){
   return res.json();
 }
 
+// Best-effort SQL copy of the entry, alongside the GitHub-file log above.
+// Only succeeds under ekat.ca, where /api/activity is same-origin and the
+// user has a session; silently does nothing anywhere else (e.g. GitHub
+// Pages), since there's no API there to call.
+function logFeelingToSql(entry) {
+  fetch("/api/activity", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    credentials: "same-origin",
+    body: JSON.stringify({
+      person: entry.kid,
+      kind: "feeling",
+      label: `${entry.label} (${entry.intensity}/10)`,
+      points: 0,
+      payload: entry,
+    }),
+  }).catch(() => {});
+}
+
 async function loadLog(){
   if(!getToken()) return;
   try{
@@ -397,6 +416,7 @@ document.getElementById("logBtn").addEventListener("click", async ()=>{
     };
     const updated = Array.isArray(content) ? [...content, newEntry] : [newEntry];
     await ghPut(updated, sha, `Feeling Thermometer: ${selectedKid} logged ${newEntry.intensity}/10`);
+    logFeelingToSql(newEntry);
     entries = updated;
     renderLog();
     document.getElementById("clearBtn").click();

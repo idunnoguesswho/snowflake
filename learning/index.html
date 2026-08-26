@@ -1,0 +1,493 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Learning - Snowflake</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Baloo+2:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root { --ink:#1f2933; --muted:#667085; --line:#d8dee6; --purple:#a855f7; }
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{width:100%;overflow-x:hidden}
+body{font-family:'Nunito',sans-serif;background:linear-gradient(160deg,#fff8e1 0%,#e8f4fd 50%,#f3e8ff 100%);min-height:100vh;color:var(--ink);padding-bottom:60px}
+
+.site-header{background:linear-gradient(135deg,#ff6b9d,#ffa94d,#ffd43b,#69db7c,#4dabf7,#cc5de8);background-size:300% 300%;animation:rainbow 8s ease infinite;padding:24px 20px 20px;text-align:center}
+@keyframes rainbow{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
+.site-title{font-family:'Baloo 2',cursive;font-size:clamp(1.7rem,6vw,2.4rem);color:white;text-shadow:0 3px 0 rgba(0,0,0,.18)}
+.site-sub{color:rgba(255,255,255,.92);font-size:.9rem;margin-top:4px;font-weight:700}
+.back-link{display:inline-block;margin-top:10px;color:#fff;background:rgba(255,255,255,.22);padding:5px 14px;border-radius:20px;font-size:.8rem;font-weight:700;text-decoration:none}
+.back-link:hover{background:rgba(255,255,255,.35)}
+
+.wrap{max-width:900px;margin:0 auto;padding:18px 16px}
+
+.progress-card{background:#fff;border:3px solid var(--line);border-radius:20px;padding:16px 18px;display:flex;flex-wrap:wrap;gap:14px;align-items:center;justify-content:space-between;box-shadow:0 4px 14px rgba(0,0,0,.05);margin-bottom:16px}
+.progress-stats{display:flex;gap:18px;flex-wrap:wrap}
+.stat{display:flex;flex-direction:column}
+.stat b{font-family:'Baloo 2',cursive;font-size:1.3rem;color:var(--purple)}
+.stat span{font-size:.72rem;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:.03em}
+.btn{font-family:'Nunito',sans-serif;font-weight:800;border:none;border-radius:14px;padding:10px 18px;cursor:pointer;font-size:.85rem;transition:transform .1s}
+.btn:active{transform:scale(.96)}
+.btn-primary{background:var(--purple);color:#fff}
+.btn-primary:hover{background:#9333ea}
+.btn-ghost{background:#fff;color:var(--ink);border:2px solid var(--line)}
+.btn-ghost:hover{border-color:var(--purple);color:var(--purple)}
+.btn-danger{background:#fff;color:#e11d48;border:2px solid #fecdd3}
+.btn-danger:hover{background:#fff1f2}
+
+.pills{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px}
+.pill{font-size:.78rem;font-weight:700;padding:6px 14px;border-radius:20px;border:2px solid var(--line);background:#fff;cursor:pointer;color:var(--ink);transition:all .15s}
+.pill.active{background:var(--purple);border-color:var(--purple);color:#fff}
+.pill:hover:not(.active){border-color:var(--purple);color:var(--purple)}
+
+.topic-block{margin-bottom:26px}
+.topic-heading{font-family:'Baloo 2',cursive;font-weight:800;font-size:1.1rem;margin:0 0 10px 2px;display:flex;align-items:center;gap:8px}
+.topic-heading .count{font-family:'Nunito',sans-serif;font-size:.75rem;font-weight:700;color:var(--muted)}
+
+.card-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px}
+.lcard{background:#fff;border:3px solid var(--line);border-radius:18px;padding:16px;cursor:pointer;box-shadow:0 4px 14px rgba(0,0,0,.05);transition:transform .15s,box-shadow .15s,border-color .15s;position:relative;min-height:110px;display:flex;flex-direction:column;justify-content:space-between}
+.lcard:active{transform:scale(.97)}
+@media (hover:hover){ .lcard:not(.locked):hover{transform:translateY(-2px);box-shadow:0 10px 24px rgba(0,0,0,.1);border-color:var(--purple)} }
+.lcard.locked{cursor:not-allowed;opacity:.55;background:#f8fafc}
+.lcard.done{border-color:#38d9a9}
+.lcard-top{display:flex;justify-content:space-between;align-items:flex-start;gap:6px}
+.seq-badge{font-size:.68rem;font-weight:800;color:#fff;background:var(--purple);border-radius:20px;padding:2px 10px;white-space:nowrap}
+.lcard.done .seq-badge{background:#38d9a9}
+.status-icon{font-size:1.1rem;line-height:1}
+.lcard-title{font-weight:800;font-size:.98rem;margin-top:10px;line-height:1.3}
+.lcard-meta{font-size:.7rem;color:var(--muted);margin-top:8px;font-weight:700}
+
+.empty-state{background:#fff;border:3px dashed var(--line);border-radius:20px;padding:30px 20px;text-align:center;color:var(--muted);font-weight:700}
+
+/* Modal */
+.overlay{position:fixed;inset:0;background:rgba(20,20,30,.5);display:none;align-items:flex-start;justify-content:center;padding:24px 14px;overflow-y:auto;z-index:100}
+.overlay.open{display:flex}
+.modal{background:#fff;border-radius:22px;max-width:560px;width:100%;padding:22px 22px 24px;box-shadow:0 20px 60px rgba(0,0,0,.25);margin:20px 0}
+.modal-top{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;margin-bottom:6px}
+.modal-close{background:none;border:none;font-size:1.3rem;cursor:pointer;color:var(--muted);line-height:1;padding:2px 6px}
+.modal-topic{font-size:.72rem;font-weight:800;color:var(--purple);text-transform:uppercase;letter-spacing:.04em}
+.modal-title{font-family:'Baloo 2',cursive;font-size:1.35rem;margin:4px 0 12px}
+.modal-section{margin-bottom:14px}
+.modal-section h4{font-size:.75rem;text-transform:uppercase;letter-spacing:.04em;color:var(--muted);margin-bottom:5px}
+.modal-section .body{font-size:.92rem;line-height:1.55;white-space:pre-wrap}
+textarea{width:100%;font-family:'Nunito',sans-serif;font-size:.9rem;border:2px solid var(--line);border-radius:12px;padding:10px 12px;resize:vertical;min-height:90px}
+textarea:focus{outline:none;border-color:var(--purple)}
+input[type=text], input[type=number]{width:100%;font-family:'Nunito',sans-serif;font-size:.9rem;border:2px solid var(--line);border-radius:12px;padding:8px 12px}
+input:focus{outline:none;border-color:var(--purple)}
+label.field{display:block;font-size:.72rem;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.03em;margin:10px 0 4px}
+.completed-banner{background:#ecfdf5;border:2px solid #38d9a9;color:#0f766e;border-radius:12px;padding:8px 12px;font-size:.82rem;font-weight:700;margin-bottom:12px}
+.modal-actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
+.save-hint{font-size:.7rem;color:var(--muted);margin-top:4px}
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="site-title">📚 Learning</div>
+  <div class="site-sub">Read &middot; Reflect &middot; Respond</div>
+  <a class="back-link" href="../index.html">&larr; Snowflake Home</a>
+</header>
+
+<div class="wrap">
+
+  <div class="progress-card">
+    <div class="progress-stats">
+      <div class="stat"><b id="statTotal">0</b><span>Cards</span></div>
+      <div class="stat"><b id="statDone">0</b><span>Completed</span></div>
+      <div class="stat"><b id="statPct">0%</b><span>Progress</span></div>
+    </div>
+    <div style="display:flex;gap:8px">
+      <button class="btn btn-primary" id="addBtn">+ Add Card</button>
+    </div>
+  </div>
+
+  <div class="pills" id="pills"></div>
+
+  <div id="topicsWrap"></div>
+
+</div>
+
+<!-- View / respond modal -->
+<div class="overlay" id="viewOverlay">
+  <div class="modal">
+    <div class="modal-top">
+      <div>
+        <div class="modal-topic" id="vTopic"></div>
+        <div class="modal-title" id="vTitle"></div>
+      </div>
+      <button class="modal-close" id="vClose">&times;</button>
+    </div>
+
+    <div id="vCompletedBanner" class="completed-banner" style="display:none"></div>
+
+    <div class="modal-section">
+      <h4>Reading</h4>
+      <div class="body" id="vReading"></div>
+    </div>
+    <div class="modal-section">
+      <h4>Reflection</h4>
+      <div class="body" id="vReflection"></div>
+    </div>
+    <div class="modal-section">
+      <h4>Your Response</h4>
+      <textarea id="vResponse" placeholder="Write your response here..."></textarea>
+      <div class="save-hint" id="vSaveHint">Autosaves as you type</div>
+    </div>
+
+    <div class="modal-actions">
+      <button class="btn btn-primary" id="vComplete">✓ Mark Complete &amp; Continue</button>
+      <button class="btn btn-ghost" id="vReopen" style="display:none">↺ Reopen Card</button>
+      <button class="btn btn-ghost" id="vEdit">✎ Edit Card</button>
+      <button class="btn btn-danger" id="vDelete">🗑 Delete</button>
+    </div>
+  </div>
+</div>
+
+<!-- Add / edit form modal -->
+<div class="overlay" id="formOverlay">
+  <div class="modal">
+    <div class="modal-top">
+      <div class="modal-title" id="formHeading">Add Card</div>
+      <button class="modal-close" id="fClose">&times;</button>
+    </div>
+
+    <label class="field">Topic</label>
+    <input type="text" id="fTopic" list="topicList" placeholder="e.g. Foundations">
+    <datalist id="topicList"></datalist>
+
+    <label class="field">Sequence #</label>
+    <input type="number" id="fSeq" min="1" step="1">
+
+    <label class="field">Title</label>
+    <input type="text" id="fTitle" placeholder="Card title">
+
+    <label class="field">Reading</label>
+    <textarea id="fReading" placeholder="Reading content..."></textarea>
+
+    <label class="field">Reflection</label>
+    <textarea id="fReflection" placeholder="Reflection prompt..."></textarea>
+
+    <div class="modal-actions">
+      <button class="btn btn-primary" id="fSave">Save Card</button>
+      <button class="btn btn-ghost" id="fCancel">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const STORE_KEY = 'ekat_learning_cards_v1';
+const ID_KEY = 'ekat_learning_nextid_v1';
+
+function todayISO() {
+  const d = new Date();
+  return d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0');
+}
+function fmtDate(iso) {
+  if (!iso) return '';
+  const [y,m,d] = iso.split('-').map(Number);
+  return new Date(y, m-1, d).toLocaleDateString('en-CA', { month:'long', day:'numeric', year:'numeric' });
+}
+
+function seedCards() {
+  return [
+    {
+      id: 1, topic: 'Welcome', seq: 1, title: 'How this works',
+      reading: 'Each card belongs to a Topic and has a place in line (its sequence number). Cards unlock in order — finish one to open the next.\n\nTap "+ Add Card" to build your own topics and cards.',
+      reflection: 'What is the first topic you want to learn about?',
+      response: '', added: todayISO(), completed: null
+    }
+  ];
+}
+
+function loadCards() {
+  const raw = localStorage.getItem(STORE_KEY);
+  if (!raw) {
+    const seeded = seedCards();
+    localStorage.setItem(STORE_KEY, JSON.stringify(seeded));
+    localStorage.setItem(ID_KEY, String(seeded.length + 1));
+    return seeded;
+  }
+  try { return JSON.parse(raw); } catch(e) { return []; }
+}
+function saveCards() {
+  localStorage.setItem(STORE_KEY, JSON.stringify(cards));
+}
+function nextId() {
+  let n = parseInt(localStorage.getItem(ID_KEY) || '1', 10);
+  localStorage.setItem(ID_KEY, String(n + 1));
+  return n;
+}
+
+let cards = loadCards();
+let currentFilter = 'all';
+let activeCardId = null;   // card currently open in view modal
+let editingCardId = null;  // card currently open in form modal (null = adding new)
+let autosaveTimer = null;
+
+function topicsInOrder() {
+  const seen = [];
+  cards.forEach(c => { if (!seen.includes(c.topic)) seen.push(c.topic); });
+  return seen;
+}
+function cardsForTopic(topic) {
+  return cards.filter(c => c.topic === topic)
+    .sort((a,b) => (a.seq - b.seq) || (a.id - b.id));
+}
+function isUnlocked(card) {
+  const list = cardsForTopic(card.topic);
+  const idx = list.findIndex(c => c.id === card.id);
+  if (idx <= 0) return true;
+  return !!list[idx-1].completed;
+}
+function nextCardAfter(card) {
+  const list = cardsForTopic(card.topic);
+  const idx = list.findIndex(c => c.id === card.id);
+  return list[idx+1] || null;
+}
+
+function renderStats() {
+  const total = cards.length;
+  const done = cards.filter(c => c.completed).length;
+  document.getElementById('statTotal').textContent = total;
+  document.getElementById('statDone').textContent = done;
+  document.getElementById('statPct').textContent = total ? Math.round(done/total*100) + '%' : '0%';
+}
+
+function renderPills() {
+  const wrap = document.getElementById('pills');
+  wrap.innerHTML = '';
+  const topics = topicsInOrder();
+  const mk = (label, val) => {
+    const p = document.createElement('span');
+    p.className = 'pill' + (currentFilter === val ? ' active' : '');
+    p.textContent = label;
+    p.addEventListener('click', () => { currentFilter = val; renderPills(); renderTopics(); });
+    return p;
+  };
+  wrap.appendChild(mk('All (' + cards.length + ')', 'all'));
+  topics.forEach(t => wrap.appendChild(mk(t + ' (' + cardsForTopic(t).length + ')', t)));
+}
+
+function renderTopics() {
+  const wrap = document.getElementById('topicsWrap');
+  wrap.innerHTML = '';
+  const topics = topicsInOrder().filter(t => currentFilter === 'all' || currentFilter === t);
+
+  if (!cards.length) {
+    wrap.innerHTML = '<div class="empty-state">No cards yet. Tap "+ Add Card" to create your first one.</div>';
+    return;
+  }
+
+  topics.forEach(topic => {
+    const list = cardsForTopic(topic);
+    const done = list.filter(c => c.completed).length;
+
+    const block = document.createElement('div');
+    block.className = 'topic-block';
+    block.innerHTML = `<div class="topic-heading">${escapeHtml(topic)} <span class="count">${done}/${list.length} complete</span></div>`;
+
+    const grid = document.createElement('div');
+    grid.className = 'card-grid';
+
+    list.forEach(card => {
+      const unlocked = isUnlocked(card);
+      const el = document.createElement('div');
+      el.className = 'lcard' + (unlocked ? '' : ' locked') + (card.completed ? ' done' : '');
+      el.innerHTML = `
+        <div class="lcard-top">
+          <span class="seq-badge">Step ${card.seq}</span>
+          <span class="status-icon">${card.completed ? '✅' : (unlocked ? '' : '🔒')}</span>
+        </div>
+        <div class="lcard-title">${escapeHtml(card.title)}</div>
+        <div class="lcard-meta">${card.completed ? 'Completed ' + fmtDate(card.completed) : (unlocked ? 'Ready to start' : 'Locked')}</div>
+      `;
+      el.addEventListener('click', () => {
+        if (!unlocked) return;
+        openViewModal(card.id);
+      });
+      grid.appendChild(el);
+    });
+
+    block.appendChild(grid);
+    wrap.appendChild(block);
+  });
+}
+
+function escapeHtml(s) {
+  return String(s == null ? '' : s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+
+function renderAll() {
+  renderStats();
+  renderPills();
+  renderTopics();
+}
+
+/* ---------- View / respond modal ---------- */
+function openViewModal(id) {
+  const card = cards.find(c => c.id === id);
+  if (!card) return;
+  activeCardId = id;
+  document.getElementById('vTopic').textContent = card.topic + ' · Step ' + card.seq;
+  document.getElementById('vTitle').textContent = card.title;
+  document.getElementById('vReading').textContent = card.reading || '(no reading added)';
+  document.getElementById('vReflection').textContent = card.reflection || '(no reflection prompt added)';
+  document.getElementById('vResponse').value = card.response || '';
+
+  const banner = document.getElementById('vCompletedBanner');
+  const completeBtn = document.getElementById('vComplete');
+  const reopenBtn = document.getElementById('vReopen');
+  if (card.completed) {
+    banner.style.display = 'block';
+    banner.textContent = '✓ Completed ' + fmtDate(card.completed);
+    completeBtn.style.display = 'none';
+    reopenBtn.style.display = 'inline-block';
+  } else {
+    banner.style.display = 'none';
+    completeBtn.style.display = 'inline-block';
+    reopenBtn.style.display = 'none';
+  }
+
+  document.getElementById('viewOverlay').classList.add('open');
+}
+function closeViewModal() {
+  document.getElementById('viewOverlay').classList.remove('open');
+  activeCardId = null;
+}
+function saveResponseDraft() {
+  if (activeCardId == null) return;
+  const card = cards.find(c => c.id === activeCardId);
+  if (!card) return;
+  card.response = document.getElementById('vResponse').value;
+  saveCards();
+}
+
+document.getElementById('vClose').addEventListener('click', () => { saveResponseDraft(); closeViewModal(); renderAll(); });
+document.getElementById('vResponse').addEventListener('input', () => {
+  clearTimeout(autosaveTimer);
+  autosaveTimer = setTimeout(saveResponseDraft, 400);
+});
+
+document.getElementById('vComplete').addEventListener('click', () => {
+  if (activeCardId == null) return;
+  const card = cards.find(c => c.id === activeCardId);
+  if (!card) return;
+  card.response = document.getElementById('vResponse').value;
+  card.completed = todayISO();
+  saveCards();
+  const next = nextCardAfter(card);
+  closeViewModal();
+  renderAll();
+  if (next) {
+    openViewModal(next.id);
+  }
+});
+
+document.getElementById('vReopen').addEventListener('click', () => {
+  if (activeCardId == null) return;
+  if (!confirm('Reopen this card as incomplete? Its completion date will be cleared.')) return;
+  const card = cards.find(c => c.id === activeCardId);
+  if (!card) return;
+  card.completed = null;
+  saveCards();
+  closeViewModal();
+  renderAll();
+});
+
+document.getElementById('vDelete').addEventListener('click', () => {
+  if (activeCardId == null) return;
+  if (!confirm('Delete this card permanently?')) return;
+  cards = cards.filter(c => c.id !== activeCardId);
+  saveCards();
+  closeViewModal();
+  renderAll();
+});
+
+document.getElementById('vEdit').addEventListener('click', () => {
+  if (activeCardId == null) return;
+  const card = cards.find(c => c.id === activeCardId);
+  closeViewModal();
+  openFormModal(card);
+});
+
+/* ---------- Add / edit form modal ---------- */
+function openFormModal(card) {
+  editingCardId = card ? card.id : null;
+  document.getElementById('formHeading').textContent = card ? 'Edit Card' : 'Add Card';
+
+  const dl = document.getElementById('topicList');
+  dl.innerHTML = topicsInOrder().map(t => `<option value="${escapeHtml(t)}">`).join('');
+
+  document.getElementById('fTopic').value = card ? card.topic : (currentFilter !== 'all' ? currentFilter : '');
+  document.getElementById('fTitle').value = card ? card.title : '';
+  document.getElementById('fReading').value = card ? card.reading : '';
+  document.getElementById('fReflection').value = card ? card.reflection : '';
+
+  let seqDefault = 1;
+  const topicVal = document.getElementById('fTopic').value.trim();
+  if (card) {
+    seqDefault = card.seq;
+  } else if (topicVal) {
+    const list = cardsForTopic(topicVal);
+    seqDefault = list.length ? Math.max(...list.map(c => c.seq)) + 1 : 1;
+  }
+  document.getElementById('fSeq').value = seqDefault;
+
+  document.getElementById('formOverlay').classList.add('open');
+}
+function closeFormModal() {
+  document.getElementById('formOverlay').classList.remove('open');
+  editingCardId = null;
+}
+
+document.getElementById('addBtn').addEventListener('click', () => openFormModal(null));
+document.getElementById('fClose').addEventListener('click', closeFormModal);
+document.getElementById('fCancel').addEventListener('click', closeFormModal);
+
+document.getElementById('fTopic').addEventListener('input', () => {
+  if (editingCardId != null) return;
+  const topicVal = document.getElementById('fTopic').value.trim();
+  const list = cardsForTopic(topicVal);
+  document.getElementById('fSeq').value = list.length ? Math.max(...list.map(c => c.seq)) + 1 : 1;
+});
+
+document.getElementById('fSave').addEventListener('click', () => {
+  const topic = document.getElementById('fTopic').value.trim();
+  const title = document.getElementById('fTitle').value.trim();
+  const seq = parseInt(document.getElementById('fSeq').value, 10) || 1;
+  const reading = document.getElementById('fReading').value;
+  const reflection = document.getElementById('fReflection').value;
+
+  if (!topic || !title) {
+    alert('Topic and Title are required.');
+    return;
+  }
+
+  if (editingCardId != null) {
+    const card = cards.find(c => c.id === editingCardId);
+    if (card) {
+      card.topic = topic; card.title = title; card.seq = seq;
+      card.reading = reading; card.reflection = reflection;
+    }
+  } else {
+    cards.push({
+      id: nextId(), topic, seq, title, reading, reflection,
+      response: '', added: todayISO(), completed: null
+    });
+  }
+  saveCards();
+  closeFormModal();
+  renderAll();
+});
+
+/* close modals on backdrop click */
+document.getElementById('viewOverlay').addEventListener('click', e => {
+  if (e.target === e.currentTarget) { saveResponseDraft(); closeViewModal(); renderAll(); }
+});
+document.getElementById('formOverlay').addEventListener('click', e => {
+  if (e.target === e.currentTarget) closeFormModal();
+});
+
+renderAll();
+</script>
+</body>
+</html>

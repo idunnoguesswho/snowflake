@@ -756,6 +756,14 @@ async function saveItem(type, id){
   const notes = document.getElementById('f_notes').value.trim();
   const serial = document.getElementById('f_serial').value.trim();
 
+  if(serial){
+    const dupe = ITEMS.find(i => i.id!==id && i.serial && i.serial.toLowerCase()===serial.toLowerCase());
+    if(dupe){
+      alert(`Serial "${serial}" is already used by another ${dupe.type==='coin'?'coin':'stamp'} (${dupe.source||'Unassigned'}). Serial numbers must be unique across the whole collection.`);
+      return;
+    }
+  }
+
   const item = {
     id: id || uid(),
     type,

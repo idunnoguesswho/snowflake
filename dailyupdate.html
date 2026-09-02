@@ -92,6 +92,13 @@
 
   /* ── Footer ── */
   .footer { text-align: center; font-size: 11px; color: var(--muted); margin-top: 2rem; padding-top: 1rem; border-top: 1px solid var(--border); }
+
+  /* Menu */
+  .menu-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 8px; margin-bottom: 1.5rem; }
+  .meal-block { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 10px 12px; }
+  .meal-title { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .1em; margin-bottom: 6px; }
+  .meal-content { font-size: 12px; color: var(--text); line-height: 1.4; }
+  .meal-empty { color: var(--muted); font-style: italic; }
 </style>
 </head>
 <body>
@@ -100,6 +107,23 @@
   <div class="eyebrow">Snowflake · Daily Update</div>
   <div class="date">June 21, 2026</div>
   <div class="subdate">Sunday · Generated 8:03 AM MT</div>
+</div>
+
+<!-- Today's Menu -->
+<div class="section-label" style="margin-bottom:8px">Today's Menu</div>
+<div class="menu-grid">
+  <div class="meal-block">
+    <div class="meal-title" style="color:#f4a261">🌅 Breakfast</div>
+    <div class="meal-content" id="meal-breakfast"><span class="meal-empty">Loading…</span></div>
+  </div>
+  <div class="meal-block">
+    <div class="meal-title" style="color:#6bcb77">🥪 Kid Lunch</div>
+    <div class="meal-content" id="meal-lunch"><span class="meal-empty">Loading…</span></div>
+  </div>
+  <div class="meal-block">
+    <div class="meal-title" style="color:#79c0ff">🍽️ Supper</div>
+    <div class="meal-content" id="meal-supper"><span class="meal-empty">Loading…</span></div>
+  </div>
 </div>
 
 <div class="stats">
@@ -196,5 +220,52 @@
   Snowflake · idunnoguesswho · Katie Snow · Daily Update June 21, 2026 @ 8:03 AM MT
 </div>
 
+<script src="snowflake-config.js"></script>
+<script>
+(function(){
+  const CFG = window.SNOWFLAKE_CONFIG || {};
+  const SHEET_ID = CFG.sheetId;
+  const gid = CFG.menuSheetGid;
+
+  function parseCSV(raw) {
+    const rows=[]; let i=0,n=raw.length;
+    while(i<n){const row=[];while(i<n&&raw[i]!=='\n'&&raw[i]!=='\r'){if(raw[i]==='"'){let c='';i++;while(i<n){if(raw[i]==='"'&&raw[i+1]==='"'){c+='"';i+=2;}else if(raw[i]==='"'){i++;break;}else c+=raw[i++];}row.push(c.trim());if(raw[i]===',')i++;}else{let c='';while(i<n&&raw[i]!==','&&raw[i]!=='\n'&&raw[i]!=='\r')c+=raw[i++];row.push(c.trim());if(raw[i]===',')i++;}}while(raw[i]==='\n'||raw[i]==='\r')i++;if(row.some(c=>c))rows.push(row);}
+    return rows;
+  }
+
+  function setMeal(id, text) {
+    const el = document.getElementById(id);
+    if (!el) return;
+    el.innerHTML = text ? text : '<span class="meal-empty">—</span>';
+  }
+
+  async function loadMenu() {
+    if (!gid || !SHEET_ID) return;
+    try {
+      const url = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/export?format=csv&gid=${gid}`;
+      const r = await fetch(url, {cache:'no-store'});
+      if (!r.ok) throw 0;
+      const txt = await r.text();
+      const rows = parseCSV(txt);
+      if (rows.length < 2) throw 0;
+      const hdrs = rows[0].map(h => h.toLowerCase().trim());
+      const today = new Date().toLocaleDateString('en-CA',{weekday:'long'}).toLowerCase();
+      const dayCol = hdrs.findIndex(h => h.includes(today) || h.includes('today'));
+      const mealCol = hdrs.findIndex(h => h.includes('meal') || h.includes('course') || h === '');
+      const col = dayCol >= 0 ? dayCol : 1;
+      const bfRow = rows.slice(1).find(r => (r[mealCol]||'').toLowerCase().includes('breakfast'));
+      const lnRow = rows.slice(1).find(r => (r[mealCol]||'').toLowerCase().includes('lunch') || (r[mealCol]||'').toLowerCase().includes('kid'));
+      const spRow = rows.slice(1).find(r => (r[mealCol]||'').toLowerCase().includes('supper') || (r[mealCol]||'').toLowerCase().includes('dinner'));
+      setMeal('meal-breakfast', bfRow ? (bfRow[col]||'').trim() : '');
+      setMeal('meal-lunch', lnRow ? (lnRow[col]||'').trim() : '');
+      setMeal('meal-supper', spRow ? (spRow[col]||'').trim() : '');
+    } catch(e) {
+      ['meal-breakfast','meal-lunch','meal-supper'].forEach(id => setMeal(id, ''));
+    }
+  }
+
+  loadMenu();
+})();
+</script>
 </body>
 </html>

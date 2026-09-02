@@ -7,16 +7,19 @@
 <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Baloo+2:wght@400;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
 <style>
-  :root { --accent: #6bcb77; --accent2: #4aaa55; }
-  .hero { background: linear-gradient(135deg, #6bcb77 0%, #4aaa55 100%); }
+  :root { --accent: #7b4bd9; --accent2: #5e31b8; }
+  .hero { background: linear-gradient(135deg, #7b4bd9 0%, #5e31b8 100%); }
   .hero::after { content: '👦'; }
-  .tag-cat { background: #6bcb7733; color: #2a6b35; border: 1px solid #6bcb77; }
-  .progress-fill { background: linear-gradient(90deg, #6bcb77, #4aaa55); }
+  .hero-name { color: white; }
+  .hero-sub  { color: white; opacity: .75; }
+  .hero-badge { background: rgba(255,255,255,.35); border-color: rgba(255,255,255,.55); }
+  .tag-cat { background: #7b4bd922; color: #3d1a7a; border: 1px solid #7b4bd9; }
+  .progress-fill { background: linear-gradient(90deg, #7b4bd9, #5e31b8); }
 
   .hub-nav { background: white; border-bottom: 2px solid #eee; display: flex; overflow-x: auto; padding: 0 12px; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 8px rgba(0,0,0,.06); }
   .hub-tab { flex-shrink: 0; padding: 14px 16px; border: none; background: transparent; font-family: 'Nunito', sans-serif; font-size: 13px; font-weight: 700; color: #888; cursor: pointer; border-bottom: 3px solid transparent; transition: all 0.2s; white-space: nowrap; }
-  .hub-tab:hover { color: #4aaa55; }
-  .hub-tab.active { color: #4aaa55; border-bottom-color: #4aaa55; }
+  .hub-tab:hover { color: #7b4bd9; }
+  .hub-tab.active { color: #7b4bd9; border-bottom-color: #7b4bd9; }
   .hub-panel { display: none; }
   .hub-panel.active { display: block; animation: panelIn .18s ease; }
   @keyframes panelIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: none; } }
@@ -38,20 +41,20 @@
 
   /* Brain Brave cards */
   .bb-card { background: white; border-radius: 14px; margin-bottom: 10px; box-shadow: 0 2px 8px rgba(0,0,0,.06); overflow: hidden; border: 2px solid transparent; transition: border-color 0.2s; cursor: pointer; }
-  .bb-card.open { border-color: var(--cat-c, #6bcb77); }
+  .bb-card.open { border-color: var(--cat-c, #7b4bd9); }
   .bb-card.bb-done { background: #f0fdf4; border-color: #bbf7d0; }
   .bb-header { display: flex; align-items: center; gap: 12px; padding: 14px 16px; }
   .bb-icon { width: 40px; height: 40px; border-radius: 10px; background: var(--cat-l, #e8f8ea); display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; }
   .bb-meta { flex: 1; }
-  .bb-cat-label { font-size: 10px; font-weight: 800; letter-spacing: 1.2px; text-transform: uppercase; color: var(--cat-c, #4aaa55); }
+  .bb-cat-label { font-size: 10px; font-weight: 800; letter-spacing: 1.2px; text-transform: uppercase; color: var(--cat-c, #7b4bd9); }
   .bb-title { font-family: 'Nunito', sans-serif; font-size: 14px; font-weight: 800; color: #1f2933; }
   .bb-sub { font-size: 11px; color: #888; }
   .bb-body { display: none; padding: 0 16px 16px; border-top: 1px solid #f0f0f0; }
   .bb-card.open .bb-body { display: block; }
   .bb-intro { font-size: 13px; color: #6b7280; line-height: 1.6; padding-top: 12px; margin-bottom: 12px; }
   .bb-step { display: flex; gap: 10px; font-size: 13px; line-height: 1.5; margin-bottom: 8px; color: #1f2933; }
-  .bb-num { width: 20px; height: 20px; border-radius: 50%; background: var(--cat-l, #e8f8ea); color: var(--cat-c, #4aaa55); font-size: 10px; font-weight: 800; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 1px; font-family: 'Nunito', sans-serif; }
-  .bb-script { background: #f8f6ff; border-left: 3px solid var(--cat-c, #6bcb77); border-radius: 0 8px 8px 0; padding: 10px 12px; font-size: 12px; font-style: italic; line-height: 1.6; margin-top: 10px; }
+  .bb-num { width: 20px; height: 20px; border-radius: 50%; background: var(--cat-l, #e8f8ea); color: var(--cat-c, #7b4bd9); font-size: 10px; font-weight: 800; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 1px; font-family: 'Nunito', sans-serif; }
+  .bb-script { background: #f8f6ff; border-left: 3px solid var(--cat-c, #7b4bd9); border-radius: 0 8px 8px 0; padding: 10px 12px; font-size: 12px; font-style: italic; line-height: 1.6; margin-top: 10px; }
   [data-cat="bpd"]     { --cat-c: #9b7fd4; --cat-l: #ede8f9; }
   [data-cat="adhd"]    { --cat-c: #5b9bd5; --cat-l: #e3effa; }
   [data-cat="anxiety"] { --cat-c: #52c4a0; --cat-l: #e1f5ee; }
@@ -63,7 +66,7 @@
 
   /* SS units */
   .ss-unit { background: white; border-radius: 14px; padding: 18px; margin-bottom: 14px; box-shadow: 0 2px 8px rgba(0,0,0,.06); }
-  .ss-tag { font-size: 10px; font-weight: 800; letter-spacing: 1.5px; text-transform: uppercase; color: #4aaa55; margin-bottom: 4px; }
+  .ss-tag { font-size: 10px; font-weight: 800; letter-spacing: 1.5px; text-transform: uppercase; color: #7b4bd9; margin-bottom: 4px; }
   .ss-title { font-family: 'Nunito', sans-serif; font-size: 16px; font-weight: 900; color: #1f2933; margin-bottom: 8px; }
   .ss-body { font-size: 13px; line-height: 1.7; color: #374151; }
   .ss-vocab { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
@@ -72,18 +75,18 @@
   .ss-q { font-size: 13px; color: #1f2933; padding: 7px 0; border-bottom: 1px solid #f0f0f0; }
   .ss-q:last-child { border-bottom: none; }
 
-  .study-h2 { font-family: 'Nunito', sans-serif; font-size: 16px; font-weight: 900; color: #1f2933; margin: 24px 0 10px; padding: 6px 12px; background: #e8f8ea; border-radius: 8px; border-left: 3px solid #4aaa55; }
+  .study-h2 { font-family: 'Nunito', sans-serif; font-size: 16px; font-weight: 900; color: #1f2933; margin: 24px 0 10px; padding: 6px 12px; background: #e8f8ea; border-radius: 8px; border-left: 3px solid #7b4bd9; }
   .study-wrap-g4 { max-width: 760px; margin: 0 auto; padding: 16px 16px 40px; }
   .ss-ans { font-size: 12px; color: #2a6b35; background: #e8f8ea; border-radius: 6px; padding: 6px 10px; margin-top: 4px; font-style: italic; display: none; }
   .ss-q-wrap { padding: 7px 0; border-bottom: 1px solid #f0f0f0; }
   .ss-q-wrap:last-child { border-bottom: none; }
   .ss-q-wrap .ss-q { border-bottom: none; padding: 0; }
 
-  .en-hint { display: none; background: #e8f8ea; border-left: 3px solid #4aaa55; border-radius: 0 8px 8px 0; padding: 8px 12px; font-size: 12px; color: #1a5c25; line-height: 1.55; margin: 6px 0 4px; }
+  .en-hint { display: none; background: #e8f8ea; border-left: 3px solid #7b4bd9; border-radius: 0 8px 8px 0; padding: 8px 12px; font-size: 12px; color: #1a5c25; line-height: 1.55; margin: 6px 0 4px; }
   body.show-en .en-hint { display: block; }
   .fi-toggle-bar { display: flex; align-items: center; gap: 12px; background: white; border-radius: 12px; padding: 12px 16px; margin-bottom: 16px; box-shadow: 0 2px 8px rgba(0,0,0,.06); }
   .fi-toggle { width: 40px; height: 22px; background: #ccc; border-radius: 11px; position: relative; transition: background .2s; cursor: pointer; border: none; flex-shrink: 0; }
-  .fi-toggle.on { background: #4aaa55; }
+  .fi-toggle.on { background: #7b4bd9; }
   .fi-toggle::after { content:''; position: absolute; top: 3px; left: 3px; width: 16px; height: 16px; background: white; border-radius: 50%; transition: left .2s; }
   .fi-toggle.on::after { left: 21px; }
 
@@ -107,10 +110,10 @@
   .edit-field { margin-bottom:14px; }
   .edit-field label { display:block; font-size:11px; font-weight:800; text-transform:uppercase; letter-spacing:.5px; color:#6b7280; margin-bottom:5px; }
   .edit-field input, .edit-field textarea { width:100%; padding:9px 12px; border:2px solid #e5e7eb; border-radius:10px; font-family:'Nunito',sans-serif; font-size:14px; color:#1f2933; background:#f9fafb; box-sizing:border-box; transition:border-color .15s; }
-  .edit-field input:focus, .edit-field textarea:focus { outline:none; border-color:#6bcb77; background:#fff; }
+  .edit-field input:focus, .edit-field textarea:focus { outline:none; border-color:#7b4bd9; background:#fff; }
   .edit-field textarea { resize:vertical; min-height:72px; }
   .edit-actions { display:flex; gap:10px; margin-top:20px; }
-  .edit-save { flex:1; padding:11px; border-radius:50px; border:none; background:linear-gradient(135deg,#6bcb77,#4aaa55); color:#fff; font-family:'Nunito',sans-serif; font-weight:900; font-size:14px; cursor:pointer; }
+  .edit-save { flex:1; padding:11px; border-radius:50px; border:none; background:linear-gradient(135deg,#7b4bd9,#7b4bd9); color:#fff; font-family:'Nunito',sans-serif; font-weight:900; font-size:14px; cursor:pointer; }
   .edit-save:hover { opacity:.9; }
   .edit-cancel { padding:11px 20px; border-radius:50px; border:2px solid #e5e7eb; background:#fff; color:#6b7280; font-family:'Nunito',sans-serif; font-weight:800; font-size:14px; cursor:pointer; }
   .edit-btn { background:none; border:none; font-size:14px; cursor:pointer; opacity:.45; padding:2px 4px; line-height:1; }
@@ -145,6 +148,7 @@
   <button class="hub-tab active" data-tab="tasks"   onclick="showTab('tasks')">📋 Tasks</button>
   <button class="hub-tab"        data-tab="routine" onclick="showTab('routine')">🌅 Routine</button>
   <button class="hub-tab"        data-tab="menu"    onclick="showTab('menu')">🍽️ Menu</button>
+  <button class="hub-tab"        data-tab="calendar" onclick="showTab('calendar')">📅 Calendar</button>
   <button class="hub-tab"        data-tab="learn"   onclick="showTab('learn')">🧠 Learn</button>
   <button class="hub-tab"        data-tab="study"   onclick="showTab('study')">📚 FI Study</button>
   <button class="hub-tab"        data-tab="bible"   onclick="showTab('bible')">✝️ Bible</button>
@@ -153,8 +157,29 @@
 
 <!-- ══ TASKS ══ -->
 <div class="hub-panel active" id="tab-tasks">
+  <!-- Score card -->
+  <div style="margin:12px 16px;background:white;border-radius:14px;padding:16px;box-shadow:0 2px 8px rgba(0,0,0,.06);border-left:4px solid #7b4bd9">
+    <div style="display:flex;align-items:center;gap:12px">
+      <div style="font-size:32px">👦</div>
+      <div style="flex:1">
+        <div style="font-family:'Nunito',sans-serif;font-size:18px;font-weight:900;color:#1f2933">Logan</div>
+        <div style="font-size:12px;color:#888" id="sc-level">Level 1</div>
+      </div>
+      <div style="text-align:right">
+        <div style="font-size:26px;font-weight:900;color:#7b4bd9" id="sc-pts">— pts</div>
+        <div style="font-size:11px;color:#888" id="sc-today"></div>
+      </div>
+    </div>
+    <div style="margin:10px 0 4px;height:8px;background:#f0f0f0;border-radius:4px;overflow:hidden">
+      <div id="sc-xp" style="height:100%;background:linear-gradient(90deg,#7b4bd9,#5e31b8);border-radius:4px;width:0%;transition:width .5s"></div>
+    </div>
+    <div style="display:flex;justify-content:space-between;margin-top:6px">
+      <div id="sc-stats" style="font-size:12px;color:#888">— tasks</div>
+      <div id="sc-left" style="font-size:12px;color:#7b4bd9;font-weight:700"></div>
+    </div>
+  </div>
   <div class="progress-bar-wrap">
-    <div class="section-label" style="padding-bottom:6px">Progress</div>
+    <div class="section-label" style="padding-bottom:6px">Today's Progress</div>
     <div class="progress-label">
       <span id="prog-text">— of — done</span>
       <span id="prog-pct">—%</span>
@@ -195,7 +220,29 @@
 
 <!-- ══ MENU ══ -->
 <div class="hub-panel" id="tab-menu">
-  <iframe class="embed-frame" src="menu.html" title="Weekly Menu"></iframe>
+  <div style="max-width:560px;margin:0 auto;padding:16px 16px 40px">
+    <div style="font-family:'Nunito',sans-serif;font-size:20px;font-weight:900;color:#1f2933;margin-bottom:14px">🍽️ Today's Menu</div>
+    <div class="menu-card" id="meal-breakfast" style="background:white;border-radius:14px;padding:16px;margin-bottom:10px;box-shadow:0 2px 8px rgba(0,0,0,.06);border-left:4px solid #f4a261">
+      <div style="font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.1em;color:#f4a261;margin-bottom:4px">🌅 Breakfast</div>
+      <div class="meal-content" style="font-family:'Nunito',sans-serif;font-size:15px;font-weight:700;color:#1f2933">Loading…</div>
+    </div>
+    <div class="menu-card" id="meal-lunch" style="background:white;border-radius:14px;padding:16px;margin-bottom:10px;box-shadow:0 2px 8px rgba(0,0,0,.06);border-left:4px solid #6bcb77">
+      <div style="font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.1em;color:#6bcb77;margin-bottom:4px">🥪 Kid Lunch</div>
+      <div class="meal-content" style="font-family:'Nunito',sans-serif;font-size:15px;font-weight:700;color:#1f2933">Loading…</div>
+    </div>
+    <div class="menu-card" id="meal-supper" style="background:white;border-radius:14px;padding:16px;margin-bottom:10px;box-shadow:0 2px 8px rgba(0,0,0,.06);border-left:4px solid #7b4bd9">
+      <div style="font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.1em;color:#7b4bd9;margin-bottom:4px">🍽️ Supper</div>
+      <div class="meal-content" style="font-family:'Nunito',sans-serif;font-size:15px;font-weight:700;color:#1f2933">Loading…</div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ CALENDAR ══ -->
+<div class="hub-panel" id="tab-calendar">
+  <div style="max-width:560px;margin:0 auto;padding:16px 16px 40px">
+    <div style="font-family:'Nunito',sans-serif;font-size:20px;font-weight:900;color:#1f2933;margin-bottom:14px">📅 My Calendar</div>
+    <div id="cal-events"><div style="padding:20px;text-align:center;color:var(--muted);font-weight:700;">Loading events…</div></div>
+  </div>
 </div>
 
 <!-- ══ LEARN ══ -->
@@ -565,7 +612,7 @@
 <div class="hub-panel" id="tab-bible">
   <div class="skills-wrap">
     <div style="padding:4px 0 16px">
-      <div style="font-family:'Nunito',sans-serif;font-size:20px;font-weight:900;color:#4aaa55">✝️ Bible Study</div>
+      <div style="font-family:'Nunito',sans-serif;font-size:20px;font-weight:900;color:#7b4bd9">✝️ Bible Study</div>
       <div style="font-size:13px;color:#888;margin-top:2px">15-minute sessions · faith, character, and life</div>
     </div>
     <div id="bible-cards" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:12px"></div>
@@ -1007,6 +1054,7 @@ const SHEET_ID  = CFG.sheetId  || '1GZv91Npf9i0y6AtCQcjYUyiYrDq3aqQ3zSNE2QGAxfE'
 const SHEET_GID = CFG.sheetGid || '0';
 const PERSON    = 'Logan';
 const STORE_KEY = `sf_logan_done_${TODAY_KEY}`;
+const LV_PTS    = 50;
 
 const NEW_CHORES = [
   { id:'chore_sweep', title:'Sweep Bedroom',              category:'Chores', estTime:'5 min',  desc:'Sweep the bedroom floor clean.',                       dateAssigned: TODAY_KEY },
@@ -1171,7 +1219,107 @@ function render(){
   updateProgress();
 }
 
-function complete(id){ done[id]=true; save(); render(); toast('🌟 Great job, Logan!'); }
+/* ── Score card ── */
+function updateScoreCard() {
+  try {
+    const sfq = JSON.parse(localStorage.getItem('sf_quest')||'{}');
+    const completions = sfq.completions || {};
+    let totalPts = 0, todayPts = 0;
+    const today = new Date().toISOString().slice(0, 10);
+    Object.values(completions).forEach(info => {
+      if ((info.person||'').toLowerCase() !== 'logan') return;
+      const p = Math.max(0, Math.floor(Number(info.pts)||0));
+      totalPts += p;
+      if (!info.date || info.date === today) todayPts += p;
+    });
+    const lv = Math.floor(totalPts / LV_PTS) + 1;
+    const pct = (totalPts % LV_PTS) / LV_PTS * 100;
+    document.getElementById('sc-pts').textContent = `${totalPts} pts`;
+    document.getElementById('sc-level').textContent = `Level ${lv} · ${totalPts % LV_PTS}/${LV_PTS} XP to Level ${lv+1}`;
+    document.getElementById('sc-xp').style.width = pct + '%';
+    if (todayPts > 0) document.getElementById('sc-today').textContent = `+${todayPts} today`;
+  } catch(e) {}
+  const allTasks = [...NEW_CHORES, ...TASKS];
+  const total = allTasks.length;
+  const doneCount = Object.keys(done).length;
+  const left = Math.max(0, total - doneCount);
+  document.getElementById('sc-stats').textContent = `${doneCount} of ${total} tasks done`;
+  if (left > 0) document.getElementById('sc-left').textContent = `${left} left`;
+}
+
+/* ── Menu ── */
+async function loadMenu() {
+  const gid = CFG.menuSheetGid;
+  if (!gid || !SHEET_ID) { setMealFallback(); return; }
+  const url = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/export?format=csv&gid=${gid}`;
+  try {
+    const r = await fetch(url, {cache:'no-store'});
+    if (!r.ok) throw 0;
+    const txt = await r.text();
+    const rows = parseCSV(txt);
+    if (rows.length < 2) throw 0;
+    const hdrs = rows[0].map(h => h.toLowerCase().trim());
+    const today = new Date().toLocaleDateString('en-CA',{weekday:'long'}).toLowerCase();
+    const dayCol = hdrs.findIndex(h => h.includes(today) || h.includes('today'));
+    const mealCol = hdrs.findIndex(h => h.includes('meal') || h.includes('course') || h === '');
+    const bfRow = rows.slice(1).find(r => (r[mealCol]||'').toLowerCase().includes('breakfast'));
+    const lnRow = rows.slice(1).find(r => (r[mealCol]||'').toLowerCase().includes('lunch') || (r[mealCol]||'').toLowerCase().includes('kid'));
+    const spRow = rows.slice(1).find(r => (r[mealCol]||'').toLowerCase().includes('supper') || (r[mealCol]||'').toLowerCase().includes('dinner'));
+    const col = dayCol >= 0 ? dayCol : 1;
+    setMeal('meal-breakfast', bfRow ? (bfRow[col]||'').trim() : '');
+    setMeal('meal-lunch', lnRow ? (lnRow[col]||'').trim() : '');
+    setMeal('meal-supper', spRow ? (spRow[col]||'').trim() : '');
+  } catch(e) { setMealFallback(); }
+}
+
+function setMeal(id, text) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  el.querySelector('.meal-content').textContent = text || '—';
+}
+
+function setMealFallback() {
+  ['meal-breakfast','meal-lunch','meal-supper'].forEach(id => setMeal(id, 'Check with Mom for today\'s menu'));
+}
+
+/* ── Calendar ── */
+async function loadCalendar() {
+  const el = document.getElementById('cal-events');
+  const calId = CFG.calendarIds && CFG.calendarIds.logan;
+  const apiKey = CFG.googleApiKey;
+  if (!calId || !apiKey) {
+    el.innerHTML = '<div style="padding:20px;text-align:center;color:var(--muted);font-size:13px">Add your Google Calendar ID and API key to snowflake-config.js to see events here.</div>';
+    return;
+  }
+  try {
+    const now = new Date();
+    const timeMin = new Date(now.getFullYear(), now.getMonth(), now.getDate()).toISOString();
+    const timeMax = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1).toISOString();
+    const url = `https://www.googleapis.com/calendar/v3/calendars/${encodeURIComponent(calId)}/events?key=${apiKey}&timeMin=${timeMin}&timeMax=${timeMax}&singleEvents=true&orderBy=startTime`;
+    const r = await fetch(url);
+    if (!r.ok) throw new Error(`HTTP ${r.status}`);
+    const data = await r.json();
+    const events = data.items || [];
+    if (!events.length) {
+      el.innerHTML = '<div style="padding:20px;text-align:center;color:var(--muted);font-size:13px">🎉 Nothing on the calendar today!</div>';
+      return;
+    }
+    el.innerHTML = events.map(ev => {
+      const start = ev.start.dateTime ? new Date(ev.start.dateTime).toLocaleTimeString('en-CA',{hour:'numeric',minute:'2-digit'}) : 'All day';
+      return `<div style="background:white;border-radius:12px;padding:14px 16px;margin-bottom:8px;box-shadow:0 2px 6px rgba(0,0,0,.06);display:flex;align-items:center;gap:12px">
+        <div style="font-size:11px;font-weight:700;color:#888;min-width:56px">${start}</div>
+        <div>
+          <div style="font-family:'Nunito',sans-serif;font-size:14px;font-weight:800;color:#1f2933">${esc(ev.summary||'Event')}</div>
+          ${ev.description ? `<div style="font-size:11px;color:#888;margin-top:2px">${esc(ev.description)}</div>` : ''}
+        </div>
+      </div>`;
+    }).join('');
+  } catch(e) {
+    el.innerHTML = `<div style="padding:20px;text-align:center;color:var(--muted);font-size:13px">Could not load calendar: ${esc(e.message)}</div>`;
+  }
+}
+
+function complete(id){ done[id]=true; save(); render(); updateScoreCard(); toast('🌟 Great job, Logan!'); }
 
 function toast(msg){
   const el=document.createElement('div'); el.className='toast'; el.textContent=msg;
@@ -1180,8 +1328,10 @@ function toast(msg){
 
 renderList(document.getElementById('choreList'), NEW_CHORES);
 (async()=>{
-  try{ const rows=await loadSheet(); TASKS=buildTasks(rows); render(); }
-  catch(e){ document.getElementById('taskList').innerHTML='<div style="padding:20px;text-align:center;color:var(--muted);font-weight:700;">Could not load sheet.</div>'; updateProgress(); }
+  loadMenu();
+  loadCalendar();
+  try{ const rows=await loadSheet(); TASKS=buildTasks(rows); render(); updateScoreCard(); }
+  catch(e){ document.getElementById('taskList').innerHTML='<div style="padding:20px;text-align:center;color:var(--muted);font-weight:700;">Could not load sheet.</div>'; updateProgress(); updateScoreCard(); }
 })();
 </script>
 </body>

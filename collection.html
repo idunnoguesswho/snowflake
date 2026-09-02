@@ -357,10 +357,14 @@ function renderCollection(type){
   const label = type==='coin' ? 'Coins' : 'Stamps & First Day Covers';
   const addLabel = type==='coin' ? '+ Add Coin' : '+ Add Stamp / Cover';
   const cards = list.map(i => itemCardHTML(i)).join('');
+  const bulkButton = type==='coin' ? `<button class="btn ghost" onclick="openBulkAddModal()">Bulk Add by Year</button>` : '';
   return `
     <div class="toolbar">
       <h1>${label}</h1>
-      <button class="btn" onclick="openItemModal('${type}')">${addLabel}</button>
+      <div style="display:flex;gap:8px;">
+        ${bulkButton}
+        <button class="btn" onclick="openItemModal('${type}')">${addLabel}</button>
+      </div>
     </div>
     ${list.length===0 ? `<div class="empty panel"><span class="eyebrow">Empty drawer</span>No ${type==='coin'?'coins':'stamps'} catalogued yet.</div>` : `<div class="card-grid">${cards}</div>`}
   `;
@@ -735,12 +739,13 @@ function ocrPhoto(n){
   if(!dataUrl){ alert('Add a photo first.'); return; }
   runOCR(dataUrl, 'ocr'+n);
 }
-function promptNewSource(){
+function promptNewSource(selectId){
+  selectId = selectId || 'f_source';
   const name = prompt('New collection source name (e.g. "2011 First Day Covers" or "2013 Wedding Set")');
   if(!name) return;
   if(!META.sources.includes(name)) META.sources.push(name);
   saveMeta();
-  const sel = document.getElementById('f_source');
+  const sel = document.getElementById(selectId);
   if(sel){
     sel.innerHTML = sourceOptionsHTML(name);
   }
@@ -755,6 +760,14 @@ async function saveItem(type, id){
   const purchasePrice = document.getElementById('f_purchasePrice').value;
   const notes = document.getElementById('f_notes').value.trim();
   const serial = document.getElementById('f_serial').value.trim();
+
+  if(serial){
+    const dupe = ITEMS.find(i => i.id!==id && i.serial && i.serial.toLowerCase()===serial.toLowerCase());
+    if(dupe){
+      alert(`Serial "${serial}" is already used by another ${dupe.type==='coin'?'coin':'stamp'} (${dupe.source||'Unassigned'}). Serial numbers must be unique across the whole collection.`);
+      return;
+    }
+  }
 
   const item = {
     id: id || uid(),
@@ -782,6 +795,126 @@ async function saveItem(type, id){
   closeModal();
   TAB = isCoin ? 'coins' : 'stamps';
   render();
+}
+
+/* ---------------- Bulk add coins by year range ---------------- */
+function openBulkAddModal(){
+  const qualityList = ['Poor','Fair','Good','Very Good','Fine','Very Fine','Extremely Fine','About Uncirculated','Uncirculated','Proof'];
+  const html = `
+  <div class="modal-backdrop" onclick="if(event.target===this) closeModal()">
+    <div class="modal">
+      <div class="modal-head">
+        <h3>Bulk Add Coins</h3>
+        <button onclick="closeModal()">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="row2">
+          <div class="field">
+            <label>Start Year</label>
+            <input type="text" id="bulk_startYear" inputmode="numeric" placeholder="e.g. 1964">
+          </div>
+          <div class="field">
+            <label>End Year</label>
+            <input type="text" id="bulk_endYear" inputmode="numeric" placeholder="e.g. 1972">
+          </div>
+        </div>
+        <div class="field">
+          <label>Collection Source</label>
+          <div class="source-row">
+            <select id="bulk_source">${sourceOptionsHTML('')}</select>
+            <button type="button" class="btn ghost small" onclick="promptNewSource('bulk_source')">+ New</button>
+          </div>
+        </div>
+        <div class="row2">
+          <div class="field">
+            <label>Quality / Condition</label>
+            <input type="text" id="bulk_quality" list="bulkQualityList" placeholder="Choose or type">
+            <datalist id="bulkQualityList">${qualityList.map(q=>`<option value="${q}">`).join('')}</datalist>
+          </div>
+          <div class="field">
+            <label>Face Value ($) <span style="text-transform:none;font-weight:400;">(each)</span></label>
+            <input type="number" step="0.01" id="bulk_faceValue">
+          </div>
+        </div>
+        <div class="field">
+          <label>Purchase Price ($) <span style="text-transform:none;font-weight:400;">(each)</span></label>
+          <input type="number" step="0.01" id="bulk_purchasePrice">
+        </div>
+        <div class="field">
+          <label>Notes <span style="text-transform:none;font-weight:400;">(applied to every coin)</span></label>
+          <textarea id="bulk_notes" placeholder="Mint mark, series, condition notes..."></textarea>
+        </div>
+        <div class="field" style="margin-bottom:0;">
+          <span style="font-size:12px;color:var(--ink-soft);">Each coin gets its own catalog serial automatically. Open the new entries afterward to add obverse/reverse photos.</span>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn ghost" onclick="closeModal()">Cancel</button>
+        <button class="btn" onclick="bulkAddCoins()">Generate Coins</button>
+      </div>
+    </div>
+  </div>`;
+  document.getElementById('modalRoot').innerHTML = html;
+}
+
+async function bulkAddCoins(){
+  const source = document.getElementById('bulk_source').value;
+  const startYear = parseInt(document.getElementById('bulk_startYear').value, 10);
+  const endYear = parseInt(document.getElementById('bulk_endYear').value, 10);
+  const quality = document.getElementById('bulk_quality').value.trim();
+  const faceValue = document.getElementById('bulk_faceValue').value;
+  const purchasePrice = document.getElementById('bulk_purchasePrice').value;
+  const notes = document.getElementById('bulk_notes').value.trim();
+
+  if(!Number.isFinite(startYear) || !Number.isFinite(endYear)){
+    alert('Enter a valid start and end year.');
+    return;
+  }
+  if(startYear > endYear){
+    alert('Start year must be before or the same as the end year.');
+    return;
+  }
+  const count = endYear - startYear + 1;
+  if(count > 300){
+    alert(`That's ${count} coins in one batch — narrow the range (300 years max) and try again.`);
+    return;
+  }
+
+  const usedSerials = new Set(ITEMS.filter(i=>i.serial).map(i=>i.serial.toLowerCase()));
+  const newItems = [];
+  for(let year = startYear; year <= endYear; year++){
+    let serial;
+    do{
+      META.serialCounters.coin = (META.serialCounters.coin||0) + 1;
+      serial = 'CN-' + String(META.serialCounters.coin).padStart(5,'0');
+    } while(usedSerials.has(serial.toLowerCase()));
+    usedSerials.add(serial.toLowerCase());
+    const yearStr = String(year);
+    newItems.push({
+      id: uid(),
+      type: 'coin',
+      source,
+      quality,
+      serial,
+      faceValue: faceValue ? Number(faceValue) : 0,
+      purchasePrice: purchasePrice ? Number(purchasePrice) : 0,
+      notes,
+      photo1: null,
+      photo2: null,
+      year: yearStr,
+      dateKey: yearStr.padStart(4,'0'),
+    });
+  }
+
+  await Promise.all(newItems.map(item => sSet('item:'+item.id, item)));
+  META.itemIds.push(...newItems.map(i=>i.id));
+  await saveMeta();
+  await logEvent('Bulk added coins', `${newItems.length} coin${newItems.length!==1?'s':''} (${startYear}–${endYear}) — ${source||'Unassigned'}`);
+  await loadAll();
+  closeModal();
+  TAB = 'coins';
+  render();
+  alert(`Added ${newItems.length} coin${newItems.length!==1?'s':''} for ${startYear}–${endYear}. Open each one to add photos.`);
 }
 
 async function deleteItem(id){

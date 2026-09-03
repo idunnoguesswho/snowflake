@@ -177,6 +177,28 @@ label.field{display:block;font-size:.72rem;font-weight:800;color:var(--muted);te
 const STORE_KEY = 'ekat_learning_cards_v1';
 const ID_KEY = 'ekat_learning_nextid_v1';
 
+const memoryStore = {};
+let storageAvailable = (function() {
+  try {
+    const t = '__ekat_storage_test__';
+    localStorage.setItem(t, t);
+    localStorage.removeItem(t);
+    return true;
+  } catch (e) { return false; }
+})();
+function storageGet(key) {
+  if (storageAvailable) {
+    try { return localStorage.getItem(key); } catch (e) { storageAvailable = false; }
+  }
+  return Object.prototype.hasOwnProperty.call(memoryStore, key) ? memoryStore[key] : null;
+}
+function storageSet(key, value) {
+  if (storageAvailable) {
+    try { localStorage.setItem(key, value); return; } catch (e) { storageAvailable = false; }
+  }
+  memoryStore[key] = value;
+}
+
 function todayISO() {
   const d = new Date();
   return d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0');
@@ -199,21 +221,21 @@ function seedCards() {
 }
 
 function loadCards() {
-  const raw = localStorage.getItem(STORE_KEY);
+  const raw = storageGet(STORE_KEY);
   if (!raw) {
     const seeded = seedCards();
-    localStorage.setItem(STORE_KEY, JSON.stringify(seeded));
-    localStorage.setItem(ID_KEY, String(seeded.length + 1));
+    storageSet(STORE_KEY, JSON.stringify(seeded));
+    storageSet(ID_KEY, String(seeded.length + 1));
     return seeded;
   }
   try { return JSON.parse(raw); } catch(e) { return []; }
 }
 function saveCards() {
-  localStorage.setItem(STORE_KEY, JSON.stringify(cards));
+  storageSet(STORE_KEY, JSON.stringify(cards));
 }
 function nextId() {
-  let n = parseInt(localStorage.getItem(ID_KEY) || '1', 10);
-  localStorage.setItem(ID_KEY, String(n + 1));
+  let n = parseInt(storageGet(ID_KEY) || '1', 10);
+  storageSet(ID_KEY, String(n + 1));
   return n;
 }
 
@@ -488,6 +510,13 @@ document.getElementById('formOverlay').addEventListener('click', e => {
 });
 
 renderAll();
+
+if (!storageAvailable) {
+  const warn = document.createElement('div');
+  warn.style.cssText = 'background:#fff7ed;border:2px solid #fdba74;color:#9a3412;border-radius:12px;padding:10px 14px;font-size:.8rem;font-weight:700;margin-bottom:16px';
+  warn.textContent = '⚠ Storage is blocked in this browser — your progress won\'t be saved after you leave this page.';
+  document.querySelector('.wrap').insertBefore(warn, document.querySelector('.progress-card'));
+}
 </script>
 </body>
 </html>

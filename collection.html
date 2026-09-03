@@ -254,7 +254,7 @@ function money(n){ n = Number(n)||0; return '$' + n.toLocaleString(undefined,{mi
 function esc(s){ return (s==null?'':String(s)).replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
 
 /* ---------------- State ---------------- */
-let META = { itemIds: [], receiptIds: [], sources: ['2011 First Day Covers','2013 Wedding Set'], serialCounters: { coin: 0, stamp: 0 }, lastBackup: null };
+let META = { itemIds: [], receiptIds: [], sources: ['2011 First Day Covers','2013 Wedding Set'], serialCounters: { coin: 0, stamp: 0, collectable: 0 }, lastBackup: null };
 let ITEMS = [];
 let RECEIPTS = [];
 let LOG = [];
@@ -265,13 +265,40 @@ const TABS = [
   {id:'dashboard', label:'Dashboard'},
   {id:'coins', label:'Coins'},
   {id:'stamps', label:'Stamps'},
+  {id:'collectables', label:'Collectables'},
   {id:'receipts', label:'Receipts'},
   {id:'log', label:'Log & Backup'},
 ];
 
+// Per-type field labels, quality options, and photo captions —
+// each collection type (coin/stamp/collectable) has its own vocabulary.
+const TYPE_META = {
+  coin: {
+    sectionLabel: 'Coins', addLabel: '+ Add Coin', emptyLabel: 'coins', modalLabel: 'Coin',
+    dateFieldLabel: 'Year', dateInputType: 'text',
+    qualityList: ['Poor','Fair','Good','Very Good','Fine','Very Fine','Extremely Fine','About Uncirculated','Uncirculated','Proof'],
+    photo1Label: 'Obverse', photo2Label: 'Reverse',
+    valueLabel: 'Face Value', photoFrame: 'coin-frame',
+  },
+  stamp: {
+    sectionLabel: 'Stamps & First Day Covers', addLabel: '+ Add Stamp / Cover', emptyLabel: 'stamps', modalLabel: 'Stamp / Cover',
+    dateFieldLabel: 'Cancellation Date', dateInputType: 'date',
+    qualityList: ['Poor','Fair','Fine','Very Fine','Extremely Fine','Superb','Used','Mint Never Hinged'],
+    photo1Label: 'Photo 1 — full item', photo2Label: 'Photo 2 — cancellation / detail',
+    valueLabel: 'Face Value', photoFrame: '',
+  },
+  collectable: {
+    sectionLabel: 'Collectables', addLabel: '+ Add Collectable', emptyLabel: 'collectables', modalLabel: 'Collectable',
+    dateFieldLabel: 'Acquired Date', dateInputType: 'date',
+    qualityList: ['Poor','Fair','Good','Very Good','Excellent','Near Mint','Mint','Mint in Box','Displayed'],
+    photo1Label: 'Photo 1 — full item', photo2Label: "Photo 2 — detail / maker's mark",
+    valueLabel: 'Estimated Value', photoFrame: '',
+  },
+};
+
 async function loadAll(){
   const meta = await sGet('meta');
-  if(meta){ META = meta; if(!META.serialCounters) META.serialCounters = { coin: 0, stamp: 0 }; }
+  if(meta){ META = meta; if(!META.serialCounters) META.serialCounters = { coin: 0, stamp: 0, collectable: 0 }; }
   const [items, receipts, log] = await Promise.all([
     Promise.all(META.itemIds.map(id => sGet('item:'+id))),
     Promise.all(META.receiptIds.map(id => sGet('receipt:'+id))),
@@ -304,6 +331,7 @@ function render(){
   if(TAB==='dashboard') app.innerHTML = renderDashboard();
   else if(TAB==='coins') app.innerHTML = renderCollection('coin');
   else if(TAB==='stamps') app.innerHTML = renderCollection('stamp');
+  else if(TAB==='collectables') app.innerHTML = renderCollection('collectable');
   else if(TAB==='receipts') app.innerHTML = renderReceipts();
   else if(TAB==='log') app.innerHTML = renderLog();
 }
@@ -312,8 +340,10 @@ function render(){
 function renderDashboard(){
   const coins = ITEMS.filter(i=>i.type==='coin');
   const stamps = ITEMS.filter(i=>i.type==='stamp');
+  const collectables = ITEMS.filter(i=>i.type==='collectable');
   const coinFace = coins.reduce((s,i)=>s+(Number(i.faceValue)||0),0);
   const stampFace = stamps.reduce((s,i)=>s+(Number(i.faceValue)||0),0);
+  const collectableValue = collectables.reduce((s,i)=>s+(Number(i.faceValue)||0),0);
   const totalPaid = ITEMS.reduce((s,i)=>s+(Number(i.purchasePrice)||0),0);
 
   const bySource = {};
@@ -337,6 +367,7 @@ function renderDashboard(){
     <div class="stat-grid">
       <div class="stat-card gold"><div class="stat-label">Coin Face Value</div><div class="stat-value">${money(coinFace)}</div><div class="stat-sub">${coins.length} coin${coins.length!==1?'s':''}</div></div>
       <div class="stat-card navy"><div class="stat-label">Stamp Face Value</div><div class="stat-value">${money(stampFace)}</div><div class="stat-sub">${stamps.length} stamp${stamps.length!==1?'s':''} / covers</div></div>
+      <div class="stat-card"><div class="stat-label">Collectables Value</div><div class="stat-value">${money(collectableValue)}</div><div class="stat-sub">${collectables.length} piece${collectables.length!==1?'s':''}</div></div>
       <div class="stat-card red"><div class="stat-label">Total Purchase Price</div><div class="stat-value">${money(totalPaid)}</div><div class="stat-sub">across ${ITEMS.length} piece${ITEMS.length!==1?'s':''}</div></div>
       <div class="stat-card"><div class="stat-label">Receipts Filed</div><div class="stat-value">${RECEIPTS.length}</div><div class="stat-sub">${money(RECEIPTS.reduce((s,r)=>s+(Number(r.amount)||0),0))} documented</div></div>
     </div>
@@ -354,25 +385,28 @@ function renderDashboard(){
 /* ---------------- Collection (coins / stamps) ---------------- */
 function renderCollection(type){
   const list = ITEMS.filter(i=>i.type===type).sort((a,b)=>(b.dateKey||'').localeCompare(a.dateKey||''));
-  const label = type==='coin' ? 'Coins' : 'Stamps & First Day Covers';
-  const addLabel = type==='coin' ? '+ Add Coin' : '+ Add Stamp / Cover';
+  const meta = TYPE_META[type];
   const cards = list.map(i => itemCardHTML(i)).join('');
   return `
     <div class="toolbar">
-      <h1>${label}</h1>
-      <button class="btn" onclick="openItemModal('${type}')">${addLabel}</button>
+      <h1>${meta.sectionLabel}</h1>
+      <button class="btn" onclick="openItemModal('${type}')">${meta.addLabel}</button>
     </div>
-    ${list.length===0 ? `<div class="empty panel"><span class="eyebrow">Empty drawer</span>No ${type==='coin'?'coins':'stamps'} catalogued yet.</div>` : `<div class="card-grid">${cards}</div>`}
+    ${list.length===0 ? `<div class="empty panel"><span class="eyebrow">Empty drawer</span>No ${meta.emptyLabel} catalogued yet.</div>` : `<div class="card-grid">${cards}</div>`}
   `;
 }
 
 function itemCardHTML(i){
+  const meta = TYPE_META[i.type];
   const isCoin = i.type==='coin';
-  const dateLabel = isCoin ? (i.year||'—') : (i.cancelDate ? formatDateShort(i.cancelDate) : '—');
-  const photoClass = isCoin ? 'coin-frame' : '';
+  const isStamp = i.type==='stamp';
+  const dateLabel = isCoin ? (i.year||'—')
+    : isStamp ? (i.cancelDate ? formatDateShort(i.cancelDate) : '—')
+    : (i.acquiredDate ? formatDateShort(i.acquiredDate) : '—');
+  const photoClass = meta.photoFrame;
   const ph1 = i.photo1 ? `<img src="${i.photo1}">` : `<div class="empty-ph">no photo</div>`;
   const ph2 = i.photo2 ? `<img src="${i.photo2}">` : `<div class="empty-ph">no photo</div>`;
-  const postmark = !isCoin ? `<div class="postmark"><div class="pm-top">Cancelled</div><div class="pm-date">${i.cancelDate ? formatDateShort(i.cancelDate) : '?'}</div></div>` : '';
+  const postmark = isStamp ? `<div class="postmark"><div class="pm-top">Cancelled</div><div class="pm-date">${i.cancelDate ? formatDateShort(i.cancelDate) : '?'}</div></div>` : '';
   return `
     <div class="item-card">
       <div class="item-photos ${photoClass}">
@@ -387,7 +421,7 @@ function itemCardHTML(i){
           <div class="item-quality">${esc(i.quality||'—')}</div>
         </div>
         <div class="item-values">
-          <div><span>Face Value</span>${money(i.faceValue)}</div>
+          <div><span>${esc(meta.valueLabel)}</span>${money(i.faceValue)}</div>
           <div><span>Paid</span>${money(i.purchasePrice)}</div>
         </div>
         ${i.notes ? `<div class="item-notes">${esc(i.notes)}</div>` : ''}
@@ -473,7 +507,7 @@ async function exportBackup(){
   const manifest = { exportedAt: new Date().toISOString(), sources: META.sources, serialCounters: META.serialCounters, items: [], receipts: [] };
 
   ITEMS.forEach((i, idx) => {
-    const folder = i.type==='coin' ? 'images/coins' : 'images/stamps';
+    const folder = i.type==='coin' ? 'images/coins' : i.type==='stamp' ? 'images/stamps' : 'images/collectables';
     const base = (i.serial || i.id).replace(/[^a-zA-Z0-9_-]/g,'_');
     const entry = Object.assign({}, i);
     delete entry.photo1; delete entry.photo2;
@@ -617,7 +651,7 @@ async function generateSerial(type){
   const target = document.getElementById('f_serial');
   if(!target) return;
   META.serialCounters[type] = (META.serialCounters[type]||0) + 1;
-  const prefix = type==='coin' ? 'CN' : 'ST';
+  const prefix = type==='coin' ? 'CN' : type==='stamp' ? 'ST' : 'CL';
   target.value = prefix + '-' + String(META.serialCounters[type]).padStart(5,'0');
   await saveMeta();
 }
@@ -633,20 +667,23 @@ function openItemModal(type, id){
   const editing = id ? ITEMS.find(i=>i.id===id) : null;
   modalPhoto1 = editing ? editing.photo1 : null;
   modalPhoto2 = editing ? editing.photo2 : null;
+  const meta = TYPE_META[type];
   const isCoin = type==='coin';
-  const dateFieldLabel = isCoin ? 'Year' : 'Cancellation Date';
-  const dateFieldHTML = isCoin
-    ? `<input type="text" id="f_dateVal" inputmode="numeric" placeholder="e.g. 1964" value="${esc(editing?editing.year:'')}">`
-    : `<input type="date" id="f_dateVal" value="${esc(editing?editing.cancelDate:'')}">`;
-  const qualityList = isCoin
-    ? ['Poor','Fair','Good','Very Good','Fine','Very Fine','Extremely Fine','About Uncirculated','Uncirculated','Proof']
-    : ['Poor','Fair','Fine','Very Fine','Extremely Fine','Superb','Used','Mint Never Hinged'];
+  const isStamp = type==='stamp';
+  const currentDateVal = isCoin ? (editing?editing.year:'')
+    : isStamp ? (editing?editing.cancelDate:'')
+    : (editing?editing.acquiredDate:'');
+  const dateFieldLabel = meta.dateFieldLabel;
+  const dateFieldHTML = meta.dateInputType==='text'
+    ? `<input type="text" id="f_dateVal" inputmode="numeric" placeholder="e.g. 1964" value="${esc(currentDateVal)}">`
+    : `<input type="date" id="f_dateVal" value="${esc(currentDateVal)}">`;
+  const qualityList = meta.qualityList;
 
   const html = `
   <div class="modal-backdrop" onclick="if(event.target===this) closeModal()">
     <div class="modal">
       <div class="modal-head">
-        <h3>${editing ? 'Edit' : 'Add'} ${isCoin?'Coin':'Stamp / Cover'}</h3>
+        <h3>${editing ? 'Edit' : 'Add'} ${meta.modalLabel}</h3>
         <button onclick="closeModal()">&times;</button>
       </div>
       <div class="modal-body">
@@ -670,7 +707,7 @@ function openItemModal(type, id){
         </div>
         <div class="row2">
           <div class="field">
-            <label>Face Value ($)</label>
+            <label>${esc(meta.valueLabel)} ($)</label>
             <input type="number" step="0.01" id="f_faceValue" value="${editing?editing.faceValue:''}">
           </div>
           <div class="field">
@@ -691,7 +728,7 @@ function openItemModal(type, id){
         </div>
         <div class="row2">
           <div class="field photo-field">
-            <label>${isCoin?'Obverse':'Photo 1 — full item'}</label>
+            <label>${meta.photo1Label}</label>
             <div class="photo-preview" id="prev1">${modalPhoto1?`<img src="${modalPhoto1}">`:`<span class="placeholder">No photo yet</span>`}</div>
             <div class="photo-actions">
               <input type="file" accept="image/*" capture="environment" id="file1" onchange="handlePhotoInput(1)">
@@ -702,7 +739,7 @@ function openItemModal(type, id){
             <div class="ocr-out" id="ocr1" style="display:none;"></div>
           </div>
           <div class="field photo-field">
-            <label>${isCoin?'Reverse':'Photo 2 — cancellation / detail'}</label>
+            <label>${meta.photo2Label}</label>
             <div class="photo-preview" id="prev2">${modalPhoto2?`<img src="${modalPhoto2}">`:`<span class="placeholder">No photo yet</span>`}</div>
             <div class="photo-actions">
               <input type="file" accept="image/*" capture="environment" id="file2" onchange="handlePhotoInput(2)">
@@ -715,7 +752,7 @@ function openItemModal(type, id){
         </div>
         <div class="modal-footer">
           <button class="btn ghost" onclick="closeModal()">Cancel</button>
-          <button class="btn" onclick="saveItem('${type}', ${editing? "'"+editing.id+"'" : 'null'})">Save ${isCoin?'Coin':'Piece'}</button>
+          <button class="btn" onclick="saveItem('${type}', ${editing? "'"+editing.id+"'" : 'null'})">Save ${meta.modalLabel}</button>
         </div>
       </div>
     </div>
@@ -748,6 +785,7 @@ function promptNewSource(){
 
 async function saveItem(type, id){
   const isCoin = type==='coin';
+  const isStamp = type==='stamp';
   const source = document.getElementById('f_source').value;
   const dateVal = document.getElementById('f_dateVal').value.trim();
   const quality = document.getElementById('f_quality').value.trim();
@@ -769,18 +807,19 @@ async function saveItem(type, id){
     photo2: modalPhoto2,
   };
   if(isCoin){ item.year = dateVal; item.dateKey = dateVal.padStart(4,'0'); }
-  else { item.cancelDate = dateVal; item.dateKey = dateVal; }
+  else if(isStamp){ item.cancelDate = dateVal; item.dateKey = dateVal; }
+  else { item.acquiredDate = dateVal; item.dateKey = dateVal; }
 
   await sSet('item:'+item.id, item);
   if(!id){
     META.itemIds.push(item.id);
     await saveMeta();
   }
-  const desc = `${item.source||'Unassigned'} — ${isCoin ? ('Year '+(item.year||'?')) : ('Cancelled '+(item.cancelDate||'?'))}${item.serial ? (' #'+item.serial) : ''}`;
+  const desc = `${item.source||'Unassigned'} — ${isCoin ? ('Year '+(item.year||'?')) : isStamp ? ('Cancelled '+(item.cancelDate||'?')) : ('Acquired '+(item.acquiredDate||'?'))}${item.serial ? (' #'+item.serial) : ''}`;
   await logEvent(id ? `Edited ${type}` : `Added ${type}`, desc);
   await loadAll();
   closeModal();
-  TAB = isCoin ? 'coins' : 'stamps';
+  TAB = isCoin ? 'coins' : isStamp ? 'stamps' : 'collectables';
   render();
 }
 

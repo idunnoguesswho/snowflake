@@ -150,7 +150,7 @@ const SHEET_GID = CFG.sheetGid || '0';
 const LV_PTS    = 50;   // pts per level up
 
 const AVATARS = { mom:'🧑‍💼', dad:'🧑‍🔧', oliver:'🧒', logan:'👦', family:'👨‍👩‍👦', default:'🌟' };
-const COLORS  = { mom:'#336699', dad:'#2a9d8f', oliver:'#d94b4b', logan:'#7b4bd9', family:'#c9b8ff', default:'#ffd166' };
+const COLORS  = { mom:'#2a9d8f', dad:'#2a9d8f', oliver:'#d94b4b', logan:'#7b4bd9', family:'#c9b8ff', default:'#ffd166' };
 const CATEGORY_COLORS = ['#ffd166','#6bcb77','#7ec8e3','#c9b8ff','#ff6b6b','#f4a261','#2a9d8f','#b56576','#4d96ff','#8ac926'];
 const RANKS   = ['🥇','🥈','🥉','🎖️'];
 const CONFETTI_CLR = ['#ffd166','#6bcb77','#7ec8e3','#c9b8ff','#ff6b6b','#ffb347'];
@@ -213,6 +213,11 @@ function sheetEndpoint() {
 
 function todayIsoDate() {
   return new Date().toISOString().slice(0, 10);
+}
+
+function isToday(dateStr) {
+  if (!dateStr) return false;
+  return String(dateStr).slice(0, 10) === todayIsoDate();
 }
 
 function extractUrls(text) {
@@ -436,16 +441,18 @@ function buildFromRows(rows) {
 
 function buildPlayers() {
   const P = {};
-  const en = n => { if(!P[n]) P[n]={name:n, pts:0, done:0, total:0, cats:{}}; };
+  const en = n => { if(!P[n]) P[n]={name:n, pts:0, todayPts:0, done:0, total:0, cats:{}}; };
+  const today = todayIsoDate();
 
   G.tasks.forEach(t => {
     if(!t.person) return;
     en(t.person); P[t.person].total++;
     if(t.sheetDone) {
-      const p = safePts(t.pts);                                    // ← NaN-safe
+      const p = safePts(t.pts);
       P[t.person].pts += p; P[t.person].done++;
+      if(isToday(t.completedDate)) P[t.person].todayPts += p;
       const cat = t.topic || 'Uncategorized';
-      P[t.person].cats[cat] = (P[t.person].cats[cat] || 0) + p;  // ← NaN-safe
+      P[t.person].cats[cat] = (P[t.person].cats[cat] || 0) + p;
     }
   });
 
@@ -454,10 +461,11 @@ function buildPlayers() {
     en(info.person);
     const task = G.tasks.find(t=>t.key===key);
     if(!task||!task.sheetDone) {
-      const p = safePts(info.pts);                                 // ← NaN-safe (was the main culprit)
+      const p = safePts(info.pts);
       P[info.person].pts += p; P[info.person].done++;
+      if(!info.date || info.date === today) P[info.person].todayPts += p;
       const cat = info.topic || 'Uncategorized';
-      P[info.person].cats[cat] = (P[info.person].cats[cat] || 0) + p;  // ← NaN-safe
+      P[info.person].cats[cat] = (P[info.person].cats[cat] || 0) + p;
     }
   });
 
@@ -521,22 +529,22 @@ function renderLB() {
   byPoints.forEach((name, i) => { rankOf[name] = i; });
 
   el.innerHTML = names.map((name, i) => {
-    const p    = G.players[name] || { ...zero, name };
-    const key  = name.toLowerCase();
-    const av   = AVATARS[key] || AVATARS.default;
-    const col  = personColor(name);
-    const lv   = Math.floor(p.pts / LV_PTS) + 1;
-    const pct  = (p.pts % LV_PTS) / LV_PTS * 100;
-    const left = Math.max(0, p.total - p.done);
-    const rank = rankOf[name];
-    const active = G.activeTab === name;
-    return `<div class="player-card rank-${Math.min(rank+1,3)}${active?' active-tab':''}" style="--player-color:${col};animation:pop .3s ${i*.07}s both;cursor:pointer;${active?`box-shadow:0 0 0 3px ${col};`:''}" onclick="setTab('${x(name)}')">
+    const p      = G.players[name] || { ...zero, name, todayPts: 0 };
+    const key    = name.toLowerCase();
+    const av     = AVATARS[key] || AVATARS.default;
+    const col    = personColor(name);
+    const lv     = Math.floor(p.pts / LV_PTS) + 1;
+    const pct    = (p.pts % LV_PTS) / LV_PTS * 100;
+    const left   = Math.max(0, p.total - p.done);
+    const rank   = rankOf[name];
+    const active = G.filters.person === name;
+    return `<div class="player-card rank-${Math.min(rank+1,3)}${active?' active-tab':''}" style="--player-color:${col};animation:pop .3s ${i*.07}s both;cursor:pointer;${active?`box-shadow:0 0 0 3px ${col};`:''}" onclick="togglePersonFilter('${x(name)}')">
       <div class="rank-emoji">${RANKS[rank]||'🎖️'}</div>
       <div class="player-avatar" style="background:${col}22;border-color:${col}66">${av}</div>
       <div class="player-name">${x(name)}</div>
       <div class="player-level">Level ${lv}</div>
       <div class="pts-big" style="color:${col}">${p.pts}</div>
-      <div class="pts-label">Quest Points</div>
+      <div class="pts-label">Quest Points${(p.todayPts||0) > 0 ? ` · <span style="font-size:.72em;opacity:.85">+${p.todayPts} today</span>` : ''}</div>
       <div class="xp-track"><div class="xp-fill" style="width:${pct}%;background:${col}"></div></div>
       <div class="xp-hint">${p.pts % LV_PTS}/${LV_PTS} → Lv ${lv+1}</div>
       ${catChart(p)}
@@ -690,6 +698,7 @@ function setStatusFilter(status) {
 function togglePersonFilter(person) {
   G.filters.person = G.filters.person === person ? '' : person;
   updateFilterButtons();
+  renderLB();
   renderPersonBreakdown();
   renderTasks();
 }
@@ -702,9 +711,8 @@ function toggleCategoryFilter(category) {
 
 function setTab(person) {
   G.activeTab = person;
-  G.filters.person = '';  // reset person filter on tab switch
-  G.filters.category = '';
-  renderLB();  // re-render so the active tile's highlight moves
+  G.filters.person = '';  // reset person sub-filter on tab switch
+  renderLB();
   renderPersonBreakdown();
   renderCategoryBreakdown();
   renderTasks();
@@ -744,7 +752,11 @@ function renderTasks() {
     if(f.status==='open' && t.isDone)  return false;
     if(f.status==='done' && !t.isDone) return false;
     if(f.status==='assigned' && (!t.isAssigned || t.isDone)) return false;
-    if(f.person && t.person !== f.person) return false;
+    if(f.person) {
+      const kidFilter = isKidPerson(f.person);
+      const familyForKid = kidFilter && t.person === 'Family';
+      if(!familyForKid && t.person !== f.person) return false;
+    }
     if(f.category && (t.topic || 'Uncategorized') !== f.category) return false;
     if(q && !t.title.toLowerCase().includes(q) && !t.person.toLowerCase().includes(q) && !(t.topic||'').toLowerCase().includes(q)) return false;
     return true;
